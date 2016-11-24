@@ -329,7 +329,7 @@
         {
             var requester = new MockRequester();
             requester.BuildResponse(onRequest);
-            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester }).WithCookies();
+            var config = Configuration.Default.With(requester).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true).WithCookies();
             return BrowsingContext.New(config).OpenAsync(initialResponse, System.Threading.CancellationToken.None);
         }
 

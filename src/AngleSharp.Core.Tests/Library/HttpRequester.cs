@@ -321,7 +321,7 @@
             var filtered = new List<Request>();
             requester.OnRequest = request => requests.Add(request);
             var content = "<!doctype><html><div><img src=foo.jpg><iframe src=test.html></iframe></div>";
-            var config = Configuration.Default.WithDefaultLoader(setup =>
+            var config = Configuration.Default.With(requester).WithDefaultLoader(setup =>
             {
                 setup.IsResourceLoadingEnabled = true;
                 setup.Filter = request =>
@@ -333,7 +333,7 @@
 
                     return !request.Address.Href.EndsWith(".jpg");
                 };
-            }, new[] { requester });
+            });
 
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content(content).Address("http://localhost"));
@@ -349,9 +349,8 @@
             if (Helper.IsNetworkAvailable())
             {
                 var address = "https://serverspace.ae";
-                var requesters = new IRequester[] { new DataRequester(), new DefaultHttpRequester() };
                 var cts = new CancellationTokenSource();
-                var config = Configuration.Default.WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
+                var config = Configuration.Default.WithDefaultLoader(c => c.IsResourceLoadingEnabled = true);
 
                 var context = BrowsingContext.New(config);
                 var url = Url.Create(address);

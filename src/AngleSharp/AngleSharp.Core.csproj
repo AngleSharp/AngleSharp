@@ -184,7 +184,6 @@
     <Compile Include="IStyleFormattable.cs" />
     <Compile Include="IStyleFormatter.cs" />
     <Compile Include="Io\BaseLoader.cs" />
-    <Compile Include="Io\DataRequester.cs" />
     <Compile Include="Io\Download.cs" />
     <Compile Include="Io\IDownload.cs" />
     <Compile Include="Io\ILoader.cs" />

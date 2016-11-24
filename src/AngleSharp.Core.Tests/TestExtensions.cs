@@ -38,11 +38,11 @@
 
         public static IConfiguration WithPageRequester(this IConfiguration config, Boolean enableNavigation = true, Boolean enableResourceLoading = false)
         {
-            return config.WithDefaultLoader(setup =>
+            return config.With(new PageRequester()).WithDefaultLoader(setup =>
             {
                 setup.IsNavigationEnabled = enableNavigation;
                 setup.IsResourceLoadingEnabled = enableResourceLoading;
-            }, PageRequester.All);
+            });
         }
 
         public static IConfiguration WithMockRequester(this IConfiguration config, Action<Request> onRequest = null)
@@ -59,7 +59,7 @@
 
         public static IConfiguration WithMockRequester(this IConfiguration config, IRequester mockRequester)
         {
-            return config.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { mockRequester });
+            return config.With(mockRequester).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
         }
 
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)

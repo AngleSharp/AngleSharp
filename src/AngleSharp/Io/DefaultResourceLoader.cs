@@ -37,7 +37,7 @@
                 Method = HttpMethod.Get,
                 Headers = new Dictionary<String, String>
                 {
-                    [HeaderNames.Referer] = request.Source.Owner.DocumentUri
+                    [HeaderNames.Referer] = request?.Source.Owner.DocumentUri ?? String.Empty
                 }
             };
 

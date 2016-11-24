@@ -2,7 +2,6 @@
 {
     using AngleSharp.Io;
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Net;
     using System.Reflection;
@@ -14,11 +13,6 @@
         private readonly static DefaultHttpRequester _default = new DefaultHttpRequester();
         private readonly static String _directory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "Resources");
         private readonly static SiteMapping _mapping = new SiteMapping(Path.Combine(_directory, "content.xml"));
-
-        public static IEnumerable<IRequester> All
-        {
-            get { yield return new PageRequester(); }
-        }
 
         public override Boolean SupportsProtocol(String protocol)
         {

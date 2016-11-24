@@ -165,14 +165,11 @@
         /// </summary>
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="setup">Optional setup for the loader service.</param>
-        /// <param name="requesters">Optional requesters to use.</param>
         /// <returns>The new instance with the service.</returns>
-        public static IConfiguration WithDefaultLoader(this IConfiguration configuration, Action<LoaderSetup> setup = null, IEnumerable<IRequester> requesters = null)
+        public static IConfiguration WithDefaultLoader(this IConfiguration configuration, Action<LoaderSetup> setup = null)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
-
-            configuration = configuration.With(requesters ?? new IRequester[] { new DefaultHttpRequester(), new DataRequester() });
 
             var config = new LoaderSetup
             {
@@ -181,6 +178,11 @@
                 IsResourceLoadingEnabled = false
             };
             setup?.Invoke(config);
+
+            if (!configuration.Has<IRequester>())
+            {
+                configuration = configuration.With(new DefaultHttpRequester());
+            }
 
             if (config.IsNavigationEnabled)
             {
