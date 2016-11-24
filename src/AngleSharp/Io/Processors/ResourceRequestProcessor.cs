@@ -47,7 +47,7 @@
 
         public override Task ProcessAsync(ResourceRequest request)
         {
-            if (IsDifferentToCurrentResourceUrl(request.Target))
+            if (IsAvailable && IsDifferentToCurrentResourceUrl(request.Target))
             {
                 return base.ProcessAsync(request);
             }

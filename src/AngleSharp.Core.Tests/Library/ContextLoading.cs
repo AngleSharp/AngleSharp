@@ -158,7 +158,7 @@
         {
             var delayRequester = new DelayRequester(100);
             var imageService = new ResourceService<IImageInfo>("image/jpeg", response => new MockImageInfo { Source = response.Address });
-            var config = Configuration.Default.WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester }).With(imageService);
+            var config = Configuration.Default.With(delayRequester).WithDefaultLoader(m => m.IsResourceLoadingEnabled = true).With(imageService);
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             var img = document.QuerySelector<IHtmlImageElement>("img");
@@ -170,7 +170,7 @@
         public async Task ContextNoLoadExternalResources()
         {
             var delayRequester = new DelayRequester(100);
-            var config = Configuration.Default.WithDefaultLoader(requesters: new[] { delayRequester });
+            var config = Configuration.Default.With(delayRequester).WithDefaultLoader();
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             var img = document.QuerySelector<IHtmlImageElement>("img");

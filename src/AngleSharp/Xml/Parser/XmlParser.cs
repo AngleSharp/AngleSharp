@@ -58,7 +58,7 @@
         /// Creates a new parser with the default options and context.
         /// </summary>
         public XmlParser()
-            : this(BrowsingContext.New())
+            : this(default(IBrowsingContext))
         {
         }
 
@@ -67,7 +67,7 @@
         /// </summary>
         /// <param name="options">The options to use.</param>
         public XmlParser(XmlParserOptions options)
-            : this(options, BrowsingContext.New())
+            : this(options, default(IBrowsingContext))
         {
         }
 
@@ -75,7 +75,7 @@
         /// Creates a new parser with the custom configuration.
         /// </summary>
         /// <param name="context">The context to use.</param>
-        public XmlParser(IBrowsingContext context)
+        internal XmlParser(IBrowsingContext context)
             : this(default(XmlParserOptions), context)
         {
         }
@@ -88,7 +88,7 @@
         public XmlParser(XmlParserOptions options, IBrowsingContext context)
         {
             _options = options;
-            _context = context;
+            _context = context ?? BrowsingContext.NewFrom<IXmlParser>(this);
         }
 
         #endregion

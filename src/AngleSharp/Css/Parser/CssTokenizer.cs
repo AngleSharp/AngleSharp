@@ -3,7 +3,6 @@
     using AngleSharp.Common;
     using AngleSharp.Text;
     using System;
-    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -375,7 +374,8 @@
                         }
                         else if (current != Symbols.EndOfFile)
                         {
-                            buffer.Append(ConsumeEscape(current));
+                            _source.Back();
+                            buffer.Append(_source.ConsumeEscape());
                         }
                         else
                         {
@@ -422,7 +422,8 @@
                         }
                         else if (current != Symbols.EndOfFile)
                         {
-                            buffer.Append(ConsumeEscape(current));
+                            _source.Back();
+                            buffer.Append(_source.ConsumeEscape());
                         }
                         else
                         {
@@ -451,11 +452,10 @@
                 buffer.Append(current);
                 return HashRest(buffer);
             }
-            else if (IsValidEscape(current))
+            else if (_source.IsValidEscape())
             {
                 var buffer = StringBuilderPool.Obtain();
-                current = _source.Next();
-                buffer.Append(ConsumeEscape(current));
+                buffer.Append(_source.ConsumeEscape());
                 return HashRest(buffer);
             }
             else
@@ -477,10 +477,9 @@
                 {
                     buffer.Append(current);
                 }
-                else if (IsValidEscape(current))
+                else if (_source.IsValidEscape())
                 {
-                    current = _source.Next();
-                    buffer.Append(ConsumeEscape(current));
+                    buffer.Append(_source.ConsumeEscape());
                 }
                 else
                 {
@@ -500,7 +499,7 @@
             {
                 current = _source.Next();
 
-                if (current.IsNameStart() || IsValidEscape(current))
+                if (current.IsNameStart() || _source.IsValidEscape())
                 {
                     return AtKeywordRest(current);
                 }
@@ -512,10 +511,9 @@
             {
                 return AtKeywordRest(_source.Next());
             }
-            else if (IsValidEscape(current))
+            else if (_source.IsValidEscape())
             {
-                current = _source.Next();
-                ConsumeEscape(current);
+                _source.ConsumeEscape();
                 return AtKeywordRest(_source.Next());
             }
             else
@@ -534,10 +532,9 @@
                 if (current.IsName())
                 {
                 }
-                else if (IsValidEscape(current))
+                else if (_source.IsValidEscape())
                 {
-                    current = _source.Next();
-                    ConsumeEscape(current);
+                    _source.ConsumeEscape();
                 }
                 else
                 {
@@ -557,7 +554,7 @@
             {
                 current = _source.Next();
 
-                if (current.IsNameStart() || IsValidEscape(current))
+                if (current.IsNameStart() || _source.IsValidEscape())
                 {
                     var buffer = StringBuilderPool.Obtain();
                     buffer.Append(Symbols.Minus);
@@ -572,11 +569,10 @@
                 buffer.Append(current);
                 return IdentRest(_source.Next(), buffer);
             }
-            else if (current == Symbols.ReverseSolidus && IsValidEscape(current))
+            else if (current == Symbols.ReverseSolidus && _source.IsValidEscape())
             {
                 var buffer = StringBuilderPool.Obtain();
-                current = _source.Next();
-                buffer.Append(ConsumeEscape(current));
+                buffer.Append(_source.ConsumeEscape());
                 return IdentRest(_source.Next(), buffer);
             }
 
@@ -594,10 +590,9 @@
                 {
                     buffer.Append(current);
                 }
-                else if (IsValidEscape(current))
+                else if (_source.IsValidEscape())
                 {
-                    current = _source.Next();
-                    buffer.Append(ConsumeEscape(current));
+                    buffer.Append(_source.ConsumeEscape());
                 }
                 else if (current == Symbols.RoundBracketOpen)
                 {
@@ -677,9 +672,9 @@
                     buffer.Append(current);
                     return Dimension(buffer);
                 }
-                else if (IsValidEscape(current))
+                else if (_source.IsValidEscape())
                 {
-                    buffer.Append(ConsumeEscape(_source.Next()));
+                    buffer.Append(_source.ConsumeEscape());
                     return Dimension(buffer);
                 }
                 else
@@ -737,9 +732,9 @@
                     buffer.Append(current);
                     return Dimension(buffer);
                 }
-                else if (IsValidEscape(current))
+                else if (_source.IsValidEscape())
                 {
-                    buffer.Append(ConsumeEscape(_source.Next()));
+                    buffer.Append(_source.ConsumeEscape());
                     return Dimension(buffer);
                 }
                 else
@@ -781,10 +776,9 @@
                 {
                     buffer.Append(current);
                 }
-                else if (IsValidEscape(current))
+                else if (_source.IsValidEscape())
                 {
-                    current = _source.Next();
-                    buffer.Append(ConsumeEscape(current));
+                    buffer.Append(_source.ConsumeEscape());
                 }
                 else
                 {
@@ -871,7 +865,8 @@
                     }
                     else if (!current.IsLineBreak())
                     {
-                        ConsumeEscape(current);
+                        _source.Back();
+                        _source.ConsumeEscape();
                     }
                 }
             }
@@ -908,7 +903,8 @@
                     }
                     else if (!current.IsLineBreak())
                     {
-                        ConsumeEscape(current);
+                        _source.Back();
+                        _source.ConsumeEscape();
                     }
                 }
             }
@@ -934,10 +930,9 @@
                 {
                     return UrlBad();
                 }
-                else if (current == Symbols.ReverseSolidus && IsValidEscape(current))
+                else if (current == Symbols.ReverseSolidus && _source.IsValidEscape())
                 {
-                    current = _source.Next();
-                    ConsumeEscape(current);
+                    _source.ConsumeEscape();
                 }
                 else
                 {
@@ -993,10 +988,9 @@
                 {
                     return NewInvalid();
                 }
-                else if (IsValidEscape(current))
+                else if (_source.IsValidEscape())
                 {
-                    current = _source.Next();
-                    ConsumeEscape(current);
+                    _source.ConsumeEscape();
                 }
                 else
                 {
@@ -1148,10 +1142,9 @@
                 buffer.Append(Symbols.Minus).Append(current);
                 return Dimension(buffer);
             }
-            else if (IsValidEscape(current))
+            else if (_source.IsValidEscape())
             {
-                _source.Next();
-                buffer.Append(Symbols.Minus).Append(ConsumeEscape(current));
+                buffer.Append(Symbols.Minus).Append(_source.ConsumeEscape());
                 return Dimension(buffer);
             }
             else
@@ -1159,52 +1152,6 @@
                 _source.Back();
                 return NewNumber(buffer.ToPool());
             }
-        }
-
-        private String ConsumeEscape(Char current)
-        {
-            if (current.IsHex())
-            {
-                var isHex = true;
-                var escape = new Char[6];
-                var length = 0;
-
-                while (isHex && length < escape.Length)
-                {
-                    escape[length++] = current;
-                    current = _source.Next();
-                    isHex = current.IsHex();
-                }
-
-                if (!current.IsSpaceCharacter())
-                {
-                    _source.Back();
-                }
-
-                var code = Int32.Parse(new String(escape, 0, length), NumberStyles.HexNumber);
-
-                if (!code.IsInvalid())
-                {
-                    return code.ConvertFromUtf32();
-                }
-
-                current = Symbols.Replacement;
-            }
-
-            return current.ToString();
-        }
-
-        private Boolean IsValidEscape(Char current)
-        {
-            if (current == Symbols.ReverseSolidus)
-            {
-                current = _source.Next();
-                _source.Back();
-
-                return current != Symbols.EndOfFile && !current.IsLineBreak();
-            }
-                
-            return false;
         }
 
         #endregion

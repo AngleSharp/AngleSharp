@@ -41,25 +41,6 @@
         String Declarations(IEnumerable<String> declarations);
 
         /// <summary>
-        /// Serializes a CSS medium with the provided properties.
-        /// </summary>
-        /// <param name="exclusive">Is the medium exclusive (only)?</param>
-        /// <param name="inverse">Is the medium inverse (not)?</param>
-        /// <param name="type">The type of the medium.</param>
-        /// <param name="constraints">The constraints to use.</param>
-        /// <returns>The serialization of the medium.</returns>
-        String Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<IStyleFormattable> constraints);
-
-        /// <summary>
-        /// Creates the serialization of the constraint with the provided name
-        /// and value, if any.
-        /// </summary>
-        /// <param name="name">The name of the constraint.</param>
-        /// <param name="value">The optional value of the constraint.</param>
-        /// <returns>The serialization of the constraint.</returns>
-        String Constraint(String name, String value);
-
-        /// <summary>
         /// Converts the name and value of the provided rule to a simple rule.
         /// </summary>
         /// <param name="name">The name of the simple rule.</param>
@@ -76,15 +57,6 @@
         /// <param name="rules">The serialization of the nested rules.</param>
         /// <returns>The serialization of the nested rule.</returns>
         String Rule(String name, String prelude, String rules);
-
-        /// <summary>
-        /// Creates the serialized form of a style rule for the given selector
-        /// with the provided rules.
-        /// </summary>
-        /// <param name="selector">The selector to use.</param>
-        /// <param name="rules">The plain rules contained in the style.</param>
-        /// <returns>The serialization of the style rule.</returns>
-        String Style(String selector, IStyleFormattable rules);
 
         /// <summary>
         /// Creates a serialization of a comment with the provided data.

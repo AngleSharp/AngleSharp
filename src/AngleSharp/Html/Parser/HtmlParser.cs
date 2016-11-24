@@ -58,7 +58,7 @@
         /// Creates a new parser with the default options and context.
         /// </summary>
         public HtmlParser()
-            : this(BrowsingContext.New())
+            : this(default(IBrowsingContext))
         {
         }
 
@@ -67,7 +67,7 @@
         /// </summary>
         /// <param name="options">The options to use.</param>
         public HtmlParser(HtmlParserOptions options)
-            : this(options, BrowsingContext.New())
+            : this(options, default(IBrowsingContext))
         {
         }
 
@@ -75,8 +75,8 @@
         /// Creates a new parser with the custom context.
         /// </summary>
         /// <param name="context">The context to use.</param>
-        public HtmlParser(IBrowsingContext context)
-            : this(new HtmlParserOptions { IsScripting = context.IsScripting() }, context)
+        internal HtmlParser(IBrowsingContext context)
+            : this(new HtmlParserOptions { IsScripting = context?.IsScripting() ?? false }, context)
         {
         }
 
@@ -88,7 +88,7 @@
         public HtmlParser(HtmlParserOptions options, IBrowsingContext context)
         {
             _options = options;
-            _context = context;
+            _context = context ?? BrowsingContext.NewFrom<IHtmlParser>(this);
         }
 
         #endregion

@@ -856,19 +856,6 @@
         }
 
         [Test]
-        public async Task IframeWithDocumentViaDataSrc()
-        {
-            var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
-            var html = @"<!doctype html><iframe id=myframe src='data:text/html,<span>Hello World!</span>'></iframe></script>";
-            var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
-            var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");
-            Assert.IsNotNull(iframe);
-            Assert.IsNotNull(iframe.ContentDocument);
-            Assert.AreEqual("Hello World!", iframe.ContentDocument.Body.TextContent);
-            Assert.AreEqual(iframe.ContentDocument, iframe.ContentWindow.Document);
-        }
-
-        [Test]
         public async Task IframeWithDocumentViaDocSrc()
         {
             var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);

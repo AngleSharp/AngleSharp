@@ -24,6 +24,11 @@
 
         #region Properties
 
+        public Boolean IsAvailable
+        {
+            get { return _loader != null; }
+        }
+
         public IDownload Download
         {
             get;
@@ -36,7 +41,7 @@
 
         public virtual Task ProcessAsync(ResourceRequest request)
         {
-            if (_loader != null && IsDifferentToCurrentDownloadUrl(request.Target))
+            if (IsAvailable && IsDifferentToCurrentDownloadUrl(request.Target))
             {
                 CancelDownload();
                 Download = _loader.FetchAsync(request);

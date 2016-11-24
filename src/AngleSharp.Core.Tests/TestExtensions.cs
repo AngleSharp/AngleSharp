@@ -24,20 +24,25 @@
             return element.LocalName;
         }
 
-        public static IConfiguration WithScripts<T>(this IConfiguration config, T scripting)
-            where T : IScriptEngine
+        public static IConfiguration WithScripting(this IConfiguration config)
         {
-            var service = new MockScriptService<T>(scripting);
+            var service = new CallbackScriptEngine(options => { }, MimeTypeNames.DefaultJavaScript);
             return config.With(service);
+        }
+
+        public static IConfiguration WithScripts<T>(this IConfiguration config, T scripting)
+            where T : IScriptingService
+        {
+            return config.With(scripting);
         }
 
         public static IConfiguration WithPageRequester(this IConfiguration config, Boolean enableNavigation = true, Boolean enableResourceLoading = false)
         {
-            return config.WithDefaultLoader(setup =>
+            return config.With(new PageRequester()).WithDefaultLoader(setup =>
             {
                 setup.IsNavigationEnabled = enableNavigation;
                 setup.IsResourceLoadingEnabled = enableResourceLoading;
-            }, PageRequester.All);
+            });
         }
 
         public static IConfiguration WithMockRequester(this IConfiguration config, Action<Request> onRequest = null)
@@ -54,28 +59,28 @@
 
         public static IConfiguration WithMockRequester(this IConfiguration config, IRequester mockRequester)
         {
-            return config.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { mockRequester });
+            return config.With(mockRequester).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
         }
 
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
             var context = BrowsingContext.New(configuration ?? Configuration.Default);
-            var parser = new HtmlParser(context);
-            return parser.ParseDocument(sourceCode);
+            var htmlParser = context.GetService<IHtmlParser>();
+            return htmlParser.ParseDocument(sourceCode);
         }
 
         public static IDocument ToXmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
             var context = BrowsingContext.New(configuration);
-            var xmlParser = new XmlParser(context);
+            var xmlParser = context.GetService<IXmlParser>();
             return xmlParser.ParseDocument(sourceCode);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, IElement contextElement = null, IConfiguration configuration = null)
         {
             var context = BrowsingContext.New(configuration);
-            var parser = new HtmlParser(context);
-            return parser.ParseFragment(sourceCode, contextElement);
+            var htmlParser = context.GetService<IHtmlParser>();
+            return htmlParser.ParseFragment(sourceCode, contextElement);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, String contextElement, IConfiguration configuration = null)
@@ -88,8 +93,8 @@
         public static IDocument ToHtmlDocument(this Stream content, IConfiguration configuration = null)
         {
             var context = BrowsingContext.New(configuration);
-            var parser = new HtmlParser(context);
-            return parser.ParseDocument(content);
+            var htmlParser = context.GetService<IHtmlParser>();
+            return htmlParser.ParseDocument(content);
         }
     }
 }

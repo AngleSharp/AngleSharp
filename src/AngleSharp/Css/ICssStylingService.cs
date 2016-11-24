@@ -6,7 +6,7 @@
     /// <summary>
     /// Specializes the API for a CSS style engine.
     /// </summary>
-    public interface ICssStyleEngine : IStyleEngine
+    public interface ICssStylingService : IStylingService
     {
         /// <summary>
         /// Gets the default CSS stylesheet.

@@ -18,7 +18,7 @@
         private readonly HtmlScriptElement _script;
         private readonly IResourceLoader _loader;
         private IResponse _response;
-        private IScriptEngine _engine;
+        private IScriptingService _engine;
 
         #endregion
 
@@ -42,9 +42,9 @@
             private set;
         }
 
-        public IScriptEngine Engine
+        public IScriptingService Engine
         {
-            get { return _engine ?? (_engine = _context.GetScriptEngine(ScriptLanguage)); }
+            get { return _engine ?? (_engine = _context.GetScripting(ScriptLanguage)); }
         }
 
         public String AlternativeLanguage

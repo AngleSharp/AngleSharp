@@ -2822,9 +2822,9 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingEnabled()
         {
             var source = @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>";
-            var config = new Configuration().With(new EnableScripting());
+            var config = Configuration.Default.WithScripting();
             var context = BrowsingContext.New(config);
-            var parser = new HtmlParser(context);
+            var parser = context.GetService<IHtmlParser>();
             var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
@@ -4921,9 +4921,9 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeNoScriptWithNoScriptCommentInside()
         {
             var source = @"<noscript><!--<noscript></noscript>--></noscript>";
-            var config = Configuration.Default.With(new EnableScripting());
+            var config = Configuration.Default.WithScripting();
             var context = BrowsingContext.New(config);
-            var parser = new HtmlParser(context);
+            var parser = context.GetService<IHtmlParser>();
             var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
@@ -4963,9 +4963,9 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeNoScriptWithCommentAndClosingNoScriptInside()
         {
             var source = @"<noscript><!--</noscript>X<noscript>--></noscript>";
-            var config = Configuration.Default.With(new EnableScripting());
+            var config = Configuration.Default.WithScripting();
             var context = BrowsingContext.New(config);
-            var parser = new HtmlParser(context);
+            var parser = context.GetService<IHtmlParser>();
             var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
@@ -5015,9 +5015,9 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeNoScriptWithIFrameInside()
         {
             var source = @"<noscript><iframe></noscript>X";
-            var config = Configuration.Default.With(new EnableScripting());
+            var config = Configuration.Default.WithScripting();
             var context = BrowsingContext.New(config);
-            var parser = new HtmlParser(context);
+            var parser = context.GetService<IHtmlParser>();
             var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;

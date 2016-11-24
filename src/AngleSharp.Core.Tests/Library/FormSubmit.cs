@@ -73,7 +73,7 @@
 
         private static Task<IDocument> LoadWithMockAsync(String content, String url, Action<Request> onRequest = null)
         {
-            var config = Configuration.Default.WithDefaultLoader(requesters: new[] { new MockRequester { OnRequest = onRequest } });
+            var config = Configuration.Default.With(new MockRequester { OnRequest = onRequest }).WithDefaultLoader();
             return BrowsingContext.New(config).OpenAsync(m => m.Content(content).Address(url));
         }
 

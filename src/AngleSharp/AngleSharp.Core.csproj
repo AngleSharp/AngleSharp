@@ -60,7 +60,7 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Browser\IParser.cs" />
     <Compile Include="Css\Dom\SelectorExtensions.cs" />
-    <Compile Include="Css\ICssStyleEngine.cs" />
+    <Compile Include="Css\ICssStylingService.cs" />
     <Compile Include="Css\Parser\ICssSelectorParser.cs" />
     <Compile Include="Css\Parser\CssStringSourceExtensions.cs" />
     <Compile Include="Dom\IPseudoElement.cs" />
@@ -184,7 +184,6 @@
     <Compile Include="IStyleFormattable.cs" />
     <Compile Include="IStyleFormatter.cs" />
     <Compile Include="Io\BaseLoader.cs" />
-    <Compile Include="Io\DataRequester.cs" />
     <Compile Include="Io\Download.cs" />
     <Compile Include="Io\IDownload.cs" />
     <Compile Include="Io\ILoader.cs" />
@@ -231,12 +230,9 @@
     <Compile Include="Xml\Parser\XmlParserOptions.cs" />
     <Compile Include="Browser\LocaleEncodingProvider.cs" />
     <Compile Include="Io\MemoryCookieProvider.cs" />
-    <Compile Include="Css\DefaultStylingProvider.cs" />
     <Compile Include="Browser\TaskEventLoop.cs" />
     <Compile Include="Browser\IEncodingProvider.cs" />
     <Compile Include="Dom\IEntityProvider.cs" />
-    <Compile Include="Scripting\IScriptingProvider.cs" />
-    <Compile Include="Css\IStylingProvider.cs" />
     <Compile Include="Text\TextRange.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
     <Compile Include="Html\InputTypes\BaseInputType.cs" />
@@ -320,8 +316,8 @@
     <Compile Include="IConfiguration.cs" />
     <Compile Include="Io\ICookieProvider.cs" />
     <Compile Include="Media\IResourceService.cs" />
-    <Compile Include="Scripting\IScriptEngine.cs" />
-    <Compile Include="Css\IStyleEngine.cs" />
+    <Compile Include="Scripting\IScriptingService.cs" />
+    <Compile Include="Css\IStylingService.cs" />
     <Compile Include="Scripting\ScriptOptions.cs" />
     <Compile Include="Css\StyleOptions.cs" />
     <Compile Include="Css\Dom\ICssNamespaceRule.cs" />

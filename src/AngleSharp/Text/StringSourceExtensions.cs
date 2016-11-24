@@ -47,5 +47,15 @@
 
             return source.Current;
         }
+
+        /// <summary>
+        /// Gets the upcoming character without advancing.
+        /// </summary>
+        public static Char Peek(this StringSource source)
+        {
+            var c = source.Next();
+            source.Back();
+            return c;
+        }
     }
 }
