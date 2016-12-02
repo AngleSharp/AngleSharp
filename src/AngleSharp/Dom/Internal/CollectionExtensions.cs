@@ -3,6 +3,8 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Collections;
+    using System.Linq;
 
     /// <summary>
     /// A bunch of methods for getting DOM elements.
@@ -21,7 +23,7 @@
         /// </param>
         /// <param name="predicate">The filter function, if any.</param>
         /// <returns>The collection with the corresponding elements.</returns>
-        public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Predicate<T> predicate = null)
+        public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Func<T, bool> predicate = null)
             where T : class, INode
         {
             predicate = predicate ?? (m => true);
@@ -156,7 +158,13 @@
             return null;
         }
 
-        private static IEnumerable<T> GetAllElements<T>(this INode parent, Predicate<T> predicate)
+        private static IEnumerable<T> GetAllElements<T>(this INode parent, Func<T, bool> predicate)
+            where T : class, INode
+            => new NodeEnumerable(parent)
+            .OfType<T>()
+            .Where(predicate);
+
+        private static IEnumerable<T> GetDescendendElements<T>(this INode parent, Func<T, bool> predicate)
             where T : class, INode
         {
             for (var i = 0; i < parent.ChildNodes.Length; i++)
@@ -166,27 +174,69 @@
                 if (child != null && predicate(child))
                 {
                     yield return child;
-                }
-
-                foreach (var element in parent.ChildNodes[i].GetAllElements<T>(predicate))
-                {
-                    yield return element;
                 }
             }
         }
 
-        private static IEnumerable<T> GetDescendendElements<T>(this INode parent, Predicate<T> predicate)
-            where T : class, INode
+        private class NodeEnumerable : IEnumerable<INode>
         {
-            for (var i = 0; i < parent.ChildNodes.Length; i++)
-            {
-                var child = parent.ChildNodes[i] as T;
+            private readonly INode _startingNode;
 
-                if (child != null && predicate(child))
-                {
-                    yield return child;
-                }
+            public NodeEnumerable(INode startingNode)
+            {
+                _startingNode = startingNode;
             }
+
+            public IEnumerator<INode> GetEnumerator() => new NodeEnumerator(_startingNode);
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        private class NodeEnumerator : IEnumerator<INode>
+        {
+            private readonly Stack<EnumerationFrame> _frameStack = new Stack<EnumerationFrame>();
+
+            public NodeEnumerator(INode startingNode)
+            {
+                TryPushFrame(startingNode, 0);
+            }
+
+            public INode Current { get; private set; }
+            object IEnumerator.Current => Current;
+
+            public bool MoveNext()
+            {
+                if (_frameStack.Count == 0)
+                    return false;
+
+                var currentFrame = _frameStack.Pop();
+                Current = currentFrame.Parent.ChildNodes[currentFrame.ChildIndex];
+
+                TryPushFrame(currentFrame.Parent, currentFrame.ChildIndex + 1);
+                TryPushFrame(Current, 0);
+
+                return true;
+            }
+
+            private void TryPushFrame(INode parent, int childIndex)
+            {
+                if (childIndex < parent.ChildNodes.Length)
+                    _frameStack.Push(new EnumerationFrame(parent, childIndex));
+            }
+
+            public void Dispose() { }
+            public void Reset() { throw new NotSupportedException(); }
+        }
+
+        private struct EnumerationFrame
+        {
+            public EnumerationFrame(INode parent, int childIndex)
+            {
+                Parent = parent;
+                ChildIndex = childIndex;
+            }
+
+            public INode Parent { get; }
+            public int ChildIndex { get; }
         }
     }
 }
