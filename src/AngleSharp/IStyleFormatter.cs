@@ -16,13 +16,6 @@
         String Sheet(IEnumerable<IStyleFormattable> rules);
 
         /// <summary>
-        /// Concats the given rules to create a block serialization.
-        /// </summary>
-        /// <param name="rules">The rules to aggregate.</param>
-        /// <returns>The serialization of the CSS rule block.</returns>
-        String Block(IEnumerable<IStyleFormattable> rules);
-
-        /// <summary>
         /// Creates the serialization of a declaration with the given name,
         /// value and important flag.
         /// </summary>
@@ -38,7 +31,7 @@
         /// </summary>
         /// <param name="declarations">The declarations to aggregate.</param>
         /// <returns>The serialization of the declarations.</returns>
-        String Declarations(IEnumerable<String> declarations);
+        String BlockDeclarations(IEnumerable<IStyleFormattable> declarations);
 
         /// <summary>
         /// Converts the name and value of the provided rule to a simple rule.
@@ -57,6 +50,13 @@
         /// <param name="rules">The serialization of the nested rules.</param>
         /// <returns>The serialization of the nested rule.</returns>
         String Rule(String name, String prelude, String rules);
+
+        /// <summary>
+        /// Concats the given rules to create a block serialization.
+        /// </summary>
+        /// <param name="rules">The rules to aggregate.</param>
+        /// <returns>The serialization of the CSS rule block.</returns>
+        String BlockRules(IEnumerable<IStyleFormattable> rules);
 
         /// <summary>
         /// Creates a serialization of a comment with the provided data.

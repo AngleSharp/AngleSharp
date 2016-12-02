@@ -446,7 +446,7 @@
         {
             var current = _source.Next();
 
-            if (current.IsNameStart())
+            if (current.IsNameStart() || current == Symbols.Minus)
             {
                 var buffer = StringBuilderPool.Obtain();
                 buffer.Append(current);

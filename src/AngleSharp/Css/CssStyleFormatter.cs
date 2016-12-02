@@ -34,26 +34,29 @@
                     writer.Write(sep);
                 }
 
-                sb.Remove(sb.Length - sep.Length, sep.Length);
+                if (sb.Length > 0)
+                {
+                    sb.Remove(sb.Length - sep.Length, sep.Length);
+                }
             }
             
             return sb.ToPool();
         }
 
-        String IStyleFormatter.Block(IEnumerable<IStyleFormattable> rules)
+        String IStyleFormatter.BlockRules(IEnumerable<IStyleFormattable> rules)
         {
-            var sb = StringBuilderPool.Obtain().Append('{');
+            var sb = StringBuilderPool.Obtain().Append(Symbols.CurlyBracketOpen);
 
             using (var writer = new StringWriter(sb))
             {
                 foreach (var rule in rules)
                 {
-                    writer.Write(' ');
+                    writer.Write(Symbols.Space);
                     rule.ToCss(writer, this);
                 }
             }
 
-            return sb.Append(' ').Append('}').ToPool();
+            return sb.Append(Symbols.Space).Append(Symbols.CurlyBracketClose).ToPool();
         }
 
         String IStyleFormatter.Declaration(String name, String value, Boolean important)
@@ -62,9 +65,26 @@
             return String.Concat(name, ": ", rest);
         }
 
-        String IStyleFormatter.Declarations(IEnumerable<String> declarations)
+        String IStyleFormatter.BlockDeclarations(IEnumerable<IStyleFormattable> declarations)
         {
-            return String.Join("; ", declarations);
+            var sb = StringBuilderPool.Obtain().Append(Symbols.CurlyBracketOpen);
+
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var declaration in declarations)
+                {
+                    writer.Write(Symbols.Space);
+                    declaration.ToCss(writer, this);
+                    writer.Write(Symbols.Semicolon);
+                }
+
+                if (sb.Length > 1)
+                {
+                    sb.Remove(sb.Length - 1, 1);
+                }
+            }
+
+            return sb.Append(Symbols.Space).Append(Symbols.CurlyBracketClose).ToPool();
         }
 
         String IStyleFormatter.Rule(String name, String value)
@@ -80,7 +100,7 @@
 
         String IStyleFormatter.Comment(String data)
         {
-            return String.Join("/* ", data, " */");
+            return String.Join("/*", data, "*/");
         }
 
         #endregion
