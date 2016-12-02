@@ -3,7 +3,6 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.Collections;
     using System.Linq;
 
     /// <summary>
@@ -23,7 +22,7 @@
         /// </param>
         /// <param name="predicate">The filter function, if any.</param>
         /// <returns>The collection with the corresponding elements.</returns>
-        public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Func<T, bool> predicate = null)
+        public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Func<T, Boolean> predicate = null)
             where T : class, INode
         {
             predicate = predicate ?? (m => true);
@@ -124,9 +123,7 @@
         /// </returns>
         public static IEnumerable<T> GetElements<T>(this INode parent, FilterSettings filter)
             where T : class, INode
-        {
-            return parent.GetElements<T>(predicate: (node => filter.Accepts(node)));
-        }
+            => parent.GetElements<T>(predicate: (node => filter.Accepts(node)));
 
         /// <summary>
         /// Gets the element with the provided id, if any. Otherwise the
@@ -158,13 +155,11 @@
             return null;
         }
 
-        private static IEnumerable<T> GetAllElements<T>(this INode parent, Func<T, bool> predicate)
+        private static IEnumerable<T> GetAllElements<T>(this INode parent, Func<T, Boolean> predicate)
             where T : class, INode
-            => new NodeEnumerable(parent)
-            .OfType<T>()
-            .Where(predicate);
+            => new NodeEnumerable(parent).OfType<T>().Where(predicate);
 
-        private static IEnumerable<T> GetDescendendElements<T>(this INode parent, Func<T, bool> predicate)
+        private static IEnumerable<T> GetDescendendElements<T>(this INode parent, Func<T, Boolean> predicate)
             where T : class, INode
         {
             for (var i = 0; i < parent.ChildNodes.Length; i++)
@@ -176,67 +171,6 @@
                     yield return child;
                 }
             }
-        }
-
-        private class NodeEnumerable : IEnumerable<INode>
-        {
-            private readonly INode _startingNode;
-
-            public NodeEnumerable(INode startingNode)
-            {
-                _startingNode = startingNode;
-            }
-
-            public IEnumerator<INode> GetEnumerator() => new NodeEnumerator(_startingNode);
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-
-        private class NodeEnumerator : IEnumerator<INode>
-        {
-            private readonly Stack<EnumerationFrame> _frameStack = new Stack<EnumerationFrame>();
-
-            public NodeEnumerator(INode startingNode)
-            {
-                TryPushFrame(startingNode, 0);
-            }
-
-            public INode Current { get; private set; }
-            object IEnumerator.Current => Current;
-
-            public bool MoveNext()
-            {
-                if (_frameStack.Count == 0)
-                    return false;
-
-                var currentFrame = _frameStack.Pop();
-                Current = currentFrame.Parent.ChildNodes[currentFrame.ChildIndex];
-
-                TryPushFrame(currentFrame.Parent, currentFrame.ChildIndex + 1);
-                TryPushFrame(Current, 0);
-
-                return true;
-            }
-
-            private void TryPushFrame(INode parent, int childIndex)
-            {
-                if (childIndex < parent.ChildNodes.Length)
-                    _frameStack.Push(new EnumerationFrame(parent, childIndex));
-            }
-
-            public void Dispose() { }
-            public void Reset() { throw new NotSupportedException(); }
-        }
-
-        private struct EnumerationFrame
-        {
-            public EnumerationFrame(INode parent, int childIndex)
-            {
-                Parent = parent;
-                ChildIndex = childIndex;
-            }
-
-            public INode Parent { get; }
-            public int ChildIndex { get; }
         }
     }
 }

@@ -63,6 +63,7 @@
     <Compile Include="Css\ICssStylingService.cs" />
     <Compile Include="Css\Parser\ICssSelectorParser.cs" />
     <Compile Include="Css\Parser\CssStringSourceExtensions.cs" />
+    <Compile Include="Dom\Internal\NodeEnumerable.cs" />
     <Compile Include="Dom\IPseudoElement.cs" />
     <Compile Include="Html\Dom\ImageExtensions.cs" />
     <Compile Include="Html\Parser\HtmlDomBuilderExtensions.cs" />
