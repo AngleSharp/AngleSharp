@@ -180,7 +180,12 @@
             owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: _content));
 
             var deleteOffset = offset + data.Length;
-            _content = _content.Insert(offset, data).Remove(deleteOffset, count);
+            _content = _content.Insert(offset, data);
+
+            if (count > 0)
+            {
+                _content = _content.Remove(deleteOffset, count);
+            }
 
             owner.ForEachRange(m => m.Head == this && m.Start > offset && m.Start <= offset + count, m => m.StartWith(this, offset));
             owner.ForEachRange(m => m.Tail == this && m.End > offset && m.End <= offset + count, m => m.EndWith(this, offset));
