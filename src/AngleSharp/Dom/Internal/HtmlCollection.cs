@@ -26,7 +26,7 @@
             _elements = elements;
         }
 
-        public HtmlCollection(INode parent, Boolean deep = true, Predicate<T> predicate = null)
+        public HtmlCollection(INode parent, Boolean deep = true, Func<T, bool> predicate = null)
         {
             _elements = parent.GetElements(deep, predicate);
         }

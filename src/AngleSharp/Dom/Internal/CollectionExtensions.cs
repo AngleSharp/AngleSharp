@@ -23,7 +23,7 @@
         /// </param>
         /// <param name="predicate">The filter function, if any.</param>
         /// <returns>The collection with the corresponding elements.</returns>
-        public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Predicate<T> predicate = null)
+        public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Func<T, bool> predicate = null)
             where T : class, INode
         {
             predicate = predicate ?? (m => true);
@@ -158,13 +158,13 @@
             return null;
         }
 
-        private static IEnumerable<T> GetAllElements<T>(this INode parent, Predicate<T> predicate)
+        private static IEnumerable<T> GetAllElements<T>(this INode parent, Func<T, bool> predicate)
             where T : class, INode
             => new NodeEnumerable(parent)
             .OfType<T>()
-            .Where(node => predicate(node));
+            .Where(predicate);
 
-        private static IEnumerable<T> GetDescendendElements<T>(this INode parent, Predicate<T> predicate)
+        private static IEnumerable<T> GetDescendendElements<T>(this INode parent, Func<T, bool> predicate)
             where T : class, INode
         {
             for (var i = 0; i < parent.ChildNodes.Length; i++)
