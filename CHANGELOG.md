@@ -9,7 +9,11 @@
 - Some fixes regarding attributes (#434)
 - Fixed parsing the Cookie header (#431)
 - Split AngleSharp.Core (#139)
-- Restructured services and configuration
+- Corrected "specifity" (#463)
+- Fixed trailing comments bug (#459)
+- Make AngleSharp build on Linux (#460)
+- Optimized node iteration allocations (#476)
+- Restructured services and configuration (#454)
 - Placed extensions close to their instances
 - Exposed the `ILinkRelationFactory` interface and default implementation
 - Exposed the `IInputTypeFactory` interface and default implementation
