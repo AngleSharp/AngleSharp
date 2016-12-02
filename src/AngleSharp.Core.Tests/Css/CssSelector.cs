@@ -19,6 +19,19 @@
             Assert.AreEqual(7, RunQuery("*:first-child").Length);
             Assert.AreEqual(1, RunQuery("p:first-child").Length);
         }
+        
+        [Test]
+        public void StrangeDashSelector()
+        {
+            var source = @"<ul>
+  <li id=""-a-b-c-"">The background of this list item should be green</li>
+  <li>The background of this second list item should be also green</li>
+</ul>";
+            var doc = source.ToHtmlDocument();
+
+            var selector = doc.QuerySelectorAll("#-a-b-c-");
+            Assert.AreEqual(1, selector.Length);
+        }
 
         [Test]
         public void PseudoSelectorLastChild()
