@@ -19,6 +19,14 @@
         }
 
         /// <summary>
+        /// Gets the parent document of the executing script.
+        /// </summary>
+        public IDocument Document
+        {
+            get;
+        }
+
+        /// <summary>
         /// Gets or sets the script element that triggered the invocation.
         /// </summary>
         public IHtmlScriptElement Element
@@ -34,15 +42,6 @@
         {
             get;
             set;
-        }
-
-        /// <summary>
-        /// Gets the parent document of the executing script.
-        /// </summary>
-        public IDocument Document
-        {
-            get;
-            private set;
         }
     }
 }

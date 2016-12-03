@@ -117,8 +117,6 @@
     <Compile Include="Html\Dom\Internal\HtmlUrlBaseElement.cs" />
     <Compile Include="Dom\Internal\ShadowRoot.cs" />
     <Compile Include="Svg\Dom\Internal\SvgDocument.cs" />
-    <Compile Include="Css\Dom\Events\CssErrorEvent.cs" />
-    <Compile Include="Css\Dom\Events\CssParseEvent.cs" />
     <Compile Include="Html\Dom\Events\HtmlErrorEvent.cs" />
     <Compile Include="Html\Dom\Events\HtmlParseEvent.cs" />
     <Compile Include="Dom\Events\RequestEvent.cs" />
@@ -126,7 +124,6 @@
     <Compile Include="Html\Forms\FormDataSetExtensions.cs" />
     <Compile Include="Io\ResponseExtensions.cs" />
     <Compile Include="Io\CorsRequest.cs" />
-    <Compile Include="Css\Parser\CssParseErrorExtensions.cs" />
     <Compile Include="Css\Parser\CssSelectorParser.cs" />
     <Compile Include="Html\Parser\HtmlParseException.cs" />
     <Compile Include="Css\DefaultAttributeSelectorFactory.cs" />
@@ -222,7 +219,6 @@
     <Compile Include="Io\IDocumentLoader.cs" />
     <Compile Include="Io\IResourceLoader.cs" />
     <Compile Include="Io\ResourceRequest.cs" />
-    <Compile Include="Css\Parser\CssParseError.cs" />
     <Compile Include="Html\Parser\HtmlParseError.cs" />
     <Compile Include="Xml\Parser\XmlParseErrorExtensions.cs" />
     <Compile Include="Xml\Parser\XmlParseException.cs" />
@@ -321,7 +317,6 @@
     <Compile Include="Css\IStylingService.cs" />
     <Compile Include="Scripting\ScriptOptions.cs" />
     <Compile Include="Css\StyleOptions.cs" />
-    <Compile Include="Css\Dom\ICssNamespaceRule.cs" />
     <Compile Include="Css\Dom\ICssProperty.cs" />
     <Compile Include="Css\Dom\ICssRule.cs" />
     <Compile Include="Css\Dom\ICssRuleList.cs" />

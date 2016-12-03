@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -141,23 +140,15 @@
         /// <param name="prefix">The prefix of the namespace to find.</param>
         public static String LocateNamespace(this IStyleSheetList sheets, String prefix)
         {
-            foreach (var sheet in sheets)
-            {
-                var css = sheet as ICssStyleSheet;
+            var uri = default(String);
+            var length = sheets.Length;
 
-                if (!sheet.IsDisabled && css != null)
-                {
-                    foreach (var rule in css.Rules.OfType<ICssNamespaceRule>())
-                    {
-                        if (rule.Prefix.Is(prefix))
-                        {
-                            return rule.NamespaceUri;
-                        }
-                    }
-                }
+            for (var i = 0; i < length && uri == null; i++)
+            {
+                uri = sheets[i].LocateNamespace(prefix);
             }
 
-            return null;
+            return uri;
         }
     }
 }

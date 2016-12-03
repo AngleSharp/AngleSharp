@@ -623,9 +623,9 @@
 
         internal void AttributeChanged(String localName, String namespaceUri, String oldValue, String newValue)
         {
-            var callback = GetOrCreateCallback(GetType());
+            var callback = default(AttrChangedCallback);
 
-            if (namespaceUri == null && callback != null)
+            if (namespaceUri == null && RegisteredCallbacks.TryGetValue(GetType(), out callback))
             {
                 callback.Invoke(this, localName, newValue);
             }
@@ -649,7 +649,7 @@
                 if (engine != null)
                 {
                     var source = this.GetOwnAttribute(AttributeNames.Style);
-                    var options = new StyleOptions(context) { Element = this };
+                    var options = new StyleOptions(Owner) { Element = this };
                     var style = engine.ParseDeclaration(source, options);
                     style.Changed += value => UpdateAttribute(AttributeNames.Style, value);
                     return style;

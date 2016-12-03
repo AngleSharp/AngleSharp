@@ -5,7 +5,10 @@
     using System.Diagnostics;
     using System.Threading.Tasks;
 
-    abstract class BaseRequestProcessor : IRequestProcessor
+    /// <summary>
+    /// Basic implementation of a request processor.
+    /// </summary>
+    public abstract class BaseRequestProcessor : IRequestProcessor
     {
         #region Fields
 
@@ -15,6 +18,9 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new request processor.
+        /// </summary>
         public BaseRequestProcessor(IResourceLoader loader)
         {
             _loader = loader;
@@ -24,11 +30,17 @@
 
         #region Properties
 
+        /// <summary>
+        /// Gets the status if downloads can be created.
+        /// </summary>
         public Boolean IsAvailable
         {
             get { return _loader != null; }
         }
 
+        /// <summary>
+        /// Gets the associated download.
+        /// </summary>
         public IDownload Download
         {
             get;
@@ -39,6 +51,9 @@
 
         #region Methods
 
+        /// <summary>
+        /// Processes the given request asynchronously.
+        /// </summary>
         public virtual Task ProcessAsync(ResourceRequest request)
         {
             if (IsAvailable && IsDifferentToCurrentDownloadUrl(request.Target))
@@ -51,8 +66,18 @@
             return null;
         }
 
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Processes the response.
+        /// </summary>
         protected abstract Task ProcessResponseAsync(IResponse response);
 
+        /// <summary>
+        /// Finishes the download.
+        /// </summary>
         protected async Task FinishDownloadAsync()
         {
             var download = Download;
@@ -80,15 +105,17 @@
             eventTarget?.FireSimpleEvent(eventName);
         }
 
-        #endregion
-
-        #region Helpers
-
+        /// <summary>
+        /// Fetches the given request with CORS.
+        /// </summary>
         protected IDownload DownloadWithCors(CorsRequest request)
         {
             return _loader.FetchWithCorsAsync(request);
         }
 
+        /// <summary>
+        /// Cancels the current download, if any.
+        /// </summary>
         protected void CancelDownload()
         {
             var download = Download;
@@ -99,6 +126,9 @@
             }
         }
 
+        /// <summary>
+        /// Checks if the given target is different than the current download.
+        /// </summary>
         protected Boolean IsDifferentToCurrentDownloadUrl(Url target)
         {
             var download = Download;

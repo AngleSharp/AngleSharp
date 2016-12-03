@@ -117,17 +117,17 @@
 
                 if (engine != null)
                 {
-                    var task = CreateSheetAsync(engine, context);
+                    var task = CreateSheetAsync(engine, document);
                     document.DelayLoad(task);
                 }
             }
         }
 
-        private async Task CreateSheetAsync(IStylingService engine, IBrowsingContext context)
+        private async Task CreateSheetAsync(IStylingService engine, IDocument document)
         {
             var cancel = CancellationToken.None;
             var response = VirtualResponse.Create(res => res.Content(TextContent).Address(default(Url)));
-            var options = new StyleOptions(context)
+            var options = new StyleOptions(document)
             {
                 Element = this,
                 IsDisabled = IsDisabled,

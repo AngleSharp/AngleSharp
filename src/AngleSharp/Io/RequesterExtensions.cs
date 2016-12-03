@@ -12,7 +12,7 @@
     /// <summary>
     /// Useful extensions for IRequester objects.
     /// </summary>
-    static class RequesterExtensions
+    public static class RequesterExtensions
     {
         #region Methods
 

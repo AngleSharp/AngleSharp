@@ -71,5 +71,12 @@
         /// </summary>
         /// <param name="element">The owning element.</param>
         void SetOwner(IElement element);
+
+        /// <summary>
+        /// Tries to find the matching namespace url for the given prefix.
+        /// </summary>
+        /// <param name="prefix">The prefix of the namespace to find.</param>
+        /// <returns>The namespace assigned to the prefix, if any.</returns>
+        String LocateNamespace(String prefix);
     }
 }
