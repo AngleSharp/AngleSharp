@@ -698,17 +698,17 @@
 
                 if (c == Symbols.GreaterThan)
                 {
-                    tag.Name = FlushBuffer();
+                    tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
                     return EmitTag(tag);
                 }
                 else if (c.IsSpaceCharacter())
                 {
-                    tag.Name = FlushBuffer();
+                    tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
                     return ParseAttributes(tag);
                 }
                 else if (c == Symbols.Solidus)
                 {
-                    tag.Name = FlushBuffer();
+                    tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
                     return TagSelfClosing(tag);
                 }
                 else if (c.IsUppercaseAscii())
