@@ -12,9 +12,10 @@ CAKE_EXE=$TOOLS_DIR/Cake/Cake.exe
 
 # Define default arguments.
 SCRIPT="build.cake"
-TARGET="Travis"
+TARGET="Default"
 CONFIGURATION="Release"
 VERBOSITY="verbose"
+SKIPDOTNETCORE="no"
 DRYRUN=
 SHOW_VERSION=false
 SCRIPT_ARGUMENTS=()
@@ -27,6 +28,7 @@ for i in "$@"; do
         -c|--configuration) CONFIGURATION="$2"; shift ;;
         -v|--verbosity) VERBOSITY="$2"; shift ;;
         -d|--dryrun) DRYRUN="-dryrun" ;;
+        --skip-dotnet-core) SKIPDOTNETCORE="yes" ;;
         --version) SHOW_VERSION=true ;;
         --) shift; SCRIPT_ARGUMENTS+=("$@"); break ;;
         *) SCRIPT_ARGUMENTS+=("$1") ;;
@@ -76,7 +78,7 @@ fi
 
 # Start Cake
 if $SHOW_VERSION; then
-    exec mono $CAKE_EXE -version
+    mono $CAKE_EXE -version
 else
-    exec mono $CAKE_EXE $SCRIPT -verbosity=$VERBOSITY -configuration=$CONFIGURATION -target=$TARGET $DRYRUN "${SCRIPT_ARGUMENTS[@]}"
+    mono $CAKE_EXE $SCRIPT -verbosity=$VERBOSITY -configuration=$CONFIGURATION -target=$TARGET -skip-dotnet-core=$SKIPDOTNETCORE $DRYRUN "${SCRIPT_ARGUMENTS[@]}"
 fi

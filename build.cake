@@ -16,6 +16,7 @@ using Octokit;
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var skipDotNetCore = Argument("skip-dotnet-core", "no") == "yes";
 var isLocal = BuildSystem.IsLocalBuild;
 var isRunningOnUnix = IsRunningOnUnix();
 var isRunningOnWindows = IsRunningOnWindows();
@@ -52,7 +53,9 @@ Task("Restore-Packages")
     .Does(() =>
     {
         NuGetRestore("./src/AngleSharp.Core.sln");
-        DotNetCoreRestore("./src/AngleSharp/project.json");
+        if (!skipDotNetCore) {
+            DotNetCoreRestore("./src/AngleSharp/project.json");
+        }
     });
 
 Task("Build")
@@ -77,10 +80,12 @@ Task("Build")
             );
         }
 
-        DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
-        {
-            Configuration = "Release"
-        });
+        if (!skipDotNetCore) {
+            DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
+            {
+                Configuration = "Release"
+            });
+        }
     });
 
 Task("Run-Unit-Tests")
@@ -115,13 +120,13 @@ Task("Copy-Files")
 
         foreach (var item in mapping)
         {
-            var target = nugetRoot + Directory("lib") + Directory(item.Key);
-            CreateDirectory(target);
+            var targetDir = nugetRoot + Directory("lib") + Directory(item.Key);
+            CreateDirectory(targetDir);
             CopyFiles(new FilePath[]
             {
                 buildDir + Directory(item.Value) + File("AngleSharp.dll"),
                 buildDir + Directory(item.Value) + File("AngleSharp.xml")
-            }, target);
+            }, targetDir);
         }
 
         CopyFiles(new FilePath[] { "src/AngleSharp.nuspec" }, nugetRoot);
