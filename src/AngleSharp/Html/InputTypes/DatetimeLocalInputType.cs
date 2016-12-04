@@ -105,9 +105,12 @@
 
                 if (PositionIsValidForDateTime(value, position))
                 {
-                    var year = Int32.Parse(value.Substring(0, position));
-                    var month = Int32.Parse(value.Substring(position + 1, 2));
-                    var day = Int32.Parse(value.Substring(position + 4, 2));
+                    var yearString = value.Substring(0, position);
+                    var year = Int32.Parse(yearString, CultureInfo.InvariantCulture);
+                    var monthString = value.Substring(position + 1, 2);
+                    var month = Int32.Parse(monthString, CultureInfo.InvariantCulture);
+                    var dayString = value.Substring(position + 4, 2);
+                    var day = Int32.Parse(dayString, CultureInfo.InvariantCulture);
                     position += 6;
 
                     if (IsLegalDay(day, month, year) && IsTimeSeparator(value[position]))
