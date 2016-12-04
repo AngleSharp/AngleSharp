@@ -79,7 +79,7 @@ Task("Build")
 
         DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
         {
-            Configuration = "Release"
+            Configuration = configuration
         });
     });
 
