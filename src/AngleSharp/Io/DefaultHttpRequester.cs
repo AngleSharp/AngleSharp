@@ -4,6 +4,7 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -270,7 +271,7 @@
                 }
                 else if (key.Is(HeaderNames.Date))
                 {
-                    SetProperty(HeaderNames.Date, DateTime.Parse(value));
+                    SetProperty(HeaderNames.Date, DateTime.Parse(value, CultureInfo.InvariantCulture));
                 }
                 else if (key.Is(HeaderNames.Host))
                 {
@@ -278,7 +279,7 @@
                 }
                 else if (key.Is(HeaderNames.IfModifiedSince))
                 {
-                    SetProperty("IfModifiedSince", DateTime.Parse(value));
+                    SetProperty("IfModifiedSince", DateTime.Parse(value, CultureInfo.InvariantCulture));
                 }
                 else if (key.Is(HeaderNames.Referer))
                 {

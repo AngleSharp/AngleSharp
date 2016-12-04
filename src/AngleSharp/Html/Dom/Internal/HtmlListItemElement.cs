@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents an HTML li, dd or dt tag.
@@ -24,7 +25,7 @@
 
         public Int32? Value
         {
-            get { var i = 0; return Int32.TryParse(this.GetOwnAttribute(AttributeNames.Value), out i) ? i : new Int32?(); }
+            get { var i = 0; return Int32.TryParse(this.GetOwnAttribute(AttributeNames.Value), NumberStyles.Integer, CultureInfo.InvariantCulture, out i) ? i : new Int32?(); }
             set { this.SetOwnAttribute(AttributeNames.Value, value.HasValue ? value.Value.ToString() : null); }
         }
 

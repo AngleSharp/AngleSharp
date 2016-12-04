@@ -103,8 +103,10 @@
 
                 if (IsLegalPosition(value, position))
                 {
-                    var year = Int32.Parse(value.Substring(0, position));
-                    var month = Int32.Parse(value.Substring(position + 1));
+                    var yearString = value.Substring(0, position);
+                    var year = Int32.Parse(yearString, CultureInfo.InvariantCulture);
+                    var monthString = value.Substring(position + 1);
+                    var month = Int32.Parse(monthString, CultureInfo.InvariantCulture);
 
                     if (IsLegalDay(1, month, year))
                     {

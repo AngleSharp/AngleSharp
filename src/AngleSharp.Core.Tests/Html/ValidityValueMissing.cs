@@ -1711,9 +1711,33 @@ namespace AngleSharp.Core.Tests.Html
 			element.Value = "123.01e-10";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsValueMissing);
-		}
-		
-		[Test]
+        }
+
+        [Test]
+        [SetCulture("ru")]
+        public void TestValuemissingInputNumber5InRussia()
+        {
+            var document = ("").ToHtmlDocument();
+            var element = document.CreateElement("input") as HtmlInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("required", "required");
+            element.Value = "123.01E+10";
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValueMissing);
+        }
+
+        [Test]
 		public void TestValuemissingInputNumber5()
 		{
 			var document = ("").ToHtmlDocument();

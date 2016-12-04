@@ -636,7 +636,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int32 FromHex(this String s)
         {
-            return Int32.Parse(s, NumberStyles.HexNumber);
+            return Int32.Parse(s, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -647,7 +647,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int32 FromDec(this String s)
         {
-            return Int32.Parse(s, NumberStyles.Integer);
+            return Int32.Parse(s, NumberStyles.Integer, CultureInfo.InvariantCulture);
         }
 
         /// <summary>

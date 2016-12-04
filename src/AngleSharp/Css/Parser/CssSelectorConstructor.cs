@@ -7,6 +7,7 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     /// <summary>
@@ -975,7 +976,7 @@
                 if (token.Type == CssTokenType.Dimension)
                 {
                     var integral = token.Data.Remove(token.Data.Length - 1);
-                    _valid = _valid && token.Data.EndsWith("n", StringComparison.OrdinalIgnoreCase) && Int32.TryParse(integral, out _step);
+                    _valid = _valid && token.Data.EndsWith("n", StringComparison.OrdinalIgnoreCase) && Int32.TryParse(integral, NumberStyles.Integer, CultureInfo.InvariantCulture, out _step);
                     _step *= _sign;
                     _sign = 1;
                     _state = ParseState.Offset;
@@ -1042,7 +1043,7 @@
 
                 if (token.Type == CssTokenType.Number)
                 {
-                    _valid = _valid && Int32.TryParse(token.Data, out _offset);
+                    _valid = _valid && Int32.TryParse(token.Data, NumberStyles.Integer, CultureInfo.InvariantCulture, out _offset);
                     _offset *= _sign;
                     _state = ParseState.BeforeOf;
                     return false;

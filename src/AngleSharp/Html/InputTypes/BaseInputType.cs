@@ -314,7 +314,7 @@
             {
                 try
                 {
-                    var regex = new Regex(pattern, RegexOptions.ECMAScript);
+                    var regex = new Regex(pattern, RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
                     return !regex.IsMatch(value);
                 }
                 catch { }
@@ -330,7 +330,7 @@
         {
             if (!String.IsNullOrEmpty(value) && Number.IsMatch(value))
             {
-                return Double.Parse(value);
+                return Double.Parse(value, CultureInfo.InvariantCulture);
             }
 
             return null;
@@ -350,14 +350,14 @@
                 value[position++].IsDigit() && 
                 value[position++] == Symbols.Colon)
             {
-                var hour = Int32.Parse(value.Substring(offset, 2));
+                var hour = Int32.Parse(value.Substring(offset, 2), CultureInfo.InvariantCulture);
 
                 if (!IsLegalHour(hour) || !value[position++].IsDigit() || !value[position++].IsDigit())
                 {
                     return null;
                 }
 
-                var minute = Int32.Parse(value.Substring(3 + offset, 2));
+                var minute = Int32.Parse(value.Substring(3 + offset, 2), CultureInfo.InvariantCulture);
 
                 if (!IsLegalMinute(minute))
                 {
@@ -373,7 +373,7 @@
                         return null;
                     }
 
-                    second = Int32.Parse(value.Substring(6 + offset, 2));
+                    second = Int32.Parse(value.Substring(6 + offset, 2), CultureInfo.InvariantCulture);
 
                     if (!IsLegalSecond(second))
                     {
@@ -391,7 +391,7 @@
                         }
 
                         var fraction = value.Substring(start, position - start);
-                        ms = Int32.Parse(fraction) * (Int32)Math.Pow(10, 3 - fraction.Length);
+                        ms = Int32.Parse(fraction, CultureInfo.InvariantCulture) * (Int32)Math.Pow(10, 3 - fraction.Length);
                     }
                 }
 
