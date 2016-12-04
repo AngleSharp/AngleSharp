@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using System;
-    using System.IO;
 
     /// <summary>
     /// Base class for all nth-child (or related) selectors.
@@ -39,7 +38,25 @@
 
         public String Text
         {
-            get { return this.ToCss(); }
+            get
+            {
+                var a = _step.ToString();
+                var b = String.Empty;
+                var c = String.Empty;
+
+                if (_offset > 0)
+                {
+                    b = "+";
+                    c = (+_offset).ToString();
+                }
+                else if (_offset < 0)
+                {
+                    b = "-";
+                    c = (-_offset).ToString();
+                }
+
+                return String.Format(":{0}({1}n{2}{3})", _name, a, b, c);
+            }
         }
 
         public String Name
@@ -68,28 +85,9 @@
 
         public abstract Boolean Match(IElement element, IElement scope);
 
-        #endregion
-
-        #region String Representation
-
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
+        public void Accept(ISelectorVisitor visitor)
         {
-            var a = _step.ToString();
-            var b = String.Empty;
-            var c = String.Empty;
-
-            if (_offset > 0)
-            {
-                b = "+";
-                c = (+_offset).ToString();
-            }
-            else if (_offset < 0)
-            {
-                b = "-";
-                c = (-_offset).ToString();
-            }
-
-            writer.Write(":{0}({1}n{2}{3})", _name, a, b, c);
+            throw new NotImplementedException();
         }
 
         #endregion

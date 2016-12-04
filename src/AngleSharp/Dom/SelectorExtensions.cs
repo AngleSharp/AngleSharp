@@ -295,7 +295,7 @@
         {
             if (selector == null)
             {
-                selector = SimpleSelector.All;
+                selector = AllSelector.Instance;
             }
 
             foreach (var element in elements)
@@ -322,7 +322,7 @@
         {
             if (selector == null)
             {
-                selector = SimpleSelector.All;
+                selector = AllSelector.Instance;
             }
 
             foreach (var element in elements)
@@ -364,7 +364,7 @@
         {
             if (selector == null)
             {
-                selector = SimpleSelector.All;
+                selector = AllSelector.Instance;
             }
 
             foreach (var element in elements)
@@ -397,7 +397,7 @@
                 }
             }
 
-            return SimpleSelector.All;
+            return AllSelector.Instance;
         }
 
         #endregion

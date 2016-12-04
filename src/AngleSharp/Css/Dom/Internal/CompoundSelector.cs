@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using System;
-    using System.IO;
 
     /// <summary>
     /// Represents a compound selector, which is a chain of simple selectors
@@ -10,8 +9,6 @@
     /// </summary>
     sealed class CompoundSelector : Selectors, ISelector
     {
-        #region Methods
-
         public Boolean Match(IElement element, IElement scope)
         {
             for (var i = 0; i < _selectors.Count; i++)
@@ -25,18 +22,21 @@
             return true;
         }
 
-        #endregion
-
-        #region String Representation
-
-        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        public void Accept(ISelectorVisitor visitor)
         {
-            for (var i = 0; i < _selectors.Count; i++)
-            {
-                writer.Write(_selectors[i].Text);
-            }
+            throw new NotImplementedException();
         }
 
-        #endregion
+        protected override String Stringify()
+        {
+            var parts = new String[_selectors.Count];
+
+            for (var i = 0; i < _selectors.Count; i++)
+            {
+                parts[i] = _selectors[i].Text;
+            }
+
+            return String.Concat(parts);
+        }
     }
 }

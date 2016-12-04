@@ -115,7 +115,7 @@
 
                 if (_group == null || _group.Length == 0)
                 {
-                    return _temp ?? SimpleSelector.All;
+                    return _temp ?? AllSelector.Instance;
                 }
                 else if (_temp == null && _group.Length == 1)
                 {
@@ -194,19 +194,19 @@
 
                 //Begin of ID #I
                 case CssTokenType.Hash:
-					Insert(SimpleSelector.Id(token.Data));
+					Insert(new IdSelector(token.Data));
                     _ready = true;
                     break;
 
                 //Begin of Class .c
                 case CssTokenType.Class:
-                    Insert(SimpleSelector.Class(token.Data));
+                    Insert(new ClassSelector(token.Data));
                     _ready = true;
                     break;
 
                 //Begin of Type E
                 case CssTokenType.Ident:
-					Insert(SimpleSelector.Type(token.Data));
+					Insert(new TypeSelector(token.Data));
                     _ready = true;
                     break;
 
@@ -516,14 +516,14 @@
                     break;
 
                 case Symbols.Asterisk:
-					Insert(SimpleSelector.All);
+					Insert(AllSelector.Instance);
                     _ready = true;
                     break;
 
                 case Symbols.Pipe:
                     if (_combinators.Count > 0 && _combinators.Peek() == CssCombinator.Descendent)
                     {
-                        Insert(SimpleSelector.Type(String.Empty));
+                        Insert(new TypeSelector(String.Empty));
                     }
 
                     Insert(CssCombinator.Namespace);
@@ -655,7 +655,7 @@
                     if (_firstToken && token.Type == CssTokenType.Delim)
                     {
                         // Roughly equivalent to inserting an implicit :scope
-                        _nested.Insert(SimpleSelector.PseudoClass((el, scope) => el == scope, String.Empty));
+                        _nested.Insert(ScopePseudoClassSelector.Instance);
                         _nested.Apply(CssSelectorToken.Whitespace);
                         _matchSiblings = true;
                     }
@@ -942,7 +942,7 @@
 
                 if (!invalid)
                 {
-                    var sel = _nested?.GetResult() ?? SimpleSelector.All;
+                    var sel = _nested?.GetResult() ?? AllSelector.Instance;
                     return _creator.Invoke(_step, _offset, sel);
                 }
 
