@@ -1434,9 +1434,34 @@ namespace AngleSharp.Core.Tests.Html
 			element.Value = "6";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeOverflow);
-		}
-		
-		[Test]
+        }
+
+        [Test]
+        [SetCulture("ru")]
+        public void TestRangeoverflowInputNumber8InRussia()
+        {
+            var document = ("").ToHtmlDocument();
+            var element = document.CreateElement("input") as HtmlInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("max", "-5.5");
+            element.Value = "-5.4";
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(true, element.Validity.IsRangeOverflow);
+        }
+
+
+        [Test]
 		public void TestRangeoverflowInputNumber8()
 		{
 			var document = ("").ToHtmlDocument();
