@@ -17,7 +17,13 @@
 
         private static String GetResourceDirectory( [CallerFilePath] String fileName = null )
         {
-            return Path.Combine(Path.GetDirectoryName(fileName), "..", "Resources");
+            var directoryPath = Path.Combine(Path.GetDirectoryName(fileName), "..", "Resources");
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            return directoryPath;
         }
 
         public override Boolean SupportsProtocol(String protocol)
