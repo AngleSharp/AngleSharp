@@ -63,6 +63,13 @@
         void List(IEnumerable<ISelector> selectors);
 
         /// <summary>
+        /// Visited by combinator selectors.
+        /// </summary>
+        /// <param name="selectors">The contained N selectors.</param>
+        /// <param name="symbols">The N - 1 combinator symbols.</param>
+        void Combinator(IEnumerable<ISelector> selectors, IEnumerable<String> symbols);
+
+        /// <summary>
         /// Visited by aggregated / combined selectors.
         /// </summary>
         /// <param name="selectors">The combined selectors.</param>

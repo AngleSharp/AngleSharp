@@ -4,6 +4,7 @@
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a complex selector, i.e. one or more compound selectors
@@ -85,7 +86,9 @@
 
         public void Accept(ISelectorVisitor visitor)
         {
-            throw new NotImplementedException();
+            var selectors = _combinators.Select(m => m.Selector);
+            var symbols = _combinators.Take(_combinators.Count - 1).Select(m => m.Delimiter);
+            visitor.Combinator(selectors, symbols);
         }
 
         public Boolean Match(IElement element, IElement scope)
@@ -137,12 +140,9 @@
 
             foreach (var newElement in newElements)
             {
-                if (_combinators[pos].Selector.Match(newElement, scope))
+                if (_combinators[pos].Selector.Match(newElement, scope) && (pos == 0 || MatchCascade(pos - 1, newElement, scope)))
                 {
-                    if (pos == 0 || MatchCascade(pos - 1, newElement, scope))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
