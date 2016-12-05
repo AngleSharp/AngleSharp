@@ -6747,6 +6747,7 @@ This div should have three addresses above it.</div>";
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-174a.xml
         /// </summary>
+        [Test]
         public void AttributeSelectorsWithMultipleAttributes()
         {
 	        var source = @"<tests xmlns=""http://css.example.net/"" xmlns:test=""http://css.example.net/"">
@@ -6756,16 +6757,17 @@ This div should have three addresses above it.</div>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("tests,tests *");
-	        Assert.AreEqual(0, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("testAattributepass");
-	        Assert.AreEqual(0, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("testBattributepass");
+	        Assert.AreEqual(3, selector1.Length);
+	        var selector2 = doc.QuerySelectorAll("testA[*|attribute=pass]");
+	        Assert.AreEqual(1, selector2.Length);
+	        var selector3 = doc.QuerySelectorAll("testB[attribute=pass]");
 	        Assert.AreEqual(0, selector3.Length);
         }
 
         /// <summary>
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-174b.xml
         /// </summary>
+        [Test]
         public void NegatedAttributeSelectorsWithMultipleAttributes()
         {
 	        var source = @"<tests xmlns=""http://css.example.net/"" xmlns:test=""http://css.example.net/"">
@@ -6779,7 +6781,7 @@ This div should have three addresses above it.</div>";
 	        var selector2 = doc.QuerySelectorAll("testA:not([*|attribute=\"pass\"])");
 	        Assert.AreEqual(0, selector2.Length);
 	        var selector3 = doc.QuerySelectorAll("testB:not([*|attribute=pass])");
-	        Assert.AreEqual(0, selector3.Length);
+	        Assert.AreEqual(1, selector3.Length);
         }
 
         /// <summary>

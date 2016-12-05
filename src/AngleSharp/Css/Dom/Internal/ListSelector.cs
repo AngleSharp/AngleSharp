@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Text;
     using System;
-    using System.IO;
 
     /// <summary>
     /// Represents a group of selectors, i.e., zero or more selectors separated
@@ -11,7 +9,10 @@
     /// </summary>
     sealed class ListSelector : Selectors, ISelector
     {
-        #region Methods
+        public void Accept(ISelectorVisitor visitor)
+        {
+            visitor.List(_selectors);
+        }
 
         public Boolean Match(IElement element, IElement scope)
         {
@@ -26,24 +27,16 @@
             return false;
         }
 
-        #endregion
-
-        #region String Representation
-
-        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        protected override String Stringify()
         {
-            if (_selectors.Count > 0)
+            var parts = new String[_selectors.Count];
+
+            for (var i = 1; i < _selectors.Count; i++)
             {
-                writer.Write(_selectors[0].Text);
-
-                for (var i = 1; i < _selectors.Count; i++)
-                {
-                    writer.Write(Symbols.Comma);
-                    writer.Write(_selectors[i].Text);
-                }
+                parts[i] = _selectors[i].Text;
             }
-        }
 
-        #endregion
+            return String.Join(", ", parts);
+        }
     }
 }

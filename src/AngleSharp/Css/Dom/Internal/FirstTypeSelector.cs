@@ -7,14 +7,14 @@
     /// <summary>
     /// The nth-of-type selector.
     /// </summary>
-    sealed class FirstTypeSelector : ChildSelector
+    sealed class FirstTypeSelector : ChildSelector, ISelector
     {
         public FirstTypeSelector(Int32 step, Int32 offset, ISelector kind)
             : base(PseudoClassNames.NthOfType, step, offset, kind)
         {
         }
 
-        public override Boolean Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement scope)
         {
             var parent = element.ParentElement;
 

@@ -3,13 +3,12 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.IO;
 
     /// <summary>
     /// A list of selectors, which is the basis for CompoundSelector and
     /// SelectorGroup.
     /// </summary>
-    abstract class Selectors : IEnumerable<ISelector>, IStyleFormattable
+    abstract class Selectors : IEnumerable<ISelector>
     {
         #region Fields
 
@@ -45,7 +44,7 @@
 
         public String Text
         {
-            get { return this.ToCss(); }
+            get { return Stringify(); }
         }
 
         public Int32 Length 
@@ -63,7 +62,7 @@
 
         #region Methods
 
-        public abstract void ToCss(TextWriter writer, IStyleFormatter formatter);
+        protected abstract String Stringify();
 
         public void Add(ISelector selector)
         {

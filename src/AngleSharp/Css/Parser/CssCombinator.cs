@@ -194,8 +194,7 @@
 
             public override ISelector Change(ISelector selector)
             {
-                var prefix = selector.Text;
-                return new SimpleSelector(el => el.MatchesCssNamespace(prefix), Priority.Zero, prefix);
+                return new NamespaceSelector(selector.Text);
             }
         }
 

@@ -7,14 +7,14 @@
     /// <summary>
     /// The nth-last-column selector.
     /// </summary>
-    sealed class LastColumnSelector : ChildSelector
+    sealed class LastColumnSelector : ChildSelector, ISelector
     {
         public LastColumnSelector(Int32 step, Int32 offset, ISelector kind)
             : base(PseudoClassNames.NthLastColumn, step, offset, kind)
         {
         }
 
-        public override Boolean Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement scope)
         {
             var parent = element.ParentElement;
 

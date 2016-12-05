@@ -13,12 +13,12 @@
         private readonly Dictionary<String, ISelector> _selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
         {
             //TODO some lack implementation (selection, content, ...), some implementations are dubious (first-line, first-letter, ...)
-            { PseudoElementNames.Before, SimpleSelector.PseudoElement(el => el.IsPseudo(PseudoElementNames.Before), PseudoElementNames.Before) },
-            { PseudoElementNames.After, SimpleSelector.PseudoElement(el => el.IsPseudo(PseudoElementNames.After), PseudoElementNames.After) },
-            { PseudoElementNames.Selection, SimpleSelector.PseudoElement(el => false, PseudoElementNames.Selection) },
-            { PseudoElementNames.FirstLine, SimpleSelector.PseudoElement(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text, PseudoElementNames.FirstLine) },
-            { PseudoElementNames.FirstLetter, SimpleSelector.PseudoElement(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text && el.ChildNodes[0].TextContent.Length > 0, PseudoElementNames.FirstLetter) },
-            { PseudoElementNames.Content, SimpleSelector.PseudoElement(el => false, PseudoElementNames.Content) },
+            { PseudoElementNames.Before, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.Before), PseudoElementNames.Before) },
+            { PseudoElementNames.After, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.After), PseudoElementNames.After) },
+            { PseudoElementNames.Selection, new PseudoElementSelector(el => false, PseudoElementNames.Selection) },
+            { PseudoElementNames.FirstLine, new PseudoElementSelector(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text, PseudoElementNames.FirstLine) },
+            { PseudoElementNames.FirstLetter, new PseudoElementSelector(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text && el.ChildNodes[0].TextContent.Length > 0, PseudoElementNames.FirstLetter) },
+            { PseudoElementNames.Content, new PseudoElementSelector(el => false, PseudoElementNames.Content) },
         };
 
         /// <summary>

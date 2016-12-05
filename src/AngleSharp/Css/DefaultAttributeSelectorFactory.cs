@@ -11,13 +11,13 @@
     {
         private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>
         {
-            { CombinatorSymbols.Exactly, SimpleSelector.AttrMatch },
-            { CombinatorSymbols.InList, SimpleSelector.AttrList },
-            { CombinatorSymbols.InToken, SimpleSelector.AttrHyphen },
-            { CombinatorSymbols.Begins, SimpleSelector.AttrBegins },
-            { CombinatorSymbols.Ends, SimpleSelector.AttrEnds },
-            { CombinatorSymbols.InText, SimpleSelector.AttrContains },
-            { CombinatorSymbols.Unlike, SimpleSelector.AttrNotMatch },
+            { CombinatorSymbols.Exactly, (name, value, prefix) => new AttrMatchSelector(name, value, prefix) },
+            { CombinatorSymbols.InList, (name, value, prefix) => new AttrInListSelector(name, value, prefix) },
+            { CombinatorSymbols.InToken, (name, value, prefix) => new AttrInTokenSelector(name, value, prefix) },
+            { CombinatorSymbols.Begins, (name, value, prefix) => new AttrStartsWithSelector(name, value, prefix) },
+            { CombinatorSymbols.Ends, (name, value, prefix) => new AttrEndsWithSelector(name, value, prefix) },
+            { CombinatorSymbols.InText, (name, value, prefix) => new AttrContainsSelector(name, value, prefix) },
+            { CombinatorSymbols.Unlike, (name, value, prefix) => new AttrNotMatchSelector(name, value, prefix) },
         };
 
         /// <summary>
@@ -67,7 +67,7 @@
         /// <returns>The selector with the given options.</returns>
         protected virtual ISelector CreateDefault(String name, String value, String prefix)
         {
-            return SimpleSelector.AttrAvailable(name, value);
+            return new AttrAvailableSelector(name, prefix);
         }
 
         /// <summary>

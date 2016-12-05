@@ -7,13 +7,8 @@
     /// Represents a CSS selector for matching elements.
     /// More information: http://dev.w3.org/csswg/selectors4/
     /// </summary>
-    public interface ISelector : IStyleFormattable
+    public interface ISelector
     {
-        /// <summary>
-        /// Gets the specificity of the given selector.
-        /// </summary>
-        Priority Specificity { get; }
-
         /// <summary>
         /// Determines if the given object is matched by this selector.
         /// </summary>
@@ -28,5 +23,16 @@
         /// Gets the string representation of the selector.
         /// </summary>
         String Text { get; }
+
+        /// <summary>
+        /// Gets the specificity of the given selector.
+        /// </summary>
+        Priority Specificity { get; }
+
+        /// <summary>
+        /// Accepts a selector visitor to expose more information.
+        /// </summary>
+        /// <param name="visitor">The visitor for showing around.</param>
+        void Accept(ISelectorVisitor visitor);
     }
 }
