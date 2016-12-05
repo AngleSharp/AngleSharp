@@ -24,7 +24,7 @@
 
         public void Accept(ISelectorVisitor visitor)
         {
-            throw new NotImplementedException();
+            visitor.Many(_selectors);
         }
 
         protected override String Stringify()

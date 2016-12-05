@@ -71,6 +71,8 @@
     <Compile Include="Css\Dom\Internal\BaseAttrSelector.cs" />
     <Compile Include="Css\Dom\Internal\ClassSelector.cs" />
     <Compile Include="Css\Dom\Internal\IdSelector.cs" />
+    <Compile Include="Css\Dom\Internal\PseudoClassSelector.cs" />
+    <Compile Include="Css\Dom\Internal\PseudoElementSelector.cs" />
     <Compile Include="Css\Dom\Internal\ScopePseudoClassSelector.cs" />
     <Compile Include="Css\Dom\Internal\TypeSelector.cs" />
     <Compile Include="Css\Dom\SelectorExtensions.cs" />

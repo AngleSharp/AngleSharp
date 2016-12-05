@@ -42,20 +42,6 @@
 
         #endregion
 
-        #region Static constructors
-
-        public static SimpleSelector PseudoElement(Predicate<IElement> action, String pseudoElement)
-        {
-            return new SimpleSelector(action, Priority.OneTag, PseudoElementNames.Separator + pseudoElement);
-        }
-
-        public static SimpleSelector PseudoClass(Predicate<IElement> action, String pseudoClass)
-        {
-            return new SimpleSelector(action, Priority.OneClass, PseudoClassNames.Separator + pseudoClass);
-        }
-
-        #endregion
-
         #region Methods
 
         public Boolean Match(IElement element, IElement scope)

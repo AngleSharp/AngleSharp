@@ -630,7 +630,7 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.Not.CssFunction(sel.Text);
-                    return SimpleSelector.PseudoClass(el => !sel.Match(el), code);
+                    return new PseudoClassSelector(el => !sel.Match(el), code);
                 }
 
                 return null;
@@ -678,7 +678,7 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.Has.CssFunction(selText);
-                    return SimpleSelector.PseudoClass(el =>
+                    return new PseudoClassSelector(el =>
                     {
                         var elements = default(IEnumerable<IElement>);
 
@@ -732,7 +732,7 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.Matches.CssFunction(sel.Text);
-                    return SimpleSelector.PseudoClass(el => sel.Match(el), code);
+                    return new PseudoClassSelector(el => sel.Match(el), code);
                 }
 
                 return null;
@@ -773,7 +773,7 @@
                 if (_valid && _value != null)
                 {
                     var code = PseudoClassNames.Dir.CssFunction(_value);
-                    return SimpleSelector.PseudoClass(el => el is IHtmlElement && _value.Isi(((IHtmlElement)el).Direction), code);
+                    return new PseudoClassSelector(el => el is IHtmlElement && _value.Isi(((IHtmlElement)el).Direction), code);
                 }
 
                 return null;
@@ -814,7 +814,7 @@
                 if (valid && value != null)
                 {
                     var code = PseudoClassNames.Lang.CssFunction(value);
-                    return SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
+                    return new PseudoClassSelector(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
                 }
 
                 return null;
@@ -855,7 +855,7 @@
                 if (_valid && _value != null)
                 {
                     var code = PseudoClassNames.Contains.CssFunction(_value);
-                    return SimpleSelector.PseudoClass(el => el.TextContent.Contains(_value), code);
+                    return new PseudoClassSelector(el => el.TextContent.Contains(_value), code);
                 }
 
                 return null;
@@ -890,7 +890,7 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.HostContext.CssFunction(sel.Text);
-                    return SimpleSelector.PseudoClass(el =>
+                    return new PseudoClassSelector(el =>
                     {
                         var shadowRoot = el.Parent as IShadowRoot;
                         var host = shadowRoot?.Host;

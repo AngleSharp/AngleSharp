@@ -25,7 +25,7 @@
 
         public void Accept(ISelectorVisitor visitor)
         {
-            throw new NotImplementedException();
+            visitor.Id(_id);
         }
 
         public Boolean Match(IElement element, IElement scope)

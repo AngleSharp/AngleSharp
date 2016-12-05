@@ -1,12 +1,11 @@
 ﻿namespace AngleSharp.Css.Dom
 {
-    using AngleSharp.Dom;
     using System;
 
     /// <summary>
     /// Base class for all nth-child (or related) selectors.
     /// </summary>
-    abstract class ChildSelector : ISelector
+    abstract class ChildSelector
     {
         #region Fields
 
@@ -83,11 +82,9 @@
 
         #region Methods
 
-        public abstract Boolean Match(IElement element, IElement scope);
-
         public void Accept(ISelectorVisitor visitor)
         {
-            throw new NotImplementedException();
+            visitor.Child(_name, _step, _offset, _kind);
         }
 
         #endregion

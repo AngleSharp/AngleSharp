@@ -6,7 +6,6 @@
 
     sealed class AttrNotMatchSelector : BaseAttrSelector, ISelector
     {
-        private readonly String _name;
         private readonly String _value;
 
         public AttrNotMatchSelector(String name, String value, String prefix = null)
@@ -22,7 +21,7 @@
 
         public void Accept(ISelectorVisitor visitor)
         {
-            throw new NotImplementedException();
+            visitor.Attribute(Attribute, "!=", _value);
         }
 
         public Boolean Match(IElement element, IElement scope)

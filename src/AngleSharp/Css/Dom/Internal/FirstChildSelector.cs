@@ -6,14 +6,14 @@
     /// <summary>
     /// The nth-child selector.
     /// </summary>
-    sealed class FirstChildSelector : ChildSelector
+    sealed class FirstChildSelector : ChildSelector, ISelector
     {
         public FirstChildSelector(Int32 step, Int32 offset, ISelector kind)
             : base(PseudoClassNames.NthChild, step, offset, kind)
         {
         }
 
-        public override Boolean Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement scope)
         {
             var parent = element.ParentElement;
 

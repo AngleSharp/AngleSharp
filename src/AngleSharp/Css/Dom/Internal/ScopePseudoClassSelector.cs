@@ -23,7 +23,7 @@
 
         public void Accept(ISelectorVisitor visitor)
         {
-            throw new NotImplementedException();
+            visitor.PseudoClass(PseudoClassNames.Scope);
         }
 
         public Boolean Match(IElement element, IElement scope)

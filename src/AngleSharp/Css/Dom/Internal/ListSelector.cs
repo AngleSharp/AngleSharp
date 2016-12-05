@@ -11,7 +11,7 @@
     {
         public void Accept(ISelectorVisitor visitor)
         {
-            throw new NotImplementedException();
+            visitor.List(_selectors);
         }
 
         public Boolean Match(IElement element, IElement scope)
