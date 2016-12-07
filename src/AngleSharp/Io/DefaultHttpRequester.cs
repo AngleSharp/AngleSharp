@@ -207,7 +207,9 @@
             {
                 if (response != null)
                 {
-                    var cookies = _cookies.GetCookies(response.ResponseUri);
+                    var originalCookies = _cookies.GetCookies(_request.Address);
+                    var newCookies = _cookies.GetCookies(response.ResponseUri);
+                    var cookies = newCookies.OfType<Cookie>().Except(originalCookies.OfType<Cookie>()).ToArray();
                     var headers = response.Headers.AllKeys.Select(m => new { Key = m, Value = response.Headers[m] });
                     var result = new DefaultResponse
                     {
@@ -221,9 +223,9 @@
                         result.Headers.Add(header.Key, header.Value);
                     }
 
-                    if (cookies.Count > 0)
+                    if (cookies.Length > 0)
                     {
-                        var strings = cookies.OfType<Cookie>().Select(m => Stringify(m));
+                        var strings = cookies.Select(Stringify);
                         result.Headers[HeaderNames.SetCookie] = String.Join(", ", strings);
                     }
 
