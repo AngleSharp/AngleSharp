@@ -41,7 +41,7 @@
         public static IResponse Create(Action<VirtualResponse> request)
         {
             var vr = new VirtualResponse();
-            request(vr);
+            request.Invoke(vr);
             return vr;
         }
 
@@ -102,6 +102,16 @@
         public VirtualResponse Address(Uri url)
         {
             return Address(Url.Convert(url));
+        }
+
+        /// <summary>
+        /// Sets the value of the cookie associated with the response.
+        /// </summary>
+        /// <param name="value">The cookie's value.</param>
+        /// <returns>The current instance.</returns>
+        public VirtualResponse Cookie(String value)
+        {
+            return Header(HeaderNames.SetCookie, value);
         }
 
         /// <summary>
