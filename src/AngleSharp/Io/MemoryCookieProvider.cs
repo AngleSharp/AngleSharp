@@ -33,8 +33,7 @@
         /// <returns>The value of the cookie.</returns>
         public String GetCookie(Url url)
         {
-            var uri = new Uri(url.Origin);
-            return _container.GetCookieHeader(uri);
+            return _container.GetCookieHeader(url);
         }
 
         /// <summary>
@@ -44,8 +43,9 @@
         /// <param name="value">The value of the cookie.</param>
         public void SetCookie(Url url, String value)
         {
-            var uri = new Uri(url.Origin);
-            _container.SetCookies(uri, value);
+            var domain = String.Concat("Domain=", url.HostName, ";");
+            var newValue = value.Replace(domain, "");
+            _container.SetCookies(url, newValue);
         }
     }
 }
