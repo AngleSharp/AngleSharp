@@ -7,14 +7,14 @@
     /// <summary>
     /// The nth-column selector.
     /// </summary>
-    sealed class FirstColumnSelector : ChildSelector
+    sealed class FirstColumnSelector : ChildSelector, ISelector
     {
         public FirstColumnSelector(Int32 step, Int32 offset, ISelector kind)
             : base(PseudoClassNames.NthColumn, step, offset, kind)
         {
         }
 
-        public override Boolean Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement scope)
         {
             var parent = element.ParentElement;
 

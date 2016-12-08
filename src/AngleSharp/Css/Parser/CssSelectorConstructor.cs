@@ -7,6 +7,7 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     /// <summary>
@@ -114,7 +115,7 @@
 
                 if (_group == null || _group.Length == 0)
                 {
-                    return _temp ?? SimpleSelector.All;
+                    return _temp ?? AllSelector.Instance;
                 }
                 else if (_temp == null && _group.Length == 1)
                 {
@@ -193,19 +194,19 @@
 
                 //Begin of ID #I
                 case CssTokenType.Hash:
-					Insert(SimpleSelector.Id(token.Data));
+					Insert(new IdSelector(token.Data));
                     _ready = true;
                     break;
 
                 //Begin of Class .c
                 case CssTokenType.Class:
-                    Insert(SimpleSelector.Class(token.Data));
+                    Insert(new ClassSelector(token.Data));
                     _ready = true;
                     break;
 
                 //Begin of Type E
                 case CssTokenType.Ident:
-					Insert(SimpleSelector.Type(token.Data));
+					Insert(new TypeSelector(token.Data));
                     _ready = true;
                     break;
 
@@ -515,14 +516,14 @@
                     break;
 
                 case Symbols.Asterisk:
-					Insert(SimpleSelector.All);
+					Insert(AllSelector.Instance);
                     _ready = true;
                     break;
 
                 case Symbols.Pipe:
                     if (_combinators.Count > 0 && _combinators.Peek() == CssCombinator.Descendent)
                     {
-                        Insert(SimpleSelector.Type(String.Empty));
+                        Insert(new TypeSelector(String.Empty));
                     }
 
                     Insert(CssCombinator.Namespace);
@@ -629,7 +630,7 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.Not.CssFunction(sel.Text);
-                    return SimpleSelector.PseudoClass(el => !sel.Match(el), code);
+                    return new PseudoClassSelector(el => !sel.Match(el), code);
                 }
 
                 return null;
@@ -654,7 +655,7 @@
                     if (_firstToken && token.Type == CssTokenType.Delim)
                     {
                         // Roughly equivalent to inserting an implicit :scope
-                        _nested.Insert(SimpleSelector.PseudoClass((el, scope) => el == scope, String.Empty));
+                        _nested.Insert(ScopePseudoClassSelector.Instance);
                         _nested.Apply(CssSelectorToken.Whitespace);
                         _matchSiblings = true;
                     }
@@ -677,7 +678,7 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.Has.CssFunction(selText);
-                    return SimpleSelector.PseudoClass(el =>
+                    return new PseudoClassSelector(el =>
                     {
                         var elements = default(IEnumerable<IElement>);
 
@@ -731,7 +732,7 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.Matches.CssFunction(sel.Text);
-                    return SimpleSelector.PseudoClass(el => sel.Match(el), code);
+                    return new PseudoClassSelector(el => sel.Match(el), code);
                 }
 
                 return null;
@@ -772,7 +773,7 @@
                 if (_valid && _value != null)
                 {
                     var code = PseudoClassNames.Dir.CssFunction(_value);
-                    return SimpleSelector.PseudoClass(el => el is IHtmlElement && _value.Isi(((IHtmlElement)el).Direction), code);
+                    return new PseudoClassSelector(el => el is IHtmlElement && _value.Isi(((IHtmlElement)el).Direction), code);
                 }
 
                 return null;
@@ -813,7 +814,7 @@
                 if (valid && value != null)
                 {
                     var code = PseudoClassNames.Lang.CssFunction(value);
-                    return SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
+                    return new PseudoClassSelector(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
                 }
 
                 return null;
@@ -854,7 +855,7 @@
                 if (_valid && _value != null)
                 {
                     var code = PseudoClassNames.Contains.CssFunction(_value);
-                    return SimpleSelector.PseudoClass(el => el.TextContent.Contains(_value), code);
+                    return new PseudoClassSelector(el => el.TextContent.Contains(_value), code);
                 }
 
                 return null;
@@ -889,7 +890,7 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.HostContext.CssFunction(sel.Text);
-                    return SimpleSelector.PseudoClass(el =>
+                    return new PseudoClassSelector(el =>
                     {
                         var shadowRoot = el.Parent as IShadowRoot;
                         var host = shadowRoot?.Host;
@@ -941,7 +942,7 @@
 
                 if (!invalid)
                 {
-                    var sel = _nested?.GetResult() ?? SimpleSelector.All;
+                    var sel = _nested?.GetResult() ?? AllSelector.Instance;
                     return _creator.Invoke(_step, _offset, sel);
                 }
 
@@ -975,7 +976,7 @@
                 if (token.Type == CssTokenType.Dimension)
                 {
                     var integral = token.Data.Remove(token.Data.Length - 1);
-                    _valid = _valid && token.Data.EndsWith("n", StringComparison.OrdinalIgnoreCase) && Int32.TryParse(integral, out _step);
+                    _valid = _valid && token.Data.EndsWith("n", StringComparison.OrdinalIgnoreCase) && Int32.TryParse(integral, NumberStyles.Integer, CultureInfo.InvariantCulture, out _step);
                     _step *= _sign;
                     _sign = 1;
                     _state = ParseState.Offset;
@@ -1042,7 +1043,7 @@
 
                 if (token.Type == CssTokenType.Number)
                 {
-                    _valid = _valid && Int32.TryParse(token.Data, out _offset);
+                    _valid = _valid && Int32.TryParse(token.Data, NumberStyles.Integer, CultureInfo.InvariantCulture, out _offset);
                     _offset *= _sign;
                     _state = ParseState.BeforeOf;
                     return false;

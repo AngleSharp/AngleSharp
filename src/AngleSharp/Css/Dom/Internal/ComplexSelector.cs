@@ -4,7 +4,7 @@
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
-    using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// Represents a complex selector, i.e. one or more compound selectors
@@ -47,7 +47,26 @@
 
         public String Text
         {
-            get { return this.ToCss(); }
+            get
+            {
+                var parts = new String[2 * _combinators.Count + 1];
+
+                if (_combinators.Count > 0)
+                {
+                    var l = 0;
+                    var n = _combinators.Count - 1;
+
+                    for (var i = 0; i < n; i++)
+                    {
+                        parts[l++] = _combinators[i].Selector.Text;
+                        parts[l++] = _combinators[i].Delimiter;
+                    }
+
+                    parts[l] = _combinators[n].Selector.Text;
+                }
+
+                return String.Concat(parts);
+            }
         }
 
         public Int32 Length
@@ -65,20 +84,11 @@
 
         #region Methods
 
-        public void ToCss(TextWriter writer, IStyleFormatter formatter)
+        public void Accept(ISelectorVisitor visitor)
         {
-            if (_combinators.Count > 0)
-            {
-                var n = _combinators.Count - 1;
-
-                for (var i = 0; i < n; i++)
-                {
-                    writer.Write(_combinators[i].Selector.Text);
-                    writer.Write(_combinators[i].Delimiter);
-                }
-
-                writer.Write(_combinators[n].Selector.Text);
-            }
+            var selectors = _combinators.Select(m => m.Selector);
+            var symbols = _combinators.Take(_combinators.Count - 1).Select(m => m.Delimiter);
+            visitor.Combinator(selectors, symbols);
         }
 
         public Boolean Match(IElement element, IElement scope)
@@ -130,12 +140,9 @@
 
             foreach (var newElement in newElements)
             {
-                if (_combinators[pos].Selector.Match(newElement, scope))
+                if (_combinators[pos].Selector.Match(newElement, scope) && (pos == 0 || MatchCascade(pos - 1, newElement, scope)))
                 {
-                    if (pos == 0 || MatchCascade(pos - 1, newElement, scope))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 

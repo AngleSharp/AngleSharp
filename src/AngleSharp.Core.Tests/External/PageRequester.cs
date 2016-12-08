@@ -7,12 +7,24 @@
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
+    using System.Runtime.CompilerServices;
 
     sealed class PageRequester : BaseRequester
     {
         private readonly static DefaultHttpRequester _default = new DefaultHttpRequester();
-        private readonly static String _directory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "Resources");
+        private readonly static String _directory = GetResourceDirectory();
         private readonly static SiteMapping _mapping = new SiteMapping(Path.Combine(_directory, "content.xml"));
+
+        private static String GetResourceDirectory( [CallerFilePath] String fileName = null )
+        {
+            var directoryPath = Path.Combine(Path.GetDirectoryName(fileName), "..", "Resources");
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            return directoryPath;
+        }
 
         public override Boolean SupportsProtocol(String protocol)
         {

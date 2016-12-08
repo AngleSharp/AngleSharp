@@ -64,7 +64,14 @@
                     source.Back();
                 }
 
-                var code = Int32.Parse(new String(escape, 0, length), NumberStyles.HexNumber);
+                var code = 0;
+                var pwr = 1;
+
+                for (var i = length - 1; i >= 0; i--)
+                {
+                    code += escape[i].FromHex() * pwr;
+                    pwr *= 16;
+                }
 
                 if (!code.IsInvalid())
                 {

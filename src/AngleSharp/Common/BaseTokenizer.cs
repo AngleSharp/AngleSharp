@@ -98,9 +98,11 @@
         /// Flushes the buffer.
         /// </summary>
         /// <returns>The content of the buffer.</returns>
-        public String FlushBuffer()
+        public String FlushBuffer() => FlushBuffer(null);
+
+        internal String FlushBuffer(Func<StringBuilder, String> stringResolver)
         {
-            var content = StringBuffer.ToString();
+            var content = stringResolver?.Invoke(StringBuffer) ?? StringBuffer.ToString();
             StringBuffer.Clear();
             return content;
         }
