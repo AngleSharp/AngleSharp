@@ -100,7 +100,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="BrowsingContextExtensions.cs" />
     <Compile Include="Css\CombinatorSymbols.cs" />
-    <Compile Include="Dom\Internal\AttrChangedCallback.cs" />
+    <Compile Include="Dom\IAttributeObserver.cs" />
     <Compile Include="Dom\WordBreak.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
     <Compile Include="Css\PseudoClassNames.cs" />
