@@ -18,15 +18,7 @@
         #endregion
 
         #region ctor
-
-        static HtmlImageElement()
-        {
-            RegisterCallback<HtmlImageElement>(AttributeNames.Src, (element, value) => element.UpdateSource());
-            RegisterCallback<HtmlImageElement>(AttributeNames.SrcSet, (element, value) => element.UpdateSource());
-            RegisterCallback<HtmlImageElement>(AttributeNames.Sizes, (element, value) => element.UpdateSource());
-            RegisterCallback<HtmlImageElement>(AttributeNames.CrossOrigin, (element, value) => element.UpdateSource());
-        }
-
+        
         public HtmlImageElement(Document owner, String prefix = null)
             : base(owner, TagNames.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
@@ -126,11 +118,7 @@
             UpdateSource();
         }
 
-        #endregion
-
-        #region Helpers
-
-        private void UpdateSource()
+        internal void UpdateSource()
         {
             var url = this.GetImageCandidate();
             this.Process(_request, url);

@@ -19,12 +19,7 @@
         #endregion
 
         #region ctor
-
-        static HtmlStyleElement()
-        {
-            RegisterCallback<HtmlStyleElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
-        }
-
+        
         public HtmlStyleElement(Document owner, String prefix = null)
             : base(owner, TagNames.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
@@ -93,17 +88,17 @@
             UpdateSheet();
         }
 
-        #endregion
-
-        #region Helpers
-
-        private void UpdateMedia(String value)
+        internal void UpdateMedia(String value)
         {
             if (_sheet != null)
             {
                 _sheet.Media.MediaText = value;
             }
         }
+
+        #endregion
+
+        #region Helpers
 
         private void UpdateSheet()
         {

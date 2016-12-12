@@ -10,11 +10,6 @@
     {
         #region ctor
 
-        static HtmlBaseElement()
-        {
-            RegisterCallback<HtmlBaseElement>(AttributeNames.Href, (element, value) => element.UpdateUrl(value));
-        }
-
         public HtmlBaseElement(Document owner, String prefix = null)
             : base(owner, TagNames.Base, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
@@ -38,15 +33,6 @@
 
         #endregion
 
-        #region Methods
-
-        private void UpdateUrl(String url)
-        {
-            Owner.BaseUrl = new Url(Owner.DocumentUrl, url ?? String.Empty);
-        }
-
-        #endregion
-
         #region Internal Methods
 
         internal override void SetupElement()
@@ -59,6 +45,11 @@
             {
                 UpdateUrl(href);
             }
+        }
+
+        internal void UpdateUrl(String url)
+        {
+            Owner.BaseUrl = new Url(Owner.DocumentUrl, url ?? String.Empty);
         }
 
         #endregion

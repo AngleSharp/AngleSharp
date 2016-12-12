@@ -16,13 +16,7 @@
         #endregion
 
         #region ctor
-
-        static HtmlUrlBaseElement()
-        {
-            RegisterCallback<HtmlUrlBaseElement>(AttributeNames.Rel, (element, value) => element._relList?.Update(value));
-            RegisterCallback<HtmlUrlBaseElement>(AttributeNames.Ping, (element, value) => element._ping?.Update(value));
-        }
-
+        
         public HtmlUrlBaseElement(Document owner, String name, String prefix, NodeFlags flags)
             : base(owner, name, prefix, flags)
         {
@@ -175,6 +169,20 @@
         {
             get;
             set;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal void UpdateRel(String value)
+        {
+            _relList?.Update(value);
+        }
+
+        internal void UpdatePing(String value)
+        {
+            _ping?.Update(value);
         }
 
         #endregion

@@ -59,6 +59,7 @@
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Browser\IParser.cs" />
+    <Compile Include="Common\AttachedProperty.cs" />
     <Compile Include="Css\Dom\Internal\AllSelector.cs" />
     <Compile Include="Css\Dom\Internal\AttrAvailableSelector.cs" />
     <Compile Include="Css\Dom\Internal\AttrContainsSelector.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Css\ISelectorVisitor.cs" />
     <Compile Include="Css\Parser\ICssSelectorParser.cs" />
     <Compile Include="Css\Parser\CssStringSourceExtensions.cs" />
+    <Compile Include="Dom\Internal\DefaultAttributeObserver.cs" />
     <Compile Include="Dom\Internal\NodeEnumerable.cs" />
     <Compile Include="Dom\IPseudoElement.cs" />
     <Compile Include="Html\Dom\ImageExtensions.cs" />
