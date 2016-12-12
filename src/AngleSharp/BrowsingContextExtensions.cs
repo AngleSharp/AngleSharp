@@ -374,9 +374,9 @@
         /// </summary>
         /// <param name="context">The current context.</param>
         /// <returns>The CSS styling service if any.</returns>
-        public static ICssStylingService GetCssStyling(this IBrowsingContext context)
+        public static IStylingService GetCssStyling(this IBrowsingContext context)
         {
-            return context.GetStyling(MimeTypeNames.Css) as ICssStylingService;
+            return context.GetStyling(MimeTypeNames.Css);
         }
 
         /// <summary>

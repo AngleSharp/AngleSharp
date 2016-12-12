@@ -77,7 +77,6 @@
     <Compile Include="Css\Dom\Internal\ScopePseudoClassSelector.cs" />
     <Compile Include="Css\Dom\Internal\TypeSelector.cs" />
     <Compile Include="Css\Dom\SelectorExtensions.cs" />
-    <Compile Include="Css\ICssStylingService.cs" />
     <Compile Include="Css\ISelectorVisitor.cs" />
     <Compile Include="Css\Parser\ICssSelectorParser.cs" />
     <Compile Include="Css\Parser\CssStringSourceExtensions.cs" />
@@ -188,7 +187,6 @@
     <Compile Include="Html\Forms\Submitters\PlaintextFormDataSetVisitor.cs" />
     <Compile Include="Html\Forms\Submitters\UrlEncodedFormDataSetVisitor.cs" />
     <Compile Include="Html\Forms\TextDataSetEntry.cs" />
-    <Compile Include="Css\Dom\ICssProperties .cs" />
     <Compile Include="Common\IBindable.cs" />
     <Compile Include="Common\ICancellable.cs" />
     <Compile Include="Css\Dom\ICssMedium.cs" />
@@ -337,12 +335,6 @@
     <Compile Include="Css\IStylingService.cs" />
     <Compile Include="Scripting\ScriptOptions.cs" />
     <Compile Include="Css\StyleOptions.cs" />
-    <Compile Include="Css\Dom\ICssProperty.cs" />
-    <Compile Include="Css\Dom\ICssRule.cs" />
-    <Compile Include="Css\Dom\ICssRuleList.cs" />
-    <Compile Include="Css\Dom\ICssStyleDeclaration.cs" />
-    <Compile Include="Css\Dom\ICssStyleSheet.cs" />
-    <Compile Include="Css\Dom\IElementCssInlineStyle.cs" />
     <Compile Include="Html\Dom\Events\CompositionEvent.cs" />
     <Compile Include="Html\Dom\Events\InputEvent.cs" />
     <Compile Include="Dom\Events\MessageEvent.cs" />
@@ -604,7 +596,6 @@
     <Compile Include="Html\Dom\Internal\HtmlSemanticElement.cs" />
     <Compile Include="Dom\TagNames.cs" />
     <Compile Include="Html\Parser\HtmlParseMode.cs" />
-    <Compile Include="Css\Dom\CssRuleType.cs" />
     <Compile Include="Html\HtmlEntityProvider.cs" />
     <Compile Include="Dom\DocumentPositions.cs" />
     <Compile Include="Dom\NodeType.cs" />

@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
-    using AngleSharp.Css;
-    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom.Events;
     using AngleSharp.Text;
@@ -25,7 +23,6 @@
         private readonly String _localName;
 
         private HtmlCollection<IElement> _elements;
-        private ICssStyleDeclaration _style;
         private TokenList _classList;
 
         #endregion
@@ -63,11 +60,6 @@
         #endregion
 
         #region Properties
-
-        public ICssStyleDeclaration Style
-        {
-            get { return _style ?? (_style = CreateStyle()); }
-        }
 
         public IElement AssignedSlot
         {
@@ -615,36 +607,12 @@
 
         #region Helpers
 
-        protected ICssStyleDeclaration CreateStyle()
-        {
-            const NodeFlags TargetFlags = NodeFlags.HtmlMember | NodeFlags.SvgMember;
-
-            if ((Flags & TargetFlags) != NodeFlags.None)
-            {
-                var context = Context;
-                var engine = context.GetCssStyling();
-
-                if (engine != null)
-                {
-                    var source = this.GetOwnAttribute(AttributeNames.Style);
-                    var options = new StyleOptions(Owner) { Element = this };
-                    var style = engine.ParseDeclaration(source, options);
-                    style.Changed += value => UpdateAttribute(AttributeNames.Style, value);
-                    return style;
-                }
-            }
-
-            return null;
-        }
-
         protected void UpdateStyle(String value)
         {
             if (String.IsNullOrEmpty(value))
             {
                 _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
             }
-
-            _style?.Update(value);
         }
 
         protected void UpdateAttribute(String name, String value)

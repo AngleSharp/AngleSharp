@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>
     /// The Element interface represents an object within a DOM document. 
     /// </summary>
     [DomName("Element")]
-    public interface IElement : INode, IParentNode, IChildNode, INonDocumentTypeChildNode, IElementCssInlineStyle
+    public interface IElement : INode, IParentNode, IChildNode, INonDocumentTypeChildNode
     {
         /// <summary>
         /// Gets the namespace prefix of this element.
