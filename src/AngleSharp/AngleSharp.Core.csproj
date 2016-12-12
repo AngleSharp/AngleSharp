@@ -60,10 +60,10 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="AutoSelectedMarkupFormatter.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Common\AttachedProperty.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="BrowsingContextExtensions.cs" />
     <Compile Include="Css\CombinatorSymbols.cs" />
-    <Compile Include="Dom\AttrChangedCallback.cs" />
     <Compile Include="Dom\Constants\WordBreak.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\AndCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\DeclarationCondition.cs" />
@@ -199,6 +199,8 @@
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />
     <Compile Include="Dom\Html\HtmlSlotElement.cs" />
     <Compile Include="Dom\Html\HtmlUrlBaseElement.cs" />
+    <Compile Include="Dom\IAttributeObserver.cs" />
+    <Compile Include="Dom\Internal\DefaultAttributeObserver.cs" />
     <Compile Include="Dom\ShadowRoot.cs" />
     <Compile Include="Dom\Svg\SvgDocument.cs" />
     <Compile Include="Dom\Events\CssErrorEvent.cs" />

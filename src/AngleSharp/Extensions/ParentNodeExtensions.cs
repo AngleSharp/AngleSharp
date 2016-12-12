@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AngleSharp.Extensions
+﻿namespace AngleSharp.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using AngleSharp.Dom;
 
     /// <summary>

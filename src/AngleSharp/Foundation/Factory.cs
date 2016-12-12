@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Services.Default;
+    using AngleSharp.Dom;
 
     /// <summary>
     /// Bundles the available factories.
@@ -76,5 +77,10 @@
         /// The service factory.
         /// </summary>
         public static readonly ServiceFactory Service = new ServiceFactory();
+
+        /// <summary>
+        /// The attribute observer.
+        /// </summary>
+        public static readonly DefaultAttributeObserver Observer = new DefaultAttributeObserver();
     }
 }

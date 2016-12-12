@@ -19,12 +19,7 @@
         #endregion
 
         #region ctor
-
-        static HtmlSelectElement()
-        {
-            RegisterCallback<HtmlSelectElement>(AttributeNames.Value, (element, value) => element.UpdateValue(value));
-        }
-
+        
         public HtmlSelectElement(Document owner, String prefix = null)
             : base(owner, TagNames.Select, prefix)
         {
@@ -201,11 +196,7 @@
             }
         }
 
-        #endregion
-
-        #region Helpers
-
-        private void UpdateValue(String value)
+        internal void UpdateValue(String value)
         {
             var options = Options;
 
@@ -215,6 +206,10 @@
                 option.IsSelected = selected;
             }
         }
+
+        #endregion
+
+        #region Helpers
 
         protected override Boolean CanBeValidated()
         {
