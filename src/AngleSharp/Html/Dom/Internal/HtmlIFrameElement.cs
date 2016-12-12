@@ -16,13 +16,7 @@
         #endregion
 
         #region ctor
-
-        static HtmlIFrameElement()
-        {
-            RegisterCallback<HtmlIFrameElement>(AttributeNames.Sandbox, (element, value) => element._sandbox?.Update(value));
-            RegisterCallback<HtmlIFrameElement>(AttributeNames.SrcDoc, (element, value) => element.UpdateSource());
-        }
-
+        
         public HtmlIFrameElement(Document owner, String prefix = null)
             : base(owner, TagNames.Iframe, prefix, NodeFlags.LiteralText)
         {
@@ -92,6 +86,11 @@
             {
                 UpdateSource();
             }
+        }
+
+        internal void UpdateSandbox(String value)
+        {
+            _sandbox?.Update(value);
         }
 
         #endregion

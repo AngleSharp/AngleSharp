@@ -21,12 +21,7 @@
         #endregion
 
         #region ctor
-
-        static HtmlMediaElement()
-        {
-            RegisterCallback<HtmlMediaElement<TResource>>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
-        }
-
+        
         public HtmlMediaElement(Document owner, String name, String prefix)
             : base(owner, name, prefix)
         {
@@ -321,11 +316,7 @@
             }
         }
 
-        #endregion
-
-        #region Helpers
-
-        private void UpdateSource(String value)
+        internal void UpdateSource(String value)
         {
             var url = new Url(value);
             this.Process(_request, url);

@@ -17,12 +17,7 @@
         #endregion
 
         #region ctor
-
-        static HtmlOutputElement()
-        {
-            RegisterCallback<HtmlOutputElement>(AttributeNames.For, (element, value) => element._for?.Update(value));
-        }
-
+        
         public HtmlOutputElement(Document owner, String prefix = null)
             : base(owner, TagNames.Output, prefix)
         {
@@ -71,16 +66,25 @@
 
         #endregion
 
+        #region Internal Methods
+
+        internal override void Reset()
+        {
+            _value = null;
+        }
+
+        internal void UpdateFor(String value)
+        {
+            _for?.Update(value);
+        }
+
+        #endregion
+
         #region Helpers
 
         protected override Boolean CanBeValidated()
         {
             return true;
-        }
-
-        internal override void Reset()
-        {
-            _value = null;
         }
 
         #endregion

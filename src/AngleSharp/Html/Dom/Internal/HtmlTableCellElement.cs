@@ -16,12 +16,7 @@
         #endregion
 
         #region ctor
-
-        static HtmlTableCellElement()
-        {
-            RegisterCallback<HtmlTableCellElement>(AttributeNames.Headers, (element, value) => element._headers?.Update(value));
-        }
-
+        
         public HtmlTableCellElement(Document owner, String name, String prefix)
             : base(owner, name, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped)
         {
@@ -125,6 +120,15 @@
         {
             get { return this.GetOwnAttribute(AttributeNames.Axis); }
             set { this.SetOwnAttribute(AttributeNames.Axis, value); }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal void UpdateHeaders(String value)
+        {
+            _headers?.Update(value);
         }
 
         #endregion

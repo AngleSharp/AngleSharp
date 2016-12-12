@@ -61,5 +61,10 @@
         /// The document factory.
         /// </summary>
         public static readonly DefaultDocumentFactory Document = new DefaultDocumentFactory();
+
+        /// <summary>
+        /// The attribute observer.
+        /// </summary>
+        public static readonly DefaultAttributeObserver Observer = new DefaultAttributeObserver();
     }
 }
