@@ -59,7 +59,6 @@
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Browser\IParser.cs" />
-    <Compile Include="Common\AttachedProperty.cs" />
     <Compile Include="Css\Dom\Internal\AllSelector.cs" />
     <Compile Include="Css\Dom\Internal\AttrAvailableSelector.cs" />
     <Compile Include="Css\Dom\Internal\AttrContainsSelector.cs" />

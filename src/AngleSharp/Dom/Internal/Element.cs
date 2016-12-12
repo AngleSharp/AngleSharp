@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Common;
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom.Events;
     using AngleSharp.Text;
     using System;
     using System.IO;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents an element node.
@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        private static readonly AttachedProperty<Element, IShadowRoot> ShadowRootProperty = new AttachedProperty<Element, IShadowRoot>();
+        private static readonly ConditionalWeakTable<Element, IShadowRoot> ShadowRootProperty = new ConditionalWeakTable<Element, IShadowRoot>();
 
         private readonly NamedNodeMap _attributes;
         private readonly String _namespace;
@@ -74,7 +74,12 @@
 
         public IShadowRoot ShadowRoot
         {
-            get { return ShadowRootProperty.Get(this); }
+            get
+            {
+                var value = default(IShadowRoot);
+                ShadowRootProperty.TryGetValue(this, out value);
+                return value;
+            }
         }
 
         public String Prefix
@@ -331,7 +336,7 @@
                 throw new DomException(DomError.InvalidState);
 
             var root = new ShadowRoot(this, mode);
-            ShadowRootProperty.Set(this, root);
+            ShadowRootProperty.Add(this, root);
             return root;
         }
 
