@@ -1,8 +1,7 @@
-﻿namespace AngleSharp.XHtml
+﻿namespace AngleSharp.Xhtml
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
-    using AngleSharp.Html;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -48,7 +47,7 @@
         String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
         {
             var prefix = element.Prefix;
-            var temp = Pool.NewStringBuilder();
+            var temp = StringBuilderPool.Obtain();
             temp.Append(Symbols.LessThan);
 
             if (!String.IsNullOrEmpty(prefix))
@@ -80,7 +79,7 @@
 
         String IMarkupFormatter.Text(String text)
         {
-            var temp = Pool.NewStringBuilder();
+            var temp = StringBuilderPool.Obtain();
 
             for (var i = 0; i < text.Length; i++)
             {
@@ -102,7 +101,7 @@
             var namespaceUri = attribute.NamespaceUri;
             var localName = attribute.LocalName;
             var value = attribute.Value;
-            var temp = Pool.NewStringBuilder();
+            var temp = StringBuilderPool.Obtain();
 
             if (String.IsNullOrEmpty(namespaceUri))
             {

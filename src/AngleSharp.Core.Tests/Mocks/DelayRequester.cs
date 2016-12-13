@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using System;
     using System.IO;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
-    sealed class DelayRequester : IRequester
+    sealed class DelayRequester : BaseRequester
     {
         private readonly Int32 _timeout;
         private Int32 _count;
@@ -24,16 +23,16 @@
             get { return _count; }
         }
 
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return true;
         }
 
-        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel)
+        protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancel)
         {
             await Task.Delay(_timeout, cancel);
             _count++;
-            return new Response
+            return new DefaultResponse
             {
                 Address  = request.Address,
                 Content = MemoryStream.Null,

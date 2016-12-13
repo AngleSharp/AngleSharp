@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
-    using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
-    using AngleSharp.Parser.Css;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Dom.Events;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -41,54 +41,13 @@
 </div>
     </article>";
             var context = BrowsingContext.New();
-            var parseErrors = new EventReceiver<HtmlErrorEvent>(handler => context.ParseError += handler);
-            var document = await context.OpenAsync(m => m.Content(source));
+            var parseErrors = new EventReceiver<HtmlErrorEvent>(handler => context.GetService<IHtmlParser>().Error += handler);
+            await context.OpenAsync(m => m.Content(source));
 
             Assert.AreEqual(1, parseErrors.Received.Count);
-            Assert.AreEqual((int)HtmlParseError.DoctypeMissing, parseErrors.Received[0].Code);
+            Assert.AreEqual((Int32)HtmlParseError.DoctypeMissing, parseErrors.Received[0].Code);
             Assert.AreEqual(1, parseErrors.Received[0].Position.Column);
             Assert.AreEqual(1, parseErrors.Received[0].Position.Line);
-        }
-
-        [Test]
-        public void ParseInlineStyleWithToleratedInvalidValueShouldReturnThatValue()
-        {
-            var html = "<div style=\"background-image: url(javascript:alert(1))\"></div>";
-            var options = new CssParserOptions
-            {
-                IsIncludingUnknownDeclarations = true,
-                IsIncludingUnknownRules = true,
-                IsToleratingInvalidConstraints = true,
-                IsToleratingInvalidValues = true
-            };
-            var config = Configuration.Default.WithCss(e => e.Options = options);
-            var parser = new HtmlParser(config);
-            var dom = parser.Parse(html);
-            var div = dom.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual(1, div.Style.Length);
-            Assert.AreEqual("background-image", div.Style[0]);
-            Assert.AreEqual("url(\"javascript:alert(1)\")", div.Style.BackgroundImage);
-        }
-
-        [Test]
-        public void ParseInlineStyleWithUnknownDeclarationShouldBeAbleToRemoveThatDeclaration()
-        {
-            var html = @"<DIV STYLE='background: url(""javascript:alert(foo)"")'>";
-            var options = new CssParserOptions
-            {
-                IsIncludingUnknownDeclarations = true,
-                IsIncludingUnknownRules = true,
-                IsToleratingInvalidConstraints = true,
-                IsToleratingInvalidValues = true
-            };
-            var config = Configuration.Default.WithCss(e => e.Options = options);
-            var parser = new HtmlParser(config);
-            var dom = parser.Parse(html);
-            var div = dom.QuerySelector<IHtmlElement>("div");
-            Assert.AreEqual(1, div.Style.Length);
-            Assert.AreEqual("background", div.Style[0]);
-            div.Style.RemoveProperty("background");
-            Assert.AreEqual(0, div.Style.Length);
         }
 
         [Test]
@@ -96,7 +55,7 @@
         {
             var html = "<!doctype html><div>a\r\r\r\n\rb</div>";
             var parser = new HtmlParser();
-            var document = parser.Parse(html);
+            var document = parser.ParseDocument(html);
             var div = document.QuerySelector<IHtmlElement>("div");
             var content = div.TextContent;
             Assert.AreEqual("a\n\n\n\nb", content);
@@ -112,10 +71,9 @@
 </body>";
             var errors = new List<HtmlErrorEvent>();
             var options = new HtmlParserOptions { IsStrictMode = false };
-            var context = BrowsingContext.New(Configuration.Default);
-            context.ParseError += (s, ev) => errors.Add((HtmlErrorEvent)ev);
-            var parser = new HtmlParser(options, context);
-            parser.Parse(html);
+            var parser = new HtmlParser(options);
+            parser.Error += (s, ev) => errors.Add((HtmlErrorEvent)ev);
+            parser.ParseDocument(html);
             Assert.AreEqual(1, errors.Count);
         }
 
@@ -129,7 +87,7 @@
 </body>";
             var options = new HtmlParserOptions { IsStrictMode = true };
             var parser = new HtmlParser(options);
-            Assert.Catch<HtmlParseException>(() => parser.Parse(html));
+            Assert.Catch<HtmlParseException>(() => parser.ParseDocument(html));
         }
     }
 }

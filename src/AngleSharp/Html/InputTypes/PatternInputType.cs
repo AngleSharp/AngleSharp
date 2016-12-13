@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using System;
 
     class PatternInputType : BaseInputType
@@ -16,10 +16,16 @@
 
         #region Methods
 
-        public override void Check(ValidityState state)
+        public override ValidationErrors Check(IValidityState current)
         {
-            var value = Input.Value ?? String.Empty;
-            state.IsPatternMismatch = IsInvalidPattern(Input.Pattern, value);
+            var result = GetErrorsFrom(current);
+
+            if (IsInvalidPattern(Input.Pattern, Input.Value ?? String.Empty))
+            {
+                result ^= ValidationErrors.PatternMismatch;
+            }
+
+            return result;
         }
 
         #endregion

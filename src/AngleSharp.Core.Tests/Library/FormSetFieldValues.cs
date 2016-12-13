@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
@@ -35,7 +35,7 @@
 </body>
 </html>";
             var parser = new HtmlParser();
-            var document = parser.Parse(formHtml);
+            var document = parser.ParseDocument(formHtml);
             return document;
         }
 

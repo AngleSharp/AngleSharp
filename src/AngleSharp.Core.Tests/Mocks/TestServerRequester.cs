@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -10,7 +9,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    sealed class TestServerRequester : IRequester
+    sealed class TestServerRequester : BaseRequester
     {
         private readonly IDictionary<String, String> _mapping;
 
@@ -19,12 +18,12 @@
             _mapping = mapping;
         }
 
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return true;
         }
 
-        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel)
+        protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancel)
         {
             var value = default(String);
             var status = HttpStatusCode.NotFound;
@@ -38,7 +37,7 @@
 
             await Task.Delay(1);
 
-            return new Response
+            return new DefaultResponse
             {
                 Address = request.Address,
                 Content = content,

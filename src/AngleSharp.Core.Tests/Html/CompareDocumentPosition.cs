@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
@@ -79,7 +79,7 @@
             var parent2 = doc.QuerySelector("#parent-2");
             var child2 = doc.QuerySelector("#child-2");
 
-            Assert.AreEqual(DocumentPositions.Contains | DocumentPositions.Preceding, child1.CompareDocumentPosition(parent1));
+            Assert.AreEqual(DocumentPositions.Contains | DocumentPositions.Preceding, child2.CompareDocumentPosition(parent2));
         }
 
         [Test]

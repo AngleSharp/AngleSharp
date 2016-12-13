@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -9,48 +8,48 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class MockRequester : IRequester
+    public class MockRequester : BaseRequester
     {
-        private Func<IRequest, IResponse> _answer;
+        private Func<Request, IResponse> _answer;
 
         public MockRequester()
         {
             BuildResponse(_ => String.Empty);
         }
 
-        public Action<IRequest> OnRequest
+        public Action<Request> OnRequest
         {
             get;
             set;
         }
 
-        public void BuildResponse(Func<IRequest, String> answer)
+        public void BuildResponse(Func<Request, String> answer)
         {
             _answer = request =>
             {
                 var text = answer.Invoke(request);
                 var content = new MemoryStream(Encoding.UTF8.GetBytes(text));
-                return new Response { Address = request.Address, Content = content, StatusCode = System.Net.HttpStatusCode.OK };
+                return new DefaultResponse { Address = request.Address, Content = content, StatusCode = System.Net.HttpStatusCode.OK };
             };
         }
 
-        public void BuildResponse(Func<IRequest, IResponse> answer)
+        public void BuildResponse(Func<Request, IResponse> answer)
         {
             _answer = answer;
         }
 
-        public IResponse Request(IRequest request)
+        public IResponse Request(Request request)
         {
             OnRequest?.Invoke(request);
             return _answer.Invoke(request);
         }
 
-        public Task<IResponse> RequestAsync(IRequest request)
+        public Task<IResponse> RequestAsync(Request request)
         {
             return RequestAsync(request, CancellationToken.None);
         }
 
-        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
+        protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancellationToken)
         {
             await Task.Delay(0);
             return Request(request);
@@ -68,7 +67,7 @@
             set;
         }
 
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return true;
         }

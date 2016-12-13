@@ -1,8 +1,10 @@
 ﻿namespace AngleSharp.Core.Tests.Xml
 {
     using AngleSharp.Core.Tests.Mocks;
-    using AngleSharp.Parser.Xml;
+    using AngleSharp.Text;
     using AngleSharp.Xml;
+    using AngleSharp.Xml.Parser;
+    using AngleSharp.Xml.Parser.Tokens;
     using NUnit.Framework;
 
     [TestFixture]
@@ -10,7 +12,7 @@
     {
         private static XmlTokenizer CreateTokenizer(TextSource source)
         {
-            return new XmlTokenizer(source, XmlEntityService.Resolver);
+            return new XmlTokenizer(source, XmlEntityProvider.Resolver);
         }
 
         [Test]
@@ -110,7 +112,7 @@
         [Test]
         public void XmlTokenizerStringAndCustomEntityToken()
         {
-            var resolver = new MockEntityResolver(str => str.Equals("bar") ? "foo" : null);
+            var resolver = new MockEntityProvider(str => str.Equals("bar;") ? "foo" : null);
             var s = new TextSource("test&bar;");
             var t = new XmlTokenizer(s, resolver);
             var test = t.Get();

@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
     using AngleSharp.Dom;
+    using AngleSharp.Html;
+    using AngleSharp.Text;
     using System;
 
     sealed class MarkdownDocument : Document
@@ -13,6 +15,16 @@
         public override IElement DocumentElement
         {
             get { return null; }
+        }
+
+        public override IEntityProvider Entities
+        {
+            get { return HtmlEntityProvider.Resolver; }
+        }
+
+        internal override Element CreateElementFrom(String name, String prefix)
+        {
+            return new Element(this, name, prefix, null);
         }
 
         public override INode Clone(Boolean deep = true)

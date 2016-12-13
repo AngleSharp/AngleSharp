@@ -1,7 +1,7 @@
 namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using NUnit.Framework;
     using System;
 
@@ -176,9 +176,9 @@ namespace AngleSharp.Core.Tests.Html
 			element.Value = "2000-01-01T12:00:00Z";
 			Assert.AreEqual("datetime", element.Type);
 			Assert.AreEqual(true, element.Validity.IsRangeUnderflow);
-		}
-		
-		[Test]
+        }
+
+        [Test]
 		public void TestRangeunderflowInputDatetime8()
 		{
 			var document = CreateTestDocument();
@@ -1280,32 +1280,56 @@ namespace AngleSharp.Core.Tests.Html
 			element.Value = "5";
 			Assert.AreEqual("number", element.Type);
 			Assert.AreEqual(false, element.Validity.IsRangeUnderflow);
-		}
-		
-		[Test]
-		public void TestRangeunderflowInputNumber4()
-		{
-			var document = CreateTestDocument();
-			var element = document.CreateElement("input") as HtmlInputElement;
-			Assert.IsNotNull(element);
-			element.Type = "number";
-			element.RemoveAttribute("required");
-			element.RemoveAttribute("pattern");
-			element.RemoveAttribute("step");
-			element.RemoveAttribute("max");
-			element.RemoveAttribute("min");
-			element.RemoveAttribute("maxlength");
-			element.RemoveAttribute("value");
-			element.RemoveAttribute("multiple");
-			element.RemoveAttribute("checked");
-			element.RemoveAttribute("selected");
-			element.SetAttribute("min", "-5.6");
-			element.Value = "-5.5";
-			Assert.AreEqual("number", element.Type);
-			Assert.AreEqual(false, element.Validity.IsRangeUnderflow);
-		}
-		
-		[Test]
+        }
+
+        [Test]
+        public void TestRangeunderflowInputNumber4()
+        {
+            var document = CreateTestDocument();
+            var element = document.CreateElement("input") as HtmlInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("min", "-5.6");
+            element.Value = "-5.5";
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(false, element.Validity.IsRangeUnderflow);
+        }
+
+        [Test]
+        [SetCulture("ru")]
+        public void TestRangeunderflowInputNumber4InRussia()
+        {
+            var document = CreateTestDocument();
+            var element = document.CreateElement("input") as HtmlInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            element.SetAttribute("min", "-5.6");
+            element.Value = "-5.5";
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(false, element.Validity.IsRangeUnderflow);
+        }
+
+        [Test]
 		public void TestRangeunderflowInputNumber5()
 		{
 			var document = CreateTestDocument();

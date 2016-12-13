@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@
             var requester = new MockRequester();
             var receivedRequest = new TaskCompletionSource<String>();
             requester.OnRequest = request => receivedRequest.SetResult(request.Address.Href);
-            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester });
+            var config = Configuration.Default.With(requester).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
 
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<!doctype html><link rel=import href=http://example.com/test.html>"));
             var link = document.QuerySelector<IHtmlLinkElement>("link");
@@ -29,29 +29,6 @@
         }
 
         [Test]
-        public async Task ImportPageFromDataRequest()
-        {
-            var receivedRequest = new TaskCompletionSource<Boolean>();
-            var config = Configuration.Default.WithDefaultLoader(setup =>
-            {
-                setup.IsResourceLoadingEnabled = true;
-                setup.Filter = request =>
-                {
-                    receivedRequest.SetResult(true);
-                    return true;
-                };
-            });
-
-            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<!doctype html><link rel=import href='data:text/html,<div>foo</div>'>"));
-            var link = document.QuerySelector<IHtmlLinkElement>("link");
-            var finished = await receivedRequest.Task;
-
-            Assert.AreEqual("import", link.Relation);
-            Assert.IsNotNull(link.Import);
-            Assert.AreEqual("foo", link.Import.QuerySelector("div").TextContent);
-        }
-
-        [Test]
         public async Task ImportPageWithDirectCycle()
         {
             var content = "<!doctype html><link rel=import href=http://example.com/test.html>";
@@ -59,7 +36,7 @@
             var requestCount = 0;
             requester.OnRequest = request => requestCount++;
             requester.BuildResponse(request => content);
-            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester });
+            var config = Configuration.Default.With(requester).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(content));
             var link = document.QuerySelector<IHtmlLinkElement>("link");
             Assert.AreEqual("import", link.Relation);
@@ -82,7 +59,7 @@
             var requestCount = 0;
             requester.OnRequest = request => requestCount++;
             requester.BuildResponse(request => nested.Dequeue());
-            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester });
+            var config = Configuration.Default.With(requester).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(content));
             var link = document.QuerySelector<IHtmlLinkElement>("link");
             Assert.AreEqual("import", link.Relation);

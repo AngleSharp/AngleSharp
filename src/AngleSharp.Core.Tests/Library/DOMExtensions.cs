@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -10,16 +8,10 @@
     [TestFixture]
     public class DOMExtensionsTests
     {
-        private static IDocument Html(String code)
-        {
-            var config = new Configuration().WithCss();
-            return code.ToHtmlDocument(config);
-        }
-
         [Test]
         public void ExtensionAttrWithEmptyList()
         {
-            var document = Html("");
+            var document = "".ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Attr("test", "test");
             Assert.AreEqual(0, elements.Count());
         }
@@ -27,11 +19,11 @@
         [Test]
         public void ExtensionBeforeWithSimpleElements()
         {
-            var document = Html(@"<div class='container'>
+            var document = @"<div class='container'>
   <h2>Greetings</h2>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
-</div>");
+</div>".ToHtmlDocument();
             var container = document.QuerySelector(".container");
             Assert.AreEqual(3, container.ChildElementCount);
             var inner = document.QuerySelectorAll(".inner");
@@ -44,11 +36,11 @@
         [Test]
         public void ExtensionAfterWithSimpleElements()
         {
-            var document = Html(@"<div class='container'>
+            var document = @"<div class='container'>
   <h2>Greetings</h2>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
-</div>");
+</div>".ToHtmlDocument();
             var container = document.QuerySelector(".container");
             Assert.AreEqual(3, container.ChildElementCount);
             var inner = document.QuerySelectorAll(".inner");
@@ -61,11 +53,11 @@
         [Test]
         public void ExtensionAppendWithSimpleElements()
         {
-            var document = Html(@"<div class='container'>
+            var document = @"<div class='container'>
   <h2>Greetings</h2>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
-</div>");
+</div>".ToHtmlDocument();
             var container = document.QuerySelector(".container");
             Assert.AreEqual(3, container.ChildElementCount);
             var inner = document.QuerySelectorAll(".inner");
@@ -86,11 +78,11 @@
         [Test]
         public void ExtensionPrependWithSimpleElements()
         {
-            var document = Html(@"<div class='container'>
+            var document = @"<div class='container'>
   <h2>Greetings</h2>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
-</div>");
+</div>".ToHtmlDocument();
             var container = document.QuerySelector(".container");
             Assert.AreEqual(3, container.ChildElementCount);
             var inner = document.QuerySelectorAll(".inner");
@@ -111,10 +103,10 @@
         [Test]
         public void ExtensionWrapWithSimpleElements()
         {
-            var document = Html(@"<div class='container'>
+            var document = (@"<div class='container'>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
-</div>");
+</div>").ToHtmlDocument();
             var container = document.QuerySelector(".container");
             Assert.AreEqual(2, container.ChildElementCount);
             var inner = document.QuerySelectorAll(".inner");
@@ -133,9 +125,9 @@
         [Test]
         public void ExtensionWrapWithSimpleText()
         {
-            var document = Html(@"<p>Hello</p>
+            var document = (@"<p>Hello</p>
 <p>cruel</p>
-<p>World</p>");
+<p>World</p>").ToHtmlDocument();
             var body = document.Body;
             Assert.AreEqual(3, body.ChildElementCount);
             var p = document.QuerySelectorAll("p");
@@ -158,9 +150,9 @@
         [Test]
         public void ExtensionWrapWithComplexElements()
         {
-            var document = Html(@"<span>Span Text</span>
+            var document = (@"<span>Span Text</span>
 <strong>What about me?</strong>
-<span>Another One</span>");
+<span>Another One</span>").ToHtmlDocument();
             var body = document.Body;
             Assert.AreEqual(3, body.ChildElementCount);
             var span = document.QuerySelectorAll("span");
@@ -188,10 +180,10 @@
         [Test]
         public void ExtensionWrapInnerWithSimpleElements()
         {
-            var document = Html(@"<div class='container'>
+            var document = (@"<div class='container'>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
-</div>");
+</div>").ToHtmlDocument();
             var container = document.QuerySelector(".container");
             Assert.AreEqual(2, container.ChildElementCount);
             var inner = document.QuerySelectorAll(".inner");
@@ -214,9 +206,9 @@
         [Test]
         public void ExtensionWrapInnerWithSimpleText()
         {
-            var document = Html(@"<p>Hello</p>
+            var document = (@"<p>Hello</p>
 <p>cruel</p>
-<p>World</p>");
+<p>World</p>").ToHtmlDocument();
             var body = document.Body;
             Assert.AreEqual(3, body.ChildElementCount);
             var p = document.QuerySelectorAll("p");
@@ -247,10 +239,10 @@
         [Test]
         public void ExtensionWrapAllWithSimpleElements()
         {
-            var document = Html(@"<div class='container'>
+            var document = (@"<div class='container'>
   <div class='inner'>Hello</div>
   <div class='inner'>Goodbye</div>
-</div>");
+</div>").ToHtmlDocument();
             var container = document.QuerySelector(".container");
             Assert.AreEqual(2, container.ChildElementCount);
             var inner = document.QuerySelectorAll(".inner");
@@ -266,9 +258,9 @@
         [Test]
         public void ExtensionWrapAllWithComplexElements()
         {
-            var document = Html(@"<span>Span Text</span>
+            var document = (@"<span>Span Text</span>
 <strong>What about me?</strong>
-<span>Another One</span>");
+<span>Another One</span>").ToHtmlDocument();
             Assert.AreEqual(3, document.Body.ChildElementCount);
             var span = document.QuerySelectorAll("span");
             span.WrapAll("<div><div><p><em><b></b></em></p></div></div>");
@@ -284,7 +276,7 @@
         [Test]
         public void ExtensionAttrGetWithNoElement()
         {
-            var document = Html("<ul><li id=foo>First element");
+            var document = ("<ul><li id=foo>First element").ToHtmlDocument();
             var ids = document.QuerySelectorAll("ol").Attr("id");
             Assert.AreEqual(0, ids.Count());
         }
@@ -292,7 +284,7 @@
         [Test]
         public void ExtensionAttrGetWithNoAttribute()
         {
-            var document = Html("<ul><li>First element");
+            var document = ("<ul><li>First element").ToHtmlDocument();
             var ids = document.QuerySelectorAll("li").Attr("id");
             Assert.AreEqual(1, ids.Count());
 
@@ -303,7 +295,7 @@
         [Test]
         public void ExtensionAttrGetDataAttribute()
         {
-            var document = Html("<ul><li data-id=foo>First element");
+            var document = ("<ul><li data-id=foo>First element").ToHtmlDocument();
             var ids = document.QuerySelectorAll("li").Attr("data-id");
             Assert.AreEqual(1, ids.Count());
 
@@ -314,7 +306,7 @@
         [Test]
         public void ExtensionAttrGetWithOneElement()
         {
-            var document = Html("<ul><li id=foo>First element");
+            var document = ("<ul><li id=foo>First element").ToHtmlDocument();
             var ids = document.QuerySelectorAll("li").Attr("id");
             Assert.AreEqual(1, ids.Count());
 
@@ -325,7 +317,7 @@
         [Test]
         public void ExtensionAttrGetWithManyElements()
         {
-            var document = Html("<ul><li id=foo>First element<li id=bar>Second element<li>Third element<li id=baz>Last element");
+            var document = ("<ul><li id=foo>First element<li id=bar>Second element<li>Third element<li id=baz>Last element").ToHtmlDocument();
             var ids = document.QuerySelectorAll("li").Attr("id").ToArray();
             Assert.AreEqual(4, ids.Length);
 
@@ -338,7 +330,7 @@
         [Test]
         public void ExtensionAttrSetWithOneElement()
         {
-            var document = Html("<ul><li>First element");
+            var document = ("<ul><li>First element").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Attr("test", "test");
             Assert.AreEqual(1, elements.Count());
 
@@ -353,7 +345,7 @@
         [Test]
         public void ExtensionAttrWithOneElementButMultipleAttributes()
         {
-            var document = Html("<ul><li>First element");
+            var document = ("<ul><li>First element").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Attr(new
             {
                 test1 = "test",
@@ -378,7 +370,7 @@
         [Test]
         public void ExtensionAttrWithMultipleElements()
         {
-            var document = Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+            var document = ("<ul><li>First element<li>Second element<li>third<li class=bla>Last").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Attr("test", "test");
             Assert.AreEqual(4, elements.Count());
 
@@ -416,101 +408,9 @@
         }
 
         [Test]
-        public void ExtensionCssWithEmptyListAndEmptyDeclaration()
-        {
-            var document = Html("");
-            var elements = document.QuerySelectorAll("li").Css(new { });
-            Assert.AreEqual(0, elements.Count());
-        }
-
-        [Test]
-        public void ExtensionCssWithEmptyListOnly()
-        {
-            var document = Html("");
-            var elements = document.QuerySelectorAll("li").Css("color", "red");
-            Assert.AreEqual(0, elements.Count());
-        }
-
-        [Test]
-        public void ExtensionCssWithOneElement()
-        {
-            var document = Html("<ul><li>First element");
-            var elements = document.QuerySelectorAll("li").Css("color", "red");
-            Assert.AreEqual(1, elements.Count());
-
-            var style = (elements[0] as IHtmlElement).Style;
-            Assert.AreEqual(1, style.Count());
-
-            Assert.AreEqual("color", style[0]);
-            Assert.AreEqual("rgb(255, 0, 0)", style.Color);
-        }
-
-        [Test]
-        public void ExtensionCssWithOneElementButMultipleCssRules()
-        {
-            var document = Html("<ul><li>First element");
-            var elements = document.QuerySelectorAll("li").Css(new
-            {
-                color = "red",
-                background = "green",
-                font = "10px 'Tahoma'",
-                opacity = "0.5"
-            });
-            Assert.AreEqual(1, elements.Count());
-
-            var style = (elements[0] as IHtmlElement).Style;
-
-            Assert.AreEqual("rgb(255, 0, 0)", style.Color);
-            Assert.AreEqual("rgb(0, 128, 0)", style.BackgroundColor);
-            Assert.AreEqual("\"Tahoma\"", style.FontFamily);
-            Assert.AreEqual("10px", style.FontSize);
-            Assert.AreEqual("0.5", style.Opacity);
-        }
-
-        [Test]
-        public void ExtensionCssWithMultipleElements()
-        {
-            var document = Html("<ul><li>First element<li>Second element<li>third<li style='background-color:blue'>Last");
-            var elements = document.QuerySelectorAll("li").Css("color", "red");
-            Assert.AreEqual(4, elements.Count());
-
-            var style1 = (elements[0] as IHtmlElement).Style;
-            Assert.AreEqual(1, style1.Count());
-
-            var test1 = style1[0];
-            Assert.AreEqual("color", test1);
-            Assert.AreEqual("rgb(255, 0, 0)", style1.GetPropertyValue(test1));
-
-            var style2 = (elements[1] as IHtmlElement).Style;
-            Assert.AreEqual(1, style2.Count());
-
-            var test2 = style2[0];
-            Assert.AreEqual("color", test2);
-            Assert.AreEqual("rgb(255, 0, 0)", style2.GetPropertyValue(test2));
-
-            var style3 = (elements[2] as IHtmlElement).Style;
-            Assert.AreEqual(1, style3.Count());
-
-            var test3 = style3[0];
-            Assert.AreEqual("color", test3);
-            Assert.AreEqual("rgb(255, 0, 0)", style3.GetPropertyValue(test3));
-
-            var style4 = (elements[3] as IHtmlElement).Style;
-            Assert.AreEqual(2, style4.Count());
-
-            var background = style4[0];
-            Assert.AreEqual("background-color", background);
-            Assert.AreEqual("rgb(0, 0, 255)", style4.GetPropertyValue(background));
-
-            var color = style4[1];
-            Assert.AreEqual("color", color);
-            Assert.AreEqual("rgb(255, 0, 0)", style4.GetPropertyValue(color));
-        }
-
-        [Test]
         public void ExtensionTextWithEmptyList()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Text("test");
             Assert.AreEqual(0, elements.Count());
         }
@@ -518,7 +418,7 @@
         [Test]
         public void ExtensionTextWithOneElement()
         {
-            var document = Html("<ul><li>First element");
+            var document = ("<ul><li>First element").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Text("test");
             Assert.AreEqual(1, elements.Count());
 
@@ -530,7 +430,7 @@
         [Test]
         public void ExtensionTextWithMultipleElements()
         {
-            var document = Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+            var document = ("<ul><li>First element<li>Second element<li>third<li class=bla>Last").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Text("test");
             Assert.AreEqual(4, elements.Count());
 
@@ -562,7 +462,7 @@
         [Test]
         public void ExtensionHtmlWithEmptyList()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Html("<p>Some paragraph</p>");
             Assert.AreEqual(0, elements.Count());
         }
@@ -570,7 +470,7 @@
         [Test]
         public void ExtensionHtmlWithOneElement()
         {
-            var document = Html("<ul><li>First element");
+            var document = ("<ul><li>First element").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
             Assert.AreEqual(1, elements.Count());
 
@@ -595,7 +495,7 @@
         [Test]
         public void ExtensionHtmlWithMultipleElements()
         {
-            var document = Html("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+            var document = ("<ul><li>First element<li>Second element<li>third<li class=bla>Last").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
             Assert.AreEqual(4, elements.Count());
 
@@ -622,7 +522,7 @@
         [Test]
         public void ExtensionHtmlWithMultipleNestedElements()
         {
-            var document = Html("<ul><li>First element</li><li>Second element</li><li>third</li><li class=bla><ul><li>First nested</li><li>Second nested</li><li><ul><li>Last nesting level</li></ul></li></ul></li>");
+            var document = ("<ul><li>First element</li><li>Second element</li><li>third</li><li class=bla><ul><li>First nested</li><li>Second nested</li><li><ul><li>Last nesting level</li></ul></li></ul></li>").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
             Assert.AreEqual(8, elements.Count());
 
@@ -671,7 +571,7 @@
         [Test]
         public void LinqOnChildrenOfQuerySelectorToCollection()
         {
-            var document = Html("<body><ul><li><li class=foo><li><li class=bar><li>");
+            var document = ("<body><ul><li><li class=foo><li><li class=bar><li>").ToHtmlDocument();
             var elements = document.QuerySelectorAll("li").Where(m => String.IsNullOrEmpty(m.ClassName)).ToCollection();
             Assert.AreEqual(3, elements.Length);
             Assert.AreNotEqual("foo", elements[1].ClassName);
@@ -680,7 +580,7 @@
         [Test]
         public void LinqWithChildrenToCollectionStaysLive()
         {
-            var document = Html("<body><ul><li><li class=foo><li><li class=bar><li>");
+            var document = ("<body><ul><li><li class=foo><li><li class=bar><li>").ToHtmlDocument();
             var list = document.Body.Children[0];
             var elements = list.Children.Where(m => String.IsNullOrEmpty(m.ClassName)).ToCollection();
             Assert.AreEqual(3, elements.Length);
@@ -691,7 +591,7 @@
         [Test]
         public void ClearAllAttributesOnSingleElementWorks()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var element = document.QuerySelector("#first");
             Assert.AreEqual(2, element.Attributes.Length);
             element.ClearAttr();
@@ -701,7 +601,7 @@
         [Test]
         public void ClearAllAttributesOnMultipleElementsWorks()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var elements = document.QuerySelectorAll("span");
 
             foreach (var element in elements)
@@ -720,7 +620,7 @@
         [Test]
         public void RemoveExistingAttributeYieldsTrue()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var element = document.QuerySelector("#first");
             Assert.AreEqual(2, element.Attributes.Length);
             var result = element.RemoveAttribute("foo");
@@ -731,7 +631,7 @@
         [Test]
         public void RemoveNonExistingAttributeYieldsFalse()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var element = document.QuerySelector("#first");
             Assert.AreEqual(2, element.Attributes.Length);
             var result = element.RemoveAttribute("bar");
@@ -742,7 +642,7 @@
         [Test]
         public void ClearAllAttributesDirectlyWorks()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var element = document.QuerySelector("#first");
             Assert.AreEqual(2, element.Attributes.Length);
             element.Attributes.Clear();
@@ -752,7 +652,7 @@
         [Test]
         public void RemoveExistingAttributeWithNamespaceYieldsTrue()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var element = document.QuerySelector("#second");
             Assert.AreEqual(1, element.Attributes.Length);
             element.SetAttribute("http://my-namespace", "foo", "bar");
@@ -765,7 +665,7 @@
         [Test]
         public void RemoveNonExistingAttributeWithNamespaceYieldsFalse()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var element = document.QuerySelector("#second");
             Assert.AreEqual(1, element.Attributes.Length);
             element.SetAttribute("http://my-namespace", "foo", "bar");
@@ -778,7 +678,7 @@
         [Test]
         public void ClearAllAttributesOnEmptyCollectionThrowsNoError()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var elements = document.QuerySelectorAll("div");
             Assert.AreEqual(0, elements.Length);
             elements.ClearAttr();
@@ -787,7 +687,7 @@
         [Test]
         public void EmptyOnASingleElementRemovesChildren()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var element = document.QuerySelector("#first");
             Assert.AreEqual(1, element.ChildNodes.Length);
             element.Empty();
@@ -797,7 +697,7 @@
         [Test]
         public void EmptyOnCollectionWithItselfNestedWorks()
         {
-            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var document = ("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>").ToHtmlDocument();
             var elements = document.QuerySelectorAll("span");
             var count = document.All.Length;
             elements.Empty();

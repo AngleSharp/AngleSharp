@@ -1,17 +1,15 @@
 ﻿namespace AngleSharp.Performance.Html
 {
-    using AngleSharp;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     class StatisticParser : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration();
-        static readonly HtmlParser parser = new HtmlParser(configuration);
+        private static readonly HtmlParser parser = new HtmlParser();
 
-        readonly Dictionary<String, Int32> _bins = new Dictionary<String, Int32>();
+        private readonly Dictionary<String, Int32> _bins = new Dictionary<String, Int32>();
 
         public String Name
         {
@@ -25,7 +23,7 @@
 
         public void Run(String source)
         {
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
 
             foreach (var element in document.All)
             {
@@ -44,7 +42,9 @@
             Console.WriteLine("---------------");
 
             foreach (var element in _bins.OrderByDescending(m => m.Value))
+            {
                 Console.WriteLine("{0}. {1} ( {2} )", index++, element.Key, element.Value);
+            }
         }
     }
 }

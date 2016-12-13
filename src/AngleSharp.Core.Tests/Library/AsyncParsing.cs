@@ -1,9 +1,7 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
-    using AngleSharp.Parser.Css;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
     using System.Text;
     using System.Threading.Tasks;
@@ -12,30 +10,13 @@
     public class AsyncParsingTests
     {
         [Test]
-        public async Task TestAsyncCssParsingFromStream()
-        {
-            var text = "h1 { color: red; } h2 { color: blue; } p { font-family: Arial; } div { margin: 10 }";
-            var source = new DelayedStream(Encoding.UTF8.GetBytes(text));
-            var parser = new CssParser(Configuration.Default);
-
-            using (var task = parser.ParseStylesheetAsync(source))
-            {
-                Assert.IsFalse(task.IsCompleted);
-                var result = await task;
-
-                Assert.IsTrue(task.IsCompleted);
-                Assert.AreEqual(4, result.Rules.Length);
-            }
-        }
-
-        [Test]
         public async Task TestAsyncHtmlParsingFromStream()
         {
             var text = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
             var source = new DelayedStream(Encoding.UTF8.GetBytes(text));
-            var parser = new HtmlParser(Configuration.Default);
+            var parser = new HtmlParser();
 
-            using (var task = parser.ParseAsync(source))
+            using (var task = parser.ParseDocumentAsync(source))
             {
                 Assert.IsFalse(task.IsCompleted);
                 var result = await task;
@@ -48,28 +29,12 @@
         }
 
         [Test]
-        public async Task TestAsyncCssParsingFromString()
-        {
-            var source = "h1 { color: red; } h2 { color: blue; } p { font-family: Arial; } div { margin: 10 }";
-            var parser = new CssParser(Configuration.Default);
-
-            using (var task = parser.ParseStylesheetAsync(source))
-            {
-                Assert.IsTrue(task.IsCompleted);
-                var result = await task;
-
-                Assert.AreEqual(result, result);
-                Assert.AreEqual(4, result.Rules.Length);
-            }
-        }
-
-        [Test]
         public async Task TestAsyncHtmlParsingFromString()
         {
             var source = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
-            var parser = new HtmlParser(Configuration.Default);
+            var parser = new HtmlParser();
 
-            using (var task = parser.ParseAsync(source))
+            using (var task = parser.ParseDocumentAsync(source))
             {
                 Assert.IsTrue(task.IsCompleted);
                 var result = await task;

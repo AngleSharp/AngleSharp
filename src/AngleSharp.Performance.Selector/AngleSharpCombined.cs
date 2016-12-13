@@ -1,13 +1,11 @@
 ﻿namespace AngleSharp.Performance.Selector
 {
-    using AngleSharp;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using System;
 
     class AngleSharpParser : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration();
-        static readonly HtmlParser parser = new HtmlParser(configuration);
+        private static readonly HtmlParser parser = new HtmlParser();
 
         public String Name
         {
@@ -21,7 +19,7 @@
 
         public void Run(String source)
         {
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             // Even using two kinds of selectors -- measure perf.
             document.QuerySelectorAll("a[href]");
             document.QuerySelectorAll("div > p > a");

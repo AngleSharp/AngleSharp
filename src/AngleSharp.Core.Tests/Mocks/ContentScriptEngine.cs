@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
-    using AngleSharp.Services.Scripting;
+    using AngleSharp.Io;
+    using AngleSharp.Scripting;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
 
-    class ContentScriptEngine : IScriptEngine
+    class ContentScriptEngine : IScriptingService
     {
         private readonly List<Tuple<String, ScriptOptions>> _requests;
         private readonly String _type; 
@@ -19,11 +19,11 @@
             _type = type ?? MimeTypeNames.DefaultJavaScript;
         }
 
-        public String Type
+        public Boolean SupportsType(String mimeType)
         {
-            get { return _type; }
+            return mimeType.Equals(_type, StringComparison.OrdinalIgnoreCase);
         }
-
+        
         public List<Tuple<String, ScriptOptions>> Requests
         {
             get { return _requests; }

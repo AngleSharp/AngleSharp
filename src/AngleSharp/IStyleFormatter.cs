@@ -16,13 +16,6 @@
         String Sheet(IEnumerable<IStyleFormattable> rules);
 
         /// <summary>
-        /// Concats the given rules to create a block serialization.
-        /// </summary>
-        /// <param name="rules">The rules to aggregate.</param>
-        /// <returns>The serialization of the CSS rule block.</returns>
-        String Block(IEnumerable<IStyleFormattable> rules);
-
-        /// <summary>
         /// Creates the serialization of a declaration with the given name,
         /// value and important flag.
         /// </summary>
@@ -38,26 +31,7 @@
         /// </summary>
         /// <param name="declarations">The declarations to aggregate.</param>
         /// <returns>The serialization of the declarations.</returns>
-        String Declarations(IEnumerable<String> declarations);
-
-        /// <summary>
-        /// Serializes a CSS medium with the provided properties.
-        /// </summary>
-        /// <param name="exclusive">Is the medium exclusive (only)?</param>
-        /// <param name="inverse">Is the medium inverse (not)?</param>
-        /// <param name="type">The type of the medium.</param>
-        /// <param name="constraints">The constraints to use.</param>
-        /// <returns>The serialization of the medium.</returns>
-        String Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<IStyleFormattable> constraints);
-
-        /// <summary>
-        /// Creates the serialization of the constraint with the provided name
-        /// and value, if any.
-        /// </summary>
-        /// <param name="name">The name of the constraint.</param>
-        /// <param name="value">The optional value of the constraint.</param>
-        /// <returns>The serialization of the constraint.</returns>
-        String Constraint(String name, String value);
+        String BlockDeclarations(IEnumerable<IStyleFormattable> declarations);
 
         /// <summary>
         /// Converts the name and value of the provided rule to a simple rule.
@@ -78,13 +52,11 @@
         String Rule(String name, String prelude, String rules);
 
         /// <summary>
-        /// Creates the serialized form of a style rule for the given selector
-        /// with the provided rules.
+        /// Concats the given rules to create a block serialization.
         /// </summary>
-        /// <param name="selector">The selector to use.</param>
-        /// <param name="rules">The plain rules contained in the style.</param>
-        /// <returns>The serialization of the style rule.</returns>
-        String Style(String selector, IStyleFormattable rules);
+        /// <param name="rules">The rules to aggregate.</param>
+        /// <returns>The serialization of the CSS rule block.</returns>
+        String BlockRules(IEnumerable<IStyleFormattable> rules);
 
         /// <summary>
         /// Creates a serialization of a comment with the provided data.

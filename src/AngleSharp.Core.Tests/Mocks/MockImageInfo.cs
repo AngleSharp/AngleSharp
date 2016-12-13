@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Services.Media;
+    using AngleSharp.Media;
     using System;
 
     class MockImageInfo : IImageInfo

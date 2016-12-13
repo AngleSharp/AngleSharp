@@ -1,23 +1,29 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
-    using AngleSharp.Services.Scripting;
+    using AngleSharp.Io;
+    using AngleSharp.Scripting;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
-    class CallbackScriptEngine : IScriptEngine
+    class CallbackScriptEngine : IScriptingService
     {
+        private String _type;
+
         public CallbackScriptEngine(Action<ScriptOptions> callback, String type = null)
         {
             Callback = callback;
-            Type = type ?? "c-sharp";
+            _type = type ?? "c-sharp";
         }
 
         public String Type
         {
-            get;
-            private set;
+            get { return _type; }
+        }
+
+        public Boolean SupportsType(String mimeType)
+        {
+            return mimeType.Equals(_type, StringComparison.OrdinalIgnoreCase);
         }
 
         public Action<ScriptOptions> Callback
@@ -29,7 +35,6 @@
         public Task EvaluateScriptAsync(IResponse response, ScriptOptions options, CancellationToken cancel)
         {
             Callback?.Invoke(options);
-
             return Task.FromResult(true);
         }
     }

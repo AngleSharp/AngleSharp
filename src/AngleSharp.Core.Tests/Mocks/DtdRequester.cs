@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests
 {
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
@@ -11,9 +10,9 @@
     /// <summary>
     /// Requests a DTD file from an embedded resource.
     /// </summary>
-    public class DtdRequester : IRequester
+    public class DtdRequester : BaseRequester
     {
-        public IResponse Request(IRequest request)
+        public IResponse Request(Request request)
         {
             var name = request.Address.Path;
             var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("AngleSharp.Core.Tests.Resources." + name);
@@ -21,15 +20,15 @@
             if (stream == null)
                 throw new ArgumentException("The DTD " + name + " could not be found! Check the name and the availability of this DTD.");
 
-            return new Response { Content = stream };
+            return new DefaultResponse { Content = stream };
         }
 
-        public Task<IResponse> RequestAsync(IRequest request)
+        public Task<IResponse> RequestAsync(Request request)
         {
             return RequestAsync(request, CancellationToken.None);
         }
 
-        public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
+        protected override Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancellationToken)
         {
             return Task.Run(() => Request(request));
         }
@@ -46,7 +45,7 @@
             set;
         }
 
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return true;
         }

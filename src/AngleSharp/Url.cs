@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -14,10 +14,10 @@
     {
         #region Fields
 
-        private static readonly String currentDirectory = ".";
-        private static readonly String currentDirectoryAlternative = "%2e";
-        private static readonly String upperDirectory = "..";
-        private static readonly String[] upperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
+        private static readonly String CurrentDirectory = ".";
+        private static readonly String CurrentDirectoryAlternative = "%2e";
+        private static readonly String UpperDirectory = "..";
+        private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
         private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
 
         private String _fragment;
@@ -132,7 +132,7 @@
                 }
                 else if (ProtocolNames.IsOriginable(_scheme))
                 {
-                    var output = Pool.NewStringBuilder();
+                    var output = StringBuilderPool.Obtain();
 
                     if (!String.IsNullOrEmpty(_host))
                     {
@@ -370,7 +370,7 @@
         /// <returns>The string that equals the hyper reference.</returns>
         private String Serialize()
         {
-            var output = Pool.NewStringBuilder();
+            var output = StringBuilderPool.Obtain();
 
             if (!String.IsNullOrEmpty(_scheme))
             {
@@ -515,7 +515,7 @@
 
         private Boolean ParseSchemeData(String input, Int32 index)
         {
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
 
             while (index < input.Length)
             {
@@ -627,7 +627,7 @@
         private Boolean ParseAuthority(String input, Int32 index)
         {
             var start = index;
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
             var user = default(String);
             var pass = default(String);
 
@@ -839,7 +839,7 @@
             }
 
             var originalCount = paths.Count;
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
 
             while (index <= input.Length)
             {
@@ -852,18 +852,18 @@
                     var close = false;
                     buffer.Clear();
 
-                    if (path.Isi(currentDirectoryAlternative))
+                    if (path.Isi(CurrentDirectoryAlternative))
                     {
-                        path = currentDirectory;
+                        path = CurrentDirectory;
                     }
-                    else if (path.Isi(upperDirectoryAlternatives[0]) || 
-                             path.Isi(upperDirectoryAlternatives[1]) || 
-                             path.Isi(upperDirectoryAlternatives[2]))
+                    else if (path.Isi(UpperDirectoryAlternatives[0]) || 
+                             path.Isi(UpperDirectoryAlternatives[1]) || 
+                             path.Isi(UpperDirectoryAlternatives[2]))
                     {
-                        path = upperDirectory;
+                        path = UpperDirectory;
                     }
 
-                    if (path.Is(upperDirectory))
+                    if (path.Is(UpperDirectory))
                     {
                         if (paths.Count > 0)
                         {
@@ -872,7 +872,7 @@
 
                         close = true;
                     }
-                    else if (!path.Is(currentDirectory))
+                    else if (!path.Is(CurrentDirectory))
                     {
                         if (_scheme.Is(ProtocolNames.File) && 
                             paths.Count == originalCount && 
@@ -944,7 +944,7 @@
 
         private Boolean ParseQuery(String input, Int32 index, Boolean onlyQuery = false)
         {
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
             var fragment = false;
 
             while (index < input.Length)
@@ -975,7 +975,7 @@
 
         private Boolean ParseFragment(String input, Int32 index)
         {
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
 
             while (index < input.Length)
             {
@@ -1048,6 +1048,8 @@
                     case Symbols.SquareBracketClose:
                     case Symbols.ReverseSolidus:
                         break;
+                    case Symbols.Minus:
+                    case Symbols.Underscore:
                     case Symbols.Dot:
                         chars[count++] = (Byte)hostName[i];
                         break;
@@ -1067,7 +1069,7 @@
                     default:
                         var chr = Symbols.Null;
 
-                        if (Symbols.Punycode.TryGetValue(hostName[i], out chr))
+                        if (Punycode.Symbols.TryGetValue(hostName[i], out chr))
                         {
                             chars[count++] = (Byte)chr;
                         }
@@ -1075,7 +1077,7 @@
                         {
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
 
-                            if (l == 1 && hostName[i] != Symbols.Minus && !Char.IsLetterOrDigit(hostName[i]))
+                            if (l == 1 && !Char.IsLetterOrDigit(hostName[i]))
                             {
                                 break;
                             }

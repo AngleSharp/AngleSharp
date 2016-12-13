@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
@@ -7,26 +7,9 @@
     [TestFixture]
     public class CssSelectorTests
     {
-        IDocument document;
-
-        [SetUp]
-        public void Setup()
+        private static IHtmlCollection<IElement> RunQuery(String query)
         {
-            document = Assets.selectors.ToHtmlDocument();
-        }
-
-        string GetAttributeValue(INode node, String attrName)
-        {
-            var element = node as IElement;
-
-            if (element != null)
-                return element.GetAttribute(attrName);
-
-            return null;
-        }
-
-        IHtmlCollection<IElement> RunQuery(String query)
-        {
+            var document = Assets.selectors.ToHtmlDocument();
             return document.QuerySelectorAll(query);
         }
 
@@ -35,6 +18,19 @@
         {
             Assert.AreEqual(7, RunQuery("*:first-child").Length);
             Assert.AreEqual(1, RunQuery("p:first-child").Length);
+        }
+        
+        [Test]
+        public void StrangeDashSelector()
+        {
+            var source = @"<ul>
+  <li id=""-a-b-c-"">The background of this list item should be green</li>
+  <li>The background of this second list item should be also green</li>
+</ul>";
+            var doc = source.ToHtmlDocument();
+
+            var selector = doc.QuerySelectorAll("#-a-b-c-");
+            Assert.AreEqual(1, selector.Length);
         }
 
         [Test]
@@ -565,8 +561,21 @@
         {
             var results = RunQuery("p[class!='hiclass']");
             Assert.AreEqual(2, results.Length);
-            Assert.IsNull(GetAttributeValue(results[0], "class"));
+            var value = ((IElement)results[0]).GetAttribute("class");
+            Assert.IsNull(value);
             Assert.AreEqual("eeeee", results[1].TextContent);
+        }
+        
+        [Test]
+        public void ScopeSelectorChild()
+        {
+            var source = @"<p>First paragraph</p><div><p>Hello in a paragraph</p></div>";
+
+            var document = source.ToHtmlDocument();
+            var selector = ":scope > p";
+            var result = document.Body.Children[1].QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(document.Body.ChildNodes[1].ChildNodes[0], result[0]);
         }
 
         [Test]
@@ -580,6 +589,42 @@
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual(document.Body.ChildNodes[0], result[0]);
+        }
+
+        [Test]
+        public void HasSelectorChild()
+        {
+            var source = @"<div><div><p>Hello in a paragraph</p></div></div>";
+
+            var document = source.ToHtmlDocument();
+            var selector = "div:has(> p)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(document.Body.ChildNodes[0].ChildNodes[0], result[0]);
+        }
+
+        [Test]
+        public void HasSelectorFollowing()
+        {
+            var source = @"<div><div><p>Hello in a paragraph</p><p>Another paragraph</p></div></div>";
+
+            var document = source.ToHtmlDocument();
+            var selector = "p:has(+ p)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(document.Body.ChildNodes[0].ChildNodes[0].ChildNodes[0], result[0]);
+        }
+
+        [Test]
+        public void HasSelectorFollowingWithoutRelative()
+        {
+            var source = @"<div></div><div><p>Hello in a paragraph</p><p>Another paragraph</p></div>";
+
+            var document = source.ToHtmlDocument();
+            var selector = "div:has(p + p)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(document.Body.ChildNodes[1], result[0]);
         }
 
         [Test]
@@ -714,10 +759,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var document = source.ToHtmlDocument();
             var selector = "span:nth-child(10n+-1) ";
 
-            Assert.Catch<DomException>(() =>
-            {
-                var result = document.QuerySelectorAll(selector);
-            });
+            Assert.Catch<DomException>(() => document.QuerySelectorAll(selector));
         }
 
         [Test]

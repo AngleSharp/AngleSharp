@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using System;
     using System.Globalization;
 
@@ -17,30 +17,13 @@
 
         #region Methods
 
-        public override void Check(ValidityState state)
+        public override ValidationErrors Check(IValidityState current)
         {
             var value = Input.Value;
             var date = ConvertFromDateTime(value);
-
-            if (date.HasValue)
-            {
-                var min = ConvertFromDateTime(Input.Minimum);
-                var max = ConvertFromDateTime(Input.Maximum);
-
-                state.IsRangeUnderflow = min.HasValue && date < min.Value;
-                state.IsRangeOverflow = max.HasValue && date > max.Value;
-                state.IsValueMissing = false;
-                state.IsBadInput = false;
-                state.IsStepMismatch = IsStepMismatch();
-            }
-            else
-            {
-                state.IsRangeUnderflow = false;
-                state.IsRangeOverflow = false;
-                state.IsStepMismatch = false;
-                state.IsValueMissing = Input.IsRequired;
-                state.IsBadInput = !String.IsNullOrEmpty(value);
-            }
+            var min = ConvertFromDateTime(Input.Minimum);
+            var max = ConvertFromDateTime(Input.Maximum);
+            return CheckTime(current, value, date, min, max);
         }
 
         public override Double? ConvertToNumber(String value)
@@ -122,9 +105,12 @@
 
                 if (PositionIsValidForDateTime(value, position))
                 {
-                    var year = Int32.Parse(value.Substring(0, position));
-                    var month = Int32.Parse(value.Substring(position + 1, 2));
-                    var day = Int32.Parse(value.Substring(position + 4, 2));
+                    var yearString = value.Substring(0, position);
+                    var year = Int32.Parse(yearString, CultureInfo.InvariantCulture);
+                    var monthString = value.Substring(position + 1, 2);
+                    var month = Int32.Parse(monthString, CultureInfo.InvariantCulture);
+                    var dayString = value.Substring(position + 4, 2);
+                    var day = Int32.Parse(dayString, CultureInfo.InvariantCulture);
                     position += 6;
 
                     if (IsLegalDay(day, month, year) && IsTimeSeparator(value[position]))

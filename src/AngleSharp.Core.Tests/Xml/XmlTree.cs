@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Xml
 {
-    using AngleSharp.Parser.Xml;
+    using AngleSharp.Xml.Parser;
     using NUnit.Framework;
 
     [TestFixture]

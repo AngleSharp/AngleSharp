@@ -1,26 +1,26 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
-    sealed class VirtualRequester : IRequester
+    sealed class VirtualRequester : BaseRequester
     {
-        private readonly Func<IRequest, IResponse> _onRequest;
+        private readonly Func<Request, IResponse> _onRequest;
 
-        public VirtualRequester(Func<IRequest, IResponse> onRequest)
+        public VirtualRequester(Func<Request, IResponse> onRequest)
         {
             _onRequest = onRequest;
         }
 
-        public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel)
+        protected override Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancel)
         {
             var response = _onRequest.Invoke(request);
             return Task.FromResult(response);
         }
 
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return true;
         }

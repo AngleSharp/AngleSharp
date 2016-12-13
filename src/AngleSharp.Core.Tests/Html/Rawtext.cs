@@ -1,4 +1,4 @@
-namespace AngleSharp.Core.Tests
+namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
@@ -578,7 +578,8 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NoScriptTriggersRawtextMode()
         {
-            var doc = (@"<noscript><!--</noscript>--></noscript>").ToHtmlDocument(Configuration.Default.With(new EnableScripting()));
+            var config = Configuration.Default.WithScripting();
+            var doc = (@"<noscript><!--</noscript>--></noscript>").ToHtmlDocument(config);
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

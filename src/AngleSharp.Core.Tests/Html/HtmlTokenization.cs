@@ -1,7 +1,9 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Html;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
+    using AngleSharp.Html.Parser.Tokens;
+    using AngleSharp.Text;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -15,7 +17,7 @@
     {
         private static HtmlTokenizer CreateTokenizer(TextSource source)
         {
-            return new HtmlTokenizer(source, HtmlEntityService.Resolver);
+            return new HtmlTokenizer(source, HtmlEntityProvider.Resolver);
         }
 
         [Test]
