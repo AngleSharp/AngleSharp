@@ -347,10 +347,11 @@
             foreach (var service in services)
             {
                 var otherCulture = service.Culture;
-                var otherTwoLetters = otherCulture.TwoLetterISOLanguageName;
 
                 if (otherCulture != null)
                 {
+                    var otherTwoLetters = otherCulture.TwoLetterISOLanguageName;
+
                     if (otherCulture.Equals(culture))
                     {
                         return service;

@@ -84,7 +84,7 @@
                     _relList.Changed += value => UpdateAttribute(AttributeNames.Rel, value);
                 }
 
-                return _relList; 
+                return _relList;
             }
         }
 
@@ -98,7 +98,7 @@
                     _sizes.Changed += value => UpdateAttribute(AttributeNames.Sizes, value);
                 }
 
-                return _sizes; 
+                return _sizes;
             }
         }
 
@@ -140,8 +140,8 @@
 
         public IStyleSheet Sheet
         {
-            get 
-            { 
+            get
+            {
                 var sheetRelation = _relation as StyleSheetLinkRelation;
                 return sheetRelation?.Sheet;
             }
@@ -227,7 +227,7 @@
 
             foreach (var relation in relations)
             {
-                var rel = factory.Create(this, relation);
+                var rel = factory?.Create(this, relation);
 
                 if (rel != null)
                 {
