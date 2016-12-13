@@ -123,6 +123,18 @@
         }
 
         [Test]
+        public void XmlTokenizerNumericCharacterReferences()
+        {
+            var s = new TextSource("test&#97;&#x62;\r");
+            var t = CreateTokenizer(s);
+            var test = t.Get();
+            var end = t.Get();
+            Assert.AreEqual(XmlTokenType.Character, test.Type);
+            Assert.AreEqual("testab\n", ((XmlCharacterToken)test).Data);
+            Assert.AreEqual(XmlTokenType.EndOfFile, end.Type);
+        }
+
+        [Test]
         public void XmlTokenizerStringAndTagToken()
         {
             var s = new TextSource("<foo>test</bar>");
