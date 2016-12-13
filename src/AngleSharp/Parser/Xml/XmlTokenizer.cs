@@ -217,7 +217,7 @@
 
                 if (numeric)
                 {
-                    var number = numeric ? content.FromHex() : content.FromDec();
+                    var number = hex ? content.FromHex() : content.FromDec();
 
                     if (number.IsValidAsCharRef())
                     {
@@ -1008,7 +1008,7 @@
                 do c = GetNext();
                 while (c.IsSpaceCharacter());
             }
-            
+
             if (c != Symbols.Equality)
                 throw XmlParseError.XmlInvalidAttribute.At(GetCurrentPosition());
 
@@ -1215,7 +1215,7 @@
             {
                 return CommentEnd();
             }
-            
+
             return Comment(c);
         }
 
