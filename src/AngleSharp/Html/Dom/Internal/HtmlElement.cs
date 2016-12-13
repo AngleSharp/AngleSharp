@@ -583,13 +583,13 @@
             {
                 parent = parent.ParentElement;
             }
-            
+
             if (parent == null)
             {
                 var formid = this.GetOwnAttribute(AttributeNames.Form);
                 var owner = Owner;
 
-                if (owner == null || parent != null || String.IsNullOrEmpty(formid))
+                if (owner == null || String.IsNullOrEmpty(formid))
                 {
                     return null;
                 }
