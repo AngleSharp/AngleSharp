@@ -1524,7 +1524,7 @@
             }
         }
 
-        private async void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
+        private async void LocationChanged(Object sender, Location.ChangedEventArgs e)
         {
             if (e.IsHashChanged)
             {
@@ -1533,11 +1533,15 @@
                 ev.IsTrusted = true;
                 ev.Dispatch(this);
             }
-            else
+            else if (!e.IsReloaded)
             {
                 var url = new Url(e.CurrentLocation);
                 var request = DocumentRequest.Get(url, source: this, referer: DocumentUri);
                 await _context.OpenAsync(request, CancellationToken.None);
+            }
+            else
+            {
+                //TODO perform reload
             }
         }
 

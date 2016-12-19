@@ -218,14 +218,14 @@
                 if (numeric)
                 {
                     var content = StringBuffer.ToString(start, length);
-                    var number = numeric ? content.FromHex() : content.FromDec();
+                    var number = hex ? content.FromHex() : content.FromDec();
 
                     if (number.IsValidAsCharRef())
                     {
                         StringBuffer.Remove(start, length);
                         return number.ConvertFromUtf32();
                     }
-                    
+
                     StringBuffer.Append(c);
                 }
                 else
@@ -1011,7 +1011,7 @@
                 do c = GetNext();
                 while (c.IsSpaceCharacter());
             }
-            
+
             if (c != Symbols.Equality)
                 throw XmlParseError.XmlInvalidAttribute.At(GetCurrentPosition());
 
@@ -1218,7 +1218,7 @@
             {
                 return CommentEnd();
             }
-            
+
             return Comment(c);
         }
 

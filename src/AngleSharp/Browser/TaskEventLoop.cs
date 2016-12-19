@@ -125,13 +125,13 @@
 
             public Boolean IsRunning
             {
-                get 
-                { 
+                get
+                {
                     return _task != null &&
-                           _task.Status == TaskStatus.Running || 
-                           _task.Status == TaskStatus.WaitingForActivation || 
+                           (_task.Status == TaskStatus.Running ||
+                           _task.Status == TaskStatus.WaitingForActivation ||
                            _task.Status == TaskStatus.WaitingToRun ||
-                           _task.Status == TaskStatus.WaitingForChildrenToComplete; 
+                           _task.Status == TaskStatus.WaitingForChildrenToComplete);
                 }
             }
 
