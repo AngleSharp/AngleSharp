@@ -16,16 +16,11 @@
 
         #region Events
 
-        public event EventHandler<LocationChangedEventArgs> Changed;
+        public event EventHandler<ChangedEventArgs> Changed;
 
         #endregion
 
         #region ctor
-
-        internal Location()
-            : this(String.Empty)
-        {
-        }
 
         internal Location(String url)
             : this(new Url(url))
@@ -87,10 +82,10 @@
                     }
                 }
 
-                if (value != _url.Fragment)
+                if (!value.Is(_url.Fragment))
                 { 
                     _url.Fragment = value; 
-                    RaiseChanged(old, true);
+                    RaiseHashChanged(old);
                 } 
             }
         }
@@ -102,10 +97,10 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Host)
+                if (!value.Isi(_url.Host))
                 {
                     _url.Host = value;
-                    RaiseChanged(old, false);
+                    RaiseLocationChanged(old);
                 }
             }
         }
@@ -117,10 +112,10 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.HostName)
+                if (!value.Isi(_url.HostName))
                 {
                     _url.HostName = value;
-                    RaiseChanged(old, false);
+                    RaiseLocationChanged(old);
                 }
             }
         }
@@ -132,10 +127,10 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Href)
+                if (!value.Is(_url.Href))
                 {
                     _url.Href = value;
-                    RaiseChanged(old, false);
+                    RaiseLocationChanged(old);
                 }
             }
         }
@@ -151,10 +146,10 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Path)
+                if (!value.Is(_url.Path))
                 {
                     _url.Path = value;
-                    RaiseChanged(old, false);
+                    RaiseLocationChanged(old);
                 }
             }
         }
@@ -166,10 +161,10 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Port)
+                if (!value.Isi(_url.Port))
                 {
                     _url.Port = value;
-                    RaiseChanged(old, false);
+                    RaiseLocationChanged(old);
                 }
             }
         }
@@ -181,10 +176,10 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Scheme)
+                if (!value.Isi(_url.Scheme))
                 {
                     _url.Scheme = value;
-                    RaiseChanged(old, false);
+                    RaiseLocationChanged(old);
                 }
             }
         }
@@ -196,10 +191,10 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Query)
+                if (!value.Is(_url.Query))
                 {
                     _url.Query = value;
-                    RaiseChanged(old, false);
+                    RaiseLocationChanged(old);
                 }
             }
         }
@@ -210,17 +205,30 @@
 
         public void Assign(String url)
         {
-            _url.Href = url;
+            var old = _url.Href;
+
+            if (!old.Is(url))
+            {
+                _url.Href = url;
+                RaiseLocationChanged(old);
+            }
         }
 
         public void Replace(String url)
         {
-            _url.Href = url;
+            var old = _url.Href;
+
+            if (!old.Is(url))
+            {
+                _url.Href = url;
+                RaiseLocationChanged(old);
+            }
         }
 
         public void Reload()
         {
-            _url.Href = Href;
+            var href = _url.Href;
+            Changed?.Invoke(this, new ChangedEventArgs(false, href, href));
         }
 
         public override String ToString()
@@ -232,9 +240,14 @@
 
         #region Helpers
 
-        private void RaiseChanged(String oldAddress, Boolean hashChanged)
+        private void RaiseHashChanged(String oldAddress)
         {
-            Changed?.Invoke(this, new LocationChangedEventArgs(hashChanged, oldAddress, _url.Href));
+            Changed?.Invoke(this, new ChangedEventArgs(true, oldAddress, _url.Href));
+        }
+
+        private void RaiseLocationChanged(String oldAddress)
+        {
+            Changed?.Invoke(this, new ChangedEventArgs(false, oldAddress, _url.Href));
         }
 
         private static String NonEmptyPrefix(String check, String prefix)
@@ -251,13 +264,18 @@
 
         #region Event Arguments
 
-        public sealed class LocationChangedEventArgs : EventArgs
+        public sealed class ChangedEventArgs : EventArgs
         {
-            public LocationChangedEventArgs(Boolean hashChanged, String previousLocation, String currentLocation)
+            public ChangedEventArgs(Boolean hashChanged, String previousLocation, String currentLocation)
             {
                 IsHashChanged = hashChanged;
                 PreviousLocation = previousLocation;
                 CurrentLocation = currentLocation;
+            }
+
+            public Boolean IsReloaded
+            {
+                get { return PreviousLocation.Is(CurrentLocation); }
             }
 
             public Boolean IsHashChanged
