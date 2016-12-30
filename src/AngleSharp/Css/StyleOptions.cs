@@ -9,12 +9,20 @@
     public sealed class StyleOptions
     {
         /// <summary>
-        /// Creates new style options for the given context.
+        /// Creates new style options for the given document.
         /// </summary>
-        /// <param name="context">The context to use.</param>
-        public StyleOptions(IBrowsingContext context)
+        /// <param name="document">The document to use.</param>
+        public StyleOptions(IDocument document)
         {
-            Context = context;
+            Document = document;
+        }
+
+        /// <summary>
+        /// Gets the parent document for hosting the style sheet.
+        /// </summary>
+        public IDocument Document
+        {
+            get;
         }
 
         /// <summary>
@@ -42,15 +50,6 @@
         {
             get;
             set;
-        }
-
-        /// <summary>
-        /// Gets the current browsing context.
-        /// </summary>
-        public IBrowsingContext Context
-        {
-            get;
-            private set;
         }
     }
 }

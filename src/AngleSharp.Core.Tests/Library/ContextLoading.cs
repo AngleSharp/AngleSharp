@@ -10,6 +10,7 @@
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Net.Http;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -413,6 +414,29 @@
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
             Assert.IsInstanceOf<HtmlDocument>(document);
+        }
+
+        [Test]
+        public async Task LoadingResourcesFromAStreamShouldNotFail()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var uri = "http://imama.shop.by/kolyaski/detskaya_kolyaska_tutis_zippy_2_v_1_cvet_12_shokoladnyy223222222/";
+                var config = Configuration.Default.WithDefaultLoader(s => s.IsResourceLoadingEnabled = true);
+
+                var req = new HttpClient();
+                var message = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, uri);
+
+                using (var response = await req.SendAsync(message))
+                {
+                    if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var stream = await response.Content.ReadAsStreamAsync();
+                        var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(stream).Address(uri));
+                        Assert.IsNotNull(document);
+                    }
+                }
+            }
         }
     }
 }

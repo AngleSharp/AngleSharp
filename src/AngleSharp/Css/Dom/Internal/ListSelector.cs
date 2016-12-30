@@ -31,7 +31,7 @@
         {
             var parts = new String[_selectors.Count];
 
-            for (var i = 1; i < _selectors.Count; i++)
+            for (var i = 0; i < _selectors.Count; i++)
             {
                 parts[i] = _selectors[i].Text;
             }

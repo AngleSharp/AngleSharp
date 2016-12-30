@@ -1,14 +1,12 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Common;
-    using AngleSharp.Css;
-    using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom.Events;
     using AngleSharp.Text;
     using System;
     using System.IO;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents an element node.
@@ -17,7 +15,7 @@
     {
         #region Fields
 
-        private static readonly AttachedProperty<Element, IShadowRoot> ShadowRootProperty = new AttachedProperty<Element, IShadowRoot>();
+        private static readonly ConditionalWeakTable<Element, IShadowRoot> ShadowRootProperty = new ConditionalWeakTable<Element, IShadowRoot>();
 
         private readonly NamedNodeMap _attributes;
         private readonly String _namespace;
@@ -25,7 +23,6 @@
         private readonly String _localName;
 
         private HtmlCollection<IElement> _elements;
-        private ICssStyleDeclaration _style;
         private TokenList _classList;
 
         #endregion
@@ -64,11 +61,6 @@
 
         #region Properties
 
-        public ICssStyleDeclaration Style
-        {
-            get { return _style ?? (_style = CreateStyle()); }
-        }
-
         public IElement AssignedSlot
         {
             get { return ParentElement?.ShadowRoot?.GetAssignedSlot(Slot); }
@@ -82,7 +74,12 @@
 
         public IShadowRoot ShadowRoot
         {
-            get { return ShadowRootProperty.Get(this); }
+            get
+            {
+                var value = default(IShadowRoot);
+                ShadowRootProperty.TryGetValue(this, out value);
+                return value;
+            }
         }
 
         public String Prefix
@@ -339,7 +336,7 @@
                 throw new DomException(DomError.InvalidState);
 
             var root = new ShadowRoot(this, mode);
-            ShadowRootProperty.Set(this, root);
+            ShadowRootProperty.Add(this, root);
             return root;
         }
 
@@ -615,36 +612,12 @@
 
         #region Helpers
 
-        protected ICssStyleDeclaration CreateStyle()
-        {
-            const NodeFlags TargetFlags = NodeFlags.HtmlMember | NodeFlags.SvgMember;
-
-            if ((Flags & TargetFlags) != NodeFlags.None)
-            {
-                var context = Context;
-                var engine = context.GetCssStyling();
-
-                if (engine != null)
-                {
-                    var source = this.GetOwnAttribute(AttributeNames.Style);
-                    var options = new StyleOptions(context) { Element = this };
-                    var style = engine.ParseDeclaration(source, options);
-                    style.Changed += value => UpdateAttribute(AttributeNames.Style, value);
-                    return style;
-                }
-            }
-
-            return null;
-        }
-
         protected void UpdateStyle(String value)
         {
             if (String.IsNullOrEmpty(value))
             {
                 _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
             }
-
-            _style?.Update(value);
         }
 
         protected void UpdateAttribute(String name, String value)

@@ -1,5 +1,13 @@
 # 0.10.0
 
+- Fixed multi-threading element initialization bug (#489)
+- Extended the attribute changed callback with `IAttributeObserver` (#491)
+- Fixed culture-specific number parsing (#482)
+- Improved cookie handling for path-dependent cookies (#477)
+- Introduced the `ISelectorVisitor` to get selector information (#487)
+- Micro-Optimized `CharacterData.Append()` (#481)
+- Fast resource dictionary lookup (#485)
+- Optimized tag name allocations (#479)
 - Fixed the insert method (#449)
 - Improved XML namespace handling (#448)
 - Allow underscores in URLs (#445)

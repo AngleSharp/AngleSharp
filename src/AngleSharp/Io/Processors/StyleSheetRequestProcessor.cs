@@ -72,7 +72,7 @@
         protected override async Task ProcessResponseAsync(IResponse response)
         {
             var cancel = CancellationToken.None;
-            var options = new StyleOptions(_context)
+            var options = new StyleOptions(_link.Owner)
             {
                 Element = _link,
                 IsDisabled = _link.IsDisabled,
