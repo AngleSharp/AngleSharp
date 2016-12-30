@@ -183,7 +183,7 @@
         protected static Request CreateNewRequest(Request request, IResponse response)
         {
             var method = request.Method;
-            var content = request.Content;
+            var content = request.Content ?? Stream.Null;
             var headers = new Dictionary<String, String>(request.Headers);
             var location = response.Headers[HeaderNames.Location];
 
