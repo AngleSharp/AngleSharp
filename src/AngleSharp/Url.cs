@@ -757,6 +757,7 @@
 
                         if (!onlyHost)
                         {
+                            _port = String.Empty;
                             return ParsePath(input, index) && !error;
                         }
 
@@ -771,6 +772,7 @@
             if (!onlyHost)
             {
                 _path = String.Empty;
+                _port = String.Empty;
                 _query = null;
                 _fragment = null;
             }

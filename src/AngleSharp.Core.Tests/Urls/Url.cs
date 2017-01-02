@@ -134,5 +134,35 @@
             Assert.AreEqual(address, result.Href);
             Assert.AreEqual("loony_picture.dirty.ru", result.HostName);
         }
+
+        [Test]
+        public void ExtendUrlWithPortWithAbsoluteUrlWithoutPortShouldHaveStandardPort()
+        {
+            var baseAddress = new Url("https://localhost:5000/foo");
+            var newAddress = "http://example.com/bar";
+            var result = new Url(baseAddress, newAddress);
+            Assert.AreEqual("", result.Port);
+            Assert.AreEqual(newAddress, result.Href);
+        }
+
+        [Test]
+        public void ExtendUrlWithPortWithRelativeUrlWithoutSchemeAndPortShouldHaveStandardPort()
+        {
+            var baseAddress = new Url("https://localhost:5000/foo");
+            var newAddress = "//example.com/bar";
+            var result = new Url(baseAddress, newAddress);
+            Assert.AreEqual("", result.Port);
+            Assert.AreEqual("https:" + newAddress, result.Href);
+        }
+
+        [Test]
+        public void ExtendUrlWithPortWithRelativeUrlShouldHaveThatPort()
+        {
+            var baseAddress = new Url("https://localhost:5000/foo");
+            var newAddress = "/bar";
+            var result = new Url(baseAddress, newAddress);
+            Assert.AreEqual("5000", result.Port);
+            Assert.AreEqual("https://localhost:5000" + newAddress, result.Href);
+        }
     }
 }
