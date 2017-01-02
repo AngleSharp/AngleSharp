@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Xml
 {
+    using AngleSharp.Xml.Parser;
     using NUnit.Framework;
-    using AngleSharp.Parser.Xml;
 
     [TestFixture]
     public class XmlParsing
@@ -12,10 +12,7 @@
             var source = @" <title>My Title</title>
  <p>My paragraph</p>";
             var parser = new XmlParser();
-            Assert.Catch<XmlParseException>(() =>
-            {
-                var document = parser.Parse(source);
-            });
+            Assert.Catch<XmlParseException>(() => parser.ParseDocument(source));
         }
 
         [Test]
@@ -27,7 +24,7 @@
             {
                 IsSuppressingErrors = true
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual(1, document.Children.Length);
         }
 
@@ -36,10 +33,7 @@
         {
             var source = @" <title>&nbsp;</title>";
             var parser = new XmlParser();
-            Assert.Catch<XmlParseException>(() =>
-            {
-                var document = parser.Parse(source);
-            });
+            Assert.Catch<XmlParseException>(() => parser.ParseDocument(source));
         }
 
         [Test]
@@ -50,7 +44,7 @@
             {
                 IsSuppressingErrors = true
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual(1, document.Children.Length);
         }
 
@@ -62,7 +56,7 @@
             {
                 IsSuppressingErrors = true
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual("&", document.DocumentElement.TextContent);
         }
 
@@ -74,7 +68,7 @@
             {
                 IsSuppressingErrors = true
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual("&nbsp;", document.DocumentElement.TextContent);
         }
     }

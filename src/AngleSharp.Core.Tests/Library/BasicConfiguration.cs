@@ -1,12 +1,9 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
-    using AngleSharp.Parser.Html;
-    using AngleSharp.Parser.Xml;
-    using AngleSharp.Services;
+    using AngleSharp.Html.Parser;
+    using AngleSharp.Text;
+    using AngleSharp.Xml.Parser;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Linq;
@@ -15,43 +12,12 @@
     public class BasicConfigurationTests
     {
         [Test]
-        public void HasStyleEngine()
-        {
-            var config = new Configuration().WithCss();
-            var provider = config.GetProvider<IStylingProvider>();
-            Assert.IsNotNull(provider);
-            var engine = provider.GetEngine(MimeTypeNames.Css);
-            Assert.IsNotNull(engine);
-            Assert.IsInstanceOf<CssStyleEngine>(engine);
-        }
-
-        [Test]
-        public void ConfigurationWithExtensionLeavesOriginallyUnmodified()
-        {
-            var original = new Configuration();
-            var modified = original.WithCss();
-            Assert.AreNotSame(original, modified);
-            Assert.AreNotEqual(original.Services.Count(), modified.Services.Count());
-        }
-
-        [Test]
         public void ConfigurationSetCultureExtensionLeavesOriginallyUnmodified()
         {
             var original = new Configuration();
             var modified = original.SetCulture("de-at");
             Assert.AreNotSame(original, modified);
             Assert.AreNotEqual(original.Services.Count(), modified.Services.Count());
-        }
-
-        [Test]
-        public void ObtainDefaultSheet()
-        {
-            var engine = new CssStyleEngine();
-            Assert.IsNotNull(engine.Default);
-            Assert.AreEqual("text/css", engine.Type);
-            var sheet = engine.Default as CssStyleSheet;
-            Assert.IsNotNull(sheet);
-            Assert.AreEqual(49, sheet.Rules.Length);
         }
 
         [Test]
@@ -70,7 +36,7 @@
             {
                 OnCreated = (element, position) => positions[element] = position
             });
-            var document = parser.Parse(source);
+            parser.ParseDocument(source);
             Assert.AreEqual(15, positions.Count);
         }
 
@@ -88,7 +54,7 @@
             {
                 OnCreated = (element, position) => positions[element] = position
             });
-            var document = parser.Parse(source);
+            parser.ParseDocument(source);
             Assert.AreEqual(6, positions.Count);
         }
     }

@@ -1,8 +1,9 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
+    using AngleSharp.Text;
     using NUnit.Framework;
 
     /// <summary>
@@ -2820,9 +2821,10 @@
         public void ScriptNoScriptWithClosedCommentThatContainsAnotherClosedNoScriptElement()
         {
             var source = "<!doctype html><noscript><!--<noscript></noscript>--></noscript>";
-            var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(config); 
-            var doc = parser.Parse(source);
+            var config = Configuration.Default.WithScripting();
+            var context = BrowsingContext.New(config);
+            var parser = context.GetService<IHtmlParser>();
+            var doc = parser.ParseDocument(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2866,9 +2868,10 @@
         public void ScriptNoScriptWithCommentStartAndTextInsideBeforeClosing()
         {
             var source = "<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>";
-            var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(config);
-            var doc = parser.Parse(source);
+            var config = Configuration.Default.WithScripting();
+            var context = BrowsingContext.New(config);
+            var parser = context.GetService<IHtmlParser>();
+            var doc = parser.ParseDocument(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2922,9 +2925,10 @@
         public void ScriptNoScriptAfterDoctypeWithIFrameContentAndTextAfter()
         {
             var source = "<!doctype html><noscript><iframe></noscript>X";
-            var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(config);
-            var doc = parser.Parse(source);
+            var config = Configuration.Default.WithScripting();
+            var context = BrowsingContext.New(config);
+            var parser = context.GetService<IHtmlParser>();
+            var doc = parser.ParseDocument(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

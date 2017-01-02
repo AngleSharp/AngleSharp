@@ -1,10 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
-    using AngleSharp.Html;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Dom;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -32,20 +29,6 @@
             Assert.AreEqual("http://localhost/test.png", img.Source);
             var url = new Url(img.Source);
             Assert.AreEqual("test.png", url.Path);
-        }
-
-        [Test]
-        public void SetStyleAttributeAfterPageLoadWithInvalidColor()
-        {
-            var html = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>\">";
-            var parser = new HtmlParser(new Configuration().WithCss());
-            var dom = parser.Parse(html);
-            var div = (IHtmlElement)dom.QuerySelector("div");
-            var n = div.Style.Length; 
-            // hang occurs only if this line is executed prior to setting the attribute
-            // hang occurs when executing next line
-            div.SetAttribute("style", "background-color: http://www.codeplex.com?url=&lt;SCRIPT&gt;a=/XSS/alert(a.source)&lt;/SCRIPT&gt;");
-            Assert.AreEqual(div.Style.BackgroundColor, "");
         }
 
         [Test]
@@ -873,19 +856,6 @@
         }
 
         [Test]
-        public async Task IframeWithDocumentViaDataSrc()
-        {
-            var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
-            var html = @"<!doctype html><iframe id=myframe src='data:text/html,<span>Hello World!</span>'></iframe></script>";
-            var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
-            var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");
-            Assert.IsNotNull(iframe);
-            Assert.IsNotNull(iframe.ContentDocument);
-            Assert.AreEqual("Hello World!", iframe.ContentDocument.Body.TextContent);
-            Assert.AreEqual(iframe.ContentDocument, iframe.ContentWindow.Document);
-        }
-
-        [Test]
         public async Task IframeWithDocumentViaDocSrc()
         {
             var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
@@ -1228,6 +1198,37 @@
             input.FormNoValidate = false;
 
             Assert.IsFalse(input.FormNoValidate);
+        }
+
+        [Test]
+        public void InsertAdjacentHtmlRequiresParentForBeforeBegin()
+        {
+            var document = CreateEmpty(String.Empty);
+            var div = document.CreateElement("div") as IElement;
+            Assert.Catch<DomException>(() =>
+            {
+                div.Insert(AdjacentPosition.BeforeBegin, "<span></span>");
+            });
+        }
+
+        [Test]
+        public void InsertAdjacentHtmlWorksWithSpanElement()
+        {
+            var document = CreateEmpty(String.Empty);
+            var div = document.CreateElement("div");
+            var x = div.AppendChild(document.CreateElement("span")) as IElement;
+            x.Insert(AdjacentPosition.AfterEnd, "<p class=\"cls\">Text</p>");
+            Assert.AreEqual("<span></span><p class=\"cls\">Text</p>", div.InnerHtml);
+        }
+
+        [Test]
+        public void InsertAdjacentHtmlWorksWithSelectElement()
+        {
+            var document = CreateEmpty(String.Empty);
+            var div = document.CreateElement("div");
+            var x = div.AppendChild(document.CreateElement("select")) as IElement;
+            x.Insert(AdjacentPosition.AfterEnd, "<p class=\"cls\">Text</p>");
+            Assert.AreEqual("<select></select><p class=\"cls\">Text</p>", div.InnerHtml);
         }
     }
 }

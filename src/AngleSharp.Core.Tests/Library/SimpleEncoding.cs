@@ -1,4 +1,4 @@
-namespace AngleSharp.Core.Tests
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
     using NUnit.Framework;

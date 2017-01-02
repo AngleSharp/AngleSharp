@@ -1,3 +1,32 @@
+# 0.10.0
+
+- Fixed multi-threading element initialization bug (#489)
+- Extended the attribute changed callback with `IAttributeObserver` (#491)
+- Fixed culture-specific number parsing (#482)
+- Improved cookie handling for path-dependent cookies (#477)
+- Introduced the `ISelectorVisitor` to get selector information (#487)
+- Micro-Optimized `CharacterData.Append()` (#481)
+- Fast resource dictionary lookup (#485)
+- Optimized tag name allocations (#479)
+- Fixed the insert method (#449)
+- Improved XML namespace handling (#448)
+- Allow underscores in URLs (#445)
+- Improved the `IEntityProvider` (#442)
+- Introduced the concept of scope to selectors (#440)
+- Pseudo-class `:has()` improvements (#439)
+- Some fixes regarding attributes (#434)
+- Fixed parsing the Cookie header (#431)
+- Split AngleSharp.Core (#139)
+- Corrected "specifity" (#463)
+- Fixed trailing comments bug (#459)
+- Make AngleSharp build on Linux (#460)
+- Optimized node iteration allocations (#476)
+- Restructured services and configuration (#454)
+- Placed extensions close to their instances
+- Exposed the `ILinkRelationFactory` interface and default implementation
+- Exposed the `IInputTypeFactory` interface and default implementation
+- Reordered events for requesters and parsers
+
 # 0.9.9
 
 - Attribute API refinements (#422)

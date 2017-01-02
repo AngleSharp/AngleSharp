@@ -1,9 +1,8 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
     using System.Linq;
 
@@ -2823,9 +2822,10 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeParagraphWithTightAttributesAndNoScriptTagScriptingEnabled()
         {
             var source = @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>";
-            var config = new Configuration().With(new EnableScripting());
-            var parser = new HtmlParser(config);
-            var doc = parser.Parse(source);
+            var config = Configuration.Default.WithScripting();
+            var context = BrowsingContext.New(config);
+            var parser = context.GetService<IHtmlParser>();
+            var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4921,9 +4921,10 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeNoScriptWithNoScriptCommentInside()
         {
             var source = @"<noscript><!--<noscript></noscript>--></noscript>";
-            var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(config);
-            var doc = parser.Parse(source);
+            var config = Configuration.Default.WithScripting();
+            var context = BrowsingContext.New(config);
+            var parser = context.GetService<IHtmlParser>();
+            var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4962,9 +4963,10 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeNoScriptWithCommentAndClosingNoScriptInside()
         {
             var source = @"<noscript><!--</noscript>X<noscript>--></noscript>";
-            var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(config);
-            var doc = parser.Parse(source);
+            var config = Configuration.Default.WithScripting();
+            var context = BrowsingContext.New(config);
+            var parser = context.GetService<IHtmlParser>();
+            var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5013,9 +5015,10 @@ console.log(""FOO<span>BAR</span>BAZ"");
         public void TreeNoScriptWithIFrameInside()
         {
             var source = @"<noscript><iframe></noscript>X";
-            var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(config);
-            var doc = parser.Parse(source);
+            var config = Configuration.Default.WithScripting();
+            var context = BrowsingContext.New(config);
+            var parser = context.GetService<IHtmlParser>();
+            var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

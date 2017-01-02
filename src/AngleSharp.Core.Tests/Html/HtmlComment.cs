@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
@@ -517,6 +517,19 @@
             var source = "<!DOCTYPE html><body><!---------------------GA--------------------------- --></body></html>";
             var doc = (source).ToHtmlDocument();
             Assert.IsNotNull(doc);
+        }
+
+        [Test]
+        public void CommentAtTheEndOfXHtmlDocumentShouldNotCauseException()
+        {
+            var source = @"<html xmlns=""http://www.w3.org/1999/xhtml"">
+<head></head>
+<body></body>
+</html>
+<!-- Comment -->";
+            var document = source.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            Assert.IsNotNull(document.ToHtml());
         }
     }
 }

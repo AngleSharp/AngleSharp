@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using NUnit.Framework;
 
     [TestFixture]

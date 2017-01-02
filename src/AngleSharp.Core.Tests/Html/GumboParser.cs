@@ -1,6 +1,7 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -996,7 +997,7 @@
             var foo = body.ChildNodes[0];
             Assert.AreEqual(NodeType.Element, foo.NodeType);
             Assert.AreEqual("foo", foo.GetTagName());
-            Assert.AreEqual(typeof(AngleSharp.Dom.Html.HtmlUnknownElement), foo.GetType());
+            Assert.AreEqual(typeof(HtmlUnknownElement), foo.GetType());
         }
 
         [Test]
@@ -1012,7 +1013,7 @@
             var sarcasm = div.ChildNodes[0];
             Assert.AreEqual(NodeType.Element, sarcasm.NodeType);
             Assert.AreEqual("sarcasm", sarcasm.GetTagName());
-            Assert.AreEqual(typeof(AngleSharp.Dom.Html.HtmlUnknownElement), sarcasm.GetType());
+            Assert.AreEqual(typeof(HtmlUnknownElement), sarcasm.GetType());
         }
 
         [Test]

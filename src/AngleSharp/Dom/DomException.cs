@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.Common;
     using System;
 
     /// <summary>
@@ -19,6 +19,16 @@
         {
             Code = (Int32)code;
             Name = code.ToString();
+        }
+
+        /// <summary>
+        /// Creates a new DOMException with a custom message.
+        /// </summary>
+        /// <param name="message">The message to transport.</param>
+        public DomException(String message)
+        {
+            Code = 0;
+            Name = message;
         }
 
         #endregion

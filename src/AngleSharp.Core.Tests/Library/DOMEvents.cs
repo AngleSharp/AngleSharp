@@ -2,8 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Extensions;
-    using AngleSharp.Services.Default;
+    using AngleSharp.Html.Dom.Events;
     using NUnit.Framework;
 
     [TestFixture]
@@ -47,7 +46,7 @@
         public void EventsAwaitedTriggered()
         {
             var evName = "click";
-            var element = document.QuerySelector("img");
+            document.QuerySelector("img");
             var ev = document.CreateEvent("event");
             ev.Init(evName, true, true);
             var task = document.AwaitEventAsync(evName);
@@ -179,7 +178,7 @@
         [Test]
         public void EventsFactory()
         {
-            var factory = new EventFactory();
+            var factory = new DefaultEventFactory();
             var invalid = factory.Create("invalid");
             var @event = factory.Create("event");
             var events = factory.Create("events");

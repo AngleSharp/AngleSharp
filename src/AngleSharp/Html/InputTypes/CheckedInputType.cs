@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Common;
+    using AngleSharp.Html.Dom;
     using System;
 
     class CheckedInputType : BaseInputType
@@ -16,9 +17,17 @@
 
         #region Methods
 
-        public override void Check(ValidityState state)
+        public override ValidationErrors Check(IValidityState current)
         {
-            state.IsValueMissing = Input.IsRequired && !Input.IsChecked;
+            var result = GetErrorsFrom(current);
+            result &= ~ValidationErrors.ValueMissing;
+
+            if (Input.IsRequired && !Input.IsChecked)
+            {
+                result ^= ValidationErrors.ValueMissing;
+            }
+
+            return result;
         }
 
         public override void ConstructDataSet(FormDataSet dataSet)

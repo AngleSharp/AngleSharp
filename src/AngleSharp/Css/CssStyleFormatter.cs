@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Text;
 
     /// <summary>
     /// Represents the standard CSS3 style formatter.
@@ -23,25 +23,40 @@
 
         String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
-            var sb = Pool.NewStringBuilder();
-            WriteJoined(sb, rules, Environment.NewLine);
-            return sb.ToPool();
-        }
-
-        String IStyleFormatter.Block(IEnumerable<IStyleFormattable> rules)
-        {
-            var sb = Pool.NewStringBuilder().Append('{');
+            var sb = StringBuilderPool.Obtain();
+            var sep = Environment.NewLine;
 
             using (var writer = new StringWriter(sb))
             {
                 foreach (var rule in rules)
                 {
-                    writer.Write(' ');
+                    rule.ToCss(writer, this);
+                    writer.Write(sep);
+                }
+
+                if (sb.Length > 0)
+                {
+                    sb.Remove(sb.Length - sep.Length, sep.Length);
+                }
+            }
+            
+            return sb.ToPool();
+        }
+
+        String IStyleFormatter.BlockRules(IEnumerable<IStyleFormattable> rules)
+        {
+            var sb = StringBuilderPool.Obtain().Append(Symbols.CurlyBracketOpen);
+
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var rule in rules)
+                {
+                    writer.Write(Symbols.Space);
                     rule.ToCss(writer, this);
                 }
             }
 
-            return sb.Append(' ').Append('}').ToPool();
+            return sb.Append(Symbols.Space).Append(Symbols.CurlyBracketClose).ToPool();
         }
 
         String IStyleFormatter.Declaration(String name, String value, Boolean important)
@@ -50,39 +65,26 @@
             return String.Concat(name, ": ", rest);
         }
 
-        String IStyleFormatter.Declarations(IEnumerable<String> declarations)
+        String IStyleFormatter.BlockDeclarations(IEnumerable<IStyleFormattable> declarations)
         {
-            return String.Join("; ", declarations);
-        }
+            var sb = StringBuilderPool.Obtain().Append(Symbols.CurlyBracketOpen);
 
-        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<IStyleFormattable> constraints)
-        {
-            var sb = Pool.NewStringBuilder();
-            var first = true;
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var declaration in declarations)
+                {
+                    writer.Write(Symbols.Space);
+                    declaration.ToCss(writer, this);
+                    writer.Write(Symbols.Semicolon);
+                }
 
-            if (exclusive)
-            {
-                sb.Append("only ");
-            }
-            else if (inverse)
-            {
-                sb.Append("not ");
-            }
-            
-            if (!String.IsNullOrEmpty(type))
-            {
-                sb.Append(type);
-                first = false;
+                if (sb.Length > 1)
+                {
+                    sb.Remove(sb.Length - 1, 1);
+                }
             }
 
-            WriteJoined(sb, constraints, " and ", first);
-            return sb.ToPool();
-        }
-
-        string IStyleFormatter.Constraint(String name, String value)
-        {
-            var ending = value != null ? ": " + value : String.Empty;
-            return String.Concat("(", name, ending, ")");
+            return sb.Append(Symbols.Space).Append(Symbols.CurlyBracketClose).ToPool();
         }
 
         String IStyleFormatter.Rule(String name, String value)
@@ -96,51 +98,9 @@
             return String.Concat(name, " ", text, rules);
         }
 
-        String IStyleFormatter.Style(String selector, IStyleFormattable rules)
-        {
-            var sb = Pool.NewStringBuilder().Append(selector).Append(" { ");
-            var length = sb.Length;
-
-            using (var writer = new StringWriter(sb))
-            {
-                rules.ToCss(writer, this);
-            }
-
-            if (sb.Length > length)
-            {
-                sb.Append(' ');
-            }
-
-            return sb.Append('}').ToPool();
-        }
-
         String IStyleFormatter.Comment(String data)
         {
-            return String.Join("/* ", data, " */");
-        }
-
-        #endregion
-
-        #region Helpers
-
-        void WriteJoined(StringBuilder sb, IEnumerable<IStyleFormattable> elements, String separator, Boolean first = true)
-        {
-            using (var writer = new StringWriter(sb))
-            {
-                foreach (var element in elements)
-                {
-                    if (first)
-                    {
-                        first = false;
-                    }
-                    else
-                    {
-                        writer.Write(separator);
-                    }
-
-                    element.ToCss(writer, this);
-                }
-            }
+            return String.Join("/*", data, "*/");
         }
 
         #endregion

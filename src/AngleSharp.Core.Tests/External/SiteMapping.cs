@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.External
 {
-    using AngleSharp.Dom.Xml;
-    using AngleSharp.Parser.Xml;
     using AngleSharp.Xml;
+    using AngleSharp.Xml.Dom;
+    using AngleSharp.Xml.Parser;
     using System;
     using System.IO;
 
@@ -16,7 +16,7 @@
             _fileName = fileName;
             var parser = new XmlParser();
             var content = File.Exists(fileName) ? File.ReadAllText(_fileName) : "<entries></entries>";
-            _xml = parser.Parse(content);
+            _xml = parser.ParseDocument(content);
         }
 
         public String this[String url]

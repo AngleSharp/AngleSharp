@@ -2,12 +2,10 @@
 {
     using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -19,7 +17,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/robots.txt"),
@@ -44,7 +42,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/status/500"),
@@ -66,7 +64,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/status/400"),
@@ -88,7 +86,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/status/403"),
@@ -110,7 +108,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/status/404"),
@@ -132,7 +130,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/post"),
@@ -162,7 +160,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/put"),
@@ -192,7 +190,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/delete"),
@@ -215,7 +213,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/get"),
@@ -238,7 +236,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/get"),
@@ -262,7 +260,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var agent = "MyAgent";
-                var http = new HttpRequester(agent);
+                var http = new DefaultHttpRequester(agent);
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/user-agent"),
@@ -291,7 +289,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var http = new HttpRequester();
+                var http = new DefaultHttpRequester();
                 var request = new Request
                 {
                     Address = new Url("http://httpbin.org/robots.txt"),
@@ -319,11 +317,11 @@
         public async Task FilteringRequestsWork()
         {
             var requester = new MockRequester();
-            var requests = new List<IRequest>();
-            var filtered = new List<IRequest>();
+            var requests = new List<Request>();
+            var filtered = new List<Request>();
             requester.OnRequest = request => requests.Add(request);
-            var content = "<!doctype><html><link rel=stylesheet type=text/css href=test.css><div><img src=foo.jpg><iframe src=test.html></iframe></div>";
-            var config = Configuration.Default.WithCss().WithDefaultLoader(setup =>
+            var content = "<!doctype><html><div><img src=foo.jpg><iframe src=test.html></iframe></div>";
+            var config = Configuration.Default.With(requester).WithDefaultLoader(setup =>
             {
                 setup.IsResourceLoadingEnabled = true;
                 setup.Filter = request =>
@@ -335,15 +333,14 @@
 
                     return !request.Address.Href.EndsWith(".jpg");
                 };
-            }, new[] { requester });
+            });
 
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content(content).Address("http://localhost"));
             Assert.IsNotNull(document);
-            Assert.AreEqual(2, requests.Count);
-            Assert.AreEqual(3, filtered.Count);
-            Assert.IsTrue(requests.Any(m => m.Address.Path == "test.css"));
-            Assert.IsTrue(requests.Any(m => m.Address.Path == "test.html"));
+            Assert.AreEqual(1, requests.Count);
+            Assert.AreEqual(2, filtered.Count);
+            Assert.AreEqual("test.html", requests[0].Address.Path);
         }
 
         [Test]
@@ -352,9 +349,8 @@
             if (Helper.IsNetworkAvailable())
             {
                 var address = "https://serverspace.ae";
-                var requesters = new IRequester[] { new DataRequester(), new HttpRequester() };
                 var cts = new CancellationTokenSource();
-                var config = Configuration.Default.WithCss().WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
+                var config = Configuration.Default.WithDefaultLoader(c => c.IsResourceLoadingEnabled = true);
 
                 var context = BrowsingContext.New(config);
                 var url = Url.Create(address);

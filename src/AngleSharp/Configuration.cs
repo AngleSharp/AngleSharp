@@ -1,5 +1,10 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Browser;
+    using AngleSharp.Common;
+    using AngleSharp.Css.Parser;
+    using AngleSharp.Html.Parser;
+    using AngleSharp.Xml.Parser;
     using System;
     using System.Collections.Generic;
 
@@ -21,17 +26,17 @@
             Factory.MathElements,
             Factory.SvgElements,
             Factory.Events,
-            Factory.AttributeSelector,
             Factory.InputTypes,
             Factory.LinkRelations,
-            Factory.MediaFeatures,
-            Factory.Properties,
+            Factory.AttributeSelector,
             Factory.PseudoClassSelector,
             Factory.PseudoElementSelector,
             Factory.Document,
-            Factory.BrowsingContext,
-            Factory.Service,
-            new Func<IBrowsingContext, IEventLoop>(ctx => new TaskEventLoop()),
+            Factory.Observer,
+            new Func<IBrowsingContext, ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
+            new Func<IBrowsingContext, IHtmlParser>(ctx => new HtmlParser(ctx)),
+            new Func<IBrowsingContext, IXmlParser>(ctx => new XmlParser(ctx)),
+            new Func<IBrowsingContext, IEventLoop>(ctx => new TaskEventLoop(ctx)),
         };
 
         /// <summary>

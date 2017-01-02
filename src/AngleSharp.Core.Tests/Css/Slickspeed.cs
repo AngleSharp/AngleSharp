@@ -1,15 +1,14 @@
 ﻿namespace AngleSharp.Core.Tests.Css
 {
-    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using NUnit.Framework;
 
     [TestFixture]
     public class SlickspeedTests
     {
-        static IDocument CreateTestDocument()
+        private static IDocument CreateTestDocument()
         {
-            var config = Configuration.Default.SetCulture("en-US").With(new EnableScripting());
+            var config = Configuration.Default.SetCulture("en-US").WithScripting();
             return Assets.w3c_selectors.ToHtmlDocument(config);
         }
 

@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Io;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Io.Dom;
     using System;
 
     class FileInputType : BaseInputType
     {
         #region Fields
 
-        readonly FileList _files;
+        private readonly FileList _files;
 
         #endregion
 

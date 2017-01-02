@@ -1,8 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
+    using AngleSharp.Html.Dom;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -366,12 +365,12 @@
         {
             var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
-            var before1 = table.AppendChild(document.CreateElement("tbody"));
-            var before2 = before1.AppendChild(document.CreateElement("tbody"));
-            CollectionAssert.AreEqual(new INode[] { before1 }, table.ChildNodes.ToArray());
+            var before = table.AppendChild(document.CreateElement("tbody"));
+            before.AppendChild(document.CreateElement("tbody"));
+            CollectionAssert.AreEqual(new INode[] { before }, table.ChildNodes.ToArray());
 
             var tbody = table.CreateBody();
-            CollectionAssert.AreEqual(new INode[] { before1, tbody }, table.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new INode[] { before, tbody }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
@@ -380,12 +379,12 @@
         {
             var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
-            var before1 = table.AppendChild(document.CreateElement("thead"));
-            var before2 = before1.AppendChild(document.CreateElement("tbody"));
-            CollectionAssert.AreEqual(new INode[] { before1 }, table.ChildNodes.ToArray());
+            var before = table.AppendChild(document.CreateElement("thead"));
+            before.AppendChild(document.CreateElement("tbody"));
+            CollectionAssert.AreEqual(new INode[] { before }, table.ChildNodes.ToArray());
 
             var tbody = table.CreateBody();
-            CollectionAssert.AreEqual(new INode[] { before1, tbody }, table.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new INode[] { before, tbody }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
@@ -394,12 +393,12 @@
         {
             var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
-            var before1 = table.AppendChild(document.CreateElement("tfoot"));
-            var before2 = before1.AppendChild(document.CreateElement("tbody"));
-            CollectionAssert.AreEqual(new INode[] { before1 }, table.ChildNodes.ToArray());
+            var before = table.AppendChild(document.CreateElement("tfoot"));
+            before.AppendChild(document.CreateElement("tbody"));
+            CollectionAssert.AreEqual(new INode[] { before }, table.ChildNodes.ToArray());
 
             var tbody = table.CreateBody();
-            CollectionAssert.AreEqual(new INode[] { before1, tbody }, table.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new INode[] { before, tbody }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
@@ -409,12 +408,12 @@
             var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before = table.AppendChild(document.CreateElement("tbody"));
-            var after1 = table.AppendChild(document.CreateElement("thead"));
-            var after2 = after1.AppendChild(document.CreateElement("tbody"));
-            CollectionAssert.AreEqual(new INode[] { before, after1 }, table.ChildNodes.ToArray());
+            var after = table.AppendChild(document.CreateElement("thead"));
+            after.AppendChild(document.CreateElement("tbody"));
+            CollectionAssert.AreEqual(new INode[] { before, after }, table.ChildNodes.ToArray());
 
             var tbody = table.CreateBody();
-            CollectionAssert.AreEqual(new INode[] { before, tbody, after1 }, table.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new INode[] { before, tbody, after }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
@@ -424,12 +423,12 @@
             var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var before = table.AppendChild(document.CreateElement("tbody"));
-            var after1 = table.AppendChild(document.CreateElement("tfoot"));
-            var after2 = after1.AppendChild(document.CreateElement("tbody"));
-            CollectionAssert.AreEqual(new INode[] { before, after1 }, table.ChildNodes.ToArray());
+            var after = table.AppendChild(document.CreateElement("tfoot"));
+            after.AppendChild(document.CreateElement("tbody"));
+            CollectionAssert.AreEqual(new INode[] { before, after }, table.ChildNodes.ToArray());
 
             var tbody = table.CreateBody();
-            CollectionAssert.AreEqual(new INode[] { before, tbody, after1 }, table.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(new INode[] { before, tbody, after }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }
 
