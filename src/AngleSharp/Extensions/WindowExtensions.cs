@@ -42,8 +42,8 @@
         }
 
         /// <summary>
-        /// Computes the cascaded style, i.e. resolves the cascade by ordering after specifity.
-        /// Two rules with the same specifity are ordered according to their appearance. The more
+        /// Computes the cascaded style, i.e. resolves the cascade by ordering after specificity.
+        /// Two rules with the same specificity are ordered according to their appearance. The more
         /// recent declaration wins. Inheritance is not taken into account.
         /// </summary>
         /// <param name="styleCollection">The style rules to apply.</param>
@@ -52,7 +52,7 @@
         public static CssStyleDeclaration ComputeCascadedStyle(this StyleCollection styleCollection, IElement element)
         {
             var computedStyle = new CssStyleDeclaration();
-            var rules = styleCollection.SortBySpecifity(element);
+            var rules = styleCollection.SortBySpecificity(element);
 
             foreach (var rule in rules)
             {
@@ -79,9 +79,9 @@
 
         #region Helpers
 
-        private static IEnumerable<CssStyleRule> SortBySpecifity(this IEnumerable<CssStyleRule> rules, IElement element)
+        private static IEnumerable<CssStyleRule> SortBySpecificity(this IEnumerable<CssStyleRule> rules, IElement element)
         {
-            return rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specifity);
+            return rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specificity);
         }
 
         #endregion

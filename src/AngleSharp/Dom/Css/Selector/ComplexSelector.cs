@@ -30,7 +30,7 @@
 
         #region Properties
 
-        public Priority Specifity
+        public Priority Specificity
         {
             get
             {
@@ -39,7 +39,7 @@
 
                 for (var i = 0; i < n; i++)
                 {
-                    sum += _selectors[i].Selector.Specifity;
+                    sum += _selectors[i].Selector.Specificity;
                 }
 
                 return sum;

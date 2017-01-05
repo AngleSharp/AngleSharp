@@ -29,15 +29,15 @@
 
         #region Properties
 
-        public Priority Specifity
+        public Priority Specificity
         {
-            get 
+            get
             {
                 var sum = new Priority();
 
                 for (var i = 0; i < _selectors.Count; i++)
                 {
-                    sum += _selectors[i].Specifity;
+                    sum += _selectors[i].Specificity;
                 }
 
                 return sum;
@@ -49,9 +49,9 @@
             get { return this.ToCss(); }
         }
 
-        public Int32 Length 
+        public Int32 Length
         {
-            get { return _selectors.Count; } 
+            get { return _selectors.Count; }
         }
 
         public ISelector this[Int32 index]

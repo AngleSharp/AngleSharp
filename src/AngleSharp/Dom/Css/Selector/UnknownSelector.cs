@@ -10,7 +10,7 @@
     /// </summary>
     sealed class UnknownSelector : CssNode, ISelector
     {
-        public Priority Specifity
+        public Priority Specificity
         {
             get { return Priority.Zero; }
         }
