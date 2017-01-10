@@ -612,14 +612,6 @@
 
         #region Helpers
 
-        protected void UpdateStyle(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-            {
-                _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
-            }
-        }
-
         protected void UpdateAttribute(String name, String value)
         {
             this.SetOwnAttribute(name, value, suppressCallbacks: true);
