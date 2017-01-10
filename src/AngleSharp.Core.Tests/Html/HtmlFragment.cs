@@ -589,7 +589,7 @@
             Assert.IsNotNull(body);
 
             var output = body.InnerHtml.Replace("" + (char)160, "&nbsp;");
-            Assert.AreEqual(@"<span class="""">Test </span><div class=""""><br></div>", output);
+            Assert.AreEqual(@"<span class="""" style="""">Test </span><div class="""" style=""""><br></div>", output);
         }
 
         [Test]

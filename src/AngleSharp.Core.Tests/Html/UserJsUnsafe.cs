@@ -227,8 +227,8 @@ bar]]>").ToHtmlDocument();
 <polyline fill-rule=""evenodd"" fill=""#747474"" points=""8.5,0.6 7.9,0 4.3,3.6 0.6,0 0,0.6 4.3,4.9 "" style=""""/>
 </svg></body></html>").ToHtmlDocument();
             var polyline = doc.QuerySelector("polyline");
-            Assert.IsNull(polyline.GetAttribute("style"));
-            Assert.AreEqual(3, polyline.Attributes.Length);
+            Assert.IsEmpty(polyline.GetAttribute("style"));
+            Assert.AreEqual(4, polyline.Attributes.Length);
         }
 
         [Test]
