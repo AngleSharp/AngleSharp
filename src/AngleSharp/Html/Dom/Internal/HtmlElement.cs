@@ -553,18 +553,6 @@
 
         #region Internal Methods
 
-        internal override void SetupElement()
-        {
-            base.SetupElement();
-
-            var style = this.GetOwnAttribute(AttributeNames.Style);
-
-            if (style != null)
-            {
-                UpdateStyle(style);
-            }
-        }
-
         internal void UpdateDropZone(String value)
         {
             _dropZone?.Update(value);
