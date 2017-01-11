@@ -29,7 +29,7 @@
                 root = form.Owner.DocumentElement;
             }
 
-            _elements = root.GetElements<HtmlFormControlElement>().Where(m =>
+            _elements = root.GetNodes<HtmlFormControlElement>().Where(m =>
             {
                 if (Object.ReferenceEquals(m.Form, form))
                 {

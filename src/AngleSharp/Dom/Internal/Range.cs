@@ -42,7 +42,7 @@
 
         public IEnumerable<INode> Nodes
         {
-            get { return CommonAncestor.GetElements<INode>(predicate: Intersects); }
+            get { return CommonAncestor.GetNodes<INode>(predicate: Intersects); }
         }
 
         public INode Head
@@ -311,10 +311,10 @@
                     }
 
                     var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
-                        commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
+                        commonAncestor.GetNodes<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
                     var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
-                        commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
-                    var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
+                        commonAncestor.GetNodes<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
+                    var containedChildren = commonAncestor.GetNodes<INode>(predicate: Intersects).ToList();
 
                     if (containedChildren.OfType<IDocumentType>().Any())
                         throw new DomException(DomError.HierarchyRequest);
@@ -409,10 +409,10 @@
                     }
 
                     var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
-                        commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
+                        commonAncestor.GetNodes<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
                     var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
-                        commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
-                    var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
+                        commonAncestor.GetNodes<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
+                    var containedChildren = commonAncestor.GetNodes<INode>(predicate: Intersects).ToList();
 
                     if (containedChildren.OfType<IDocumentType>().Any())
                         throw new DomException(DomError.HierarchyRequest);

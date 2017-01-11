@@ -28,7 +28,7 @@
 
         public HtmlCollection(INode parent, Boolean deep = true, Func<T, bool> predicate = null)
         {
-            _elements = parent.GetElements(deep, predicate);
+            _elements = parent.GetNodes(deep, predicate);
         }
 
         #endregion

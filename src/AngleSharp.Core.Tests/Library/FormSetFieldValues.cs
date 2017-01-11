@@ -118,7 +118,7 @@
             }, createMissing: true);
 
             var newField = document.Forms[0]
-                .GetElements<IHtmlInputElement>()
+                .GetNodes<IHtmlInputElement>()
                 .SingleOrDefault(x => x.Name == newFieldName);
 
             Assert.NotNull(newFieldName);
