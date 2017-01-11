@@ -28,8 +28,8 @@
             _settings = settings;
             _filter = filter ?? (m => FilterResult.Accept);
             _beforeNode = true;
-            _iterator = _root.GetElements<INode>(settings);
-            _reference = _iterator.First();
+            _iterator = GetNodes(root);
+            _reference = root;
         }
 
         #endregion
@@ -74,7 +74,7 @@
             {
                 if (!beforeNode)
                 {
-                    node = _iterator.SkipWhile(m => m != node).Skip(1).FirstOrDefault();
+                    node = _iterator.SkipWhile(m => !Object.ReferenceEquals(m, node)).Skip(1).FirstOrDefault();
                 }
 
                 if (node == null)
@@ -84,7 +84,7 @@
 
                 beforeNode = false;
             }
-            while (_filter(node) != FilterResult.Accept);
+            while (!_settings.Accepts(node) || _filter.Invoke(node) != FilterResult.Accept);
 
             _beforeNode = false;
             _reference = node;
@@ -100,7 +100,7 @@
             {
                 if (beforeNode)
                 {
-                    node = _iterator.TakeWhile(m => m != node).LastOrDefault();
+                    node = _iterator.TakeWhile(m => !Object.ReferenceEquals(m, node)).LastOrDefault();
                 }
 
                 if (node == null)
@@ -110,11 +110,27 @@
 
                 beforeNode = true;
             }
-            while (_filter(node) != FilterResult.Accept);
+            while (!_settings.Accepts(node) || _filter(node) != FilterResult.Accept);
 
             _beforeNode = true;
             _reference = node;
             return node;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static IEnumerable<INode> GetNodes(INode root)
+        {
+            yield return root;
+
+            var children = root.GetNodes<INode>();
+
+            foreach (var child in children)
+            {
+                yield return child;
+            }
         }
 
         #endregion
