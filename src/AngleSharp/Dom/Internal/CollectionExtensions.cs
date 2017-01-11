@@ -22,11 +22,11 @@
         /// </param>
         /// <param name="predicate">The filter function, if any.</param>
         /// <returns>The collection with the corresponding elements.</returns>
-        public static IEnumerable<T> GetElements<T>(this INode parent, Boolean deep = true, Func<T, Boolean> predicate = null)
+        public static IEnumerable<T> GetNodes<T>(this INode parent, Boolean deep = true, Func<T, Boolean> predicate = null)
             where T : class, INode
         {
             predicate = predicate ?? (m => true);
-            return deep ? parent.GetAllElements(predicate) : parent.GetDescendendElements(predicate);
+            return deep ? parent.GetAllNodes(predicate) : parent.GetDescendendElements(predicate);
         }
 
         /// <summary>
@@ -113,19 +113,6 @@
         }
 
         /// <summary>
-        /// Gets the elements that satisfy the provided filter settings.
-        /// </summary>
-        /// <typeparam name="T">The type of nodes to obtain.</typeparam>
-        /// <param name="parent">The parent of the nodes to find.</param>
-        /// <param name="filter">The filter settings to apply.</param>
-        /// <returns>
-        /// The filtered list of all descendents from the provided node.
-        /// </returns>
-        public static IEnumerable<T> GetElements<T>(this INode parent, FilterSettings filter)
-            where T : class, INode
-            => parent.GetElements<T>(predicate: (node => filter.Accepts(node)));
-
-        /// <summary>
         /// Gets the element with the provided id, if any. Otherwise the
         /// element with the same name is searched.
         /// </summary>
@@ -155,7 +142,7 @@
             return null;
         }
 
-        private static IEnumerable<T> GetAllElements<T>(this INode parent, Func<T, Boolean> predicate)
+        private static IEnumerable<T> GetAllNodes<T>(this INode parent, Func<T, Boolean> predicate)
             where T : class, INode
             => new NodeEnumerable(parent).OfType<T>().Where(predicate);
 

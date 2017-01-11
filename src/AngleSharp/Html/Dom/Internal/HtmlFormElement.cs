@@ -415,7 +415,7 @@
         private FormDataSet ConstructDataSet(IHtmlElement submitter)
         {
             var formDataSet = new FormDataSet();
-            var fields = this.GetElements<HtmlFormControlElement>();
+            var fields = this.GetNodes<HtmlFormControlElement>();
 
             foreach (var field in fields)
             {

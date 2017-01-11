@@ -3,17 +3,11 @@
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using NUnit.Framework;
-    using System;
     using System.Collections.Generic;
 
     [TestFixture]
     public class NodeIteratorTests
     {
-        private static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void NodeIteratorJavaScriptKitDivision()
         {
@@ -21,30 +15,31 @@
 <p>Some <span>text</span></p>
 <b>Bold text</b>
 </div>";
-            var doc = Html(source);
-            Assert.IsNotNull(doc);
-
+            var doc = source.ToHtmlDocument();
             var rootnode = doc.GetElementById("contentarea");
-            Assert.IsNotNull(rootnode);
-
             var iterator = doc.CreateNodeIterator(rootnode, FilterSettings.Element);
-            Assert.IsNotNull(iterator);
+
             Assert.AreEqual(rootnode, iterator.Root);
             Assert.IsTrue(iterator.IsBeforeReference);
 
             var results = new List<INode>();
 
             while (iterator.Next() != null)
+            {
                 results.Add(iterator.Reference);
+            }
 
             Assert.IsFalse(iterator.IsBeforeReference);
-            Assert.AreEqual(3, results.Count);
-            Assert.IsInstanceOf<HtmlParagraphElement>(results[0]);
-            Assert.IsInstanceOf<HtmlSpanElement>(results[1]);
-            Assert.IsInstanceOf<HtmlBoldElement>(results[2]);
+            Assert.AreEqual(4, results.Count);
+            Assert.IsInstanceOf<HtmlDivElement>(results[0]);
+            Assert.IsInstanceOf<HtmlParagraphElement>(results[1]);
+            Assert.IsInstanceOf<HtmlSpanElement>(results[2]);
+            Assert.IsInstanceOf<HtmlBoldElement>(results[3]);
 
             do
+            {
                 results.Remove(iterator.Reference);
+            }
             while (iterator.Previous() != null);
 
             Assert.IsTrue(iterator.IsBeforeReference);
@@ -54,7 +49,7 @@
         public void NodeIteratorJavaScriptKitParagraph()
         {
             var source = @"<p id=essay>George<span> loves </span><b>JavaScript!</b></p>";
-            var doc = Html(source);
+            var doc = source.ToHtmlDocument();
             Assert.IsNotNull(doc);
 
             var rootnode = doc.GetElementById("essay");
@@ -70,7 +65,9 @@
             var paratext = iterator.Reference.TextContent;
 
             while (iterator.Next() != null)
+            {
                 paratext += iterator.Reference.TextContent;
+            }
 
             Assert.AreEqual("George loves JavaScript!", paratext);
         }
@@ -83,7 +80,7 @@
 <li class='item'>List 2</li>
 <li>List 3</li>
 </ul>";
-            var doc = Html(source);
+            var doc = source.ToHtmlDocument();
             Assert.IsNotNull(doc);
 
             var rootnode = doc.GetElementById("mylist");
@@ -135,7 +132,7 @@
             <b>2.Section</b><br />
         </span>
     </div>";
-            var doc = Html(source);
+            var doc = source.ToHtmlDocument();
             Assert.IsNotNull(doc);
 
             var rootnode = doc.GetElementById("content");
@@ -158,6 +155,66 @@
             }
 
             Assert.AreEqual(3, sections);
+        }
+
+        [Test]
+        public void NodeIteratorFromDocumentDoesNotThrowException()
+        {
+            var doc = "<div></div>".ToHtmlDocument();
+            var ni = doc.CreateNodeIterator(doc, FilterSettings.All);
+            Assert.AreEqual(doc, ni.Root);
+            Assert.AreEqual(doc, ni.Next());
+            Assert.AreEqual(doc.DocumentElement, ni.Next());
+            Assert.AreEqual(doc.Head, ni.Next());
+            Assert.AreEqual(doc.Body, ni.Next());
+            Assert.AreEqual(doc.Body.FirstChild, ni.Next());
+            Assert.AreEqual(null, ni.Next());
+        }
+
+        [Test]
+        public void NodeIteratorFromEmptyElementDoesNotThrowException()
+        {
+            var doc = "<div></div>".ToHtmlDocument();
+            var div = doc.QuerySelector("div");
+            var ni = doc.CreateNodeIterator(div, FilterSettings.All);
+            Assert.AreEqual(div, ni.Root);
+            Assert.AreEqual(div, ni.Next());
+            Assert.AreEqual(null, ni.Next());
+            Assert.AreEqual(div, ni.Previous());
+            Assert.AreEqual(null, ni.Previous());
+        }
+
+        [Test]
+        public void NodeIteratorUsingPreviousWorksAsExpected()
+        {
+            var doc = "<div><span>foo</span></div>".ToHtmlDocument();
+            var div = doc.QuerySelector("div");
+            var ni = doc.CreateNodeIterator(div, FilterSettings.Element);
+            Assert.AreEqual(div, ni.Root);
+            Assert.AreEqual(div, ni.Next());
+            Assert.AreNotEqual(null, ni.Next());
+            Assert.AreEqual(null, ni.Next());
+            Assert.AreNotEqual(null, ni.Previous());
+            Assert.AreEqual(div, ni.Previous());
+            Assert.AreEqual(null, ni.Previous());
+            Assert.AreEqual(div, ni.Next());
+            Assert.AreEqual(div, ni.Previous());
+            Assert.AreEqual(null, ni.Previous());
+        }
+
+        [Test]
+        public void NodeIteratorUsingCommentsWithNoCommentsOnlyYieldsNull()
+        {
+            var doc = "<div><span>foo</span></div>".ToHtmlDocument();
+            var div = doc.QuerySelector("div");
+            var ni = doc.CreateNodeIterator(div, FilterSettings.Comment);
+            Assert.AreEqual(div, ni.Root);
+            Assert.AreEqual(null, ni.Next());
+            Assert.AreEqual(null, ni.Next());
+            Assert.AreEqual(null, ni.Previous());
+            Assert.AreEqual(null, ni.Previous());
+            Assert.AreEqual(null, ni.Next());
+            Assert.AreEqual(null, ni.Previous());
         }
     }
 }

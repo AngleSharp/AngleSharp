@@ -21,7 +21,7 @@
 
         public HtmlAllCollection(IDocument document)
         {
-            _elements = document.GetElements<IElement>();
+            _elements = document.GetNodes<IElement>();
         }
 
         #endregion
