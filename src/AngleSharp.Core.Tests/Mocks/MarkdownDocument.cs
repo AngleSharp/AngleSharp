@@ -27,7 +27,7 @@
             return new Element(this, name, prefix, null);
         }
 
-        public override INode Clone(Boolean deep = true)
+        internal override Node Clone(Document owner, Boolean deep)
         {
             var document = new MarkdownDocument(Context, Source);
             CloneDocument(document, deep);

@@ -1156,8 +1156,6 @@
             return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
         }
 
-        public override abstract INode Clone(Boolean deep = true);
-
         public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
             ChildNodes.ToHtml(writer, formatter);
@@ -1557,7 +1555,7 @@
 
         protected void CloneDocument(Document document, Boolean deep)
         {
-            CloneNode(document, deep);
+            CloneNode(document, document, deep);
             document._ready = _ready;
             document.Referrer = Referrer;
             document._location.Href = _location.Href;

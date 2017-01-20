@@ -29,12 +29,12 @@
 
         #endregion
 
-        #region Methods
+        #region Helpers
 
-        public override INode Clone(Boolean deep = true)
+        internal override Node Clone(Document owner, Boolean deep)
         {
-            var node = new EntityReference(Owner, NodeName);
-            CloneNode(node, deep);
+            var node = new EntityReference(owner, NodeName);
+            CloneNode(node, owner, deep);
             return node;
         }
 

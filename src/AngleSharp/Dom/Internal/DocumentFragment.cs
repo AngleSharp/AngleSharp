@@ -127,13 +127,6 @@
 
         #region Methods
 
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = new DocumentFragment(Owner);
-            CloneNode(node, deep);
-            return node;
-        }
-
         public void Prepend(params INode[] nodes)
         {
             this.PrependNodes(nodes);
@@ -177,6 +170,17 @@
         public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
             ChildNodes.ToHtml(writer, formatter);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new DocumentFragment(owner);
+            CloneNode(node, owner, deep);
+            return node;
         }
 
         #endregion

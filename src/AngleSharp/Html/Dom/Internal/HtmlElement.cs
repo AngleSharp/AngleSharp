@@ -541,21 +541,21 @@
             //Only certain elements can be focused
         }
 
-        public override INode Clone(Boolean deep = true)
+        internal void UpdateDropZone(String value)
         {
-            var factory = Context.GetFactory<IElementFactory<Document, HtmlElement>>();
-            var node = factory.Create(Owner, LocalName, Prefix);
-            CloneElement(node, deep);
-            return node;
+            _dropZone?.Update(value);
         }
 
         #endregion
 
-        #region Internal Methods
+        #region Helpers
 
-        internal void UpdateDropZone(String value)
+        internal override Node Clone(Document owner, Boolean deep)
         {
-            _dropZone?.Update(value);
+            var factory = Context.GetFactory<IElementFactory<Document, HtmlElement>>();
+            var node = factory.Create(owner, LocalName, Prefix);
+            CloneElement(node, owner, deep);
+            return node;
         }
 
         protected Boolean IsClickedCancelled()
@@ -587,10 +587,6 @@
 
             return parent as IHtmlFormElement;
         }
-
-        #endregion
-
-        #region Helpers
 
         private String GetDefaultLanguage()
         {

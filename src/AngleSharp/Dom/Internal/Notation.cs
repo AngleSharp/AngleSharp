@@ -41,24 +41,16 @@
 
         #endregion
 
-        #region Methods
+        #region Helpers
 
-        /// <summary>
-        /// Returns a duplicate of the node on which this method was called.
-        /// </summary>
-        /// <param name="deep">
-        /// Optional value: true if the children of the node should also be
-        /// cloned, or false to clone only the specified node.
-        /// </param>
-        /// <returns>The duplicate node.</returns>
-        public override INode Clone(Boolean deep = true)
+        internal override Node Clone(Document owner, Boolean deep)
         {
-            var node = new Notation(Owner)
+            var node = new Notation(owner)
             {
                 PublicId = PublicId,
                 SystemId = SystemId
             };
-            CloneNode(node, deep);
+            CloneNode(node, owner, deep);
             return node;
         }
 

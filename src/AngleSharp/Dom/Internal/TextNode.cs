@@ -86,13 +86,6 @@
 
         #region Methods
 
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = new TextNode(Owner, Data);
-            CloneNode(node, deep);
-            return node;
-        }
-
         public IText Split(Int32 offset)
         {
             var length = Length;
@@ -138,6 +131,17 @@
             {
                 base.ToHtml(writer, formatter);
             }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new TextNode(owner, Data);
+            CloneNode(node, owner, deep);
+            return node;
         }
 
         #endregion

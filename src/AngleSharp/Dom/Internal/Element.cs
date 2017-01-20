@@ -376,13 +376,6 @@
             return sg.Match(this, this);
         }
 
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = new Element(Owner, LocalName, _prefix, _namespace, Flags);
-            CloneElement(node, deep);
-            return node;
-        }
-
         public Boolean HasAttribute(String name)
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
@@ -612,6 +605,13 @@
 
         #region Helpers
 
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new Element(owner, LocalName, _prefix, _namespace, Flags);
+            CloneElement(node, owner, deep);
+            return node;
+        }
+
         protected void UpdateAttribute(String name, String value)
         {
             this.SetOwnAttribute(name, value, suppressCallbacks: true);
@@ -627,9 +627,9 @@
             return this.LocatePrefixFor(namespaceUri);
         }
 
-        protected void CloneElement(Element element, Boolean deep)
+        protected void CloneElement(Element element, Document owner, Boolean deep)
         {
-            CloneNode(element, deep);
+            CloneNode(element, owner, deep);
 
             foreach (var attribute in _attributes)
             {

@@ -46,24 +46,6 @@
             }
         }
 
-        public override INode Clone(Boolean deep = true)
-        {
-            var clone = new HtmlTemplateElement(Owner);
-            CloneElement(clone, deep);
-
-            for (var i = 0; i < _content.ChildNodes.Length; i++)
-            {
-                var node = _content.ChildNodes[i].Clone(deep) as Node;
-
-                if (node != null)
-                {
-                    clone._content.AddNode(node);
-                }
-            }
-
-            return clone;
-        }
-
         public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
             writer.Write(formatter.OpenTag(this, false));
@@ -74,6 +56,26 @@
         #endregion
 
         #region Helpers
+
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var template = new HtmlTemplateElement(owner);
+            CloneElement(template, owner, deep);
+            var clonedContent = template._content;
+
+            foreach (var child in _content.ChildNodes)
+            {
+                var node = child as Node;
+
+                if (node != null)
+                {
+                    var clone = node.Clone(owner, deep);
+                    clonedContent.AddNode(clone);
+                }
+            }
+
+            return template;
+        }
 
         internal override void NodeIsAdopted(Document oldDocument)
         {
