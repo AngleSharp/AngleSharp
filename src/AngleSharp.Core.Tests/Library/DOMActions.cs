@@ -1230,5 +1230,20 @@
             x.Insert(AdjacentPosition.AfterEnd, "<p class=\"cls\">Text</p>");
             Assert.AreEqual("<select></select><p class=\"cls\">Text</p>", div.InnerHtml);
         }
+
+        [Test]
+        public void CloningDocumentAlsoAdoptsClonedChildren()
+        {
+            var source = "<div>document</div>";
+            var originalDocument = source.ToHtmlDocument();
+            var newDocument = (IDocument)originalDocument.Clone(true);
+
+            var div = newDocument.QuerySelector("div");
+            Assert.AreSame(newDocument, div.Owner);
+
+            div.TextContent = "cloned document";
+            var newHtml = div.Owner.DocumentElement.OuterHtml;
+            Assert.True(newHtml.Contains("cloned document"));
+        }
     }
 }
