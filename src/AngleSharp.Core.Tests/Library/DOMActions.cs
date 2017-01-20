@@ -1245,5 +1245,20 @@
             var newHtml = div.Owner.DocumentElement.OuterHtml;
             Assert.True(newHtml.Contains("cloned document"));
         }
+
+        [Test]
+        public void CloningBodyDoesNotAdoptsClonedChildren()
+        {
+            var source = "<div>document</div>";
+            var originalDocument = source.ToHtmlDocument();
+            var newBody = (IElement)originalDocument.Body.Clone(true);
+
+            var div = newBody.QuerySelector("div");
+            Assert.AreSame(originalDocument, div.Owner);
+
+            div.TextContent = "cloned document";
+            var newHtml = div.Owner.DocumentElement.OuterHtml;
+            Assert.True(newHtml.Contains("document"));
+        }
     }
 }
