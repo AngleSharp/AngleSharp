@@ -323,7 +323,10 @@
             return this.PreRemove(child);
         }
 
-        public abstract INode Clone(Boolean deep = true);
+        public INode Clone(Boolean deep = true)
+        {
+            return Clone(Owner, deep);
+        }
 
         public DocumentPositions CompareDocumentPosition(INode otherNode)
         {
@@ -750,6 +753,8 @@
             throw new DomException(DomError.HierarchyRequest);
         }
 
+        internal abstract Node Clone(Document newOwner, Boolean deep);
+
         /// <summary>
         /// Run any adopting steps defined for node in other applicable 
         /// specifications and pass node and oldDocument as parameters.
@@ -779,7 +784,7 @@
             //TODO
         }
 
-        protected void CloneNode(Node target, Boolean deep)
+        protected void CloneNode(Node target, Document owner, Boolean deep)
         {
             target._baseUri = _baseUri;
 
@@ -787,7 +792,13 @@
             {
                 foreach (var child in _children)
                 {
-                    target.AddNode((Node)child.Clone(true));
+                    var node = child as Node;
+
+                    if (node != null)
+                    {
+                        var clone = node.Clone(owner, true);
+                        target.AddNode(clone);
+                    }
                 }
             }
         }

@@ -54,14 +54,6 @@
 
         #region Methods
 
-        public override INode Clone(Boolean deep = true)
-        {
-            var source = new TextSource(Source.Text);
-            var node = new HtmlDocument(Context, source);
-            CloneDocument(node, deep);
-            return node;
-        }
-
         public HtmlElement CreateHtmlElement(String name, String prefix = null)
         {
             return _htmlFactory.Create(this, name, prefix);
@@ -85,6 +77,14 @@
         #endregion
 
         #region Helpers
+
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var source = new TextSource(Source.Text);
+            var node = new HtmlDocument(Context, source);
+            CloneDocument(node, deep);
+            return node;
+        }
 
         protected override String GetTitle()
         {

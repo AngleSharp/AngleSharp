@@ -41,13 +41,6 @@
 
         #region Methods
 
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = new XmlDocument(Context, new TextSource(Source.Text));
-            CloneDocument(node, deep);
-            return node;
-        }
-
         internal override Element CreateElementFrom(String name, String prefix)
         {
             return new XmlElement(this, name, prefix);
@@ -56,6 +49,13 @@
         #endregion
 
         #region Helpers
+
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new XmlDocument(Context, new TextSource(Source.Text));
+            CloneDocument(node, deep);
+            return node;
+        }
 
         protected override void SetTitle(String value)
         {

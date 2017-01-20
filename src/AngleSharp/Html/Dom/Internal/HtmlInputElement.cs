@@ -283,14 +283,6 @@
             }
         }
 
-        public sealed override INode Clone(Boolean deep = true)
-        {
-            var node = (HtmlInputElement)base.Clone(deep);
-            node._checked = _checked;
-            node.UpdateType(_type.Name);
-            return node;
-        }
-
         internal override FormControlState SaveControlState()
         {
             return new FormControlState(Name, Type, Value);
@@ -326,6 +318,14 @@
         #endregion
 
         #region Internal Methods
+
+        internal sealed override Node Clone(Document owner, Boolean deep)
+        {
+            var node = (HtmlInputElement)base.Clone(owner, deep);
+            node._checked = _checked;
+            node.UpdateType(_type.Name);
+            return node;
+        }
 
         internal override void SetupElement()
         {

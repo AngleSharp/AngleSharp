@@ -17,13 +17,13 @@
 
         #endregion
 
-        #region Methods
+        #region Helpers
 
-        public override INode Clone(Boolean deep = true)
+        internal override Node Clone(Document owner, Boolean deep)
         {
             var factory = Context.GetFactory<IElementFactory<Document, SvgElement>>();
-            var node = factory.Create(Owner, LocalName, Prefix);
-            CloneElement(node, deep);
+            var node = factory.Create(owner, LocalName, Prefix);
+            CloneElement(node, owner, deep);
             return node;
         }
 

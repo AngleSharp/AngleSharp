@@ -184,21 +184,15 @@
 
         #endregion
 
-        #region Methods
+        #region Helpers
 
-        public override INode Clone(Boolean deep = true)
+        internal override Node Clone(Document owner, Boolean deep)
         {
-            var node = new HtmlScriptElement(Owner, Prefix, _parserInserted, _started)
-            {
-                _forceAsync = _forceAsync
-            };
-            CloneElement(node, deep);
+            var node = new HtmlScriptElement(owner, Prefix, _parserInserted, _started);
+            CloneElement(node, owner, deep);
+            node._forceAsync = _forceAsync;
             return node;
         }
-
-        #endregion
-
-        #region Helpers
 
         private Boolean InvokeLoadingScript(Document document, Url url)
         {

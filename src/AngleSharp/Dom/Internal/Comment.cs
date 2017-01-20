@@ -24,16 +24,20 @@
 
         #region Methods
 
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = new Comment(Owner, Data);
-            CloneNode(node, deep);
-            return node;
-        }
-
         public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
             writer.Write(formatter.Comment(this));
+        }
+
+        #endregion
+
+        #region Helpers
+
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new Comment(owner, Data);
+            CloneNode(node, owner, deep);
+            return node;
         }
 
         #endregion

@@ -147,26 +147,6 @@
         #region Methods
 
         /// <summary>
-        /// Returns a duplicate of the node on which this method was called.
-        /// </summary>
-        /// <param name="deep">
-        /// Optional value: true if the children of the node should also be 
-        /// cloned, or false to clone only the specified node. 
-        /// </param>
-        /// <returns>The duplicate node.</returns>
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = new DocumentType(Owner, Name)
-            {
-                PublicIdentifier = PublicIdentifier,
-                SystemIdentifier = SystemIdentifier,
-                InternalSubset = InternalSubset
-            };
-            CloneNode(node, deep);
-            return node;
-        }
-
-        /// <summary>
         /// Inserts nodes before the current node.
         /// </summary>
         /// <param name="nodes">The nodes to insert before.</param>
@@ -217,6 +197,18 @@
         #endregion
 
         #region Helpers
+
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new DocumentType(owner, Name)
+            {
+                PublicIdentifier = PublicIdentifier,
+                SystemIdentifier = SystemIdentifier,
+                InternalSubset = InternalSubset
+            };
+            CloneNode(node, owner, deep);
+            return node;
+        }
 
         protected override String LocateNamespace(String prefix)
         {

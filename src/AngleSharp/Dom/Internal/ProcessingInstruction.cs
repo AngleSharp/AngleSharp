@@ -28,16 +28,20 @@
 
         #region Methods
 
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = new ProcessingInstruction(Owner, Target);
-            CloneNode(node, deep);
-            return node;
-        }
-
         public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
             writer.Write(formatter.Processing(this));
+        }
+
+        #endregion
+
+        #region Helpers
+
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new ProcessingInstruction(owner, Target);
+            CloneNode(node, owner, deep);
+            return node;
         }
 
         #endregion

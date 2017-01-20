@@ -77,13 +77,6 @@
 
         #region Methods
 
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = (HtmlFormControlElement)base.Clone(deep);
-            node.SetCustomValidity(_error);
-            return node;
-        }
-
         public Boolean CheckValidity()
         {
             return WillValidate && Validity.IsValid;
@@ -98,6 +91,13 @@
         #endregion
 
         #region Helpers
+
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var node = (HtmlFormControlElement)base.Clone(owner, deep);
+            node.SetCustomValidity(_error);
+            return node;
+        }
 
         protected virtual Boolean IsFieldsetDisabled()
         {

@@ -52,23 +52,19 @@
 
         #endregion
 
-        #region Methods
-
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = new SvgDocument(Context, new TextSource(Source.Text));
-            CloneDocument(node, deep);
-            return node;
-        }
+        #region Helpers
 
         internal override Element CreateElementFrom(String name, String prefix)
         {
             return _factory.Create(this, name, prefix);
         }
 
-        #endregion
-
-        #region Helpers
+        internal override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new SvgDocument(Context, new TextSource(Source.Text));
+            CloneDocument(node, deep);
+            return node;
+        }
 
         protected override String GetTitle()
         {
