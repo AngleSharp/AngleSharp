@@ -80,7 +80,7 @@ More information is also available by following some of the hyper references men
 
 Development language
 --------------------
-AngleSharp is written in C# 6 and thus requires Roslyn as a compiler. You will need to use Visual Studio 2015+ for development here.
+AngleSharp is written in C# 6 and thus requires Roslyn as a compiler. You will need to use IDE like Visual Studio 2015+ for development here.
 
 Current status
 --------------
