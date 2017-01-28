@@ -300,7 +300,7 @@
             private void SetCookies()
             {
                 var cookieHeader = _request.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
-                _cookies.SetCookies(_http.RequestUri, cookieHeader.Replace(';', ','));
+                _cookies.SetCookies(_http.RequestUri, cookieHeader.Replace(';', ',').Replace("$", ""));
             }
 
             private void SetHeaders()
