@@ -336,6 +336,20 @@
             Assert.AreEqual(cookieValue, imgCookie);
         }
 
+        [Test]
+        public async Task DefaultHttpRequesterWorksWithVersion1Cookies()
+        {
+            var config = Configuration.Default.WithDefaultLoader().WithCookies();
+            var context = BrowsingContext.New(config);
+            var cookieValue = "FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102; Version=1";
+
+            var document = await context.OpenAsync(res => res.Content("<div></div>")
+                                        .Address("http://localhost/")
+                                        .Header(HeaderNames.SetCookie, cookieValue));
+
+            await context.OpenAsync("http://localhost/");
+        }
+
         private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse, Func<Request, IResponse> onRequest)
         {
             var requester = new MockRequester();
