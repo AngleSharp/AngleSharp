@@ -78,6 +78,10 @@ The project's timeline, upcoming implementations, (currently) missing features a
 
 More information is also available by following some of the hyper references mentioned in the Wiki. In-depth articles will be published on the CodeProject, with links being placed in the Wiki at GitHub.
 
+Development language
+--------------------
+AngleSharp is written in C# 6 and thus requires Roslyn as a compiler. You will need to use Visual Studio 2015+ for development here.
+
 Current status
 --------------
 
