@@ -812,5 +812,45 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.AreEqual("this", result[0].ClassName);
             Assert.AreEqual("3", result[0].TextContent);
         }
+
+        [Test]
+        public void FindDeepElement()
+        {
+            var count = 10000;
+            var doc = String.Empty.ToHtmlDocument();
+
+            var node = (IElement)doc.Body;
+            for (var i = 0; i < count; i++)
+            {
+                var newNode = doc.CreateElement("div");
+                node.AppendChild(newNode);
+                node = newNode;
+            }        
+            node.AppendChild(doc.CreateElement("a")); 
+
+            var result = doc.QuerySelector("a");  
+            Assert.NotNull(result);
+        }
+
+        [Test]
+        public void FindDeepElements()
+        {
+            var count = 10000;
+            var doc = String.Empty.ToHtmlDocument();
+
+            var node = (IElement)doc.Body;
+            for (var i = 0; i < count; i++)
+            {
+                var newNode = doc.CreateElement("div");
+                node.AppendChild(newNode);
+                node = newNode;
+            }
+            node.AppendChild(doc.CreateElement("a"));
+            node.AppendChild(doc.CreateElement("a"));
+
+            var result = doc.QuerySelectorAll("a");
+            Assert.AreEqual(result.Length, 2);
+        }
+
     }
 }

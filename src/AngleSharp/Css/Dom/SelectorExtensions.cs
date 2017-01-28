@@ -26,11 +26,9 @@
                     return element;
                 }
 
-                if (element.HasChildNodes)
+                foreach (var child in element.Descendents<IElement>())
                 {
-                    var child = selector.MatchAny(element.Children, scope);
-
-                    if (child != null)
+                    if (selector.Match(child, scope))
                     {
                         return child;
                     }
@@ -76,9 +74,12 @@
                     result.Add(element);
                 }
 
-                if (element.HasChildNodes)
+                foreach (var child in element.Descendents<IElement>())
                 {
-                    selector.MatchAll(element.Children, scope, result);
+                    if (selector.Match(child, scope))
+                    {
+                        result.Add(child);
+                    }
                 }
             }
         }
