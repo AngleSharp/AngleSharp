@@ -103,11 +103,18 @@
         {
             foreach (var child in parent.ChildNodes)
             {
-                yield return child;
-
-                foreach (var subchild in child.GetDescendants())
+                var stack = new Stack<INode>();
+                stack.Push(child);
+                while (stack.Count > 0)
                 {
-                    yield return subchild;
+                    var next = stack.Pop();
+                    yield return next;
+
+                    var length = next.ChildNodes.Length;
+                    while (length > 0)
+                    {
+                        stack.Push(next.ChildNodes[--length]);
+                    }
                 }
             }
         }
