@@ -19,12 +19,12 @@
         /// <returns>The root node.</returns>
         public static INode GetRoot(this INode node)
         {
-            if (node.Parent == null)
+            while (node.Parent != null)
             {
-                return node;
+                node = node.Parent;
             }
 
-            return node.Parent.GetRoot();
+            return node;
         }
 
         /// <summary>
@@ -82,16 +82,17 @@
         /// </returns>
         public static Boolean IsDescendantOf(this INode node, INode parent)
         {
-            if (node.Parent == null)
+            while (node.Parent != null)
             {
-                return false;
-            }
-            else if (Object.ReferenceEquals(node.Parent, parent))
-            {
-                return true;
+                if (Object.ReferenceEquals(node.Parent, parent))
+                {
+                    return true;
+                }
+
+                node = node.Parent;
             }
 
-            return node.Parent.IsDescendantOf(parent);
+            return false;
         }
 
         /// <summary>
