@@ -77,7 +77,7 @@
             return template;
         }
 
-        internal override void NodeIsAdopted(Document oldDocument)
+        protected override void NodeIsAdopted(Document oldDocument)
         {
             _content.Owner = oldDocument;
         }
