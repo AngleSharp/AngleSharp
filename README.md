@@ -28,19 +28,20 @@ Simple demo
 The simple example will use the website of Wikipedia for data retrieval.
 
 ```cs
-// Setup the configuration to support document loading
 var config = Configuration.Default.WithDefaultLoader();
-// Load the names of all The Big Bang Theory episodes from Wikipedia
 var address = "https://en.wikipedia.org/wiki/List_of_The_Big_Bang_Theory_episodes";
-// Asynchronously get the document in a new context using the configuration
 var document = await BrowsingContext.New(config).OpenAsync(address);
-// This CSS selector gets the desired content
 var cellSelector = "tr.vevent td:nth-child(3)";
-// Perform the query to get all cells with the content
 var cells = document.QuerySelectorAll(cellSelector);
-// We are only interested in the text - select it with LINQ
 var titles = cells.Select(m => m.TextContent);
 ```
+
+In the example we see:
+
+* How to setup the configuration for supporting document loading
+* Asynchronously get the document in a new context using the configuration
+* Performing a query to get all cells with the content of interest
+* The whole DOM supports LINQ queries
 
 Supported platforms
 -------------------
@@ -77,10 +78,6 @@ Documentation is available in form of the public Wiki here at GitHub.
 The project's timeline, upcoming implementations, (currently) missing features and milestones is published and maintained in the Wiki as well. Issues should be reported on the GitHub's project page.
 
 More information is also available by following some of the hyper references mentioned in the Wiki. In-depth articles will be published on the CodeProject, with links being placed in the Wiki at GitHub.
-
-Development language
---------------------
-AngleSharp is written in C# 6 and thus requires Roslyn as a compiler. You will need to use IDE like Visual Studio 2015+ for development here.
 
 Current status
 --------------
@@ -217,18 +214,30 @@ Use-cases
 Participating in the project
 ----------------------------
 
-If you know some feature that AngleSharp is currently missing, and you are willing to implement the feature, then your contribution is more than welcome! Also if you have a really cool idea - do not be shy, we'd like to hear it.
+If you know some feature that AngleSharp is currently missing, and you are willing to implement the feature, then your contribution is more than welcome! Also if you have a really cool idea - do not be shy, we'd like to hear it. Please look at [the contribution guideline](.github/CONTRIBUTING.md) for details.
 
 If you have an idea how to improve the API (or what is missing) then posts / messages are also welcome. For instance there have been ongoing discussions about some styles that have been used by AngleSharp (e.g., `HTMLDocument` or `HtmlDocument`) in the past. In the end AngleSharp stopped using `HTMLDocument` (at least visible outside of the library). Now AngleSharp uses names like `IDocument`, `IHtmlElement` and so on. This change would not have been possible without such fruitful discussions.
 
-The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active. 
+The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active.
+
+Development
+-----------
+AngleSharp is written in C# 6 and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2015+ is recommended on Windows. Alternatively, VSCode with OmniSharp should be the tool of choice on other platforms.
+
+The code tries to be as clean as possible. Notably the following rules are used:
+
+* Use braces for any conditional / loop body
+* Use the -Async suffixed methods when available
+* Use VIP ("Var If Possible") style (in C++ called AAA: Almost Always Auto) to place types on the right
+
+More important, however, is the proper usage of tests. Any new feature should come with a set of tests to cover the functionality and prevent regression.
 
 License
 -------
 
 The MIT License (MIT)
 
-Copyright (c) 2013 - 2016 AngleSharp
+Copyright (c) 2013 - 2017 AngleSharp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
