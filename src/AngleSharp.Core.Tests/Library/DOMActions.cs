@@ -1260,5 +1260,38 @@
             var newHtml = div.Owner.DocumentElement.OuterHtml;
             Assert.True(newHtml.Contains("document"));
         }
+
+        [Test]
+        public void ReplaceBodyNodeWithImportedNode()
+        {
+            var document = ("<html><body><div>abc</div></body></html>").ToHtmlDocument();
+            var newdocument = String.Empty.ToHtmlDocument();
+            var import = newdocument.Import(document.Body, true);
+
+            newdocument.Body.Replace(import);
+            Assert.AreEqual(import, newdocument.Body);
+        }
+
+        [Test]
+        public void ReplaceBodyNodeWithClonedNode()
+        {
+            var document = ("<html><body><div>abc</div></body></html>").ToHtmlDocument();
+            var clone = document.Body.Clone(false);
+
+            document.Body.Replace(clone);
+            Assert.AreEqual(clone, document.Body);
+        }
+
+        [Test]
+        public void ReplaceBodyNodeWithImportedClonedNode()
+        {
+            var document = ("<html><body><div>abc</div></body></html>").ToHtmlDocument();
+            var newdocument = String.Empty.ToHtmlDocument();
+            var clone = document.Body.Clone(true);
+            var import = newdocument.Import(clone, true);
+
+            newdocument.Body.Replace(import);
+            Assert.AreEqual(import, newdocument.Body);
+        }
     }
 }
