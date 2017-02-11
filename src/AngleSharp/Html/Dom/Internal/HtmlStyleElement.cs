@@ -76,18 +76,6 @@
             UpdateSheet();
         }
 
-        internal override void NodeIsInserted(Node newNode)
-        {
-            base.NodeIsInserted(newNode);
-            UpdateSheet();
-        }
-
-        internal override void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
-        {
-            base.NodeIsRemoved(removedNode, oldPreviousSibling);
-            UpdateSheet();
-        }
-
         internal void UpdateMedia(String value)
         {
             if (_sheet != null)
@@ -99,6 +87,18 @@
         #endregion
 
         #region Helpers
+
+        protected override void NodeIsInserted(Node newNode)
+        {
+            base.NodeIsInserted(newNode);
+            UpdateSheet();
+        }
+
+        protected override void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
+        {
+            base.NodeIsRemoved(removedNode, oldPreviousSibling);
+            UpdateSheet();
+        }
 
         private void UpdateSheet()
         {

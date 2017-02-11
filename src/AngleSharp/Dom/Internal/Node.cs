@@ -288,6 +288,220 @@
             }
         }
 
+        internal void InsertNode(Int32 index, Node node)
+        {
+            node.Parent = this;
+            _children.Insert(index, node);
+        }
+
+        internal void AddNode(Node node)
+        {
+            node.Parent = this;
+            _children.Add(node);
+        }
+
+        internal void RemoveNode(Int32 index, Node node)
+        {
+            node.Parent = null;
+            _children.RemoveAt(index);
+        }
+
+        internal void ReplaceAll(Node node, Boolean suppressObservers)
+        {
+            var document = Owner;
+
+            if (node != null)
+            {
+                document.AdoptNode(node);
+            }
+
+            var removedNodes = new NodeList();
+            var addedNodes = new NodeList();
+
+            removedNodes.AddRange(_children);
+
+            if (node != null)
+            {
+                if (node.NodeType == NodeType.DocumentFragment)
+                {
+                    addedNodes.AddRange(node._children);
+                }
+                else
+                {
+                    addedNodes.Add(node);
+                }
+            }
+
+            for (var i = 0; i < removedNodes.Length; i++)
+            {
+                RemoveChild(removedNodes[i], true);
+            }
+
+            for (var i = 0; i < addedNodes.Length; i++)
+            {
+                InsertBefore(addedNodes[i], null, true);
+            }
+
+            if (!suppressObservers)
+            {
+                document.QueueMutation(MutationRecord.ChildList(
+                    target: this,
+                    addedNodes: addedNodes,
+                    removedNodes: removedNodes));
+            }
+        }
+
+        internal INode InsertBefore(Node newElement, Node referenceElement, Boolean suppressObservers)
+        {
+            var document = Owner;
+            var count = newElement.NodeType == NodeType.DocumentFragment ? newElement.ChildNodes.Length : 1;
+
+            if (referenceElement != null && document != null)
+            {
+                var childIndex = referenceElement.Index();
+                document.ForEachRange(m => m.Head == this && m.Start > childIndex, m => m.StartWith(this, m.Start + count));
+                document.ForEachRange(m => m.Tail == this && m.End > childIndex, m => m.EndWith(this, m.End + count));
+            }
+
+            if (newElement.NodeType == NodeType.Document || newElement.Contains(this))
+                throw new DomException(DomError.HierarchyRequest);
+
+            var addedNodes = new NodeList();
+            var n = _children.Index(referenceElement);
+
+            if (n == -1)
+            {
+                n = _children.Length;
+            }
+
+            if (newElement._type == NodeType.DocumentFragment)
+            {
+                var end = n;
+                var start = n;
+
+                while (newElement.HasChildNodes)
+                {
+                    var child = newElement.ChildNodes[0];
+                    newElement.RemoveChild(child, true);
+                    InsertNode(end, child);
+                    end++;
+                }
+
+                while (start < end)
+                {
+                    var child = _children[start];
+                    addedNodes.Add(child);
+                    NodeIsInserted(child);
+                    start++;
+                }
+            }
+            else
+            {
+                addedNodes.Add(newElement);
+                InsertNode(n, newElement);
+                NodeIsInserted(newElement);
+            }
+
+            if (!suppressObservers && document != null)
+            {
+                document.QueueMutation(MutationRecord.ChildList(
+                    target: this,
+                    addedNodes: addedNodes,
+                    previousSibling: n > 0 ? _children[n - 1] : null,
+                    nextSibling: referenceElement));
+            }
+
+            return newElement;
+        }
+
+        internal void RemoveChild(Node node, Boolean suppressObservers)
+        {
+            var document = Owner;
+            var index = _children.Index(node);
+
+            if (document != null)
+            {
+                document.ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
+                document.ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
+                document.ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
+                document.ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
+            }
+
+            var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
+
+            if (!suppressObservers && document != null)
+            {
+                var removedNodes = new NodeList { node };
+
+                document.QueueMutation(MutationRecord.ChildList(
+                    target: this,
+                    removedNodes: removedNodes,
+                    previousSibling: oldPreviousSibling,
+                    nextSibling: node.NextSibling));
+
+                document.AddTransientObserver(node);
+            }
+
+            RemoveNode(index, node);
+            NodeIsRemoved(node, oldPreviousSibling);
+        }
+
+        internal INode ReplaceChild(Node node, Node child, Boolean suppressObservers)
+        {
+            if (this.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(this))
+                throw new DomException(DomError.HierarchyRequest);
+
+            if (child.Parent != this)
+                throw new DomException(DomError.NotFound);
+
+            if (node.IsInsertable())
+            {
+                var parent = this as IDocument;
+                var referenceChild = child.NextSibling;
+                var document = Owner;
+                var addedNodes = new NodeList();
+                var removedNodes = new NodeList();
+
+                if (parent != null && IsChangeForbidden(node, parent, child))
+                    throw new DomException(DomError.HierarchyRequest);
+
+                if (Object.ReferenceEquals(referenceChild, node))
+                {
+                    referenceChild = node.NextSibling;
+                }
+
+                document?.AdoptNode(node);
+                RemoveChild(child, true);
+                InsertBefore(node, referenceChild, true);
+                removedNodes.Add(child);
+
+                if (node._type == NodeType.DocumentFragment)
+                {
+                    addedNodes.AddRange(node._children);
+                }
+                else
+                {
+                    addedNodes.Add(node);
+                }
+
+                if (!suppressObservers && document != null)
+                {
+                    document.QueueMutation(MutationRecord.ChildList(
+                        target: this,
+                        addedNodes: addedNodes,
+                        removedNodes: removedNodes,
+                        previousSibling: child.PreviousSibling,
+                        nextSibling: referenceChild));
+                }
+
+                return child;
+            }
+
+            throw new DomException(DomError.HierarchyRequest);
+        }
+
+        internal abstract Node Clone(Document newOwner, Boolean deep);
+
         #endregion
 
         #region Public Methods
@@ -463,6 +677,25 @@
 
         #region Helpers
 
+        private static Boolean IsChangeForbidden(Node node, IDocument parent, INode child)
+        {
+            switch (node._type)
+            {
+                case NodeType.DocumentType:
+                    return parent.Doctype != child || child.IsPrecededByElement();
+
+                case NodeType.Element:
+                    return parent.DocumentElement != child || child.IsFollowedByDoctype();
+
+                case NodeType.DocumentFragment:
+                    var elements = node.GetElementCount();
+                    return elements > 1 || node.HasTextNodes() || (elements == 1 && (parent.DocumentElement != child || child.IsFollowedByDoctype()));
+
+                default:
+                    return false;
+            }
+        }
+
         /// <summary>
         /// For more information, see:
         /// https://dom.spec.whatwg.org/#validate-and-extract
@@ -514,259 +747,18 @@
             return _parent?.LocatePrefix(namespaceUri);
         }
 
-        internal void ChangeOwner(Document document)
-        {
-            var oldDocument = Owner;
-            _parent?.RemoveChild(this, false);
-            Owner = document;
-            NodeIsAdopted(oldDocument);
-        }
-
-        internal void InsertNode(Int32 index, Node node)
-        {
-            node.Parent = this;
-            _children.Insert(index, node);
-        }
-
-        internal void AddNode(Node node)
-        {
-            node.Parent = this;
-            _children.Add(node);
-        }
-
-        internal void RemoveNode(Int32 index, Node node)
-        {
-            node.Parent = null;
-            _children.RemoveAt(index);
-        }
-
-        internal void ReplaceAll(Node node, Boolean suppressObservers)
-        {
-            var document = Owner;
-
-            if (node != null)
-            {
-                document.AdoptNode(node);
-            }
-
-            var removedNodes = new NodeList();
-            var addedNodes = new NodeList();
-
-            removedNodes.AddRange(_children);
-            
-            if (node != null)
-            {
-                if (node.NodeType == NodeType.DocumentFragment)
-                {
-                    addedNodes.AddRange(node._children);
-                }
-                else
-                {
-                    addedNodes.Add(node);
-                }
-            }
-
-            for (var i = 0; i < removedNodes.Length; i++)
-            {
-                RemoveChild(removedNodes[i], true);
-            }
-
-            for (var i = 0; i < addedNodes.Length; i++)
-            {
-                InsertBefore(addedNodes[i], null, true);
-            }
-
-            if (!suppressObservers)
-            {
-                document.QueueMutation(MutationRecord.ChildList(
-                    target: this,
-                    addedNodes: addedNodes,
-                    removedNodes: removedNodes));
-            }
-        }
-
-        internal INode InsertBefore(Node newElement, Node referenceElement, Boolean suppressObservers)
-        {
-            var document = Owner;
-            var count = newElement.NodeType == NodeType.DocumentFragment ? newElement.ChildNodes.Length : 1;
-
-            if (referenceElement != null && document != null)
-            {
-                var childIndex = referenceElement.Index();
-                document.ForEachRange(m => m.Head == this && m.Start > childIndex, m => m.StartWith(this, m.Start + count));
-                document.ForEachRange(m => m.Tail == this && m.End > childIndex, m => m.EndWith(this, m.End + count));
-            }
-
-            if (newElement.NodeType == NodeType.Document || newElement.Contains(this))
-                throw new DomException(DomError.HierarchyRequest);
-
-            var addedNodes = new NodeList();
-            var n = _children.Index(referenceElement);
-
-            if (n == -1)
-            {
-                n = _children.Length;
-            }
-            
-            if (newElement._type == NodeType.DocumentFragment)
-            {
-                var end = n;
-                var start = n;
-
-                while (newElement.HasChildNodes)
-                {
-                    var child = newElement.ChildNodes[0];
-                    newElement.RemoveChild(child, true);
-                    InsertNode(end, child);
-                    end++;
-                }
-
-                while (start < end)
-                {
-                    var child = _children[start];
-                    addedNodes.Add(child);
-                    NodeIsInserted(child);
-                    start++;
-                }
-            }
-            else
-            {
-                addedNodes.Add(newElement);
-                InsertNode(n, newElement);
-                NodeIsInserted(newElement);
-            }
-
-            if (!suppressObservers && document != null)
-            {
-                document.QueueMutation(MutationRecord.ChildList(
-                    target: this,
-                    addedNodes: addedNodes,
-                    previousSibling: n > 0 ? _children[n - 1] : null,
-                    nextSibling: referenceElement));
-            }
-
-            return newElement;
-        }
-
-        internal void RemoveChild(Node node, Boolean suppressObservers)
-        {
-            var document = Owner;
-            var index = _children.Index(node);
-
-            if (document != null)
-            {
-                document.ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
-                document.ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
-                document.ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
-                document.ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
-            }
-
-            var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
-
-            if (!suppressObservers && document != null)
-            {
-                var removedNodes = new NodeList { node };
-
-                document.QueueMutation(MutationRecord.ChildList(
-                    target: this, 
-                    removedNodes: removedNodes, 
-                    previousSibling: oldPreviousSibling, 
-                    nextSibling: node.NextSibling));
-
-                document.AddTransientObserver(node);
-            }
-
-            RemoveNode(index, node);
-            NodeIsRemoved(node, oldPreviousSibling);
-        }
-
-        internal INode ReplaceChild(Node node, Node child, Boolean suppressObservers)
-        {
-            if (this.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(this))
-                throw new DomException(DomError.HierarchyRequest);
-
-            if (child.Parent != this)
-                throw new DomException(DomError.NotFound);
-
-            if (node.IsInsertable())
-            {
-                var parent = _parent as IDocument;
-                var referenceChild = child.NextSibling;
-                var document = Owner;
-                var addedNodes = new NodeList();
-                var removedNodes = new NodeList();
-
-                if (parent != null)
-                {
-                    var forbidden = false;
-
-                    switch (node._type)
-                    {
-                        case NodeType.DocumentType:
-                            forbidden = parent.Doctype != child || child.IsPrecededByElement();
-                            break;
-                        case NodeType.Element:
-                            forbidden = parent.DocumentElement != child || child.IsFollowedByDoctype();
-                            break;
-                        case NodeType.DocumentFragment:
-                            var elements = node.GetElementCount();
-                            forbidden = elements > 1 || node.HasTextNodes() || (elements == 1 && (parent.DocumentElement != child || child.IsFollowedByDoctype()));
-                            break;
-                    }
-
-                    if (forbidden)
-                        throw new DomException(DomError.HierarchyRequest);
-                }
-
-                if (referenceChild == node)
-                {
-                    referenceChild = node.NextSibling;
-                }
-
-                document?.AdoptNode(node);
-                RemoveChild(child, true);
-                InsertBefore(node, referenceChild, true);
-                removedNodes.Add(child);
-
-                if (node._type == NodeType.DocumentFragment)
-                {
-                    addedNodes.AddRange(node._children);
-                }
-                else
-                {
-                    addedNodes.Add(node);
-                }
-
-                if (!suppressObservers && document != null)
-                {
-                    document.QueueMutation(MutationRecord.ChildList(
-                        target: this,
-                        addedNodes: addedNodes,
-                        removedNodes: removedNodes,
-                        previousSibling: child.PreviousSibling,
-                        nextSibling: referenceChild));
-                }
-
-                return child;
-            }
-            
-            throw new DomException(DomError.HierarchyRequest);
-        }
-
-        internal abstract Node Clone(Document newOwner, Boolean deep);
-
         /// <summary>
         /// Run any adopting steps defined for node in other applicable 
         /// specifications and pass node and oldDocument as parameters.
         /// </summary>
-        internal virtual void NodeIsAdopted(Document oldDocument)
+        protected virtual void NodeIsAdopted(Document oldDocument)
         {
         }
 
         /// <summary>
         /// Specifications may define insertion steps for all or some nodes.
         /// </summary>
-        internal virtual void NodeIsInserted(Node newNode)
+        protected virtual void NodeIsInserted(Node newNode)
         {
             newNode.OnParentChanged();
         }
@@ -774,7 +766,7 @@
         /// <summary>
         /// Specifications may define removing steps for all or some nodes.
         /// </summary>
-        internal virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
+        protected virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
         {
             removedNode.OnParentChanged();
         }
