@@ -69,7 +69,59 @@
 		<meta name=""this"" content=""that"">
 		<meta name=""this"" content=""that"">
 	</head>
-	<body></body>
+	<body>
+	</body>
+</html>";
+
+            Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
+        }
+        [Test]
+        public void CommentsArePlacedCorrectlyInPrettyFormatter()
+        {
+            var output = Print("<html><head><!--First--></head><!--Second--><body><!--Third--></body></html><!--Fourth-->");
+            var result = @"<html>
+	<head>
+		<!--First-->
+	</head>
+	<!--Second-->
+	<body>
+		<!--Third-->
+	</body>
+</html>
+<!--Fourth-->";
+
+            Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
+        }
+
+        [Test]
+        public void TextAndElementsAreMixedWithTightSpacingInPrettyFormatter()
+        {
+            var output = Print(@"<html><head></head><body>hello <i>my</i> friend<u>!</u> How are <strong>you</strong>?</body></html>");
+            var result = @"<html>
+	<head></head>
+	<body>hello
+		<i>my</i>
+		friend<u>!</u>
+		How are
+		<strong>you</strong>?</body>
+</html>";
+
+            Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
+        }
+
+        [Test]
+        public void TextAndElementsAreMixedWithInsertedSpacingInPrettyFormatter()
+        {
+            var output = Print(@"<html><head></head><body> hello <i>my</i> friend<u>!</u> How are <strong>you</strong>? </body></html>");
+            var result = @"<html>
+	<head></head>
+	<body>
+		hello
+		<i>my</i>
+		friend<u>!</u>
+		How are
+		<strong>you</strong>?
+	</body>
 </html>";
 
             Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
