@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp
 {
-    using System;
     using AngleSharp.Dom;
+    using System;
 
     /// <summary>
     /// Basic interface for HTML node serialization.
@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="text">The text to sanatize.</param>
         /// <returns>The formatted text.</returns>
-        String Text(String text);
+        String Text(ICharacterData text);
 
         /// <summary>
         /// Formats the given comment.

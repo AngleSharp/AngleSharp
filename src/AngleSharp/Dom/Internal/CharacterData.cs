@@ -195,7 +195,7 @@
         
         public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            writer.Write(formatter.Text(_content));
+            writer.Write(formatter.Text(this));
         }
 
         public void Before(params INode[] nodes)

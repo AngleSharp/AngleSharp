@@ -143,7 +143,7 @@
         /// </summary>
         /// <param name="text">The text to sanatize.</param>
         /// <returns>The formatted text.</returns>
-        public String Text(String text)
+        public String Text(ICharacterData text)
         {
             return ChildFormatter.Text(text);
         }

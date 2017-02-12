@@ -58,52 +58,69 @@
 
         String IMarkupFormatter.Comment(IComment comment)
         {
-            return String.Concat(
-                IntendBefore(comment.PreviousSibling),
-                HtmlMarkupFormatter.Instance.Comment(comment),
-                NewLineAfter(comment.NextSibling));
+            var before = IntendBefore();
+            return before + HtmlMarkupFormatter.Instance.Comment(comment);
         }
 
         String IMarkupFormatter.Doctype(IDocumentType doctype)
         {
-            return String.Concat(
-                IntendBefore(doctype.PreviousSibling),
-                HtmlMarkupFormatter.Instance.Doctype(doctype),
-                NewLineAfter(doctype.NextSibling));
+            var before = String.Empty;
+
+            if (doctype.ParentElement != null)
+            {
+                before = IntendBefore();
+            }
+
+            return before + HtmlMarkupFormatter.Instance.Doctype(doctype);
         }
 
         String IMarkupFormatter.Processing(IProcessingInstruction processing)
         {
-            return String.Concat(
-                IntendBefore(processing.PreviousSibling),
-                HtmlMarkupFormatter.Instance.Processing(processing),
-                NewLineAfter(processing.NextSibling));
+            var before = IntendBefore();
+            return before + HtmlMarkupFormatter.Instance.Processing(processing);
         }
 
-        String IMarkupFormatter.Text(String text)
+        String IMarkupFormatter.Text(ICharacterData text)
         {
-            var singleLine = text.Replace(Symbols.LineFeed, Symbols.Space);
-            return HtmlMarkupFormatter.Instance.Text(singleLine);
+            var content = text.Data;
+            var before = String.Empty;
+            var singleLine = content.Replace(Symbols.LineFeed, Symbols.Space).TrimEnd();
+
+            if (singleLine.Length > 0 && singleLine[0].IsSpaceCharacter())
+            {
+                singleLine = singleLine.TrimStart();
+                before = IntendBefore();
+            }
+
+            return before + HtmlMarkupFormatter.EscapeText(singleLine);
         }
 
         String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
         {
-            var before = IntendBefore(element.PreviousSibling ?? element.Parent);
+            var before = String.Empty;
+            var previousSibling = element.PreviousSibling as IText;
+
+            if (element.ParentElement != null && (previousSibling == null || EndsWithSpace(previousSibling)))
+            {
+                before = IntendBefore();
+            }            
+
             _intendCount++;
-            return String.Concat(
-                before,
-                HtmlMarkupFormatter.Instance.OpenTag(element, selfClosing),
-                NewLineAfter(element.FirstChild ?? element.NextSibling));
+            return before + HtmlMarkupFormatter.Instance.OpenTag(element, selfClosing);
         }
 
         String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
         {
             _intendCount--;
-            var before = IntendBefore(element.LastChild ?? element.Parent);
-            return String.Concat(
-                before,
-                HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing),
-                NewLineAfter(element.NextSibling ?? element.Parent));
+            var before = String.Empty;
+            var lastChild = element.LastChild as IText;
+
+            if (element.HasChildNodes && (lastChild == null || EndsWithSpace(lastChild)))
+            {
+                before = IntendBefore();
+            }
+            
+            return before + HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing);
         }
 
         String IMarkupFormatter.Attribute(IAttr attribute)
@@ -115,24 +132,15 @@
 
         #region Helpers
 
-        private String NewLineAfter(INode node)
+        private static Boolean EndsWithSpace(ICharacterData text)
         {
-            if (node != null && node.NodeType != NodeType.Text)
-            {
-                return _newLineString;
-            }
-
-            return String.Empty;
+            var content = text.Data;
+            return content.Length > 0 && content[content.Length - 1].IsSpaceCharacter();
         }
 
-        private String IntendBefore(INode node)
+        private String IntendBefore()
         {
-            if (node != null && node.NodeType != NodeType.Text)
-            {
-                return String.Join(String.Empty, Enumerable.Repeat(_intendString, _intendCount));
-            }
-
-            return String.Empty;
+            return _newLineString + String.Join(String.Empty, Enumerable.Repeat(_intendString, _intendCount));
         }
 
         #endregion

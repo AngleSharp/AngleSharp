@@ -37,23 +37,10 @@
             return String.Concat("<?", value, ">");
         }
 
-        String IMarkupFormatter.Text(String text)
+        String IMarkupFormatter.Text(ICharacterData text)
         {
-            var temp = StringBuilderPool.Obtain();
-
-            for (var i = 0; i < text.Length; i++)
-            {
-                switch (text[i])
-                {
-                    case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.NoBreakSpace: temp.Append("&nbsp;"); break;
-                    case Symbols.GreaterThan: temp.Append("&gt;"); break;
-                    case Symbols.LessThan: temp.Append("&lt;"); break;
-                    default: temp.Append(text[i]); break;
-                }
-            }
-
-            return temp.ToPool();
+            var content = text.Data;
+            return EscapeText(content);
         }
 
         String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
@@ -133,7 +120,26 @@
 
         #region Helpers
 
-        static String GetIds(String publicId, String systemId)
+        public static String EscapeText(String content)
+        {
+            var temp = StringBuilderPool.Obtain();
+
+            for (var i = 0; i < content.Length; i++)
+            {
+                switch (content[i])
+                {
+                    case Symbols.Ampersand: temp.Append("&amp;"); break;
+                    case Symbols.NoBreakSpace: temp.Append("&nbsp;"); break;
+                    case Symbols.GreaterThan: temp.Append("&gt;"); break;
+                    case Symbols.LessThan: temp.Append("&lt;"); break;
+                    default: temp.Append(content[i]); break;
+                }
+            }
+
+            return temp.ToPool();
+        }
+
+        private static String GetIds(String publicId, String systemId)
         {
             if (String.IsNullOrEmpty(publicId) && String.IsNullOrEmpty(systemId))
             {
@@ -151,7 +157,7 @@
             return $" PUBLIC \"{publicId}\" \"{systemId}\"";
         }
 
-        static String XmlNamespaceLocalName(String name)
+        private static String XmlNamespaceLocalName(String name)
         {
             return name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":") : name;
         }
