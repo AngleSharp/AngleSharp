@@ -12,8 +12,7 @@
         {
             var output = Print("<html><head></head><body><i></i></body></html>");
             var result = @"<html>
-	<head>
-	</head>
+	<head></head>
 	<body>
 		<i></i>
 	</body>
@@ -25,10 +24,9 @@
         [Test]
         public void ElementsWithAttributesArePrintedLikeNormalElementsInPrettyFormatter()
         {
-            var output = Print("<html><head></head><body><script src=\"//ajax.aspnetcdn.com/ajax/bootstrap/3.0.1/bootstrap.min.js\"></script><script src=\"//ajax.aspnetcdn.com/ajax/bootstrap/1.9.1/jquery.min.js\"></script></body></html>");
+            var output = Print("<html><head></head><body><script src=\"//ajax.aspnetcdn.com/ajax/bootstrap/3.0.1/bootstrap.min.js\"></script><script src=\"//ajax.aspnetcdn.com/ajax/jquery/1.9.1/jquery.min.js\"></script></body></html>");
             var result = @"<html>
-	<head>
-	</head>
+	<head></head>
 	<body>
 		<script src=""//ajax.aspnetcdn.com/ajax/bootstrap/3.0.1/bootstrap.min.js""></script>
 		<script src=""//ajax.aspnetcdn.com/ajax/jquery/1.9.1/jquery.min.js""></script>
@@ -68,10 +66,10 @@
 ");
             var result = @"<html>
 	<head>
-        <meta name=""this"" content=""that"">
-        <meta name=""this"" content=""that"">
-    </head>
-    <body> </body>
+		<meta name=""this"" content=""that"">
+		<meta name=""this"" content=""that"">
+	</head>
+	<body></body>
 </html>";
 
             Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
