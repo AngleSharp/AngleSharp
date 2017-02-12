@@ -77,21 +77,10 @@
             return String.Concat("<?", value, "?>");
         }
 
-        String IMarkupFormatter.Text(String text)
+        String IMarkupFormatter.Text(ICharacterData text)
         {
-            var temp = StringBuilderPool.Obtain();
-
-            for (var i = 0; i < text.Length; i++)
-            {
-                switch (text[i])
-                {
-                    case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.LessThan: temp.Append("&lt;"); break;
-                    default: temp.Append(text[i]); break;
-                }
-            }
-
-            return temp.ToPool();
+            var content = text.Data;
+            return EscapeText(content);
         }
 
         String IMarkupFormatter.Attribute(IAttr attribute)
@@ -113,6 +102,27 @@
             }
 
             return temp.Append(Symbols.DoubleQuote).ToPool();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        public static String EscapeText(String content)
+        {
+            var temp = StringBuilderPool.Obtain();
+
+            for (var i = 0; i < content.Length; i++)
+            {
+                switch (content[i])
+                {
+                    case Symbols.Ampersand: temp.Append("&amp;"); break;
+                    case Symbols.LessThan: temp.Append("&lt;"); break;
+                    default: temp.Append(content[i]); break;
+                }
+            }
+
+            return temp.ToPool();
         }
 
         #endregion

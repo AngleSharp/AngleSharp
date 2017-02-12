@@ -15,6 +15,7 @@
         private String _intendString;
         private String _newLineString;
         private Int32 _intendCount;
+        private Boolean _trimAll;
 
         #endregion
 
@@ -28,6 +29,7 @@
             _intendCount = 0;
             _intendString = "\t";
             _newLineString = "\n";
+            _trimAll = true;
         }
 
         #endregion
@@ -52,58 +54,81 @@
             set { _newLineString = value; }
         }
 
+        /// <summary>
+        /// Gets or sets if all whitespace should be trimmed.
+        /// Otherwise at least 1 space will remain.
+        /// </summary>
+        public Boolean TrimAllWhitespace
+        {
+            get { return _trimAll; }
+            set { _trimAll = value; }
+        }
+
         #endregion
 
         #region Methods
 
         String IMarkupFormatter.Comment(IComment comment)
         {
-            return String.Concat(
-                IntendBefore(comment.PreviousSibling),
-                HtmlMarkupFormatter.Instance.Comment(comment),
-                NewLineAfter(comment.NextSibling));
+            var before = IntendBefore(comment.PreviousSibling);
+            return before + HtmlMarkupFormatter.Instance.Comment(comment);
         }
 
         String IMarkupFormatter.Doctype(IDocumentType doctype)
         {
-            return String.Concat(
-                IntendBefore(doctype.PreviousSibling),
-                HtmlMarkupFormatter.Instance.Doctype(doctype),
-                NewLineAfter(doctype.NextSibling));
+            var before = String.Empty;
+
+            if (doctype.ParentElement != null)
+            {
+                before = IntendBefore(doctype);
+            }
+
+            return before + HtmlMarkupFormatter.Instance.Doctype(doctype);
         }
 
         String IMarkupFormatter.Processing(IProcessingInstruction processing)
         {
-            return String.Concat(
-                IntendBefore(processing.PreviousSibling),
-                HtmlMarkupFormatter.Instance.Processing(processing),
-                NewLineAfter(processing.NextSibling));
+            var before = IntendBefore(processing);
+            return before + HtmlMarkupFormatter.Instance.Processing(processing);
         }
 
-        String IMarkupFormatter.Text(String text)
+        String IMarkupFormatter.Text(ICharacterData text)
         {
-            var singleLine = text.Replace(Symbols.LineFeed, Symbols.Space);
-            return HtmlMarkupFormatter.Instance.Text(singleLine);
+            var content = text.Data;
+            var singleLine = content.Replace(Symbols.LineFeed, Symbols.Space).Trim();
+
+            if (!_trimAll && singleLine.Length == 0 && content.Length > 0)
+            {
+                singleLine = " ";
+            }
+
+            return HtmlMarkupFormatter.EscapeText(singleLine);
         }
 
         String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
         {
-            var before = IntendBefore(element.PreviousSibling ?? element.Parent);
+            var before = String.Empty;
+
+            if (element.ParentElement != null)
+            {
+                before = IntendBefore(element);
+            }            
+
             _intendCount++;
-            return String.Concat(
-                before,
-                HtmlMarkupFormatter.Instance.OpenTag(element, selfClosing),
-                NewLineAfter(element.FirstChild ?? element.NextSibling));
+            return before + HtmlMarkupFormatter.Instance.OpenTag(element, selfClosing);
         }
 
         String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
         {
             _intendCount--;
-            var before = IntendBefore(element.LastChild ?? element.Parent);
-            return String.Concat(
-                before,
-                HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing),
-                NewLineAfter(element.NextSibling ?? element.Parent));
+            var before = String.Empty;
+
+            if (element.HasChildNodes && (element.ChildNodes.Length != 1 || element.ChildNodes[0].NodeType != NodeType.Text))
+            {
+                before = IntendBefore(element);
+            }
+            
+            return before + HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing);
         }
 
         String IMarkupFormatter.Attribute(IAttr attribute)
@@ -115,24 +140,9 @@
 
         #region Helpers
 
-        private String NewLineAfter(INode node)
-        {
-            if (node != null && node.NodeType != NodeType.Text)
-            {
-                return _newLineString;
-            }
-
-            return String.Empty;
-        }
-
         private String IntendBefore(INode node)
         {
-            if (node != null && node.NodeType != NodeType.Text)
-            {
-                return String.Join(String.Empty, Enumerable.Repeat(_intendString, _intendCount));
-            }
-
-            return String.Empty;
+            return _newLineString + String.Join(String.Empty, Enumerable.Repeat(_intendString, _intendCount));
         }
 
         #endregion
