@@ -15,7 +15,6 @@
         private String _intendString;
         private String _newLineString;
         private Int32 _intendCount;
-        private Boolean _trimAll;
 
         #endregion
 
@@ -29,7 +28,6 @@
             _intendCount = 0;
             _intendString = "\t";
             _newLineString = "\n";
-            _trimAll = true;
         }
 
         #endregion
@@ -54,23 +52,13 @@
             set { _newLineString = value; }
         }
 
-        /// <summary>
-        /// Gets or sets if all whitespace should be trimmed.
-        /// Otherwise at least 1 space will remain.
-        /// </summary>
-        public Boolean TrimAllWhitespace
-        {
-            get { return _trimAll; }
-            set { _trimAll = value; }
-        }
-
         #endregion
 
         #region Methods
 
         String IMarkupFormatter.Comment(IComment comment)
         {
-            var before = IntendBefore(comment.PreviousSibling);
+            var before = IntendBefore();
             return before + HtmlMarkupFormatter.Instance.Comment(comment);
         }
 
@@ -80,7 +68,7 @@
 
             if (doctype.ParentElement != null)
             {
-                before = IntendBefore(doctype);
+                before = IntendBefore();
             }
 
             return before + HtmlMarkupFormatter.Instance.Doctype(doctype);
@@ -88,30 +76,33 @@
 
         String IMarkupFormatter.Processing(IProcessingInstruction processing)
         {
-            var before = IntendBefore(processing);
+            var before = IntendBefore();
             return before + HtmlMarkupFormatter.Instance.Processing(processing);
         }
 
         String IMarkupFormatter.Text(ICharacterData text)
         {
             var content = text.Data;
-            var singleLine = content.Replace(Symbols.LineFeed, Symbols.Space).Trim();
+            var before = String.Empty;
+            var singleLine = content.Replace(Symbols.LineFeed, Symbols.Space).TrimEnd();
 
-            if (!_trimAll && singleLine.Length == 0 && content.Length > 0)
+            if (singleLine.Length > 0 && singleLine[0].IsSpaceCharacter())
             {
-                singleLine = " ";
+                singleLine = singleLine.TrimStart();
+                before = IntendBefore();
             }
 
-            return HtmlMarkupFormatter.EscapeText(singleLine);
+            return before + HtmlMarkupFormatter.EscapeText(singleLine);
         }
 
         String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
         {
             var before = String.Empty;
+            var previousSibling = element.PreviousSibling as IText;
 
-            if (element.ParentElement != null)
+            if (element.ParentElement != null && (previousSibling == null || EndsWithSpace(previousSibling)))
             {
-                before = IntendBefore(element);
+                before = IntendBefore();
             }            
 
             _intendCount++;
@@ -122,10 +113,11 @@
         {
             _intendCount--;
             var before = String.Empty;
+            var lastChild = element.LastChild as IText;
 
-            if (element.HasChildNodes && (element.ChildNodes.Length != 1 || element.ChildNodes[0].NodeType != NodeType.Text))
+            if (element.HasChildNodes && (lastChild == null || EndsWithSpace(lastChild)))
             {
-                before = IntendBefore(element);
+                before = IntendBefore();
             }
             
             return before + HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing);
@@ -140,7 +132,13 @@
 
         #region Helpers
 
-        private String IntendBefore(INode node)
+        private static Boolean EndsWithSpace(ICharacterData text)
+        {
+            var content = text.Data;
+            return content.Length > 0 && content[content.Length - 1].IsSpaceCharacter();
+        }
+
+        private String IntendBefore()
         {
             return _newLineString + String.Join(String.Empty, Enumerable.Repeat(_intendString, _intendCount));
         }
