@@ -16,7 +16,7 @@
   },
 
   "frameworks": {
-    "netstandard1.0": {
+    "netstandard1.3": {
       "dependencies": {
         "System.Collections": "4.0.11",
         "System.Diagnostics.Debug": "4.0.11",
@@ -33,7 +33,8 @@
         "System.Text.Encoding": "4.0.11",
         "System.Text.Encoding.Extensions": "4.0.11",
         "System.Text.RegularExpressions": "4.1.0",
-        "System.Threading": "4.0.11"
+        "System.Threading": "4.0.11",
+        "System.Text.Encoding.CodePages": "4.3.0"
       }
     },
 
