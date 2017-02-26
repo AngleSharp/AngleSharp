@@ -16,11 +16,11 @@
     public abstract class BaseLoader : ILoader
     {
         #region Fields
-        
+
         private readonly IBrowsingContext _context;
         private readonly Predicate<IRequest> _filter;
         private readonly List<IDownload> _downloads;
-        
+
         #endregion
 
         #region ctor
@@ -86,7 +86,7 @@
         /// <returns>The associated cookie string, if any.</returns>
         protected virtual String GetCookie(Url url)
         {
-            return _context.Configuration.GetCookie(url.Origin);
+            return _context.Configuration.GetCookie(url.Href);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@
         /// <param name="value">The value of the cookie.</param>
         protected virtual void SetCookie(Url url, String value)
         {
-            _context.Configuration.SetCookie(url.Origin, value);
+            _context.Configuration.SetCookie(url.Href, value);
         }
 
         /// <summary>
@@ -148,16 +148,8 @@
             var redirectCount = 0;
             AppendCookieTo(request);
 
-            do
+            while (true)
             {
-                if (response != null)
-                {
-                    redirectCount++;
-                    ExtractCookieFrom(response);
-                    request = CreateNewRequest(request, response);
-                    AppendCookieTo(request);
-                }
-
                 foreach (var requester in requesters)
                 {
                     if (requester.SupportsProtocol(request.Address.Scheme))
@@ -168,8 +160,19 @@
                         break;
                     }
                 }
+
+                if (response == null)
+                    break;
+
+                ExtractCookieFrom(response);
+                if (response.StatusCode.IsRedirected() && redirectCount < MaxRedirects)
+                {
+                    redirectCount++;
+                    request = CreateNewRequest(request, response);
+                    AppendCookieTo(request);
+                }
+                else break;
             }
-            while (response != null && response.StatusCode.IsRedirected() && redirectCount < MaxRedirects);
 
             return response;
         }

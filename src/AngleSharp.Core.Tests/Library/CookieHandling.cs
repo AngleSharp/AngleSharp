@@ -117,7 +117,7 @@
 
             document = await document.QuerySelector<IHtmlAnchorElement>("a").NavigateAsync();
 
-            Assert.AreEqual("UserID=Foo; Auth=Bar", document.Cookie);
+            Assert.AreEqual("Auth=Bar; UserID=Foo", document.Cookie);
         }
 
         [Test]
