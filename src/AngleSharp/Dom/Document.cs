@@ -757,8 +757,8 @@
 
         public String Cookie
         {
-            get { return Options.GetCookie(_location.Origin); }
-            set { Options.SetCookie(_location.Origin, value); }
+            get { return Options.GetCookie(_location.Href); }
+            set { Options.SetCookie(_location.Href, value); }
         }
 
         public String Domain

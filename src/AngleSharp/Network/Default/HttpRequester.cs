@@ -137,7 +137,6 @@
 
         private sealed class RequestState
         {
-            private readonly CookieContainer _cookies;
             private readonly IDictionary<String, String> _headers;
             private readonly HttpWebRequest _http;
             private readonly IRequest _request;
@@ -145,11 +144,9 @@
 
             public RequestState(IRequest request, IDictionary<String, String> headers)
             {
-                _cookies = new CookieContainer();
                 _headers = headers;
                 _request = request;
                 _http = WebRequest.Create(request.Address) as HttpWebRequest;
-                _http.CookieContainer = _cookies;
                 _http.Method = request.Method.ToString().ToUpperInvariant();
                 _buffer = new Byte[BufferSize];
                 SetHeaders();
@@ -204,7 +201,6 @@
             {
                 if (response != null)
                 {
-                    var cookies = _cookies.GetCookies(response.ResponseUri);
                     var headers = response.Headers.AllKeys.Select(m => new { Key = m, Value = response.Headers[m] });
                     var result = new Response
                     {
@@ -216,12 +212,6 @@
                     foreach (var header in headers)
                     {
                         result.Headers.Add(header.Key, header.Value);
-                    }
-
-                    if (cookies.Count > 0)
-                    {
-                        var strings = cookies.OfType<Cookie>().Select(m => m.ToString());
-                        result.Headers[HeaderNames.SetCookie] = String.Join(", ", strings);
                     }
 
                     return result;
@@ -280,7 +270,7 @@
             private void SetCookies()
             {
                 var cookieHeader = _request.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
-                _cookies.SetCookies(_http.RequestUri, cookieHeader.Replace(';', ','));
+                SetProperty(HeaderNames.Cookie, cookieHeader);
             }
 
             private void SetHeaders()

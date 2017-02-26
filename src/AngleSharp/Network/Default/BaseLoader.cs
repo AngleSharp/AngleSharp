@@ -86,7 +86,7 @@
         /// <returns>The associated cookie string, if any.</returns>
         protected virtual String GetCookie(Url url)
         {
-            return _context.Configuration.GetCookie(url.Origin);
+            return _context.Configuration.GetCookie(url.Href);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@
         /// <param name="value">The value of the cookie.</param>
         protected virtual void SetCookie(Url url, String value)
         {
-            _context.Configuration.SetCookie(url.Origin, value);
+            _context.Configuration.SetCookie(url.Href, value);
         }
 
         /// <summary>
@@ -153,7 +153,6 @@
                 if (response != null)
                 {
                     redirectCount++;
-                    ExtractCookieFrom(response);
                     request = CreateNewRequest(request, response);
                     AppendCookieTo(request);
                 }
@@ -168,6 +167,7 @@
                         break;
                     }
                 }
+                ExtractCookieFrom(response);
             }
             while (response != null && response.StatusCode.IsRedirected() && redirectCount < MaxRedirects);
 
