@@ -21,16 +21,11 @@
         {
             foreach (var element in elements)
             {
-                if (selector.Match(element, scope))
+                foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
                 {
-                    return element;
-                }
-
-                foreach (var child in element.Descendents<IElement>())
-                {
-                    if (selector.Match(child, scope))
+                    if (selector.Match(descendentAndSelf, scope))
                     {
-                        return child;
+                        return descendentAndSelf;
                     }
                 }
             }
@@ -69,16 +64,11 @@
         {
             foreach (var element in elements)
             {
-                if (selector.Match(element, scope))
+                foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
                 {
-                    result.Add(element);
-                }
-
-                foreach (var child in element.Descendents<IElement>())
-                {
-                    if (selector.Match(child, scope))
+                    if (selector.Match(descendentAndSelf, scope))
                     {
-                        result.Add(child);
+                        result.Add(descendentAndSelf);
                     }
                 }
             }
