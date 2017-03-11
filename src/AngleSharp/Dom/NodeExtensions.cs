@@ -105,7 +105,12 @@
             return GetDescendantsAndSelf(parent).Skip(1);
         }
 
-        internal static IEnumerable<INode> GetDescendantsAndSelf(this INode parent)
+        /// <summary>
+        /// Gets the descendant nodes and itself of the provided parent, in tree order.
+        /// </summary>
+        /// <param name="parent">The parent of the descendants.</param>
+        /// <returns>An iterator over all descendants and itself.</returns>
+        public static IEnumerable<INode> GetDescendantsAndSelf(this INode parent)
         {
             var stack = new Stack<INode>();
             stack.Push(parent);

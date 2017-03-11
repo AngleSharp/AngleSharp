@@ -243,12 +243,23 @@
             return parent.GetDescendants();
         }
 
-        internal static IEnumerable<TNode> DescendentsAndSelf<TNode>(this INode parent)
+        /// <summary>
+        /// Gets the descendent nodes including itself of the given parent.
+        /// </summary>
+        /// <typeparam name="TNode">The type of nodes to obtain.</typeparam>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <returns>The descendent nodes including itself.</returns>
+        public static IEnumerable<TNode> DescendentsAndSelf<TNode>(this INode parent)
         {
             return parent.DescendentsAndSelf().OfType<TNode>();
         }
 
-        internal static IEnumerable<INode> DescendentsAndSelf(this INode parent)
+        /// <summary>
+        /// Gets the descendent nodes including itself of the given parent.
+        /// </summary>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <returns>The descendent nodes including itself.</returns>
+        public static IEnumerable<INode> DescendentsAndSelf(this INode parent)
         {
             if (parent == null)
                 throw new ArgumentNullException(nameof(parent));
