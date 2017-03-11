@@ -243,6 +243,19 @@
             return parent.GetDescendants();
         }
 
+        internal static IEnumerable<TNode> DescendentsAndSelf<TNode>(this INode parent)
+        {
+            return parent.DescendentsAndSelf().OfType<TNode>();
+        }
+
+        internal static IEnumerable<INode> DescendentsAndSelf(this INode parent)
+        {
+            if (parent == null)
+                throw new ArgumentNullException(nameof(parent));
+
+            return parent.GetDescendantsAndSelf();
+        }
+
         /// <summary>
         /// Gets the ancestor nodes of the given child.
         /// </summary>

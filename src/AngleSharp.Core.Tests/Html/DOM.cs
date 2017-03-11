@@ -662,5 +662,23 @@
             Assert.AreEqual(data, img.GetAttribute("src"));
             Assert.AreEqual(data, ((IHtmlImageElement)img).Source);
         }
+
+        [Test]
+        public void CreateDeepUnknownElementDocument()
+        {
+            var document = String.Empty.ToHtmlDocument();
+            var html = String.Join("", Enumerable.Repeat("<xyz>", 50 * 1000));
+            document.Body.InnerHtml = html;
+            Assert.True(true);
+        }
+
+        [Test]
+        public void SettingBaseUrlForDeepElements()
+        {
+            var document = String.Empty.ToHtmlDocument();
+            var html = String.Join("", Enumerable.Repeat("<xyz>", 50 * 1000)) + "<img src=\"http://www.example.com/\">";
+            document.Body.InnerHtml = html;
+            Assert.True(true);
+        }
     }
 }

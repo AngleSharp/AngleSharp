@@ -102,20 +102,22 @@
         /// <returns>An iterator over all descendants.</returns>
         public static IEnumerable<INode> GetDescendants(this INode parent)
         {
-            foreach (var child in parent.ChildNodes)
-            {
-                var stack = new Stack<INode>();
-                stack.Push(child);
-                while (stack.Count > 0)
-                {
-                    var next = stack.Pop();
-                    yield return next;
+            return GetDescendantsAndSelf(parent).Skip(1);
+        }
 
-                    var length = next.ChildNodes.Length;
-                    while (length > 0)
-                    {
-                        stack.Push(next.ChildNodes[--length]);
-                    }
+        internal static IEnumerable<INode> GetDescendantsAndSelf(this INode parent)
+        {
+            var stack = new Stack<INode>();
+            stack.Push(parent);
+            while (stack.Count > 0)
+            {
+                var next = stack.Pop();
+                yield return next;
+
+                var length = next.ChildNodes.Length;
+                while (length > 0)
+                {
+                    stack.Push(next.ChildNodes[--length]);
                 }
             }
         }
