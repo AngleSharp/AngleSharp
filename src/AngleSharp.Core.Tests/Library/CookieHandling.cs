@@ -213,7 +213,7 @@
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
 
-                Assert.AreEqual("k2=v2; k1=v1", document.Cookie);
+                Assert.AreEqual("k1=v1; k2=v2", document.Cookie);
             }
         }
 
@@ -227,7 +227,7 @@
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
 
-                Assert.AreEqual("test=baz; k2=v2; k1=v1; foo=bar", document.Cookie);
+                Assert.AreEqual("k1=v1; k2=v2; test=baz; foo=bar", document.Cookie);
             }
         }
 
