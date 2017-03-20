@@ -7,6 +7,7 @@
     using AngleSharp.Io;
     using NUnit.Framework;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -212,8 +213,9 @@
                 var config = Configuration.Default.WithCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
+                var cookies = document.Cookie.Split(';').Select(m => m.Trim());
 
-                Assert.AreEqual("k2=v2; k1=v1", document.Cookie);
+                CollectionAssert.AreEquivalent(new[] { "k1=v1", "k2=v2" }, cookies);
             }
         }
 
@@ -226,8 +228,9 @@
                 var config = Configuration.Default.WithCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
+                var cookies = document.Cookie.Split(';').Select(m => m.Trim());
 
-                Assert.AreEqual("test=baz; k2=v2; k1=v1; foo=bar", document.Cookie);
+                CollectionAssert.AreEquivalent(new[] { "k1=v1", "k2=v2", "foo=bar", "test=baz" }, cookies);
             }
         }
 
@@ -268,9 +271,7 @@
                 var document = await context.OpenAsync(redirectUrl);
 
                 Assert.AreEqual(@"{
-  ""cookies"": {
-    ""test"": ""baz""
-  }
+  ""cookies"": {}
 }
 ".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
