@@ -14,6 +14,36 @@
         }
 
         [Test]
+        public void QueryOnEmptyNodeListShouldYieldEmptyResult()
+        {
+            var document = GetTestDocument();
+            var result = document.Head.QuerySelectorAll("a");
+            Assert.AreEqual(0, result.Length);
+        }
+
+        [Test]
+        public void InvalidQueryOnEmptyNodeListShouldThrowException()
+        {
+            var document = GetTestDocument();
+            Assert.Catch<DomException>(() => document.Head.QuerySelectorAll("<invalid>"));
+        }
+
+        [Test]
+        public void QueryOnNonEmptyNodeListShouldYieldEmptyResult()
+        {
+            var document = GetTestDocument();
+            var result = document.Body.QuerySelectorAll("a");
+            Assert.AreEqual(0, result.Length);
+        }
+
+        [Test]
+        public void InvalidQueryOnNonEmptyNodeListShouldThrowException()
+        {
+            var document = GetTestDocument();
+            Assert.Catch<DomException>(() => document.Body.QuerySelectorAll("<invalid>"));
+        }
+
+        [Test]
         public void QueryEqValidIndexShouldYieldEntry()
         {
             var document = GetTestDocument();
