@@ -17,6 +17,7 @@
         /// <summary>
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the specified group of selectors.
+        /// Requires either a non-empty nodelist or a valid scope node.
         /// </summary>
         /// <param name="nodes">The nodes to take as source.</param>
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
@@ -32,6 +33,7 @@
         /// <summary>
         /// Returns a list of the elements within the document (using depth-first pre-order traversal
         /// of the document's nodes) that match the specified group of selectors.
+        /// Requires either a non-empty nodelist or a valid scope node.
         /// </summary>
         /// <param name="nodes">The nodes to take as source.</param>
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
