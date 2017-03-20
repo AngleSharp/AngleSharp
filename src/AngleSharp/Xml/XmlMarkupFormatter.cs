@@ -108,6 +108,12 @@
 
         #region Helpers
 
+        /// <summary>
+        /// Escapes the given text by replacing special characters with their
+        /// XML entity (only applies to ampersands and opening angle brackets).
+        /// </summary>
+        /// <param name="content">The string to alter.</param>
+        /// <returns>The altered string.</returns>
         public static String EscapeText(String content)
         {
             var temp = StringBuilderPool.Obtain();

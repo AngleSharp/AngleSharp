@@ -122,7 +122,7 @@
 
         /// <summary>
         /// Escapes the given text by replacing special characters with their
-        /// html entity.
+        /// HTML entity (amp, nobsp, lt, and gt).
         /// </summary>
         /// <param name="content">The string to alter.</param>
         /// <returns>The altered string.</returns>
