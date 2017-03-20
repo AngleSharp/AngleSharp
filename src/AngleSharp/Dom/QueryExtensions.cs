@@ -24,8 +24,8 @@
         /// <returns>An element object.</returns>
         public static IElement QuerySelector(this INodeList nodes, String selectorText, INode scopeNode = null)
         {
-            var sg = CreateSelector(nodes, selectorText);
             var scope = GetScope(scopeNode);
+            var sg = CreateSelector(nodes, scope, selectorText);
             return sg.MatchAny(nodes.OfType<IElement>(), scope);
         }
 
@@ -39,8 +39,8 @@
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
         public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList nodes, String selectorText, INode scopeNode = null)
         {
-            var sg = CreateSelector(nodes, selectorText);
             var scope = GetScope(scopeNode);
+            var sg = CreateSelector(nodes, scope, selectorText);
             return sg.MatchAll(nodes.OfType<IElement>(), scope);
         }
 
@@ -208,16 +208,15 @@
                 (scopeNode as IShadowRoot)?.Host;
         }
 
-        private static ISelector CreateSelector(INodeList nodes, String selectorText)
+        private static ISelector CreateSelector(INodeList nodes, INode scope, String selectorText)
         {
-            var sg = default(ISelector);
+            var node = nodes.Length > 0 ? nodes[0] : scope;
 
-            if (nodes.Length > 0)
-            {
-                var node = nodes[0];
-                var parser = node.Owner.Context.GetService<ICssSelectorParser>();
-                sg = parser.ParseSelector(selectorText);
-            }
+            if (node == null)
+                throw new InvalidOperationException("A scope is required to parse the query");
+
+            var parser = node.Owner.Context.GetService<ICssSelectorParser>();
+            var sg = parser.ParseSelector(selectorText);
 
             if (sg == null)
                 throw new DomException(DomError.Syntax);
