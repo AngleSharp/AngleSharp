@@ -40,7 +40,12 @@
 
         public Url Url
         {
-            get { return new Url(_link.Href); }
+            get
+            {
+                if (string.IsNullOrEmpty(_link.Href))
+                    return null;
+                return new Url(_link.Href);
+            }
         }
 
         #endregion
