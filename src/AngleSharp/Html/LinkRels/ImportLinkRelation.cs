@@ -60,11 +60,11 @@
             var item = new ImportEntry 
             { 
                 Relation = this,
-                IsCycle = CheckCycle(document, location)
+                IsCycle = location != null && CheckCycle(document, location)
             };
             list.Add(item);
             
-            if (!item.IsCycle)
+            if (location != null && !item.IsCycle)
             {
                 var request = link.CreateRequestFor(location);
                 _isasync = link.HasAttribute(AttributeNames.Async);
@@ -113,7 +113,8 @@
             {
                 for (var i = 0; i < _list.Count; i++)
                 {
-                    if (_list[i].Relation.Url.Equals(location))
+                    Url relationUrl = _list[i].Relation.Url;
+                    if (relationUrl != null && relationUrl.Equals(location))
                     {
                         return true;
                     }
