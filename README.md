@@ -8,17 +8,17 @@ AngleSharp is a .NET library that gives you the ability to parse angle bracket b
 Key features
 ------------
 
-* **Portable** (designed as a portable class library)
-* **Standards conform** (works exactly as in all modern browsers)
-* **Great performance** (outperforms most other parsers in many cases)
+* **Portable** (designed as a PCL - supporting .NET Standard 1.0)
+* **Standards conform** (works exactly as evergreen browsers)
+* **Great performance** (outperforms similar parsers in most scenarios)
 * **Extensible** (extend with your own services)
 * **Useful abstractions** (type helpers, jQuery like construction)
-* **Fully functional DOM** (all the lists, iterators and events you love)
+* **Fully functional DOM** (all the lists, iterators, and events you love)
 * **Form submission** (easily log in everywhere)
 * **Navigation** (a `BrowsingContext` is like a tab - control it from .NET!).
 * **LINQ enhanced** (use LINQ with DOM elements, naturally)
 
-The advantage over similar libraries like the HtmlAgilityPack is that, e.g., CSS (including selectors) is already built-in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. The AngleSharp library focuses on standards compliance, interactivity and extensibility. It is therefore giving web developers, who are working with C#, all possibilities as they know from using the DOM in any modern browser.
+The advantage over similar libraries like *HtmlAgilityPack* is that the exposed DOM is using the official W3C specified API, i.e., that even things like `querySelectorAll` are available in AngleSharp. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. The AngleSharp library focuses on standards compliance, interactivity, and extensibility. It is therefore giving web developers working with C# all possibilities as they know from using the DOM in any modern browser.
 
 The performance of AngleSharp is quite close to the performance of browsers. Even very large pages can be processed within milliseconds. AngleSharp tries to minimize memory allocations and reuses elements internally to avoid unnecessary object creation.
 
@@ -55,12 +55,12 @@ AngleSharp has been created as a PCL (profile 259) that supports a wide range of
 * Xamarin.Android
 * Xamarin.iOS
 
-Additionally the NuGet package also comes with support for the following platforms:
+Additionally, the NuGet package also comes with support for the following platforms:
 
 * Silverlight 5
 * .NET 4.0
 
-Please note, however, that those platforms have requirements (Microsoft.Bcl.Async), which are not needed by the platforms targeted from the original PCL version
+Please note, however, that those platforms have dependencies (*Microsoft.Bcl.Async*), which are not needed by originally supported platforms.
 
 Every collection in AngleSharp supports LINQ statements. AngleSharp also provides many useful extension methods for element collections that cannot be found in the official DOM.
 
@@ -75,7 +75,7 @@ Documentation is available in form of the public Wiki here at GitHub.
 * [Examples](https://github.com/AngleSharp/AngleSharp/wiki/Examples)
 * [Performance](https://github.com/AngleSharp/AngleSharp/wiki/Performance)
 
-The project's timeline, upcoming implementations, (currently) missing features and milestones is published and maintained in the Wiki as well. Issues should be reported on the GitHub's project page.
+The project's timeline, upcoming implementations, (currently) missing features, and milestones is published and maintained in the Wiki as well. Issues should be reported on the GitHub's project page.
 
 More information is also available by following some of the hyper references mentioned in the Wiki. In-depth articles will be published on the CodeProject, with links being placed in the Wiki at GitHub.
 
@@ -86,7 +86,7 @@ Current status
 [![Nuget count](https://img.shields.io/nuget/v/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
 [![Issues open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
 
-The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML and CSS to the CLR, written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript.
+The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, and CSS to the CLR, written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript.
 
 Most parts of the DOM are included, even though some may still miss their (right) implementation. The goal for v1.0 is to have almost everything implemented according to the official W3C specification (with useful extensions by the WHATWG).
 
@@ -185,11 +185,13 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(Q4 2016) **1.0.0**
+(Q1 2017) **1.0.0**
 - Release of the first stable version
-- Split AngleSharp.Core into several libraries (Core, CSS)
 - Provide internal / external communication channel (best flexibility)
 - Service model finalized
+
+(Q4 2016) **0.10.0**
+- Split AngleSharp.Core into several libraries (Core, CSS)
 
 The current schedule seems to be rather defensive, which does not mean the project will be "finished", i.e., released in version 1.0.0, before the given date. If there is time left, more unit tests will be written and the general code quality will be increased.
 

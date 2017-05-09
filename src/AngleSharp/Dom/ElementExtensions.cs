@@ -1468,7 +1468,7 @@
                 return new Url(img.BaseUrl, candidate);
             }
 
-            return Url.Create(img.Source);
+            return string.IsNullOrEmpty(img.Source) ? null : Url.Create(img.Source);
         }
 
         /// <summary>

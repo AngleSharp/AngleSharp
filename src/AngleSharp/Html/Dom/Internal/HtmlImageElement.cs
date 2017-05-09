@@ -121,7 +121,10 @@
         internal void UpdateSource()
         {
             var url = this.GetImageCandidate();
-            this.Process(_request, url);
+            if (url != null)
+            {
+                this.Process(_request, url);
+            }
         }
 
         #endregion
