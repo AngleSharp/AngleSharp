@@ -33,6 +33,9 @@
 
         public override Task LoadAsync()
         {
+            if (Url == null)
+                return Task.FromResult(0);
+
             var request = Link.CreateRequestFor(Url);
             return Processor?.ProcessAsync(request);
         }
