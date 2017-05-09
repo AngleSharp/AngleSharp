@@ -122,7 +122,9 @@
         {
             var url = this.GetImageCandidate();
             if (url != null)
+            {
                 this.Process(_request, url);
+            }
         }
 
         #endregion

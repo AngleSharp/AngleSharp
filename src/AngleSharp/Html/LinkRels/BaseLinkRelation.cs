@@ -52,12 +52,7 @@
         /// </summary>
         public Url Url
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_link.Href))
-                    return null;
-                return new Url(_link.Href);
-            }
+            get { return string.IsNullOrEmpty(_link.Href) ? null : new Url(_link.Href); }
         }
 
         #endregion
