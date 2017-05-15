@@ -58,7 +58,7 @@
             private set;
         }
 
-        public void Init(string filename, int line, int column, Exception error)
+        public void Init(String filename, Int32 line, Int32 column, Exception error)
         {
             FileName = filename;
             Line = line;
