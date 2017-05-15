@@ -52,10 +52,18 @@
         /// Gets the exception describing the error.
         /// </summary>
         [DomName("error")]
-        public DomException Error
+        public Exception Error
         {
             get;
             private set;
+        }
+
+        public void Init(string filename, int line, int column, Exception error)
+        {
+            FileName = filename;
+            Line = line;
+            Column = column;
+            Error = error;
         }
     }
 }
