@@ -122,7 +122,7 @@
         /// <param name="request">Callback with the response to setup.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel = default(CancellationToken))
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
