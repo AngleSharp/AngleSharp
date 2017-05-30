@@ -28,10 +28,11 @@
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
         /// <param name="url">The optional base URL of the document.</param>
+        /// <param name="cancellation">The cancellation token (optional)</param>
         /// <returns>The new, yet empty, document.</returns>
-        public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null)
+        public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null, CancellationToken cancellation = default(CancellationToken))
         {
-            return context.OpenAsync(m => m.Address(url));
+            return context.OpenAsync(m => m.Address(url), cancellation);
         }
 
         /// <summary>
@@ -42,7 +43,7 @@
         /// <param name="response">The response to examine.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel = default(CancellationToken))
         {
             if (response == null)
                 throw new ArgumentNullException(nameof(response));
@@ -66,7 +67,7 @@
         /// <param name="request">The request to issue.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel)
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default(CancellationToken))
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
@@ -87,7 +88,7 @@
                 }
             }
 
-            return await context.OpenNewAsync(request.Target.Href).ConfigureAwait(false);
+            return await context.OpenNewAsync(request.Target.Href, cancel).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -98,7 +99,7 @@
         /// <param name="url">The URL to load.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel)
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel = default(CancellationToken))
         {
             if (url == null)
                 throw new ArgumentNullException(nameof(url));
@@ -121,7 +122,7 @@
         /// <param name="request">Callback with the response to setup.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel = default(CancellationToken))
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
@@ -133,42 +134,19 @@
         }
 
         /// <summary>
-        /// Opens a new document loaded from a virtual response that can be 
-        /// filled via the provided callback without any ability to cancel it.
-        /// </summary>
-        /// <param name="context">The browsing context to use.</param>
-        /// <param name="request">Callback with the response to setup.</param>
-        /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request)
-        {
-            return context.OpenAsync(request, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Opens a new document loaded from the provided url asynchronously in
-        /// the given context without the ability to cancel it.
-        /// </summary>
-        /// <param name="context">The browsing context to use.</param>
-        /// <param name="url">The URL to load.</param>
-        /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url)
-        {
-            return context.OpenAsync(url, CancellationToken.None);
-        }
-
-        /// <summary>
         /// Opens a new document loaded from the provided address asynchronously
         /// in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
         /// <param name="address">The address to load.</param>
+        /// <param name="cancellation">The cancellation token (optional)</param>
         /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, String address)
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, String address, CancellationToken cancellation = default(CancellationToken))
         {
             if (address == null)
                 throw new ArgumentNullException(nameof(address));
 
-            return context.OpenAsync(Url.Create(address), CancellationToken.None);
+            return context.OpenAsync(Url.Create(address), cancellation);
         }
 
         #endregion

@@ -62,6 +62,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
+    <Compile Include="Auxiliary\ConfigurationsExtensions.cs" />
     <Compile Include="Css\Slickspeed.cs" />
     <Compile Include="Css\WebsiteQuery.cs" />
     <Compile Include="External\MemoryStreamExtensions.cs" />

@@ -139,7 +139,7 @@
         /// <returns>The new instance without the services.</returns>
         public static IConfiguration Without<TService>(this IConfiguration configuration)
         {
-            var items = configuration.Services.OfType<TService>();
+            var items = configuration.Services.OfType<TService>().Cast<object>();
             var creators = configuration.Services.OfType<Func<IBrowsingContext, TService>>();
             return configuration.Without(items).Without(creators);
         }

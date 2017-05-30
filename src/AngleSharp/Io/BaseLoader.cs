@@ -190,6 +190,7 @@
             if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectMethod)
             {
                 method = HttpMethod.Get;
+                headers.Remove(HeaderNames.ContentType);
                 content = Stream.Null;
             }
             else if (content.Length > 0)
