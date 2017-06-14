@@ -175,7 +175,8 @@
             {
                 Filter = null,
                 IsNavigationEnabled = true,
-                IsResourceLoadingEnabled = false
+                IsResourceLoadingEnabled = false,
+                IsMetaRefreshLoadingEnabled = false
             };
             setup?.Invoke(config);
 
@@ -186,7 +187,11 @@
 
             if (config.IsNavigationEnabled)
             {
-                configuration = configuration.With<IDocumentLoader>(ctx => new DefaultDocumentLoader(ctx, config.Filter));
+                configuration = configuration
+                    .With<IDocumentLoader>(ctx => new DefaultDocumentLoader(ctx, config.Filter)
+                    {
+                        FollowMetaRefresh = config.IsMetaRefreshLoadingEnabled
+                    });
             }
 
             if (config.IsResourceLoadingEnabled)
@@ -211,6 +216,11 @@
             /// Gets or sets if resource loading is enabled.
             /// </summary>
             public Boolean IsResourceLoadingEnabled { get; set; }
+
+            /// <summary>
+            /// Gets or sets if loading of meta refresh properties is enabled.
+            /// </summary>
+            public Boolean IsMetaRefreshLoadingEnabled { get; set; }
 
             /// <summary>
             /// Gets or sets the filter, if any.
