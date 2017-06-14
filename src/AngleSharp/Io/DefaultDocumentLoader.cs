@@ -1,4 +1,8 @@
-﻿namespace AngleSharp.Io
+﻿using System.Threading;
+using System.Threading.Tasks;
+using AngleSharp.Dom;
+
+namespace AngleSharp.Io
 {
     using System;
 
@@ -43,6 +47,33 @@
             }
 
             return DownloadAsync(data, request.Source);
+        }
+
+        /// <summary>
+        /// Opens a new document loaded from the specified request
+        /// asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="request">The request to issue.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task that creates the document.</returns>
+        public async Task<IDocument> OpenAsync(IBrowsingContext context, DocumentRequest request, CancellationToken cancel = new CancellationToken())
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            var download = FetchAsync(request);
+            cancel.Register(download.Cancel);
+
+            using (var response = await download.Task.ConfigureAwait(false))
+            {
+                if (response != null)
+                {
+                    return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+                }
+            }
+
+            return await context.OpenNewAsync(request.Target.Href, cancel).ConfigureAwait(false);
         }
 
         #endregion
