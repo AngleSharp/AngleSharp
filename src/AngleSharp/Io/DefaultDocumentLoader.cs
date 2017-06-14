@@ -92,7 +92,7 @@ namespace AngleSharp.Io
                             {
                                 string refreshUrl = doc.DocumentUri;
 
-                                var delay = TimeSpan.FromSeconds(int.Parse(refreshMeta.TextContent));
+                                var delay = TimeSpan.FromSeconds(int.Parse(refreshMeta.GetAttribute("content")));
                                 await Task.Delay(delay, cancel);
 
                                 doc.Dispose();
