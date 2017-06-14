@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
 
@@ -22,6 +23,12 @@ namespace AngleSharp.Io
             : base(context, filter)
         {
         }
+
+        #endregion
+
+        #region Properties
+
+        public bool FollowMetaRefresh { get; set; } = false;
 
         #endregion
 
@@ -69,7 +76,32 @@ namespace AngleSharp.Io
             {
                 if (response != null)
                 {
-                    return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+                    var doc = await context.OpenAsync(response, cancel).ConfigureAwait(false);
+
+                    if (FollowMetaRefresh)
+                    {
+                        IElement refreshMeta;
+
+                        do
+                        {
+                            refreshMeta = doc.GetElementsByTagName("meta")
+                                .FirstOrDefault(e => string.Equals(
+                                    e.GetAttribute("http-equiv"), "refresh", StringComparison.OrdinalIgnoreCase));
+
+                            if (refreshMeta != null)
+                            {
+                                string refreshUrl = doc.DocumentUri;
+
+                                var delay = TimeSpan.FromSeconds(int.Parse(refreshMeta.TextContent));
+                                await Task.Delay(delay, cancel);
+
+                                doc.Dispose();
+                                doc = await context.OpenAsync(refreshUrl, cancel).ConfigureAwait(false);
+                            }
+                        } while (refreshMeta != null);
+                    }
+
+                    return doc;
                 }
             }
 
