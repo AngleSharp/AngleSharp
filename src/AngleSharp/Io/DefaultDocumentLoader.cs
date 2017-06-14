@@ -90,13 +90,37 @@ namespace AngleSharp.Io
 
                             if (refreshMeta != null)
                             {
-                                string refreshUrl = doc.DocumentUri;
+                                string content = refreshMeta.GetAttribute("content");
 
-                                var delay = TimeSpan.FromSeconds(int.Parse(refreshMeta.GetAttribute("content")));
+                                Url baseUrl = new Url(doc.DocumentUri);
+                                Url redirectUrl = baseUrl;
+                                TimeSpan delay;
+
+                                if (content.Contains(";"))
+                                {
+                                    string[] parts = content.Split(
+                                        new[] { ';', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                                    delay = TimeSpan.FromSeconds(int.Parse(parts[0]));
+
+                                    if (parts.Length > 1 && parts[1].StartsWith("url=", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        string relativeUrl = parts[1].Substring(4);
+
+                                        if (relativeUrl.Length > 0)
+                                        {
+                                            redirectUrl = new Url(baseUrl, relativeUrl);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    delay = TimeSpan.FromSeconds(int.Parse(content));
+                                }
+
                                 await Task.Delay(delay, cancel);
 
                                 doc.Dispose();
-                                doc = await context.OpenAsync(refreshUrl, cancel).ConfigureAwait(false);
+                                doc = await context.OpenAsync(redirectUrl, cancel).ConfigureAwait(false);
                             }
                         } while (refreshMeta != null);
                     }
