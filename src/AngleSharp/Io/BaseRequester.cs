@@ -17,7 +17,7 @@
         public event DomEventHandler Requesting
         {
             add { AddEventListener(EventNames.Requesting, value); }
-            remove { AddEventListener(EventNames.Requesting, value); }
+            remove { RemoveEventListener(EventNames.Requesting, value); }
         }
 
         /// <summary>
@@ -26,7 +26,7 @@
         public event DomEventHandler Requested
         {
             add { AddEventListener(EventNames.Requested, value); }
-            remove { AddEventListener(EventNames.Requested, value); }
+            remove { RemoveEventListener( EventNames.Requested, value); }
         }
 
         /// <summary>
