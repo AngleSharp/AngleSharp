@@ -51,33 +51,14 @@ Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore("./src/AngleSharp.Core.sln");
-        DotNetCoreRestore("./src/AngleSharp/project.json");
+        DotNetCoreRestore("src/AngleSharp");
     });
 
 Task("Build")
     .IsDependentOn("Restore-Packages")
     .Does(() =>
     {
-        if (isRunningOnWindows)
-        {
-            MSBuild("./src/AngleSharp.Core.sln", new MSBuildSettings()
-                .SetConfiguration(configuration)
-                .UseToolVersion(MSBuildToolVersion.VS2015)
-                .SetPlatformTarget(PlatformTarget.MSIL)
-                .SetMSBuildPlatform(MSBuildPlatform.x86)
-                .SetVerbosity(Verbosity.Minimal)
-            );
-        }
-        else
-        {
-            XBuild("./src/AngleSharp.Core.sln", new XBuildSettings()
-                .SetConfiguration(configuration)
-                .SetVerbosity(Verbosity.Minimal)
-            );
-        }
-
-        DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
+        DotNetCoreBuild("src/AngleSharp", new DotNetCoreBuildSettings
         {
             Configuration = configuration
         });
