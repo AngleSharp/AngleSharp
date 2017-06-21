@@ -88,10 +88,7 @@ Task("Copy-Files")
         var mapping = new Dictionary<String, String>
         {
             { "net45", "net45" },
-            { "portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch", "portable45-net45+win8+wp8+wpa81" },
             { "netstandard1.0", "netstandard1.0" },
-            { "net40", "net40" },
-            { "sl50", "sl5" },
         };
 
         foreach (var item in mapping)
