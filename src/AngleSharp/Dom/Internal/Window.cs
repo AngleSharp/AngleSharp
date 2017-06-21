@@ -677,5 +677,17 @@
         }
 
         #endregion
+
+        #region Disposal
+
+        public void Dispose()
+        {
+            var timeoutTasks = _document.GetAttachedReferences<CancellationTokenSource>();
+
+            foreach ( var task in timeoutTasks )
+                task.Cancel();
+        }
+
+        #endregion
     }
 }

@@ -876,6 +876,7 @@
             _loop.CancelAll();
             _loadingScripts.Clear();
             _source.Dispose();
+            _view?.Dispose();
         }
 
         public void EnableStyleSheetsForSet(String name)
