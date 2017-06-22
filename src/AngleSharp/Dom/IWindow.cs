@@ -10,7 +10,7 @@
     /// https://developer.mozilla.org/en-US/docs/Web/API/Window
     /// </summary>
     [DomName("Window")]
-    public interface IWindow : IEventTarget, IGlobalEventHandlers, IWindowEventHandlers, IWindowTimers
+    public interface IWindow : IEventTarget, IGlobalEventHandlers, IWindowEventHandlers, IWindowTimers, IDisposable
     {
         /// <summary>
         /// Gets a reference to the document that the window contains.
