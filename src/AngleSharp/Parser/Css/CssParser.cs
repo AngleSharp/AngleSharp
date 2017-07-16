@@ -155,6 +155,9 @@
                 creator.Apply(token);
                 token = tokenizer.Get();
             }
+            
+            // tokenizer should be disposed
+            tokenizer.Dispose();
 
             var valid = creator.IsValid;
             var result = creator.ToPool();
