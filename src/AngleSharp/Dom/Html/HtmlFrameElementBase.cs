@@ -20,11 +20,6 @@
 
         #region ctor
 
-        static HtmlFrameElementBase()
-        {
-            RegisterCallback<HtmlFrameElementBase>(AttributeNames.Src, (element, value) => element.UpdateSource());
-        }
-
         public HtmlFrameElementBase(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
@@ -82,22 +77,6 @@
 
         #endregion
 
-        #region Methods
-
-        protected void UpdateSource()
-        {
-            var content = GetContentHtml();
-            var source = Source;
-
-            if (source != null || content != null)
-            {
-                var url = this.HyperReference(source);
-                this.Process(_request, url);
-            }
-        }
-
-        #endregion
-
         #region Internal Methods
 
         internal virtual String GetContentHtml()
@@ -115,6 +94,19 @@
             }
         }
 
+        internal void UpdateSource()
+        {
+            var content = GetContentHtml();
+            var source = Source;
+
+            if (source != null || content != null)
+            {
+                var url = this.HyperReference(source);
+                this.Process(_request, url);
+            }
+        }
+
         #endregion
+
     }
 }

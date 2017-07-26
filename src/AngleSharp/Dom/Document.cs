@@ -14,7 +14,6 @@
     using System.IO;
     using System.Linq;
     using System.Net;
-    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -25,9 +24,7 @@
     {
         #region Fields
 
-        private static readonly ConditionalWeakTable<Document, List<WeakReference>> AttachedReferences = 
-            new ConditionalWeakTable<Document, List<WeakReference>>();
-
+        private readonly List<WeakReference> _attachedReferences;
         private readonly Queue<HtmlScriptElement> _loadingScripts;
         private readonly MutationHost _mutations;
         private readonly IBrowsingContext _context;
@@ -424,9 +421,9 @@
         internal Document(IBrowsingContext context, TextSource source)
             : base(null, "#document", NodeType.Document)
         {
-            AttachedReferences.Add(this, new List<WeakReference>());
             Referrer = String.Empty;
             ContentType = MimeTypeNames.ApplicationXml;
+            _attachedReferences = new List<WeakReference>();
             _async = true;
             _designMode = false;
             _firedUnload = false;
@@ -1204,9 +1201,7 @@
         internal IEnumerable<T> GetAttachedReferences<T>()
             where T : class
         {
-            var references = default(List<WeakReference>);
-            AttachedReferences.TryGetValue(this, out references);
-            return references.Select(entry => entry.IsAlive ? entry.Target as T : null).Where(m => m != null);
+            return _attachedReferences.Select(entry => entry.IsAlive ? entry.Target as T : null).Where(m => m != null);
         }
 
         /// <summary>
@@ -1215,9 +1210,7 @@
         /// <param name="value">The value to attach.</param>
         internal void AttachReference(Object value)
         {
-            var references = default(List<WeakReference>);
-            AttachedReferences.TryGetValue(this, out references);
-            references.Add(new WeakReference(value));
+            _attachedReferences.Add(new WeakReference(value));
         }
 
         /// <summary>

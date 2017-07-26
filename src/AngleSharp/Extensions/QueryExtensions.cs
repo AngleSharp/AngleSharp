@@ -169,17 +169,14 @@
             for (var i = 0; i < elements.Length; i++)
             {
                 var element = elements[i] as IElement;
-
                 if (element != null)
                 {
-                    if (selector.Match(element))
+                    foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
                     {
-                        result.Add(element);
-                    }
-
-                    if (element.HasChildNodes)
-                    {
-                        QuerySelectorAll(element.ChildNodes, selector, result);
+                        if (selector.Match(descendentAndSelf))
+                        {
+                            result.Add(descendentAndSelf);
+                        }
                     }
                 }
             }

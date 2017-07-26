@@ -136,6 +136,37 @@
             Assert.AreEqual(201, (int)document.StatusCode);
         }
 
+        [Test]
+        public async Task ParseDocumentsWithMaxConcurrency()
+        {
+            var sources = new[]
+            {
+                @"<p>Test",
+                @"<video><source src=foo.mp4 type=video/mp4></source></video>",
+                @"<img src=foo.png/>",
+                @"<script>2+3</script>",
+                @"<style>abc{}</style>",
+                @"<iframe src=foo.html></iframe>",
+                @"<object></object>",
+                @"<select></select>",
+                @"<a href=foo.html>Foo</a>"
+            };
+            var tasks = new Task<IDocument>[sources.Length];
+
+            for (var i = 0; i<tasks.Length; i++)
+            {
+                tasks[i] = GenerateDocument(sources[i], MimeTypeNames.Html);
+            }
+
+            await Task.WhenAll(tasks);
+
+            for (var i = 0; i<tasks.Length; i++)
+            {
+                Assert.IsFalse(tasks[i].IsFaulted);
+                Assert.IsNotNull(tasks[i].Result);
+            }
+        }
+
         private static Task<IDocument> GenerateDocument(String content, String contentType)
         {
             var config = Configuration.Default.WithDefaultLoader();

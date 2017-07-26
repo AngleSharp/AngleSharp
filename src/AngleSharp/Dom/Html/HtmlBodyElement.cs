@@ -87,22 +87,6 @@
 
         #region ctor
 
-        static HtmlBodyElement()
-        {
-            RegisterEventCallback<HtmlBodyElement>(EventNames.AfterPrint);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.BeforePrint);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.Unloading);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.HashChange);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.Message);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.Offline);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.Online);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.PageHide);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.PageShow);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.PopState);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.Storage);
-            RegisterEventCallback<HtmlBodyElement>(EventNames.Unload);
-        }
-
         public HtmlBodyElement(Document owner, String prefix = null)
             : base(owner, TagNames.Body, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {

@@ -61,7 +61,13 @@
                 }
                 else if (_parent != null)
                 {
-                    return _parent.BaseUrl;
+                    foreach (var ancestor in this.Ancestors<Node>())
+                    {
+                        if (ancestor._baseUri != null)
+                        {
+                            return ancestor._baseUri;
+                        }
+                    }
                 }
                 else
                 {
@@ -233,21 +239,19 @@
             }
             set
             {
-                var oldDocument = Owner;
-
-                if (!Object.ReferenceEquals(oldDocument, value))
+                foreach (var descendentAndSelf in this.DescendentsAndSelf<Node>())
                 {
-                    Owners.Remove(this);
-                    Owners.Add(this, value);
+                    var oldDocument = descendentAndSelf.Owner;
 
-                    for (var i = 0; i < _children.Length; i++)
+                    if (!Object.ReferenceEquals(oldDocument, value))
                     {
-                        _children[i].Owner = value;
-                    }
+                        Owners.Remove(descendentAndSelf);
+                        Owners.Add(descendentAndSelf, value);
 
-                    if (oldDocument != null)
-                    {
-                        NodeIsAdopted(oldDocument);
+                        if (oldDocument != null)
+                        {
+                            NodeIsAdopted(oldDocument);
+                        }
                     }
                 }
             }
