@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -17,6 +17,7 @@
         /// <summary>
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the specified group of selectors.
+        /// Requires either a non-empty nodelist or a valid scope node.
         /// </summary>
         /// <param name="nodes">The nodes to take as source.</param>
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
@@ -24,14 +25,21 @@
         /// <returns>An element object.</returns>
         public static IElement QuerySelector(this INodeList nodes, String selectorText, INode scopeNode = null)
         {
-            var sg = CreateSelector(nodes, selectorText);
             var scope = GetScope(scopeNode);
-            return sg.MatchAny(nodes.OfType<IElement>(), scope);
+            var sg = CreateSelector(nodes, scope, selectorText);
+
+            if (sg != null)
+            {
+                return sg.MatchAny(nodes.OfType<IElement>(), scope);
+            }
+
+            return null;
         }
 
         /// <summary>
         /// Returns a list of the elements within the document (using depth-first pre-order traversal
         /// of the document's nodes) that match the specified group of selectors.
+        /// Requires either a non-empty nodelist or a valid scope node.
         /// </summary>
         /// <param name="nodes">The nodes to take as source.</param>
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
@@ -39,9 +47,15 @@
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
         public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList nodes, String selectorText, INode scopeNode = null)
         {
-            var sg = CreateSelector(nodes, selectorText);
             var scope = GetScope(scopeNode);
-            return sg.MatchAll(nodes.OfType<IElement>(), scope);
+            var sg = CreateSelector(nodes, scope, selectorText);
+
+            if (sg != null)
+            {
+                return sg.MatchAll(nodes.OfType<IElement>(), scope);
+            }
+
+            return new HtmlCollection<IElement>(Enumerable.Empty<IElement>());
         }
 
         /// <summary>
@@ -208,19 +222,19 @@
                 (scopeNode as IShadowRoot)?.Host;
         }
 
-        private static ISelector CreateSelector(INodeList nodes, String selectorText)
+        private static ISelector CreateSelector(INodeList nodes, INode scope, String selectorText)
         {
+            var node = nodes.Length > 0 ? nodes[0] : scope;
             var sg = default(ISelector);
 
-            if (nodes.Length > 0)
+            if (node != null)
             {
-                var node = nodes[0];
                 var parser = node.Owner.Context.GetService<ICssSelectorParser>();
                 sg = parser.ParseSelector(selectorText);
-            }
 
-            if (sg == null)
-                throw new DomException(DomError.Syntax);
+                if (sg == null)
+                    throw new DomException(DomError.Syntax);
+            }
 
             return sg;
         }

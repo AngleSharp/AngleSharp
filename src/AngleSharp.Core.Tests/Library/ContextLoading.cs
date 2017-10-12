@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
@@ -421,7 +421,7 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var uri = "http://imama.shop.by/kolyaski/detskaya_kolyaska_tutis_zippy_2_v_1_cvet_12_shokoladnyy223222222/";
+                var uri = "http://florian-rappl.de";
                 var config = Configuration.Default.WithDefaultLoader(s => s.IsResourceLoadingEnabled = true);
 
                 var req = new HttpClient();
