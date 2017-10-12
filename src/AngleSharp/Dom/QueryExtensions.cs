@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -27,7 +27,13 @@
         {
             var scope = GetScope(scopeNode);
             var sg = CreateSelector(nodes, scope, selectorText);
-            return sg.MatchAny(nodes.OfType<IElement>(), scope);
+
+            if (sg != null)
+            {
+                return sg.MatchAny(nodes.OfType<IElement>(), scope);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -43,7 +49,13 @@
         {
             var scope = GetScope(scopeNode);
             var sg = CreateSelector(nodes, scope, selectorText);
-            return sg.MatchAll(nodes.OfType<IElement>(), scope);
+
+            if (sg != null)
+            {
+                return sg.MatchAll(nodes.OfType<IElement>(), scope);
+            }
+
+            return new HtmlCollection<IElement>(Enumerable.Empty<IElement>());
         }
 
         /// <summary>
@@ -213,15 +225,16 @@
         private static ISelector CreateSelector(INodeList nodes, INode scope, String selectorText)
         {
             var node = nodes.Length > 0 ? nodes[0] : scope;
+            var sg = default(ISelector);
 
-            if (node == null)
-                throw new InvalidOperationException("A scope is required to parse the query");
+            if (node != null)
+            {
+                var parser = node.Owner.Context.GetService<ICssSelectorParser>();
+                sg = parser.ParseSelector(selectorText);
 
-            var parser = node.Owner.Context.GetService<ICssSelectorParser>();
-            var sg = parser.ParseSelector(selectorText);
-
-            if (sg == null)
-                throw new DomException(DomError.Syntax);
+                if (sg == null)
+                    throw new DomException(DomError.Syntax);
+            }
 
             return sg;
         }
