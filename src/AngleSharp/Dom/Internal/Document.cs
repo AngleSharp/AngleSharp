@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Browser;
     using AngleSharp.Common;
@@ -1540,7 +1540,9 @@
             }
             else
             {
-                //TODO perform reload
+                var url = _location.Original;
+                var request = DocumentRequest.Get(url, source: this, referer: Referrer);
+                await _context.OpenAsync(request, CancellationToken.None);
             }
         }
 

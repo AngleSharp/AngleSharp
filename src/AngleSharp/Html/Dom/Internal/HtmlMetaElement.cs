@@ -1,10 +1,8 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Browser;
     using AngleSharp.Dom;
-    using AngleSharp.Io;
-    using AngleSharp.Text;
     using System;
-    using System.Text;
 
     /// <summary>
     /// Represents the HTML meta element.
@@ -56,23 +54,14 @@
 
         #region Methods
 
-        public Encoding GetEncoding()
+        public void Handle()
         {
-            var charset = Charset;
+            var handlers = Owner.Context.GetServices<IMetaHandler>();
 
-            if (charset != null)
+            foreach (var handler in handlers)
             {
-                charset = charset.Trim();
-
-                if (TextEncoding.IsSupported(charset))
-                {
-                    return TextEncoding.Resolve(charset);
-                }
+                handler.HandleContent(this);
             }
-
-            var equiv = HttpEquivalent;
-            var shouldParseContent = equiv != null && equiv.Isi(HeaderNames.ContentType);
-            return shouldParseContent ? TextEncoding.Parse(Content ?? String.Empty) : null;
         }
 
         #endregion

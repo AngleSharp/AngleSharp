@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+namespace AngleSharp
 {
     using AngleSharp.Browser;
     using AngleSharp.Browser.Dom.Events;
@@ -76,7 +76,16 @@
 
             if (loader != null)
             {
-                return await loader.OpenAsync(context, request, cancel).ConfigureAwait(false);
+                var download = loader.FetchAsync(request);
+                cancel.Register(download.Cancel);
+
+                using (var response = await download.Task.ConfigureAwait(false))
+                {
+                    if (response != null)
+                    {
+                        return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+                    }
+                }
             }
 
             return await context.OpenNewAsync(request.Target.Href, cancel).ConfigureAwait(false);

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -603,19 +603,15 @@
                     {
                         var element = new HtmlMetaElement(_document);
                         AddElement(element, token.AsTag(), acknowledgeSelfClosing: true);
-                        var encoding = element.GetEncoding();
                         CloseCurrentNode();
 
-                        if (encoding != null)
+                        try
                         {
-                            try
-                            {
-                                _document.Source.CurrentEncoding = encoding;
-                            }
-                            catch (NotSupportedException)
-                            {
-                                Restart();
-                            }
+                            element.Handle();
+                        }
+                        catch (NotSupportedException)
+                        {
+                            Restart();
                         }
 
                         return;

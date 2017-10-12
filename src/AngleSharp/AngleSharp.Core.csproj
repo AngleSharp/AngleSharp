@@ -83,8 +83,11 @@
     <Compile Include="Dom\Internal\NodeEnumerable.cs" />
     <Compile Include="Dom\IPseudoElement.cs" />
     <Compile Include="Html\Dom\ImageExtensions.cs" />
+    <Compile Include="Browser\EncodingMetaHandler.cs" />
+    <Compile Include="Browser\IMetaHandler.cs" />
     <Compile Include="Html\Parser\HtmlDomBuilderExtensions.cs" />
     <Compile Include="Html\Parser\HtmlTagNameLookup.cs" />
+    <Compile Include="Browser\RefreshMetaHandler.cs" />
     <Compile Include="Html\ValidationErrors.cs" />
     <Compile Include="Html\Parser\IHtmlParser.cs" />
     <Compile Include="Io\BaseRequester.cs" />

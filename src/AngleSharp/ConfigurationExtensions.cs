@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+namespace AngleSharp
 {
     using AngleSharp.Browser;
     using AngleSharp.Common;
@@ -175,8 +175,7 @@
             {
                 Filter = null,
                 IsNavigationEnabled = true,
-                IsResourceLoadingEnabled = false,
-                IsMetaRefreshLoadingEnabled = false
+                IsResourceLoadingEnabled = false
             };
             setup?.Invoke(config);
 
@@ -188,10 +187,7 @@
             if (config.IsNavigationEnabled)
             {
                 configuration = configuration
-                    .With<IDocumentLoader>(ctx => new DefaultDocumentLoader(ctx, config.Filter)
-                    {
-                        FollowMetaRefresh = config.IsMetaRefreshLoadingEnabled
-                    });
+                    .With<IDocumentLoader>(ctx => new DefaultDocumentLoader(ctx, config.Filter));
             }
 
             if (config.IsResourceLoadingEnabled)
@@ -216,11 +212,6 @@
             /// Gets or sets if resource loading is enabled.
             /// </summary>
             public Boolean IsResourceLoadingEnabled { get; set; }
-
-            /// <summary>
-            /// Gets or sets if loading of meta refresh properties is enabled.
-            /// </summary>
-            public Boolean IsMetaRefreshLoadingEnabled { get; set; }
 
             /// <summary>
             /// Gets or sets the filter, if any.
@@ -255,6 +246,25 @@
         public static IConfiguration SetCulture(this IConfiguration configuration, CultureInfo culture)
         {
             return configuration.With(culture);
+        }
+
+        #endregion
+
+        #region Including Refresh
+
+        /// <summary>
+        /// Registeres a handler to include the meta data refresh.
+        /// </summary>
+        /// <param name="configuration">The configuration to extend.</param>
+        /// <param name="shouldRefresh">The optional callback.</param>
+        /// <returns>The new instance with the service.</returns>
+        public static IConfiguration WithMetaRefresh(this IConfiguration configuration, Predicate<Url> shouldRefresh = null)
+        {
+            if (configuration == null)
+                throw new ArgumentException(nameof(configuration));
+
+            var service = new RefreshMetaHandler(shouldRefresh);
+            return configuration.With(service);
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -21,6 +21,11 @@
         /// </summary>
         [DomName("httpEquiv")]
         String HttpEquivalent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the associated charset.
+        /// </summary>
+        String Charset { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the content attribute of the meta element.

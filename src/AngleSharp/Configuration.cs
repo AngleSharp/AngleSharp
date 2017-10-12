@@ -1,8 +1,9 @@
-﻿namespace AngleSharp
+namespace AngleSharp
 {
     using AngleSharp.Browser;
     using AngleSharp.Common;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Html;
     using AngleSharp.Html.Parser;
     using AngleSharp.Xml.Parser;
     using System;
@@ -33,6 +34,7 @@
             Factory.PseudoElementSelector,
             Factory.Document,
             Factory.Observer,
+            new EncodingMetaHandler(),
             new Func<IBrowsingContext, ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
             new Func<IBrowsingContext, IHtmlParser>(ctx => new HtmlParser(ctx)),
             new Func<IBrowsingContext, IXmlParser>(ctx => new XmlParser(ctx)),
