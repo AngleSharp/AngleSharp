@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Common;
     using AngleSharp.Core.Tests.Mocks;
@@ -271,7 +271,9 @@
                 var document = await context.OpenAsync(redirectUrl);
 
                 Assert.AreEqual(@"{
-  ""cookies"": {}
+  ""cookies"": {
+    ""test"": ""baz""
+  }
 }
 ".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
