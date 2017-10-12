@@ -51,33 +51,14 @@ Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore("./src/AngleSharp.Core.sln");
-        DotNetCoreRestore("./src/AngleSharp/project.json");
+        DotNetCoreRestore("src/AngleSharp");
     });
 
 Task("Build")
     .IsDependentOn("Restore-Packages")
     .Does(() =>
     {
-        if (isRunningOnWindows)
-        {
-            MSBuild("./src/AngleSharp.Core.sln", new MSBuildSettings()
-                .SetConfiguration(configuration)
-                .UseToolVersion(MSBuildToolVersion.VS2015)
-                .SetPlatformTarget(PlatformTarget.MSIL)
-                .SetMSBuildPlatform(MSBuildPlatform.x86)
-                .SetVerbosity(Verbosity.Minimal)
-            );
-        }
-        else
-        {
-            XBuild("./src/AngleSharp.Core.sln", new XBuildSettings()
-                .SetConfiguration(configuration)
-                .SetVerbosity(Verbosity.Minimal)
-            );
-        }
-
-        DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
+        DotNetCoreBuild("src/AngleSharp", new DotNetCoreBuildSettings
         {
             Configuration = configuration
         });
@@ -107,10 +88,7 @@ Task("Copy-Files")
         var mapping = new Dictionary<String, String>
         {
             { "net45", "net45" },
-            { "portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch", "portable45-net45+win8+wp8+wpa81" },
             { "netstandard1.0", "netstandard1.0" },
-            { "net40", "net40" },
-            { "sl50", "sl5" },
         };
 
         foreach (var item in mapping)
