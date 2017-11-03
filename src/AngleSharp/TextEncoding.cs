@@ -4,6 +4,7 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
@@ -300,11 +301,14 @@
 
         #region Helper
 
+        static EncodingInfo[] _encodings;
+
         private static Encoding GetEncoding(String name)
         {
             try
             {
-                return Encoding.GetEncoding(name);
+                _encodings = _encodings ?? Encoding.GetEncodings();
+                return _encodings.FirstOrDefault(e => string.Equals(e.Name, name, StringComparison.OrdinalIgnoreCase))?.GetEncoding() ?? Utf8;
             }
             catch
             {
