@@ -1,3 +1,7 @@
+# 0.9.9.1
+
+- Fixed build (#566)
+
 # 0.9.9
 
 - Attribute API refinements (#422)
