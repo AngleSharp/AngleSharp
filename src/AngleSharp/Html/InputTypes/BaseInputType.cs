@@ -187,7 +187,7 @@
         {
             if (!String.IsNullOrEmpty(value) && Number.IsMatch(value))
             {
-                return Double.Parse(value);
+                return Double.Parse(value, CultureInfo.InvariantCulture);
             }
 
             return null;
