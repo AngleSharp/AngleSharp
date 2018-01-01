@@ -51,7 +51,9 @@ Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore("./src/AngleSharp.Core.sln");
+        NuGetRestore("./src/AngleSharp.Core.sln", new NuGetRestoreSettings {
+            ToolPath = "tools/nuget.exe"
+        });
         DotNetCoreRestore("./src/AngleSharp/project.json");
     });
 
@@ -115,13 +117,13 @@ Task("Copy-Files")
 
         foreach (var item in mapping)
         {
-            var target = nugetRoot + Directory("lib") + Directory(item.Key);
-            CreateDirectory(target);
+            var targetDir = nugetRoot + Directory("lib") + Directory(item.Key);
+            CreateDirectory(targetDir);
             CopyFiles(new FilePath[]
             {
                 buildDir + Directory(item.Value) + File("AngleSharp.dll"),
                 buildDir + Directory(item.Value) + File("AngleSharp.xml")
-            }, target);
+            }, targetDir);
         }
 
         CopyFiles(new FilePath[] { "src/AngleSharp.nuspec" }, nugetRoot);
