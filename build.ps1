@@ -17,7 +17,7 @@ $PSScriptRoot = split-path -parent $MyInvocation.MyCommand.Definition;
 $TOOLS_DIR = Join-Path $PSScriptRoot "tools"
 $NUGET_EXE = Join-Path $TOOLS_DIR "nuget.exe"
 $CAKE_EXE = Join-Path $TOOLS_DIR "Cake/Cake.exe"
-$NUGET_URL = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+$NUGET_URL = "https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe"
 
 # Should we use experimental build of Roslyn?
 $UseExperimental = "";

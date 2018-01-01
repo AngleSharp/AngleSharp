@@ -163,7 +163,8 @@
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
 
-                Assert.AreEqual("k2=v2; k1=v1", document.Cookie);
+                var cookies = document.Cookie.Split(new[] { ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                CollectionAssert.AreEquivalent(new[] { "k2=v2", "k1=v1" }, cookies);
             }
         }
 
@@ -177,7 +178,8 @@
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
 
-                Assert.AreEqual("test=baz; k2=v2; k1=v1; foo=bar", document.Cookie);
+                var cookies = document.Cookie.Split(new[] { ' ', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                CollectionAssert.AreEquivalent(new[] { "test=baz", "k2=v2", "k1=v1", "foo=bar" }, cookies);
             }
         }
 
