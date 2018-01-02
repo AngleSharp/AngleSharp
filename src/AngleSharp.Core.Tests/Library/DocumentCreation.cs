@@ -145,6 +145,18 @@
         }
 
         [Test]
+        public void AngleSharpInitialCommentProblem()
+        {
+            var fishyHtml = @"<!-- Comment -->
+<html>
+<head></head>
+<body></body>
+</html>";
+            var document = fishyHtml.ToHtmlDocument();
+            Assert.IsNotNull(document);
+        }
+
+        [Test]
         public async Task ParseDocumentsWithMaxConcurrency()
         {
             var sources = new[]
