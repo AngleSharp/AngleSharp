@@ -734,17 +734,23 @@
         /// <param name="tag">The current tag token.</param>
         private HtmlToken TagSelfClosing(HtmlTagToken tag)
         {
-            switch (GetNext())
+            while (true)
             {
-                case Symbols.GreaterThan:
-                    tag.IsSelfClosing = true;
-                    return EmitTag(tag);
-                case Symbols.EndOfFile:
-                    return NewEof();
-                default:
-                    RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
-                    Back();
-                    return ParseAttributes(tag);
+                switch (GetNext())
+                {
+                    case Symbols.GreaterThan:
+                        tag.IsSelfClosing = true;
+                        return EmitTag(tag);
+                    case Symbols.EndOfFile:
+                        return NewEof();
+                    case Symbols.Solidus:
+                        RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
+                        break;
+                    default:
+                        RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
+                        Back();
+                        return ParseAttributes(tag);
+                }
             }
         }
 

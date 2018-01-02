@@ -137,6 +137,14 @@
         }
 
         [Test]
+        public void AngleSharpExcessiveSlashesTest()
+        {
+            var dangerousHtml = "<a " + new String('/', 10000);
+            var document = dangerousHtml.ToHtmlDocument();
+            Assert.IsNotNull(document);
+        }
+
+        [Test]
         public async Task ParseDocumentsWithMaxConcurrency()
         {
             var sources = new[]
