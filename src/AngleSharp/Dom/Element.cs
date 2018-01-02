@@ -584,10 +584,12 @@
         {
             if (namespaceUri == null)
             {
-                foreach (var observer in Owner.Options.GetServices<IAttributeObserver>())
-            {
+                var observers = Owner.Options.GetServices<IAttributeObserver>();
+
+                foreach (var observer in observers)
+                {
                     observer.NotifyChange(this, localName, newValue);
-            }
+                }
             }
 
             Owner.QueueMutation(MutationRecord.Attributes(
@@ -600,6 +602,18 @@
         internal void UpdateClassList(String value)
         {
             _classList?.Update(value);
+        }
+
+        internal void UpdateStyle(String value)
+        {
+            var bindable = _style as IBindable;
+
+            if (String.IsNullOrEmpty(value))
+            {
+                _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
+            }
+
+            bindable?.Update(value);
         }
 
         #endregion
@@ -634,18 +648,6 @@
             }
 
             return null;
-        }
-
-        protected void UpdateStyle(String value)
-        {
-            var bindable = _style as IBindable;
-
-            if (String.IsNullOrEmpty(value))
-            {
-                _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
-            }
-
-            bindable?.Update(value);
         }
 
         protected void UpdateAttribute(String name, String value)

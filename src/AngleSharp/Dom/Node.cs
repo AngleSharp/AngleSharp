@@ -69,19 +69,17 @@
                         }
                     }
                 }
-                else
-                {
-                    var document = Owner;
 
-                    if (document != null)
-                    {
-                        return document._baseUri ?? document.DocumentUrl;
-                    }
-                    else if (_type == NodeType.Document)
-                    {
-                        document = (Document)this;
-                        return document.DocumentUrl;
-                    }
+                var document = Owner;
+
+                if (document != null)
+                {
+                    return document._baseUri ?? document.DocumentUrl;
+                }
+                else if (_type == NodeType.Document)
+                {
+                    document = (Document)this;
+                    return document.DocumentUrl;
                 }
 
                 return null;
