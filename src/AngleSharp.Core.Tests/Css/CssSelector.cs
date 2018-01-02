@@ -770,5 +770,16 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.AreEqual("this", result[0].ClassName);
             Assert.AreEqual("3", result[0].TextContent);
         }
+
+        [Test]
+        public void EmptySelectorShouldThrow()
+        {
+            var source = @"";
+
+            var document = source.ToHtmlDocument();
+            var selector = String.Empty;
+
+            Assert.Throws<DomException>(() => document.QuerySelectorAll(selector));
+        }
     }
 }
