@@ -34,7 +34,7 @@
         /// Gets a live CSS declaration block with properties,
         /// whcih are the used values computed for the context object.
         /// </summary>
-        [DomName("UsedStyle")]
+        [DomName("usedStyle")]
         ICssStyleDeclaration UsedStyle { get; }
     }
 }
