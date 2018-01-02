@@ -16,6 +16,7 @@ using Octokit;
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var skipDotNetCore = Argument("skip-dotnet-core", "no") == "yes";
 var isLocal = BuildSystem.IsLocalBuild;
 var isRunningOnUnix = IsRunningOnUnix();
 var isRunningOnWindows = IsRunningOnWindows();
@@ -54,7 +55,11 @@ Task("Restore-Packages")
         NuGetRestore("./src/AngleSharp.Core.sln", new NuGetRestoreSettings {
             ToolPath = "tools/nuget.exe"
         });
-        DotNetCoreRestore("./src/AngleSharp/project.json");
+
+        if (!skipDotNetCore)
+        {
+            DotNetCoreRestore("./src/AngleSharp/project.json");
+        }
     });
 
 Task("Build")
@@ -79,10 +84,13 @@ Task("Build")
             );
         }
 
-        DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
+        if (!skipDotNetCore)
         {
-            Configuration = "Release"
-        });
+            DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
+            {
+                Configuration = "Release"
+            });
+        }
     });
 
 Task("Run-Unit-Tests")
