@@ -213,7 +213,8 @@ Task("Update-AppVeyor-Build-Number")
     .WithCriteria(() => isRunningOnAppVeyor)
     .Does(() =>
     {
-        AppVeyor.UpdateBuildVersion(version);
+        var num = AppVeyor.Environment.Build.Number;
+        AppVeyor.UpdateBuildVersion($"{version}-{num}");
     });
 
 // Targets
