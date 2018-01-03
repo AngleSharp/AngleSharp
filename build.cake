@@ -53,7 +53,7 @@ Task("Restore-Packages")
     .Does(() =>
     {
         NuGetRestore("./src/AngleSharp.Core.sln", new NuGetRestoreSettings {
-            ToolPath = "tools/nuget.exe"
+            ToolPath = "tools/nuget_old.exe"
         });
 
         if (!skipDotNetCore)
