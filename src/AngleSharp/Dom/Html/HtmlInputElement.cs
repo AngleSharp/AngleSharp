@@ -21,11 +21,6 @@
 
         #region ctor
 
-        static HtmlInputElement()
-        {
-            RegisterCallback<HtmlInputElement>(AttributeNames.Type, (element, value) => element.UpdateType(value));
-        }
-
         public HtmlInputElement(Document owner, String prefix = null)
             : base(owner, TagNames.Input, prefix, NodeFlags.SelfClosing)
         {
@@ -339,10 +334,10 @@
             UpdateType(type);
         }
 
-        void UpdateType(String type)
+        internal void UpdateType(String value)
         {
             var factory = Owner.Options.GetFactory<IInputTypeFactory>();
-            _type = factory.Create(this, type);
+            _type = factory.Create(this, value);
         }
 
         #endregion

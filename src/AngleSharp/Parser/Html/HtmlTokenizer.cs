@@ -734,17 +734,28 @@
         /// <param name="tag">The current tag token.</param>
         private HtmlToken TagSelfClosing(HtmlTagToken tag)
         {
-            switch (GetNext())
+            return TagSelfClosingInner(tag) ?? ParseAttributes(tag);
+        }
+
+        private HtmlToken TagSelfClosingInner(HtmlTagToken tag)
+        {
+            while (true)
             {
-                case Symbols.GreaterThan:
-                    tag.IsSelfClosing = true;
-                    return EmitTag(tag);
-                case Symbols.EndOfFile:
-                    return NewEof();
-                default:
-                    RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
-                    Back();
-                    return ParseAttributes(tag);
+                switch (GetNext())
+                {
+                    case Symbols.GreaterThan:
+                        tag.IsSelfClosing = true;
+                        return EmitTag(tag);
+                    case Symbols.EndOfFile:
+                        return NewEof();
+                    case Symbols.Solidus:
+                        RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
+                        break;
+                    default:
+                        RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
+                        Back();
+                        return null;
+                }
             }
         }
 
@@ -1643,7 +1654,8 @@
             BeforeValue,
             QuotedValue,
             AfterValue,
-            UnquotedValue
+            UnquotedValue,
+            SelfClose
         }
 
         private HtmlToken ParseAttributes(HtmlTagToken tag)
@@ -1663,7 +1675,7 @@
 
                         if (c == Symbols.Solidus)
                         {
-                            return TagSelfClosing(tag);
+                            state = AttributeState.SelfClose;
                         }
                         else if (c == Symbols.GreaterThan)
                         {
@@ -1721,7 +1733,7 @@
                         else if (c == Symbols.Solidus)
                         {
                             tag.AddAttribute(FlushBuffer());
-                            return TagSelfClosing(tag);
+                            state = AttributeState.SelfClose;
                         }
                         else if (c.IsUppercaseAscii())
                         {
@@ -1763,7 +1775,7 @@
                         }
                         else if (c == Symbols.Solidus)
                         {
-                            return TagSelfClosing(tag);
+                            state = AttributeState.SelfClose;
                         }
                         else if (c.IsUppercaseAscii())
                         {
@@ -1928,7 +1940,7 @@
                         }
                         else if (c == Symbols.Solidus)
                         {
-                            return TagSelfClosing(tag);
+                            state = AttributeState.SelfClose;
                         }
                         else if (c == Symbols.EndOfFile)
                         {
@@ -1942,6 +1954,19 @@
                         }
 
                         break;
+                    }
+
+                    case AttributeState.SelfClose:
+                    {
+                        var token = TagSelfClosingInner(tag);
+
+                        if (token == null)
+                        {
+                            state = AttributeState.BeforeName;
+                            break;
+                        }
+
+                        return token;
                     }
                 }
             }

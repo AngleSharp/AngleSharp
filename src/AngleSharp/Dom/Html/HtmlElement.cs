@@ -8,7 +8,6 @@
     using AngleSharp.Services;
     using AngleSharp.Services.Scripting;
     using System;
-    using System.Threading;
 
     /// <summary>
     /// Represents a standard HTML element in the node tree.
@@ -377,69 +376,6 @@
 
         #region ctor
 
-        static HtmlElement()
-        {
-            RegisterCallback<HtmlElement>(AttributeNames.Style, (element, value) => element.UpdateStyle(value));
-            RegisterCallback<HtmlElement>(AttributeNames.DropZone, (element, value) => element._dropZone?.Update(value));
-            RegisterEventCallback<HtmlElement>(EventNames.Load);
-            RegisterEventCallback<HtmlElement>(EventNames.Abort);
-            RegisterEventCallback<HtmlElement>(EventNames.Blur);
-            RegisterEventCallback<HtmlElement>(EventNames.Cancel);
-            RegisterEventCallback<HtmlElement>(EventNames.CanPlay);
-            RegisterEventCallback<HtmlElement>(EventNames.CanPlayThrough);
-            RegisterEventCallback<HtmlElement>(EventNames.Change);
-            RegisterEventCallback<HtmlElement>(EventNames.Click);
-            RegisterEventCallback<HtmlElement>(EventNames.CueChange);
-            RegisterEventCallback<HtmlElement>(EventNames.DblClick);
-            RegisterEventCallback<HtmlElement>(EventNames.Drag);
-            RegisterEventCallback<HtmlElement>(EventNames.DragEnd);
-            RegisterEventCallback<HtmlElement>(EventNames.DragEnter);
-            RegisterEventCallback<HtmlElement>(EventNames.DragExit);
-            RegisterEventCallback<HtmlElement>(EventNames.DragLeave);
-            RegisterEventCallback<HtmlElement>(EventNames.DragOver);
-            RegisterEventCallback<HtmlElement>(EventNames.DragStart);
-            RegisterEventCallback<HtmlElement>(EventNames.Drop);
-            RegisterEventCallback<HtmlElement>(EventNames.DurationChange);
-            RegisterEventCallback<HtmlElement>(EventNames.Emptied);
-            RegisterEventCallback<HtmlElement>(EventNames.Ended);
-            RegisterEventCallback<HtmlElement>(EventNames.Error);
-            RegisterEventCallback<HtmlElement>(EventNames.Focus);
-            RegisterEventCallback<HtmlElement>(EventNames.Input);
-            RegisterEventCallback<HtmlElement>(EventNames.Invalid);
-            RegisterEventCallback<HtmlElement>(EventNames.Keydown);
-            RegisterEventCallback<HtmlElement>(EventNames.Keypress);
-            RegisterEventCallback<HtmlElement>(EventNames.Keyup);
-            RegisterEventCallback<HtmlElement>(EventNames.LoadedData);
-            RegisterEventCallback<HtmlElement>(EventNames.LoadedMetaData);
-            RegisterEventCallback<HtmlElement>(EventNames.LoadStart);
-            RegisterEventCallback<HtmlElement>(EventNames.Mousedown);
-            RegisterEventCallback<HtmlElement>(EventNames.Mouseup);
-            RegisterEventCallback<HtmlElement>(EventNames.Mouseenter);
-            RegisterEventCallback<HtmlElement>(EventNames.Mouseleave);
-            RegisterEventCallback<HtmlElement>(EventNames.Mouseover);
-            RegisterEventCallback<HtmlElement>(EventNames.Mousemove);
-            RegisterEventCallback<HtmlElement>(EventNames.Wheel);
-            RegisterEventCallback<HtmlElement>(EventNames.Pause);
-            RegisterEventCallback<HtmlElement>(EventNames.Play);
-            RegisterEventCallback<HtmlElement>(EventNames.Playing);
-            RegisterEventCallback<HtmlElement>(EventNames.Progress);
-            RegisterEventCallback<HtmlElement>(EventNames.RateChange);
-            RegisterEventCallback<HtmlElement>(EventNames.Reset);
-            RegisterEventCallback<HtmlElement>(EventNames.Resize);
-            RegisterEventCallback<HtmlElement>(EventNames.Scroll);
-            RegisterEventCallback<HtmlElement>(EventNames.Seeked);
-            RegisterEventCallback<HtmlElement>(EventNames.Seeking);
-            RegisterEventCallback<HtmlElement>(EventNames.Select);
-            RegisterEventCallback<HtmlElement>(EventNames.Show);
-            RegisterEventCallback<HtmlElement>(EventNames.Stalled);
-            RegisterEventCallback<HtmlElement>(EventNames.Submit);
-            RegisterEventCallback<HtmlElement>(EventNames.Suspend);
-            RegisterEventCallback<HtmlElement>(EventNames.TimeUpdate);
-            RegisterEventCallback<HtmlElement>(EventNames.Toggle);
-            RegisterEventCallback<HtmlElement>(EventNames.VolumeChange);
-            RegisterEventCallback<HtmlElement>(EventNames.Waiting);
-        }
-
         public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, Combine(prefix, localName), localName, prefix, NamespaceNames.HtmlUri, flags | NodeFlags.HtmlMember)
         {
@@ -632,6 +568,11 @@
             }
         }
 
+        internal void UpdateDropZone(String value)
+        {
+            _dropZone?.Update(value);
+        }
+
         protected Boolean IsClickedCancelled()
         {
             return this.Fire<MouseEvent>(m => m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
@@ -665,32 +606,6 @@
         #endregion
 
         #region Helpers
-
-        protected static void RegisterEventCallback<TElement>(String eventName)
-            where TElement : Element
-        {
-            var name = "on" + eventName;
-            RegisterCallback<TElement>(name, (element, value) =>
-            {
-                var document = element.Owner;
-                var configuration = document.Options;
-                var engine = configuration.GetScriptEngine(MimeTypeNames.DefaultJavaScript);
-
-                if (engine != null)
-                {
-                    var function = "undefined";
-
-                    if (!String.IsNullOrEmpty(value))
-                    {
-                        function = String.Concat("function () { ", value, " }");
-                    }
-                    
-                    var response = VirtualResponse.Create(res => res.Content($"element.{name} = {function};"));
-                    var options = new ScriptOptions(document);
-                    engine.EvaluateScriptAsync(response, options, CancellationToken.None);
-                }
-            });
-        }
 
         private String GetDefaultLanguage()
         {

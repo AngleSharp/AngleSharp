@@ -19,11 +19,6 @@
 
         #region ctor
 
-        static HtmlEmbedElement()
-        {
-            RegisterCallback<HtmlEmbedElement>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
-        }
-
         public HtmlEmbedElement(Document owner, String prefix = null)
             : base(owner, TagNames.Embed, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
@@ -79,11 +74,7 @@
             }
         }
 
-        #endregion
-
-        #region Helpers
-
-        private void UpdateSource(String value)
+        internal void UpdateSource(String value)
         {
             var url = new Url(Source);
             this.Process(_request, url);

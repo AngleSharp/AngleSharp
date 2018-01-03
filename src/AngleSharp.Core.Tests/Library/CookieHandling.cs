@@ -269,6 +269,40 @@
         }
 
         [Test]
+        public async Task CookieWithUTCTimeStampVariant1()
+        {
+            var content = "<!doctype html>";
+            var cookieValue = "fm=0; Expires=Wed, 03 Jan 2018 10:54:24 UTC; Path=/; Domain=.twitter.com; Secure; HTTPOnly";
+            var requestCount = 0;
+            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.twitter.com").Header(HeaderNames.SetCookie, cookieValue));
+            var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
+            {
+                var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
+                requestCount++;
+                return res;
+            });
+
+            Assert.AreEqual(0, requestCount);
+        }
+
+        [Test]
+        public async Task CookieWithUTCTimeStampVariant2()
+        {
+            var content = "<!doctype html>";
+            var cookieValue = "ct0=cf2c3d61837dc0513fe9dfa8019a3af8; Expires=Wed, 03 Jan 2018 16:54:34 UTC; Path=/; Domain=.twitter.com; Secure";
+            var requestCount = 0;
+            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.twitter.com").Header(HeaderNames.SetCookie, cookieValue));
+            var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
+            {
+                var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
+                requestCount++;
+                return res;
+            });
+
+            Assert.AreEqual(0, requestCount);
+        }
+
+        [Test]
         public async Task SendingRequestToLocalResourceSendsLocalCookie()
         {
             var content = "<!doctype html><img src=http://www.local.com/foo.png />";

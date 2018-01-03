@@ -16,6 +16,7 @@ using Octokit;
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var skipDotNetCore = Argument("skip-dotnet-core", "no") == "yes";
 var isLocal = BuildSystem.IsLocalBuild;
 var isRunningOnUnix = IsRunningOnUnix();
 var isRunningOnWindows = IsRunningOnWindows();
@@ -51,8 +52,14 @@ Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore("./src/AngleSharp.Core.sln");
-        DotNetCoreRestore("./src/AngleSharp/project.json");
+        NuGetRestore("./src/AngleSharp.Core.sln", new NuGetRestoreSettings {
+            ToolPath = "tools/nuget.exe"
+        });
+
+        if (!skipDotNetCore)
+        {
+            DotNetCoreRestore("./src/AngleSharp/project.json");
+        }
     });
 
 Task("Build")
@@ -77,10 +84,13 @@ Task("Build")
             );
         }
 
-        DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
+        if (!skipDotNetCore)
         {
-            Configuration = "Release"
-        });
+            DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
+            {
+                Configuration = "Release"
+            });
+        }
     });
 
 Task("Run-Unit-Tests")
@@ -115,13 +125,13 @@ Task("Copy-Files")
 
         foreach (var item in mapping)
         {
-            var target = nugetRoot + Directory("lib") + Directory(item.Key);
-            CreateDirectory(target);
+            var targetDir = nugetRoot + Directory("lib") + Directory(item.Key);
+            CreateDirectory(targetDir);
             CopyFiles(new FilePath[]
             {
                 buildDir + Directory(item.Value) + File("AngleSharp.dll"),
                 buildDir + Directory(item.Value) + File("AngleSharp.xml")
-            }, target);
+            }, targetDir);
         }
 
         CopyFiles(new FilePath[] { "src/AngleSharp.nuspec" }, nugetRoot);
@@ -203,7 +213,8 @@ Task("Update-AppVeyor-Build-Number")
     .WithCriteria(() => isRunningOnAppVeyor)
     .Does(() =>
     {
-        AppVeyor.UpdateBuildVersion(version);
+        var num = AppVeyor.Environment.Build.Number;
+        AppVeyor.UpdateBuildVersion($"{version}-{num}");
     });
 
 // Targets

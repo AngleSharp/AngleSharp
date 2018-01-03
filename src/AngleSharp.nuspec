@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>AngleSharp is the ultimate angle brackets parser library. It parses HTML5, CSS3, and XML to construct a DOM based on the official W3C specification.</description>
     <releaseNotes>For all changes see: https://github.com/AngleSharp/AngleSharp/wiki/ChangeLog.</releaseNotes>
-    <copyright>Copyright 2016, AngleSharp.</copyright>
+    <copyright>Copyright 2018, AngleSharp.</copyright>
     <tags>html html5 css css3 xml dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text headless browser</tags>
     <dependencies>
       <group targetFramework=".NETStandard1.0">

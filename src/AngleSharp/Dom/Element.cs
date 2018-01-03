@@ -8,11 +8,8 @@
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents an element node.
@@ -21,8 +18,7 @@
     {
         #region Fields
 
-        private static readonly ConditionalWeakTable<Element, IShadowRoot> ShadowRoots = new ConditionalWeakTable<Element, IShadowRoot>();
-        private static readonly Dictionary<Type, AttrChangedCallback> RegisteredCallbacks = new Dictionary<Type, AttrChangedCallback>();
+        private static readonly AttachedProperty<Element, IShadowRoot> ShadowRootProperty = new AttachedProperty<Element, IShadowRoot>();
 
         private readonly NamedNodeMap _attributes;
         private readonly String _namespace;
@@ -36,11 +32,6 @@
         #endregion
 
         #region ctor
-
-        static Element()
-        {
-            RegisterCallback<Element>(AttributeNames.Class, (element, value) => element._classList?.Update(value));
-        }
 
         public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
             : this(owner, prefix != null ? String.Concat(prefix, ":", localName) : localName, localName, prefix, namespaceUri, flags)
@@ -76,19 +67,8 @@
 
         public IElement AssignedSlot
         {
-            get 
-            { 
-                var parent = ParentElement;
-
-                if (parent.IsShadow())
-                {
-                    var tree = parent.ShadowRoot;
-                    return tree.GetAssignedSlot(Slot);
+            get { return ParentElement?.ShadowRoot?.GetAssignedSlot(Slot); }
                 }
-
-                return null;
-            }
-        }
 
         public String Slot
         {
@@ -98,12 +78,7 @@
 
         public IShadowRoot ShadowRoot
         {
-            get
-            {
-                var root = default(IShadowRoot);
-                ShadowRoots.TryGetValue(this, out root);
-                return root;
-            }
+            get { return ShadowRootProperty.Get(this); }
         }
 
         public String Prefix
@@ -326,11 +301,7 @@
 
         public Boolean IsFocused
         {
-            get
-            {
-                var document = Owner;
-                return document != null ? Object.ReferenceEquals(document.FocusElement, this) : false;
-            }
+            get { return Object.ReferenceEquals(Owner?.FocusElement, this); }
             protected set
             {
                 var document = Owner;
@@ -358,16 +329,13 @@
         public IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open)
         {
             if (TagNames.AllNoShadowRoot.Contains(_localName))
-            {
                 throw new DomException(DomError.NotSupported);
-            }
-            else if (ShadowRoot != null)
-            {
+
+            if (ShadowRoot != null)
                 throw new DomException(DomError.InvalidState);
-            }
 
             var root = new ShadowRoot(this, mode);
-            ShadowRoots.Add(this, root);
+            ShadowRootProperty.Set(this, root);
             return root;
         }
 
@@ -458,9 +426,7 @@
             if (value != null)
             {
                 if (!name.IsXmlName())
-                {
                     throw new DomException(DomError.InvalidCharacter);
-                }
 
                 if (_namespace.Is(NamespaceNames.HtmlUri))
                 {
@@ -608,7 +574,7 @@
 
         #endregion
 
-        #region Helpers
+        #region Internal Methods
 
         internal virtual void SetupElement()
         {
@@ -616,11 +582,14 @@
 
         internal void AttributeChanged(String localName, String namespaceUri, String oldValue, String newValue)
         {
-            var callback = GetOrCreateCallback(GetType());
-
-            if (namespaceUri == null && callback != null)
+            if (namespaceUri == null)
             {
-                callback.Invoke(this, localName, newValue);
+                var observers = Owner.Options.GetServices<IAttributeObserver>();
+
+                foreach (var observer in observers)
+                {
+                    observer.NotifyChange(this, localName, newValue);
+                }
             }
 
             Owner.QueueMutation(MutationRecord.Attributes(
@@ -629,6 +598,27 @@
                 attributeNamespace: namespaceUri,
                 previousValue: oldValue));
         }
+
+        internal void UpdateClassList(String value)
+        {
+            _classList?.Update(value);
+        }
+
+        internal void UpdateStyle(String value)
+        {
+            var bindable = _style as IBindable;
+
+            if (String.IsNullOrEmpty(value))
+            {
+                _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
+            }
+
+            bindable?.Update(value);
+        }
+
+        #endregion
+
+        #region Helpers
 
         protected ICssStyleDeclaration CreateStyle()
         {
@@ -658,57 +648,6 @@
             }
 
             return null;
-        }
-
-        protected static void RegisterCallback<TElement>(String name, Action<TElement, String> callback)
-            where TElement : Element
-        {
-            var type = typeof(TElement);
-            var existing = GetOrCreateCallback(type);
-            var handler = new AttrChangedCallback((element, localName, newValue) =>
-            {
-                if (localName.Is(name))
-                {
-                    callback.Invoke((TElement)element, newValue);
-                }
-            });
-
-            if (existing != null)
-            {
-                handler = existing + handler;
-            }
-
-            RegisteredCallbacks[type] = handler;
-        }
-
-        private static AttrChangedCallback GetOrCreateCallback(Type type)
-        {
-            var handler = default(AttrChangedCallback);
-
-            if (!RegisteredCallbacks.TryGetValue(type, out handler) && type != typeof(Element))
-            {
-                var parent = type.GetTypeInfo().BaseType;
-                handler = GetOrCreateCallback(parent);
-
-                if (handler != null)
-                {
-                    RegisteredCallbacks[type] = handler;
-                }
-            }
-
-            return handler;
-        }
-
-        protected void UpdateStyle(String value)
-        {
-            var bindable = _style as IBindable;
-
-            if (String.IsNullOrEmpty(value))
-            {
-                _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
-            }
-
-            bindable?.Update(value);
         }
 
         protected void UpdateAttribute(String name, String value)

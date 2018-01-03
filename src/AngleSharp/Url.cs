@@ -757,6 +757,7 @@
 
                         if (!onlyHost)
                         {
+                            _port = String.Empty;
                             return ParsePath(input, index) && !error;
                         }
 

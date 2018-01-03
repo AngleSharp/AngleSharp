@@ -34,22 +34,23 @@
             { PseudoClassNames.HostContext, ctx => new HostContextFunctionState(ctx) },
         };
 
-        readonly Stack<CssCombinator> _combinators;
+        private readonly Stack<CssCombinator> _combinators;
 
-		State _state;
-        ISelector _temp;
-		ListSelector _group;
-		ComplexSelector _complex;
-		String _attrName;
-		String _attrValue;
-		String _attrOp;
-        String _attrNs;
-        Boolean _valid;
-        Boolean _nested;
-        Boolean _ready;
-        IAttributeSelectorFactory _attributeSelector;
-        IPseudoElementSelectorFactory _pseudoElementSelector;
-        IPseudoClassSelectorFactory _pseudoClassSelector;
+        private State _state;
+        private ISelector _temp;
+		private ListSelector _group;
+		private ComplexSelector _complex;
+		private String _attrName;
+		private String _attrValue;
+		private String _attrOp;
+        private String _attrNs;
+        private Boolean _valid;
+        private Boolean _invoked;
+        private Boolean _nested;
+        private Boolean _ready;
+        private IAttributeSelectorFactory _attributeSelector;
+        private IPseudoElementSelectorFactory _pseudoElementSelector;
+        private IPseudoClassSelectorFactory _pseudoClassSelector;
 
         #endregion
 
@@ -67,7 +68,7 @@
 
         public Boolean IsValid
         {
-            get { return _valid && _ready; }
+            get { return _invoked && _valid && _ready; }
         }
 
         public Boolean IsNested
@@ -116,6 +117,8 @@
         {
             if (token.Type != CssTokenType.Comment)
             {
+                _invoked = true;
+
                 switch (_state)
                 {
                     case State.Data:
@@ -162,6 +165,7 @@
 			_complex = null;
             _valid = true;
             _nested = false;
+            _invoked = false;
             _ready = true;
             _attributeSelector = attributeSelector;
             _pseudoClassSelector = pseudoClassSelector;
@@ -587,9 +591,11 @@
             return null;
         }
 
-        CssSelectorConstructor CreateChild()
+        private CssSelectorConstructor CreateChild()
         {
-            return Pool.NewSelectorConstructor(_attributeSelector, _pseudoClassSelector, _pseudoElementSelector);
+            var ctor = Pool.NewSelectorConstructor(_attributeSelector, _pseudoClassSelector, _pseudoElementSelector);
+            ctor._invoked = true;
+            return ctor;
         }
 
         #endregion

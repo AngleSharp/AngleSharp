@@ -23,15 +23,6 @@
 
         #region ctor
 
-        static HtmlLinkElement()
-        {
-            RegisterCallback<HtmlLinkElement>(AttributeNames.Sizes, (element, value) => element._sizes?.Update(value));
-            RegisterCallback<HtmlLinkElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
-            RegisterCallback<HtmlLinkElement>(AttributeNames.Disabled, (element, value) => element.UpdateDisabled(value));
-            RegisterCallback<HtmlLinkElement>(AttributeNames.Href, (element, value) => element.UpdateSource(value));
-            RegisterCallback<HtmlLinkElement>(AttributeNames.Rel, (element, value) => element.UpdateRelation(value));
-        }
-
         public HtmlLinkElement(Document owner, String prefix = null)
             : base(owner, TagNames.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
@@ -190,11 +181,12 @@
             }
         }
 
-        #endregion
+        internal void UpdateSizes(String value)
+        {
+            _sizes?.Update(value);
+        }
 
-        #region Helpers
-
-        private void UpdateMedia(String value)
+        internal void UpdateMedia(String value)
         {
             var sheet = Sheet;
 
@@ -204,7 +196,7 @@
             }
         }
 
-        private void UpdateDisabled(String value)
+        internal void UpdateDisabled(String value)
         {
             var sheet = Sheet;
 
@@ -214,18 +206,22 @@
             }
         }
 
-        private void UpdateRelation(String value)
+        internal void UpdateRelation(String value)
         {
-            _relList?.Update(value);            
+            _relList?.Update(value);
             _relation = CreateFirstLegalRelation();
             UpdateSource(this.GetOwnAttribute(AttributeNames.Href));
         }
 
-        private void UpdateSource(String value)
+        internal void UpdateSource(String value)
         {
             var task = _relation?.LoadAsync();
             Owner?.DelayLoad(task);
         }
+
+        #endregion
+
+        #region Helpers
 
         private BaseLinkRelation CreateFirstLegalRelation()
         {

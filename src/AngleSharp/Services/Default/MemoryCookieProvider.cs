@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Services.Default
 {
     using System;
+    using System.Globalization;
     using System.Net;
 
     /// <summary>
@@ -8,7 +9,7 @@
     /// </summary>
     public class MemoryCookieProvider : ICookieProvider
     {
-        readonly CookieContainer _container;
+        private readonly CookieContainer _container;
 
         /// <summary>
         /// Creates a new cookie service for non-persistent cookies.
@@ -43,7 +44,44 @@
         /// <param name="value">The value of the cookie.</param>
         public void SetCookie(String origin, String value)
         {
-            _container.SetCookies(new Uri(origin), value);
+            var cookies = Sanatize(value);
+            _container.SetCookies(new Uri(origin), cookies);
+        }
+
+        private static String Sanatize(String cookie)
+        {
+            var expires = "expires=";
+            var start = 0;
+
+            while (start < cookie.Length)
+            {
+                var index = cookie.IndexOf(expires, start, StringComparison.OrdinalIgnoreCase);
+
+                if (index != -1)
+                {
+                    var position = index + expires.Length;
+                    var end = cookie.IndexOfAny(new[] { ';', ',' }, position + 4);
+
+                    if (end == -1)
+                    {
+                        end = cookie.Length;
+                    }
+
+                    var front = cookie.Substring(0, position);
+                    var middle = cookie.Substring(position, end - position);
+                    var back = cookie.Substring(end);
+                    var utc = DateTime.Parse(middle.Replace("UTC", "GMT"));
+                    var time = utc.ToString("ddd, dd MMM yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    cookie = $"{front}{time}{back}";
+                    start = end;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return cookie;
         }
     }
 }

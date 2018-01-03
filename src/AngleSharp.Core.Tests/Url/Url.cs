@@ -115,5 +115,23 @@
             Assert.AreEqual("http://test/?hi%E2%80%94there", result.Href);
             Assert.AreEqual("hi%E2%80%94there", result.Query);
         }
+
+        [Test]
+        public void RelativeUrlWithBaseUrlOverridesPortWhenHostIsSpecified()
+        {
+            var baseUrl = new Url("http://localhost:12345/account/login");
+            var relative = "https://hosted-domain.com/signin";
+            var url = new Url(baseUrl, relative);
+            Assert.AreEqual("https://hosted-domain.com/signin", url.ToString());
+        }
+
+        [Test]
+        public void RelativeUrlWithBaseUrlDoesNotOverridePortIfNoHostIsSpecified()
+        {
+            var baseUrl = new Url("http://localhost:12345/account/login");
+            var relative = "/signin";
+            var url = new Url(baseUrl, relative);
+            Assert.AreEqual("http://localhost:12345/signin", url.ToString());
+        }
     }
 }

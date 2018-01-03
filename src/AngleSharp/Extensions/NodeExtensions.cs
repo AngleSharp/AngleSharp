@@ -65,7 +65,7 @@
                    type == NodeType.Text || type == NodeType.ProcessingInstruction ||
                    type == NodeType.DocumentFragment || type == NodeType.DocumentType;
         }
-        
+
         /// <summary>
         /// Gets the hyperreference of the given URL - transforming the given
         /// (relative) URL to an absolute URL if required.
@@ -112,13 +112,27 @@
         /// <returns>An iterator over all descendants.</returns>
         public static IEnumerable<INode> GetDescendants(this INode parent)
         {
-            foreach (var child in parent.ChildNodes)
-            {
-                yield return child;
+            return GetDescendantsAndSelf(parent).Skip(1);
+        }
 
-                foreach (var subchild in child.GetDescendants())
+        /// <summary>
+        /// Gets the descendant nodes and itself of the provided parent, in tree order.
+        /// </summary>
+        /// <param name="parent">The parent of the descendants.</param>
+        /// <returns>An iterator over all descendants and itself.</returns>
+        public static IEnumerable<INode> GetDescendantsAndSelf(this INode parent)
+        {
+            var stack = new Stack<INode>();
+            stack.Push(parent);
+            while (stack.Count > 0)
+            {
+                var next = stack.Pop();
+                yield return next;
+
+                var length = next.ChildNodes.Length;
+                while (length > 0)
                 {
-                    yield return subchild;
+                    stack.Push(next.ChildNodes[--length]);
                 }
             }
         }

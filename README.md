@@ -66,7 +66,7 @@ Every collection in AngleSharp supports LINQ statements. AngleSharp also provide
 Documentation
 -------------
 
-Documentation is available in form of the public Wiki here at GitHub. 
+Documentation is available in form of the public Wiki here at GitHub.
 
 * [Wiki Home](https://github.com/AngleSharp/AngleSharp/wiki)
 * [Documentation](https://github.com/AngleSharp/AngleSharp/wiki/Documentation)
@@ -184,12 +184,12 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(Q1 2017) **1.0.0**
+(Q2 2018) **1.0.0**
 - Release of the first stable version
 - Provide internal / external communication channel (best flexibility)
 - Service model finalized
 
-(Q4 2016) **0.10.0**
+(Q1 2018) **0.10.0**
 - Split AngleSharp.Core into several libraries (Core, CSS)
 
 The current schedule seems to be rather defensive, which does not mean the project will be "finished", i.e., released in version 1.0.0, before the given date. If there is time left, more unit tests will be written and the general code quality will be increased.
@@ -219,14 +219,14 @@ If you know some feature that AngleSharp is currently missing, and you are willi
 
 If you have an idea how to improve the API (or what is missing) then posts / messages are also welcome. For instance there have been ongoing discussions about some styles that have been used by AngleSharp (e.g., `HTMLDocument` or `HtmlDocument`) in the past. In the end AngleSharp stopped using `HTMLDocument` (at least visible outside of the library). Now AngleSharp uses names like `IDocument`, `IHtmlElement` and so on. This change would not have been possible without such fruitful discussions.
 
-The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active. 
+The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active.
 
 License
 -------
 
 The MIT License (MIT)
 
-Copyright (c) 2013 - 2017 AngleSharp
+Copyright (c) 2013 - 2018 AngleSharp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
