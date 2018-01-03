@@ -734,6 +734,11 @@
         /// <param name="tag">The current tag token.</param>
         private HtmlToken TagSelfClosing(HtmlTagToken tag)
         {
+            return TagSelfClosingInner(tag) ?? ParseAttributes(tag);
+        }
+
+        private HtmlToken TagSelfClosingInner(HtmlTagToken tag)
+        {
             while (true)
             {
                 switch (GetNext())
@@ -749,7 +754,7 @@
                     default:
                         RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
                         Back();
-                        return ParseAttributes(tag);
+                        return null;
                 }
             }
         }
@@ -1649,7 +1654,8 @@
             BeforeValue,
             QuotedValue,
             AfterValue,
-            UnquotedValue
+            UnquotedValue,
+            SelfClose
         }
 
         private HtmlToken ParseAttributes(HtmlTagToken tag)
@@ -1669,7 +1675,7 @@
 
                         if (c == Symbols.Solidus)
                         {
-                            return TagSelfClosing(tag);
+                            state = AttributeState.SelfClose;
                         }
                         else if (c == Symbols.GreaterThan)
                         {
@@ -1727,7 +1733,7 @@
                         else if (c == Symbols.Solidus)
                         {
                             tag.AddAttribute(FlushBuffer());
-                            return TagSelfClosing(tag);
+                            state = AttributeState.SelfClose;
                         }
                         else if (c.IsUppercaseAscii())
                         {
@@ -1769,7 +1775,7 @@
                         }
                         else if (c == Symbols.Solidus)
                         {
-                            return TagSelfClosing(tag);
+                            state = AttributeState.SelfClose;
                         }
                         else if (c.IsUppercaseAscii())
                         {
@@ -1934,7 +1940,7 @@
                         }
                         else if (c == Symbols.Solidus)
                         {
-                            return TagSelfClosing(tag);
+                            state = AttributeState.SelfClose;
                         }
                         else if (c == Symbols.EndOfFile)
                         {
@@ -1948,6 +1954,19 @@
                         }
 
                         break;
+                    }
+
+                    case AttributeState.SelfClose:
+                    {
+                        var token = TagSelfClosingInner(tag);
+
+                        if (token == null)
+                        {
+                            state = AttributeState.BeforeName;
+                            break;
+                        }
+
+                        return token;
                     }
                 }
             }
