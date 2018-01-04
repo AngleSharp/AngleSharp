@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("AngleSharp")]
 [assembly: AssemblyProduct("AngleSharp.Core")]
-[assembly: AssemblyCopyright("Copyright © AngleSharp, 2013-2016")]
+[assembly: AssemblyCopyright("Copyright © AngleSharp, 2013-2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

@@ -20,7 +20,7 @@
         #endregion
 
         #region ctor
-        
+
         public HtmlInputElement(Document owner, String prefix = null)
             : base(owner, TagNames.Input, prefix, NodeFlags.SelfClosing)
         {
@@ -54,7 +54,7 @@
             set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
-        public Boolean IsIndeterminate 
+        public Boolean IsIndeterminate
         {
             get;
             set;
@@ -310,7 +310,7 @@
 
         #region Internal Properties
 
-        internal Boolean IsMutable 
+        internal Boolean IsMutable
         {
             get { return !IsDisabled && !IsReadOnly; }
         }

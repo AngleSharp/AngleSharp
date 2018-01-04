@@ -25,9 +25,9 @@ namespace AngleSharp
             return Char.ConvertToUtf32(s, index);
         }
 
-        public static Task Delay(this CancellationToken token, Int32 timeout)
+        public static Task Delay(this CancellationToken token, TimeSpan timeout)
         {
-            return Task.Delay(Math.Max(timeout, 4), token);
+            return Task.Delay(timeout, token);
         }
 
         public static Boolean Implements<T>(this Type type)

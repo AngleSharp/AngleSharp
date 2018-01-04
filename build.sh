@@ -8,11 +8,12 @@
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TOOLS_DIR=$SCRIPT_DIR/tools
 NUGET_EXE=$TOOLS_DIR/nuget.exe
+NUGET_OLD_EXE=$TOOLS_DIR/nuget_old.exe
 CAKE_EXE=$TOOLS_DIR/Cake/Cake.exe
 
 # Define default arguments.
 SCRIPT="build.cake"
-TARGET="Travis"
+TARGET="Default"
 CONFIGURATION="Release"
 VERBOSITY="verbose"
 DRYRUN=
@@ -49,7 +50,17 @@ if [ ! -f $TOOLS_DIR/packages.config ]; then
     fi
 fi
 
-# Download NuGet if it does not exist.
+# Download NuGet (v3.5.0) if it does not exist.
+if [ ! -f $NUGET_OLD_EXE ]; then
+    echo "Downloading NuGet..."
+    curl -Lsfo $NUGET_OLD_EXE https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe
+    if [ $? -ne 0 ]; then
+        echo "An error occured while downloading nuget.exe."
+        exit 1
+    fi
+fi
+
+# Download NuGet (latest) if it does not exist.
 if [ ! -f $NUGET_EXE ]; then
     echo "Downloading NuGet..."
     curl -Lsfo $NUGET_EXE https://dist.nuget.org/win-x86-commandline/latest/nuget.exe

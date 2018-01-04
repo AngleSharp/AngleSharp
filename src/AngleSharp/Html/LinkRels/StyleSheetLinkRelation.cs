@@ -31,15 +31,13 @@
 
         #region Methods
 
-        public override Task LoadAsync()
+        public override async Task LoadAsync()
         {
-            if (Url == null)
+            if (Url != null)
             {
-                return Task.FromResult(0);
+                var request = Link.CreateRequestFor(Url);
+                await Processor?.ProcessAsync(request);
             }
-
-            var request = Link.CreateRequestFor(Url);
-            return Processor?.ProcessAsync(request);
         }
 
         #endregion

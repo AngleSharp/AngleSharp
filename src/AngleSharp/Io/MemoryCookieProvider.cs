@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Io
 {
     using System;
+    using System.Globalization;
     using System.Net;
 
     /// <summary>
@@ -43,9 +44,45 @@
         /// <param name="value">The value of the cookie.</param>
         public void SetCookie(Url url, String value)
         {
-            var domain = String.Concat("Domain=", url.HostName, ";");
-            var newValue = value.Replace(domain, "");
-            _container.SetCookies(url, newValue);
+            var cookies = Sanatize(url.HostName, value);
+            _container.SetCookies(url, cookies);
+        }
+
+        private static String Sanatize(String host, String cookie)
+        {
+            var expires = "expires=";
+            var domain = String.Concat("Domain=", host, ";");
+            var start = 0;
+
+            while (start < cookie.Length)
+            {
+                var index = cookie.IndexOf(expires, start, StringComparison.OrdinalIgnoreCase);
+
+                if (index != -1)
+                {
+                    var position = index + expires.Length;
+                    var end = cookie.IndexOfAny(new[] { ';', ',' }, position + 4);
+
+                    if (end == -1)
+                    {
+                        end = cookie.Length;
+                    }
+
+                    var front = cookie.Substring(0, position);
+                    var middle = cookie.Substring(position, end - position);
+                    var back = cookie.Substring(end);
+                    var utc = DateTime.Parse(middle.Replace("UTC", "GMT"));
+                    var time = utc.ToString("ddd, dd MMM yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    cookie = $"{front}{time}{back}";
+                    start = end;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return cookie.Replace(domain, String.Empty);
         }
     }
 }

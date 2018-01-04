@@ -107,7 +107,94 @@ namespace AngleSharp.Dom
 
         #endregion
 
-        #region Other Queries
+        #region Object Selector
+
+        /// <summary>
+        /// Returns the first element within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the given selector.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="selectors">A selector object.</param>
+        /// <returns>An element object.</returns>
+        public static T QuerySelector<T>(this INodeList elements, ISelector selectors)
+            where T : class, IElement
+        {
+            return elements.QuerySelector(selectors) as T;
+        }
+
+        /// <summary>
+        /// Returns the first element within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the specified group of selectors.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="selector">A selector object.</param>
+        /// <returns>An element object.</returns>
+        public static IElement QuerySelector(this INodeList elements, ISelector selector)
+        {
+            for (var i = 0; i < elements.Length; i++)
+            {
+                var element = elements[i] as IElement;
+
+                if (element != null)
+                {
+                    if (selector.Match(element))
+                    {
+                        return element;
+                    }
+
+                    if (element.HasChildNodes)
+                    {
+                        element = QuerySelector(element.ChildNodes, selector);
+
+                        if (element != null)
+                        {
+                            return element;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns a list of the elements within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the selector.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="selector">A selector object.</param>
+        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
+        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList elements, ISelector selector)
+        {
+            var result = new List<IElement>();
+            elements.QuerySelectorAll(selector, result);
+            return new HtmlCollection<IElement>(result);
+        }
+
+        /// <summary>
+        /// Returns a list of the elements within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that match the specified group of selectors.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="selector">A selector object.</param>
+        /// <param name="result">A reference to the list where to store the results.</param>
+        public static void QuerySelectorAll(this INodeList elements, ISelector selector, List<IElement> result)
+        {
+            for (var i = 0; i < elements.Length; i++)
+            {
+                var element = elements[i] as IElement;
+                if (element != null)
+                {
+                    foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
+                    {
+                        if (selector.Match(descendentAndSelf))
+                        {
+                            result.Add(descendentAndSelf);
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Returns true if the underlying string contains all of the tokens, otherwise false.

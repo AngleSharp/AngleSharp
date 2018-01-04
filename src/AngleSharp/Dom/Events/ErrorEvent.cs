@@ -58,6 +58,13 @@
             private set;
         }
 
+        /// <summary>
+        /// Initializes the error event.
+        /// </summary>
+        /// <param name="filename">The name of the file containing the error.</param>
+        /// <param name="line">The line within the file.</param>
+        /// <param name="column">The column within the line,.</param>
+        /// <param name="error">The specific error that was thrown.</param>
         public void Init(String filename, Int32 line, Int32 column, Exception error)
         {
             FileName = filename;

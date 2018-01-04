@@ -19,7 +19,7 @@
             Assert.AreEqual(7, RunQuery("*:first-child").Length);
             Assert.AreEqual(1, RunQuery("p:first-child").Length);
         }
-        
+
         [Test]
         public void StrangeDashSelector()
         {
@@ -39,7 +39,7 @@
             Assert.AreEqual(7, RunQuery("*:last-child").Length);
             Assert.AreEqual(2, RunQuery("p:last-child").Length);
         }
-        
+
         [Test]
         public void PseudoSelectorOnlyChild()
         {
@@ -55,7 +55,7 @@
             Assert.AreEqual("head", results[0].GetTagName());
             Assert.AreEqual("input", results[1].GetTagName());
         }
-        
+
         [Test]
         public void NthChildNoPrefixWithDigit()
         {
@@ -101,7 +101,7 @@
             Assert.AreEqual("span", result[2].GetTagName());
             Assert.AreEqual("div", result[3].GetTagName());
         }
-        
+
         [Test]
         public void NthLastChildIdPrefixWithDigit()
         {
@@ -128,7 +128,7 @@
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual("span", result[0].GetTagName());
         }
-        
+
         [Test]
         public void MultipleSelectorsCommaSupportWithNoSpace()
         {
@@ -158,7 +158,7 @@
             Assert.AreEqual("a", result[0].GetTagName());
             Assert.AreEqual("p", result[1].GetTagName());
         }
-        
+
         [Test]
         public void MultipleSelectorsCommaSupportWithPrependedSpace()
         {
@@ -211,7 +211,7 @@
 
             Assert.AreEqual(0, result.Length);
         }
-        
+
         [Test]
         public void IdSelectorAllDescendantsOfId()
         {
@@ -565,7 +565,7 @@
             Assert.IsNull(value);
             Assert.AreEqual("eeeee", results[1].TextContent);
         }
-        
+
         [Test]
         public void ScopeSelectorChild()
         {
@@ -691,9 +691,9 @@
         {
             var source = @"<div><h1></h1></div><article><h2></h2></article><section><h2></h2><article><h3></h3></article></section><aside><h3></h3><h3></h3></aside><nav><div><h4></h4></div></nav>";
             var selector = @":matches(section, article, aside, nav) :matches(h1, h2, h3, h4, h5, h6)";
-            var equivalent = @"section h1, section h2, section h3, section h4, section h5, section h6, 
-article h1, article h2, article h3, article h4, article h5, article h6, 
-aside h1, aside h2, aside h3, aside h4, aside h5, aside h6, 
+            var equivalent = @"section h1, section h2, section h3, section h4, section h5, section h6,
+article h1, article h2, article h3, article h4, article h5, article h6,
+aside h1, aside h2, aside h3, aside h4, aside h5, aside h6,
 nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
 
             var document = source.ToHtmlDocument();
@@ -825,10 +825,10 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
                 var newNode = doc.CreateElement("div");
                 node.AppendChild(newNode);
                 node = newNode;
-            }        
-            node.AppendChild(doc.CreateElement("a")); 
+            }
+            node.AppendChild(doc.CreateElement("a"));
 
-            var result = doc.QuerySelector("a");  
+            var result = doc.QuerySelector("a");
             Assert.NotNull(result);
         }
 
@@ -852,5 +852,14 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.AreEqual(result.Length, 2);
         }
 
+        public void EmptySelectorShouldThrow()
+        {
+            var source = @"";
+
+            var document = source.ToHtmlDocument();
+            var selector = String.Empty;
+
+            Assert.Throws<DomException>(() => document.QuerySelectorAll(selector));
+        }
     }
 }

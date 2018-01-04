@@ -19,7 +19,7 @@
         #endregion
 
         #region ctor
-        
+
         public HtmlStyleElement(Document owner, String prefix = null)
             : base(owner, TagNames.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
@@ -43,7 +43,7 @@
         public Boolean IsDisabled
         {
             get { return this.GetBoolAttribute(AttributeNames.Disabled); }
-            set 
+            set
             {
                 this.SetBoolAttribute(AttributeNames.Disabled, value);
 

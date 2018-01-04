@@ -19,7 +19,7 @@
         #endregion
 
         #region ctor
-        
+
         public HtmlFrameElementBase(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
@@ -87,7 +87,7 @@
         internal override void SetupElement()
         {
             base.SetupElement();
-            
+
             if (this.GetOwnAttribute(AttributeNames.Src) != null)
             {
                 UpdateSource();
@@ -119,5 +119,6 @@
         }
 
         #endregion
+
     }
 }

@@ -106,9 +106,9 @@ namespace AngleSharp
             return (Int32)s[index];
         }
 
-        public static Task Delay(this CancellationToken token, Int32 timeout)
+        public static Task Delay(this CancellationToken token, TimeSpan timeout)
         {
-            return TaskEx.Delay(Math.Max(timeout, 4), token);
+            return TaskEx.Delay(timeout, token);
         }
 
         public static ConstructorInfo GetDeclaredConstructor(this Type type)

@@ -541,14 +541,9 @@
             //Only certain elements can be focused
         }
 
-        internal void UpdateDropZone(String value)
-        {
-            _dropZone?.Update(value);
-        }
-
         #endregion
 
-        #region Helpers
+        #region Internal Methods
 
         internal override Node Clone(Document owner, Boolean deep)
         {
@@ -557,6 +552,15 @@
             CloneElement(node, owner, deep);
             return node;
         }
+
+        internal void UpdateDropZone(String value)
+        {
+            _dropZone?.Update(value);
+        }
+
+        #endregion
+
+        #region Helpers
 
         protected Boolean IsClickedCancelled()
         {

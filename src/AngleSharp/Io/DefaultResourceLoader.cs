@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// Represents the default resource loader. This class can be inherited.
@@ -34,6 +35,7 @@
             var data = new Request
             {
                 Address = request.Target,
+                Content = Stream.Null,
                 Method = HttpMethod.Get,
                 Headers = new Dictionary<String, String>
                 {

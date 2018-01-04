@@ -3,7 +3,7 @@ namespace AngleSharp.Browser
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     /// Implementation of a refresh handler.
@@ -55,7 +55,7 @@ namespace AngleSharp.Browser
                 {
                     var delayTime = TimeSpan.FromSeconds(delaySeconds);
 
-                    Task.Delay(delayTime)
+                    CancellationToken.None.Delay(delayTime)
                         .ContinueWith(task => document.Location.Assign(redirectUrl.Href));
                 }
             }

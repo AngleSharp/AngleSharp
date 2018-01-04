@@ -53,14 +53,16 @@
         private Boolean _nested;
         private Boolean _ready;
         private FunctionState _function;
+        private Boolean _invoked;
 
         #endregion
 
         #region ctor
 
-        public CssSelectorConstructor(CssTokenizer tokenizer, IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector)
+        public CssSelectorConstructor(CssTokenizer tokenizer, IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector, Boolean invoked = false)
         {
             _tokenizer = tokenizer;
+            _invoked = invoked;
             _combinators = new Stack<CssCombinator>();
             _attributeSelector = attributeSelector;
             _pseudoClassSelector = pseudoClassSelector;
@@ -77,7 +79,7 @@
 
         public Boolean IsValid
         {
-            get { return _valid && _ready; }
+            get { return _invoked && _valid && _ready; }
         }
 
         public Boolean IsNested
@@ -136,6 +138,8 @@
 
         private void Apply(CssSelectorToken token)
         {
+            _invoked = true;
+
             switch (_state)
             {
                 case State.Data:
@@ -352,7 +356,7 @@
             else if (token.Type == CssTokenType.Function)
             {
                 var creator = default(Func<CssSelectorConstructor, FunctionState>);
-                
+
                 if (pseudoClassFunctions.TryGetValue(token.Data, out creator))
                 {
                     _state = State.Function;
@@ -371,7 +375,7 @@
                     return;
                 }
             }
-            
+
             _valid = false;
 		}
 
@@ -563,7 +567,7 @@
 
         private CssSelectorConstructor CreateChild()
         {
-            return new CssSelectorConstructor(_tokenizer, _attributeSelector, _pseudoClassSelector, _pseudoElementSelector);
+            return new CssSelectorConstructor(_tokenizer, _attributeSelector, _pseudoClassSelector, _pseudoElementSelector, true);
         }
 
         #endregion

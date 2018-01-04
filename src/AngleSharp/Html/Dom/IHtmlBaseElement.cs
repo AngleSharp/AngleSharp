@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets or sets the base target.
         /// </summary>
-        [DomName("Target")]
+        [DomName("target")]
         String Target { get; set; }
     }
 }

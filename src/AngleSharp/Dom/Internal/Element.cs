@@ -6,7 +6,6 @@
     using System;
     using System.IO;
     using System.Linq;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents an element node.
@@ -15,7 +14,7 @@
     {
         #region Fields
 
-        private static readonly ConditionalWeakTable<Element, IShadowRoot> ShadowRootProperty = new ConditionalWeakTable<Element, IShadowRoot>();
+        private static readonly AttachedProperty<Element, IShadowRoot> ShadowRootProperty = new AttachedProperty<Element, IShadowRoot>();
 
         private readonly NamedNodeMap _attributes;
         private readonly String _namespace;
@@ -28,7 +27,7 @@
         #endregion
 
         #region ctor
-        
+
         public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
             : this(owner, prefix != null ? String.Concat(prefix, ":", localName) : localName, localName, prefix, namespaceUri, flags)
         {
@@ -74,12 +73,7 @@
 
         public IShadowRoot ShadowRoot
         {
-            get
-            {
-                var value = default(IShadowRoot);
-                ShadowRootProperty.TryGetValue(this, out value);
-                return value;
-            }
+            get { return ShadowRootProperty.Get(this); }
         }
 
         public String Prefix
@@ -230,7 +224,7 @@
 
         public IElement FirstElementChild
         {
-            get 
+            get
             {
                 var children = ChildNodes;
                 var n = children.Length;
@@ -294,7 +288,7 @@
                 parent.RemoveChild(this);
             }
         }
-        
+
         INamedNodeMap IElement.Attributes
         {
             get { return _attributes; }
@@ -336,7 +330,7 @@
                 throw new DomException(DomError.InvalidState);
 
             var root = new ShadowRoot(this, mode);
-            ShadowRootProperty.Add(this, root);
+            ShadowRootProperty.Set(this, root);
             return root;
         }
 
@@ -402,7 +396,7 @@
             {
                 name = name.HtmlLower();
             }
-            
+
             return _attributes.GetNamedItem(name)?.Value;
         }
 
@@ -412,7 +406,7 @@
             {
                 namespaceUri = null;
             }
-            
+
             return _attributes.GetNamedItem(namespaceUri, localName)?.Value;
         }
 
@@ -488,7 +482,7 @@
             if (otherElement != null)
             {
                 return NamespaceUri.Is(otherElement.NamespaceUri) &&
-                    _attributes.SameAs(otherElement.Attributes) && 
+                    _attributes.SameAs(otherElement.Attributes) &&
                     base.Equals(otherNode);
             }
 
@@ -583,7 +577,9 @@
         {
             if (namespaceUri == null)
             {
-                foreach (var observer in Context.GetServices<IAttributeObserver>())
+                var observers = Context.GetServices<IAttributeObserver>();
+
+                foreach (var observer in observers)
                 {
                     observer.NotifyChange(this, localName, newValue);
                 }
@@ -601,16 +597,16 @@
             _classList?.Update(value);
         }
 
-        #endregion
-
-        #region Helpers
-
         internal override Node Clone(Document owner, Boolean deep)
         {
             var node = new Element(owner, LocalName, _prefix, _namespace, Flags);
             CloneElement(node, owner, deep);
             return node;
         }
+
+        #endregion
+
+        #region Helpers
 
         protected void UpdateAttribute(String name, String value)
         {
@@ -639,7 +635,7 @@
 
             element.SetupElement();
         }
-        
+
         #endregion
     }
 }

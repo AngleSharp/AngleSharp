@@ -54,7 +54,7 @@
                    type == NodeType.Text || type == NodeType.ProcessingInstruction ||
                    type == NodeType.DocumentFragment || type == NodeType.DocumentType;
         }
-        
+
         /// <summary>
         /// Gets the hyperreference of the given URL - transforming the given
         /// (relative) URL to an absolute URL if required.

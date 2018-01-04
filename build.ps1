@@ -14,26 +14,28 @@ Param(
 )
 
 $PSScriptRoot = split-path -parent $MyInvocation.MyCommand.Definition;
+$UseDryRun = "";
+$UseMono = "";
 $TOOLS_DIR = Join-Path $PSScriptRoot "tools"
 $NUGET_EXE = Join-Path $TOOLS_DIR "nuget.exe"
+$NUGET_OLD_EXE = Join-Path $TOOLS_DIR "nuget_old.exe"
 $CAKE_EXE = Join-Path $TOOLS_DIR "Cake/Cake.exe"
 $NUGET_URL = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+$NUGET_OLD_URL = "https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe"
 
 # Should we use experimental build of Roslyn?
 $UseExperimental = "";
-if($Experimental.IsPresent) {
+if ($Experimental.IsPresent) {
     $UseExperimental = "-experimental"
 }
 
 # Is this a dry run?
-$UseDryRun = "";
-if($WhatIf.IsPresent) {
+if ($WhatIf.IsPresent) {
     $UseDryRun = "-dryrun"
 }
 
 # Should we use mono?
-$UseMono = "";
-if($Mono.IsPresent) {
+if ($Mono.IsPresent) {
     $UseMono = "-mono"
 }
 
@@ -42,13 +44,23 @@ if (!(Test-Path $NUGET_EXE)) {
     (New-Object System.Net.WebClient).DownloadFile($NUGET_URL, $NUGET_EXE)
 }
 
-# Make sure NuGet exists where we expect it.
+# Try download NuGet.exe if do not exist.
+if (!(Test-Path $NUGET_OLD_URL)) {
+    (New-Object System.Net.WebClient).DownloadFile($NUGET_OLD_URL, $NUGET_OLD_EXE)
+}
+
+# Make sure NuGet (latest) exists where we expect it.
 if (!(Test-Path $NUGET_EXE)) {
-    Throw "Could not find NuGet.exe"
+    Throw "Could not find nuget.exe"
+}
+
+# Make sure NuGet (v3.5.0) exists where we expect it.
+if (!(Test-Path $NUGET_OLD_EXE)) {
+    Throw "Could not find nuget_old.exe"
 }
 
 # Restore tools from NuGet?
-if(-Not $SkipToolPackageRestore.IsPresent)
+if (-Not $SkipToolPackageRestore.IsPresent)
 {
     Push-Location
     Set-Location $TOOLS_DIR
