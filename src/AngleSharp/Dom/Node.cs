@@ -1,11 +1,10 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
     using System.IO;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a node in the generated tree.
@@ -14,8 +13,6 @@
     {
         #region Fields
 
-        static readonly ConditionalWeakTable<Node, Document> Owners = new ConditionalWeakTable<Node, Document>();
-
         readonly NodeType _type;
         readonly String _name;
         readonly NodeFlags _flags;
@@ -23,6 +20,7 @@
         Url _baseUri;
         Node _parent;
         NodeList _children;
+        private Document _owner;
 
         #endregion
 
@@ -30,7 +28,7 @@
 
         internal Node(Document owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
-            Owners.Add(this, owner);
+            _owner = owner;
             _name = name ?? String.Empty;
             _type = type;
             _children = this.CreateChildren();
@@ -226,14 +224,12 @@
         {
             get
             {
-                var owner = default(Document);
-
-                if (_type != NodeType.Document)
+                if (_type == NodeType.Document)
                 {
-                    Owners.TryGetValue(this, out owner);
+                    return default(Document);
                 }
 
-                return owner;
+                return _owner;
             }
             set
             {
@@ -243,8 +239,7 @@
 
                     if (!Object.ReferenceEquals(oldDocument, value))
                     {
-                        Owners.Remove(descendentAndSelf);
-                        Owners.Add(descendentAndSelf, value);
+                        descendentAndSelf._owner = value;
 
                         if (oldDocument != null)
                         {
