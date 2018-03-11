@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Parser.Html
+namespace AngleSharp.Parser.Html
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -7,7 +7,7 @@
     /// <summary>
     /// The abstract base class of any HTML token.
     /// </summary>
-    class HtmlToken
+    public class HtmlToken
     {
         #region Fields
 

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Parser.Html
+namespace AngleSharp.Parser.Html
 {
     using AngleSharp.Extensions;
     using System;
@@ -6,7 +6,7 @@
     /// <summary>
     /// The DOCTYPE token.
     /// </summary>
-    sealed class HtmlDoctypeToken : HtmlToken
+    public sealed class HtmlDoctypeToken : HtmlToken
     {
         #region Fields
 

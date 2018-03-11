@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Parser.Html
+namespace AngleSharp.Parser.Html
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Class for StartTagToken and EndTagToken.
     /// </summary>
-    sealed class HtmlTagToken : HtmlToken
+    public sealed class HtmlTagToken : HtmlToken
     {
         #region Fields
 
