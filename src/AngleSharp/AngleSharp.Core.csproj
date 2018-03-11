@@ -212,6 +212,7 @@
     <Compile Include="Extensions\EventLoopExtensions.cs" />
     <Compile Include="Extensions\FormDataSetExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
+    <Compile Include="Extensions\TokenizerExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Network\CorsRequest.cs" />
     <Compile Include="Parser\Html\HtmlParseException.cs" />
