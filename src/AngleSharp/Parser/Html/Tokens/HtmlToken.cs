@@ -19,12 +19,13 @@ namespace AngleSharp.Parser.Html
 
         #region ctor
 
-        public HtmlToken(HtmlTokenType type, TextPosition position)
-            : this(type, position, null)
-        {
-        }
-
-        public HtmlToken(HtmlTokenType type, TextPosition position, String name)
+        /// <summary>
+        /// Creates a new HTML token.
+        /// </summary>
+        /// <param name="type">The exact type of the token.</param>
+        /// <param name="position">The token's text position.</param>
+        /// <param name="name">The optional name of the token, if any.</param>
+        public HtmlToken(HtmlTokenType type, TextPosition position, String name = null)
         {
             _type = type;
             _position = position;
