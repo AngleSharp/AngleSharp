@@ -92,7 +92,7 @@
         /// <returns>The character.</returns>
         public Char this[Int32 index]
         {
-            get { return _content[index]; }
+            get { return Replace(_content[index]); }
         }
 
         /// <summary>
@@ -201,12 +201,12 @@
         {
             if (_index < _content.Length)
             {
-                return _content[_index++];
+                return Replace(_content[_index++]);
             }
 
             ExpandBuffer(BufferSize);
             var index = _index++;
-            return index < _content.Length ? _content[index] : Symbols.EndOfFile;
+            return index < _content.Length ? Replace(_content[index]) : Symbols.EndOfFile;
         }
 
         /// <summary>
@@ -227,48 +227,6 @@
             }
 
             ExpandBuffer(Math.Max(BufferSize, characters));
-            _index += characters;
-            characters = Math.Min(characters, _content.Length - start);
-            return _content.ToString(start, characters);
-        }
-
-        /// <summary>
-        /// Reads the next character from the buffer or underlying stream
-        /// asynchronously, if any.
-        /// </summary>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The task resulting in the next character.</returns>
-        public async Task<Char> ReadCharacterAsync(CancellationToken cancellationToken)
-        {
-            if (_index >= _content.Length)
-            {
-                await ExpandBufferAsync(BufferSize, cancellationToken).ConfigureAwait(false);
-                var index = _index++;
-                return index < _content.Length ? _content[index] : Char.MaxValue;
-            }
-
-            return _content[_index++];
-        }
-
-        /// <summary>
-        /// Reads the upcoming numbers of characters from the buffer or
-        /// underlying stream asynchronously.
-        /// </summary>
-        /// <param name="characters">The number of characters to read.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The string with the next characters.</returns>
-        public async Task<String> ReadCharactersAsync(Int32 characters, CancellationToken cancellationToken)
-        {
-            var start = _index;
-            var end = start + characters;
-
-            if (end <= _content.Length)
-            {
-                _index += characters;
-                return _content.ToString(start, characters);
-            }
-
-            await ExpandBufferAsync(Math.Max(BufferSize, characters), cancellationToken).ConfigureAwait(false);
             _index += characters;
             characters = Math.Min(characters, _content.Length - start);
             return _content.ToString(start, characters);
@@ -325,6 +283,11 @@
         #endregion
 
         #region Helpers
+
+        static Char Replace(Char c)
+        {
+            return c == Symbols.EndOfFile ? (Char)0xFFFD : c;
+        }
 
         async Task DetectByteOrderMarkAsync(CancellationToken cancellationToken)
         {
