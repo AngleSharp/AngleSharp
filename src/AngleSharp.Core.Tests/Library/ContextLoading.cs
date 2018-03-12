@@ -494,5 +494,16 @@
             var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
             Assert.IsInstanceOf<HtmlDocument>(document);
         }
+
+        [Test]
+        public async Task LoadingIframeWithEmptySourceIsLikeLoadingWithout()
+        {
+            var config = new Configuration().WithDefaultLoader(r => r.IsResourceLoadingEnabled = true);
+            var context = BrowsingContext.New(config);
+            var source = @"<iframe src="""" class=""updates-iframe""></iframe>";
+            var document = await context.OpenAsync(res => res.Content(source));
+            var iframe = document.QuerySelector<HtmlIFrameElement>("iframe");
+            Assert.IsNull(iframe.ContentDocument);
+        }
     }
 }

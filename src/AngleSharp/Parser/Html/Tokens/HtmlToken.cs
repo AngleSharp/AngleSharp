@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Parser.Html
+namespace AngleSharp.Parser.Html
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -7,7 +7,7 @@
     /// <summary>
     /// The abstract base class of any HTML token.
     /// </summary>
-    class HtmlToken
+    public class HtmlToken
     {
         #region Fields
 
@@ -19,12 +19,13 @@
 
         #region ctor
 
-        public HtmlToken(HtmlTokenType type, TextPosition position)
-            : this(type, position, null)
-        {
-        }
-
-        public HtmlToken(HtmlTokenType type, TextPosition position, String name)
+        /// <summary>
+        /// Creates a new HTML token.
+        /// </summary>
+        /// <param name="type">The exact type of the token.</param>
+        /// <param name="position">The token's text position.</param>
+        /// <param name="name">The optional name of the token, if any.</param>
+        public HtmlToken(HtmlTokenType type, TextPosition position, String name = null)
         {
             _type = type;
             _position = position;
