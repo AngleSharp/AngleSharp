@@ -1,3 +1,10 @@
+# 0.9.9.2
+
+- Provided `Tokenize` extension method for `TextSource` (#636)
+- Replaced Conditional Weak Table for performance gains (#637)
+- Fixed a bug for non-unicode characters to stop parsing (#590)
+- Fixed weird `iframe` behavior to self-load (#581)
+
 # 0.9.9.1
 
 - Fixed build (#566)
