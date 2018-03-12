@@ -1492,7 +1492,9 @@ namespace AngleSharp.Dom
         private void RaiseLoadedEvent()
         {
             ReadyState = DocumentReadyState.Complete;
+            Body?.FireSimpleEvent(EventNames.Load);
             this.FireSimpleEvent(EventNames.Load);
+            _view.FireSimpleEvent(EventNames.Load);
         }
 
         private void EmptyAppCache()

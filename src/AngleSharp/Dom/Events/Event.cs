@@ -244,13 +244,13 @@
             return (_flags & EventFlags.Canceled) == EventFlags.Canceled;
         }
 
-        void CallListeners(IEventTarget target)
+        private void CallListeners(IEventTarget target)
         {
             _current = target;
             target.InvokeEventListener(this);
         }
 
-        void DispatchAt(IEnumerable<IEventTarget> targets)
+        private void DispatchAt(IEnumerable<IEventTarget> targets)
         {
             foreach (var target in targets)
             {

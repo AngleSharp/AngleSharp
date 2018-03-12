@@ -35,7 +35,6 @@
             RegisterObserver<HtmlLinkElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
             RegisterObserver<HtmlLinkElement>(AttributeNames.Disabled, (element, value) => element.UpdateDisabled(value));
             RegisterObserver<HtmlLinkElement>(AttributeNames.Href, (element, value) => element.UpdateSource(value));
-            RegisterObserver<HtmlLinkElement>(AttributeNames.Rel, (element, value) => element.UpdateRelation(value));
             RegisterObserver<HtmlUrlBaseElement>(AttributeNames.Rel, (element, value) => element.UpdateRel(value));
             RegisterObserver<HtmlUrlBaseElement>(AttributeNames.Ping, (element, value) => element.UpdatePing(value));
             RegisterObserver<HtmlTableCellElement>(AttributeNames.Headers, (element, value) => element.UpdateHeaders(value));

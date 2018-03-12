@@ -571,6 +571,23 @@
 
         internal virtual void SetupElement()
         {
+            var attrs = _attributes;
+
+            if (attrs.Length > 0)
+            {
+                var observers = Context.GetServices<IAttributeObserver>();
+
+                foreach (var attr in attrs)
+                {
+                    var name = attr.LocalName;
+                    var value = attr.Value;
+
+                    foreach (var observer in observers)
+                    {
+                        observer.NotifyChange(this, name, value);
+                    }
+                }
+            }
         }
 
         internal void AttributeChanged(String localName, String namespaceUri, String oldValue, String newValue)

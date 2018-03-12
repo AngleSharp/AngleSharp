@@ -168,14 +168,15 @@
 
         internal override void SetupElement()
         {
-            base.SetupElement();
-
             var rel = this.GetOwnAttribute(AttributeNames.Rel);
 
             if (rel != null)
             {
-                UpdateRelation(rel);
+                _relList?.Update(rel);
+                _relation = CreateFirstLegalRelation();
             }
+
+            base.SetupElement();
         }
 
         internal void UpdateSizes(String value)
@@ -201,13 +202,6 @@
             {
                 sheet.IsDisabled = value != null;
             }
-        }
-
-        internal void UpdateRelation(String value)
-        {
-            _relList?.Update(value);
-            _relation = CreateFirstLegalRelation();
-            UpdateSource(this.GetOwnAttribute(AttributeNames.Href));
         }
 
         internal void UpdateSource(String value)
