@@ -10,6 +10,7 @@ namespace AngleSharp.Dom.Html
     using AngleSharp.Services.Scripting;
     using System;
     using System.Collections.Generic;
+    using System.Text;
 
     /// <summary>
     /// Represents a standard HTML element in the node tree.
@@ -534,28 +535,17 @@ namespace AngleSharp.Dom.Html
                     return TextContent;
                 }
 
-                var list = InnerTextCollection(this, ParentElement?.ComputeCurrentStyle());
                 var sb = Pool.NewStringBuilder();
+                var requiredLineBreakCounts = new SortedDictionary<Int32, Int32>();
 
-                Int32? max = null;
-                for (var i = 0; i < list.Count; i++)
+                InnerTextCollection(this, sb, requiredLineBreakCounts, ParentElement?.ComputeCurrentStyle());
+
+                var offset = 0;
+                foreach (var keyval in requiredLineBreakCounts)
                 {
-                    if (list[i] is String str)
-                    {
-                        if (max.HasValue)
-                        {
-                            sb.Append(new String('\n', max.Value));
-                            max = null;
-                        }
-                        sb.Append(str);
-                    }
-                    else if (list[i] is Int32 requiredLineBreak)
-                    {
-                        if (!max.HasValue || requiredLineBreak > max)
-                        {
-                            max = requiredLineBreak;
-                        }
-                    }
+                    var index = keyval.Key + offset;
+                    sb.Insert(index, new String('\n', keyval.Value));
+                    offset += keyval.Value;
                 }
 
                 return sb.ToPool().Trim();
@@ -604,13 +594,11 @@ namespace AngleSharp.Dom.Html
             }
         }
 
-        private static List<Object> InnerTextCollection(INode node, ICssStyleDeclaration parentStyle)
+        private static void InnerTextCollection(INode node, StringBuilder sb, SortedDictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration parentStyle)
         {
-            var list = new List<Object>();
-
             if (node is IHtmlTextAreaElement || node is IHtmlInputElement || node is IHtmlVideoElement)
             {
-                return list;
+                return;
             }
 
             var elementCss = (node as IElement)?.ComputeCurrentStyle();
@@ -633,26 +621,29 @@ namespace AngleSharp.Dom.Html
             }
             if (elementHidden.Value)
             {
-                return list;
+                return;
             }
+
+            var startIndex = sb.Length;
 
             foreach (var child in node.ChildNodes)
             {
-                list.AddRange(InnerTextCollection(child, elementCss));
+                InnerTextCollection(child, sb, requiredLineBreakCounts, elementCss);
             }
+
+            var endIndex = sb.Length;
 
             if (node is IText textElement)
             {
                 switch (parentStyle?.TextTransform)
                 {
                     case "uppercase":
-                        list.Add(textElement.Data.ToUpperInvariant());
+                        sb.Append(textElement.Data.ToUpperInvariant());
                         break;
                     case "lowercase":
-                        list.Add(textElement.Data.ToLowerInvariant());
+                        sb.Append(textElement.Data.ToLowerInvariant());
                         break;
                     case "capitalize":
-                        var sb = Pool.NewStringBuilder();
                         var data = textElement.Data;
 
                         var captialize = true;
@@ -672,35 +663,43 @@ namespace AngleSharp.Dom.Html
 
                             sb.Append(c);
                         }
-                        list.Add(sb.ToPool());
                         break;
                     default:
-                        list.Add(textElement.Data);
+                        sb.Append(textElement.Data);
                         break;
                 }
             }
             else if (node is IHtmlBreakRowElement)
             {
-                list.Add("\n");
+                sb.Append('\n');
             }
             else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-cell")
             {
                 if (node.NextSibling != null)
                 {
-                    list.Add("\t");
+                    sb.Append('\t');
                 }
             }
             else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-row")
             {
                 if (node.NextSibling != null)
                 {
-                    list.Add("\n");
+                    sb.Append('\n');
                 }
             }
             else if (node is IHtmlParagraphElement)
             {
-                list.Insert(0, 2);
-                list.Add(2);
+                requiredLineBreakCounts.TryGetValue(startIndex, out var startIndexCount);
+                if (startIndexCount < 2)
+                {
+                    requiredLineBreakCounts[startIndex] = 2;
+                }
+
+                requiredLineBreakCounts.TryGetValue(endIndex, out var endIndexCount);
+                if (endIndexCount < 2)
+                {
+                    requiredLineBreakCounts[endIndex] = 2;
+                }
             }
 
             bool? isBlockLevel = null;
@@ -764,11 +763,18 @@ namespace AngleSharp.Dom.Html
             }
             if (isBlockLevel.Value)
             {
-                list.Insert(0, 1);
-                list.Add(1);
-            }
+                requiredLineBreakCounts.TryGetValue(startIndex, out var startIndexCount);
+                if (startIndexCount < 1)
+                {
+                    requiredLineBreakCounts[startIndex] = 1;
+                }
 
-            return list;
+                requiredLineBreakCounts.TryGetValue(endIndex, out var endIndexCount);
+                if (endIndexCount < 1)
+                {
+                    requiredLineBreakCounts[endIndex] = 1;
+                }
+            }
         }
 
         #endregion
