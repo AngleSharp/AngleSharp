@@ -1,6 +1,7 @@
-﻿namespace AngleSharp.Dom.Html
+namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Dom.Collections;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -8,6 +9,7 @@
     using AngleSharp.Services;
     using AngleSharp.Services.Scripting;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a standard HTML element in the node tree.
@@ -508,6 +510,265 @@
         {
             get { return this.GetOwnAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
             set { this.SetOwnAttribute(AttributeNames.Translate, value ? Keywords.Yes : Keywords.No); }
+        }
+
+        public String InnerText
+        {
+            get
+            {
+                bool? hidden = null;
+                var css = this.ComputeCurrentStyle();
+                if (css != null)
+                {
+                    if (!String.IsNullOrEmpty(css.Display))
+                    {
+                        hidden = css.Display == "none";
+                    }
+                }
+                if (!hidden.HasValue)
+                {
+                    hidden = IsHidden;
+                }
+                if (hidden.Value)
+                {
+                    return TextContent;
+                }
+
+                var list = InnerTextCollection(this, ParentElement?.ComputeCurrentStyle());
+                var sb = Pool.NewStringBuilder();
+
+                Int32? max = null;
+                for (var i = 0; i < list.Count; i++)
+                {
+                    if (list[i] is String str)
+                    {
+                        if (max.HasValue)
+                        {
+                            sb.Append(new String('\n', max.Value));
+                            max = null;
+                        }
+                        sb.Append(str);
+                    }
+                    else if (list[i] is Int32 requiredLineBreak)
+                    {
+                        if (!max.HasValue || requiredLineBreak > max)
+                        {
+                            max = requiredLineBreak;
+                        }
+                    }
+                }
+
+                return sb.ToPool().Trim();
+            }
+            set
+            {
+                if (String.IsNullOrEmpty(value))
+                {
+                    ReplaceAll(null, false);
+                }
+                else
+                {
+                    var fragment = new DocumentFragment(Owner);
+
+                    var sb = Pool.NewStringBuilder();
+                    for (var i = 0; i < value.Length; i++)
+                    {
+                        var c = value[i];
+
+                        if (c == '\n')
+                        {
+                            if (sb.Length > 0)
+                            {
+                                fragment.AppendChild(new TextNode(Owner, sb.ToPool()));
+                                sb = Pool.NewStringBuilder();
+                            }
+                            fragment.AppendChild(new HtmlBreakRowElement(Owner));
+                            continue;
+                        }
+                        else if (c == '\r')
+                        {
+                            continue;
+                        }
+
+                        sb.Append(c);
+                    }
+
+                    var remaining = sb.ToPool();
+                    if (remaining.Length > 0)
+                    {
+                        fragment.Append(new TextNode(Owner, remaining));
+                    }
+
+                    ReplaceAll(fragment, false);
+                }
+            }
+        }
+
+        private static List<Object> InnerTextCollection(INode node, ICssStyleDeclaration parentStyle)
+        {
+            var list = new List<Object>();
+
+            if (node is IHtmlTextAreaElement || node is IHtmlInputElement || node is IHtmlVideoElement)
+            {
+                return list;
+            }
+
+            var elementCss = (node as IElement)?.ComputeCurrentStyle();
+
+            bool? elementHidden = null;
+            if (elementCss != null)
+            {
+                if (!String.IsNullOrEmpty(elementCss.Display))
+                {
+                    elementHidden = elementCss.Display == "none";
+                }
+                if (!String.IsNullOrEmpty(elementCss.Visibility) && elementHidden != true)
+                {
+                    elementHidden = elementCss.Visibility != "visible";
+                }
+            }
+            if (!elementHidden.HasValue)
+            {
+                elementHidden = (node as IHtmlElement)?.IsHidden ?? false;
+            }
+            if (elementHidden.Value)
+            {
+                return list;
+            }
+
+            foreach (var child in node.ChildNodes)
+            {
+                list.AddRange(InnerTextCollection(child, elementCss));
+            }
+
+            if (node is IText textElement)
+            {
+                switch (parentStyle?.TextTransform)
+                {
+                    case "uppercase":
+                        list.Add(textElement.Data.ToUpperInvariant());
+                        break;
+                    case "lowercase":
+                        list.Add(textElement.Data.ToLowerInvariant());
+                        break;
+                    case "capitalize":
+                        var sb = Pool.NewStringBuilder();
+                        var data = textElement.Data;
+
+                        var captialize = true;
+                        for (var i = 0; i < data.Length; i++)
+                        {
+                            var c = data[i];
+
+                            if (Char.IsWhiteSpace(c))
+                            {
+                                captialize = true;
+                            }
+                            else if (captialize)
+                            {
+                                c = Char.ToUpperInvariant(c);
+                                captialize = false;
+                            }
+
+                            sb.Append(c);
+                        }
+                        list.Add(sb.ToPool());
+                        break;
+                    default:
+                        list.Add(textElement.Data);
+                        break;
+                }
+            }
+            else if (node is IHtmlBreakRowElement)
+            {
+                list.Add("\n");
+            }
+            else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-cell")
+            {
+                if (node.NextSibling != null)
+                {
+                    list.Add("\t");
+                }
+            }
+            else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-row")
+            {
+                if (node.NextSibling != null)
+                {
+                    list.Add("\n");
+                }
+            }
+            else if (node is IHtmlParagraphElement)
+            {
+                list.Insert(0, 2);
+                list.Add(2);
+            }
+
+            bool? isBlockLevel = null;
+            switch (elementCss?.Display)
+            {
+                case "block":
+                case "flow-root":
+                case "flex":
+                case "grid":
+                case "table":
+                    isBlockLevel = true;
+                    break;
+            }
+            if (!isBlockLevel.HasValue)
+            {
+                // https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+                switch (node.NodeName)
+                {
+                    case "ADDRESS":
+                    case "ARTICLE":
+                    case "ASIDE":
+                    case "BLOCKQUOTE":
+                    case "CANVAS":
+                    case "DD":
+                    case "DIV":
+                    case "DL":
+                    case "DT":
+                    case "FIELDSET":
+                    case "FIGCAPTION":
+                    case "FIGURE":
+                    case "FOOTER":
+                    case "FORM":
+                    case "H1":
+                    case "H2":
+                    case "H3":
+                    case "H4":
+                    case "H5":
+                    case "H6":
+                    case "HEADER":
+                    case "GROUP":
+                    case "HR":
+                    case "LI":
+                    case "MAIN":
+                    case "NAV":
+                    case "NOSCRIPT":
+                    case "OL":
+                    case "OUTPUT":
+                    case "P":
+                    case "PRE":
+                    case "SECTION":
+                    case "TABLE":
+                    case "TFOOT":
+                    case "UL":
+                    case "VIDEO":
+                        isBlockLevel = true;
+                        break;
+                    default:
+                        isBlockLevel = false;
+                        break;
+                }
+            }
+            if (isBlockLevel.Value)
+            {
+                list.Insert(0, 1);
+                list.Add(1);
+            }
+
+            return list;
         }
 
         #endregion

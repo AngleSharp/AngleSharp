@@ -1,9 +1,8 @@
-﻿namespace AngleSharp.Extensions
+namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
-    using AngleSharp.Dom.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -32,13 +31,6 @@
             }
 
             computedStyle.SetDeclarations(rules.ComputeCascadedStyle(element).Declarations);
-            var htmlElement = element as IHtmlElement;
-
-            if (htmlElement != null)
-            {
-                var declarations = htmlElement.Style.OfType<CssProperty>();
-                computedStyle.SetDeclarations(declarations);
-            }
 
             var nodes = element.GetAncestors().OfType<IElement>();
 
