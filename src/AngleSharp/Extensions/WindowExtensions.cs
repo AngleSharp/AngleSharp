@@ -61,10 +61,14 @@ namespace AngleSharp.Extensions
                 computedStyle.SetDeclarations(inlineStyle.Declarations);
             }
 
-            if (element is IHtmlElement htmlElement && htmlElement.Style != null)
+            if (element is IHtmlElement)
             {
-                var declarations = htmlElement.Style.OfType<CssProperty>();
-                computedStyle.SetDeclarations(declarations);
+                var htmlElement = (IHtmlElement)element;
+                if (htmlElement.Style != null)
+                {
+                    var declarations = htmlElement.Style.OfType<CssProperty>();
+                    computedStyle.SetDeclarations(declarations);
+                }
             }
 
             return computedStyle;

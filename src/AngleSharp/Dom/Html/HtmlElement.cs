@@ -536,7 +536,7 @@ namespace AngleSharp.Dom.Html
                 }
 
                 var sb = Pool.NewStringBuilder();
-                var requiredLineBreakCounts = new SortedDictionary<Int32, Int32>();
+                var requiredLineBreakCounts = new Dictionary<Int32, Int32>();
 
                 InnerTextCollection(this, sb, requiredLineBreakCounts, ParentElement?.ComputeCurrentStyle());
 
@@ -594,7 +594,7 @@ namespace AngleSharp.Dom.Html
             }
         }
 
-        private static void InnerTextCollection(INode node, StringBuilder sb, SortedDictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration parentStyle)
+        private static void InnerTextCollection(INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration parentStyle)
         {
             if (node is IHtmlTextAreaElement || node is IHtmlInputElement || node is IHtmlVideoElement)
             {
@@ -633,8 +633,9 @@ namespace AngleSharp.Dom.Html
 
             var endIndex = sb.Length;
 
-            if (node is IText textElement)
+            if (node is IText)
             {
+                var textElement = (IText)node;
                 switch (parentStyle?.TextTransform)
                 {
                     case "uppercase":
@@ -689,13 +690,14 @@ namespace AngleSharp.Dom.Html
             }
             else if (node is IHtmlParagraphElement)
             {
-                requiredLineBreakCounts.TryGetValue(startIndex, out var startIndexCount);
+                var startIndexCount = 0;
+                requiredLineBreakCounts.TryGetValue(startIndex, out startIndexCount);
                 if (startIndexCount < 2)
                 {
                     requiredLineBreakCounts[startIndex] = 2;
                 }
-
-                requiredLineBreakCounts.TryGetValue(endIndex, out var endIndexCount);
+                var endIndexCount = 0;
+                requiredLineBreakCounts.TryGetValue(endIndex, out endIndexCount);
                 if (endIndexCount < 2)
                 {
                     requiredLineBreakCounts[endIndex] = 2;
@@ -703,6 +705,7 @@ namespace AngleSharp.Dom.Html
             }
 
             bool? isBlockLevel = null;
+            // https://www.w3.org/TR/css-display-3/#display-value-summary
             switch (elementCss?.Display)
             {
                 case "block":
@@ -763,13 +766,14 @@ namespace AngleSharp.Dom.Html
             }
             if (isBlockLevel.Value)
             {
-                requiredLineBreakCounts.TryGetValue(startIndex, out var startIndexCount);
+                var startIndexCount = 0;
+                requiredLineBreakCounts.TryGetValue(startIndex, out startIndexCount);
                 if (startIndexCount < 1)
                 {
                     requiredLineBreakCounts[startIndex] = 1;
                 }
-
-                requiredLineBreakCounts.TryGetValue(endIndex, out var endIndexCount);
+                var endIndexCount = 0;
+                requiredLineBreakCounts.TryGetValue(endIndex, out endIndexCount);
                 if (endIndexCount < 1)
                 {
                     requiredLineBreakCounts[endIndex] = 1;
