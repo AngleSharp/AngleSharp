@@ -10,6 +10,7 @@ namespace AngleSharp.Dom.Html
     using AngleSharp.Services.Scripting;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
@@ -518,10 +519,14 @@ namespace AngleSharp.Dom.Html
             get
             {
                 bool? hidden = null;
-                var css = this.ComputeCurrentStyle();
-                if (css != null)
+                if (Owner == null)
                 {
-                    if (!String.IsNullOrEmpty(css.Display))
+                    hidden = true;
+                }
+                if (!hidden.HasValue)
+                {
+                    var css = this.ComputeCurrentStyle();
+                    if (!String.IsNullOrEmpty(css?.Display))
                     {
                         hidden = css.Display == "none";
                     }
@@ -541,7 +546,7 @@ namespace AngleSharp.Dom.Html
                 InnerTextCollection(this, sb, requiredLineBreakCounts, ParentElement?.ComputeCurrentStyle());
 
                 var offset = 0;
-                foreach (var keyval in requiredLineBreakCounts)
+                foreach (var keyval in requiredLineBreakCounts.OrderBy(kv => kv.Key)) // SortedDictionary would be nicer
                 {
                     var index = keyval.Key + offset;
                     sb.Insert(index, new String('\n', keyval.Value));
@@ -565,22 +570,24 @@ namespace AngleSharp.Dom.Html
                     {
                         var c = value[i];
 
-                        if (c == '\n')
+                        if (c == '\n' || c == '\r')
                         {
+                            if (c == '\r' && i + 1 < value.Length && value[i + 1] == '\n')
+                            {
+                                continue;
+                            }
+
                             if (sb.Length > 0)
                             {
                                 fragment.AppendChild(new TextNode(Owner, sb.ToPool()));
                                 sb = Pool.NewStringBuilder();
                             }
                             fragment.AppendChild(new HtmlBreakRowElement(Owner));
-                            continue;
                         }
-                        else if (c == '\r')
+                        else
                         {
-                            continue;
+                            sb.Append(c);
                         }
-
-                        sb.Append(c);
                     }
 
                     var remaining = sb.ToPool();
@@ -596,7 +603,7 @@ namespace AngleSharp.Dom.Html
 
         private static void InnerTextCollection(INode node, StringBuilder sb, Dictionary<Int32, Int32> requiredLineBreakCounts, ICssStyleDeclaration parentStyle)
         {
-            if (node is IHtmlTextAreaElement || node is IHtmlInputElement || node is IHtmlVideoElement)
+            if (!HasCssBox(node))
             {
                 return;
             }
@@ -630,8 +637,6 @@ namespace AngleSharp.Dom.Html
             {
                 InnerTextCollection(child, sb, requiredLineBreakCounts, elementCss);
             }
-
-            var endIndex = sb.Length;
 
             if (node is IText)
             {
@@ -697,72 +702,24 @@ namespace AngleSharp.Dom.Html
                     requiredLineBreakCounts[startIndex] = 2;
                 }
                 var endIndexCount = 0;
-                requiredLineBreakCounts.TryGetValue(endIndex, out endIndexCount);
+                requiredLineBreakCounts.TryGetValue(sb.Length, out endIndexCount);
                 if (endIndexCount < 2)
                 {
-                    requiredLineBreakCounts[endIndex] = 2;
+                    requiredLineBreakCounts[sb.Length] = 2;
                 }
             }
 
             bool? isBlockLevel = null;
-            // https://www.w3.org/TR/css-display-3/#display-value-summary
-            switch (elementCss?.Display)
+            if (elementCss != null)
             {
-                case "block":
-                case "flow-root":
-                case "flex":
-                case "grid":
-                case "table":
+                if (IsBlockLevelDisplay(elementCss.Display))
+                {
                     isBlockLevel = true;
-                    break;
+                }
             }
             if (!isBlockLevel.HasValue)
             {
-                // https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
-                switch (node.NodeName)
-                {
-                    case "ADDRESS":
-                    case "ARTICLE":
-                    case "ASIDE":
-                    case "BLOCKQUOTE":
-                    case "CANVAS":
-                    case "DD":
-                    case "DIV":
-                    case "DL":
-                    case "DT":
-                    case "FIELDSET":
-                    case "FIGCAPTION":
-                    case "FIGURE":
-                    case "FOOTER":
-                    case "FORM":
-                    case "H1":
-                    case "H2":
-                    case "H3":
-                    case "H4":
-                    case "H5":
-                    case "H6":
-                    case "HEADER":
-                    case "GROUP":
-                    case "HR":
-                    case "LI":
-                    case "MAIN":
-                    case "NAV":
-                    case "NOSCRIPT":
-                    case "OL":
-                    case "OUTPUT":
-                    case "P":
-                    case "PRE":
-                    case "SECTION":
-                    case "TABLE":
-                    case "TFOOT":
-                    case "UL":
-                    case "VIDEO":
-                        isBlockLevel = true;
-                        break;
-                    default:
-                        isBlockLevel = false;
-                        break;
-                }
+                isBlockLevel = IsBlockLevel(node);
             }
             if (isBlockLevel.Value)
             {
@@ -773,11 +730,106 @@ namespace AngleSharp.Dom.Html
                     requiredLineBreakCounts[startIndex] = 1;
                 }
                 var endIndexCount = 0;
-                requiredLineBreakCounts.TryGetValue(endIndex, out endIndexCount);
+                requiredLineBreakCounts.TryGetValue(sb.Length, out endIndexCount);
                 if (endIndexCount < 1)
                 {
-                    requiredLineBreakCounts[endIndex] = 1;
+                    requiredLineBreakCounts[sb.Length] = 1;
                 }
+            }
+        }
+
+        private static Boolean HasCssBox(INode node)
+        {
+            switch (node.NodeName)
+            {
+                case "CANVAS":
+                case "COL":
+                case "COLGROUP":
+                case "DETAILS":
+                case "FRAME":
+                case "FRAMESET":
+                case "IFRAME":
+                case "IMG":
+                case "INPUT":
+                case "METER":
+                case "OPTGROUP":
+                case "PROGRESS":
+                case "SELECT":
+                case "TEMPLATE":
+                case "TEXTAREA":
+                case "VIDEO":
+                case "WBR":
+                case "SCRIPT":
+                case "STYLE":
+                case "NOSCRIPT":
+                    return false;
+                default:
+                    return true;
+            }
+        }
+
+        private static bool IsBlockLevelDisplay(String display)
+        {
+            // https://www.w3.org/TR/css-display-3/#display-value-summary
+            // https://hg.mozilla.org/mozilla-central/file/0acceb224b7d/servo/components/layout/query.rs#l1016
+            switch (display)
+            {
+                case "block":
+                case "flow-root":
+                case "flex":
+                case "grid":
+                case "table":
+                case "table-caption":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        private static bool IsBlockLevel(INode node)
+        {
+            // https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+            switch (node.NodeName)
+            {
+                case "ADDRESS":
+                case "ARTICLE":
+                case "ASIDE":
+                case "BLOCKQUOTE":
+                case "CANVAS":
+                case "DD":
+                case "DIV":
+                case "DL":
+                case "DT":
+                case "FIELDSET":
+                case "FIGCAPTION":
+                case "FIGURE":
+                case "FOOTER":
+                case "FORM":
+                case "H1":
+                case "H2":
+                case "H3":
+                case "H4":
+                case "H5":
+                case "H6":
+                case "HEADER":
+                case "GROUP":
+                case "HR":
+                case "LI":
+                case "MAIN":
+                case "NAV":
+                case "NOSCRIPT":
+                case "OL":
+                case "OUTPUT":
+                case "P":
+                case "PRE":
+                case "SECTION":
+                case "TABLE":
+                case "TFOOT":
+                case "UL":
+                case "VIDEO":
+                    return true;
+                default:
+                    return false;
             }
         }
 

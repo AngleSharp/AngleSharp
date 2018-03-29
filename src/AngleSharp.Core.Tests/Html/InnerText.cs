@@ -20,6 +20,7 @@ namespace AngleSharp.Core.Tests.Html
         [TestCase("test1<br>test2<br>test3", "test1\ntest2\ntest3")]
         // table
         [TestCase("<table><tr><td>1</td><td>2</td></tr><tr><td>3</td><td>4</td></tr></table>", "1\t2\n3\t4")]
+        [TestCase("<table><tr><td>1</td><td>2</td></tr><tr><td><table><tr><td>3</td><td>4</td></tr></table></td><td>5</td></tr></table>", "1\t2\n\n3\t4\n\t5")]
         // style visibility
         [TestCase(@"<div hidden style=""display:block"">test1<br>test2<div>test3</div></div>", "test1\ntest2\ntest3")]
         [TestCase(@"<div hidden style=""visibility:visible"">test1<br>test2<div>test3</div></div>", "test1\ntest2\ntest3")]
@@ -32,8 +33,10 @@ namespace AngleSharp.Core.Tests.Html
         [TestCase(@"<span style=""text-transform:lowercase"">TEST</span>", "test")]
         [TestCase("<span style=\"text-transform:capitalize\">test1 test2\ntest3</span>", "Test1 Test2\nTest3")]
         [TestCase(@"<div style=""text-transform:lowercase"">TEST1<span>TEST2</span></div>", "test1test2")]
-        // input elements
+        // no css box
         [TestCase("<textarea>test</textarea>", "")]
+        [TestCase("<script>test</noscript>", "")]
+        [TestCase("<style>test</style>", "")]
         public void GetInnerText(String fixture, String expected)
         {
             var config = Configuration.Default.WithCss();
@@ -46,7 +49,7 @@ namespace AngleSharp.Core.Tests.Html
         [TestCase("", "")]
         [TestCase("test", "test")]
         [TestCase("test1\ntest2\ntest3", "test1<br>test2<br>test3")]
-        [TestCase("te\rst1\r\ntest2\ntest3", "test1<br>test2<br>test3")]
+        [TestCase("te\rst1\r\ntest2\ntest3\r", "te<br>st1<br>test2<br>test3<br>")]
         [TestCase("te st1\nte  st2\nte   st3", "te st1<br>te  st2<br>te   st3")]
         public void SetInnerText(String fixture, String expectedHtml)
         {
@@ -54,7 +57,7 @@ namespace AngleSharp.Core.Tests.Html
 
             doc.Body.InnerText = fixture;
 
-            Assert.AreEqual((fixture ?? "").Replace("\r", ""), doc.Body.InnerText);
+            Assert.AreEqual((fixture ?? "").Replace("\r\n", "\n").Replace("\r", "\n").Trim(), doc.Body.InnerText);
             Assert.AreEqual(expectedHtml, doc.Body.InnerHtml);
         }
 
