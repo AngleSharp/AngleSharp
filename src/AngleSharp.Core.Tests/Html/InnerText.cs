@@ -9,7 +9,6 @@ namespace AngleSharp.Core.Tests.Html
 
         // text
         [TestCase("test", "test")]
-        [TestCase("te  s\nt", "te  s\nt")]
         // paragraph
         [TestCase("<p>test</p>", "test")]
         [TestCase("<p>test1</p><p>test2</p>", "test1\n\ntest2")]
@@ -31,8 +30,16 @@ namespace AngleSharp.Core.Tests.Html
         // style text-transform
         [TestCase(@"<span style=""text-transform:uppercase"">test</span>", "TEST")]
         [TestCase(@"<span style=""text-transform:lowercase"">TEST</span>", "test")]
-        [TestCase("<span style=\"text-transform:capitalize\">test1 test2\ntest3</span>", "Test1 Test2\nTest3")]
+        [TestCase("<span style=\"text-transform:capitalize\">test1 test2\ntest3</span>", "Test1 Test2 Test3")]
         [TestCase(@"<div style=""text-transform:lowercase"">TEST1<span>TEST2</span></div>", "test1test2")]
+        [TestCase(@"<div style=""text-transform:lowercase"">TEST1<span style=""text-transform:uppercase"">test2</span></div>", "test1TEST2")]
+        // style white-space
+        [TestCase("t e  s\tt1\ntest2", "t e s t1 test2")]
+        [TestCase("<span style=\"white-space:normal\">t e  s\tt1\ntest2</span>", "t e s t1 test2")]
+        [TestCase("<span style=\"white-space:nowrap\">t e  s\tt1\ntest2</span>", "t e s t1 test2")]
+        [TestCase("<span style=\"white-space:pre-line\">t e  s\tt1\ntest2</span>", "t e s t1\ntest2")]
+        [TestCase("<span style=\"white-space:pre\">t e  s\tt1\ntest2</span>", "t e  s\tt1\ntest2")]
+        [TestCase("<span style=\"white-space:pre-wrap\">t e  s\tt1\ntest2</span>", "t e  s\tt1\ntest2")]
         // no css box
         [TestCase("<textarea>test</textarea>", "")]
         [TestCase("<script>test</noscript>", "")]
@@ -45,19 +52,19 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual(expected, doc.Body.InnerText);
         }
 
-        [TestCase(null, "")]
-        [TestCase("", "")]
-        [TestCase("test", "test")]
-        [TestCase("test1\ntest2\ntest3", "test1<br>test2<br>test3")]
-        [TestCase("te\rst1\r\ntest2\ntest3\r", "te<br>st1<br>test2<br>test3<br>")]
-        [TestCase("te st1\nte  st2\nte   st3", "te st1<br>te  st2<br>te   st3")]
-        public void SetInnerText(String fixture, String expectedHtml)
+        [TestCase(null, "", "")]
+        [TestCase("", "", "")]
+        [TestCase("test", "test", "test")]
+        [TestCase("test1\ntest2\ntest3", "test1\ntest2\ntest3", "test1<br>test2<br>test3")]
+        [TestCase("te\rst1\r\ntest2\ntest3\r", "te\nst1\ntest2\ntest3", "te<br>st1<br>test2<br>test3<br>")]
+        [TestCase("te st1\nte  st2\nte   st3", "te st1\nte st2\nte st3", "te st1<br>te  st2<br>te   st3")]
+        public void SetInnerText(String fixture, String expectedInnerText, String expectedHtml)
         {
             var doc = ("<div>sample content</div>").ToHtmlDocument();
 
             doc.Body.InnerText = fixture;
 
-            Assert.AreEqual((fixture ?? "").Replace("\r\n", "\n").Replace("\r", "\n").Trim(), doc.Body.InnerText);
+            Assert.AreEqual(expectedInnerText, doc.Body.InnerText);
             Assert.AreEqual(expectedHtml, doc.Body.InnerHtml);
         }
 

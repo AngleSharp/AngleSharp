@@ -641,39 +641,8 @@ namespace AngleSharp.Dom.Html
             if (node is IText)
             {
                 var textElement = (IText)node;
-                switch (parentStyle?.TextTransform)
-                {
-                    case "uppercase":
-                        sb.Append(textElement.Data.ToUpperInvariant());
-                        break;
-                    case "lowercase":
-                        sb.Append(textElement.Data.ToLowerInvariant());
-                        break;
-                    case "capitalize":
-                        var data = textElement.Data;
 
-                        var captialize = true;
-                        for (var i = 0; i < data.Length; i++)
-                        {
-                            var c = data[i];
-
-                            if (Char.IsWhiteSpace(c))
-                            {
-                                captialize = true;
-                            }
-                            else if (captialize)
-                            {
-                                c = Char.ToUpperInvariant(c);
-                                captialize = false;
-                            }
-
-                            sb.Append(c);
-                        }
-                        break;
-                    default:
-                        sb.Append(textElement.Data);
-                        break;
-                }
+                ProcessText(textElement.Data, sb, parentStyle);
             }
             else if (node is IHtmlBreakRowElement)
             {
@@ -830,6 +799,88 @@ namespace AngleSharp.Dom.Html
                     return true;
                 default:
                     return false;
+            }
+        }
+
+        private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style)
+        {
+            if (style == null)
+            {
+                sb.Append(text);
+                return;
+            }
+
+            var whiteSpace = style.WhiteSpace;
+            var textTransform = style.TextTransform;
+
+            var isWhiteSpace = true;
+            for (var i = 0; i < text.Length; i++)
+            {
+                var c = text[i];
+
+                if (Char.IsWhiteSpace(c))
+                {
+                    // https://drafts.csswg.org/css-text/#white-space-property
+                    switch (whiteSpace)
+                    {
+                        case "pre":
+                        case "pre-wrap":
+                            break;
+                        case "pre-line":
+                            if (c == ' ' || c == '\t')
+                            {
+                                if (!isWhiteSpace)
+                                {
+                                    c = ' ';
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                            }
+                            break;
+                        case "nowrap":
+                        case "normal":
+                        default:
+                            if (!isWhiteSpace)
+                            {
+                                c = ' ';
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                            break;
+                    }
+
+                    isWhiteSpace = true;
+                }
+                else
+                {
+                    // https://drafts.csswg.org/css-text/#propdef-text-transform
+                    switch (textTransform)
+                    {
+                        case "uppercase":
+                            c = Char.ToUpperInvariant(c);
+                            break;
+                        case "lowercase":
+                            c = Char.ToLowerInvariant(c);
+                            break;
+                        case "capitalize":
+                            if (isWhiteSpace)
+                            {
+                                c = Char.ToUpperInvariant(c);
+                            }
+                            break;
+                        case "none":
+                        default:
+                            break;
+                    }
+
+                    isWhiteSpace = false;
+                }
+
+                sb.Append(c);
             }
         }
 
