@@ -721,9 +721,7 @@ namespace AngleSharp.Dom.Html
                 case "IMG":
                 case "INPUT":
                 case "METER":
-                case "OPTGROUP":
                 case "PROGRESS":
-                case "SELECT":
                 case "TEMPLATE":
                 case "TEXTAREA":
                 case "VIDEO":
