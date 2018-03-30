@@ -786,6 +786,7 @@ namespace AngleSharp.Dom.Html
                 case "NAV":
                 case "NOSCRIPT":
                 case "OL":
+                case "OPTION": 
                 case "OUTPUT":
                 case "P":
                 case "PRE":
@@ -802,14 +803,8 @@ namespace AngleSharp.Dom.Html
 
         private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style)
         {
-            if (style == null)
-            {
-                sb.Append(text);
-                return;
-            }
-
-            var whiteSpace = style.WhiteSpace;
-            var textTransform = style.TextTransform;
+            var whiteSpace = style?.WhiteSpace;
+            var textTransform = style?.TextTransform;
 
             var isWhiteSpace = true;
             for (var i = 0; i < text.Length; i++)
