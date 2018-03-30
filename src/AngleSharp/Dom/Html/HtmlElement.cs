@@ -545,15 +545,19 @@ namespace AngleSharp.Dom.Html
 
                 InnerTextCollection(this, sb, requiredLineBreakCounts, ParentElement?.ComputeCurrentStyle());
 
+                // Remove any runs of consecutive required line break count items at the start or end of results.
+                requiredLineBreakCounts.Remove(0);
+                requiredLineBreakCounts.Remove(sb.Length);
+
                 var offset = 0;
                 foreach (var keyval in requiredLineBreakCounts.OrderBy(kv => kv.Key)) // SortedDictionary would be nicer
                 {
                     var index = keyval.Key + offset;
-                    sb.Insert(index, new String('\n', keyval.Value));
+                    sb.Insert(index, new String(Symbols.LineFeed, keyval.Value));
                     offset += keyval.Value;
                 }
 
-                return sb.ToPool().Trim();
+                return sb.ToPool();
             }
             set
             {
@@ -570,11 +574,11 @@ namespace AngleSharp.Dom.Html
                     {
                         var c = value[i];
 
-                        if (c == '\n' || c == '\r')
+                        if (c == Symbols.LineFeed || c == Symbols.CarriageReturn)
                         {
-                            if (c == '\r' && i + 1 < value.Length && value[i + 1] == '\n')
+                            if (c == Symbols.CarriageReturn && i + 1 < value.Length && value[i + 1] == Symbols.LineFeed)
                             {
-                                continue;
+                                continue; // ignore carriage return if the next char is a line feed
                             }
 
                             if (sb.Length > 0)
@@ -642,24 +646,24 @@ namespace AngleSharp.Dom.Html
             {
                 var textElement = (IText)node;
 
-                ProcessText(textElement.Data, sb, parentStyle);
+                ProcessText(textElement.Data, sb, node.NextSibling == null && node.Parent?.NextSibling == null, parentStyle);
             }
             else if (node is IHtmlBreakRowElement)
             {
-                sb.Append('\n');
+                sb.Append(Symbols.LineFeed);
             }
             else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-cell")
             {
                 if (node.NextSibling != null)
                 {
-                    sb.Append('\t');
+                    sb.Append(Symbols.Tab);
                 }
             }
             else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-row")
             {
                 if (node.NextSibling != null)
                 {
-                    sb.Append('\n');
+                    sb.Append(Symbols.LineFeed);
                 }
             }
             else if (node is IHtmlParagraphElement)
@@ -801,8 +805,9 @@ namespace AngleSharp.Dom.Html
             }
         }
 
-        private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style)
+        private static void ProcessText(String text, StringBuilder sb, Boolean isLastBlock, ICssStyleDeclaration style)
         {
+            var startIndex = sb.Length;
             var whiteSpace = style?.WhiteSpace;
             var textTransform = style?.TextTransform;
 
@@ -811,7 +816,7 @@ namespace AngleSharp.Dom.Html
             {
                 var c = text[i];
 
-                if (Char.IsWhiteSpace(c))
+                if (Char.IsWhiteSpace(c) && c != Symbols.NoBreakSpace)
                 {
                     // https://drafts.csswg.org/css-text/#white-space-property
                     switch (whiteSpace)
@@ -820,11 +825,11 @@ namespace AngleSharp.Dom.Html
                         case "pre-wrap":
                             break;
                         case "pre-line":
-                            if (c == ' ' || c == '\t')
+                            if (c == Symbols.Space || c == Symbols.Tab)
                             {
                                 if (!isWhiteSpace)
                                 {
-                                    c = ' ';
+                                    c = Symbols.Space;
                                 }
                                 else
                                 {
@@ -837,7 +842,7 @@ namespace AngleSharp.Dom.Html
                         default:
                             if (!isWhiteSpace)
                             {
-                                c = ' ';
+                                c = Symbols.Space;
                             }
                             else
                             {
@@ -874,6 +879,19 @@ namespace AngleSharp.Dom.Html
                 }
 
                 sb.Append(c);
+            }
+
+            if (isWhiteSpace && isLastBlock) // ended with whitespace
+            {
+                for (var offset = sb.Length - 1; offset >= startIndex; offset--)
+                {
+                    var c = sb[offset];
+                    if (!Char.IsWhiteSpace(c) || c == Symbols.NoBreakSpace)
+                    {
+                        sb.Remove(offset + 1, sb.Length - 1 - offset);
+                        break;
+                    }
+                }
             }
         }
 

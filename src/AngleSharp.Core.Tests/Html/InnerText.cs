@@ -7,8 +7,13 @@ namespace AngleSharp.Core.Tests.Html
     public class InnerText
     {
 
-        // text
+        // text & spaces
         [TestCase("test", "test")]
+        [TestCase("  test  ", "test")]
+        [TestCase("  ", "")]
+        [TestCase("&nbsp;&nbsp;", "  ")] // these are non breaking spaces
+        [TestCase(" &nbsp; test &nbsp; ", "  test  ")]
+        [TestCase(" 1&nbsp;2 <span> 3&nbsp;4  5&nbsp;6 </span> 7&nbsp;8 ", "1 2 3 4 5 6 7 8")]
         // paragraph
         [TestCase("<p>test</p>", "test")]
         [TestCase("<p>test1</p><p>test2</p>", "test1\n\ntest2")]
@@ -58,7 +63,7 @@ namespace AngleSharp.Core.Tests.Html
         [TestCase("", "", "")]
         [TestCase("test", "test", "test")]
         [TestCase("test1\ntest2\ntest3", "test1\ntest2\ntest3", "test1<br>test2<br>test3")]
-        [TestCase("te\rst1\r\ntest2\ntest3\r", "te\nst1\ntest2\ntest3", "te<br>st1<br>test2<br>test3<br>")]
+        [TestCase("te\rst1\r\ntest2\ntest3\r", "te\nst1\ntest2\ntest3\n", "te<br>st1<br>test2<br>test3<br>")]
         [TestCase("te st1\nte  st2\nte   st3", "te st1\nte st2\nte st3", "te st1<br>te  st2<br>te   st3")]
         public void SetInnerText(String fixture, String expectedInnerText, String expectedHtml)
         {
