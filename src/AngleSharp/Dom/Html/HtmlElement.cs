@@ -646,7 +646,7 @@ namespace AngleSharp.Dom.Html
             {
                 var textElement = (IText)node;
 
-                ProcessText(textElement.Data, sb, node.NextSibling == null && node.Parent?.NextSibling == null, parentStyle);
+                ProcessText(textElement.Data, sb, parentStyle);
             }
             else if (node is IHtmlBreakRowElement)
             {
@@ -654,16 +654,26 @@ namespace AngleSharp.Dom.Html
             }
             else if ((node is IHtmlTableCellElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-cell")
             {
-                if (node.NextSibling != null)
+                var nextSibling = node.NextSibling as IElement;
+                if (nextSibling != null)
                 {
-                    sb.Append(Symbols.Tab);
+                    var nextSiblingCss = nextSibling.ComputeCurrentStyle();
+                    if (nextSibling is IHtmlTableCellElement && String.IsNullOrEmpty(nextSiblingCss.Display) || nextSiblingCss.Display == "table-cell")
+                    {
+                        sb.Append(Symbols.Tab);
+                    }
                 }
             }
             else if ((node is IHtmlTableRowElement && String.IsNullOrEmpty(elementCss.Display)) || elementCss.Display == "table-row")
             {
-                if (node.NextSibling != null)
+                var nextSibling = node.NextSibling as IElement;
+                if (nextSibling != null)
                 {
-                    sb.Append(Symbols.LineFeed);
+                    var nextSiblingCss = nextSibling.ComputeCurrentStyle();
+                    if (nextSibling is IHtmlTableRowElement && String.IsNullOrEmpty(nextSiblingCss.Display) || nextSiblingCss.Display == "table-row")
+                    {
+                        sb.Append(Symbols.LineFeed);
+                    }
                 }
             }
             else if (node is IHtmlParagraphElement)
@@ -724,6 +734,7 @@ namespace AngleSharp.Dom.Html
                 case "IFRAME":
                 case "IMG":
                 case "INPUT":
+                case "LINK":
                 case "METER":
                 case "PROGRESS":
                 case "TEMPLATE":
@@ -805,13 +816,13 @@ namespace AngleSharp.Dom.Html
             }
         }
 
-        private static void ProcessText(String text, StringBuilder sb, Boolean isLastBlock, ICssStyleDeclaration style)
+        private static void ProcessText(String text, StringBuilder sb, ICssStyleDeclaration style)
         {
             var startIndex = sb.Length;
             var whiteSpace = style?.WhiteSpace;
             var textTransform = style?.TextTransform;
 
-            var isWhiteSpace = true;
+            var isWhiteSpace = startIndex > 0 ? Char.IsWhiteSpace(sb[startIndex - 1]) && sb[startIndex - 1] != Symbols.NoBreakSpace : true;
             for (var i = 0; i < text.Length; i++)
             {
                 var c = text[i];
@@ -881,7 +892,7 @@ namespace AngleSharp.Dom.Html
                 sb.Append(c);
             }
 
-            if (isWhiteSpace && isLastBlock) // ended with whitespace
+            if (isWhiteSpace) // ended with whitespace
             {
                 for (var offset = sb.Length - 1; offset >= startIndex; offset--)
                 {
