@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Extensions
+namespace AngleSharp.Extensions
 {
     using AngleSharp.Attributes;
     using AngleSharp.Css;
@@ -337,7 +337,7 @@
 
             return false;
         }
-        
+
         /// <summary>
         /// Checks if two strings are exactly equal.
         /// </summary>
@@ -813,36 +813,38 @@
         /// <returns>The decoded content.</returns>
         public static Byte[] UrlDecode(this String value)
         {
-            var ms = new MemoryStream();
-
-            for (var i = 0; i < value.Length; i++)
+            using (var ms = new MemoryStream())
             {
-                var chr = value[i];
 
-                if (chr == Symbols.Plus)
+                for (var i = 0; i < value.Length; i++)
                 {
-                    var b = (Byte)Symbols.Space;
-                    ms.WriteByte(b);
-                }
-                else if (chr == Symbols.Percent)
-                {
-                    if (i + 2 >= value.Length)
+                    var chr = value[i];
+
+                    if (chr == Symbols.Plus)
                     {
-                        throw new FormatException();
+                        var b = (Byte)Symbols.Space;
+                        ms.WriteByte(b);
                     }
+                    else if (chr == Symbols.Percent)
+                    {
+                        if (i + 2 >= value.Length)
+                        {
+                            throw new FormatException();
+                        }
 
-                    var code = 16 * value[++i].FromHex() + value[++i].FromHex();
-                    var b = (Byte)code;
-                    ms.WriteByte(b);
+                        var code = 16 * value[++i].FromHex() + value[++i].FromHex();
+                        var b = (Byte)code;
+                        ms.WriteByte(b);
+                    }
+                    else
+                    {
+                        var b = (Byte)chr;
+                        ms.WriteByte(b);
+                    }
                 }
-                else
-                {
-                    var b = (Byte)chr;
-                    ms.WriteByte(b);
-                }
+
+                return ms.ToArray();
             }
-
-            return ms.ToArray();
         }
 
         /// <summary>
