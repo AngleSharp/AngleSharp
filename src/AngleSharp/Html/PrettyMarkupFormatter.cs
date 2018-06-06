@@ -6,15 +6,15 @@
     using System.Linq;
 
     /// <summary>
-    /// Represents the an HTML5 markup formatter with inserted intends.
+    /// Represents the an HTML5 markup formatter with inserted indents.
     /// </summary>
     public class PrettyMarkupFormatter : IMarkupFormatter
     {
         #region Fields
 
-        private String _intendString;
+        private String _indentString;
         private String _newLineString;
-        private Int32 _intendCount;
+        private Int32 _indentCount;
 
         #endregion
 
@@ -25,8 +25,8 @@
         /// </summary>
         public PrettyMarkupFormatter()
         {
-            _intendCount = 0;
-            _intendString = "\t";
+            _indentCount = 0;
+            _indentString = "\t";
             _newLineString = "\n";
         }
 
@@ -39,8 +39,8 @@
         /// </summary>
         public String Indentation
         {
-            get { return _intendString; }
-            set { _intendString = value; }
+            get { return _indentString; }
+            set { _indentString = value; }
         }
 
         /// <summary>
@@ -58,7 +58,7 @@
 
         String IMarkupFormatter.Comment(IComment comment)
         {
-            var before = IntendBefore();
+            var before = IndentBefore();
             return before + HtmlMarkupFormatter.Instance.Comment(comment);
         }
 
@@ -68,7 +68,7 @@
 
             if (doctype.ParentElement != null)
             {
-                before = IntendBefore();
+                before = IndentBefore();
             }
 
             return before + HtmlMarkupFormatter.Instance.Doctype(doctype);
@@ -76,7 +76,7 @@
 
         String IMarkupFormatter.Processing(IProcessingInstruction processing)
         {
-            var before = IntendBefore();
+            var before = IndentBefore();
             return before + HtmlMarkupFormatter.Instance.Processing(processing);
         }
 
@@ -89,7 +89,7 @@
             if (singleLine.Length > 0 && singleLine[0].IsSpaceCharacter())
             {
                 singleLine = singleLine.TrimStart();
-                before = IntendBefore();
+                before = IndentBefore();
             }
 
             return before + HtmlMarkupFormatter.EscapeText(singleLine);
@@ -102,22 +102,22 @@
 
             if (element.ParentElement != null && (previousSibling == null || EndsWithSpace(previousSibling)))
             {
-                before = IntendBefore();
+                before = IndentBefore();
             }            
 
-            _intendCount++;
+            _indentCount++;
             return before + HtmlMarkupFormatter.Instance.OpenTag(element, selfClosing);
         }
 
         String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
         {
-            _intendCount--;
+            _indentCount--;
             var before = String.Empty;
             var lastChild = element.LastChild as IText;
 
             if (element.HasChildNodes && (lastChild == null || EndsWithSpace(lastChild)))
             {
-                before = IntendBefore();
+                before = IndentBefore();
             }
             
             return before + HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing);
@@ -138,9 +138,9 @@
             return content.Length > 0 && content[content.Length - 1].IsSpaceCharacter();
         }
 
-        private String IntendBefore()
+        private String IndentBefore()
         {
-            return _newLineString + String.Join(String.Empty, Enumerable.Repeat(_intendString, _intendCount));
+            return _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount));
         }
 
         #endregion
