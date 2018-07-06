@@ -39,7 +39,7 @@
         String Title { get; }
 
         /// <summary>
-        /// Gets the intended destination media for style information. The
+        /// Gets the indented destination media for style information. The
         /// media is often specified in the ownerNode. If no media has been
         /// specified, the MediaList is empty.
         /// </summary>
