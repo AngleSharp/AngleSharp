@@ -1,9 +1,10 @@
-﻿namespace AngleSharp.Extensions
+namespace AngleSharp.Extensions
 {
     using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -58,6 +59,16 @@
             {
                 var inlineStyle = rule.Style;
                 computedStyle.SetDeclarations(inlineStyle.Declarations);
+            }
+
+            if (element is IHtmlElement)
+            {
+                var htmlElement = (IHtmlElement)element;
+                if (htmlElement.Style != null)
+                {
+                    var declarations = htmlElement.Style.OfType<CssProperty>();
+                    computedStyle.SetDeclarations(declarations);
+                }
             }
 
             return computedStyle;
