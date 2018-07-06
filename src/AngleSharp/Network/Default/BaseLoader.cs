@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Network.Default
+namespace AngleSharp.Network.Default
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
@@ -16,11 +16,12 @@
     public abstract class BaseLoader : ILoader
     {
         #region Fields
-        
+
+        private readonly object _lockObj;
         private readonly IBrowsingContext _context;
         private readonly Predicate<IRequest> _filter;
         private readonly List<IDownload> _downloads;
-        
+
         #endregion
 
         #region ctor
@@ -32,6 +33,7 @@
         /// <param name="filter">The optional request filter to use.</param>
         public BaseLoader(IBrowsingContext context, Predicate<IRequest> filter)
         {
+            _lockObj = new object();
             _context = context;
             _filter = filter ?? (_ => true);
             _downloads = new List<IDownload>();
@@ -61,7 +63,7 @@
         /// <param name="download">The download to add.</param>
         protected virtual void Add(IDownload download)
         {
-            lock (this)
+            lock (_lockObj)
             {
                 _downloads.Add(download);
             }
@@ -73,7 +75,7 @@
         /// <param name="download">The download to remove.</param>
         protected virtual void Remove(IDownload download)
         {
-            lock (this)
+            lock (_lockObj)
             {
                 _downloads.Remove(download);
             }
@@ -127,7 +129,7 @@
         /// <returns>The enumerable over all active downloads.</returns>
         public IEnumerable<IDownload> GetDownloads()
         {
-            lock (this)
+            lock (_lockObj)
             {
                 return _downloads.ToArray();
             }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+namespace AngleSharp
 {
     using System;
     using System.Collections.Generic;
@@ -10,11 +10,13 @@
     /// </summary>
     sealed class TaskEventLoop : IEventLoop
     {
+        private readonly object _lockObj;
         private readonly Dictionary<TaskPriority, Queue<TaskEventLoopEntry>> _queues;
         private TaskEventLoopEntry _current;
 
         public TaskEventLoop()
         {
+            _lockObj = new object();
             _queues = new Dictionary<TaskPriority, Queue<TaskEventLoopEntry>>();
             _current = null;
         }
@@ -23,7 +25,7 @@
         {
             var entry = new TaskEventLoopEntry(task);
 
-            lock (this)
+            lock (_lockObj)
             {
                 var entries = default(Queue<TaskEventLoopEntry>);
 
@@ -48,7 +50,7 @@
 
         public void Spin()
         {
-            lock (this)
+            lock (_lockObj)
             {
                 if (_current?.IsRunning != true)
                 {
@@ -62,7 +64,7 @@
 
         public void CancelAll()
         {
-            lock (this)
+            lock (_lockObj)
             {
                 foreach (var queue in _queues)
                 {
@@ -87,7 +89,7 @@
 
         private void Continue()
         {
-            lock (this)
+            lock (_lockObj)
             {
                 _current = null;
             }
@@ -124,13 +126,13 @@
 
             public Boolean IsRunning
             {
-                get 
-                { 
+                get
+                {
                     return _task != null &&
-                           _task.Status == TaskStatus.Running || 
-                           _task.Status == TaskStatus.WaitingForActivation || 
+                           _task.Status == TaskStatus.Running ||
+                           _task.Status == TaskStatus.WaitingForActivation ||
                            _task.Status == TaskStatus.WaitingToRun ||
-                           _task.Status == TaskStatus.WaitingForChildrenToComplete; 
+                           _task.Status == TaskStatus.WaitingForChildrenToComplete;
                 }
             }
 
