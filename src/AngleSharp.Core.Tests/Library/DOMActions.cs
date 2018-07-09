@@ -1229,5 +1229,22 @@
 
             Assert.IsFalse(input.FormNoValidate);
         }
+
+        [Test]
+        public async Task SettingLinksBackRemainsRelative_Issue659()
+        {
+            var source = @"<a href=""/home.htm"">Foo</a>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source).Address("http://example.com"));
+            var a = document.QuerySelector<IHtmlAnchorElement>("a");
+
+            Assert.AreEqual("http://example.com/home.htm", a.Href);
+            Assert.AreEqual("/home.htm", a.GetAttribute("href"));
+
+            a.Href = "/foo.htm";
+
+            Assert.AreEqual("http://example.com/foo.htm", a.Href);
+            Assert.AreEqual("/foo.htm", a.GetAttribute("href"));
+        }
     }
 }
