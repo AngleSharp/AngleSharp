@@ -195,14 +195,7 @@
                 await context.OpenAsync(url);
                 var document = await context.OpenAsync(baseUrl);
 
-                Assert.AreEqual(@"{
-  ""cookies"": {
-    ""foo"": ""bar"", 
-    ""k1"": ""v1"", 
-    ""k2"": ""v2"", 
-    ""test"": ""baz""
-  }
-}
+                Assert.AreEqual(@"{""cookies"":{""foo"":""bar"",""k1"":""v1"",""k2"":""v2"",""test"":""baz""}}
 ".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
         }
@@ -219,11 +212,7 @@
                 await context.OpenAsync(cookieUrl);
                 var document = await context.OpenAsync(redirectUrl);
 
-                Assert.AreEqual(@"{
-  ""cookies"": {
-    ""test"": ""baz""
-  }
-}
+                Assert.AreEqual(@"{""cookies"":{""test"":""baz""}}
 ".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
         }
