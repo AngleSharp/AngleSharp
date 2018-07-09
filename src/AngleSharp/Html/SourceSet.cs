@@ -10,12 +10,12 @@
     /// <summary>
     /// Represents a useful helper for dealing with source sets.
     /// </summary>
-    sealed class SourceSet
+    public sealed class SourceSet
     {
-        static readonly String FullWidth = "100vw";
-        static readonly Regex SizeParser = CreateRegex();
+        private static readonly String FullWidth = "100vw";
+        private static readonly Regex SizeParser = CreateRegex();
 
-        static Regex CreateRegex()
+        private static Regex CreateRegex()
         {
             var regexString = @"(\([^)]+\))?\s*(.+)";
 
@@ -30,14 +30,23 @@
             }
         }
 
-        readonly IDocument _document;
+        private readonly IDocument _document;
 
+        /// <summary>
+        /// Creates a new SourceSet representation within the given document.
+        /// </summary>
+        /// <param name="document">The hosting document.</param>
         public SourceSet(IDocument document)
         {
             _document = document;
         }
 
-        static IEnumerable<ImageCandidate> ParseSourceSet(String srcset)
+        /// <summary>
+        /// Parses the given srcset attribute into an enumeration of candidates.
+        /// </summary>
+        /// <param name="srcset">The value of the srcset attribute.</param>
+        /// <returns>The iterator yielding the various candidates.</returns>
+        public static IEnumerable<ImageCandidate> Parse(String srcset)
         {
             var sources = srcset.Trim().SplitSpaces();
 
@@ -75,7 +84,7 @@
             }
         }
 
-        static MediaSize ParseSize(String sourceSizeStr)
+        private static MediaSize ParseSize(String sourceSizeStr)
         {
             var match = SizeParser.Match(sourceSizeStr);
 
@@ -86,7 +95,7 @@
             };
         }
 
-        Double ParseDescriptor(String descriptor, String sizesattr = null)
+        private Double ParseDescriptor(String descriptor, String sizesattr = null)
         {
             var sizes = sizesattr ?? FullWidth;
             var sizeDescriptor = descriptor.Trim();
@@ -112,7 +121,7 @@
             return resCandidate;
         }
 
-        Double GetWidthFromLength(String length)
+        private Double GetWidthFromLength(String length)
         {
             var value = default(Length);
 
@@ -124,7 +133,7 @@
             return 0.0;
         }
 
-        Double GetWidthFromSourceSize(String sourceSizes)
+        private Double GetWidthFromSourceSize(String sourceSizes)
         {
             var sizes = sourceSizes.Trim().Split(Symbols.Comma);
 
@@ -147,12 +156,18 @@
             return GetWidthFromLength(FullWidth);
         }
 
+        /// <summary>
+        /// Gets the promising candidates from the given srcset using the provided sizes.
+        /// </summary>
+        /// <param name="srcset">The value of the srcset attribute.</param>
+        /// <param name="sizes">The value of the sizes attribute.</param>
+        /// <returns>An iterator of the different URLs yielding matching images.</returns>
         public IEnumerable<String> GetCandidates(String srcset, String sizes)
         {
             if (!String.IsNullOrEmpty(srcset))
             {
                 //Resolution = ParseDescriptor(candidate.Descriptor, sizes)
-                foreach (var candidate in ParseSourceSet(srcset))
+                foreach (var candidate in Parse(srcset))
                 {
                     yield return candidate.Url;
                 }
@@ -166,10 +181,19 @@
             public String Length { get; set; }
         }
 
-        sealed class ImageCandidate
+        /// <summary>
+        /// Represents a srcset image candidate.
+        /// </summary>
+        public sealed class ImageCandidate
         {
+            /// <summary>
+            /// The URL of the given image.
+            /// </summary>
             public String Url { get; set; }
 
+            /// <summary>
+            /// The descriptor of the given image.
+            /// </summary>
             public String Descriptor { get; set; }
         }
     }
