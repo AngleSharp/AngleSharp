@@ -2,13 +2,13 @@
 
 # AngleSharp
 
-[![Build status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp)
-[![Nuget count](https://img.shields.io/nuget/v/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
-[![Issues open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
+[![Build Status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp)
+[![NuGet Count](https://img.shields.io/nuget/v/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
+[![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The included parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code and ensures compatibility with results in evergreen browsers. Also standard DOM features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
-## Key features
+## Key Features
 
 - **Portable** (designed as a PCL - supporting .NET Standard 1.0)
 - **Standards conform** (works exactly as evergreen browsers)
@@ -24,7 +24,7 @@ The advantage over similar libraries like *HtmlAgilityPack* is that the exposed 
 
 The performance of AngleSharp is quite close to the performance of browsers. Even very large pages can be processed within milliseconds. AngleSharp tries to minimize memory allocations and reuses elements internally to avoid unnecessary object creation.
 
-## Simple demo
+## Simple Demo
 
 The simple example will use the website of Wikipedia for data retrieval.
 
@@ -43,7 +43,7 @@ var cells = document.QuerySelectorAll(cellSelector);
 var titles = cells.Select(m => m.TextContent);
 ```
 
-## Supported platforms
+## Supported Platforms
 
 AngleSharp has been created as a PCL (profile 259) that supports a wide range of platforms. The list includes, but is not limited to:
 
@@ -93,17 +93,19 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(eo Q3 2018) **1.0.0**
+(2018) **0.10.0**
+
+- Split AngleSharp.Core into two libraries (Core, CSS)
+
+(2019) **1.0.0**
+
 - Release of the first stable version
 - Provide internal / external communication channel (best flexibility)
 - Service model finalized
 
-(eo Q1 2018) **0.10.0**
-- Split AngleSharp.Core into two libraries (Core, CSS)
-
 The current schedule seems to be rather defensive, which does not mean the project will be "finished", i.e., released in version 1.0.0, before the given date. If there is time left, more unit tests will be written and the general code quality will be increased.
 
-## Use-cases
+## Use-Cases
 
 - Parsing HTML (incl. fragments)
 - Parsing CSS (incl. selectors, declarations, ...)
@@ -120,7 +122,7 @@ The current schedule seems to be rather defensive, which does not mean the proje
 - Testing other script engines
 - ...
 
-## Participating in the project
+## Participating in the Project
 
 If you know some feature that AngleSharp is currently missing, and you are willing to implement the feature, then your contribution is more than welcome! Also if you have a really cool idea - do not be shy, we'd like to hear it.
 
@@ -128,13 +130,14 @@ If you have an idea how to improve the API (or what is missing) then posts / mes
 
 The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active.
 
-More information is found in the [contribution guidelines](.github/CONTRIBUTING.md).
+More information is found in the [contribution guidelines](.github/CONTRIBUTING.md). We also have a [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 ## Major Releases
 
 A more detailed changelog can be found in the [CHANGELOG](CHANGELOG.md).
 
 **0.9.0**
+
 - Improved DOM algorithms and performance
 - Shadow DOM draft implemented
 - The `picture` element is now support (with `srcset`)
@@ -149,6 +152,7 @@ A more detailed changelog can be found in the [CHANGELOG](CHANGELOG.md).
 - Improved parser front-ends (`HtmlParser`, `CssParser`, ...)
 
 **0.8.0**
+
 - New CSS value model integrated
 - PseudoElement available
 - Mutation records connected
@@ -162,6 +166,7 @@ A more detailed changelog can be found in the [CHANGELOG](CHANGELOG.md).
 - All HTML5 input types are supported
 
 **0.7.0**
+
 - Native (callback based) async parsing
 - Interfaces for resource loading defined
 - Browsing context available / creation possible (if demanded)
@@ -170,6 +175,7 @@ A more detailed changelog can be found in the [CHANGELOG](CHANGELOG.md).
 - Sample JavaScript engine based on Jint included
 
 **0.6.0:**
+
 - Implemented parsing of CSS media queries
 - Improved URL parsing according to RFC 3986
 - 100% finished HTML5 parser
@@ -182,6 +188,7 @@ A more detailed changelog can be found in the [CHANGELOG](CHANGELOG.md).
 - New source management for better handling and performance
 
 **0.5.0:**
+
 - Major API changes (DI is now the only singleton)
 - 98% finished HTML5 parser
 - 95% finished CSS3 parser
@@ -189,6 +196,7 @@ A more detailed changelog can be found in the [CHANGELOG](CHANGELOG.md).
 - Included `Submit()` method for forms
 
 **0.4.0:**
+
 - Final alpha version
 - 98% finished HTML5 parser
 - 90% finished CSS3 parser
@@ -197,6 +205,7 @@ A more detailed changelog can be found in the [CHANGELOG](CHANGELOG.md).
 - Included WebRequester
 
 **0.3.0:**
+
 - Alpha version
 - 95% finished HTML5 parser
 - 90% finished CSS3 parser
@@ -206,6 +215,7 @@ A more detailed changelog can be found in the [CHANGELOG](CHANGELOG.md).
 - DOMAttribute applied where possible
 
 **0.2.0:**
+
 - First released version (pre-alpha)
 - 95% finished HTML5 parser
 - 70% finished CSS3 parser
