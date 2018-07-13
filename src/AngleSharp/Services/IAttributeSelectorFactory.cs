@@ -15,7 +15,8 @@
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The provided value.</param>
         /// <param name="prefix">The prefix, if any.</param>
+        /// <param name="insensitive">Should be evaluated insensitive.</param>
         /// <returns>The created selector, if possible.</returns>
-        ISelector Create(String combinator, String name, String value, String prefix);
+        ISelector Create(String combinator, String name, String value, String prefix, Boolean insensitive);
     }
 }

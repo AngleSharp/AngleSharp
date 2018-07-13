@@ -42,6 +42,7 @@
 		private ComplexSelector _complex;
 		private String _attrName;
 		private String _attrValue;
+        private Boolean _attrInsensitive;
 		private String _attrOp;
         private String _attrNs;
         private Boolean _valid;
@@ -157,10 +158,11 @@
 			_attrName = null;
 			_attrValue = null;
             _attrNs = null;
-			_attrOp = String.Empty;
+            _attrInsensitive = false;
+            _attrOp = String.Empty;
 			_state = State.Data;
 			_combinators.Clear();
-			_temp = null;
+            _temp = null;
 			_group = null;
 			_complex = null;
             _valid = true;
@@ -305,15 +307,20 @@
 		}
 
 		void OnAttributeEnd(CssToken token)
-		{
-            if (token.Type != CssTokenType.Whitespace)
+        {
+            if (!_attrInsensitive && token.Type == CssTokenType.Ident && token.Data == "i")
+            {
+                _attrInsensitive = true;
+            }
+            else if (token.Type != CssTokenType.Whitespace)
             {
                 _state = State.Data;
                 _ready = true;
 
                 if (token.Type == CssTokenType.SquareBracketClose)
                 {
-                    var selector = _attributeSelector.Create(_attrOp, _attrName, _attrValue, _attrNs);
+                    var selector = _attributeSelector.Create(_attrOp, _attrName, _attrValue, _attrNs, _attrInsensitive);
+                    _attrInsensitive = false;
                     Insert(selector);
                 }
                 else

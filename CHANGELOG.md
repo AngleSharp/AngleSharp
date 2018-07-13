@@ -3,6 +3,7 @@
 - `ColSpan` default should be 1 (#689)
 - `RowSpan` default should be 1 (#688)
 - Expose image source set via `SourceSet.Parse` (#682)
+- Implemented case insensitive attribute selector (#666)
 
 # 0.9.9.2
 

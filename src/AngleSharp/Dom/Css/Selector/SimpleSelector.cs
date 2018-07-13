@@ -78,7 +78,7 @@
             return new SimpleSelector(_ => _.Id.Is(match), Priority.OneId, "#" + match);
         }
 
-        public static SimpleSelector AttrAvailable(String match, String prefix = null)
+        public static SimpleSelector AttrAvailable(String match, String prefix = null, Boolean insensitive = false)
         {
             var front = match;
 
@@ -92,7 +92,7 @@
             return new SimpleSelector(_ => _.HasAttribute(match), Priority.OneClass, code);
         }
 
-        public static SimpleSelector AttrMatch(String match, String value, String prefix = null)
+        public static SimpleSelector AttrMatch(String match, String value, String prefix = null, Boolean insensitive = false)
         {
             var front = match;
 
@@ -103,10 +103,11 @@
             }
 
             var code = FormCode(front, "=", value.CssString());
-            return new SimpleSelector(_ => _.GetAttribute(match).Is(value), Priority.OneClass, code);
+            var comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            return new SimpleSelector(_ => String.Equals(_.GetAttribute(match), value, comparison), Priority.OneClass, code);
         }
 
-        public static SimpleSelector AttrNotMatch(String match, String value, String prefix = null)
+        public static SimpleSelector AttrNotMatch(String match, String value, String prefix = null, Boolean insensitive = false)
         {
             var front = match;
 
@@ -117,10 +118,11 @@
             }
 
             var code = FormCode(front, "!=", value.CssString());
-            return new SimpleSelector(_ => _.GetAttribute(match) != value, Priority.OneClass, code);
+            var comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            return new SimpleSelector(_ => !String.Equals(_.GetAttribute(match), value, comparison), Priority.OneClass, code);
         }
 
-        public static SimpleSelector AttrList(String match, String value, String prefix = null)
+        public static SimpleSelector AttrList(String match, String value, String prefix = null, Boolean insensitive = false)
         {
             var front = match;
 
@@ -131,11 +133,12 @@
             }
 
             var code = FormCode(front, "~=", value.CssString());
-            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).SplitSpaces().Contains(value));
+            var comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).SplitSpaces().Contains(value, comparison));
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
 
-        public static SimpleSelector AttrBegins(String match, String value, String prefix = null)
+        public static SimpleSelector AttrBegins(String match, String value, String prefix = null, Boolean insensitive = false)
         {
             var front = match;
 
@@ -146,11 +149,12 @@
             }
 
             var code = FormCode(front, "^=", value.CssString());
-            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).StartsWith(value));
+            var comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).StartsWith(value, comparison));
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
 
-        public static SimpleSelector AttrEnds(String match, String value, String prefix = null)
+        public static SimpleSelector AttrEnds(String match, String value, String prefix = null, Boolean insensitive = false)
         {
             var front = match;
 
@@ -161,11 +165,12 @@
             }
 
             var code = FormCode(front, "$=", value.CssString());
-            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).EndsWith(value));
+            var comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).EndsWith(value, comparison));
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
 
-        public static SimpleSelector AttrContains(String match, String value, String prefix = null)
+        public static SimpleSelector AttrContains(String match, String value, String prefix = null, Boolean insensitive = false)
         {
             var front = match;
 
@@ -176,11 +181,12 @@
             }
 
             var code = FormCode(front, "*=", value.CssString());
-            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).Contains(value));
+            var comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).IndexOf(value, comparison) != -1);
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
 
-        public static SimpleSelector AttrHyphen(String match, String value, String prefix = null)
+        public static SimpleSelector AttrHyphen(String match, String value, String prefix = null, Boolean insensitive = false)
         {
             var front = match;
 
@@ -191,7 +197,8 @@
             }
             
             var code = FormCode(front, "|=", value.CssString());
-            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).HasHyphen(value));
+            var comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).HasHyphen(value, comparison));
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
 
