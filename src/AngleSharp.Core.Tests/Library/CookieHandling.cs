@@ -6,6 +6,7 @@
     using Dom;
     using Mocks;
     using NUnit.Framework;
+    using Services.Default;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -309,6 +310,13 @@
 
             Assert.AreEqual(1, requestCount);
             Assert.AreEqual(cookieValue, imgCookie);
+        }
+
+        [Test]
+        public void DateTimeShouldBeAccepted_Issue663()
+        {
+            var mcp = new MemoryCookieProvider();
+            mcp.SetCookie("http://www.example.com", "c-s=expires=1531601411~access=/clientimg/richmond/*!/content/richmond/*~md5=c56447496f01a9cd01bbec1b3a293357; path=/; secure");
         }
 
         private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse, Func<IRequest, IResponse> onRequest)

@@ -4,6 +4,7 @@
 - `RowSpan` default should be 1 (#688)
 - Expose image source set via `SourceSet.Parse` (#682)
 - Implemented case insensitive attribute selector (#666)
+- Fixed invalid date in `MemoryCookieProvider` (#663)
 
 # 0.9.9.2
 
