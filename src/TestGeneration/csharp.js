@@ -5,8 +5,8 @@ function CodeBlock() {
     return this;
   };
   this.lines = function(lines) {
-    var intended = intend(lines);
-    this.content = this.content.concat(intended);
+    var indented = indent(lines);
+    this.content = this.content.concat(indented);
     return this;
   };
   this.serialize = function() {
@@ -14,7 +14,7 @@ function CodeBlock() {
   };
 }
 
-function intend(arr) {
+function indent(arr) {
   return arr.map(function(value) {
     return '\t' + value;
   });

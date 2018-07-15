@@ -68,7 +68,7 @@ namespace UnitTests.Xml
         }
 
         /// <summary>
-        /// Test demonstrates that extra whitespace is not intended for inclusion in 
+        /// Test demonstrates that extra whitespace is not indented for inclusion in 
         /// the delivered version of the document. There is an output test associated
         /// with this input file. Here the section(s) 2.10 apply. This test is taken 
         /// from the collection James Clark XMLTEST cases, 18-Nov-1998.
