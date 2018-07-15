@@ -7,11 +7,13 @@
     sealed class AttrContainsSelector : BaseAttrSelector, ISelector
     {
         private readonly String _value;
+        private readonly StringComparison _comparison;
 
-        public AttrContainsSelector(String name, String value, String prefix = null)
+        public AttrContainsSelector(String name, String value, String prefix = null, Boolean insensitive = false)
             : base(name, prefix)
         {
             _value = value;
+            _comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
         }
 
         public String Text
@@ -29,7 +31,7 @@
             if (!String.IsNullOrEmpty(_value))
             {
                 var actual = element.GetAttribute(Name) ?? String.Empty;
-                return actual.Contains(_value);
+                return actual.IndexOf(_value, _comparison) != -1;
             }
 
             return false;

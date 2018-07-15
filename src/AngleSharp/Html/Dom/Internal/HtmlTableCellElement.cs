@@ -74,13 +74,13 @@
 
         public Int32 ColumnSpan
         {
-            get { return this.GetOwnAttribute(AttributeNames.ColSpan).ToInteger(0); }
+            get { return LimitColSpan(this.GetOwnAttribute(AttributeNames.ColSpan).ToInteger(1)); }
             set { this.SetOwnAttribute(AttributeNames.ColSpan, value.ToString()); }
         }
 
         public Int32 RowSpan
         {
-            get { return this.GetOwnAttribute(AttributeNames.RowSpan).ToInteger(0); }
+            get { return LimitRowSpan(this.GetOwnAttribute(AttributeNames.RowSpan).ToInteger(1)); }
             set { this.SetOwnAttribute(AttributeNames.RowSpan, value.ToString()); }
         }
 
@@ -129,6 +129,20 @@
         internal void UpdateHeaders(String value)
         {
             _headers?.Update(value);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static Int32 LimitColSpan(Int32 value)
+        {
+            return value >= 1 && value <= 1000 ? value : 1;
+        }
+
+        private static Int32 LimitRowSpan(Int32 value)
+        {
+            return value >= 0 ? Math.Min(value, 65534) : 1;
         }
 
         #endregion

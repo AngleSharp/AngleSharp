@@ -893,6 +893,34 @@
             Assert.AreEqual(1, td.Index);
         }
 
+        [Test]
+        public void TableCellRowSpanFollowsDefaultValue_Issue688()
+        {
+            var document = Html("");
+            var tr = document.CreateElement("tr");
+            var td = tr.AppendChild(document.CreateElement("td")) as IHtmlTableDataCellElement;
+            Assert.AreEqual(1, td.RowSpan);
+            td.RowSpan = 0;
+            Assert.AreEqual(0, td.RowSpan);
+            td.RowSpan = 100000;
+            Assert.AreEqual(65534, td.RowSpan);
+        }
+
+        [Test]
+        public void TableCellColSpanFollowsDefaultValue_Issue689()
+        {
+            var document = Html("");
+            var tr = document.CreateElement("tr");
+            var td = tr.AppendChild(document.CreateElement("td")) as IHtmlTableDataCellElement;
+            Assert.AreEqual(1, td.ColumnSpan);
+            td.ColumnSpan = 0;
+            Assert.AreEqual(1, td.ColumnSpan);
+            td.ColumnSpan = 100000;
+            Assert.AreEqual(1, td.ColumnSpan);
+            td.ColumnSpan = 1000;
+            Assert.AreEqual(1000, td.ColumnSpan);
+        }
+
         private static IHtmlTableRowElement MakeRowElement(params String[] names)
         {
             var document = Html("");

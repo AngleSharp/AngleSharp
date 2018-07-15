@@ -249,14 +249,7 @@ namespace AngleSharp.Core.Tests.Library
                 await context.OpenAsync(url);
                 var document = await context.OpenAsync(baseUrl);
 
-                Assert.AreEqual(@"{
-  ""cookies"": {
-    ""foo"": ""bar"", 
-    ""k1"": ""v1"", 
-    ""k2"": ""v2"", 
-    ""test"": ""baz""
-  }
-}
+                Assert.AreEqual(@"{""cookies"":{""foo"":""bar"",""k1"":""v1"",""k2"":""v2"",""test"":""baz""}}
 ".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
         }
@@ -273,11 +266,7 @@ namespace AngleSharp.Core.Tests.Library
                 await context.OpenAsync(cookieUrl);
                 var document = await context.OpenAsync(redirectUrl);
 
-                Assert.AreEqual(@"{
-  ""cookies"": {
-    ""test"": ""baz""
-  }
-}
+                Assert.AreEqual(@"{""cookies"":{""test"":""baz""}}
 ".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
         }
@@ -388,6 +377,14 @@ namespace AngleSharp.Core.Tests.Library
                                         .Header(HeaderNames.SetCookie, cookieValue));
 
             await context.OpenAsync("http://localhost/");
+        }
+
+        [Test]
+        public void DateTimeShouldBeAccepted_Issue663()
+        {
+            var mcp = new MemoryCookieProvider();
+            var url = Url.Create("http://www.example.com");
+            mcp.SetCookie(url, "c-s=expires=1531601411~access=/clientimg/richmond/*!/content/richmond/*~md5=c56447496f01a9cd01bbec1b3a293357; path=/; secure");
         }
 
         private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse, Func<Request, IResponse> onRequest)

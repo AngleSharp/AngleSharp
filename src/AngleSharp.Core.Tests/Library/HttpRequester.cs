@@ -150,7 +150,7 @@
 
                     var content = stream.ReadToEnd();
                     Assert.IsTrue(content.Length > 0);
-                    Assert.IsTrue(content.Contains("\"data\": \"Hello world\""));
+                    Assert.IsTrue(content.Contains("\"data\":\"Hello world\""));
                 }
             }
         }
@@ -180,7 +180,7 @@
 
                     var content = stream.ReadToEnd();
                     Assert.IsTrue(content.Length > 0);
-                    Assert.IsTrue(content.Contains("\"data\": \"PUT THIS THING BACK\""));
+                    Assert.IsTrue(content.Contains("\"data\":\"PUT THIS THING BACK\""));
                 }
             }
         }
@@ -279,7 +279,7 @@
 
                     var content = stream.ReadToEnd();
                     Assert.IsTrue(content.Length > 0);
-                    Assert.AreEqual("{\n  \"user-agent\": \"" + agent + "\"\n}\n", content);
+                    Assert.AreEqual("{\"user-agent\":\"" + agent + "\"}\n", content);
                 }
             }
         }

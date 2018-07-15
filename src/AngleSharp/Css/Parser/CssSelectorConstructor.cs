@@ -47,6 +47,7 @@
 		private ComplexSelector _complex;
 		private String _attrName;
 		private String _attrValue;
+        private Boolean _attrInsensitive;
 		private String _attrOp;
         private String _attrNs;
         private Boolean _valid;
@@ -68,6 +69,7 @@
             _pseudoClassSelector = pseudoClassSelector;
             _pseudoElementSelector = pseudoElementSelector;
             _attrOp = String.Empty;
+            _attrInsensitive = false;
             _state = State.Data;
             _valid = true;
             _ready = true;
@@ -324,16 +326,21 @@
             }
 		}
 
-        private void OnAttributeEnd(CssSelectorToken token)
-		{
-            if (token.Type != CssTokenType.Whitespace)
+		private void OnAttributeEnd(CssSelectorToken token)
+        {
+            if (!_attrInsensitive && token.Type == CssTokenType.Ident && token.Data == "i")
+            {
+                _attrInsensitive = true;
+            }
+            else if (token.Type != CssTokenType.Whitespace)
             {
                 _state = State.Data;
                 _ready = true;
 
                 if (token.Type == CssTokenType.SquareBracketClose)
                 {
-                    var selector = _attributeSelector.Create(_attrOp, _attrName, _attrValue, _attrNs);
+                    var selector = _attributeSelector.Create(_attrOp, _attrName, _attrValue, _attrNs, _attrInsensitive);
+                    _attrInsensitive = false;
                     Insert(selector);
                 }
                 else

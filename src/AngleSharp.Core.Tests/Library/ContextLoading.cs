@@ -236,7 +236,7 @@ namespace AngleSharp.Core.Tests.Library
             var scripting = new CallbackScriptEngine(options => windowIsNotNull = options.Document.DefaultView.Proxy != null);
             var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
             var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
-            await BrowsingContext.New(config).OpenAsync(m => 
+            await BrowsingContext.New(config).OpenAsync(m =>
                 m.Content(source).Address("http://www.example.com"));
             Assert.IsTrue(windowIsNotNull);
         }
@@ -252,7 +252,7 @@ namespace AngleSharp.Core.Tests.Library
                 //page takes ~10-30s (or longer!) to load. Replaced with another
                 //solution taken directly from the AngleSharp infrastructure.
                 var address = "http://anglesharp.azurewebsites.net/Page";
-                var config = Configuration.Default.WithDefaultLoader(setup => 
+                var config = Configuration.Default.WithDefaultLoader(setup =>
                     setup.IsResourceLoadingEnabled = true);
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
@@ -316,7 +316,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             var hasBeenChecked = false;
             var hasBeenParsed = false;
-            var scripting = new CallbackScriptEngine(_ => 
+            var scripting = new CallbackScriptEngine(_ =>
             {
                 hasBeenParsed = true;
             }, MimeTypeNames.DefaultJavaScript);
@@ -437,6 +437,17 @@ namespace AngleSharp.Core.Tests.Library
                     }
                 }
             }
+        }
+
+        [Test]
+        public async Task LoadingIframeWithEmptySourceIsLikeLoadingWithout()
+        {
+            var config = new Configuration().WithDefaultLoader(r => r.IsResourceLoadingEnabled = true);
+            var context = BrowsingContext.New(config);
+            var source = @"<iframe src="""" class=""updates-iframe""></iframe>";
+            var document = await context.OpenAsync(res => res.Content(source));
+            var iframe = document.QuerySelector<HtmlIFrameElement>("iframe");
+            Assert.IsNull(iframe.ContentDocument);
         }
     }
 }

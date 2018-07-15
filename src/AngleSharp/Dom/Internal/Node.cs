@@ -1,9 +1,8 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
     using System.IO;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a node in the generated tree.
@@ -12,15 +11,14 @@
     {
         #region Fields
 
-        private static readonly ConditionalWeakTable<Node, Document> Owners = new ConditionalWeakTable<Node, Document>();
-
         private readonly NodeType _type;
         private readonly String _name;
         private readonly NodeFlags _flags;
-        
+
         private Url _baseUri;
         private Node _parent;
         private NodeList _children;
+        private Document _owner;
 
         #endregion
 
@@ -28,7 +26,7 @@
 
         internal Node(Document owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
-            Owners.Add(this, owner);
+            _owner = owner;
             _name = name ?? String.Empty;
             _type = type;
             _children = this.IsEndPoint() ? NodeList.Empty : new NodeList();
@@ -85,12 +83,12 @@
             set { _baseUri = value; }
         }
 
-        public NodeType NodeType 
+        public NodeType NodeType
         {
             get { return _type; }
         }
 
-        public virtual String NodeValue 
+        public virtual String NodeValue
         {
             get { return null; }
             set { }
@@ -224,14 +222,12 @@
         {
             get
             {
-                var owner = default(Document);
-
-                if (_type != NodeType.Document)
+                if (_type == NodeType.Document)
                 {
-                    Owners.TryGetValue(this, out owner);
+                    return default(Document);
                 }
 
-                return owner;
+                return _owner;
             }
             set
             {
@@ -241,8 +237,7 @@
 
                     if (!Object.ReferenceEquals(oldDocument, value))
                     {
-                        Owners.Remove(descendentAndSelf);
-                        Owners.Add(descendentAndSelf, value);
+                        descendentAndSelf._owner = value;
 
                         if (oldDocument != null)
                         {
@@ -750,7 +745,7 @@
         }
 
         /// <summary>
-        /// Run any adopting steps defined for node in other applicable 
+        /// Run any adopting steps defined for node in other applicable
         /// specifications and pass node and oldDocument as parameters.
         /// </summary>
         protected virtual void NodeIsAdopted(Document oldDocument)

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -104,6 +104,12 @@
         [DomName("dropzone")]
         [DomPutForwards("value")]
         ISettableTokenList DropZone { get; }
+
+        /// <summary>
+        /// Gets or sets the innerText of the element.
+        /// </summary>
+        [DomName("innerText")]
+        String InnerText { get; set; }
 
         /// <summary>
         /// Simulates a mouse click on an element.

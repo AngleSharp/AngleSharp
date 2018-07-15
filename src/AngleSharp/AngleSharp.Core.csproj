@@ -695,6 +695,7 @@
     <Compile Include="Text\Symbols.cs" />
     <Compile Include="Html\Parser\HtmlTokenizer.cs" />
     <Compile Include="Css\Parser\CssSelectorToken.cs" />
+    <Compile Include="Html\Parser\TokenizerExtensions.cs" />
     <Compile Include="Html\Parser\Tokens\HtmlToken.cs" />
     <Compile Include="Html\Parser\Tokens\HtmlDoctypeToken.cs" />
     <Compile Include="Html\Parser\Tokens\HtmlTagToken.cs" />
@@ -718,7 +719,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

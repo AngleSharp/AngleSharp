@@ -6,7 +6,7 @@
     /// <summary>
     /// The DOCTYPE token.
     /// </summary>
-    sealed class HtmlDoctypeToken : HtmlToken
+    public sealed class HtmlDoctypeToken : HtmlToken
     {
         #region Fields
 
@@ -181,15 +181,23 @@
                         var pi = PublicIdentifier;
 
                         if (pi.Is("-//W3C//DTD HTML 4.0//EN"))
+                        {
                             return IsSystemIdentifierMissing || SystemIdentifier.Is("http://www.w3.org/TR/REC-html40/strict.dtd");
+                        }
                         else if (pi.Is("-//W3C//DTD HTML 4.01//EN"))
+                        {
                             return IsSystemIdentifierMissing || SystemIdentifier.Is("http://www.w3.org/TR/html4/strict.dtd");
+                        }
                         else if (pi.Is("-//W3C//DTD XHTML 1.0 Strict//EN"))
+                        {
                             return SystemIdentifier.Is("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
+                        }
                         else if (pi.Is("-//W3C//DTD XHTML 1.1//EN"))
+                        {
                             return SystemIdentifier.Is("http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd");
+                        }
                     }
-                    
+
                     return IsSystemIdentifierMissing || SystemIdentifier.Is("about:legacy-compat");
                 }
 

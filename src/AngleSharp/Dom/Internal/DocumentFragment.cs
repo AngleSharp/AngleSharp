@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
@@ -44,7 +44,11 @@
             {
                 var child = root.FirstChild;
                 root.RemoveChild(child);
-                this.PreInsert(child, null);
+                if (child is Node)
+                {
+                    Owner.AdoptNode(child);
+                    InsertBefore((Node)child, null, false);
+                }
             }
         }
 

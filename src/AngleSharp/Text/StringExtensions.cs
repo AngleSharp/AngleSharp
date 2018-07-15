@@ -548,11 +548,12 @@
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <param name="value">The value to check against.</param>
+        /// <param name="comparison">The string comparison mode.</param>
         /// <returns>True if the string is exactly equal to or starts with the given value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean HasHyphen(this String str, String value)
+        public static Boolean HasHyphen(this String str, String value, StringComparison comparison = StringComparison.Ordinal)
         {
-            return str.Is(value) || (str.Length > value.Length && str.StartsWith(value, StringComparison.Ordinal) && str[value.Length] == Symbols.Minus);
+            return String.Equals(str, value, comparison) || (str.Length > value.Length && str.StartsWith(value, comparison) && str[value.Length] == Symbols.Minus);
         }
 
         /// <summary>

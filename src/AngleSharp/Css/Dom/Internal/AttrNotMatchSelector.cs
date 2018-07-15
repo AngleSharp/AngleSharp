@@ -7,11 +7,13 @@
     sealed class AttrNotMatchSelector : BaseAttrSelector, ISelector
     {
         private readonly String _value;
+        private readonly StringComparison _comparison;
 
-        public AttrNotMatchSelector(String name, String value, String prefix = null)
+        public AttrNotMatchSelector(String name, String value, String prefix = null, Boolean insensitive = false)
             : base(name, prefix)
         {
             _value = value;
+            _comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
         }
 
         public String Text
@@ -26,7 +28,7 @@
 
         public Boolean Match(IElement element, IElement scope)
         {
-            return !element.GetAttribute(Name).Is(_value);
+            return !String.Equals(element.GetAttribute(Name), _value, _comparison);
         }
     }
 }

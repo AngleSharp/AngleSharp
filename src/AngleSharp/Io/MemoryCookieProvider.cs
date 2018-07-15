@@ -71,9 +71,14 @@
                     var front = cookie.Substring(0, position);
                     var middle = cookie.Substring(position, end - position);
                     var back = cookie.Substring(end);
-                    var utc = DateTime.Parse(middle.Replace("UTC", "GMT"));
-                    var time = utc.ToString("ddd, dd MMM yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                    cookie = $"{front}{time}{back}";
+                    var utc = DateTime.Now;
+
+                    if (DateTime.TryParse(middle.Replace("UTC", "GMT"), out utc))
+                    {
+                        var time = utc.ToString("ddd, dd MMM yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                        cookie = $"{front}{time}{back}";
+                    }
+
                     start = end;
                 }
                 else

@@ -8,6 +8,16 @@ The AngleSharp project ultimately tries to provide tools to parse, inspect, modi
 
 This is an open source project falling under the MIT License. By using, distributing, or contributing to this project, you accept and agree that all code within the AngleSharp project are licensed under MIT license.
 
+## Becoming a Contributor
+
+Until the project has enough contributors a BDFL model is followed. As such the sole key maintainer keeps the right to appoint GitHub members as regular project contributors. Nevertheless, usually appointing someone follows this process:
+
+1. An individual contributes actively via discussions (reporting bugs, giving feedback to existing or opening new issues) and / or pull requests
+2. The individual is either directly asked, invited or asks for contributor rights on the project
+3. The individual uses the contribution rights to sustain or increase the active contributions
+
+Every contributor has to sign the contributor's license agreement (CLA) to establish a legal trust between the project and its contributors.
+
 ## Working on AngleSharp
 
 ### Issue Discussion
@@ -16,13 +26,29 @@ Discussion of issues should be placed transparently in the [issue tracker](https
 
 ### Modifying the code
 
-AngleSharp uses features from C# 5 and will soon switch to C# 6. You will therefore need a C# compiler that is up for the job.
+AngleSharp uses features from C# 6 and will soon switch to C# 7. You will therefore need a C# compiler that is up for the job.
 
 1. Fork and clone the repo.
 2. First try to build the AngleSharp.Core libray and see if you get the tests running.
-3. You will be required to resolve some dependencies via NuGet. 
+3. You will be required to resolve some dependencies via NuGet.
 
 AngleSharp itself does not have dependencies, however, the tests are dependent on NUnit.
+
+The build system of AngleSharp uses Cake. A bootstrap script (build.ps1 for Windows or build.sh for *nix systems) is included. Note, that at the moment AngleSharp requires NuGet 3.5, which looks for MSBuild pre-15, i.e., before Visual Studio 2017 on Windows systems.
+
+### Code Conventions
+
+Most parts in the AngleSharp project are fairly straight forward. Among these are:
+
+- Always use statement blocks for control statements, e.g., in a for-loop, if-condition, ...
+- You may use a simple (throw) statement in case of enforcing contracts on argument
+- Be explicit about modifiers (some files follow an older convention of the code base, but we settled on the explicit style)
+
+There are a couple of rules, which are definitely not standard, but highly recommended for consistency and readability:
+
+- AngleSharp uses the RHS convention, where types are always put on the right hand side if possible, i.e., preferring `var` under all circumstances
+- A single empty line between two non-simple statements (e.g., for-loop and if-condition) should be inserted
+- Types are preferred to keywords (`String` instead of `string` or `Int32` instead of `int`)
 
 ### Development Workflow
 
@@ -95,6 +121,6 @@ After releasing version 1.0.0 the scheme changes to become:
 
 #### Code style
 
-Regarding code style like indentation and whitespace, **follow the conventions you see used in the source already.** In general most of the [C# coding guidelines from Microsoft](https://msdn.microsoft.com/en-us/library/ff926074.aspx) are followed. This project prefers type inference with `var` to explicitly stating (redundant) information. 
+Regarding code style like indentation and whitespace, **follow the conventions you see used in the source already.** In general most of the [C# coding guidelines from Microsoft](https://msdn.microsoft.com/en-us/library/ff926074.aspx) are followed. This project prefers type inference with `var` to explicitly stating (redundant) information.
 
 It is also important to keep a certain `async`-flow and to always use `ConfigureAwait(false)` in conjunction with an `await` expression.

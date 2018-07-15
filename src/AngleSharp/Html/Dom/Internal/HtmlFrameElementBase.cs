@@ -99,7 +99,7 @@
             var content = GetContentHtml();
             var source = Source;
 
-            if (source != null || content != null)
+            if ((source != null && source != Owner.DocumentUri) || content != null)
             {
                 var url = this.HyperReference(source);
                 this.Process(_request, url);
@@ -119,6 +119,5 @@
         }
 
         #endregion
-
     }
 }

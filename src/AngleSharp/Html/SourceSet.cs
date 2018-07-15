@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Html
 {
     using AngleSharp.Text;
+    using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
@@ -8,7 +9,7 @@
     /// <summary>
     /// Represents a useful helper for dealing with source sets.
     /// </summary>
-    sealed class SourceSet
+    public sealed class SourceSet
     {
         private static readonly String FullWidth = "100vw";
         private static readonly Regex SizeParser = CreateRegex();
@@ -28,7 +29,12 @@
             }
         }
 
-        private static IEnumerable<ImageCandidate> ParseSourceSet(String srcset)
+        /// <summary>
+        /// Parses the given srcset attribute into an enumeration of candidates.
+        /// </summary>
+        /// <param name="srcset">The value of the srcset attribute.</param>
+        /// <returns>The iterator yielding the various candidates.</returns>
+        public static IEnumerable<ImageCandidate> Parse(String srcset)
         {
             var sources = srcset.Trim().SplitSpaces();
 
@@ -133,12 +139,18 @@
             return GetWidthFromLength(FullWidth);
         }
 
+        /// <summary>
+        /// Gets the promising candidates from the given srcset using the provided sizes.
+        /// </summary>
+        /// <param name="srcset">The value of the srcset attribute.</param>
+        /// <param name="sizes">The value of the sizes attribute.</param>
+        /// <returns>An iterator of the different URLs yielding matching images.</returns>
         public IEnumerable<String> GetCandidates(String srcset, String sizes)
         {
             if (!String.IsNullOrEmpty(srcset))
             {
                 //Resolution = ParseDescriptor(candidate.Descriptor, sizes)
-                foreach (var candidate in ParseSourceSet(srcset))
+                foreach (var candidate in Parse(srcset))
                 {
                     yield return candidate.Url;
                 }
@@ -152,10 +164,19 @@
             public String Length { get; set; }
         }
 
-        private sealed class ImageCandidate
+        /// <summary>
+        /// Represents a srcset image candidate.
+        /// </summary>
+        public sealed class ImageCandidate
         {
+            /// <summary>
+            /// The URL of the given image.
+            /// </summary>
             public String Url { get; set; }
 
+            /// <summary>
+            /// The descriptor of the given image.
+            /// </summary>
             public String Descriptor { get; set; }
         }
     }

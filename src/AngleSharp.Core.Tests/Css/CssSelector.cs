@@ -861,5 +861,16 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
 
             Assert.Throws<DomException>(() => document.QuerySelectorAll(selector));
         }
+
+        [Test]
+        public void CaseInsensitiveSelector_Issue666()
+        {
+            var source = @"<span style='display: none'>foo</span>";
+
+            var document = source.ToHtmlDocument();
+            var hiddens = document.QuerySelectorAll("*[style*='display: none' i],*[style*='display:none' i]");
+
+            Assert.AreEqual(1, hiddens.Length);
+        }
     }
 }

@@ -7,11 +7,13 @@
     sealed class AttrStartsWithSelector : BaseAttrSelector, ISelector
     {
         private readonly String _value;
+        private readonly StringComparison _comparison;
 
-        public AttrStartsWithSelector(String name, String value, String prefix = null)
+        public AttrStartsWithSelector(String name, String value, String prefix = null, Boolean insensitive = false)
             : base(name, prefix)
         {
             _value = value;
+            _comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
         }
 
         public String Text
@@ -29,7 +31,7 @@
             if (!String.IsNullOrEmpty(_value))
             {
                 var actual = element.GetAttribute(Name) ?? String.Empty;
-                return actual.StartsWith(_value, StringComparison.Ordinal);
+                return actual.StartsWith(_value, _comparison);
             }
 
             return false;
