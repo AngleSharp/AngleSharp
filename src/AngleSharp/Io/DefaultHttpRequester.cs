@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Common;
     using AngleSharp.Text;
@@ -180,6 +180,10 @@
                 catch (WebException ex)
                 {
                     response = ex.Response;
+                    if (response == null)
+                    {
+                        throw;
+                    }
                 }
 
                 RaiseConnectionLimit(_http);
