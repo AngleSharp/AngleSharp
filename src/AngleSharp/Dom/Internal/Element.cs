@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom.Events;
@@ -368,6 +368,29 @@
                 throw new DomException(DomError.Syntax);
 
             return sg.Match(this, this);
+        }
+
+        public IElement Closest(String selectorText)
+        {
+            var parser = Context.GetService<ICssSelectorParser>();
+            var sg = parser.ParseSelector(selectorText);
+
+            if (sg == null)
+                throw new DomException(DomError.Syntax);
+
+            IElement node = this;
+            while (node != null)
+            {
+                if (sg.Match(node, node))
+                {
+                    return node;
+                }
+                else
+                {
+                    node = node.ParentElement;
+                }
+            }
+            return null;
         }
 
         public Boolean HasAttribute(String name)

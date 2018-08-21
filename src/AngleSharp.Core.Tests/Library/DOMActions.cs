@@ -1310,5 +1310,17 @@
             Assert.AreEqual("http://example.com/foo.htm", a.Href);
             Assert.AreEqual("/foo.htm", a.GetAttribute("href"));
         }
+
+        [Test]
+        public void GetClosestAncestor()
+        {
+            var document = Create(@"<div id=""div1""><div id=""div2""><table><tr><td id=""exampletd""><div id=""div3""></div></td></tr><tr></tr></table></div></div>");
+            var cell = document.QuerySelector("#exampletd") as IHtmlTableCellElement;
+
+            Assert.IsNotNull(cell);
+            Assert.AreEqual(cell.Closest("td"), cell);
+            Assert.AreEqual(cell.Closest("a"), null);
+            Assert.AreEqual(cell.Closest("div"), document.QuerySelector("#div2"));
+        }
     }
 }
