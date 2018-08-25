@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
     using System;
@@ -2607,11 +2607,11 @@
         {
             /*
              * Otherwise, if the number is in the range 0xD800 to 0xDFFF or is
-             * greater than 0x10FFFF, then this is a parse error. Return a U+FFFD
+             * greater than 0x10FFFF or is less than 0x00, then this is a parse error. Return a U+FFFD
              * REPLACEMENT CHARACTER.
              */
 
-            return (code >= 0xD800 && code <= 0xDFFF) || (code > 0x10FFFF);
+            return code < 0x00 || (code >= 0xD800 && code <= 0xDFFF) || (code > 0x10FFFF);
         }
 
         /// <summary>
