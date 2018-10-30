@@ -19,7 +19,7 @@ namespace AngleSharp.Core.Tests {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Assets {
@@ -131,9 +131,9 @@ namespace AngleSharp.Core.Tests {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;!--inform the XML processor
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot; ?&gt;
+        ///&lt;!--inform the XML processor
         ///  that an external DTD is referenced--&gt;
-        ///&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot; ?&gt;
         ///
         ///&lt;!--define the location of the
         ///  external DTD using a relative URL address--&gt;

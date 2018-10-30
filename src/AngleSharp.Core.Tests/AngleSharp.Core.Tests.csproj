@@ -1,246 +1,48 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C3074D7E-CA6C-4F2C-813D-BD97462DC3EB}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AngleSharp.Core.Tests</RootNamespace>
-    <AssemblyName>AngleSharp.Core.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
     <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.2.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.2.1\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Net.Http" />
+    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj" />
   </ItemGroup>
-  <Choose>
-    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-      </ItemGroup>
-    </When>
-    <Otherwise />
-  </Choose>
+  
   <ItemGroup>
-    <Compile Include="Assets.Designer.cs">
-      <AutoGen>True</AutoGen>
+    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
+    <PackageReference Include="NUnit" Version="3.2.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Html\InnerText.cs" />
+    <Compile Remove="Xml\DTDTree.cs" />
+    <Compile Remove="Xml\XmlDTD.cs" />
+    <Compile Remove="Xml\XmlInvalidDocuments.cs" />
+    <Compile Remove="Xml\XmlNotWfDocuments.cs" />
+    <Compile Remove="Xml\XmlNotWfExtDtd.cs" />
+    <Compile Remove="Xml\XmlValidDocuments.cs" />
+    <Compile Remove="Xml\XmlValidExtDtd.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="Pages\*.*" />
+    <EmbeddedResource Include="Pages\*.xml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Assets.Designer.cs">
       <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
-    <Compile Include="Auxiliary\ConfigurationsExtensions.cs" />
-    <Compile Include="Css\Slickspeed.cs" />
-    <Compile Include="Css\WebsiteQuery.cs" />
-    <Compile Include="External\MemoryStreamExtensions.cs" />
-    <Compile Include="External\PageRequester.cs" />
-    <Compile Include="External\SiteMapping.cs" />
-    <Compile Include="Html\Adoption.cs" />
-    <Compile Include="Html\BasicRuleSet.cs" />
-    <Compile Include="Html\CData.cs" />
-    <Compile Include="Html\CompareDocumentPosition.cs" />
-    <Compile Include="Html\Doctype.cs" />
-    <Compile Include="Html\DomManipulation.cs" />
-    <Compile Include="Html\HtmlConstruction.cs" />
-    <Compile Include="Html\MainElement.cs" />
-    <Compile Include="Html\Namespace.cs" />
-    <Compile Include="Html\NoScript.cs" />
-    <Compile Include="Html\Rawtext.cs" />
-    <Compile Include="Html\RubyElement.cs" />
-    <Compile Include="Html\TreeConstruction.cs" />
-    <Compile Include="Html\Validation.cs" />
-    <Compile Include="Html\ValidityCheck.cs" />
-    <Compile Include="Html\ValidityPatternMismatch.cs" />
-    <Compile Include="Html\ValidityRangeOverflow.cs" />
-    <Compile Include="Html\ValidityRangeUnderflow.cs" />
-    <Compile Include="Html\ValidityStepMismatch.cs" />
-    <Compile Include="Html\ValidityTooLong.cs" />
-    <Compile Include="Html\ValidityTooShort.cs" />
-    <Compile Include="Html\ValidityValueMissing.cs" />
-    <Compile Include="Html\WillValidate.cs" />
-    <Compile Include="Library\ContextLoading.cs" />
-    <Compile Include="Library\CookieHandling.cs" />
-    <Compile Include="Library\DocumentCreation.cs" />
-    <Compile Include="Library\DocumentEncoding.cs" />
-    <Compile Include="Library\DOMTable.cs" />
-    <Compile Include="Library\Error.cs" />
-    <Compile Include="Library\FormatExtensions.cs" />
-    <Compile Include="Library\FormReset.cs" />
-    <Compile Include="Library\FormSetFieldValues.cs" />
-    <Compile Include="Library\ImageCandidates.cs" />
-    <Compile Include="Library\MeterElement.cs" />
-    <Compile Include="Library\PrettyMarkupPrinter.cs" />
-    <Compile Include="Mocks\MarkdownDocument.cs" />
-    <Compile Include="Mocks\MockIntegrityProvider.cs" />
-    <Compile Include="Mocks\VirtualRequester.cs" />
-    <Compile Include="Urls\MimeType.cs" />
-    <Compile Include="Library\MutationObserver.cs" />
-    <Compile Include="Library\OptionWithLabel.cs" />
-    <Compile Include="Library\PageImport.cs" />
-    <Compile Include="Css\QueryExtensions.cs" />
-    <Compile Include="Library\ShadowDom.cs" />
-    <Compile Include="Library\SimpleEncoding.cs" />
-    <Compile Include="Library\StringMap.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="Html\HtmlScript.cs" />
-    <Compile Include="Html\HtmlStyle.cs" />
-    <Compile Include="Css\CssSelector.cs" />
-    <Compile Include="Css\CssW3CSelector.cs" />
-    <Compile Include="Html\DOM.cs" />
-    <Compile Include="Html\HtmlComment.cs" />
-    <Compile Include="Html\ScriptData.cs" />
-    <Compile Include="Html\HtmlTable.cs" />
-    <Compile Include="Html\HtmlWithMathML.cs" />
-    <Compile Include="Html\HtmlWithSVG.cs" />
-    <Compile Include="Html\FosterParenting.cs" />
-    <Compile Include="Html\HtmlFormatting.cs" />
-    <Compile Include="Html\HtmlTemplate.cs" />
-    <Compile Include="Library\BasicConfiguration.cs" />
-    <Compile Include="Library\DOMEvents.cs" />
-    <Compile Include="Library\LiveCollection.cs" />
-    <Compile Include="Library\DOMExtensions.cs" />
-    <Compile Include="Library\HttpRequester.cs" />
-    <Compile Include="Library\AsyncParsing.cs" />
-    <Compile Include="Urls\Location.cs" />
-    <Compile Include="Library\OptimizationPool.cs" />
-    <Compile Include="Library\FormSubmit.cs" />
-    <Compile Include="Css\Priority.cs" />
-    <Compile Include="Library\BasicScripting.cs" />
-    <Compile Include="Library\TreeWalker.cs" />
-    <Compile Include="Library\NodeIterator.cs" />
-    <Compile Include="Library\DOMActions.cs" />
-    <Compile Include="Urls\Url.cs" />
-    <Compile Include="Urls\UrlValidation.cs" />
-    <Compile Include="Mocks\CallbackScriptEngine.cs" />
-    <Compile Include="Mocks\ContentScriptEngine.cs" />
-    <Compile Include="Mocks\DelayedStream.cs" />
-    <Compile Include="Mocks\DelayRequester.cs" />
-    <Compile Include="Mocks\DtdRequester.cs" />
-    <Compile Include="Mocks\EventReceiver.cs" />
-    <Compile Include="Mocks\FileEntry.cs" />
-    <Compile Include="Mocks\MockEntityProvider.cs" />
-    <Compile Include="Mocks\MockImageInfo.cs" />
-    <Compile Include="Mocks\MockRequester.cs" />
-    <Compile Include="Mocks\TestServerRequester.cs" />
-    <Compile Include="Mocks\ResourceService.cs" />
-    <Compile Include="Mocks\StandingEventLoop.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Library\CommonExtensions.cs" />
-    <Compile Include="Html\HtmlTokenization.cs" />
-    <Compile Include="Html\HtmlTree.cs" />
-    <Compile Include="Html\Quirksmode.cs" />
-    <Compile Include="Html\GumboParser.cs" />
-    <Compile Include="Html\Html5TestCom.cs" />
-    <Compile Include="Html\Tricky.cs" />
-    <Compile Include="Html\PlaintextUnsafe.cs" />
-    <Compile Include="Html\HtmlFragment.cs" />
-    <Compile Include="Html\HtmlEntity.cs" />
-    <Compile Include="Html\UserJsUnsafe.cs" />
-    <Compile Include="TestExtensions.cs" />
-    <Compile Include="Xhtml\PreserveValidXhtml.cs" />
-    <Compile Include="Xhtml\AutoSelectMarkupFormatter.cs" />
-    <Compile Include="Xml\XmlNamespace.cs" />
-    <Compile Include="Xml\XmlParsing.cs" />
-    <Compile Include="Xml\XmlSamples.cs" />
-    <Compile Include="Xml\XmlTokenization.cs" />
-    <Compile Include="Xml\XmlTree.cs" />
   </ItemGroup>
+  
   <ItemGroup>
-    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">
-      <Project>{91f78c48-287e-41b5-9e49-44d6e1e31290}</Project>
-      <Name>AngleSharp.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Assets.resx">
+    <EmbeddedResource Update="Assets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Assets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Pages\books.xml" />
-    <Content Include="Pages\catalog.xml" />
-    <EmbeddedResource Include="Pages\encoding.html" />
-    <Content Include="Pages\engineering.xml" />
-    <Content Include="Pages\food.xml" />
-    <Content Include="Pages\nbc.html" />
-    <Content Include="Pages\quirksmode.html" />
-    <Content Include="Pages\selectors.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Key.snk" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup />
-  <Choose>
-    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
