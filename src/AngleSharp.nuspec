@@ -13,36 +13,5 @@
     <releaseNotes>For all changes see: https://github.com/AngleSharp/AngleSharp/wiki/ChangeLog.</releaseNotes>
     <copyright>Copyright 2018, AngleSharp.</copyright>
     <tags>html html5 css css3 xml dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text headless browser</tags>
-    <dependencies>
-      <group targetFramework=".NETStandard1.0">
-        <dependency id="System.Collections" version="4.0.11" />
-        <dependency id="System.Diagnostics.Debug" version="4.0.11" />
-        <dependency id="System.Dynamic.Runtime" version="4.0.11" />
-        <dependency id="System.IO" version="4.1.0" />
-        <dependency id="System.Linq" version="4.1.0" />
-        <dependency id="System.Net.Primitives" version="4.0.11" />
-        <dependency id="System.Net.Requests" version="4.0.11" />
-        <dependency id="System.Reflection" version="4.1.0" />
-        <dependency id="System.Reflection.Extensions" version="4.0.1" />
-        <dependency id="System.Resources.ResourceManager" version="4.0.1" />
-        <dependency id="System.Runtime" version="4.1.0" />
-        <dependency id="System.Runtime.Extensions" version="4.1.0" />
-        <dependency id="System.Text.Encoding" version="4.0.11" />
-        <dependency id="System.Text.Encoding.Extensions" version="4.0.11" />
-        <dependency id="System.Text.RegularExpressions" version="4.1.0" />
-        <dependency id="System.Threading" version="4.0.11" />
-        <dependency id="System.Threading.Tasks" version="4.0.11" />
-      </group>
-      <group targetFramework="portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch">
-      </group>
-      <group targetFramework="net45">
-      </group>
-      <group targetFramework="net40">
-        <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
-      </group>
-      <group targetFramework="sl50">
-        <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
-      </group>
-    </dependencies>
   </metadata>
 </package>
