@@ -1,11 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
     <AssemblyName>AngleSharp</AssemblyName>
     <RootNamespace>AngleSharp</RootNamespace>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
-    <SignAssembly>true</SignAssembly>
+    <!--
+    <SignAssembly>true</SignAssembly>    
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   

@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
   
   <ItemGroup>
@@ -27,22 +27,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Remove="Pages\*.*" />
     <EmbeddedResource Include="Pages\*.*" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Update="Assets.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Assets.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <EmbeddedResource Update="Assets.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Assets.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\*.bin" />
   </ItemGroup>
 </Project>

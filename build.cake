@@ -80,7 +80,7 @@ Task("Run-Unit-Tests")
             settings.Where = "cat != ExcludeFromAppVeyor";
         }
 
-        NUnit3("./src/**/bin/" + configuration + "/net462/*.Tests.dll", settings);
+        NUnit3("./src/**/bin/" + configuration + "/**/*.Tests.dll", settings);
     });
 
 Task("Copy-Files")
