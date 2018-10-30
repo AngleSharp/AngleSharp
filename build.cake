@@ -79,8 +79,12 @@ Task("Run-Unit-Tests")
         {
             settings.Where = "cat != ExcludeFromAppVeyor";
         }
+        
+        DotNetCoreTest("./src/AngleSharp.Core.Tests/", new DotNetCoreTestSettings() {
+           Configuration = configuration
+        });
 
-        NUnit3("./src/**/bin/" + configuration + "/**/*.Tests.dll", settings);
+        // NUnit3("./src/**/bin/" + configuration + "/**/*.Tests.dll", settings);
     });
 
 Task("Copy-Files")
