@@ -150,7 +150,7 @@ namespace AngleSharp.Core.Tests.Library
 
                     var content = stream.ReadToEnd();
                     Assert.IsTrue(content.Length > 0);
-                    Assert.IsTrue(content.Contains("\"data\":\"Hello world\""));
+                    Assert.IsTrue(content.Contains("\"data\": \"Hello world\""));
                 }
             }
         }
@@ -180,7 +180,7 @@ namespace AngleSharp.Core.Tests.Library
 
                     var content = stream.ReadToEnd();
                     Assert.IsTrue(content.Length > 0);
-                    Assert.IsTrue(content.Contains("\"data\":\"PUT THIS THING BACK\""));
+                    Assert.IsTrue(content.Contains("\"data\": \"PUT THIS THING BACK\""));
                 }
             }
         }
@@ -279,7 +279,7 @@ namespace AngleSharp.Core.Tests.Library
 
                     var content = stream.ReadToEnd();
                     Assert.IsTrue(content.Length > 0);
-                    Assert.AreEqual("{\"user-agent\":\"" + agent + "\"}\n", content);
+                    Assert.AreEqual("{\n  \"user-agent\": \"" + agent + "\"\n}\n", content);
                 }
             }
         }

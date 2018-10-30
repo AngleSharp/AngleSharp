@@ -6,14 +6,6 @@
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net46'">
-    <AssemblyName>AngleSharp.Core.Tests.net46</AssemblyName>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-    <AssemblyName>AngleSharp.Core.Tests.netcoreapp21</AssemblyName>
-  </PropertyGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj" />
