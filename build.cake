@@ -70,21 +70,21 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var settings = new NUnit3Settings
+        var settings = new DotNetCoreTestSettings()
         {
-            Work = buildResultDir.Path.FullPath
+            Configuration = configuration
         };
 
         if (isRunningOnAppVeyor)
         {
-            settings.Where = "cat != ExcludeFromAppVeyor";
+            settings.TestAdapterPath = Directory(".");
+            settings.Logger = "Appveyor";
+            // TODO Finds a way to exclude tests not allowed to run on appveyor
+            // Not used in current code
+            //settings.Where = "cat != ExcludeFromAppVeyor";
         }
         
-        DotNetCoreTest("./src/AngleSharp.Core.Tests/", new DotNetCoreTestSettings() {
-           Configuration = configuration
-        });
-
-        // NUnit3("./src/**/bin/" + configuration + "/**/*.Tests.dll", settings);
+        DotNetCoreTest("./src/AngleSharp.Core.Tests/", settings);
     });
 
 Task("Copy-Files")
