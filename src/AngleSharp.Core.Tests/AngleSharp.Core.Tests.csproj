@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <SignAssembly>true</SignAssembly>
@@ -28,7 +28,7 @@
   
   <ItemGroup>
     <None Remove="Pages\*.*" />
-    <EmbeddedResource Include="Pages\*.xml" />
+    <EmbeddedResource Include="Pages\*.*" />
   </ItemGroup>
   
   <ItemGroup>
