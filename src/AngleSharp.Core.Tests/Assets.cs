@@ -55,8 +55,9 @@ namespace AngleSharp.Core.Tests
 
         public static byte[] longscript => GetManifestResourceBytes("Resources.longscript.bin");
 
-        private static string GetManifestResourceString(string name, Encoding encoding)
+        public static string GetManifestResourceString(string name, Encoding encoding = null)
         {
+            encoding = encoding ?? Encoding.UTF8;
             var fullName = typeof(Assets).Namespace + "." + name;
             using (var stream = typeof(Assets).Assembly.GetManifestResourceStream(fullName))
             {
@@ -68,7 +69,7 @@ namespace AngleSharp.Core.Tests
             }
         }
 
-        private static byte[] GetManifestResourceBytes(string name)
+        public static byte[] GetManifestResourceBytes(string name)
         {
             var fullName = typeof(Assets).Namespace + "." + name;
             using (var stream = typeof(Assets).Assembly.GetManifestResourceStream(fullName))

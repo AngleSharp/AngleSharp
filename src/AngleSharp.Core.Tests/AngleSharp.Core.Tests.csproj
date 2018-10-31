@@ -39,5 +39,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Pages\*.*" />
     <EmbeddedResource Include="Resources\*.bin" />
+    <EmbeddedResource Include="Html\*.txt" />
   </ItemGroup>
 </Project>
