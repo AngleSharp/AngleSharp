@@ -24,7 +24,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        [Platform(Exclude = "NetCore-2.1")]
+        [Platform(Exclude = "NetCore")]
         public void JdEncodingDisplayCharacters()
         {
             var configEnUs = Configuration.Default.SetCulture("en-US").WithLocaleBasedEncoding();
@@ -37,7 +37,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        [Platform(Exclude = "NetCore-2.1", Reason = "Encoding support is limited on netcore platform")]
+        [Platform(Exclude = "NetCore", Reason = "Encoding support is limited on netcore platform")]
         public void TradeEncodingDisplayCharactersFromWindows1252()
         {
             var config = Configuration.Default.SetCulture("de-de").WithLocaleBasedEncoding();
@@ -100,7 +100,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        [Platform(Exclude = "NetCore-2.1", Reason = "Encoding support is limited on netcore platform")]
+        [Platform(Exclude = "NetCore", Reason = "Encoding support is limited on netcore platform")]
         public void EncodingCheckWindows1251TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.windows_1251);
@@ -119,7 +119,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        [Platform(Exclude = "NetCore-2.1", Reason = "Encoding support is limited on netcore platform")]
+        [Platform(Exclude = "NetCore", Reason = "Encoding support is limited on netcore platform")]
         public void EncodingCheckRealShiftJisTestPage()
         {
             var source = Helper.StreamFromBytes(Assets.real_shift_jit);
@@ -131,7 +131,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        [Platform(Exclude = "NetCore-2.1", Reason = "Encoding support is limited on netcore platform")]
+        [Platform(Exclude = "NetCore", Reason = "Encoding support is limited on netcore platform")]
         public void EncodingCheckGb2312TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.gb2312);
@@ -141,7 +141,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        [Platform(Exclude = "NetCore-2.1", Reason = "Encoding support is limited on netcore platform")]
+        [Platform(Exclude = "NetCore", Reason = "Encoding support is limited on netcore platform")]
         public void EncodingCheckGb18030TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.gb18030);
@@ -151,7 +151,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        [Platform(Exclude = "NetCore-2.1", Reason = "Encoding support is limited on netcore platform")]
+        [Platform(Exclude = "NetCore", Reason = "Encoding support is limited on netcore platform")]
         public void EncodingCheckBig5TestPage()
         {
             var source = Helper.StreamFromBytes(Assets.big5);
@@ -186,7 +186,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        [Platform(Exclude = "NetCore-2.1")]
+        [Platform(Exclude = "NetCore")]
         public async Task EncodingFromHeaderAtAmazonFranceSubpageWithConflictingEofCharacter()
         {
             var content = Helper.StreamFromBytes(Assets.amazonenc);
@@ -203,7 +203,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        [Platform(Exclude = "NetCore-2.1", Reason = "Encoding support is limited on netcore platform")]
+        [Platform(Exclude = "NetCore", Reason = "Encoding support is limited on netcore platform")]
         public async Task EncodingFromHeaderShouldHaveHigherPrecedence()
         {
             var raw = new Byte[] { 60, 109, 101, 116, 97, 32, 99, 104, 97, 114, 115, 101, 116, 61, 117, 116, 102, 45, 56, 62, 238 };
