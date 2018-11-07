@@ -107,6 +107,7 @@
     <Compile Include="Html\Doctype.cs" />
     <Compile Include="Html\DomManipulation.cs" />
     <Compile Include="Html\HtmlConstruction.cs" />
+    <Compile Include="Html\HtmlEntityServiceTests.cs" />
     <Compile Include="Html\MainElement.cs" />
     <Compile Include="Html\Namespace.cs" />
     <Compile Include="Html\NoScript.cs" />
