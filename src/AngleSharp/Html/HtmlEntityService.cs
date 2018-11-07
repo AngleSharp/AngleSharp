@@ -2610,7 +2610,7 @@
              * REPLACEMENT CHARACTER.
              */
 
-            return (code >= 0xD800 && code <= 0xDFFF) || (code > 0x10FFFF);
+            return (code >= 0xD800 && code <= 0xDFFF) || (code < 0x0) || (code > 0x10FFFF);
         }
 
         /// <summary>
