@@ -8,7 +8,7 @@
     /// This element is used to indicate that the position is a good
     /// point for inserting a possible line-break.
     /// </summary>
-    sealed class HtmlWbrElement : HtmlElement
+    sealed class HtmlWbrElement : HtmlElement, IHtmlWbrElement
     {
         public HtmlWbrElement(Document owner, String prefix = null)
             : base(owner, TagNames.Wbr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)

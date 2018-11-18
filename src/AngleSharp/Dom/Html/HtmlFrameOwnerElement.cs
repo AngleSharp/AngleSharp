@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the base class for frame owned elements.
     /// </summary>
-    abstract class HtmlFrameOwnerElement : HtmlElement
+    abstract class HtmlFrameOwnerElement : HtmlElement, IHtmlFrameOwnerElement
     {
         #region ctor
 

@@ -6,7 +6,7 @@
     /// <summary>
     /// The big HTML element.
     /// </summary>
-    sealed class HtmlBigElement : HtmlElement
+    sealed class HtmlBigElement : HtmlElement, IHtmlBigElement
     {
         public HtmlBigElement(Document owner, String prefix = null)
             : base(owner, TagNames.Big, prefix, NodeFlags.HtmlFormatting)

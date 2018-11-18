@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the base class for all HTML text form controls.
     /// </summary>
-    abstract class HtmlTextFormControlElement : HtmlFormControlElementWithState
+    abstract class HtmlTextFormControlElement : HtmlFormControlElementWithState, IHtmlTextFormControlElement
     {
         #region Fields
 

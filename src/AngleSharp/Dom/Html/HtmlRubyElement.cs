@@ -6,7 +6,7 @@
     /// <summary>
     /// The ruby HTML element.
     /// </summary>
-    sealed class HtmlRubyElement : HtmlElement
+    sealed class HtmlRubyElement : HtmlElement, IHtmlRubyElement
     {
         public HtmlRubyElement(Document owner, String prefix = null)
             : base(owner, TagNames.Ruby, prefix)

@@ -6,7 +6,7 @@
     /// <summary>
     /// The xmp HTML element.
     /// </summary>
-    sealed class HtmlXmpElement : HtmlElement
+    sealed class HtmlXmpElement : HtmlElement, IHtmlXmpElement
     {
         public HtmlXmpElement(Document owner, String prefix = null)
             : base(owner, TagNames.Xmp, prefix, NodeFlags.Special | NodeFlags.LiteralText)

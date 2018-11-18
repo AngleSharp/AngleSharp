@@ -6,7 +6,7 @@
     /// <summary>
     /// The address HTML element.
     /// </summary>
-    sealed class HtmlAddressElement : HtmlElement
+    sealed class HtmlAddressElement : HtmlElement, IHtmlAddressElement
     {
         public HtmlAddressElement(Document owner, String prefix = null)
             : base(owner, TagNames.Address, prefix, NodeFlags.Special)

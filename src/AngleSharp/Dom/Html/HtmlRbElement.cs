@@ -6,7 +6,7 @@
     /// <summary>
     /// The rb HTML element.
     /// </summary>
-    sealed class HtmlRbElement : HtmlElement
+    sealed class HtmlRbElement : HtmlElement, IHtmlRbElement
     {
         public HtmlRbElement(Document owner, String prefix = null)
             : base(owner, TagNames.Rb, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)

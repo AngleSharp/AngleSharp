@@ -6,7 +6,7 @@
     /// <summary>
     /// The strike HTML element.
     /// </summary>
-    sealed class HtmlStrikeElement : HtmlElement
+    sealed class HtmlStrikeElement : HtmlElement, IHtmlStrikeElement
     {
         public HtmlStrikeElement(Document owner, String prefix = null)
             : base(owner, TagNames.Strike, prefix, NodeFlags.HtmlFormatting)

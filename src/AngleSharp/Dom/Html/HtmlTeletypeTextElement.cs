@@ -6,7 +6,7 @@
     /// <summary>
     /// The tt HTML element.
     /// </summary>
-    sealed class HtmlTeletypeTextElement : HtmlElement
+    sealed class HtmlTeletypeTextElement : HtmlElement, IHtmlTeletypeTextElement
     {
         public HtmlTeletypeTextElement(Document owner, String prefix = null)
             : base(owner, TagNames.Tt, prefix, NodeFlags.HtmlFormatting)

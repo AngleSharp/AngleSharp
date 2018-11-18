@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the base for a / area elements.
     /// </summary>
-    abstract class HtmlUrlBaseElement : HtmlElement, IUrlUtilities
+    abstract class HtmlUrlBaseElement : HtmlElement, IHtmlUrlBaseElement
     {
         #region Fields
 

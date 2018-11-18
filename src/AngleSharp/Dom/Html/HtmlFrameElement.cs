@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML frame element.
     /// </summary>
-    sealed class HtmlFrameElement : HtmlFrameElementBase
+    sealed class HtmlFrameElement : HtmlFrameElementBase, IHtmlFrameElement
     {
         #region ctor
 

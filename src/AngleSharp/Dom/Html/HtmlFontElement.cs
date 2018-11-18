@@ -9,7 +9,7 @@
     /// See (19) obsolete features of [WHATWG].
     /// </summary>
     [DomHistorical]
-    sealed class HtmlFontElement : HtmlElement
+    sealed class HtmlFontElement : HtmlElement, IHtmlFontElement
     {
         public HtmlFontElement(Document owner, String prefix = null)
             : base(owner, TagNames.Font, prefix, NodeFlags.HtmlFormatting)

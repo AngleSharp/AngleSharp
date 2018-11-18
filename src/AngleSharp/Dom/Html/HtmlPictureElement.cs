@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the HTML picture element.
     /// </summary>
-    sealed class HtmlPictureElement : HtmlElement
+    sealed class HtmlPictureElement : HtmlElement, IHtmlPictureElement
     {
         public HtmlPictureElement(Document owner, String prefix = null)
             : base(owner, TagNames.Picture, prefix)

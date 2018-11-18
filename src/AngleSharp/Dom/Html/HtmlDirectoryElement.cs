@@ -9,7 +9,7 @@
     /// This element is obsolete since HTML 4.01.
     /// </summary>
     [DomHistorical]
-    sealed class HtmlDirectoryElement : HtmlElement
+    sealed class HtmlDirectoryElement : HtmlElement, IHtmlDirectoryElement
     {
         public HtmlDirectoryElement(Document owner, String prefix = null)
             : base (owner, TagNames.Dir, prefix, NodeFlags.Special)

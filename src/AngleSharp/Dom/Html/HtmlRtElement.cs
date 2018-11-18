@@ -6,7 +6,7 @@
     /// <summary>
     /// The rt element.
     /// </summary>
-    sealed class HtmlRtElement : HtmlElement
+    sealed class HtmlRtElement : HtmlElement, IHtmlRtElement
     {
         public HtmlRtElement(Document owner, String prefix = null)
             : base(owner, TagNames.Rt, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)

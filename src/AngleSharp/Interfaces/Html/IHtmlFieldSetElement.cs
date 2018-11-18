@@ -7,26 +7,9 @@
     /// Represents the fieldset HTML element.
     /// </summary>
     [DomName("HTMLFieldSetElement")]
-    public interface IHtmlFieldSetElement : IHtmlElement, IValidation
+    public interface IHtmlFieldSetElement : IHtmlFormControlElement
     {
-        /// <summary>
-        /// Gets or sets if the element is enabled or disabled.
-        /// </summary>
-        [DomName("disabled")]
-        Boolean IsDisabled { get; set; }
-
-        /// <summary>
-        /// Gets the associated HTML form element.
-        /// </summary>
-        [DomName("form")]
-        IHtmlFormElement Form { get; }
-
-        /// <summary>
-        /// Gets or sets the value of the name attribute.
-        /// </summary>
-        [DomName("name")]
-        String Name { get; set; }
-
+        
         /// <summary>
         /// Gets the type of input control (fieldset).
         /// </summary>

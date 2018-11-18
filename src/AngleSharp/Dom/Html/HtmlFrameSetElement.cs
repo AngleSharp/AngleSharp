@@ -10,7 +10,7 @@
     /// Obsolete since HTML 4.01.
     /// </summary>
     [DomHistorical]
-    sealed class HtmlFrameSetElement : HtmlElement
+    sealed class HtmlFrameSetElement : HtmlElement, IHtmlFrameSetElement
     {
         #region ctor
 

@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents the base class for frame elements.
     /// </summary>
-    abstract class HtmlFrameElementBase : HtmlFrameOwnerElement
+    abstract class HtmlFrameElementBase : HtmlFrameOwnerElement, IHtmlFrameElementBase
     {
         #region Fields
 

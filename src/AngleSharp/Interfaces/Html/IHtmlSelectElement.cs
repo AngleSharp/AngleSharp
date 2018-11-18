@@ -7,39 +7,9 @@
     /// Represents the select HTML element.
     /// </summary>
     [DomName("HTMLSelectElement")]
-    public interface IHtmlSelectElement : IHtmlElement, IValidation
+    public interface IHtmlSelectElement : IHtmlFormControlElement
     {
-        /// <summary>
-        /// Gets or sets the autofocus HTML attribute, which indicates whether the
-        /// control should have input focus when the page loads.
-        /// </summary>
-        [DomName("autofocus")]
-        Boolean Autofocus { get; set; }
-
-        /// <summary>
-        /// Gets or sets if the button is enabled or disabled.
-        /// </summary>
-        [DomName("disabled")]
-        Boolean IsDisabled { get; set; }
-
-        /// <summary>
-        /// Gets the associated HTML form element.
-        /// </summary>
-        [DomName("form")]
-        IHtmlFormElement Form { get; }
-
-        /// <summary>
-        /// Gets the list of assigned labels.
-        /// </summary>
-        [DomName("labels")]
-        INodeList Labels { get; }
-
-        /// <summary>
-        /// Gets or sets the name of the element.
-        /// </summary>
-        [DomName("name")]
-        String Name { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the value.
         /// </summary>

@@ -6,7 +6,7 @@
     /// <summary>
     /// The u HTML element.
     /// </summary>
-    sealed class HtmlUnderlineElement : HtmlElement
+    sealed class HtmlUnderlineElement : HtmlElement, IHtmlUnderlineElement
     {
         public HtmlUnderlineElement(Document owner, String prefix = null)
             : base(owner, TagNames.U, prefix, NodeFlags.HtmlFormatting)

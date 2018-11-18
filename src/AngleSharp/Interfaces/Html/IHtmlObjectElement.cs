@@ -7,7 +7,7 @@
     /// Represents the object HTML element.
     /// </summary>
     [DomName("HTMLObjectElement")]
-    public interface IHtmlObjectElement : IHtmlElement, IValidation, ILoadableElement
+    public interface IHtmlObjectElement : IHtmlFormControlElement, ILoadableElement
     {
         /// <summary>
         /// Gets or sets the address of the resource.
@@ -29,25 +29,13 @@
         /// </summary>
         [DomName("typeMustMatch")]
         Boolean TypeMustMatch { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the object.
-        /// </summary>
-        [DomName("name")]
-        String Name { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the associated image map of the object if the object element represents an image.
         /// </summary>
         [DomName("useMap")]
         String UseMap { get; set; }
-
-        /// <summary>
-        /// Gets the associated HTML form element.
-        /// </summary>
-        [DomName("form")]
-        IHtmlFormElement Form { get; }
-
+        
         /// <summary>
         /// Gets or sets the display width of the object element.
         /// </summary>

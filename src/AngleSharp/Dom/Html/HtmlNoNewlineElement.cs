@@ -6,7 +6,7 @@
     /// <summary>
     /// The nobr HTML element.
     /// </summary>
-    sealed class HtmlNoNewlineElement : HtmlElement
+    sealed class HtmlNoNewlineElement : HtmlElement, IHtmlNoNewlineElement
     {
         public HtmlNoNewlineElement(Document owner, String prefix = null)
             : base(owner, TagNames.NoBr, prefix, NodeFlags.HtmlFormatting)

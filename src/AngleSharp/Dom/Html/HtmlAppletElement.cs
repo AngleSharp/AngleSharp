@@ -8,7 +8,7 @@
     /// Represents the HTML applet element.
     /// </summary>
     [DomHistorical]
-    sealed class HtmlAppletElement : HtmlElement
+    sealed class HtmlAppletElement : HtmlElement, IHtmlAppletElement
     {
         public HtmlAppletElement(Document owner, String prefix = null)
             : base(owner, TagNames.Applet, prefix, NodeFlags.Special | NodeFlags.Scoped)
