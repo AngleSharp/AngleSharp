@@ -6,7 +6,7 @@
     /// <summary>
     /// The rtc HTML element.
     /// </summary>
-    sealed class HtmlRtcElement : HtmlElement, IHtmlRtcElement
+    sealed class HtmlRtcElement : HtmlElement
     {
         public HtmlRtcElement(Document owner, String prefix = null)
             : base(owner, TagNames.Rtc, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)

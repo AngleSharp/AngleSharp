@@ -6,7 +6,7 @@
     /// <summary>
     /// The bold HTML element.
     /// </summary>
-    sealed class HtmlBoldElement : HtmlElement, IHtmlBoldElement
+    sealed class HtmlBoldElement : HtmlElement
     {
         public HtmlBoldElement(Document owner, String prefix = null)
             : base(owner, TagNames.B, prefix, NodeFlags.HtmlFormatting)

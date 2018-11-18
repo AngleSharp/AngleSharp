@@ -6,7 +6,7 @@
     /// <summary>
     /// The i HTML element.
     /// </summary>
-    sealed class HtmlItalicElement : HtmlElement, IHtmlItalicElement
+    sealed class HtmlItalicElement : HtmlElement
     {
         public HtmlItalicElement(Document owner, String prefix = null)
             : base(owner, TagNames.I, prefix, NodeFlags.HtmlFormatting)

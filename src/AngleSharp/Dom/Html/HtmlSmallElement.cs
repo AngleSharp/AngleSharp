@@ -6,7 +6,7 @@
     /// <summary>
     /// The small HTML element.
     /// </summary>
-    sealed class HtmlSmallElement : HtmlElement, IHtmlSmallElement
+    sealed class HtmlSmallElement : HtmlElement
     {
         public HtmlSmallElement(Document owner, String prefix = null)
             : base(owner, TagNames.Small, prefix, NodeFlags.HtmlFormatting)

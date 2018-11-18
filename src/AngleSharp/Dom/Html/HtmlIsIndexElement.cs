@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the HTML isindex element.
     /// </summary>
-    sealed class HtmlIsIndexElement : HtmlElement, IHtmlIsIndexElement
+    sealed class HtmlIsIndexElement : HtmlElement
     {
         #region ctor
 
