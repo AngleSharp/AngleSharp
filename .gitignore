@@ -27,6 +27,12 @@ local.properties
 # PDT-specific
 .buildpath
 
+################
+## Rider
+################
+
+.idea/
+
 
 #################
 ## Visual Studio
