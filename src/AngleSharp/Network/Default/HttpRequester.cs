@@ -29,6 +29,7 @@
         #region Fields
 
         private TimeSpan _timeOut;
+        private readonly Action<HttpWebRequest> _setup;
         private readonly Dictionary<String, String> _headers;
 
         #endregion
@@ -40,9 +41,11 @@
         /// in the info object.
         /// </summary>
         /// <param name="userAgent">The user-agent name to use, if any.</param>
-        public HttpRequester(String userAgent = null)
+        /// <param name="setup">An optional setup function for the HttpWebRequest object.</param>
+        public HttpRequester(String userAgent = null, Action<HttpWebRequest> setup = null)
         {
             _timeOut = new TimeSpan(0, 0, 0, 45);
+            _setup = setup ?? ((HttpWebRequest r) => { });
             _headers = new Dictionary<String, String>
             {
                 { HeaderNames.UserAgent, userAgent ?? AgentName }
@@ -101,7 +104,7 @@
         public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
             var cts = CreateTimeoutToken(_timeOut);
-            var cache = new RequestState(request, _headers);
+            var cache = new RequestState(request, _headers, _setup);
 
             using (cancellationToken.Register(cts.Cancel))
             {
@@ -143,7 +146,7 @@
             private readonly IRequest _request;
             private readonly Byte[] _buffer;
 
-            public RequestState(IRequest request, IDictionary<String, String> headers)
+            public RequestState(IRequest request, IDictionary<String, String> headers, Action<HttpWebRequest> setup)
             {
                 _cookies = new CookieContainer();
                 _headers = headers;
@@ -156,6 +159,7 @@
                 SetCookies();
                 AllowCompression();
                 DisableAutoRedirect();
+                setup.Invoke(_http);
             }
 
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
