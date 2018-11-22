@@ -1,3 +1,9 @@
+# 0.9.11.0
+
+- Prevent entity overflow (#716)
+- Fixed bug in URL parser (#711)
+- Include setup to configure default `HttpWebRequest` (#700)
+
 # 0.9.10.0
 
 - `ColSpan` default should be 1 (#689)
