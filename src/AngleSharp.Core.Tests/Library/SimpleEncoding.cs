@@ -13,6 +13,7 @@ namespace AngleSharp.Core.Tests.Library
     /// to be more specific: (*)/blob/master/encoding/test-yahoo-jp.dat
     /// </summary>
     [TestFixture]
+    [Platform(Exclude = "NetCore", Reason = "Encoding support is limited on netcore platform")]
     public class SimpleEncodingTests
     {
         private static IDocument NewDocument(String source)

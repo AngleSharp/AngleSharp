@@ -249,7 +249,14 @@ namespace AngleSharp.Core.Tests.Library
                 await context.OpenAsync(url);
                 var document = await context.OpenAsync(baseUrl);
 
-                Assert.AreEqual(@"{""cookies"":{""foo"":""bar"",""k1"":""v1"",""k2"":""v2"",""test"":""baz""}}
+                Assert.AreEqual(@"{
+  ""cookies"": {
+    ""foo"": ""bar"", 
+    ""k1"": ""v1"", 
+    ""k2"": ""v2"", 
+    ""test"": ""baz""
+  }
+}
 ".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
         }
@@ -260,13 +267,17 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var cookieUrl = "https://httpbin.org/cookies/set?test=baz";
-                var redirectUrl = "http://httpbin.org/redirect-to?url=http%3A%2F%2Fhttpbin.org%2Fcookies";
+                var redirectUrl = "https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org%2Fcookies";
                 var config = Configuration.Default.WithCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 await context.OpenAsync(cookieUrl);
                 var document = await context.OpenAsync(redirectUrl);
 
-                Assert.AreEqual(@"{""cookies"":{""test"":""baz""}}
+                Assert.AreEqual(@"{
+  ""cookies"": {
+    ""test"": ""baz""
+  }
+}
 ".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
         }
