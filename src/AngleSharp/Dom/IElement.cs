@@ -211,6 +211,16 @@
         Boolean Matches(String selectors);
 
         /// <summary>
+        /// Returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in the parameter.
+        /// </summary>
+        /// <param name="selectors">Represents the selector to test.</param>
+        /// <returns>
+        /// The closest ancestor of the current element (or the current element itself) which matches the selectors given. If there isn't such an ancestor, it returns null.
+        /// </returns>
+        [DomName("closest")]
+        IElement Closest(String selectors);
+
+        /// <summary>
         /// Gets or sets the inner HTML (excluding the current element) of the
         /// element.
         /// </summary>

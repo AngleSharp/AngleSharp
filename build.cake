@@ -52,60 +52,38 @@ Task("Restore-Packages")
     .Does(() =>
     {
         NuGetRestore("./src/AngleSharp.Core.sln", new NuGetRestoreSettings {
-            ToolPath = "tools/nuget_old.exe"
+            ToolPath = "tools/nuget.exe"
         });
-
-        if (!skipDotNetCore)
-        {
-            DotNetCoreRestore("./src/AngleSharp/project.json");
-        }
     });
 
 Task("Build")
     .IsDependentOn("Restore-Packages")
     .Does(() =>
     {
-        if (isRunningOnWindows)
-        {
-            MSBuild("./src/AngleSharp.Core.sln", new MSBuildSettings()
-                .SetConfiguration(configuration)
-                .SetPlatformTarget(PlatformTarget.MSIL)
-                .SetMSBuildPlatform(MSBuildPlatform.x86)
-                .SetVerbosity(Verbosity.Minimal)
-            );
-        }
-        else
-        {
-            XBuild("./src/AngleSharp.Core.sln", new XBuildSettings()
-                .SetConfiguration(configuration)
-                .SetVerbosity(Verbosity.Minimal)
-            );
-        }
-
-        if (!skipDotNetCore)
-        {
-            DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
-            {
-                Configuration = configuration
-            });
-        }
+        DotNetCoreBuild("./src/AngleSharp.Core.sln", new DotNetCoreBuildSettings() {
+           Configuration = configuration
+        });
     });
 
 Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var settings = new NUnit3Settings
+        var settings = new DotNetCoreTestSettings()
         {
-            Work = buildResultDir.Path.FullPath
+            Configuration = configuration
         };
 
         if (isRunningOnAppVeyor)
         {
-            settings.Where = "cat != ExcludeFromAppVeyor";
+            settings.TestAdapterPath = Directory(".");
+            settings.Logger = "Appveyor";
+            // TODO Finds a way to exclude tests not allowed to run on appveyor
+            // Not used in current code
+            //settings.Where = "cat != ExcludeFromAppVeyor";
         }
 
-        NUnit3("./src/**/bin/" + configuration + "/*.Tests.dll", settings);
+        DotNetCoreTest("./src/AngleSharp.Core.Tests/", settings);
     });
 
 Task("Copy-Files")
@@ -115,10 +93,7 @@ Task("Copy-Files")
         var mapping = new Dictionary<String, String>
         {
             { "net45", "net45" },
-            { "portable-windows8+net45+windowsphone8+wpa+monoandroid+monotouch", "portable45-net45+win8+wp8+wpa81" },
-            { "netstandard1.0", "netstandard1.0" },
-            { "net40", "net40" },
-            { "sl50", "sl5" },
+            { "netstandard2.0", "netstandard2.0" }
         };
 
         foreach (var item in mapping)
