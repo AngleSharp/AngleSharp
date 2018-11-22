@@ -16,7 +16,6 @@ using Octokit;
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var skipDotNetCore = Argument("skip-dotnet-core", "no") == "yes";
 var isLocal = BuildSystem.IsLocalBuild;
 var isRunningOnUnix = IsRunningOnUnix();
 var isRunningOnWindows = IsRunningOnWindows();
@@ -93,7 +92,6 @@ Task("Copy-Files")
     {
         var mapping = new Dictionary<String, String>
         {
-            { "net45", "net45" },
             { "netstandard2.0", "netstandard2.0" }
         };
 
