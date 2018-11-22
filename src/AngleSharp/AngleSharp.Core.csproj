@@ -214,6 +214,7 @@
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\TokenizerExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="Interfaces\Html\IHtmlMarqueeElement.cs" />
     <Compile Include="Network\CorsRequest.cs" />
     <Compile Include="Parser\Html\HtmlParseException.cs" />
     <Compile Include="Services\Default\AttributeSelectorFactory.cs" />
