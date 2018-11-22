@@ -2606,12 +2606,14 @@
         public static Boolean IsInvalidNumber(Int32 code)
         {
             /*
-             * Otherwise, if the number is in the range 0xD800 to 0xDFFF or is
-             * greater than 0x10FFFF, then this is a parse error. Return a U+FFFD
-             * REPLACEMENT CHARACTER.
+             * Otherwise, if the number is
+             *     in the range 0xD800 to 0xDFFF (surrogate Unicode zone)
+             *     or less than 0x0 or is greater than 0x10FFFF,
+             * then this is a parse error.
+             * Return a U+FFFD REPLACEMENT CHARACTER.
              */
 
-            return (code >= 0xD800 && code <= 0xDFFF) || (code > 0x10FFFF);
+            return (code >= 0xD800 && code <= 0xDFFF) || (code < 0x0) || (code > 0x10FFFF);
         }
 
         /// <summary>
