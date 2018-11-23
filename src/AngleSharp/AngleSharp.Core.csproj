@@ -3,14 +3,15 @@
   <PropertyGroup>
     <AssemblyName>AngleSharp</AssemblyName>
     <RootNamespace>AngleSharp</RootNamespace>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;net46</TargetFrameworks>
     <SignAssembly>true</SignAssembly>    
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.0"  />  
   </ItemGroup>
   
 </Project>

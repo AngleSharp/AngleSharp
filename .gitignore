@@ -33,6 +33,11 @@ local.properties
 
 .idea/
 
+################
+## VS Code
+################
+
+.vscode/
 
 #################
 ## Visual Studio

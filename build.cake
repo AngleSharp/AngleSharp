@@ -92,6 +92,7 @@ Task("Copy-Files")
     {
         var mapping = new Dictionary<String, String>
         {
+            { "net46", "net46" },
             { "netstandard2.0", "netstandard2.0" }
         };
 
