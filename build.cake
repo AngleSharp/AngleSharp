@@ -82,7 +82,7 @@ Task("Run-Unit-Tests")
             // Not used in current code
             //settings.Where = "cat != ExcludeFromAppVeyor";
         }
-        
+
         DotNetCoreTest("./src/AngleSharp.Core.Tests/", settings);
     });
 
@@ -135,7 +135,6 @@ Task("Create-Package")
 
 Task("Publish-Package")
     .IsDependentOn("Create-Package")
-    .WithCriteria(() => isLocal)
     .Does(() =>
     {
         var apiKey = EnvironmentVariable("NUGET_API_KEY");
@@ -157,7 +156,6 @@ Task("Publish-Package")
 
 Task("Publish-Release")
     .IsDependentOn("Publish-Package")
-    .WithCriteria(() => isLocal)
     .Does(() =>
     {
         var githubToken = EnvironmentVariable("GITHUB_API_TOKEN");

@@ -31,6 +31,7 @@
         #region Fields
 
         private TimeSpan _timeOut;
+        private readonly Action<HttpWebRequest> _setup;
         private readonly Dictionary<String, String> _headers;
 
         #endregion
@@ -42,9 +43,11 @@
         /// in the info object.
         /// </summary>
         /// <param name="userAgent">The user-agent name to use, if any.</param>
-        public DefaultHttpRequester(String userAgent = null)
+        /// <param name="setup">An optional setup function for the HttpWebRequest object.</param>
+        public DefaultHttpRequester(String userAgent = null, Action<HttpWebRequest> setup = null)
         {
             _timeOut = new TimeSpan(0, 0, 0, 45);
+            _setup = setup ?? ((HttpWebRequest r) => { });
             _headers = new Dictionary<String, String>
             {
                 { HeaderNames.UserAgent, userAgent ?? AgentName }
@@ -103,7 +106,7 @@
         protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancellationToken)
         {
             var cts = CreateTimeoutToken(_timeOut);
-            var cache = new RequestState(request, _headers);
+            var cache = new RequestState(request, _headers, _setup);
 
             using (cancellationToken.Register(cts.Cancel))
             {
@@ -119,7 +122,7 @@
         {
 #if NET40 || SL50
             var source = new CancellationTokenSource();
-            var timer = new Timer(self => 
+            var timer = new Timer(self =>
             {
                 ((Timer)self).Dispose();
 
@@ -146,7 +149,7 @@
             private readonly Request _request;
             private readonly Byte[] _buffer;
 
-            public RequestState(Request request, IDictionary<String, String> headers)
+            public RequestState(Request request, IDictionary<String, String> headers, Action<HttpWebRequest> setup)
             {
                 _cookies = new CookieContainer();
                 _headers = headers;
@@ -159,6 +162,7 @@
                 SetCookies();
                 AllowCompression();
                 DisableAutoRedirect();
+                setup.Invoke(_http);
             }
 
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)

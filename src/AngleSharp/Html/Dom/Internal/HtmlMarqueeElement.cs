@@ -8,7 +8,7 @@
     /// Represents the HTML marquee element.
     /// </summary>
     [DomHistorical]
-    sealed class HtmlMarqueeElement : HtmlElement
+    sealed class HtmlMarqueeElement : HtmlElement, IHtmlMarqueeElement
     {
         #region ctor
 

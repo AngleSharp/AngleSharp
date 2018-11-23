@@ -251,9 +251,9 @@ namespace AngleSharp.Core.Tests.Library
 
                 Assert.AreEqual(@"{
   ""cookies"": {
-    ""foo"": ""bar"", 
-    ""k1"": ""v1"", 
-    ""k2"": ""v2"", 
+    ""foo"": ""bar"",
+    ""k1"": ""v1"",
+    ""k2"": ""v2"",
     ""test"": ""baz""
   }
 }

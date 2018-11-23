@@ -182,5 +182,25 @@
             var url = new Url(baseUrl, relative);
             Assert.AreEqual("http://localhost:12345/signin", url.ToString());
         }
+
+        [Test]
+        public void NoIndexOutOfRangeExceptionParseSchemeIssue711()
+        {
+            var baseUrl = new Url("http://some.domain.com");
+            var relative = "http:";
+            var url = new Url(baseUrl, relative);
+            Assert.IsTrue(url.IsInvalid);
+            Assert.AreEqual("http://some.domain.com/", url.ToString());
+        }
+
+        [Test]
+        public void InvalidRelativeUrlAsDifferentProtocolScheme()
+        {
+            var baseUrl = new Url("http://some.domain.com");
+            var relative = "https:";
+            var url = new Url(baseUrl, relative);
+            Assert.IsFalse(url.IsInvalid);
+            Assert.AreEqual("https:///", url.ToString());
+        }
     }
 }
