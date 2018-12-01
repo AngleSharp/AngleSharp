@@ -96,6 +96,10 @@ Task("Copy-Files")
             { "netstandard2.0", "netstandard2.0" }
         };
 
+        if(!isRunningOnWindows) {
+            mapping.Remove("net46");
+        }
+
         foreach (var item in mapping)
         {
             var targetDir = nugetRoot + Directory("lib") + Directory(item.Key);
