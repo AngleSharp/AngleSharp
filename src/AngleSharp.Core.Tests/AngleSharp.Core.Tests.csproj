@@ -1,148 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFrameworks>net462;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj" />
+    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">
+      <TargetFramework>netstandard2.0</TargetFramework>
+    </ProjectReference>
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Include="Assets.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Assets.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Auxiliary\ConfigurationsExtensions.cs" />
-    <Compile Include="Css\Slickspeed.cs" />
-    <Compile Include="Css\WebsiteQuery.cs" />
-    <Compile Include="External\MemoryStreamExtensions.cs" />
-    <Compile Include="External\PageRequester.cs" />
-    <Compile Include="External\SiteMapping.cs" />
-    <Compile Include="Html\Adoption.cs" />
-    <Compile Include="Html\BasicRuleSet.cs" />
-    <Compile Include="Html\CData.cs" />
-    <Compile Include="Html\CompareDocumentPosition.cs" />
-    <Compile Include="Html\Doctype.cs" />
-    <Compile Include="Html\DomManipulation.cs" />
-    <Compile Include="Html\HtmlConstruction.cs" />
-    <Compile Include="Html\HtmlEntityServiceTests.cs" />
-    <Compile Include="Html\MainElement.cs" />
-    <Compile Include="Html\Namespace.cs" />
-    <Compile Include="Html\NoScript.cs" />
-    <Compile Include="Html\Rawtext.cs" />
-    <Compile Include="Html\RubyElement.cs" />
-    <Compile Include="Html\TreeConstruction.cs" />
-    <Compile Include="Html\Validation.cs" />
-    <Compile Include="Html\ValidityCheck.cs" />
-    <Compile Include="Html\ValidityPatternMismatch.cs" />
-    <Compile Include="Html\ValidityRangeOverflow.cs" />
-    <Compile Include="Html\ValidityRangeUnderflow.cs" />
-    <Compile Include="Html\ValidityStepMismatch.cs" />
-    <Compile Include="Html\ValidityTooLong.cs" />
-    <Compile Include="Html\ValidityTooShort.cs" />
-    <Compile Include="Html\ValidityValueMissing.cs" />
-    <Compile Include="Html\WillValidate.cs" />
-    <Compile Include="Library\ContextLoading.cs" />
-    <Compile Include="Library\CookieHandling.cs" />
-    <Compile Include="Library\DocumentCreation.cs" />
-    <Compile Include="Library\DocumentEncoding.cs" />
-    <Compile Include="Library\DOMTable.cs" />
-    <Compile Include="Library\Error.cs" />
-    <Compile Include="Library\FormatExtensions.cs" />
-    <Compile Include="Library\FormReset.cs" />
-    <Compile Include="Library\FormSetFieldValues.cs" />
-    <Compile Include="Library\ImageCandidates.cs" />
-    <Compile Include="Library\MeterElement.cs" />
-    <Compile Include="Library\PrettyMarkupPrinter.cs" />
-    <Compile Include="Mocks\MarkdownDocument.cs" />
-    <Compile Include="Mocks\MockIntegrityProvider.cs" />
-    <Compile Include="Mocks\VirtualRequester.cs" />
-    <Compile Include="Urls\MimeType.cs" />
-    <Compile Include="Library\MutationObserver.cs" />
-    <Compile Include="Library\OptionWithLabel.cs" />
-    <Compile Include="Library\PageImport.cs" />
-    <Compile Include="Css\QueryExtensions.cs" />
-    <Compile Include="Library\ShadowDom.cs" />
-    <Compile Include="Library\SimpleEncoding.cs" />
-    <Compile Include="Library\StringMap.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="Html\HtmlScript.cs" />
-    <Compile Include="Html\HtmlStyle.cs" />
-    <Compile Include="Css\CssSelector.cs" />
-    <Compile Include="Css\CssW3CSelector.cs" />
-    <Compile Include="Html\DOM.cs" />
-    <Compile Include="Html\HtmlComment.cs" />
-    <Compile Include="Html\ScriptData.cs" />
-    <Compile Include="Html\HtmlTable.cs" />
-    <Compile Include="Html\HtmlWithMathML.cs" />
-    <Compile Include="Html\HtmlWithSVG.cs" />
-    <Compile Include="Html\FosterParenting.cs" />
-    <Compile Include="Html\HtmlFormatting.cs" />
-    <Compile Include="Html\HtmlTemplate.cs" />
-    <Compile Include="Library\BasicConfiguration.cs" />
-    <Compile Include="Library\DOMEvents.cs" />
-    <Compile Include="Library\LiveCollection.cs" />
-    <Compile Include="Library\DOMExtensions.cs" />
-    <Compile Include="Library\HttpRequester.cs" />
-    <Compile Include="Library\AsyncParsing.cs" />
-    <Compile Include="Urls\Location.cs" />
-    <Compile Include="Library\OptimizationPool.cs" />
-    <Compile Include="Library\FormSubmit.cs" />
-    <Compile Include="Css\Priority.cs" />
-    <Compile Include="Library\BasicScripting.cs" />
-    <Compile Include="Library\TreeWalker.cs" />
-    <Compile Include="Library\NodeIterator.cs" />
-    <Compile Include="Library\DOMActions.cs" />
-    <Compile Include="Urls\Url.cs" />
-    <Compile Include="Urls\UrlValidation.cs" />
-    <Compile Include="Mocks\CallbackScriptEngine.cs" />
-    <Compile Include="Mocks\ContentScriptEngine.cs" />
-    <Compile Include="Mocks\DelayedStream.cs" />
-    <Compile Include="Mocks\DelayRequester.cs" />
-    <Compile Include="Mocks\DtdRequester.cs" />
-    <Compile Include="Mocks\EventReceiver.cs" />
-    <Compile Include="Mocks\FileEntry.cs" />
-    <Compile Include="Mocks\MockEntityProvider.cs" />
-    <Compile Include="Mocks\MockImageInfo.cs" />
-    <Compile Include="Mocks\MockRequester.cs" />
-    <Compile Include="Mocks\TestServerRequester.cs" />
-    <Compile Include="Mocks\ResourceService.cs" />
-    <Compile Include="Mocks\StandingEventLoop.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Library\CommonExtensions.cs" />
-    <Compile Include="Html\HtmlTokenization.cs" />
-    <Compile Include="Html\HtmlTree.cs" />
-    <Compile Include="Html\Quirksmode.cs" />
-    <Compile Include="Html\GumboParser.cs" />
-    <Compile Include="Html\Html5TestCom.cs" />
-    <Compile Include="Html\Tricky.cs" />
-    <Compile Include="Html\PlaintextUnsafe.cs" />
-    <Compile Include="Html\HtmlFragment.cs" />
-    <Compile Include="Html\HtmlEntity.cs" />
-    <Compile Include="Html\UserJsUnsafe.cs" />
-    <Compile Include="TestExtensions.cs" />
-    <Compile Include="Xhtml\PreserveValidXhtml.cs" />
-    <Compile Include="Xhtml\AutoSelectMarkupFormatter.cs" />
-    <Compile Include="Xml\XmlNamespace.cs" />
-    <Compile Include="Xml\XmlParsing.cs" />
-    <Compile Include="Xml\XmlSamples.cs" />
-    <Compile Include="Xml\XmlTokenization.cs" />
-    <Compile Include="Xml\XmlTree.cs" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="NUnit" Version="3.11.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
     <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
   </ItemGroup>
   

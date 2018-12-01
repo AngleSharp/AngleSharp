@@ -3,6 +3,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj" />
+    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">
+      <TargetFramework>netstandard2.0</TargetFramework>
+    </ProjectReference>
   </ItemGroup>
 </Project>

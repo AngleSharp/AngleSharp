@@ -1,16 +1,18 @@
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AngleSharp.Common;
+using AngleSharp.Core.Tests.Mocks;
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
+using AngleSharp.Io;
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
+
 namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp.Common;
-    using AngleSharp.Core.Tests.Mocks;
-    using AngleSharp.Dom;
-    using AngleSharp.Html.Dom;
-    using AngleSharp.Io;
-    using NUnit.Framework;
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     [TestFixture]
     public class CookieHandlingTests
     {
@@ -35,8 +37,11 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task PlainVersion1CookieIsCorrectlyTransformed()
         {
-            var cookie = await LoadDocumentWithCookie("FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102; Version=1");
-            Assert.AreEqual("$Version=1; FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102", cookie);
+            var cookie = await LoadDocumentWithCookie(
+                "FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102; Version=1");
+            Assert.AreEqual(
+                "$Version=1; FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102",
+                cookie);
         }
 
         [Test]
@@ -125,14 +130,16 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingMultipleExpiredCookieInRequestDoNotAppearInDocument()
         {
-            var cookie = await LoadDocumentWithCookie("cookie=expiring; Expires=Tue, 10 Nov 2009 23:00:00 GMT, foo=bar; Expires=Tue, 10 Nov 2009 23:00:00 GMT");
+            var cookie = await LoadDocumentWithCookie(
+                "cookie=expiring; Expires=Tue, 10 Nov 2009 23:00:00 GMT, foo=bar; Expires=Tue, 10 Nov 2009 23:00:00 GMT");
             Assert.AreEqual("", cookie);
         }
 
         [Test]
         public async Task SettingOneExpiredCookieAndAFutureCookieInRequestDoAppearInDocument()
         {
-            var cookie = await LoadDocumentWithCookie("cookie=expiring; Expires=Tue, 10 Nov 2009 23:00:00 GMT, foo=bar; Expires=Tue, 28 Jan 2025 13:37:00 GMT");
+            var cookie = await LoadDocumentWithCookie(
+                "cookie=expiring; Expires=Tue, 10 Nov 2009 23:00:00 GMT, foo=bar; Expires=Tue, 28 Jan 2025 13:37:00 GMT");
             Assert.AreEqual("foo=bar", cookie);
         }
 
@@ -143,8 +150,7 @@ namespace AngleSharp.Core.Tests.Library
             var config = Configuration.Default.WithCookies().WithMockRequester(req => request = req);
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res =>
-                res.Content("<a href=mockpage.html></a>").
-                    Address("http://localhost/"));
+                res.Content("<a href=mockpage.html></a>").Address("http://localhost/"));
 
             document.Cookie = "UserID=Foo";
             await document.QuerySelector<IHtmlAnchorElement>("a").NavigateAsync();
@@ -157,17 +163,12 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingNewCookieInSubsequentRequestDoesNotExpirePreviousCookies()
         {
-            var config = Configuration.Default.
-                WithCookies().
-                WithVirtualRequester(req => VirtualResponse.Create(
-                    res => res.Address("http://localhost/mockpage.html").
-                               Content("<div></div>").
-                               Cookie("Auth=Bar; Path=/")));
+            var config = Configuration.Default.WithCookies().WithVirtualRequester(req => VirtualResponse.Create(
+                res => res.Address("http://localhost/mockpage.html").Content("<div></div>")
+                    .Cookie("Auth=Bar; Path=/")));
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res =>
-                res.Content("<a href=mockpage.html></a>").
-                    Address("http://localhost/").
-                    Cookie("UserID=Foo; Path=/"));
+                res.Content("<a href=mockpage.html></a>").Address("http://localhost/").Cookie("UserID=Foo; Path=/"));
 
             document = await document.QuerySelector<IHtmlAnchorElement>("a").NavigateAsync();
 
@@ -177,16 +178,11 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingNoCookieInSubsequentRequestLeavesCookieSituationUnchanged()
         {
-            var config = Configuration.Default.
-                WithCookies().
-                WithVirtualRequester(req => VirtualResponse.Create(
-                    res => res.Address("http://localhost/mockpage.html").
-                               Content("<div></div>")));
+            var config = Configuration.Default.WithCookies().WithVirtualRequester(req => VirtualResponse.Create(
+                res => res.Address("http://localhost/mockpage.html").Content("<div></div>")));
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res =>
-                res.Content("<a href=mockpage.html></a>").
-                    Address("http://localhost/").
-                    Cookie("UserID=Foo"));
+                res.Content("<a href=mockpage.html></a>").Address("http://localhost/").Cookie("UserID=Foo"));
 
             document = await document.QuerySelector<IHtmlAnchorElement>("a").NavigateAsync();
 
@@ -218,7 +214,7 @@ namespace AngleSharp.Core.Tests.Library
                 var document = await context.OpenAsync(url);
                 var cookies = document.Cookie.Split(';').Select(m => m.Trim());
 
-                CollectionAssert.AreEquivalent(new[] { "k1=v1", "k2=v2" }, cookies);
+                CollectionAssert.AreEquivalent(new[] {"k1=v1", "k2=v2"}, cookies);
             }
         }
 
@@ -233,7 +229,7 @@ namespace AngleSharp.Core.Tests.Library
                 var document = await context.OpenAsync(url);
                 var cookies = document.Cookie.Split(';').Select(m => m.Trim());
 
-                CollectionAssert.AreEquivalent(new[] { "k1=v1", "k2=v2", "foo=bar", "test=baz" }, cookies);
+                CollectionAssert.AreEquivalent(new[] {"k1=v1", "k2=v2", "foo=bar", "test=baz"}, cookies);
             }
         }
 
@@ -249,7 +245,7 @@ namespace AngleSharp.Core.Tests.Library
                 await context.OpenAsync(url);
                 var document = await context.OpenAsync(baseUrl);
 
-                Assert.AreEqual(@"{
+                var expected = JObject.Parse(@"{
   ""cookies"": {
     ""foo"": ""bar"",
     ""k1"": ""v1"",
@@ -257,7 +253,9 @@ namespace AngleSharp.Core.Tests.Library
     ""test"": ""baz""
   }
 }
-".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
+");
+
+                Assert.AreEqual(expected.ToString(), JObject.Parse(document.Body.TextContent).ToString());
             }
         }
 
@@ -289,7 +287,8 @@ namespace AngleSharp.Core.Tests.Library
             var cookieValue = "test=true";
             var requestCount = 0;
             var imgCookie = String.Empty;
-            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Cookie(cookieValue));
+            var initial =
+                VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Cookie(cookieValue));
             await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
             {
                 var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
@@ -309,7 +308,8 @@ namespace AngleSharp.Core.Tests.Library
             var cookieValue = "test=true";
             var requestCount = 0;
             var imgCookie = String.Empty;
-            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Cookie(cookieValue));
+            var initial =
+                VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Cookie(cookieValue));
             await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
             {
                 var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
@@ -326,9 +326,11 @@ namespace AngleSharp.Core.Tests.Library
         public async Task CookieWithUTCTimeStampVariant1()
         {
             var content = "<!doctype html>";
-            var cookieValue = "fm=0; Expires=Wed, 03 Jan 2018 10:54:24 UTC; Path=/; Domain=.twitter.com; Secure; HTTPOnly";
+            var cookieValue =
+                "fm=0; Expires=Wed, 03 Jan 2018 10:54:24 UTC; Path=/; Domain=.twitter.com; Secure; HTTPOnly";
             var requestCount = 0;
-            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.twitter.com").Header(HeaderNames.SetCookie, cookieValue));
+            var initial = VirtualResponse.Create(m =>
+                m.Content(content).Address("http://www.twitter.com").Header(HeaderNames.SetCookie, cookieValue));
             var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
             {
                 var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
@@ -343,9 +345,11 @@ namespace AngleSharp.Core.Tests.Library
         public async Task CookieWithUTCTimeStampVariant2()
         {
             var content = "<!doctype html>";
-            var cookieValue = "ct0=cf2c3d61837dc0513fe9dfa8019a3af8; Expires=Wed, 03 Jan 2018 16:54:34 UTC; Path=/; Domain=.twitter.com; Secure";
+            var cookieValue =
+                "ct0=cf2c3d61837dc0513fe9dfa8019a3af8; Expires=Wed, 03 Jan 2018 16:54:34 UTC; Path=/; Domain=.twitter.com; Secure";
             var requestCount = 0;
-            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.twitter.com").Header(HeaderNames.SetCookie, cookieValue));
+            var initial = VirtualResponse.Create(m =>
+                m.Content(content).Address("http://www.twitter.com").Header(HeaderNames.SetCookie, cookieValue));
             var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
             {
                 var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
@@ -363,7 +367,8 @@ namespace AngleSharp.Core.Tests.Library
             var cookieValue = "test=true";
             var requestCount = 0;
             var imgCookie = String.Empty;
-            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Cookie(cookieValue));
+            var initial =
+                VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Cookie(cookieValue));
             await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
             {
                 var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
@@ -381,11 +386,12 @@ namespace AngleSharp.Core.Tests.Library
         {
             var config = Configuration.Default.WithDefaultLoader().WithCookies();
             var context = BrowsingContext.New(config);
-            var cookieValue = "FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102; Version=1";
+            var cookieValue =
+                "FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102; Version=1";
 
             var document = await context.OpenAsync(res => res.Content("<div></div>")
-                                        .Address("http://localhost/")
-                                        .Header(HeaderNames.SetCookie, cookieValue));
+                .Address("http://localhost/")
+                .Header(HeaderNames.SetCookie, cookieValue));
 
             await context.OpenAsync("http://localhost/");
         }
@@ -395,15 +401,18 @@ namespace AngleSharp.Core.Tests.Library
         {
             var mcp = new MemoryCookieProvider();
             var url = Url.Create("http://www.example.com");
-            mcp.SetCookie(url, "c-s=expires=1531601411~access=/clientimg/richmond/*!/content/richmond/*~md5=c56447496f01a9cd01bbec1b3a293357; path=/; secure");
+            mcp.SetCookie(url,
+                "c-s=expires=1531601411~access=/clientimg/richmond/*!/content/richmond/*~md5=c56447496f01a9cd01bbec1b3a293357; path=/; secure");
         }
 
-        private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse, Func<Request, IResponse> onRequest)
+        private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse,
+            Func<Request, IResponse> onRequest)
         {
             var requester = new MockRequester();
             requester.BuildResponse(onRequest);
-            var config = Configuration.Default.With(requester).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true).WithCookies();
-            return BrowsingContext.New(config).OpenAsync(initialResponse, System.Threading.CancellationToken.None);
+            var config = Configuration.Default.With(requester)
+                .WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true).WithCookies();
+            return BrowsingContext.New(config).OpenAsync(initialResponse, CancellationToken.None);
         }
 
         private static async Task<IDocument> LoadDocumentAloneWithCookie(String cookieValue)
@@ -411,9 +420,7 @@ namespace AngleSharp.Core.Tests.Library
             var config = Configuration.Default.WithCookies();
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res =>
-                res.Content("<div></div>").
-                    Address("http://localhost/").
-                    Header(HeaderNames.SetCookie, cookieValue));
+                res.Content("<div></div>").Address("http://localhost/").Header(HeaderNames.SetCookie, cookieValue));
 
             return document;
         }

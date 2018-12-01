@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject />
@@ -10,7 +10,9 @@
   <ItemGroup>
     <ProjectReference Include="..\AngleSharp.Performance.Common\AngleSharp.Performance.Common.csproj" />
     <ProjectReference Include="..\AngleSharp.Performance.Utilities\AngleSharp.Performance.Utilities.csproj" />
-    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj" />
+    <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">
+      <TargetFramework>netstandard2.0</TargetFramework>
+    </ProjectReference>
   </ItemGroup>
   
   <ItemGroup>
