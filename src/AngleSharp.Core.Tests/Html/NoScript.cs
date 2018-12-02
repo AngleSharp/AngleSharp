@@ -1,13 +1,11 @@
 namespace AngleSharp.Core.Tests.Html
 {
     using NUnit.Framework;
-    using Scripting;
 
     [TestFixture]
     public class NoScriptTests
     {
         [Test]
-        [Ignore("Temp fix")]
         public void NoScriptEatsTooMuch_Issue681()
         {
             var html = @"<!DOCTYPE html>
@@ -21,7 +19,7 @@ height=""0"" width=""0"" style=""display:none;visibility:hidden""></iframe></nos
 <link rel=""search"" type=""application/opensearchdescription+xml"" href=""https://www.k-rauta.ee/search/opensearch.xml"" title=""k-rauta.ee"" />
 </head>
 <body class='krauta_ee'></body></html>";
-            var document = html.ToHtmlDocument(Configuration.Default.WithScripts(default(IScriptingService)));
+            var document = html.ToHtmlDocument(Configuration.Default.WithScripting());
             var elements = document.QuerySelectorAll("head link[href]");
             Assert.AreEqual(4, elements.Length);
         }
