@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -13,6 +13,17 @@
         /// Gets or sets if the document is embedded.
         /// </summary>
         public Boolean IsEmbedded
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets if frames should not be supported.
+        /// Once set this will ignore frame elements and
+        /// respect noframes elements.
+        /// </summary>
+        public Boolean IsNotSupportingFrames
         {
             get;
             set;

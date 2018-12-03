@@ -177,7 +177,7 @@ namespace AngleSharp.Html.Parser
             {
                 _tokenizer.State = HtmlParseMode.RCData;
             }
-            else if (tagName.IsOneOf(TagNames.Style, TagNames.Xmp, TagNames.Iframe, TagNames.NoEmbed, TagNames.NoFrames))
+            else if (tagName.IsOneOf(TagNames.Style, TagNames.Xmp, TagNames.Iframe, TagNames.NoEmbed))
             {
                 _tokenizer.State = HtmlParseMode.Rawtext;
             }
@@ -190,6 +190,10 @@ namespace AngleSharp.Html.Parser
                 _tokenizer.State = HtmlParseMode.Plaintext;
             }
             else if (tagName.Is(TagNames.NoScript) && options.IsScripting)
+            {
+                _tokenizer.State = HtmlParseMode.Rawtext;
+            }
+            else if (tagName.Is(TagNames.NoFrames) && !options.IsNotSupportingFrames)
             {
                 _tokenizer.State = HtmlParseMode.Rawtext;
             }
@@ -627,9 +631,28 @@ namespace AngleSharp.Html.Parser
                         RCDataAlgorithm(token.AsTag());
                         return;
                     }
-                    else if (tagName.IsOneOf(TagNames.Style, TagNames.NoFrames) || (_options.IsScripting && tagName.Is(TagNames.NoScript)))
+                    else if (tagName.Is(TagNames.Style))
                     {
                         RawtextAlgorithm(token.AsTag());
+                        return;
+                    }
+                    else if (_options.IsScripting && tagName.Is(TagNames.NoScript))
+                    {
+                        RawtextAlgorithm(token.AsTag());
+                        return;
+                    }
+                    else if (tagName.Is(TagNames.NoFrames))
+                    {
+                        if (_options.IsNotSupportingFrames)
+                        {
+                            AddElement(token.AsTag());
+                            _currentMode = HtmlTreeMode.InBody;
+                        }
+                        else
+                        {
+                            RawtextAlgorithm(token.AsTag());
+                        }
+
                         return;
                     }
                     else if (tagName.Is(TagNames.NoScript))
@@ -2421,7 +2444,15 @@ namespace AngleSharp.Html.Parser
                     }
                     else if (tagName.Is(TagNames.Frame))
                     {
-                        AddElement(new HtmlFrameElement(_document), token.AsTag(), acknowledgeSelfClosing: true);
+                        if (_options.IsNotSupportingFrames)
+                        {
+                            AddElement(new HtmlUnknownElement(_document, tagName), token.AsTag());
+                        }
+                        else
+                        {
+                            AddElement(new HtmlFrameElement(_document), token.AsTag(), acknowledgeSelfClosing: true);
+                        }
+
                         CloseCurrentNode();
                     }
                     else if (tagName.Is(TagNames.NoFrames))

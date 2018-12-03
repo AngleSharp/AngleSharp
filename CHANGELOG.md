@@ -26,6 +26,7 @@
 - Exposed the `ILinkRelationFactory` interface and default implementation
 - Exposed the `IInputTypeFactory` interface and default implementation
 - Reordered events for requesters and parsers
+- Added support for parsing `noframes` (#631)
 
 # 0.9.11.0
 
