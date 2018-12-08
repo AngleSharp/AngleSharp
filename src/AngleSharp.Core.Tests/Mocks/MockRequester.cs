@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Mocks
+namespace AngleSharp.Core.Tests.Mocks
 {
     using AngleSharp.Io;
     using System;
@@ -36,6 +36,21 @@
         public void BuildResponse(Func<Request, IResponse> answer)
         {
             _answer = answer;
+        }
+
+        public void BuildResponses(IEnumerable<Func<Request, IResponse>> answers)
+        {
+            var enumerator = answers.GetEnumerator();
+            _answer = req =>
+            {
+                if (!enumerator.MoveNext())
+                {
+                    var content = new MemoryStream(Encoding.UTF8.GetBytes(String.Empty));
+                    return new DefaultResponse { Address = req.Address, Content = content, StatusCode = System.Net.HttpStatusCode.NotFound };
+                }
+
+                return enumerator.Current(req);
+            };
         }
 
         public IResponse Request(Request request)

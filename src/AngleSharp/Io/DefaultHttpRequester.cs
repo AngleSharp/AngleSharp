@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Common;
     using AngleSharp.Text;
@@ -316,7 +316,10 @@
 
                 foreach (var header in _request.Headers)
                 {
-                    AddHeader(header.Key, header.Value);
+                    if (!header.Key.Is(HeaderNames.Cookie))
+                    {
+                        AddHeader(header.Key, header.Value);
+                    }
                 }
             }
 

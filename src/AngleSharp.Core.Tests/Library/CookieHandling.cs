@@ -405,6 +405,57 @@ namespace AngleSharp.Core.Tests.Library
                 "c-s=expires=1531601411~access=/clientimg/richmond/*!/content/richmond/*~md5=c56447496f01a9cd01bbec1b3a293357; path=/; secure");
         }
 
+        [Test]
+        public void DataUrlShouldNotDeliverAnyCookie_Issue702()
+        {
+            var mcp = new MemoryCookieProvider();
+            var url = Url.Create("data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=");
+            var cookie = mcp.GetCookie(url);
+            Assert.IsEmpty(cookie);
+        }
+
+        [Test]
+        public void NoOriginShouldNotDeliverAnyCookie_Issue702()
+        {
+            var mcp = new MemoryCookieProvider();
+            var url = new Url("");
+            var cookie = mcp.GetCookie(url);
+            Assert.IsEmpty(cookie);
+        }
+
+        [Test]
+        public void ShouldChangeSelectedCookiesOnRedirect_Issue548()
+        {
+            var requester = new MockRequester();
+            var mcp = new MemoryCookieProvider();
+            var config = Configuration.Default.With(mcp).With(requester).WithDefaultLoader();
+            var context = BrowsingContext.New(config);
+            var receivedCookieHeader = "THECOOKIE=value1";
+            var url = new Url("http://example.com/path1");
+            //request 1: /path1, set a cookie THECOOKIE=value1
+            requester.BuildResponse(req => VirtualResponse.Create(r => r
+                .Address("http://example.com/path1")
+                .Content("")
+                .Header(HeaderNames.SetCookie, receivedCookieHeader)));
+            context.OpenAsync("http://example.com/path1");
+            //request 2: /path1/somefile.jsp redirects to /path2/file2.jsp
+            requester.BuildResponses(new Func<Request, IResponse>[] {
+                req => VirtualResponse.Create(r => r
+                    .Address("http://example.com/path1/somefile.jsp")
+                    .Content("")
+                    .Status(System.Net.HttpStatusCode.Redirect)
+                    .Header(HeaderNames.Location, "http://example.com/path2/file2.jsp")),
+                req => {
+                    receivedCookieHeader = req.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
+                    return VirtualResponse.Create(r => r
+                    .Address("http://example.com/path2/file2.jsp")
+                    .Content(""));
+                }
+            });
+            context.OpenAsync("http://example.com/path1/somefile.jsp");
+            Assert.AreEqual(String.Empty, receivedCookieHeader);
+        }
+
         private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse,
             Func<Request, IResponse> onRequest)
         {
