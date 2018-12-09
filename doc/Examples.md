@@ -23,7 +23,7 @@ var source = @"
 // Create a new parser front-end (can be re-used)
 var parser = new HtmlParser();
 //Just get the DOM representation
-var document = parser.Parse(source);
+var document = parser.ParseDocument(source);
 
 //Serialize it back to the console
 Console.WriteLine(document.DocumentElement.OuterHtml);
@@ -39,7 +39,7 @@ AngleSharp constructs a DOM according to the official HTML5 specification. This 
 static void FirstExample()
 {
     var parser = new HtmlParser();
-    var document = parser.Parse("<h1>Some example source</h1><p>This is a paragraph element");
+    var document = parser.ParseDocument("<h1>Some example source</h1><p>This is a paragraph element");
     //Do something with document like the following
 
     Console.WriteLine("Serializing the (original) document:");
@@ -66,7 +66,7 @@ AngleSharp exposes all DOM lists as `IEnumerable<T>` like `IEnumerable<Node>` fo
 static void UsingLinq()
 {
     var parser = new HtmlParser();
-    var document = parser.Parse("<ul><li>First item<li>Second item<li class='blue'>Third item!<li class='blue red'>Last item!</ul>");
+    var document = parser.ParseDocument("<ul><li>First item<li>Second item<li class='blue'>Third item!<li class='blue red'>Last item!</ul>");
 
     //Do something with LINQ
     var blueListItemsLinq = document.All.Where(m => m.LocalName == "li" && m.ClassList.Contains("blue"));
@@ -111,7 +111,7 @@ Let's see some sample code:
 static void SingleElements()
 {
     var parser = new HtmlParser();
-    var document = parser.Parse("<b><i>This is some <em> bold <u>and</u> italic </em> text!</i></b>");
+    var document = parser.ParseDocument("<b><i>This is some <em> bold <u>and</u> italic </em> text!</i></b>");
     var emphasize = document.QuerySelector("em");
 
     Console.WriteLine("Difference between several ways of getting text:");
@@ -119,7 +119,7 @@ static void SingleElements()
     Console.WriteLine("Only from C# / AngleSharp:");
     Console.WriteLine();
     Console.WriteLine(emphasize.ToHtml());   //<em> bold <u>and</u> italic </em>
-    Console.WriteLine(emphasize.Text());   //boldanditalic
+    Console.WriteLine(emphasize.Text());   // bold and italic
 
     Console.WriteLine();
     Console.WriteLine("From the DOM:");
@@ -160,7 +160,7 @@ static void SimpleScriptingSample()
         document.write('<span class=greeting>Hello World!</span>');
         </script>
         </body>";
-    var document = parser.Parse(source);
+    var document = parser.ParseDocument(source);
 
     //Modified HTML will be output
     Console.WriteLine(document.DocumentElement.OuterHtml);
@@ -218,7 +218,7 @@ static void ExtendedScriptingSample()
         })();
         </script>
         </body>";
-    var document = parser.Parse(source);
+    var document = parser.ParseDocument(source);
 
     //HTML will have changed completely (e.g., no more script element)
     Console.WriteLine(document.DocumentElement.OuterHtml);
@@ -262,7 +262,7 @@ public static void EventScriptingExample()
         console.log('After setting the handler!');
         </script>
         </body>";
-    var document = parser.Parse(source);
+    var document = parser.ParseDocument(source);
 
     //HTML should be output in the end
     Console.WriteLine(document.DocumentElement.OuterHtml);
