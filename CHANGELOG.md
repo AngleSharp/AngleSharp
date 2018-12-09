@@ -1,5 +1,7 @@
 # 0.10.0
 
+Planned for Monday, December 24 2018.
+
 - Removed CSS parser from AngleSharp.Core (#139)
 - Improvements to CSS selector evaluation (#352, #550)
 - Fixed bug in `location.assign` (#496)
@@ -39,11 +41,15 @@
 
 # 0.9.11.0
 
+Released on Friday, November 23 2018.
+
 - Prevent entity overflow (#716)
 - Fixed bug in URL parser (#711)
 - Include setup to configure default `HttpWebRequest` (#700)
 
 # 0.9.10.0
+
+Released on Sunday, July 15 2018.
 
 - `ColSpan` default should be 1 (#689)
 - `RowSpan` default should be 1 (#688)
@@ -53,12 +59,16 @@
 
 # 0.9.9.2
 
+Released on Tuesday, March 13 2018.
+
 - Provided `Tokenize` extension method for `TextSource` (#636)
 - Replaced Conditional Weak Table for performance gains (#637)
 - Fixed a bug for non-Unicode characters to stop parsing (#590)
 - Fixed weird `iframe` behavior to self-load (#581)
 
 # 0.9.9.1
+
+Released on Wednesday, January 3 2017.
 
 - Fixed build (#566)
 - Several bugfixes (#587, see: #491, #406, #512, and #544)
@@ -74,6 +84,8 @@
 
 # 0.9.9.0
 
+Released on Friday, October 7 2016.
+
 - Attribute API refinements (#422)
 - Cookies are now sent for all requests (#420)
 - Fixed DOM attribute name culture bug (#419)
@@ -88,11 +100,15 @@
 
 # 0.9.8.1
 
+Released on Saturday, September 10 2016.
+
 - Added parsing callback (e.g., to retrieve line number) (#374)
 - Exposed the original `Source` in documents (#396)
 - Fixed a crash during redirects for requesters (#394)
 
 # 0.9.8.0
+
+Released on Saturday, September 3 2016.
 
 - Improved the `HttpRequester` (#387)
 - Extended the `CookieContainer` (#385)
@@ -108,6 +124,8 @@
 
 # 0.9.7.0
 
+Released on Sunday, July 17 2016.
+
 - Fixed some bugs (#343, #325, #341, #347, #355, #358)
 - Improved cookie handling (#280, #274, #365)
 - Added a document factory (#331)
@@ -118,6 +136,8 @@
 - Enhanced CoreCLR support (#270, #362)
 
 # 0.9.6.0
+
+Released on Thursday, May 5 2016.
 
 - Fixed some bugs (#304, #295, #286)
 - Provide XHTML markup formatter (#128, #313)
@@ -131,6 +151,8 @@
 - React to attributes containing event handlers (#190)
 
 # 0.9.5.0
+
+Released on Wednesday, March 16 2016.
 
 - Fixed some bugs (#282, #273, #266, #260, #256, #250, #243, #234, #230, #229, #223, #208)
 - Added missing `bottom` CSS property (#253)
@@ -146,6 +168,8 @@
 
 # 0.9.4.0
 
+Released on Wednesday, December 30 2015.
+
 - Added the link relation factory (#174)
 - Fixed a bug related to `document.write` (#173)
 - Delay document loading for resources (#178)
@@ -158,12 +182,16 @@
 
 # 0.9.3.0
 
+Released on Thursday, October 8 2015.
+
 - Important bugfixes (#160, #161, #162, #165, #170)
 - XML parser enhancements
 - Ability to provide custom entities
 - Fixed `CompareDocumentPosition` (#168)
 
 # 0.9.2.0
+
+Released on Thursday, September 24 2015.
 
 - Some bugfixes (#150)
 - XML parser enhancement (#144)
@@ -173,6 +201,8 @@
 
 # 0.9.1.0
 
+Released on Wednesday, September 9 2015.
+
 - Content of `iframe` can be set
 - Default `IEventLoop` provided
 - Improved the `HttpRequester`
@@ -181,6 +211,8 @@
 - Parse CSS Unicode escapes
 
 # 0.9.0.0
+
+Released on Wednesday, August 27 2015.
 
 - Implemented `srcset` attribute
 - Implemented `picture` element
@@ -192,6 +224,8 @@
 
 # 0.8.9.0
 
+Released on Wednesday, July 29 2015.
+
 - Improved resource fetching
 - Fixed waiting mechanism
 - Fixed form submission (avoid initial empty line)
@@ -202,16 +236,22 @@
 
 # 0.8.8.0
 
+Released on Wednesday, July 22 2015.
+
 - Fixed a bug in the `HtmlDomBuilder`
 - Adjusted CSSOM for tolerating unknown rules
 - Parser enhancements
 
 # 0.8.7.0
 
+Released on Wednesday, July 15 2015.
+
 - CSS parser more flexible
 - Allow inline styles to be customized
 
 # 0.8.6.0
+
+Released on Wednesday, July 8 2015.
 
 - Owner's are now weakly referenced
 - The CSS parser supports unknown parsing
@@ -226,6 +266,8 @@
 
 # 0.8.5.0
 
+Released on Wednesday, June 17 2015.
+
 - Fixed CSS property parsing
 - Implemented new CSS value converters
 - Fixed some cookie issues
@@ -235,6 +277,8 @@
 - Fixed CSS twisted comment issue
 
 # 0.8.4.0
+
+Released on Wednesday, June 3 2015.
 
 - Added ability to wait for outstanding requests
 - Fixed missing dashes in hostnames
@@ -248,6 +292,8 @@
 
 # 0.8.3.0
 
+Released on Wednesday, April 22 2015.
+
 - `PrettyMarkupFormatter` for readable output
 - Add some missing `ConfigureAwait(false)` calls
 - Included virtual response callback for the context
@@ -258,6 +304,8 @@
 - Fixed smaller issues
 
 # 0.8.2.0
+
+Released on Wednesday, April 15 2015.
 
 - `DocumentBuilder` declared obsolete
 - Fixed bugs in DOM methods
@@ -274,12 +322,16 @@
 
 # 0.8.1.0
 
+Released on Tuesday, February 10 2015.
+
 - `IsInvalid` of `Url` corrected
 - Included .NET 4 version in the NuGet package
 - Included Silverlight version in the NuGet package
 - Fixed a few smaller bugs
 
 # 0.8.0.0
+
+Released on Monday, February 02 2015.
 
 - Major encoding improvements
 - DOM ranges are (weakly) connected and updated
@@ -299,6 +351,8 @@
 
 # 0.7.0.0
 
+Released on Saturday, November 08 2014.
+
 - Native (callback based) asynchronous parsing
 - Interfaces for resource loading defined
 - Browsing context available / creation possible
@@ -309,6 +363,8 @@
 
 # 0.6.1.0
 
+Released on Thursday, August 21 2014.
+
 - Minor bug fixes
 - DOM Events
 - Configuration improved
@@ -318,6 +374,8 @@
 - Scripting and styling interfaces
 
 # 0.6.0.0
+
+Released on Sunday, July 27 2014.
 
 - Refactored DOM model
 - Window implementation
@@ -333,6 +391,8 @@
 
 # 0.5.1.0
 
+Released on Tuesday, May 27 2014.
+
 - Finished CSS properties
 - CSS parser update
 - Media rules implemented
@@ -341,6 +401,8 @@
 - Extended DocumentBuilder
 
 # 0.5.0.0
+
+Released on Monday, April 21 2014.
 
 - Support for Legacy version of AngleSharp
 - Updated styling
@@ -354,12 +416,16 @@
 
 # 0.4.0.0
 
+Released on Thursday, November 21 2013.
+
 - DTD parsing improved
 - Rewritten CSS parser
 - More methods and DOM completeness
 - XML validation
 
 # 0.3.7.0
+
+Released on Wednesday, September 11 2013.
 
 - Namespaces fully included
 - Doctype improved
@@ -369,6 +435,8 @@
 - CSS functions added
 
 # 0.3.6.0
+
+Released on Tuesday, September 03 2013.
 
 - Performance improvements
 - Fixed CSS selector
@@ -380,6 +448,8 @@
 
 # 0.3.5.0
 
+Released on Thursday, August 29 2013.
+
 - Finished template implementation
 - MathML and SVG elements
 - More annotations
@@ -388,12 +458,16 @@
 
 # 0.3.4.0
 
+Released on Monday, August 26 2013.
+
 - More DOM properties
 - Hyper reference normalization
 - Introduced template element
 - Polish API
 
 # 0.3.3.0
+
+Released on Wednesday, August 21 2013.
 
 - Fixed double escaped script content
 - DOM extensions
@@ -402,12 +476,16 @@
 
 # 0.3.2.0
 
+Released on Sunday, August 18 2013.
+
 - Fixed parser bugs
 - Improved entity retrieval
 - Extended CDATA parsing
 - Improved fragment parsing
 
 # 0.3.1.0
+
+Released on Wednesday, August 14 2013.
 
 - Improved character parsing
 - Cleanup
@@ -416,6 +494,8 @@
 
 # 0.3.0.0
 
+Released on Thursday, July 18 2013.
+
 - Included XmlParser
 - DTD parsing
 - Added IOC container
@@ -423,12 +503,16 @@
 
 # 0.2.9.0
 
+Released on Wednesday, July 10 2013.
+
 - Fixed GetElementsByName
 - Improved GetElementsByTagName
 - Converted to PCL project
 - Updated Children property
 
 # 0.2.8.0
+
+Released on Wednesday, July 03 2013.
 
 - Binding capabilities
 - CSS parser update
@@ -438,11 +522,15 @@
 
 # 0.2.7.0
 
+Released on Wednesday, June 26 2013.
+
 - Updated CSS serialization
 - Intermediate objects
 - More DOM attributes
 
 # 0.2.6.0
+
+Released on Wednesday, June 19 2013.
 
 - Improved API
 - QuerySelector implementation
@@ -450,30 +538,42 @@
 
 # 0.2.5.0
 
+Released on Tuesday, June 18 2013.
+
 - HTML element re-ordering
 - Extended documentation
 - HtmlColor structure
 
 # 0.2.4.0
 
+Released on Sunday, June 16 2013.
+
 - Faster CSS parser
 - Initial CSS parser release
 
 # 0.2.3.0
+
+Released on Wednesday, June 12 2013.
 
 - StyleSheet integration
 - Ignore unknown CSS rules
 
 # 0.2.2.0
 
+Released on Sunday, June 09 2013.
+
 - Updated documentation
 - Fixed parsing bug
 
 # 0.2.1.0
 
+Released on Sunday, June 09 2013.
+
 - XML documentation
 - Merged DocumentBuilder and NodeBuilder
 
 # 0.2.0.0
+
+Released on Wednesday, June 05 2013.
 
 - Initial release

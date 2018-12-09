@@ -10,11 +10,11 @@
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The included parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code and ensures compatibility with results in evergreen browsers. Also standard DOM features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
-:zap: :zap: :zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10**? Look at our [migration documentation](doc/Migration.md).
+:zap::zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10**? Look at our [migration documentation](doc/Migration.md). :zap::zap:
 
 ## Key Features
 
-- **Portable** (designed as a PCL - supporting .NET Standard 1.0)
+- **Portable** (using .NET Standard 2.0)
 - **Standards conform** (works exactly as evergreen browsers)
 - **Great performance** (outperforms similar parsers in most scenarios)
 - **Extensible** (extend with your own services)
@@ -108,6 +108,8 @@ The project is always searching for additional contributors. Even if you do not 
 
 More information is found in the [contribution guidelines](.github/CONTRIBUTING.md). We also have a [code of conduct](.github/CODE_OF_CONDUCT.md) that we take serious.
 
+All contributors can be found [in the CONTRIBUTORS](CONTRIBUTORS.md) file.
+
 ## Development
 
 AngleSharp is written in C# 6 and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2017+ is recommended on Windows. Alternatively, VSCode with OmniSharp should be the tool of choice on other platforms.
@@ -119,6 +121,10 @@ The code tries to be as clean as possible. Notably the following rules are used:
 - Use VIP ("Var If Possible") style (in C++ called AAA: Almost Always Auto) to place types on the right
 
 More important, however, is the proper usage of tests. Any new feature should come with a set of tests to cover the functionality and prevent regression.
+
+## Changelog
+
+A very detailed [changelog](CHANGELOG.md) exists. If you are just interested in major releases then have a look at [our documentation](doc/Releases.md).
 
 ## License
 
