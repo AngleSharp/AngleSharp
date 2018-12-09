@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Browser
+namespace AngleSharp.Browser
 {
     using System;
 
@@ -72,6 +72,10 @@
         /// This flag prevents content from using the document.domain feature to change
         /// the effective script origin.
         /// </summary>
-        DocumentDomain = 0x400
+        DocumentDomain = 0x400,
+        /// <summary>
+        /// This flag allows the sandboxed content to run presentational content.
+        /// </summary>
+        Presentation = 0x800,
     }
 }

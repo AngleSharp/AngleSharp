@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -46,6 +46,18 @@
         /// </summary>
         [DomName("allowFullscreen")]
         Boolean IsFullscreenAllowed { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the frame's content can trigger a payment request.
+        /// </summary>
+        [DomName("allowPaymentRequest")]
+        Boolean IsPaymentRequestAllowed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the frame's referrer policy.
+        /// </summary>
+        [DomName("referrerPolicy")]
+        String ReferrerPolicy { get; set; }
 
         /// <summary>
         /// Gets or sets the display width of the frame.

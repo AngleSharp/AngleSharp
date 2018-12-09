@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -62,6 +62,18 @@
         {
             get { return this.GetBoolAttribute(AttributeNames.AllowFullscreen); }
             set { this.SetBoolAttribute(AttributeNames.AllowFullscreen, value); }
+        }
+
+        public Boolean IsPaymentRequestAllowed
+        {
+            get { return this.GetBoolAttribute(AttributeNames.AllowPaymentRequest); }
+            set { this.SetBoolAttribute(AttributeNames.AllowPaymentRequest, value); }
+        }
+
+        public String ReferrerPolicy
+        {
+            get { return this.GetOwnAttribute(AttributeNames.ReferrerPolicy); }
+            set { this.SetOwnAttribute(AttributeNames.ReferrerPolicy, value); }
         }
 
         public IWindow ContentWindow

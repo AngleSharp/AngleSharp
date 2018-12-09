@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Text
+namespace AngleSharp.Text
 {
     using AngleSharp.Attributes;
     using AngleSharp.Browser;
@@ -129,11 +129,12 @@
             if (!values.Contains("allow-scripts", StringComparison.OrdinalIgnoreCase))
             {
                 output |= Sandboxes.Scripts;
+                output |= Sandboxes.AutomaticFeatures;
             }
 
-            if (!values.Contains("allow-scripts", StringComparison.OrdinalIgnoreCase))
+            if (!values.Contains("allow-presentation", StringComparison.OrdinalIgnoreCase))
             {
-                output |= Sandboxes.AutomaticFeatures;
+                output |= Sandboxes.Presentation;
             }
 
             if (!allowFullscreen)

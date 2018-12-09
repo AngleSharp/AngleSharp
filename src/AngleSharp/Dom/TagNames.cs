@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.Collections.Generic;
@@ -200,17 +200,17 @@
         public static readonly String Table = "table";
 
         /// <summary>
-        /// The dialog tag.
+        /// The thead tag.
         /// </summary>
         public static readonly String Thead = "thead";
 
         /// <summary>
-        /// The dialog tag.
+        /// The tbody tag.
         /// </summary>
         public static readonly String Tbody = "tbody";
 
         /// <summary>
-        /// The dialog tag.
+        /// The tfoot tag.
         /// </summary>
         public static readonly String Tfoot = "tfoot";
 

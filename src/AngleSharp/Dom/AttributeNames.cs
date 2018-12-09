@@ -348,6 +348,11 @@ namespace AngleSharp.Dom
         public static readonly String AllowFullscreen = "allowfullscreen";
 
         /// <summary>
+        /// The allowpaymentrequest attribute.
+        /// </summary>
+        public static readonly String AllowPaymentRequest = "allowpaymentrequest";
+
+        /// <summary>
         /// The data attribute.
         /// </summary>
         public static readonly String Data = "data";
@@ -416,6 +421,11 @@ namespace AngleSharp.Dom
         /// The colspan attribute.
         /// </summary>
         public static readonly String ColSpan = "colspan";
+
+        /// <summary>
+        /// The referrerpolicy attribute.
+        /// </summary>
+        public static readonly String ReferrerPolicy = "referrerpolicy";
 
         /// <summary>
         /// The rowspan attribute.
