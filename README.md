@@ -2,11 +2,15 @@
 
 # AngleSharp
 
+[![GitHub tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/releases)
 [![Build Status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp)
 [![NuGet Count](https://img.shields.io/nuget/v/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
 [![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
+[![CLA assistant](https://cla-assistant.io/readme/badge/AngleSharp/AngleSharp?style=flat-square)](https://cla-assistant.io/AngleSharp/AngleSharp)
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The included parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code and ensures compatibility with results in evergreen browsers. Also standard DOM features such as `querySelector` or `querySelectorAll` work for tree traversal.
+
+:zap: :zap: :zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10**? Look at our [migration documentation](doc/Migration.md).
 
 ## Key Features
 
@@ -44,67 +48,38 @@ In the example we see:
 * Performing a query to get all cells with the content of interest
 * The whole DOM supports LINQ queries
 
+Every collection in AngleSharp supports LINQ statements. AngleSharp also provides many useful extension methods for element collections that cannot be found in the official DOM.
+
 ## Supported Platforms
 
-AngleSharp has been created as a PCL (profile 259) that supports a wide range of platforms. The list includes, but is not limited to:
+AngleSharp has been created as a .NET Standard 2.0 compatible library. This includes, but is not limited to:
 
-- .NET Core ("netstandard 1.0", see [.NET Platform Standard](https://github.com/dotnet/corefx/blob/master/Documentation/architecture/net-platform-standard.md))
-- .NET Framework 4.5
-- Windows 8.1
-- Windows Phone 8.1 / Windows Phone Silverlight
-- Xamarin.Android
-- Xamarin.iOS
-
-Additionally, the NuGet package also comes with support for the following platforms:
-
-- Silverlight 5
-- .NET 4.0
-
-Please note, however, that those platforms have dependencies (*Microsoft.Bcl.Async*), which are not needed by originally supported platforms.
-
-Every collection in AngleSharp supports LINQ statements. AngleSharp also provides many useful extension methods for element collections that cannot be found in the official DOM.
+- .NET Core (2.0)
+- .NET Framework (4.6)
+- Xamarin.Android (8.0)
+- Xamarin.iOS (10.14)
+- Xamarin.Mac (3.8)
+- Mono (4.5)
+- UWP (10.0.16299)
+- Unity (2018.1)
 
 ## Documentation
 
-Documentation is available in form of the public Wiki here at GitHub.
+The documentation of AngleSharp is located [in the docs folder](doc/index.md). More examples, best-practices, and general information can be found there.
 
-- [Wiki Home](https://github.com/AngleSharp/AngleSharp/wiki)
-- [Documentation](https://github.com/AngleSharp/AngleSharp/wiki/Documentation)
-- [API](https://github.com/AngleSharp/AngleSharp/wiki/Api)
-- [Examples](https://github.com/AngleSharp/AngleSharp/wiki/Examples)
-- [Performance](https://github.com/AngleSharp/AngleSharp/wiki/Performance)
-
-The project's timeline, upcoming implementations, (currently) missing features, and milestones is published and maintained in the Wiki as well. Issues should be reported on the GitHub's project page.
+Historically, the [Wiki](https://github.com/AngleSharp/AngleSharp/wiki) was also used for documentation. Note, however, that updates for the documentation in the Wiki are no longer planned. The project's timeline, upcoming implementations, (currently) missing features, and milestones is still published and maintained in the Wiki. Issues should be reported on the GitHub's project page.
 
 More information is also available by following some of the hyper references mentioned in the Wiki. In-depth articles will be published on the CodeProject, with links being placed in the Wiki at GitHub.
 
 ## Vision
 
-The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, and CSS to the CLR, written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript.
+The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, and CSS to the CLR, written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript (and more).
 
 Most parts of the DOM are included, even though some may still miss their (right) implementation. The goal for v1.0 is to have almost everything implemented according to the official W3C specification (with useful extensions by the WHATWG).
 
 The API is close to the DOM4 specification, however, the naming has been adjusted to apply with .NET conventions. Nevertheless, to make AngleSharp really useful for, e.g., a JavaScript engine, attributes have been placed on the corresponding interfaces (and methods, properties, ...) to indicate the status of the field in the official specification. This allows automatic generation of DOM objects with the official API.
 
-This is a long-term project which will eventually result in a state of the art parser for the most important angle bracket based hyper-texts (and related description languages like CSS).
-
-## Roadmap
-
-The roadmap presents a draft on what is about to be implemented, and when. The priorities might change, which will affect the roadmap. Additionally the implementation speed will be impacted by factors like people participating in the project and design decisions.
-
-The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
-
-(2018) **0.10.0**
-
-- Split AngleSharp.Core into two libraries (Core, CSS)
-
-(2019) **1.0.0**
-
-- Release of the first stable version
-- Provide internal / external communication channel (best flexibility)
-- Service model finalized
-
-The current schedule seems to be rather defensive, which does not mean the project will be "finished", i.e., released in version 1.0.0, before the given date. If there is time left, more unit tests will be written and the general code quality will be increased.
+This is a long-term project which will eventually result in a state of the art parser for the most important angle bracket based hyper-texts.
 
 ## Use-Cases
 
@@ -131,11 +106,11 @@ If you have an idea how to improve the API (or what is missing) then posts / mes
 
 The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active.
 
-More information is found in the [contribution guidelines](.github/CONTRIBUTING.md). We also have a [code of conduct](.github/CODE_OF_CONDUCT.md).
+More information is found in the [contribution guidelines](.github/CONTRIBUTING.md). We also have a [code of conduct](.github/CODE_OF_CONDUCT.md) that we take serious.
 
 ## Development
 
-AngleSharp is written in C# 6 and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2015+ is recommended on Windows. Alternatively, VSCode with OmniSharp should be the tool of choice on other platforms.
+AngleSharp is written in C# 6 and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2017+ is recommended on Windows. Alternatively, VSCode with OmniSharp should be the tool of choice on other platforms.
 
 The code tries to be as clean as possible. Notably the following rules are used:
 
@@ -149,7 +124,7 @@ More important, however, is the proper usage of tests. Any new feature should co
 
 The MIT License (MIT)
 
-Copyright (c) 2013 - 2018 AngleSharp
+Copyright (c) 2013 - 2019 AngleSharp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
