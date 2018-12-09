@@ -139,7 +139,10 @@ namespace AngleSharp
         /// <returns>The new instance without the services.</returns>
         public static IConfiguration Without<TService>(this IConfiguration configuration)
         {
-            var items = configuration.Services.OfType<TService>().Cast<object>();
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+
+            var items = configuration.Services.OfType<TService>().Cast<Object>();
             var creators = configuration.Services.OfType<Func<IBrowsingContext, TService>>();
             return configuration.Without(items).Without(creators);
         }
@@ -152,6 +155,9 @@ namespace AngleSharp
         /// <returns>True if any service / creators are found, otherwise false.</returns>
         public static Boolean Has<TService>(this IConfiguration configuration)
         {
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+
             return configuration.Services.OfType<TService>().Any() || configuration.Services.OfType<Func<IBrowsingContext, TService>>().Any();
         }
 
@@ -160,31 +166,22 @@ namespace AngleSharp
         #region Loading Resources
 
         /// <summary>
-        /// Registers the default loader service, if no other loader has been
-        /// registered yet.
+        /// Registers the default loader service, if no other loader has been registered yet.
         /// </summary>
         /// <param name="configuration">The configuration to extend.</param>
-        /// <param name="setup">Optional setup for the loader service.</param>
-        /// <returns>The new instance with the service.</returns>
-        public static IConfiguration WithDefaultLoader(this IConfiguration configuration, Action<LoaderSetup> setup = null)
+        /// <param name="setup">Configuration for the loader service.</param>
+        /// <returns>The new configuration with the service.</returns>
+        public static IConfiguration WithDefaultLoader(this IConfiguration configuration, LoaderOptions setup = null)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
-            var config = new LoaderSetup
-            {
-                Filter = null,
-                IsNavigationEnabled = true,
-                IsResourceLoadingEnabled = false
-            };
-            setup?.Invoke(config);
+            var config = setup ?? new LoaderOptions();
 
             if (!configuration.Has<IRequester>())
             {
-                configuration = configuration.With(new DefaultHttpRequester());
+                configuration = configuration
+                    .With(new DefaultHttpRequester());
             }
 
-            if (config.IsNavigationEnabled)
+            if (!config.IsNavigationDisabled)
             {
                 configuration = configuration
                     .With<IDocumentLoader>(ctx => new DefaultDocumentLoader(ctx, config.Filter));
@@ -192,31 +189,11 @@ namespace AngleSharp
 
             if (config.IsResourceLoadingEnabled)
             {
-                configuration = configuration.With<IResourceLoader>(ctx => new DefaultResourceLoader(ctx, config.Filter));
+                configuration = configuration
+                    .With<IResourceLoader>(ctx => new DefaultResourceLoader(ctx, config.Filter));
             }
 
             return configuration;
-        }
-
-        /// <summary>
-        /// Configures the loader.
-        /// </summary>
-        public sealed class LoaderSetup
-        {
-            /// <summary>
-            /// Gets or sets if navigation is enabled.
-            /// </summary>
-            public Boolean IsNavigationEnabled { get; set; }
-
-            /// <summary>
-            /// Gets or sets if resource loading is enabled.
-            /// </summary>
-            public Boolean IsResourceLoadingEnabled { get; set; }
-
-            /// <summary>
-            /// Gets or sets the filter, if any.
-            /// </summary>
-            public Predicate<Request> Filter { get; set; }
         }
 
         #endregion
@@ -230,10 +207,10 @@ namespace AngleSharp
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="name">The name of the culture to set.</param>
         /// <returns>The new instance with the culture being set.</returns>
-        public static IConfiguration SetCulture(this IConfiguration configuration, String name)
+        public static IConfiguration WithCulture(this IConfiguration configuration, String name)
         {
             var culture = new CultureInfo(name);
-            return configuration.SetCulture(culture);
+            return configuration.WithCulture(culture);
         }
 
         /// <summary>
@@ -243,7 +220,7 @@ namespace AngleSharp
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="culture">The culture to set.</param>
         /// <returns>The new instance with the culture being set.</returns>
-        public static IConfiguration SetCulture(this IConfiguration configuration, CultureInfo culture)
+        public static IConfiguration WithCulture(this IConfiguration configuration, CultureInfo culture)
         {
             return configuration.With(culture);
         }
@@ -260,9 +237,6 @@ namespace AngleSharp
         /// <returns>The new instance with the service.</returns>
         public static IConfiguration WithMetaRefresh(this IConfiguration configuration, Predicate<Url> shouldRefresh = null)
         {
-            if (configuration == null)
-                throw new ArgumentException(nameof(configuration));
-
             var service = new RefreshMetaHandler(shouldRefresh);
             return configuration.With(service);
         }
@@ -279,9 +253,6 @@ namespace AngleSharp
         /// <returns>The new instance with the service.</returns>
         public static IConfiguration WithLocaleBasedEncoding(this IConfiguration configuration)
         {
-            if (configuration == null)
-                throw new ArgumentException(nameof(configuration));
-
             var service = new LocaleEncodingProvider();
             return configuration.With(service);
         }
@@ -298,9 +269,6 @@ namespace AngleSharp
         /// <returns>The new instance with the service.</returns>
         public static IConfiguration WithCookies(this IConfiguration configuration)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
             var service = new MemoryCookieProvider();
             return configuration.With(service);
         }

@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Io;
     using NUnit.Framework;
     using System.Text;
     using System.Threading.Tasks;
@@ -127,7 +128,7 @@
             {
                 var source = "<!doctype html><html><script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>";
                 var engine = new ContentScriptEngine();
-                var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true).WithScripts(engine);
+                var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).WithScripts(engine);
                 var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
 
                 Assert.AreEqual(1, engine.Requests.Count);

@@ -15,7 +15,7 @@
         public void ConfigurationSetCultureExtensionLeavesOriginallyUnmodified()
         {
             var original = new Configuration();
-            var modified = original.SetCulture("de-at");
+            var modified = original.WithCulture("de-at");
             Assert.AreNotSame(original, modified);
             Assert.AreNotEqual(original.Services.Count(), modified.Services.Count());
         }

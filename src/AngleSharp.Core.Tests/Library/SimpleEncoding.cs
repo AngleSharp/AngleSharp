@@ -21,7 +21,7 @@ namespace AngleSharp.Core.Tests.Library
 
         private static IDocument NewDocument(String source)
         {
-            var configuration = Configuration.Default.SetCulture("en-US").WithLocaleBasedEncoding();
+            var configuration = Configuration.Default.WithCulture("en-US").WithLocaleBasedEncoding();
             var content = Encoding.UTF8.GetBytes(source);
             var stream = new MemoryStream(content);
             return stream.ToHtmlDocument(configuration);

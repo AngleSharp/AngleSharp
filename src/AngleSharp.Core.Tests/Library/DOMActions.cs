@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Io;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -858,7 +859,7 @@
         [Test]
         public async Task IframeWithDocumentViaDocSrc()
         {
-            var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var cfg = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
             var html = @"<!doctype html><iframe id=myframe srcdoc='<span>Hello World!</span>'></iframe></script>";
             var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
             var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");
@@ -871,7 +872,7 @@
         [Test]
         public async Task IframeWithDocumentPreferDocSrcToDataSrc()
         {
-            var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var cfg = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
             var html = @"<!doctype html><iframe id=myframe srcdoc='Green' src='data:text/html,Red'></iframe></script>";
             var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
             var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");

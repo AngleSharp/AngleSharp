@@ -321,10 +321,10 @@ namespace AngleSharp.Core.Tests.Library
             var filtered = new List<Request>();
             requester.OnRequest = request => requests.Add(request);
             var content = "<!doctype><html><div><img src=foo.jpg><iframe src=test.html></iframe></div>";
-            var config = Configuration.Default.With(requester).WithDefaultLoader(setup =>
+            var config = Configuration.Default.With(requester).WithDefaultLoader(new LoaderOptions
             {
-                setup.IsResourceLoadingEnabled = true;
-                setup.Filter = request =>
+                IsResourceLoadingEnabled = true,
+                Filter = request =>
                 {
                     lock (filtered)
                     {
@@ -332,7 +332,7 @@ namespace AngleSharp.Core.Tests.Library
                     }
 
                     return !request.Address.Href.EndsWith(".jpg");
-                };
+                }
             });
 
             var context = BrowsingContext.New(config);
@@ -350,7 +350,7 @@ namespace AngleSharp.Core.Tests.Library
             {
                 var address = "https://serverspace.ae";
                 var cts = new CancellationTokenSource();
-                var config = Configuration.Default.WithDefaultLoader(c => c.IsResourceLoadingEnabled = true);
+                var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
 
                 var context = BrowsingContext.New(config);
                 var url = Url.Create(address);

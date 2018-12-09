@@ -8,7 +8,7 @@
     {
         private static IDocument CreateTestDocument()
         {
-            var config = Configuration.Default.SetCulture("en-US").WithScripting();
+            var config = Configuration.Default.WithCulture("en-US").WithScripting();
             return Assets.w3c_selectors.ToHtmlDocument(config);
         }
 

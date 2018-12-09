@@ -14,8 +14,8 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void BaiduEncodingTransformationEnToUtf8VsZhToUtf8()
         {
-            var configEnUs = Configuration.Default.SetCulture("en-US").WithLocaleBasedEncoding();
-            var configZhCn = Configuration.Default.SetCulture("zh-CN").WithLocaleBasedEncoding();
+            var configEnUs = Configuration.Default.WithCulture("en-US").WithLocaleBasedEncoding();
+            var configZhCn = Configuration.Default.WithCulture("zh-CN").WithLocaleBasedEncoding();
             var titleWithEnUs = Helper.StreamFromBytes(Assets.www_baidu).ToHtmlDocument(configEnUs).Title;
             var titleWithZhCn = Helper.StreamFromBytes(Assets.www_baidu).ToHtmlDocument(configZhCn).Title;
 
@@ -26,8 +26,8 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void JdEncodingDisplayCharacters()
         {
-            var configEnUs = Configuration.Default.SetCulture("en-US").WithLocaleBasedEncoding();
-            var configZhCn = Configuration.Default.SetCulture("zh-CN").WithLocaleBasedEncoding();
+            var configEnUs = Configuration.Default.WithCulture("en-US").WithLocaleBasedEncoding();
+            var configZhCn = Configuration.Default.WithCulture("zh-CN").WithLocaleBasedEncoding();
             var titleWithEnUs = Helper.StreamFromBytes(Assets.item_jd).ToHtmlDocument(configEnUs).Title;
             var titleWithZhCn = Helper.StreamFromBytes(Assets.item_jd).ToHtmlDocument(configZhCn).Title;
 
@@ -38,7 +38,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void TradeEncodingDisplayCharactersFromWindows1252()
         {
-            var config = Configuration.Default.SetCulture("de-de").WithLocaleBasedEncoding();
+            var config = Configuration.Default.WithCulture("de-de").WithLocaleBasedEncoding();
             var doc = Helper.StreamFromBytes(Assets.trade_500).ToHtmlDocument(config);
             var tr = doc.QuerySelector("tr[mid=375][ordernum=375]");
             var ct = doc.QuerySelector(".countdown_time[title][style]");

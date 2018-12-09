@@ -159,7 +159,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             var delayRequester = new DelayRequester(100);
             var imageService = new ResourceService<IImageInfo>("image/jpeg", response => new MockImageInfo { Source = response.Address });
-            var config = Configuration.Default.With(delayRequester).WithDefaultLoader(m => m.IsResourceLoadingEnabled = true).With(imageService);
+            var config = Configuration.Default.With(delayRequester).WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).With(imageService);
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             var img = document.QuerySelector<IHtmlImageElement>("img");
@@ -252,8 +252,7 @@ namespace AngleSharp.Core.Tests.Library
                 //page takes ~10-30s (or longer!) to load. Replaced with another
                 //solution taken directly from the AngleSharp infrastructure.
                 var address = "http://anglesharp.azurewebsites.net/Page";
-                var config = Configuration.Default.WithDefaultLoader(setup =>
-                    setup.IsResourceLoadingEnabled = true);
+                var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
                 Assert.IsNotNull(document);
@@ -276,7 +275,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task GetDownloadsOfEmptyDocumentShouldBeZero()
         {
-            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
             var document = await BrowsingContext.New(config).OpenNewAsync();
             var downloads = document.GetDownloads().ToArray();
 
@@ -286,7 +285,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task GetDownloadsOfExampleDocumentWithoutCssAndJsShouldYieldPartialResources()
         {
-            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
             var content = @"<link rel=stylesheet type=text/css href=bootstraph.css>
 <link rel=stylesheet type=text/css href=fontawesome.css>
 <link rel=stylesheet type=text/css href=style.css>
@@ -422,7 +421,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var uri = "http://florian-rappl.de";
-                var config = Configuration.Default.WithDefaultLoader(s => s.IsResourceLoadingEnabled = true);
+                var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
 
                 var req = new HttpClient();
                 var message = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, uri);
@@ -442,7 +441,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task LoadingIframeWithEmptySourceIsLikeLoadingWithout()
         {
-            var config = new Configuration().WithDefaultLoader(r => r.IsResourceLoadingEnabled = true);
+            var config = new Configuration().WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
             var context = BrowsingContext.New(config);
             var source = @"<iframe src="""" class=""updates-iframe""></iframe>";
             var document = await context.OpenAsync(res => res.Content(source));
