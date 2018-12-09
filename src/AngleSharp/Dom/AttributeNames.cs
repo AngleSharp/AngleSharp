@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
 
@@ -156,6 +156,11 @@
         /// The dir attribute.
         /// </summary>
         public static readonly String Dir = "dir";
+
+        /// <summary>
+        /// The nonce attribute.
+        /// </summary>
+        public static readonly String Nonce = "nonce";
 
         /// <summary>
         /// The noresize attribute.

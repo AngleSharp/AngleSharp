@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.LinkRels;
@@ -72,6 +72,18 @@
         {
             get { return this.GetOwnAttribute(AttributeNames.Rel); }
             set { this.SetOwnAttribute(AttributeNames.Rel, value); }
+        }
+
+        public String ReverseRelation
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Rev); }
+            set { this.SetOwnAttribute(AttributeNames.Rev, value); }
+        }
+
+        public String NumberUsedOnce
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Nonce); }
+            set { this.SetOwnAttribute(AttributeNames.Nonce, value); }
         }
 
         public ITokenList RelationList

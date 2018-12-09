@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -28,6 +28,12 @@
         /// </summary>
         [DomName("rel")]
         String Relation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reverse relationship of the linked resource from the resource to the document.
+        /// </summary>
+        [DomName("rev")]
+        String ReverseRelation { get; set; }
 
         /// <summary>
         /// Gets the list of relations contained in the rel attribute.
@@ -70,5 +76,11 @@
         /// </summary>
         [DomName("crossOrigin")]
         String CrossOrigin { get; set; }
+
+        /// <summary>
+        /// Gets or sets the nonce attribute.
+        /// </summary>
+        [DomName("nonce")]
+        String NumberUsedOnce { get; set; }
     }
 }
