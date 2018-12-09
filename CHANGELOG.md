@@ -31,6 +31,7 @@ Planned for Monday, December 24 2018.
 - Solved potential encoding issues in .NET Core (#534)
 - Improved parsing of invalid HTML tags (#543)
 - Improved the default requester (#572)
+- Updated parts to adhere to HTML 5.2 (#618)
 - Added support for parsing `noframes` (#631)
 - Fixed build on Visual Studio 2017 (#679)
 - Updated to new csproj format (#713)
