@@ -106,12 +106,6 @@ namespace AngleSharp.Html.Dom
         ISettableTokenList DropZone { get; }
 
         /// <summary>
-        /// Gets or sets the innerText of the element.
-        /// </summary>
-        [DomName("innerText")]
-        String InnerText { get; set; }
-
-        /// <summary>
         /// Simulates a mouse click on an element.
         /// </summary>
         [DomName("click")]
