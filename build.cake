@@ -44,7 +44,7 @@ Setup(_ =>
 Task("Clean")
     .Does(() =>
     {
-        CleanDirectories(new DirectoryPath[] { Directory("./src/AngleSharp/bin"), buildResultDir, nugetRoot });
+        CleanDirectories(new DirectoryPath[] { buildDir, buildResultDir, nugetRoot });
     });
 
 Task("Restore-Packages")
@@ -96,7 +96,8 @@ Task("Copy-Files")
             { "netstandard2.0", "netstandard2.0" }
         };
 
-        if(!isRunningOnWindows) {
+        if (!isRunningOnWindows)
+        {
             mapping.Remove("net46");
         }
 
