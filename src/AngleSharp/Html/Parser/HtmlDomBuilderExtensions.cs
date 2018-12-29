@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Parser.Tokens;
@@ -28,62 +28,68 @@
 
         public static HtmlTreeMode? SelectMode(this Element element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
         {
-            var tagName = element.LocalName;
+            if (element.Flags.HasFlag(NodeFlags.HtmlMember))
+            {
+                var tagName = element.LocalName;
 
-            if (tagName.Is(TagNames.Select))
-            {
-                return HtmlTreeMode.InSelect;
+                if (tagName.Is(TagNames.Select))
+                {
+                    return HtmlTreeMode.InSelect;
+                }
+                else if (TagNames.AllTableCells.Contains(tagName))
+                {
+                    return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
+                }
+                else if (tagName.Is(TagNames.Tr))
+                {
+                    return HtmlTreeMode.InRow;
+                }
+                else if (TagNames.AllTableSections.Contains(tagName))
+                {
+                    return HtmlTreeMode.InTableBody;
+                }
+                else if (tagName.Is(TagNames.Body))
+                {
+                    return HtmlTreeMode.InBody;
+                }
+                else if (tagName.Is(TagNames.Table))
+                {
+                    return HtmlTreeMode.InTable;
+                }
+                else if (tagName.Is(TagNames.Caption))
+                {
+                    return HtmlTreeMode.InCaption;
+                }
+                else if (tagName.Is(TagNames.Colgroup))
+                {
+                    return HtmlTreeMode.InColumnGroup;
+                }
+                else if (tagName.Is(TagNames.Template) && templateModes.Count > 0)
+                {
+                    return templateModes.Peek();
+                }
+                else if (tagName.Is(TagNames.Html))
+                {
+                    return HtmlTreeMode.BeforeHead;
+                }
+                else if (tagName.Is(TagNames.Head))
+                {
+                    return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
+                }
+                else if (tagName.Is(TagNames.Frameset))
+                {
+                    return HtmlTreeMode.InFrameset;
+                }
             }
-            else if (TagNames.AllTableCells.Contains(tagName))
-            {
-                return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
-            }
-            else if (tagName.Is(TagNames.Tr))
-            {
-                return HtmlTreeMode.InRow;
-            }
-            else if (TagNames.AllTableSections.Contains(tagName))
-            {
-                return HtmlTreeMode.InTableBody;
-            }
-            else if (tagName.Is(TagNames.Body))
+
+            if (isLast)
             {
                 return HtmlTreeMode.InBody;
             }
-            else if (tagName.Is(TagNames.Table))
+            else
             {
-                return HtmlTreeMode.InTable;
+                return null;
             }
-            else if (tagName.Is(TagNames.Caption))
-            {
-                return HtmlTreeMode.InCaption;
-            }
-            else if (tagName.Is(TagNames.Colgroup))
-            {
-                return HtmlTreeMode.InColumnGroup;
-            }
-            else if (tagName.Is(TagNames.Template))
-            {
-                return templateModes.Peek();
-            }
-            else if (tagName.Is(TagNames.Html))
-            {
-                return HtmlTreeMode.BeforeHead;
-            }
-            else if (tagName.Is(TagNames.Head))
-            {
-                return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
-            }
-            else if (tagName.Is(TagNames.Frameset))
-            {
-                return HtmlTreeMode.InFrameset;
-            }
-            else if (isLast)
-            {
-                return HtmlTreeMode.InBody;
-            }
-
-            return null;
         }
 
         public static Int32 GetCode(this HtmlParseError code)
