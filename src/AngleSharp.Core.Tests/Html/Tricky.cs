@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Html
+namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
@@ -912,6 +912,51 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
                 var document = memoryStream.ToHtmlDocument();
                 Assert.IsNotNull(document);
             }
+        }
+
+        [Test]
+        public void SvgDoctypeWithIncompleteTemplateTagShouldNotPopEmptyStack_Issue735()
+        {
+            var source = @"<svg><!DOCTYPE html><<template>html><desc><template>><p>p</p></body></html>";
+            var document = source.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            Assert.AreEqual("<html><head></head><body><svg>&lt;<template>html&gt;<desc><template>&gt;<p>p</p></template></desc></template></svg></body></html>", document.ToHtml());
+        }
+
+        [Test]
+        public void SvgDoctypeWithDoubleTemplateTagShouldNotPopEmptyStack_Issue735()
+        {
+            var source = @"<svg><!DOCTYPE html><html><template><desc><template>><p>p</p></body></html>";
+            var document = source.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            Assert.AreEqual("<html><head></head><body><svg><html><template><desc><template>&gt;<p>p</p></template></desc></template></html></svg></body></html>", document.ToHtml());
+        }
+
+        [Test]
+        public void SvgDoctypeWithMultiOpenTemplateTagShouldNotPopEmptyStack_Issue735()
+        {
+            var source = @"<svg><!DOCTYPE html><<<template>tml><desc><template>><p>p</p></body></html>";
+            var document = source.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            Assert.AreEqual("<html><head></head><body><svg>&lt;&lt;<template>tml&gt;<desc><template>&gt;<p>p</p></template></desc></template></svg></body></html>", document.ToHtml());
+        }
+
+        [Test]
+        public void SvgDoctypeWithFramesetAndDoubleTemplateShouldNotPopEmptyStack_Issue735()
+        {
+            var source = @"<svg><!DOCTYPE html><<frameset>h<template>tml><desc><template>><p>p</p></body></html>";
+            var document = source.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            Assert.AreEqual("<html><head></head><body><svg>&lt;<frameset>h<template>tml&gt;<desc><template>&gt;<p>p</p></template></desc></template></frameset></svg></body></html>", document.ToHtml());
+        }
+
+        [Test]
+        public void SvgDoctypeWithDoubleTemplateAndPreShouldNotPopEmptyStack_Issue735()
+        {
+            var source = @"<svg><!DOCTYPE html><template>>html><desc><template>><p>p</p></body></html><pre>";
+            var document = source.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            Assert.AreEqual("<html><head></head><body><svg><template>&gt;html&gt;<desc><template>&gt;<p>p</p><pre></pre></template></desc></template></svg></body></html>", document.ToHtml());
         }
     }
 }
