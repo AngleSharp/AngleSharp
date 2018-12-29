@@ -35,6 +35,7 @@ Planned for Monday, December 24 2018.
 - Added support for parsing `noframes` (#631)
 - Fixed build on Visual Studio 2017 (#679)
 - Updated to new csproj format (#713)
+- Fixed parser mode selection w.r.t. templates (#735)
 - Placed extensions close to their instances
 - Exposed the `ILinkRelationFactory` interface and default implementation
 - Exposed the `IInputTypeFactory` interface and default implementation
