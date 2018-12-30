@@ -1,6 +1,6 @@
 # Performance Evaluations
 
-## General considerations
+## General Considerations
 
 The library is not small (its not huge either), which makes preloading or "warming-up" (or using NGen) a candidate for productive usage. The first runs will always be slower than the following. This is a property of C# / the MSIL (or the JIT process in general), which has nothing to do with AngleSharp.
 
@@ -15,9 +15,9 @@ Even though there are still optimizations possible (since everything had to be w
 
 In the following AngleSharp will be compared to other popular libraries, which are either very popular (like the HtmlAgilityPack) or ambitious (like CsQuery).
 
-## Comparison with the HtmlAgilityPack
+## Comparison with the Html Agility Pack
 
-The HtmlAgilityPack (HAP) is a good comparison target, since it is most used and established since a long time. Obviously AngleSharp is a great replacement for HAP due to the following reasons:
+The Html Agility Pack (HAP) is a good comparison target, since it is most used and established since a long time. Obviously AngleSharp is a great replacement for HAP due to the following reasons:
 
 * Standardized HTML5 parsing model
 * Much better error correction / handling
@@ -69,7 +69,7 @@ Note that we took the lowest wall-time in 20 trials. The outcome details change 
 
 The only entry where HAP excels is "GoogleNews". This is, however, a false impression. The true speedup comes from omitting the (large) inline style-sheet. Here AngleSharp has to parse CSS as well, which of course takes some additional time. The official benchmark program below excludes such edge cases by disabling CSS parsing (therefore only HTML parsing is benchmarked as intended).
 
-## Comparison with CsQuery / validator.nu HTML parser
+## Comparison with CsQuery / validator.nu HTML Parser
 
 The CsQuery project aims to be a C# port of jQuery. To parse HTML a port of the validator.nu HTML5 engine has been selected. The validity of the resulting DOM should therefore on roughly the same level as AngleSharp, however, missing important elements such as `template` or `main`. The above image also includes the performance measurement for the HTML parser.
 
@@ -77,13 +77,13 @@ The parsing performance is mixed compared to AngleSharp. AngleSharp has been mea
 
 In general there are areas where AngleSharp is performing better, and other pages where the validator.nu parser is faster. In most cases the winner does not really matter (cases such as 2ms vs 3ms).
 
-## Comparison with other solutions
+## Comparison with Other Solutions
 
 One could also make comparisons to other projects. In the official **Performance** project (contained in the Visual Studio solution) you will find the *Majestic* (Majestic 13) parser. This one is nearly always faster than any other solution. Is it the right choice for your project? Probably not. The reason is simple: Majestic does not build a DOM, it also does not care about special tags, meanings and the HTML error correction. Basically Majestic is AngleSharp reduced to its tokenizer, with the tokenizer being a little bit simpler.
 
 This is also the reason for excluding Majestic from the performance comparison. However, you are (for your own pleasure) of course allowed to include Majestic again. The code is already checked-in.
 
-## Current performance
+## Current Performance
 
 Currently the performance of AngleSharp is quite satisfying. On an Intel Core i5 4570 with 3.2 GHz system with 16 GB of RAM we could gather the following statistics (from the official benchmark program).
 

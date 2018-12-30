@@ -2,7 +2,7 @@
 
 This is a (growing) list of examples for every-day usage of AngleSharp.
 
-## Parsing a well-defined document
+## Parsing a Well-Defined Document
 
 Of course AngleSharp can handle well-defined documents very well. But what about a document that seems ill-defined, however, is in fact well-defined. The following document works, has no errors at all and is also used in production by Google. The serialized output of the document generation can be compared with the serialization done by browsers such as IE, Chrome or Firefox.
 
@@ -31,7 +31,7 @@ Console.WriteLine(document.DocumentElement.OuterHtml);
 
 So we define some source code, call the `Parse` method of a an `HtmlParser` instance. The `Parse` method uses the provided source code to construct the DOM. Afterwards we serialize the DOM back to a string. Finally we output this string in the console.
 
-## Simple document manipulation
+## Simple Document Manipulation
 
 AngleSharp constructs a DOM according to the official HTML5 specification. This also means that the resulting model is fully interactive and could be used for simple manipulation. The following example creates a document and changes the tree structure by inserting another paragraph element with some text.
 
@@ -58,7 +58,7 @@ static void FirstExample()
 
 Here the parser will create a new `IHtmlDocument` instance, which is then queried to find some matching nodes. In the example code above we also create another `IElement`, which is the `IHtmlParagraphElement`. This one is then appended to the `Body` node of the document.
 
-## Getting certain elements
+## Getting Certain Elements
 
 AngleSharp exposes all DOM lists as `IEnumerable<T>` like `IEnumerable<Node>` for the `NodeList` class. This allows us to use LINQ in combination with some already given DOM capabilities like the `QuerySelectorAll` method.
 
@@ -101,7 +101,7 @@ It is also possible to get the same as `All` with a selector - the special aster
 
 Is this exactly the same? Actually no - `All` returns a so called _live_ DOM list, i.e. if we save the object somewhere we will always have access to the latest DOM changes.
 
-## Getting single elements
+## Getting Single Elements
 
 Additionally we have the `QuerySelector` method. This one is quite close to LINQ statements that use `FirstOrDefault()` for generating results. The tree traversal might be a little bit more efficient using the `QuerySelector` method.
 
@@ -134,7 +134,7 @@ The output commands try to demonstrate the differences between several ways of g
 
 Extension methods such as `ToHtml()` and `Text()` can be found in the namespace `AngleSharp.Extensions`.
 
-## Connecting JavaScript evaluation
+## Connecting JavaScript Evaluation
 
 The project also contains a sample JavaScript engine based on Jint (JavaScript Interpreter).
 
@@ -169,7 +169,7 @@ static void SimpleScriptingSample()
 
 This code just parses the given HTML code, encounters the provided JavaScript and executes it. The JavaScript will manipulate the document at the given point, changing the title of the document and appending some more HTML to parse. In the end we will see, that the printed (serialized) HTML is different to the original one.
 
-## More complex JavaScript DOM interaction
+## More Complex JavaScript DOM Interaction
 
 Using JavaScript with AngleSharp is no problem. In the current state we can also easily use DOM manipulation like creating elements, appending or removing them.
 

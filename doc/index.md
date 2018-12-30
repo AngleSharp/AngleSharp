@@ -18,7 +18,7 @@ If you need some arguments for using AngleSharp (over similar libraries) then he
 - AngleSharp can also parse related content like CSS, SVG or MathML
 - AngleSharp stands all HTML5-lib tests (i.e. it is a valid HTML5 parser)
 - AngleSharp handles malformed HTML exactly as every modern browser
-- AngleSharp contains brand new elements like support for the <template> tag
+- AngleSharp contains brand new elements like support for the `<template>` tag
 - AngleSharp performs at least as good as other libraries, mostly better
 - AngleSharp provides very useful extension methods for DOM manipulation
 - AngleSharp gives you a decoupled API that is easy to use

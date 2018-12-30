@@ -39,7 +39,7 @@ Additionally we might create our own class that is more convinient and flexible 
 
 Implementing the interface is also possible, but requires of course more work, since every property or methods needs to be re-implemented. However, since the properties of the default implementation are not `virtual`, it might be the only chance for providing the desired setup. In general there should be only few reasons to implement `IConfiguration` ourselves.
 
-### Future thoughts
+### Future Thoughts
 
 The `AngleSharp.Css.Values` namespace contains a set of types used in the CSSOM, such as:
 
@@ -56,7 +56,7 @@ The `AngleSharp.Css.Values` namespace contains a set of types used in the CSSOM,
 
 The CSSOM is quite rich and is not fully available right now. The CSSOM will probably be partially cut out of the core library and integrated to another library.
 
-## Extension points
+## Extension Points
 
 AngleSharp is supposed to create an universal HTML5 parser that is accessible in the .NET world and written completely in managed code. However, some applications may want to go beyond the parser. The parser alone would require a lot of help from the outside to create the DOM.
 

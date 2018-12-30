@@ -1,6 +1,6 @@
 # Major Releases
 
-A more detailed changelog can be found in the [CHANGELOG](CHANGELOG.md).
+A more detailed changelog can be found in the [CHANGELOG](../CHANGELOG.md).
 
 **0.9.0**
 

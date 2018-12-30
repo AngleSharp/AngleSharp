@@ -20,7 +20,11 @@ The way to configure AngleSharp was changed.
 
 The current version of AngleSharp split out the CSS parsing (except CSS selectors) in its own library. This library is called `AngleSharp.Css` and is available via NuGet.
 
+The new library is much more feature rich than the old integration. Besides an improved object model (CSSOM and beyond) we included support for many things, e.g., CSS custom properties (also known as CSS variables), flexbox, and grid. The correctness tests of the used value conversions have been extended as well.
+
 The basic usage is to configure AngleSharp using `WithCss`. Then, e.g., the style can be accessed by using `GetStyle` from `AngleSharp.Css.Dom`. Setting the style works now with the `SetStyle` extension method. This replaces the old `Style` property.
+
+The `ICssStyleDeclaration` does not contain all known declarations as properties. Instead, extension methods are used to dynamically attach these getters and setters, e.g., `GetDisplay()` and `SetDisplay(value)`  instead of `Display { get; set; }`.
 
 In previous versions the `IWindow` also contained CSS methods for style computation. These are now also available in the new CSS library as extension methods. The `WindowExtensions` are contained in the namespace `AngleSharp.Dom`.
 

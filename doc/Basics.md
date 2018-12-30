@@ -16,7 +16,7 @@ Install-Package AngleSharp
 
 You can also use the graphical library package manager ("Manage NuGet Packages for Solution"). Searching for "AngleSharp" in the official NuGet online feed will find this library.
 
-## First steps
+## First Steps
 
 In the most simple case you have already a document source and want it to be parsed. This could look like the following:
 

@@ -4,7 +4,7 @@
 
 This section lists features that have been moved from the list of upcoming features to the implemented features. It does not include all available features, even though this may be the ultimate goal of this page. The purpose of moving the implemented features in here is to keep track of the used references. That way it should be easier to track W3C specification changes or if tests are missing.
 
-### Mutation records
+### Mutation Records
 
 There are types like `MutationObserver`, `MutationObserverInit` and `IMutationRecord` that have been implemented.
 
@@ -19,7 +19,7 @@ More information can be found at:
 * [W3C DOM 4](http://www.w3.org/TR/2014/WD-dom-20140710/#mutation-observers)
 * [WHATWG DOM Standard](http://dom.spec.whatwg.org/#mutation-observers)
 
-### Provide various Uri implementations
+### Provide Various Uri Implementations
 
 An URI parser has been included within AngleSharp. This parser is nearly finished, but it does not do unicode normalization for the host part. This would be too heavy and should usually be provided by the .NET-Framework, however, for our PCL target it is not.
 
@@ -32,7 +32,7 @@ More information can be found at:
 * [WHATWG URL Standard](http://url.spec.whatwg.org/)
 * [RFC3986 Specification](https://datatracker.ietf.org/doc/rfc3986/)
 
-### PseudoElement integration
+### PseudoElement Integration
 
 CSS provides several extensions to the DOM described in the HTML standard. One of these extensions is the integration of so-called pseudo elements. These elements do not really exist in the DOM, however, they can be queried and they are also part of the visual tree.
 
@@ -45,7 +45,7 @@ More information can be found at:
 * [W3C CSSOM PseudoElement](http://dev.w3.org/csswg/cssom/#pseudoelement)
 * [W3C CSS3 Selectors](http://www.w3.org/TR/css3-selectors/)
 
-### Extend IWindow interface
+### Extend the IWindow Interface
 
 Central for any interaction with the DOM (at least from the perspective of a (JavaScript) developer) is the (root) context object, usually a `Window` object. AngleSharp uses the `IWindow` interface as IDL for such objects. Despite the available class `AnalysisWindow` in v0.7 AngleSharp does only provide a `Window` class implementation. It is much more general and may work together with the `RenderDevice` information.
 
@@ -100,7 +100,7 @@ More information can be found at:
 * [W3C DOM3 events](http://www.w3.org/TR/DOM-Level-3-Events)
 * [W3C UIEvent extension](https://dvcs.w3.org/hg/d4e/raw-file/tip/source_respec.htm)
 
-### Rework Core DOM algorithms
+### Rework Core DOM Algorithms
 
 The core DOM algorithms have been implemented using MDN and W3C documentation. Nevertheless, it has been obvious, that some of these inner workings do not work as expected in edge cases. Therefore the WHATWG documentation will be considered, as it provides more detailed information with more related information.
 
@@ -139,7 +139,7 @@ More information can be found at:
 
 * [W3C CSSOM](http://dev.w3.org/csswg/cssom/#the-getstyleutils-interface)
 
-### WebIDL attributes
+### WebIDL Attributes
 
 The Interface Definition Language (IDL) is used for describing the interfaces accessible from languages such as JavaScript. AngleSharp implements the named interface and algorithms. However, the naming has been changed (sometimes more, sometimes less). In order to automate wrapper generation for, e.g., JavaScript engines, and documentation generators, AngleSharp provides a custom attribute called `DomNameAttribute`. This attribute decorates methods, properties, types and more. Finally one is able to get the `OfficialName` by querying the corresponding `Type` instance.
 
@@ -153,7 +153,7 @@ More information can be found at:
 
 * [W3C WebIDL](http://www.w3.org/TR/WebIDL/)
 
-### Complete the IDocument interface
+### Complete the IDocument Interface
 
 The central node of a document is certainly the `IDocument` object itself. It is the owner of every attached node (directly or indirectly) and it has the connection to the `IWindow` object and the `IBrowsingContext` (only accessible internally), which has the `IConfiguration` instance attached.
 
@@ -173,7 +173,7 @@ More information can be found at:
 * [W3C DOM3 (Document)](http://www.w3.org/TR/DOM-Level-3-Core/#i-Document)
 * [W3C DOM4 (Document)](http://www.w3.org/TR/2014/WD-dom-20140710/#interface-document)
 
-### Improve async parsing
+### Improve Async Parsing
 
 Asynchronous parsing is quite important. Even though standard (even large) processing may only take a few milliseconds, AngleSharp will also be used with sources that are (network) streams. There are two possible strategies: The first is to download everything before (asynchronous, and is an array of bytes), while the second is to continuously download data while processing the document. The latter has the advantage that even though the document may be long and the transfer may be broken at some point, at least parts of the document are already available.
 
@@ -260,7 +260,7 @@ More information can be found at:
 * [HTML Renderer project](https://github.com/ArthurHub/HTML-Renderer)
 * [MDN Visual Formatting](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Visual_formatting_model)
 
-### Define UI handling
+### Define UI Handling
 
 Most of this section is an extension to `IWindow`. We require a few points:
 
@@ -274,7 +274,7 @@ The core source should be a browsing context. This, however, is a point on its o
 
 *Status*: Completely missing.
 
-### Finish style resolution
+### Finish Style Resolution
 
 On a simple level the style resolution is already finished. However, with pseudo elements still missing, the `IWindow` being unfinished and other open questions, it is not possible to consider style resolution being solved.
 
@@ -290,7 +290,7 @@ More information can be found at:
 * [W3C CSSOM getComputedStyle](http://dev.w3.org/csswg/cssom/#dom-window-getcomputedstyle)
 * [W3C CSSOM resolved values](http://dev.w3.org/csswg/cssom/#resolved-values)
 
-### Provide further extension points
+### Provide Further Extension Points
 
 For instance an automatic file system buffer, which (obviously) requires access to the file system. Additionally storage might require access to the file system, but maybe in a different form. Also media types such as video, audio or image will require access to video and audio streaming / playing, as well as image displaying.
 
