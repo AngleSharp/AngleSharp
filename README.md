@@ -3,10 +3,11 @@
 # AngleSharp
 
 [![Build Status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp)
-[![GitHub tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/releases)
+[![GitHub Tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/releases)
 [![NuGet Count](https://img.shields.io/nuget/dt/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
 [![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
-[![CLA assistant](https://cla-assistant.io/readme/badge/AngleSharp/AngleSharp?style=flat-square)](https://cla-assistant.io/AngleSharp/AngleSharp)
+[![StackOverflow Questions](https://img.shields.io/stackexchange/stackoverflow/t/anglesharp.svg?style=flat-square)](https://stackoverflow.com/tags/anglesharp)
+[![CLA Assistant](https://cla-assistant.io/readme/badge/AngleSharp/AngleSharp?style=flat-square)](https://cla-assistant.io/AngleSharp/AngleSharp)
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The included parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code and ensures compatibility with results in evergreen browsers. Also standard DOM features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
@@ -73,29 +74,31 @@ More information is also available by following some of the hyper references men
 
 ## Vision
 
-The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, and CSS to the CLR, written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript (and more).
+The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, and CSS to the CLR - all written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript (plus, of course, more).
 
-Most parts of the DOM are included, even though some may still miss their (right) implementation. The goal for v1.0 is to have almost everything implemented according to the official W3C specification (with useful extensions by the WHATWG).
+Most parts of the DOM are included, even though some may still miss their (fully specified / correct) implementation. The goal for v1.0 is to have *all practically relevant* parts implemented according to the official W3C specification (with useful extensions by the WHATWG).
 
 The API is close to the DOM4 specification, however, the naming has been adjusted to apply with .NET conventions. Nevertheless, to make AngleSharp really useful for, e.g., a JavaScript engine, attributes have been placed on the corresponding interfaces (and methods, properties, ...) to indicate the status of the field in the official specification. This allows automatic generation of DOM objects with the official API.
 
 This is a long-term project which will eventually result in a state of the art parser for the most important angle bracket based hyper-texts.
+
+Our hope is to build a community around web parsing and libraries from this project. So far we had great contributions, but that goal was not fully achieved. Want to help? Get in touch with us!
 
 ## Use-Cases
 
 - Parsing HTML (incl. fragments)
 - Parsing CSS (incl. selectors, declarations, ...)
 - Constructing HTML (e.g., view-engine)
-- Minifying CSS, HTML
+- Minifying CSS, HTML, ...
 - Querying document elements
 - Crawling information
 - Gathering statistics
 - Web automation
-- Tools with HTML / CSS support
+- Tools with HTML / CSS / ... support
 - Connection to page analytics
-- HTML / DOM Unit Tests
+- HTML / DOM unit tests
 - Automated JavaScript interaction
-- Testing other script engines
+- Testing other concepts, e.g., script engines
 - ...
 
 ## Participating in the Project
