@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.External
+namespace AngleSharp.Core.Tests.External
 {
     using AngleSharp.Xml;
     using AngleSharp.Xml.Dom;

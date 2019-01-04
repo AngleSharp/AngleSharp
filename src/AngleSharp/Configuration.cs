@@ -1,9 +1,17 @@
 namespace AngleSharp
 {
     using AngleSharp.Browser;
-    using AngleSharp.Common;
+    using AngleSharp.Css;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
+    using AngleSharp.Html;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
+    using AngleSharp.Mathml;
+    using AngleSharp.Mathml.Dom;
+    using AngleSharp.Svg;
+    using AngleSharp.Svg.Dom;
     using AngleSharp.Xml.Parser;
     using System;
     using System.Collections.Generic;
@@ -20,24 +28,34 @@ namespace AngleSharp
 
         private readonly IEnumerable<Object> _services;
 
+        private static T Instance<T>(T instance)
+        {
+            return instance;
+        }
+
+        private static Func<IBrowsingContext, T> Creator<T>(Func<IBrowsingContext, T> creator)
+        {
+            return creator;
+        }
+
         private static readonly Object[] standardServices = new Object[]
         {
-            Factory.HtmlElements,
-            Factory.MathElements,
-            Factory.SvgElements,
-            Factory.Events,
-            Factory.InputTypes,
-            Factory.LinkRelations,
-            Factory.AttributeSelector,
-            Factory.PseudoClassSelector,
-            Factory.PseudoElementSelector,
-            Factory.Document,
-            Factory.Observer,
-            new EncodingMetaHandler(),
-            new Func<IBrowsingContext, ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
-            new Func<IBrowsingContext, IHtmlParser>(ctx => new HtmlParser(ctx)),
-            new Func<IBrowsingContext, IXmlParser>(ctx => new XmlParser(ctx)),
-            new Func<IBrowsingContext, IEventLoop>(ctx => new TaskEventLoop(ctx)),
+            Instance<IElementFactory<Document, HtmlElement>>(new HtmlElementFactory()),
+            Instance<IElementFactory<Document, MathElement>>(new MathElementFactory()),
+            Instance<IElementFactory<Document, SvgElement>>(new SvgElementFactory()),
+            Instance<IEventFactory>(new DefaultEventFactory()),
+            Instance<IInputTypeFactory>(new DefaultInputTypeFactory()),
+            Instance<IAttributeSelectorFactory>(new DefaultAttributeSelectorFactory()),
+            Instance<IPseudoElementSelectorFactory>(new DefaultPseudoElementSelectorFactory()),
+            Instance<IPseudoClassSelectorFactory>(new DefaultPseudoClassSelectorFactory()),
+            Instance<ILinkRelationFactory>(new DefaultLinkRelationFactory()),
+            Instance<IDocumentFactory>(new DefaultDocumentFactory()),
+            Instance<IAttributeObserver>(new DefaultAttributeObserver()),
+            Instance<IMetaHandler>(new EncodingMetaHandler()),
+            Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
+            Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
+            Creator<IXmlParser>(ctx => new XmlParser(ctx)),
+            Creator<IEventLoop>(ctx => new TaskEventLoop(ctx)),
         };
 
         /// <summary>
