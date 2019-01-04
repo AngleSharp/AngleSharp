@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
@@ -118,7 +118,7 @@
                 return download;
             }
 
-            return new Download(TaskEx.FromResult(default(IResponse)), cancel, request.Address, originator);
+            return new Download(Task.FromResult(default(IResponse)), cancel, request.Address, originator);
         }
 
         /// <summary>

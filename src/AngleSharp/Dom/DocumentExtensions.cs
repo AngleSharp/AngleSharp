@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Browser;
     using AngleSharp.Html.Dom;
@@ -273,9 +273,9 @@
         public static async Task WaitForReadyAsync(this IDocument document)
         {
             var scripts = document.GetScriptDownloads().ToArray();
-            await TaskEx.WhenAll(scripts).ConfigureAwait(false);
+            await Task.WhenAll(scripts).ConfigureAwait(false);
             var styles = document.GetStyleSheetDownloads().ToArray();
-            await TaskEx.WhenAll(styles).ConfigureAwait(false);
+            await Task.WhenAll(styles).ConfigureAwait(false);
         }
 
         /// <summary>

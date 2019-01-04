@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Browser.Dom.Events
+namespace AngleSharp.Browser.Dom.Events
 {
     using AngleSharp.Dom.Events;
     using System;
@@ -40,7 +40,7 @@
         {
             if (_result != null)
             {
-                _result = TaskEx.WhenAll(_result, value);
+                _result = Task.WhenAll(_result, value);
             }
             else
             {

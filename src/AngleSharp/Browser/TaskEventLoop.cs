@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Browser
+namespace AngleSharp.Browser
 {
     using AngleSharp.Common;
     using System;
@@ -139,7 +139,7 @@
             {
                 if (_task == null)
                 {
-                    _task = TaskEx.Run(() =>
+                    _task = Task.Run(() =>
                     {
                         _action.Invoke(_cts.Token);
                         callback.Invoke();

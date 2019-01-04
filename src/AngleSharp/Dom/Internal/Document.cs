@@ -1244,7 +1244,7 @@ namespace AngleSharp.Dom
 
             this.QueueTask(RaiseDomContentLoaded);
 
-            await TaskEx.WhenAll(tasks).ConfigureAwait(false);
+            await Task.WhenAll(tasks).ConfigureAwait(false);
 
             this.QueueTask(RaiseLoadedEvent);
 

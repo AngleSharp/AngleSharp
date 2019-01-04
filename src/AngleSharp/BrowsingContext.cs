@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+namespace AngleSharp
 {
     using AngleSharp.Browser;
     using AngleSharp.Browser.Dom;
@@ -64,44 +64,29 @@
         /// creator is the active document of the parent at the time of
         /// creation.
         /// </summary>
-        public IDocument Creator
-        {
-            get { return _creator; }
-        }
+        public IDocument Creator => _creator;
 
         /// <summary>
         /// Gets the current window proxy.
         /// </summary>
-        public IWindow Current
-        {
-            get { return Active?.DefaultView; }
-        }
+        public IWindow Current => Active?.DefaultView;
 
         /// <summary>
         /// Gets the parent of the current context, if any. If a parent is
         /// available, then the current context contains only embedded
         /// documents.
         /// </summary>
-        public IBrowsingContext Parent
-        {
-            get { return _parent; }
-        }
+        public IBrowsingContext Parent => _parent;
 
         /// <summary>
         /// Gets the session history of the given browsing context, if any.
         /// </summary>
-        public IHistory SessionHistory
-        {
-            get { return _history; }
-        }
+        public IHistory SessionHistory => _history;
 
         /// <summary>
         /// Gets the sandboxing flag of the context.
         /// </summary>
-        public Sandboxes Security
-        {
-            get { return _security; }
-        }
+        public Sandboxes Security => _security;
 
         #endregion
 

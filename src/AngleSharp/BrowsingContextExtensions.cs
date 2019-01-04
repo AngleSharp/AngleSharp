@@ -456,7 +456,7 @@ namespace AngleSharp
         {
             var ev = new InteractivityEvent<T>(eventName, data);
             context.Fire(ev);
-            return ev.Result ?? TaskEx.FromResult(false);
+            return ev.Result ?? Task.FromResult(false);
         }
 
         #endregion

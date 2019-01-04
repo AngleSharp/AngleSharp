@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
@@ -132,7 +132,7 @@
         private static IDownload Wrap(this IDownload download, IResponse response)
         {
             var cts = new CancellationTokenSource();
-            var task = TaskEx.FromResult(response);
+            var task = Task.FromResult(response);
             return new Download(task, cts, download.Target, download.Source);
         }
 

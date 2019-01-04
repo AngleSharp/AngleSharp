@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Browser;
     using AngleSharp.Browser.Dom;
@@ -639,7 +639,7 @@
         private async Task DoTimeoutAsync(Action<IWindow> callback, Int32 timeout, CancellationTokenSource cts)
         {
             var token = cts.Token;
-            await TaskEx.Delay(timeout, token).ConfigureAwait(false);
+            await Task.Delay(timeout, token).ConfigureAwait(false);
 
             if (!token.IsCancellationRequested)
             {

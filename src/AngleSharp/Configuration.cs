@@ -3,7 +3,6 @@ namespace AngleSharp
     using AngleSharp.Browser;
     using AngleSharp.Common;
     using AngleSharp.Css.Parser;
-    using AngleSharp.Html;
     using AngleSharp.Html.Parser;
     using AngleSharp.Xml.Parser;
     using System;
@@ -72,10 +71,7 @@ namespace AngleSharp
         /// Gets the default configuration to use. The default configuration
         /// can be overriden by calling the SetDefault method.
         /// </summary>
-        public static IConfiguration Default
-        {
-            get { return customConfiguration ?? defaultConfiguration; }
-        }
+        public static IConfiguration Default => customConfiguration ?? defaultConfiguration;
 
         /// <summary>
         /// Sets the default configuration to use, when the configuration
@@ -95,10 +91,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets an enumeration over the registered services.
         /// </summary>
-        public IEnumerable<Object> Services
-        {
-            get { return _services; }
-        }
+        public IEnumerable<Object> Services => _services;
 
         #endregion
     }
