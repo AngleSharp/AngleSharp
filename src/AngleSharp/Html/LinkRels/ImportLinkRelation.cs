@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.LinkRels
+namespace AngleSharp.Html.LinkRels
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -13,7 +13,7 @@
         #region Fields
 
         private static readonly ConditionalWeakTable<IDocument, ImportList> ImportLists = new ConditionalWeakTable<IDocument, ImportList>();
-        private Boolean _isasync;
+        private Boolean _async;
 
         #endregion
 
@@ -28,19 +28,9 @@
 
         #region Properties
 
-        public IDocument Import
-        {
-            get 
-            {
-                var processor = Processor as DocumentRequestProcessor;
-                return processor?.ChildDocument;
-            }
-        }
+        public IDocument Import => (Processor as DocumentRequestProcessor)?.ChildDocument;
 
-        public Boolean IsAsync
-        {
-            get { return _isasync; }
-        }
+        public Boolean IsAsync => _async;
 
         #endregion
 
@@ -66,7 +56,7 @@
             if (location != null && !item.IsCycle)
             {
                 var request = link.CreateRequestFor(location);
-                _isasync = link.HasAttribute(AttributeNames.Async);
+                _async = link.HasAttribute(AttributeNames.Async);
                 return processor?.ProcessAsync(request);
             }
 

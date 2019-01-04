@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Io.Dom;
@@ -24,10 +24,7 @@
 
         #region Properties
 
-        public FileList Files
-        {
-            get { return _files; }
-        }
+        public FileList Files => _files;
 
         #endregion
 

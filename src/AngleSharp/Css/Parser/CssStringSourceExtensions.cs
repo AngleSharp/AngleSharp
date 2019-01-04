@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Text;
     using System;
@@ -75,7 +75,7 @@
 
                 if (!code.IsInvalid())
                 {
-                    return code.ConvertFromUtf32();
+                    return Char.ConvertFromUtf32(code);
                 }
 
                 current = Symbols.Replacement;

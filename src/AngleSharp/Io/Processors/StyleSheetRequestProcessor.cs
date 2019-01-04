@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Processors
+namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Common;
     using AngleSharp.Css;
@@ -38,15 +38,9 @@
             private set;
         }
 
-        public IStylingService Engine
-        {
-            get { return _engine ?? (_engine = _context.GetStyling(LinkType)); }
-        }
+        public IStylingService Engine => _engine ?? (_engine = _context.GetStyling(LinkType));
 
-        public String LinkType
-        {
-            get { return _link.Type ?? MimeTypeNames.Css; }
-        }
+        public String LinkType => _link.Type ?? MimeTypeNames.Css;
 
         #endregion
 

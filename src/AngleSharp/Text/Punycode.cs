@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Text
+namespace AngleSharp.Text
 {
     using System;
     using System.Collections.Generic;
@@ -131,7 +131,7 @@
 
                         for (m = MaxIntValue, j = iAfterLastDot; j < iNextDot; j += IsSupplementary(test) ? 2 : 1)
                         {
-                            test = text.ConvertToUtf32(j);
+                            test = Char.ConvertToUtf32(text, j);
 
                             if (test >= n && test < m)
                             {
@@ -147,7 +147,7 @@
                         for (j = iAfterLastDot; j < iNextDot; j += IsSupplementary(test) ? 2 : 1)
                         {
                             // Make sure we're aware of surrogates
-                            test = text.ConvertToUtf32(j);
+                            test = Char.ConvertToUtf32(text, j);
 
                             // Adjust for character position (only the chars in our string already, some
                             // haven't been processed.

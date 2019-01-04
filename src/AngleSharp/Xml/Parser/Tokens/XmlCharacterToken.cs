@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xml.Parser.Tokens
+namespace AngleSharp.Xml.Parser.Tokens
 {
     using AngleSharp.Text;
     using System;
@@ -40,18 +40,12 @@
         /// <summary>
         /// Gets if the token only contains spaces.
         /// </summary>
-        public override Boolean IsIgnorable
-        {
-            get { return _data.StripLeadingTrailingSpaces().Length == 0; }
-        }
+        public override Boolean IsIgnorable => _data.StripLeadingTrailingSpaces().Length == 0;
 
         /// <summary>
         /// Gets the data of the character token.
         /// </summary>
-        public String Data
-        {
-            get { return _data; }
-        }
+        public String Data => _data;
 
         #endregion
     }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Processors
+namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Dom;
     using System;
@@ -33,10 +33,7 @@
         /// <summary>
         /// Gets the status if downloads can be created.
         /// </summary>
-        public Boolean IsAvailable
-        {
-            get { return _loader != null; }
-        }
+        public Boolean IsAvailable => _loader != null;
 
         /// <summary>
         /// Gets the associated download.

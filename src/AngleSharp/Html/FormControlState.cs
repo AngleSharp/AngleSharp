@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using System;
 
@@ -37,26 +37,17 @@
         /// <summary>
         /// Gets the name of the field.
         /// </summary>
-        public String Name
-        {
-            get { return _name; }
-        }
+        public String Name => _name;
 
         /// <summary>
         /// Gets the field's value.
         /// </summary>
-        public String Value
-        {
-            get { return _value; }
-        }
+        public String Value => _value;
 
         /// <summary>
         /// Gets the type of the field.
         /// </summary>
-        public String Type
-        {
-            get { return _type; }
-        }
+        public String Type => _type;
 
         #endregion
     }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Common
+namespace AngleSharp.Common
 {
     using AngleSharp.Text;
     using System;
@@ -18,6 +18,7 @@
         private UInt16 _column;
         private UInt16 _row;
         private Char _current;
+        private StringBuilder _buffer;
 
         #endregion
 
@@ -29,7 +30,7 @@
         /// <param name="source">The source to tokenize.</param>
         public BaseTokenizer(TextSource source)
         {
-            StringBuffer = StringBuilderPool.Obtain();
+            _buffer = StringBuilderPool.Obtain();
             _columns = new Stack<UInt16>();
             _source = source;
             _current = Symbols.Null;
@@ -68,27 +69,17 @@
         /// <summary>
         /// Gets the current source index.
         /// </summary>
-        public Int32 Position
-        {
-            get { return _source.Index; }
-        }
-
-        /// <summary>
-        /// Gets the allocated string buffer.
-        /// </summary>
-        protected StringBuilder StringBuffer
-        {
-            get;
-            private set;
-        }
+        public Int32 Position => _source.Index;
 
         /// <summary>
         /// Gets the current character.
         /// </summary>
-        protected Char Current
-        {
-            get { return _current; }
-        }
+        protected Char Current => _current;
+
+        /// <summary>
+        /// Gets the allocated string buffer.
+        /// </summary>
+        protected StringBuilder StringBuffer => _buffer;
 
         #endregion
 
@@ -119,7 +110,7 @@
                 var disposable = _source as IDisposable;
                 disposable?.Dispose();
                 StringBuffer.Clear().ToPool();
-                StringBuffer = null;
+                _buffer = null;
             }
         }
 

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser.Tokens
+namespace AngleSharp.Html.Parser.Tokens
 {
     using AngleSharp.Text;
     using System;
@@ -47,18 +47,12 @@
         /// <summary>
         /// Gets the state of the public identifier.
         /// </summary>
-        public Boolean IsPublicIdentifierMissing
-        {
-            get { return _publicIdentifier == null; }
-        }
+        public Boolean IsPublicIdentifierMissing => _publicIdentifier == null;
 
         /// <summary>
         /// Gets the state of the system identifier.
         /// </summary>
-        public Boolean IsSystemIdentifierMissing
-        {
-            get { return _systemIdentifier == null; }
-        }
+        public Boolean IsSystemIdentifierMissing => _systemIdentifier == null;
 
         /// <summary>
         /// Gets or sets the value of the public identifier.

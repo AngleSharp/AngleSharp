@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Processors
+namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Media;
     using System;
@@ -25,15 +25,9 @@
 
         #region Properties
 
-        public String Source
-        {
-            get { return Resource?.Source.Href ?? String.Empty; }
-        }
+        public String Source => Resource?.Source.Href ?? String.Empty;
 
-        public Boolean IsReady
-        {
-            get { return Resource != null; }
-        }
+        public Boolean IsReady => Resource != null;
 
         public TResource Resource
         {

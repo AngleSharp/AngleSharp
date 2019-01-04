@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xml.Parser.Tokens
+namespace AngleSharp.Xml.Parser.Tokens
 {
     using AngleSharp.Text;
     using System;
@@ -36,33 +36,24 @@
         /// <summary>
         /// Gets the state of the name.
         /// </summary>
-        public Boolean IsNameMissing
-        {
-            get { return _name == null; }
-        }
+        public Boolean IsNameMissing => _name == null;
 
         /// <summary>
         /// Gets the state of the public identifier.
         /// </summary>
-        public Boolean IsPublicIdentifierMissing
-        {
-            get { return _publicIdentifier == null; }
-        }
+        public Boolean IsPublicIdentifierMissing => _publicIdentifier == null;
 
         /// <summary>
         /// Gets the state of the system identifier.
         /// </summary>
-        public Boolean IsSystemIdentifierMissing
-        {
-            get { return _systemIdentifier == null; }
-        }
+        public Boolean IsSystemIdentifierMissing => _systemIdentifier == null;
 
         /// <summary>
         /// Gets or sets the name of the DOCTYPE token.
         /// </summary>
         public String Name
         {
-            get { return _name ?? string.Empty; }
+            get { return _name ?? String.Empty; }
             set { _name = value; }
         }
 
@@ -71,7 +62,7 @@
         /// </summary>
         public String PublicIdentifier
         {
-            get { return _publicIdentifier ?? string.Empty; }
+            get { return _publicIdentifier ?? String.Empty; }
             set { _publicIdentifier = value; }
         }
 
@@ -80,7 +71,7 @@
         /// </summary>
         public String SystemIdentifier
         {
-            get { return _systemIdentifier ?? string.Empty; }
+            get { return _systemIdentifier ?? String.Empty; }
             set { _systemIdentifier = value; }
         }
 

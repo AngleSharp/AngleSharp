@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Text;
     using System;
@@ -79,26 +79,17 @@
         /// <summary>
         /// Gets the general type.
         /// </summary>
-        public String GeneralType
-        {
-            get { return _general; }
-        }
+        public String GeneralType => _general;
 
         /// <summary>
         /// Gets the media type, if specified.
         /// </summary>
-        public String MediaType
-        {
-            get { return _media; }
-        }
+        public String MediaType => _media;
 
         /// <summary>
         /// Gets the suffix, if any.
         /// </summary>
-        public String Suffix
-        {
-            get { return _suffix; }
-        }
+        public String Suffix => _suffix;
 
         /// <summary>
         /// Gets an iterator over all integrated keys.

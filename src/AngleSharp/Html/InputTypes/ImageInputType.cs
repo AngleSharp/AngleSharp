@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -34,15 +34,9 @@
 
         #region Properties
 
-        public Int32 Width
-        {
-            get { return _request?.Width ?? 0; }
-        }
+        public Int32 Width => _request?.Width ?? 0;
 
-        public Int32 Height
-        {
-            get { return  _request?.Height ?? 0; }
-        }
+        public Int32 Height =>  _request?.Height ?? 0;
 
         #endregion
 

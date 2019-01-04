@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Text
+namespace AngleSharp.Text
 {
     using System;
     using System.IO;
@@ -79,20 +79,19 @@
         /// <summary>
         /// Gets the full text buffer.
         /// </summary>
-        public String Text
-        {
-            get { return _content.ToString(); }
-        }
+        public String Text => _content.ToString();
 
         /// <summary>
         /// Gets the character at the given position in the text buffer.
         /// </summary>
         /// <param name="index">The index of the character.</param>
         /// <returns>The character.</returns>
-        public Char this[Int32 index]
-        {
-            get { return Replace(_content[index]); }
-        }
+        public Char this[Int32 index] => Replace(_content[index]);
+
+        /// <summary>
+        /// Gets the length of the text buffer.
+        /// </summary>
+        public Int32 Length => _content.Length;
 
         /// <summary>
         /// Gets or sets the encoding to use.
@@ -158,14 +157,6 @@
         {
             get { return _index; }
             set { _index = value; }
-        }
-
-        /// <summary>
-        /// Gets the length of the text buffer.
-        /// </summary>
-        public Int32 Length
-        {
-            get { return _content.Length; }
         }
 
         #endregion

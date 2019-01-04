@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
     using System;
@@ -2584,7 +2584,7 @@
         /// <returns>The array containing the character.</returns>
         private static String Convert(Int32 code)
         {
-            return code.ConvertFromUtf32();
+            return Char.ConvertFromUtf32(code);
         }
 
         /// <summary>
@@ -2595,7 +2595,7 @@
         /// <returns>The array containing the two characters.</returns>
         private static String Convert(Int32 leading, Int32 trailing)
         {
-            return leading.ConvertFromUtf32() + trailing.ConvertFromUtf32();
+            return Char.ConvertFromUtf32(leading) + Char.ConvertFromUtf32(trailing);
         }
 
         /// <summary>

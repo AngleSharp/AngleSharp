@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Forms
+namespace AngleSharp.Html.Forms
 {
     using AngleSharp.Io;
     using AngleSharp.Io.Dom;
@@ -34,7 +34,6 @@
             var result = false;
             var content = _value?.Body;
 
-            #if !NET40 && !SL50
             if (content != null && content.CanSeek)
             {
                 using (var sr = new StreamReader(content, encoding, false, 4096, true))
@@ -53,7 +52,6 @@
 
                 content.Seek(0, SeekOrigin.Begin);
             }
-            #endif
 
             return result;
         }

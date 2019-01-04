@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Processors
+namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Media;
     using System;
@@ -22,15 +22,9 @@
 
         #region Properties
 
-        public Int32 Width
-        {
-            get { return IsReady ? Resource.Width : 0; }
-        }
+        public Int32 Width => IsReady ? Resource.Width : 0;
 
-        public Int32 Height
-        {
-            get { return IsReady ? Resource.Height : 0; }
-        }
+        public Int32 Height => IsReady ? Resource.Height : 0;
 
         #endregion
 

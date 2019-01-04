@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
@@ -545,7 +545,7 @@
                 RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidRange);
             }
 
-            return num.ConvertFromUtf32();
+            return Char.ConvertFromUtf32(num);
         }
 
         private String GetLookupCharacterReference(Char c, Char allowedCharacter)

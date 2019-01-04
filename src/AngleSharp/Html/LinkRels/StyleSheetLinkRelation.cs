@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.LinkRels
+namespace AngleSharp.Html.LinkRels
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -18,14 +18,7 @@
 
         #region Properties
 
-        public IStyleSheet Sheet
-        {
-            get 
-            {
-                var processor = Processor as StyleSheetRequestProcessor;
-                return processor?.Sheet; 
-            }
-        }
+        public IStyleSheet Sheet => (Processor as StyleSheetRequestProcessor)?.Sheet;
 
         #endregion
 

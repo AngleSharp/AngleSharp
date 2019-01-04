@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xml.Parser
+namespace AngleSharp.Xml.Parser
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
@@ -223,7 +223,7 @@
                     if (number.IsValidAsCharRef())
                     {
                         StringBuffer.Remove(start, length);
-                        return number.ConvertFromUtf32();
+                        return Char.ConvertFromUtf32(number);
                     }
 
                     StringBuffer.Append(c);

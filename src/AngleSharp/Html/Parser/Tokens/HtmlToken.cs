@@ -37,15 +37,6 @@ namespace AngleSharp.Html.Parser.Tokens
         #region Properties
 
         /// <summary>
-        /// Gets if the character data is empty (null or length equal to zero).
-        /// </summary>
-        /// <returns>True if the character data is actually NULL or empty.</returns>
-        public Boolean IsEmpty
-        {
-            get { return String.IsNullOrEmpty(_name); }
-        }
-
-        /// <summary>
         /// Gets if the character data contains actually a non-space character.
         /// </summary>
         /// <returns>True if the character data contains space character.</returns>
@@ -75,52 +66,40 @@ namespace AngleSharp.Html.Parser.Tokens
         }
 
         /// <summary>
+        /// Gets if the character data is empty (null or length equal to zero).
+        /// </summary>
+        /// <returns>True if the character data is actually NULL or empty.</returns>
+        public Boolean IsEmpty => String.IsNullOrEmpty(_name);
+
+        /// <summary>
         /// Gets the data of the comment or character token.
         /// </summary>
-        public String Data
-        {
-            get { return _name; }
-        }
+        public String Data => _name;
 
         /// <summary>
         /// Gets the position of the token.
         /// </summary>
-        public TextPosition Position
-        {
-            get { return _position; }
-        }
+        public TextPosition Position => _position;
 
         /// <summary>
         /// Gets if the token can be used with IsHtmlTIP properties.
         /// </summary>
-        public Boolean IsHtmlCompatible
-        {
-            get { return _type == HtmlTokenType.StartTag || _type == HtmlTokenType.Character; }
-        }
+        public Boolean IsHtmlCompatible => _type == HtmlTokenType.StartTag || _type == HtmlTokenType.Character;
 
         /// <summary>
         /// Gets if the given token is a SVG root start tag.
         /// </summary>
-        public Boolean IsSvg
-        {
-            get { return IsStartTag(TagNames.Svg); }
-        }
+        public Boolean IsSvg => IsStartTag(TagNames.Svg);
 
         /// <summary>
         /// Gets if the token can be used with IsMathMLTIP properties.
         /// </summary>
-        public Boolean IsMathCompatible
-        {
-            get { return (!IsStartTag("mglyph") && !IsStartTag("malignmark")) || _type == HtmlTokenType.Character; }
-        }
+        public Boolean IsMathCompatible => (!IsStartTag("mglyph") && !IsStartTag("malignmark")) || _type == HtmlTokenType.Character;
 
         /// <summary>
         /// Gets the type of the token.
         /// </summary>
-        public HtmlTokenType Type
-        {
-            get { return _type; }
-        }
+        public HtmlTokenType Type => _type;
 
         #endregion
 

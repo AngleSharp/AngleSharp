@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using System;
     using System.Globalization;
@@ -22,10 +22,7 @@
         /// <summary>
         /// Gets the associated cookie container.
         /// </summary>
-        public CookieContainer Container
-        {
-            get { return _container; }
-        }
+        public CookieContainer Container => _container;
 
         /// <summary>
         /// Gets the cookie value of the given address.

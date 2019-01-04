@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Html.LinkRels
+namespace AngleSharp.Html.LinkRels
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Io.Processors;
+    using System;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -34,26 +35,17 @@
         /// <summary>
         /// Gets the assigned request processor.
         /// </summary>
-        public IRequestProcessor Processor
-        {
-            get { return _processor; }
-        }
+        public IRequestProcessor Processor => _processor;
 
         /// <summary>
         /// Gets the associated link element.
         /// </summary>
-        public IHtmlLinkElement Link
-        {
-            get { return _link; }
-        }
+        public IHtmlLinkElement Link => _link;
 
         /// <summary>
         /// Gets the currently used URL.
         /// </summary>
-        public Url Url
-        {
-            get { return string.IsNullOrEmpty(_link.Href) ? null : new Url(_link.Href); }
-        }
+        public Url Url => String.IsNullOrEmpty(_link.Href) ? null : new Url(_link.Href);
 
         #endregion
 

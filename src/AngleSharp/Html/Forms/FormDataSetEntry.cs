@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Forms
+namespace AngleSharp.Html.Forms
 {
     using System;
     using System.Text;
@@ -35,26 +35,17 @@
         /// <summary>
         /// Gets if the name has been given.
         /// </summary>
-        public Boolean HasName
-        {
-            get { return _name != null; }
-        }
+        public Boolean HasName => _name != null;
 
         /// <summary>
         /// Gets the entry's name.
         /// </summary>
-        public String Name
-        {
-            get { return _name ?? String.Empty; }
-        }
+        public String Name => _name ?? String.Empty;
 
         /// <summary>
         /// Gets the entry's type.
         /// </summary>
-        public String Type
-        {
-            get { return _type ?? InputTypeNames.Text; }
-        }
+        public String Type => _type ?? InputTypeNames.Text;
 
         #endregion
 

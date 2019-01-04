@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Text
+namespace AngleSharp.Text
 {
     using System;
     using System.Diagnostics;
@@ -36,18 +36,12 @@
         /// <summary>
         /// Gets the start position of the range.
         /// </summary>
-        public TextPosition Start
-        {
-            get { return _start; }
-        }
+        public TextPosition Start => _start;
 
         /// <summary>
         /// Gets the end position of the range.
         /// </summary>
-        public TextPosition End
-        {
-            get { return _end; }
-        }
+        public TextPosition End => _end;
 
         #endregion
 

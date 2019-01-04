@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
@@ -51,26 +51,17 @@
         /// <summary>
         /// Gets the name of the input type.
         /// </summary>
-        public String Name
-        {
-            get { return _name; }
-        }
+        public String Name => _name;
 
         /// <summary>
         /// Gets if the input type can be validated.
         /// </summary>
-        public Boolean CanBeValidated
-        {
-            get { return _validate; }
-        }
+        public Boolean CanBeValidated => _validate;
 
         /// <summary>
         /// Gets the associated input element.
         /// </summary>
-        public IHtmlInputElement Input
-        {
-            get { return _input; }
-        }
+        public IHtmlInputElement Input => _input;
 
         #endregion
 

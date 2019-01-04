@@ -61,10 +61,7 @@ namespace AngleSharp.Io
         /// <summary>
         /// Gets the used headers.
         /// </summary>
-        public IDictionary<String, String> Headers
-        {
-            get { return _headers; }
-        }
+        public IDictionary<String, String> Headers => _headers;
 
         /// <summary>
         /// Gets or sets the timeout value.
@@ -105,7 +102,7 @@ namespace AngleSharp.Io
         /// </returns>
         protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancellationToken)
         {
-            var cts = CreateTimeoutToken(_timeOut);
+            var cts = new CancellationTokenSource(_timeOut);
             var cache = new RequestState(request, _headers, _setup);
 
             using (cancellationToken.Register(cts.Cancel))
@@ -115,28 +112,6 @@ namespace AngleSharp.Io
         }
 
         #endregion
-
-        #region Helpers
-
-        private static CancellationTokenSource CreateTimeoutToken(TimeSpan elapsed)
-        {
-#if NET40 || SL50
-            var source = new CancellationTokenSource();
-            var timer = new Timer(self =>
-            {
-                ((Timer)self).Dispose();
-
-                try { source.Cancel(); }
-                catch (ObjectDisposedException) { }
-            });
-            timer.Change((Int32)elapsed.TotalMilliseconds, -1);
-            return source;
-#else
-            return new CancellationTokenSource(elapsed);
-#endif
-        }
-
-#endregion
 
         #region Transport
 

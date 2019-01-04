@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xml.Parser.Tokens
+namespace AngleSharp.Xml.Parser.Tokens
 {
     using AngleSharp.Text;
     using System;
@@ -54,10 +54,7 @@
         /// <summary>
         /// Gets the list of attributes.
         /// </summary>
-        public List<KeyValuePair<String, String>> Attributes
-        {
-            get { return _attributes; }
-        }
+        public List<KeyValuePair<String, String>> Attributes => _attributes;
 
         #endregion
 

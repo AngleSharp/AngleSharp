@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using System;
     using System.Runtime.InteropServices;
@@ -88,34 +88,22 @@
         /// <summary>
         /// Gets the number of tags for this priority.
         /// </summary>
-        public Byte Tags
-        {
-            get { return _tags; }
-        }
+        public Byte Tags => _tags;
 
         /// <summary>
         /// Gets the number of classes for this priority.
         /// </summary>
-        public Byte Classes
-        {
-            get { return _classes; }
-        }
+        public Byte Classes => _classes;
 
         /// <summary>
         /// Gets the number of ids for this priority.
         /// </summary>
-        public Byte Ids
-        {
-            get { return _ids; }
-        }
+        public Byte Ids => _ids;
 
         /// <summary>
         /// Gets the number of inlines for this priority.
         /// </summary>
-        public Byte Inlines
-        {
-            get { return _inlines; }
-        }
+        public Byte Inlines => _inlines;
 
         #endregion
 

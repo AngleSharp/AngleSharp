@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Processors
+namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -42,10 +42,7 @@
             private set;
         }
 
-        public IScriptingService Engine
-        {
-            get { return _engine ?? (_engine = _context.GetScripting(ScriptLanguage)); }
-        }
+        public IScriptingService Engine => _engine ?? (_engine = _context.GetScripting(ScriptLanguage));
 
         public String AlternativeLanguage
         {

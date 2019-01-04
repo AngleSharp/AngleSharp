@@ -77,26 +77,17 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Gets if the tree builder has been created for parsing fragments.
         /// </summary>
-        public Boolean IsFragmentCase
-        {
-            get { return _fragmentContext != null; }
-        }
+        public Boolean IsFragmentCase => _fragmentContext != null;
 
         /// <summary>
         /// Gets the adjusted current node.
         /// </summary>
-        public Element AdjustedCurrentNode
-        {
-            get { return (_fragmentContext != null && _openElements.Count == 1) ? _fragmentContext : CurrentNode; }
-        }
+        public Element AdjustedCurrentNode => (_fragmentContext != null && _openElements.Count == 1) ? _fragmentContext : CurrentNode;
 
         /// <summary>
         /// Gets the current node.
         /// </summary>
-        public Element CurrentNode
-        {
-            get { return _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null; }
-        }
+        public Element CurrentNode => _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null;
 
         #endregion
 

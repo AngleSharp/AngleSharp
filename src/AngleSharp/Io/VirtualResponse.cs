@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Common;
     using AngleSharp.Text;
@@ -49,25 +49,13 @@
 
         #region Properties
 
-        Url IResponse.Address
-        {
-            get { return _address; }
-        }
+        Url IResponse.Address => _address;
 
-        Stream IResponse.Content
-        {
-            get { return _content; }
-        }
+        Stream IResponse.Content => _content;
 
-        IDictionary<String, String> IResponse.Headers
-        {
-            get { return _headers; }
-        }
+        IDictionary<String, String> IResponse.Headers => _headers;
 
-        HttpStatusCode IResponse.StatusCode
-        {
-            get { return _status; }
-        }
+        HttpStatusCode IResponse.StatusCode => _status;
 
         #endregion
 

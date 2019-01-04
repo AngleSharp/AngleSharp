@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Text
+namespace AngleSharp.Text
 {
     using System;
 
@@ -32,10 +32,7 @@
         /// <summary>
         /// Gets the start and end of the text view.
         /// </summary>
-        public TextRange Range
-        {
-            get { return _range; }
-        }
+        public TextRange Range => _range;
 
         /// <summary>
         /// Gets the text associated with this view.

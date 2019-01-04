@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Forms;
@@ -42,10 +42,7 @@
         /// <summary>
         /// Gets the chosen boundary.
         /// </summary>
-        public String Boundary
-        {
-            get { return _boundary; }
-        }
+        public String Boundary => _boundary;
 
         #endregion
 

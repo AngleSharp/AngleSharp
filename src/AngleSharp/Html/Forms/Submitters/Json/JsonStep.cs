@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Forms.Submitters.Json
+namespace AngleSharp.Html.Forms.Submitters.Json
 {
     using AngleSharp.Text;
     using System;
@@ -39,7 +39,9 @@
                     index += 2;
 
                     if (index < path.Length)
+                    {
                         return FailedJsonSteps(path);
+                    }
                 }
                 else if (path[index + 1].IsDigit())
                 {
@@ -48,13 +50,17 @@
                     while (index < path.Length && path[index] != Symbols.SquareBracketClose)
                     {
                         if (!path[index].IsDigit())
+                        {
                             return FailedJsonSteps(path);
+                        }
 
                         index++;
                     }
 
                     if (index == path.Length)
+                    {
                         return FailedJsonSteps(path);
+                    }
 
                     steps.Add(new ArrayStep(path.Substring(start, index - start).ToInteger(0)));
                     index++;
@@ -69,7 +75,9 @@
                     }
 
                     if (index == path.Length)
+                    {
                         return FailedJsonSteps(path);
+                    }
 
                     steps.Add(new ObjectStep(path.Substring(start, index - start)));
                     index++;

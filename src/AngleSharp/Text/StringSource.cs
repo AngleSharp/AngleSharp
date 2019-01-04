@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Text
+namespace AngleSharp.Text
 {
     using System;
 
@@ -36,34 +36,22 @@
         /// <summary>
         /// Gets the current character.
         /// </summary>
-        public Char Current
-        {
-            get { return _current; }
-        }
+        public Char Current => _current;
 
         /// <summary>
         /// Gets if the content has been fully scanned.
         /// </summary>
-        public Boolean IsDone
-        {
-            get { return _current == Symbols.EndOfFile; }
-        }
+        public Boolean IsDone => _current == Symbols.EndOfFile;
 
         /// <summary>
         /// Gets the current index.
         /// </summary>
-        public Int32 Index
-        {
-            get { return _index; }
-        }
+        public Int32 Index => _index;
 
         /// <summary>
         /// Gets the underlying content.
         /// </summary>
-        public String Content
-        {
-            get { return _content; }
-        }
+        public String Content => _content;
 
         #endregion
 

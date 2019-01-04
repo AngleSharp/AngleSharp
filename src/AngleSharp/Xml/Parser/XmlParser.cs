@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xml.Parser
+namespace AngleSharp.Xml.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -98,18 +98,12 @@
         /// <summary>
         /// Gets the specified options.
         /// </summary>
-        public XmlParserOptions Options
-        {
-            get { return _options; }
-        }
+        public XmlParserOptions Options => _options;
 
         /// <summary>
         /// Gets the specified context.
         /// </summary>
-        public IBrowsingContext Context
-        {
-            get { return _context; }
-        }
+        public IBrowsingContext Context => _context;
 
         #endregion
 

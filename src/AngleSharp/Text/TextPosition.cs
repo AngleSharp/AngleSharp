@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Text
+namespace AngleSharp.Text
 {
     using System;
 
@@ -42,26 +42,17 @@
         /// <summary>
         /// Gets the line within the document.
         /// </summary>
-        public Int32 Line
-        {
-            get { return _line; }
-        }
+        public Int32 Line => _line;
 
         /// <summary>
         /// Gets the column within the document.
         /// </summary>
-        public Int32 Column
-        {
-            get { return _column; }
-        }
+        public Int32 Column => _column;
 
         /// <summary>
         /// Gets the position within the source.
         /// </summary>
-        public Int32 Position
-        {
-            get { return _position; }
-        }
+        public Int32 Position => _position;
 
         #endregion
 

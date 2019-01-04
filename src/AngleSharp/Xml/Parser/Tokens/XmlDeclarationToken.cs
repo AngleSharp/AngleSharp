@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xml.Parser.Tokens
+namespace AngleSharp.Xml.Parser.Tokens
 {
     using AngleSharp.Text;
     using System;
@@ -34,20 +34,17 @@
         #region Properties
 
         /// <summary>
+        /// Gets if the encoding value has been set.
+        /// </summary>
+        public Boolean IsEncodingMissing => _encoding == null;
+
+        /// <summary>
         /// Gets or sets the version value.
         /// </summary>
         public String Version
         {
             get { return _version; }
             set { _version = value; }
-        }
-
-        /// <summary>
-        /// Gets if the encoding value has been set.
-        /// </summary>
-        public Boolean IsEncodingMissing
-        {
-            get { return _encoding == null; }
         }
 
         /// <summary>

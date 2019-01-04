@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using System;
     using System.Threading;
@@ -32,30 +32,17 @@
 
         #region Properties
 
-        public Object Source
-        {
-            get { return _source; }
-        }
+        public Object Source => _source;
 
-        public Url Target
-        {
-            get { return _target; }
-        }
+        public Url Target => _target;
 
-        public Task<IResponse> Task
-        {
-            get { return _task; }
-        }
+        public Task<IResponse> Task => _task;
 
-        public Boolean IsRunning
-        {
-            get { return _task.Status == TaskStatus.Running; }
-        }
+        public Boolean IsRunning => _task.Status == TaskStatus.Running;
 
-        public Boolean IsCompleted
-        {
-            get { return _task.Status == TaskStatus.Faulted || _task.Status == TaskStatus.RanToCompletion || _task.Status == TaskStatus.Canceled; }
-        }
+        public Boolean IsCompleted => _task.Status == TaskStatus.Faulted ||
+            _task.Status == TaskStatus.RanToCompletion ||
+            _task.Status == TaskStatus.Canceled;
 
         #endregion
 

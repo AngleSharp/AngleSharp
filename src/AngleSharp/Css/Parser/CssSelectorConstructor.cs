@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Common;
     using AngleSharp.Css.Dom;
@@ -79,15 +79,9 @@
 
         #region Properties
 
-        public Boolean IsValid
-        {
-            get { return _invoked && _valid && _ready; }
-        }
+        public Boolean IsValid => _invoked && _valid && _ready;
 
-        public Boolean IsNested
-        {
-            get { return _nested; }
-        }
+        public Boolean IsNested => _nested;
 
         #endregion
 

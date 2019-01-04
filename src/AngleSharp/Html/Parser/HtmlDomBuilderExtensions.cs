@@ -5,9 +5,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-#if !NET40
     using System.Runtime.CompilerServices;
-#endif
 
     /// <summary>
     /// Extensions to be used exclusively by the DOM Builder.

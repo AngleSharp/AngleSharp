@@ -1,9 +1,7 @@
-﻿namespace AngleSharp.Text
+namespace AngleSharp.Text
 {
     using System;
-#if !NET40
     using System.Runtime.CompilerServices;
-#endif
 
     /// <summary>
     /// Useful methods for chars.

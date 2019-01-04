@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xml.Parser
+namespace AngleSharp.Xml.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -50,10 +50,7 @@
         /// <summary>
         /// Gets if the document was detected to be standalone.
         /// </summary>
-        public Boolean IsStandalone
-        {
-            get { return _standalone; }
-        }
+        public Boolean IsStandalone => _standalone;
 
         /// <summary>
         /// Gets the current node.

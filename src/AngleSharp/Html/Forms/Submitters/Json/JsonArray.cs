@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Forms.Submitters.Json
+namespace AngleSharp.Html.Forms.Submitters.Json
 {
     using AngleSharp.Text;
     using System;
@@ -8,17 +8,9 @@
 
     sealed class JsonArray : JsonElement, IEnumerable<JsonElement>
     {
-        private readonly List<JsonElement> _elements;
+        private readonly List<JsonElement> _elements = new List<JsonElement>();
 
-        public JsonArray()
-        {
-            _elements = new List<JsonElement>();
-        }
-
-        public Int32 Length
-        {
-            get { return _elements.Count; }
-        }
+        public Int32 Length => _elements.Count;
 
         public void Push(JsonElement element)
         {

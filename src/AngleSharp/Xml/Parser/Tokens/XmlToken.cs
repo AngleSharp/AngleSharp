@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xml.Parser.Tokens
+namespace AngleSharp.Xml.Parser.Tokens
 {
     using AngleSharp.Text;
     using System;
@@ -30,26 +30,17 @@
         /// <summary>
         /// Gets if the token can be ignored.
         /// </summary>
-        public virtual Boolean IsIgnorable
-        {
-            get { return false; }
-        }
+        public virtual Boolean IsIgnorable => false;
 
         /// <summary>
         /// Gets the type of the token.
         /// </summary>
-        public XmlTokenType Type
-        {
-            get { return _type; }
-        }
+        public XmlTokenType Type => _type;
 
         /// <summary>
         /// Gets the position of the token.
         /// </summary>
-        public TextPosition Position
-        {
-            get { return _position; }
-        }
+        public TextPosition Position => _position;
 
         #endregion
     }

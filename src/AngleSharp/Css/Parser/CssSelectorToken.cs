@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using System;
 
@@ -28,15 +28,9 @@
 
         #region Properties
 
-        public CssTokenType Type
-        {
-            get { return _type; }
-        }
+        public CssTokenType Type => _type;
 
-        public String Data
-        {
-            get { return _data; }
-        }
+        public String Data => _data;
 
         #endregion
     }
