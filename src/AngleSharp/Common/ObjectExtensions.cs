@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Common
+namespace AngleSharp.Common
 {
     using AngleSharp.Attributes;
     using System;
@@ -106,9 +106,7 @@
         public static T? TryGet<T>(this IDictionary<String, Object> values, String key)
             where T : struct
         {
-            var value = default(Object);
-
-            if (values.TryGetValue(key, out value) && value is T)
+            if (values.TryGetValue(key, out var value) && value is T)
             {
                 return (T)value;
             }
@@ -124,8 +122,7 @@
         /// <returns>An object instance or null.</returns>
         public static Object TryGet(this IDictionary<String, Object> values, String key)
         {
-            var value = default(Object);
-            values.TryGetValue(key, out value);
+            values.TryGetValue(key, out var value);
             return value;
         }
 
@@ -141,8 +138,7 @@
         /// <returns>The value or the provided fallback.</returns>
         public static U GetOrDefault<T, U>(this IDictionary<T, U> values, T key, U defaultValue)
         {
-            var value = default(U);
-            return values.TryGetValue(key, out value) ? value : defaultValue;
+            return values.TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         /// <summary>

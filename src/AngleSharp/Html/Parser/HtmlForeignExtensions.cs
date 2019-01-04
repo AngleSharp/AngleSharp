@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Parser.Tokens;
@@ -132,9 +132,7 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String SanatizeSvgTagName(this String localName)
         {
-            var adjustedTagName = default(String);
-
-            if (svgAdjustedTagNames.TryGetValue(localName, out adjustedTagName))
+            if (svgAdjustedTagNames.TryGetValue(localName, out var adjustedTagName))
             {
                 return adjustedTagName;
             }
@@ -230,9 +228,7 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustToSvgAttribute(this String attributeName)
         {
-            var adjustedAttributeName = default(String);
-
-            if (svgAttributeNames.TryGetValue(attributeName, out adjustedAttributeName))
+            if (svgAttributeNames.TryGetValue(attributeName, out var adjustedAttributeName))
             {
                 return adjustedAttributeName;
             }

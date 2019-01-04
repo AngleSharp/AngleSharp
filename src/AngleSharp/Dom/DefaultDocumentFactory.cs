@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
@@ -57,9 +57,7 @@
         /// <returns>The registered creator, if any.</returns>
         public Creator Unregister(String contentType)
         {
-            var creator = default(Creator);
-
-            if (_creators.TryGetValue(contentType, out creator))
+            if (_creators.TryGetValue(contentType, out var creator))
             {
                 _creators.Remove(contentType);
             }

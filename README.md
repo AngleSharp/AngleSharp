@@ -36,7 +36,8 @@ The simple example will use the website of Wikipedia for data retrieval.
 ```cs
 var config = Configuration.Default.WithDefaultLoader();
 var address = "https://en.wikipedia.org/wiki/List_of_The_Big_Bang_Theory_episodes";
-var document = await BrowsingContext.New(config).OpenAsync(address);
+var context = BrowsingContext.New(config);
+var document = await context.OpenAsync(address);
 var cellSelector = "tr.vevent td:nth-child(3)";
 var cells = document.QuerySelectorAll(cellSelector);
 var titles = cells.Select(m => m.TextContent);
@@ -72,18 +73,6 @@ Historically, the [Wiki](https://github.com/AngleSharp/AngleSharp/wiki) was also
 
 More information is also available by following some of the hyper references mentioned in the Wiki. In-depth articles will be published on the CodeProject, with links being placed in the Wiki at GitHub.
 
-## Vision
-
-The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, and CSS to the CLR - all written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript (plus, of course, more).
-
-Most parts of the DOM are included, even though some may still miss their (fully specified / correct) implementation. The goal for v1.0 is to have *all practically relevant* parts implemented according to the official W3C specification (with useful extensions by the WHATWG).
-
-The API is close to the DOM4 specification, however, the naming has been adjusted to apply with .NET conventions. Nevertheless, to make AngleSharp really useful for, e.g., a JavaScript engine, attributes have been placed on the corresponding interfaces (and methods, properties, ...) to indicate the status of the field in the official specification. This allows automatic generation of DOM objects with the official API.
-
-This is a long-term project which will eventually result in a state of the art parser for the most important angle bracket based hyper-texts.
-
-Our hope is to build a community around web parsing and libraries from this project. So far we had great contributions, but that goal was not fully achieved. Want to help? Get in touch with us!
-
 ## Use-Cases
 
 - Parsing HTML (incl. fragments)
@@ -101,6 +90,18 @@ Our hope is to build a community around web parsing and libraries from this proj
 - Testing other concepts, e.g., script engines
 - ...
 
+## Vision
+
+The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML, and CSS to the CLR - all written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript (plus, of course, more).
+
+Most parts of the DOM are included, even though some may still miss their (fully specified / correct) implementation. The goal for v1.0 is to have *all practically relevant* parts implemented according to the official W3C specification (with useful extensions by the WHATWG).
+
+The API is close to the DOM4 specification, however, the naming has been adjusted to apply with .NET conventions. Nevertheless, to make AngleSharp really useful for, e.g., a JavaScript engine, attributes have been placed on the corresponding interfaces (and methods, properties, ...) to indicate the status of the field in the official specification. This allows automatic generation of DOM objects with the official API.
+
+This is a long-term project which will eventually result in a state of the art parser for the most important angle bracket based hyper-texts.
+
+Our hope is to build a community around web parsing and libraries from this project. So far we had great contributions, but that goal was not fully achieved. Want to help? Get in touch with us!
+
 ## Participating in the Project
 
 If you know some feature that AngleSharp is currently missing, and you are willing to implement the feature, then your contribution is more than welcome! Also if you have a really cool idea - do not be shy, we'd like to hear it.
@@ -115,7 +116,7 @@ All contributors can be found [in the CONTRIBUTORS](CONTRIBUTORS.md) file.
 
 ## Development
 
-AngleSharp is written in C# 6 and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2017+ is recommended on Windows. Alternatively, VSCode with OmniSharp should be the tool of choice on other platforms.
+AngleSharp is written in C# 7 and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2017+ is recommended on Windows. Alternatively, VSCode (with OmniSharp or another suitable Language Server Protocol implementation) should be the tool of choice on other platforms.
 
 The code tries to be as clean as possible. Notably the following rules are used:
 

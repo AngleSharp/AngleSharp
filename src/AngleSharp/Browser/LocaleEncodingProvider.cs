@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Browser
+namespace AngleSharp.Browser
 {
     using AngleSharp.Text;
     using System;
@@ -53,9 +53,8 @@
             if (!String.IsNullOrEmpty(locale) && locale.Length > 1)
             {
                 var name = locale.Substring(0, 2);
-                var encoding = default(Encoding);
 
-                if (suggestions.TryGetValue(name, out encoding))
+                if (suggestions.TryGetValue(name, out var encoding))
                 {
                     return encoding;
                 }

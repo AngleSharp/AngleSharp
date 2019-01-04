@@ -70,9 +70,8 @@ namespace AngleSharp.Html.LinkRels
         private static Boolean CheckCycle(IDocument document, Url location)
         {
             var ancestor = document.ImportAncestor;
-            var list = default(ImportList);
 
-            while (ancestor != null && ImportLists.TryGetValue(ancestor, out list))
+            while (ancestor != null && ImportLists.TryGetValue(ancestor, out var list))
             {
                 if (list.Contains(location))
                 {

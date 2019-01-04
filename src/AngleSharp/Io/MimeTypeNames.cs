@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Text;
     using System;
@@ -490,9 +490,7 @@
         /// <returns>The mime-type of the given extension.</returns>
         public static String FromExtension(String extension)
         {
-            var mime = String.Empty;
-
-            if (Extensions.TryGetValue(extension, out mime))
+            if (Extensions.TryGetValue(extension, out var mime))
             {
                 return mime;
             }

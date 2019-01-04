@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.InputTypes;
@@ -63,9 +63,7 @@
         /// <returns>The registered creator, if any.</returns>
         public Creator Unregister(String type)
         {
-            var creator = default(Creator);
-
-            if (_creators.TryGetValue(type, out creator))
+            if (_creators.TryGetValue(type, out var creator))
             {
                 _creators.Remove(type);
             }
@@ -94,9 +92,7 @@
         /// <returns>The InputType provider instance.</returns>
         public BaseInputType Create(IHtmlInputElement input, String type)
         {
-            var creator = default(Creator);
-
-            if (!String.IsNullOrEmpty(type) && _creators.TryGetValue(type, out creator))
+            if (!String.IsNullOrEmpty(type) && _creators.TryGetValue(type, out var creator))
             {
                 return creator.Invoke(input);
             }

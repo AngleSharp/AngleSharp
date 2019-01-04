@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
@@ -40,9 +40,7 @@
         /// <returns>The registered selector, if any.</returns>
         public ISelector Unregister(String name)
         {
-            var selector = default(ISelector);
-
-            if (_selectors.TryGetValue(name, out selector))
+            if (_selectors.TryGetValue(name, out var selector))
             {
                 _selectors.Remove(name);
             }
@@ -68,9 +66,7 @@
         /// <returns>The associated selector.</returns>
         public ISelector Create(String name)
         {
-            var selector = default(ISelector);
-
-            if (_selectors.TryGetValue(name, out selector))
+            if (_selectors.TryGetValue(name, out var selector))
             {
                 return selector;
             }

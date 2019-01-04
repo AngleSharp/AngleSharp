@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System.Runtime.CompilerServices;
 
@@ -10,8 +10,7 @@
 
         public TProp Get(TObj item)
         {
-            var value = default(TProp);
-            _properties.TryGetValue(item, out value);
+            _properties.TryGetValue(item, out var value);
             return value;
         }
 

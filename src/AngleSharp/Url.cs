@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+namespace AngleSharp
 {
     using AngleSharp.Io;
     using AngleSharp.Text;
@@ -1100,9 +1100,7 @@
 
                         break;
                     default:
-                        var chr = Symbols.Null;
-
-                        if (Punycode.Symbols.TryGetValue(hostName[i], out chr))
+                        if (Punycode.Symbols.TryGetValue(hostName[i], out var chr))
                         {
                             chars[count++] = (Byte)chr;
                         }

@@ -356,9 +356,7 @@ namespace AngleSharp.Css.Parser
             }
             else if (token.Type == CssTokenType.Function)
             {
-                var creator = default(Func<CssSelectorConstructor, FunctionState>);
-
-                if (pseudoClassFunctions.TryGetValue(token.Data, out creator))
+                if (pseudoClassFunctions.TryGetValue(token.Data, out var creator))
                 {
                     _state = State.Function;
                     _function = creator.Invoke(this);

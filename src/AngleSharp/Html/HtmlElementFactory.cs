@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -162,9 +162,7 @@
         /// <returns>The specialized HTMLElement instance.</returns>
         public HtmlElement Create(Document document, String localName, String prefix = null)
         {
-            var creator = default(Creator);
-
-            if (creators.TryGetValue(localName, out creator))
+            if (creators.TryGetValue(localName, out var creator))
             {
                 return creator(document, prefix);
             }

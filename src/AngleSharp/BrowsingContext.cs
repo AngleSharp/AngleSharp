@@ -185,10 +185,9 @@ namespace AngleSharp
         /// <returns>The found instance, if any.</returns>
         public IBrowsingContext FindChild(String name)
         {
-            var reference = default(WeakReference<IBrowsingContext>);
             var context = default(IBrowsingContext);
 
-            if (!String.IsNullOrEmpty(name) && _children.TryGetValue(name, out reference))
+            if (!String.IsNullOrEmpty(name) && _children.TryGetValue(name, out var reference))
             {
                 reference.TryGetTarget(out context);
             }

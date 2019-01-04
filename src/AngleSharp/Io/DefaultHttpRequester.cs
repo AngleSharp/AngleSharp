@@ -321,9 +321,7 @@ namespace AngleSharp.Io
             /// </param>
             private void SetProperty(String name, Object value)
             {
-                var property = default(PropertyInfo);
-
-                if (!PropCache.TryGetValue(name, out property))
+                if (!PropCache.TryGetValue(name, out var property))
                 {
                     lock (PropCache)
                     {

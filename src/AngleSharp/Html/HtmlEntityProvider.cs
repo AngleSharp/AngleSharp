@@ -2567,9 +2567,8 @@ namespace AngleSharp.Html
         public String GetSymbol(String name)
         {
             var symbol = default(String);
-            var symbols = default(Dictionary<String, String>);
 
-            if (!String.IsNullOrEmpty(name) && _entities.TryGetValue(name[0], out symbols))
+            if (!String.IsNullOrEmpty(name) && _entities.TryGetValue(name[0], out var symbols))
             {
                 symbols.TryGetValue(name, out symbol);
             }

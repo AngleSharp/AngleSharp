@@ -1071,9 +1071,7 @@ namespace AngleSharp.Dom
 
         public IElement CreateElement(String namespaceUri, String qualifiedName)
         {
-            var localName = default(String);
-            var prefix = default(String);
-            GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
+            GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out var prefix, out var localName);
 
             if (namespaceUri.Is(NamespaceNames.HtmlUri))
             {
@@ -1177,9 +1175,7 @@ namespace AngleSharp.Dom
 
         public IAttr CreateAttribute(String namespaceUri, String qualifiedName)
         {
-            var localName = default(String);
-            var prefix = default(String);
-            GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
+            GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out var prefix, out var localName);
             return new Attr(prefix, localName, String.Empty, namespaceUri);
         }
 

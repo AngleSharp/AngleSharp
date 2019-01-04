@@ -26,9 +26,7 @@ namespace AngleSharp.Browser
 
             lock (this)
             {
-                var entries = default(Queue<TaskEventLoopEntry>);
-
-                if (!_queues.TryGetValue(priority, out entries))
+                if (!_queues.TryGetValue(priority, out var entries))
                 {
                     entries = new Queue<TaskEventLoopEntry>();
                     _queues.Add(priority, entries);

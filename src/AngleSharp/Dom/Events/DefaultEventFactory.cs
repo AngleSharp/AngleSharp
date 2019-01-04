@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Events
+namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Html.Dom.Events;
     using System;
@@ -58,9 +58,7 @@
         /// <returns>The registered creator, if any.</returns>
         public Creator Unregister(String name)
         {
-            var creator = default(Creator);
-
-            if (_creators.TryGetValue(name, out creator))
+            if (_creators.TryGetValue(name, out var creator))
             {
                 _creators.Remove(name);
             }
@@ -86,9 +84,7 @@
         /// <returns>The created event.</returns>
         public Event Create(String name)
         {
-            var creator = default(Creator);
-
-            if (name != null && _creators.TryGetValue(name, out creator))
+            if (name != null && _creators.TryGetValue(name, out var creator))
             {
                 return creator.Invoke();
             }

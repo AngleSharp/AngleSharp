@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
@@ -115,9 +115,7 @@
             if (feature == null)
                 throw new ArgumentNullException(nameof(feature));
 
-            var versions = default(String[]);
-
-            if (features.TryGetValue(feature, out versions))
+            if (features.TryGetValue(feature, out var versions))
             {
                 return versions.Contains(version ?? String.Empty, StringComparison.OrdinalIgnoreCase);
             }

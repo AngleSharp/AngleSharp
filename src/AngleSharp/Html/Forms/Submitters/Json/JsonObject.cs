@@ -12,8 +12,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
         {
             get 
             { 
-                var tmp = default(JsonElement);
-                _properties.TryGetValue(key.ToString(), out tmp); 
+                _properties.TryGetValue(key.ToString(), out var tmp); 
                 return tmp; 
             }
             set 

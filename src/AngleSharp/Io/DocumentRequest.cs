@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Dom;
     using AngleSharp.Html;
@@ -201,8 +201,7 @@
 
         private String GetHeader(String name)
         {
-            var value = default(String);
-            Headers.TryGetValue(name, out value);
+            Headers.TryGetValue(name, out var value);
             return value;
         }
 

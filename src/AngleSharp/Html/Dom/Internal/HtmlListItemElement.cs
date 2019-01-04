@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -25,7 +25,7 @@
 
         public Int32? Value
         {
-            get { var i = 0; return Int32.TryParse(this.GetOwnAttribute(AttributeNames.Value), NumberStyles.Integer, CultureInfo.InvariantCulture, out i) ? i : new Int32?(); }
+            get { return Int32.TryParse(this.GetOwnAttribute(AttributeNames.Value), NumberStyles.Integer, CultureInfo.InvariantCulture, out var i) ? i : new Int32?(); }
             set { this.SetOwnAttribute(AttributeNames.Value, value.HasValue ? value.Value.ToString() : null); }
         }
 

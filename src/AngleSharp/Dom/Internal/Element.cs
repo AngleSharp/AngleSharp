@@ -457,9 +457,7 @@ namespace AngleSharp.Dom
         {
             if (value != null)
             {
-                var prefix = default(String);
-                var localName = default(String);
-                GetPrefixAndLocalName(name, ref namespaceUri, out prefix, out localName);
+                GetPrefixAndLocalName(name, ref namespaceUri, out var prefix, out var localName);
                 _attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri));
             }
             else

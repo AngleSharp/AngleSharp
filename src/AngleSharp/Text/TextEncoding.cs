@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Text
+namespace AngleSharp.Text
 {
     using AngleSharp.Dom;
     using System;
@@ -285,9 +285,7 @@
         /// <returns>An instance of the Encoding class or null.</returns>
         public static Encoding Resolve(String charset)
         {
-            var encoding = default(Encoding);
-
-            if (charset != null && encodings.TryGetValue(charset, out encoding))
+            if (charset != null && encodings.TryGetValue(charset, out var encoding))
             {
                 return encoding;
             }

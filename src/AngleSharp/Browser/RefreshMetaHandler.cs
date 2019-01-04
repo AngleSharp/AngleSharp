@@ -33,7 +33,6 @@ namespace AngleSharp.Browser
                 var redirectUrl = baseUrl;
                 var delay = content;
                 var sepIndex = content.IndexOf(';');
-                var delaySeconds = 0;
 
                 if (sepIndex >= 0)
                 {
@@ -51,7 +50,7 @@ namespace AngleSharp.Browser
                     }
                 }
 
-                if (Int32.TryParse(delay, out delaySeconds))
+                if (Int32.TryParse(delay, out var delaySeconds))
                 {
                     var delayTime = TimeSpan.FromSeconds(delaySeconds);
 

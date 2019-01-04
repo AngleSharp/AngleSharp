@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Mathml
+namespace AngleSharp.Mathml
 {
     using AngleSharp.Dom;
     using AngleSharp.Mathml.Dom;
@@ -31,9 +31,7 @@
         /// <returns>The specialized MathMLElement instance.</returns>
         public MathElement Create(Document document, String localName, String prefix = null)
         {
-            var creator = default(Creator);
-
-            if (creators.TryGetValue(localName, out creator))
+            if (creators.TryGetValue(localName, out var creator))
             {
                 return creator(document, prefix);
             }

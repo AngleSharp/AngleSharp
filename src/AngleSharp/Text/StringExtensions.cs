@@ -152,9 +152,7 @@ namespace AngleSharp.Text
         public static T ToEnum<T>(this String value, T defaultValue)
             where T : struct, IComparable
         {
-            var converted = default(T);
-
-            if (!String.IsNullOrEmpty(value) && Enum.TryParse(value, true, out converted))
+            if (!String.IsNullOrEmpty(value) && Enum.TryParse(value, true, out T converted))
             {
                 return converted;
             }
@@ -170,9 +168,7 @@ namespace AngleSharp.Text
         /// <returns>The converted double.</returns>
         public static Double ToDouble(this String value, Double defaultValue = 0.0)
         {
-            var converted = default(Double);
-
-            if (!String.IsNullOrEmpty(value) && Double.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out converted))
+            if (!String.IsNullOrEmpty(value) && Double.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var converted))
             {
                 return converted;
             }
@@ -188,9 +184,7 @@ namespace AngleSharp.Text
         /// <returns>The converted integer.</returns>
         public static Int32 ToInteger(this String value, Int32 defaultValue = 0)
         {
-            var converted = default(Int32);
-
-            if (!String.IsNullOrEmpty(value) && Int32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out converted))
+            if (!String.IsNullOrEmpty(value) && Int32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var converted))
             {
                 return converted;
             }
@@ -206,9 +200,7 @@ namespace AngleSharp.Text
         /// <returns>The converted unsigned integer.</returns>
         public static UInt32 ToInteger(this String value, UInt32 defaultValue = 0)
         {
-            var converted = default(UInt32);
-
-            if (!String.IsNullOrEmpty(value) && UInt32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out converted))
+            if (!String.IsNullOrEmpty(value) && UInt32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var converted))
             {
                 return converted;
             }
@@ -224,9 +216,7 @@ namespace AngleSharp.Text
         /// <returns>The converted boolean.</returns>
         public static Boolean ToBoolean(this String value, Boolean defaultValue = false)
         {
-            var converted = default(Boolean);
-
-            if (!String.IsNullOrEmpty(value) && Boolean.TryParse(value, out converted))
+            if (!String.IsNullOrEmpty(value) && Boolean.TryParse(value, out var converted))
             {
                 return converted;
             }

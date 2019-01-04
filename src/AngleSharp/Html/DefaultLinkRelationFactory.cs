@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.LinkRels;
@@ -42,9 +42,7 @@
         /// <returns>The registered creator, if any.</returns>
         public Creator Unregister(String rel)
         {
-            var creator = default(Creator);
-
-            if (_creators.TryGetValue(rel, out creator))
+            if (_creators.TryGetValue(rel, out var creator))
             {
                 _creators.Remove(rel);
             }
@@ -72,9 +70,7 @@
         /// <returns>The LinkRel provider instance or null.</returns>
         public BaseLinkRelation Create(IHtmlLinkElement link, String rel)
         {
-            var creator = default(Creator);
-
-            if (rel != null && _creators.TryGetValue(rel, out creator))
+            if (rel != null && _creators.TryGetValue(rel, out var creator))
             {
                 return creator.Invoke(link);
             }

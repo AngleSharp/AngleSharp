@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using System;
@@ -49,9 +49,7 @@
         /// <returns>The registered creator, if any.</returns>
         public Creator Unregister(String combinator)
         {
-            var creator = default(Creator);
-
-            if (_creators.TryGetValue(combinator, out creator))
+            if (_creators.TryGetValue(combinator, out var creator))
             {
                 _creators.Remove(combinator);
             }
@@ -83,9 +81,7 @@
         /// <returns>The associated selector.</returns>
         public ISelector Create(String combinator, String name, String value, String prefix, Boolean insensitive)
         {
-            var creator = default(Creator);
-
-            if (_creators.TryGetValue(combinator, out creator))
+            if (_creators.TryGetValue(combinator, out var creator))
             {
                 return creator.Invoke(name, value, prefix, insensitive);
             }

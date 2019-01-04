@@ -1,6 +1,6 @@
 # 0.10.0
 
-Planned for Monday, December 24 2018.
+Released on Friday, January 4 2019.
 
 - Removed CSS parser from AngleSharp.Core (#139)
 - Improvements to CSS selector evaluation (#352, #550)

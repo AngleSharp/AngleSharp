@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Svg
+namespace AngleSharp.Svg
 {
     using AngleSharp.Dom;
     using AngleSharp.Svg.Dom;
@@ -30,9 +30,7 @@
         /// <returns>The specialized SVGElement instance.</returns>
         public SvgElement Create(Document document, String localName, String prefix = null)
         {
-            var creator = default(Creator);
-
-            if (creators.TryGetValue(localName, out creator))
+            if (creators.TryGetValue(localName, out var creator))
             {
                 return creator(document, prefix);
             }

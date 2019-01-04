@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using System;
     using System.Collections.Generic;
@@ -32,8 +32,7 @@
         /// </returns>
         public static String GetDefaultPort(String protocol)
         {
-            var value = default(String);
-            Ports.TryGetValue(protocol, out value);
+            Ports.TryGetValue(protocol, out var value);
             return value;
         }
     }
