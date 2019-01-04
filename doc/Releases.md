@@ -2,6 +2,25 @@
 
 A more detailed changelog can be found in the [CHANGELOG](../CHANGELOG.md).
 
+**0.10.0**
+
+- `HttpRequester` improvements
+- Make configuration re-usable and easier to work with
+- Extracted major part of CSS to `AngleSharp.Css`
+- Changed license to MIT
+- Enhanced form submission (e.g., added JSON type)
+- Added more factories (e.g., link relation factory, document factory)
+- Allow usage of HTML imports and more web component parts
+- Included sub-resource integrity
+- Various performance enhancements
+- Improved document unloading
+- Default cookie management improvements
+- Added custom mime-type handling
+- Improvements to CSS selector evaluation and usage (e.g., custom extensions, `ISelectorVisitor`)
+- Enhanced the URL parsing
+- Changed target to .NET Standard 2.0 (and enable build on Linux)
+- Updated to adhere to HTML 5.2 where noted
+
 **0.9.0**
 
 - Improved DOM algorithms and performance

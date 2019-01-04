@@ -12,9 +12,26 @@ These platforms are no longer support. No solution planned.
 
 ### Configuration
 
-The way to configure AngleSharp was changed.
+The way to configure AngleSharp was changed. Earlier, the provided configuration was simply referenced by, e.g., the `BrowsingContext`. Now upon creation the browsing context is doing some evaluation and creates its own copy of the configuration. Thus a configuration can also be seen as a (re-)usable draft for what will become the options to be considered from a browsing context.
 
-(tbd)
+The extension methods for working with an `IConfiguration` type of object changed. Along the standard `With` we now also have
+
+- `WithOnly`, which will remove earlier occurances of the same type and
+- `Without`, which will drop any existing occurance of the given type.
+
+Additionally, besides the overloads using a plain object and a specific type of service, we also got a creator overload. This overload features a function `Func<IBrowsingContext, T>` (with `T` being the type of the service) to be used once the configuration is used by a browsing context.
+
+The default configuration extenders remained the same (such as `WithDefaultLoader`), however, their arguments may have changed. In case of `WithDefaultLoader` you need to supply an object instead of using a callback. Commonly, instead of doing
+
+```cs
+config.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true)
+```
+
+you now have to write
+
+```cs
+config.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true })
+```
 
 ### CSS
 
@@ -28,15 +45,15 @@ The `ICssStyleDeclaration` does not contain all known declarations as properties
 
 In previous versions the `IWindow` also contained CSS methods for style computation. These are now also available in the new CSS library as extension methods. The `WindowExtensions` are contained in the namespace `AngleSharp.Dom`.
 
-(tbd)
-
 ### Namespaces
 
 The current version of AngleSharp reordered how namespaces are used. While previous versions used a model like `AngleSharp.Dom.Html`, the new release uses, e.g., `AngleSharp.Html.Dom`.
 
 The parsers have also moved. Formerly, you accessed the HTML parser via `AngleSharp.Parser.Html`. Now the access is done via `AngleSharp.Html.Parser`.
 
-(tbd)
+The `AngleSharp.Network` namespace has been removed. All IO related definitions can be found in `AngleSharp.Io` (same name as the NuGet package). Network related definitions are contained within in `AngleSharp.Io.Network`.
+
+Furthermore, any core level text manipulation code can be found in `AngleSharp.Text`. Things that would be mainly seen as parts of a browser are now in `AngleSharp.Browser`.
 
 ### Extension Methods
 
@@ -48,4 +65,6 @@ Extension methods are now also considered important for script engines to bring 
 
 ### Missing?
 
-(tbd)
+Don't hesitate to ask a question at [StackOverflow](https://stackoverflow.com/tags/anglesharp) or here at GitHub. If something important is left unclear regarding the migration it should be included in this guide.
+
+You can also directly make a PR for this guide if you figured something out that should have been explained here. Thanks!
