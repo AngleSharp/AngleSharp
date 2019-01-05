@@ -8,6 +8,11 @@ namespace AngleSharp.Dom
     using System.Linq;
     using System.Threading.Tasks;
 
+    #if NETSTANDARD1_3
+    // Assembly.GetTypes is available as an extension in System.Reflection from NS1.3
+    using System.Reflection;
+    #endif
+
     /// <summary>
     /// Useful methods for document objects.
     /// </summary>
