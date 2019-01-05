@@ -61,7 +61,7 @@ The common namespace `AngleSharp.Extensions` is gone. Now extension methods are 
 
 Extension methods are now also considered important for script engines to bring extensibility to AngleSharp. Since C# does not allow us to create extension properties, e.g., `Style` of `IElement` is now available in form of an extension method contained in `AngleSharp.Css`. Indeed, two extension methods, `GetStyle` and `SetStyle` are defined. They are defined in a static class containing the `DomExposed` attribute for each DOM interface to extend. To define the methods as properties the `DomAccessor` attribute is used.
 
-(tbd)
+Interesting for working with text sources (e.g., in parsers) is the `AngleSharp.Text` namespace. It carries also the extensions for, e.g., working with a `StringSource`, which is a source investigation object wrapped around an existing stream (as opposed to a `TextSource`, which wraps around a text document from a `Stream`).
 
 ### Missing?
 

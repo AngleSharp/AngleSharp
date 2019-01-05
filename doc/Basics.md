@@ -79,7 +79,7 @@ as this is also not possible in e.g. JavaScript. What one requires is an instanc
 var paragraph = document.CreateElement("p");
 ```
 
-which creates the paragraph (&lt;p&gt;) element and assigns the given document as the owner of the node. As in the JavaScript / DOM world, we did not append the paragraph anywhere in the document.
+which creates the paragraph (&lt;p&gt;) element and assigns the given document as the owner of the node. As in the JavaScript / DOM world, we did not append the paragraph anywhere in the document. When an element is not being appended it has no parent and thus does not appear in the DOM tree. As a consequence it would not be serialized again, and some special actions would be without meaning. Furthermore, queries on the DOM tree would not show the given elements.
 
 On the other side those restrictions result in all constructors being marked as `internal`. This prevents inheritance (even though the class might be not `sealed`) and requires users to follow the given paths.
 
@@ -104,12 +104,14 @@ If no configuration is provided, AngleSharp will use a default configuration. Th
 Finally AngleSharp also brings some very helpful extension methods that try to be similar for what jQuery offers in JavaScript. Using the namespace `AngleSharp` one can access methods like `Html`, `Css`, `Attr` or `Text`. These methods operate on a given `IEnumerable<IElement>` like an existing `IHtmlCollection`. The purpose is quite simple: To easily modify the given DOM.
 
 ```c#
+// using AngleSharp.Html.Parser;
+// using AngleSharp.Dom;
+
 var parser = new HtmlParser();
 //Generate HTML DOM for the following source code
-var document = parser.Parse("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
-//Get all li elements and set the test attribute to the value test
+var document = parser.ParseDocument("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+//Get all li elements and set the test attribute to the value test; elements still contains all li elements
 var elements = document.QuerySelectorAll("li").Attr("test", "test");
-//elements still contains all li elements
 ```
 
 It should be noted that applying `Text` or `Html` will have consequences for the DOM. For example if we apply it to a list of several elements, where some elements of the list contain other elements of the same list, the resulting list will still contain all those elements, however, the document will not.

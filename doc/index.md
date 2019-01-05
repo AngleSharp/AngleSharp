@@ -7,6 +7,7 @@ We have more detailed information regarding the following subjects:
 - [More Examples](Examples.md)
 - [Performance Comparisons](Performance.md)
 - [Feature Status](Features.md)
+- [Frequently Asked Questions](Questions.md)
 - [Migration Information](Migration.md)
 - [Major Releases](Releases.md)
 

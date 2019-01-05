@@ -312,7 +312,7 @@ Missing among others are:
 
 The ultimate goal is to have a multitude of extension points, which can then be fully customized, extended and used. This way AngleSharp stays quite atomic (parsers, DOM) and provides the abilities to grow (beyond local). A headless browser that is fully customizable and extensible.
 
-*Status*: Started.
+*Status*: Available, more ideas needed.
 
 ### Possibility of (Simple?) XPath Parsing
 
@@ -320,7 +320,7 @@ Right now CSS selectors is the way of querying the document. Nevertheless, there
 
 It must be evaluated how much effort / code a XPath query engine (simple is enough, but it is has to be standard conform) requires. If it could be implemented with limited time efforts, then it should be included. Otherwise the possibility of including other / arbitrary query engines must be evaluated. In general this could be a very interesting path.
 
-*Status*: Completely missing.
+*Status*: Completely missing from core, some (external?) library such as `AngleSharp.XPath` makes sense.
 
 More information can be found at:
 
@@ -378,4 +378,4 @@ So if one includes AngleSharp just to parse a few lines of HTML, or a single HTM
 
 In the end the idea is to give users only what they need, not more. If they want more, they can opt-in by getting more advanced NuGet packages, which work as extensions for the core library.
 
-*Status*: Continuous investigation. Shifted back to v1.0.
+*Status*: CSS already moved out. More to come until v1.0.
