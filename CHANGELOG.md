@@ -1,3 +1,9 @@
+# 0.11.0
+
+Planned for Friday, February 1 2019.
+
+- Added .NET Standard 1.3 target (#738)
+
 # 0.10.0
 
 Released on Friday, January 4 2019.
