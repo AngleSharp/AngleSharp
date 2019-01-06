@@ -3,9 +3,6 @@ namespace AngleSharp.Dom
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
     using AngleSharp.Io;
-    using AngleSharp.Svg.Dom;
-    using AngleSharp.Xml.Dom;
-    using AngleSharp.Xml.Parser;
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -18,9 +15,6 @@ namespace AngleSharp.Dom
     {
         private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>
         {
-            { MimeTypeNames.Xml, LoadXmlAsync },
-            { MimeTypeNames.ApplicationXml, LoadXmlAsync },
-            { MimeTypeNames.Svg, LoadSvgAsync },
             { MimeTypeNames.Html, LoadHtmlAsync },
             { MimeTypeNames.ApplicationXHtml, LoadHtmlAsync },
             { MimeTypeNames.Plain, LoadTextAsync },
@@ -126,24 +120,6 @@ namespace AngleSharp.Dom
             await options.Source.PrefetchAllAsync(cancellationToken).ConfigureAwait(false);
             pre.TextContent = options.Source.Text;
             return document;
-        }
-
-        private static Task<IDocument> LoadXmlAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
-        {
-            var parser = context.GetService<IXmlParser>();
-            var document = new XmlDocument(context, options.Source);
-            document.Setup(options.Response, options.ContentType, options.ImportAncestor);
-            context.NavigateTo(document);
-            return parser.ParseDocumentAsync(document, cancellationToken);
-        }
-
-        private static Task<IDocument> LoadSvgAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
-        {
-            var parser = context.GetService<IXmlParser>();
-            var document = new SvgDocument(context, options.Source);
-            document.Setup(options.Response, options.ContentType, options.ImportAncestor);
-            context.NavigateTo(document);
-            return parser.ParseDocumentAsync(document, cancellationToken);
         }
     }
 }

@@ -1,6 +1,6 @@
 # Migration Guide
 
-## 0.9 to 0.10
+## 0.9.x to 0.10 (or later)
 
 The v0.10 release line of AngleSharp is breaking towards formerly used APIs. Even though the same concepts are mostly applied, many things changed and an upgrade from AngleSharp pre v0.10 to 0.10 will certainly break things. The following points should help you to perform the migration as fast as possible.
 
@@ -8,7 +8,9 @@ In the following points the v0.10 release line will be named "current", while ol
 
 ### Silverlight / Pre .NET 4.5
 
-These platforms are no longer support. No solution planned.
+:warn: These platforms are no longer support. No solution planned.
+
+> Recommendation: Stay at AngleSharp pre-v0.10 for the moment. Sorry for inconvenience!
 
 ### Configuration
 
@@ -44,6 +46,14 @@ The basic usage is to configure AngleSharp using `WithCss`. Then, e.g., the styl
 The `ICssStyleDeclaration` does not contain all known declarations as properties. Instead, extension methods are used to dynamically attach these getters and setters, e.g., `GetDisplay()` and `SetDisplay(value)`  instead of `Display { get; set; }`.
 
 In previous versions the `IWindow` also contained CSS methods for style computation. These are now also available in the new CSS library as extension methods. The `WindowExtensions` are contained in the namespace `AngleSharp.Dom`.
+
+### Scripting
+
+:warn: Currently, `AngleSharp.Scripting.Js` is incompatible with AngleSharp v0.10.
+
+We plan to deprecate this package and release `AngleSharp.Js` instead. In the mean time there is no replacement.
+
+> Recommendation: Stay at AngleSharp pre-v0.10 for the moment and wait until AngleSharp.Js is released. Sorry for inconvenience!
 
 ### Namespaces
 

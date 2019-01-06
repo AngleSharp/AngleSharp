@@ -1,9 +1,8 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Parser;
     using AngleSharp.Text;
-    using AngleSharp.Xml.Parser;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Linq;
@@ -38,24 +37,6 @@
             });
             parser.ParseDocument(source);
             Assert.AreEqual(15, positions.Count);
-        }
-
-        [Test]
-        public void ObtainElementPositionsFromXml()
-        {
-            var positions = new Dictionary<IElement, TextPosition>();
-            var source = @"<hello>
-   <foo />
-   <bar>
-      <test></test><test></test><test></test>
-   </bar>
-</hello>";
-            var parser = new XmlParser(new XmlParserOptions
-            {
-                OnCreated = (element, position) => positions[element] = position
-            });
-            parser.ParseDocument(source);
-            Assert.AreEqual(6, positions.Count);
         }
     }
 }

@@ -2,7 +2,6 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
-    using AngleSharp.Xml.Dom;
     using System;
     using System.Collections.Generic;
 
@@ -66,29 +65,6 @@ namespace AngleSharp.Dom
                 PublicIdentifier = publicId, 
                 SystemIdentifier = systemId 
             };
-        }
-
-        public IXmlDocument CreateDocument(String namespaceUri = null, String qualifiedName = null, IDocumentType doctype = null)
-        {
-            var document = new XmlDocument();
-
-            if (doctype != null)
-            {
-                document.AppendChild(doctype);
-            }
-
-            if (!String.IsNullOrEmpty(qualifiedName))
-            {
-                var element = document.CreateElement(namespaceUri, qualifiedName);
-
-                if (element != null)
-                {
-                    document.AppendChild(element);
-                }
-            }
-
-            document.BaseUrl = _owner.BaseUrl;
-            return document;
         }
 
         public IDocument CreateHtmlDocument(String title)

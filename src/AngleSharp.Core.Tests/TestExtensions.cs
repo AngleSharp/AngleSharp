@@ -6,7 +6,6 @@ namespace AngleSharp.Core.Tests
     using AngleSharp.Html.Parser;
     using AngleSharp.Io;
     using AngleSharp.Scripting;
-    using AngleSharp.Xml.Parser;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -66,13 +65,6 @@ namespace AngleSharp.Core.Tests
             var context = BrowsingContext.New(configuration ?? Configuration.Default);
             var htmlParser = context.GetService<IHtmlParser>();
             return htmlParser.ParseDocument(sourceCode);
-        }
-
-        public static IDocument ToXmlDocument(this String sourceCode, IConfiguration configuration = null)
-        {
-            var context = BrowsingContext.New(configuration);
-            var xmlParser = context.GetService<IXmlParser>();
-            return xmlParser.ParseDocument(sourceCode);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, IElement contextElement = null, IConfiguration configuration = null)

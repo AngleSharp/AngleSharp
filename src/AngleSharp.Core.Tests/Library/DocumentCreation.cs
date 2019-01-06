@@ -1,10 +1,8 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Io;
-    using AngleSharp.Svg.Dom;
-    using AngleSharp.Xml.Dom;
     using NUnit.Framework;
     using System;
     using System.Threading.Tasks;
@@ -30,15 +28,6 @@
         private static readonly String TextContent = @"Hi Mum & Dad! You know that 3<pi, right? Or is it that me > you?";
 
         [Test]
-        public async Task GenerateDocumentFromXmlWithXmlContentType()
-        {
-            var document = await GenerateDocument(XmlContent, "text/xml");
-
-            Assert.IsInstanceOf<XmlDocument>(document);
-            Assert.AreEqual("note", document.DocumentElement.NodeName);
-        }
-
-        [Test]
         public async Task GenerateDocumentFromXmlWithXHtmlContentType()
         {
             var document = await GenerateDocument(XmlContent, "application/xhtml+xml");
@@ -46,16 +35,6 @@
             Assert.IsInstanceOf<HtmlDocument>(document);
             Assert.AreEqual("HTML", document.DocumentElement.NodeName);
             Assert.AreEqual("NOTE", document.Body.FirstElementChild.NodeName);
-        }
-
-        [Test]
-        public async Task GenerateDocumentFromSvgWithSvgContentType()
-        {
-            var document = await GenerateDocument(SvgContent, "image/svg+xml");
-
-            Assert.IsInstanceOf<SvgDocument>(document);
-            Assert.AreEqual("svg", document.DocumentElement.NodeName);
-            Assert.AreEqual("path", document.DocumentElement.FirstElementChild.NodeName);
         }
 
         [Test]

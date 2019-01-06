@@ -12,7 +12,6 @@ namespace AngleSharp
     using AngleSharp.Mathml.Dom;
     using AngleSharp.Svg;
     using AngleSharp.Svg.Dom;
-    using AngleSharp.Xml.Parser;
     using System;
     using System.Collections.Generic;
 
@@ -54,7 +53,6 @@ namespace AngleSharp
             Instance<IMetaHandler>(new EncodingMetaHandler()),
             Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
             Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
-            Creator<IXmlParser>(ctx => new XmlParser(ctx)),
             Creator<IEventLoop>(ctx => new TaskEventLoop(ctx)),
         };
 
