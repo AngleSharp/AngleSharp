@@ -49,15 +49,9 @@ namespace AngleSharp.Dom
 
         #region Internal Properties
 
-        internal IBrowsingContext Context
-        {
-            get { return Owner?.Context; }
-        }
+        internal IBrowsingContext Context => Owner?.Context;
 
-        internal NamedNodeMap Attributes
-        {
-            get { return _attributes; }
-        }
+        internal NamedNodeMap Attributes => _attributes;
 
         #endregion
 
@@ -404,12 +398,10 @@ namespace AngleSharp.Dom
         public IElement Closest(String selectorText)
         {
             var parser = Context.GetService<ICssSelectorParser>();
-            var sg = parser.ParseSelector(selectorText);
-
-            if (sg == null)
-                throw new DomException(DomError.Syntax);
+            var sg = parser.ParseSelector(selectorText) ?? throw new DomException(DomError.Syntax);
 
             IElement node = this;
+
             while (node != null)
             {
                 if (sg.Match(node, node))
@@ -501,6 +493,15 @@ namespace AngleSharp.Dom
             {
                 RemoveAttribute(namespaceUri, name);
             }
+        }
+
+        /// <summary>
+        /// Adds an attribute.
+        /// </summary>
+        /// <param name="attr">The attribute to add.</param>
+        public void AddAttribute(Attr attr)
+        {
+            _attributes.FastAddItem(attr);
         }
 
         /// <inheritdoc />
@@ -634,6 +635,14 @@ namespace AngleSharp.Dom
             writer.Write(formatter.CloseTag(this, selfClosing));
         }
 
+        /// <inheritdoc />
+        public override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new AnyElement(owner, LocalName, _prefix, _namespace, Flags);
+            CloneElement(node, owner, deep);
+            return node;
+        }
+
         #endregion
 
         #region Internal Methods
@@ -681,13 +690,6 @@ namespace AngleSharp.Dom
         internal void UpdateClassList(String value)
         {
             _classList?.Update(value);
-        }
-
-        internal override Node Clone(Document owner, Boolean deep)
-        {
-            var node = new AnyElement(owner, LocalName, _prefix, _namespace, Flags);
-            CloneElement(node, owner, deep);
-            return node;
         }
 
         #endregion

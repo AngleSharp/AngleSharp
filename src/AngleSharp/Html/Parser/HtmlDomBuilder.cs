@@ -224,7 +224,7 @@ namespace AngleSharp.Html.Parser
         {
             _currentMode = HtmlTreeMode.Initial;
             _tokenizer.State = HtmlParseMode.PCData;
-            _document.ReplaceAll(null, true);
+            _document.Clear();
             _frameset = true;
             _openElements.Clear();
             _formattingElements.Clear();

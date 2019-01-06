@@ -22,12 +22,12 @@ namespace AngleSharp.Core.Tests.Mocks
             get { return HtmlEntityProvider.Resolver; }
         }
 
-        internal override Element CreateElementFrom(String name, String prefix)
+        public override Element CreateElementFrom(String name, String prefix)
         {
             return new AnyElement(this, name, prefix, null);
         }
 
-        internal override Node Clone(Document owner, Boolean deep)
+        public override Node Clone(Document owner, Boolean deep)
         {
             var document = new MarkdownDocument(Context, Source);
             CloneDocument(document, deep);

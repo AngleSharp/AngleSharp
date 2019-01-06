@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
@@ -20,6 +20,7 @@
 
         #region ctor
 
+        /// <inheritdoc />
         public NamedNodeMap(Element owner)
         {
             _items = new List<Attr>();
@@ -30,24 +31,18 @@
 
         #region Index
 
-        public IAttr this[String name]
-        {
-            get { return GetNamedItem(name); }
-        }
+        /// <inheritdoc />
+        public IAttr this[String name] => GetNamedItem(name);
 
-        public IAttr this[Int32 index]
-        {
-            get { return index >= 0 && index < _items.Count ? _items[index] : null; }
-        }
+        /// <inheritdoc />
+        public IAttr this[Int32 index] => index >= 0 && index < _items.Count ? _items[index] : null;
 
         #endregion
 
         #region Properties
 
-        public Int32 Length
-        {
-            get { return _items.Count; }
-        }
+        /// <inheritdoc />
+        public Int32 Length => _items.Count;
 
         #endregion
 
@@ -126,6 +121,7 @@
 
         #region Methods
 
+        /// <inheritdoc />
         public IAttr GetNamedItem(String name)
         {
             for (var i = 0; i < _items.Count; i++)
@@ -139,6 +135,7 @@
             return null;
         }
 
+        /// <inheritdoc />
         public IAttr GetNamedItem(String namespaceUri, String localName)
         {
             for (var i = 0; i < _items.Count; i++)
@@ -152,6 +149,7 @@
             return null;
         }
 
+        /// <inheritdoc />
         public IAttr SetNamedItem(IAttr item)
         {
             var proposed = Prepare(item);
@@ -178,6 +176,7 @@
             return null;
         }
 
+        /// <inheritdoc />
         public IAttr SetNamedItemWithNamespaceUri(IAttr item, Boolean suppressMutationObservers)
         {
             var proposed = Prepare(item);
@@ -214,11 +213,13 @@
             return null;
         }
 
+        /// <inheritdoc />
         public IAttr SetNamedItemWithNamespaceUri(IAttr item)
         {
             return SetNamedItemWithNamespaceUri(item, false);
         }
 
+        /// <inheritdoc />
         public IAttr RemoveNamedItem(String name)
         {
             var result = RemoveNamedItemOrDefault(name);
@@ -229,6 +230,7 @@
             return result;
         }
 
+        /// <inheritdoc />
         public IAttr RemoveNamedItem(String namespaceUri, String localName)
         {
             var result = RemoveNamedItemOrDefault(namespaceUri, localName);
@@ -239,6 +241,7 @@
             return result;
         }
 
+        /// <inheritdoc />
         public IEnumerator<IAttr> GetEnumerator()
         {
             return _items.GetEnumerator();

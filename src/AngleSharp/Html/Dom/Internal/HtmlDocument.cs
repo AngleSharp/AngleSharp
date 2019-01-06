@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Io;
@@ -69,22 +69,22 @@
             return _svgFactory.Create(this, name, prefix);
         }
 
-        internal override Element CreateElementFrom(String name, String prefix)
+        public override Element CreateElementFrom(String name, String prefix)
         {
             return CreateHtmlElement(name, prefix);
         }
 
-        #endregion
-
-        #region Helpers
-
-        internal override Node Clone(Document owner, Boolean deep)
+        public override Node Clone(Document owner, Boolean deep)
         {
             var source = new TextSource(Source.Text);
             var node = new HtmlDocument(Context, source);
             CloneDocument(node, deep);
             return node;
         }
+
+        #endregion
+
+        #region Helpers
 
         protected override String GetTitle()
         {

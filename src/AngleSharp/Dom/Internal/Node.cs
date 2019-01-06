@@ -261,57 +261,6 @@ namespace AngleSharp.Dom
 
         #region Internal Methods
 
-        internal void AppendText(String s)
-        {
-            var lastChild = LastChild as TextNode;
-
-            if (lastChild == null)
-            {
-                AddNode(new TextNode(Owner, s));
-            }
-            else
-            {
-                lastChild.Append(s);
-            }
-        }
-
-        internal void InsertText(Int32 index, String s)
-        {
-            if (index > 0 && index <= _children.Length && _children[index - 1].NodeType == NodeType.Text)
-            {
-                var node = (IText)_children[index - 1];
-                node.Append(s);
-            }
-            else if (index >= 0 && index < _children.Length && _children[index].NodeType == NodeType.Text)
-            {
-                var node = (IText)_children[index];
-                node.Insert(0, s);
-            }
-            else
-            {
-                var node = new TextNode(Owner, s);
-                InsertNode(index, node);
-            }
-        }
-
-        internal void InsertNode(Int32 index, Node node)
-        {
-            node.Parent = this;
-            _children.Insert(index, node);
-        }
-
-        internal void AddNode(Node node)
-        {
-            node.Parent = this;
-            _children.Add(node);
-        }
-
-        internal void RemoveNode(Int32 index, Node node)
-        {
-            node.Parent = null;
-            _children.RemoveAt(index);
-        }
-
         internal void ReplaceAll(Node node, Boolean suppressObservers)
         {
             var document = Owner;
@@ -506,11 +455,73 @@ namespace AngleSharp.Dom
             throw new DomException(DomError.HierarchyRequest);
         }
 
-        internal abstract Node Clone(Document newOwner, Boolean deep);
+        /// <summary>
+        /// Clones the current node using the new owner.
+        /// </summary>
+        /// <param name="newOwner">The new document owner, if any.</param>
+        /// <param name="deep">True if a deep clone is wanted, otherwise false.</param>
+        /// <returns>The cloned node.</returns>
+        public abstract Node Clone(Document newOwner, Boolean deep);
 
         #endregion
 
         #region Public Methods
+
+        /// <inheritdoc />
+        public void AppendText(String s)
+        {
+            var lastChild = LastChild as TextNode;
+
+            if (lastChild == null)
+            {
+                AddNode(new TextNode(Owner, s));
+            }
+            else
+            {
+                lastChild.Append(s);
+            }
+        }
+
+        /// <inheritdoc />
+        public void InsertText(Int32 index, String s)
+        {
+            if (index > 0 && index <= _children.Length && _children[index - 1].NodeType == NodeType.Text)
+            {
+                var node = (IText)_children[index - 1];
+                node.Append(s);
+            }
+            else if (index >= 0 && index < _children.Length && _children[index].NodeType == NodeType.Text)
+            {
+                var node = (IText)_children[index];
+                node.Insert(0, s);
+            }
+            else
+            {
+                var node = new TextNode(Owner, s);
+                InsertNode(index, node);
+            }
+        }
+
+        /// <inheritdoc />
+        public void InsertNode(Int32 index, Node node)
+        {
+            node.Parent = this;
+            _children.Insert(index, node);
+        }
+
+        /// <inheritdoc />
+        public void AddNode(Node node)
+        {
+            node.Parent = this;
+            _children.Add(node);
+        }
+
+        /// <inheritdoc />
+        public void RemoveNode(Int32 index, Node node)
+        {
+            node.Parent = null;
+            _children.RemoveAt(index);
+        }
 
         /// <inheritdoc />
         public virtual void ToHtml(TextWriter writer, IMarkupFormatter formatter)

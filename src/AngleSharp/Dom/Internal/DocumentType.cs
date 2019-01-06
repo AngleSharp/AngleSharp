@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.Collections.Generic;
@@ -194,11 +194,8 @@
             writer.Write(formatter.Doctype(this));
         }
 
-        #endregion
-
-        #region Helpers
-
-        internal override Node Clone(Document owner, Boolean deep)
+        /// <inheritdoc />
+        public override Node Clone(Document owner, Boolean deep)
         {
             var node = new DocumentType(owner, Name)
             {
@@ -209,6 +206,10 @@
             CloneNode(node, owner, deep);
             return node;
         }
+
+        #endregion
+
+        #region Helpers
 
         protected override String LocateNamespace(String prefix)
         {

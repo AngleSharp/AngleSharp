@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -77,6 +77,13 @@
 
         #region Methods
 
+        public override Node Clone(Document owner, Boolean deep)
+        {
+            var node = (HtmlFormControlElement)base.Clone(owner, deep);
+            node.SetCustomValidity(_error);
+            return node;
+        }
+
         public Boolean CheckValidity()
         {
             return WillValidate && Validity.IsValid;
@@ -91,13 +98,6 @@
         #endregion
 
         #region Helpers
-
-        internal override Node Clone(Document owner, Boolean deep)
-        {
-            var node = (HtmlFormControlElement)base.Clone(owner, deep);
-            node.SetCustomValidity(_error);
-            return node;
-        }
 
         protected virtual Boolean IsFieldsetDisabled()
         {

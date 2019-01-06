@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.IO;
@@ -33,11 +33,7 @@
             writer.Write(formatter.Processing(this));
         }
 
-        #endregion
-
-        #region Helpers
-
-        internal override Node Clone(Document owner, Boolean deep)
+        public override Node Clone(Document owner, Boolean deep)
         {
             var node = new ProcessingInstruction(owner, Target);
             CloneNode(node, owner, deep);

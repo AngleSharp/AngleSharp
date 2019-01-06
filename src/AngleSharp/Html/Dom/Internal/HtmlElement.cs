@@ -9,7 +9,7 @@ namespace AngleSharp.Html.Dom
     /// <summary>
     /// Represents a standard HTML element in the node tree.
     /// </summary>
-    class HtmlElement : Element, IHtmlElement
+    public class HtmlElement : Element, IHtmlElement
     {
         #region Fields
 
@@ -21,348 +21,406 @@ namespace AngleSharp.Html.Dom
 
         #region Events
 
+        /// <inheritdoc />
         public event DomEventHandler Aborted
         {
             add { AddEventListener(EventNames.Abort, value); }
             remove { RemoveEventListener(EventNames.Abort, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Blurred
         {
             add { AddEventListener(EventNames.Blur, value); }
             remove { RemoveEventListener(EventNames.Blur, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Cancelled
         {
             add { AddEventListener(EventNames.Cancel, value); }
             remove { RemoveEventListener(EventNames.Cancel, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler CanPlay
         {
             add { AddEventListener(EventNames.CanPlay, value); }
             remove { RemoveEventListener(EventNames.CanPlay, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler CanPlayThrough
         {
             add { AddEventListener(EventNames.CanPlayThrough, value); }
             remove { RemoveEventListener(EventNames.CanPlayThrough, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Changed
         {
             add { AddEventListener(EventNames.Change, value); }
             remove { RemoveEventListener(EventNames.Change, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Clicked
         {
             add { AddEventListener(EventNames.Click, value); }
             remove { RemoveEventListener(EventNames.Click, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler CueChanged
         {
             add { AddEventListener(EventNames.CueChange, value); }
             remove { RemoveEventListener(EventNames.CueChange, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler DoubleClick
         {
             add { AddEventListener(EventNames.DblClick, value); }
             remove { RemoveEventListener(EventNames.DblClick, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Drag
         {
             add { AddEventListener(EventNames.Drag, value); }
             remove { RemoveEventListener(EventNames.Drag, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler DragEnd
         {
             add { AddEventListener(EventNames.DragEnd, value); }
             remove { RemoveEventListener(EventNames.DragEnd, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler DragEnter
         {
             add { AddEventListener(EventNames.DragEnter, value); }
             remove { RemoveEventListener(EventNames.DragEnter, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler DragExit
         {
             add { AddEventListener(EventNames.DragExit, value); }
             remove { RemoveEventListener(EventNames.DragExit, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler DragLeave
         {
             add { AddEventListener(EventNames.DragLeave, value); }
             remove { RemoveEventListener(EventNames.DragLeave, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler DragOver
         {
             add { AddEventListener(EventNames.DragOver, value); }
             remove { RemoveEventListener(EventNames.DragOver, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler DragStart
         {
             add { AddEventListener(EventNames.DragStart, value); }
             remove { RemoveEventListener(EventNames.DragStart, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Dropped
         {
             add { AddEventListener(EventNames.Drop, value); }
             remove { RemoveEventListener(EventNames.Drop, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler DurationChanged
         {
             add { AddEventListener(EventNames.DurationChange, value); }
             remove { RemoveEventListener(EventNames.DurationChange, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Emptied
         {
             add { AddEventListener(EventNames.Emptied, value); }
             remove { RemoveEventListener(EventNames.Emptied, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Ended
         {
             add { AddEventListener(EventNames.Ended, value); }
             remove { RemoveEventListener(EventNames.Ended, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Error
         {
             add { AddEventListener(EventNames.Error, value); }
             remove { RemoveEventListener(EventNames.Error, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Focused
         {
             add { AddEventListener(EventNames.Focus, value); }
             remove { RemoveEventListener(EventNames.Focus, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Input
         {
             add { AddEventListener(EventNames.Input, value); }
             remove { RemoveEventListener(EventNames.Input, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Invalid
         {
             add { AddEventListener(EventNames.Invalid, value); }
             remove { RemoveEventListener(EventNames.Invalid, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler KeyDown
         {
             add { AddEventListener(EventNames.Keydown, value); }
             remove { RemoveEventListener(EventNames.Keydown, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler KeyPress
         {
             add { AddEventListener(EventNames.Keypress, value); }
             remove { RemoveEventListener(EventNames.Keypress, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler KeyUp
         {
             add { AddEventListener(EventNames.Keyup, value); }
             remove { RemoveEventListener(EventNames.Keyup, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Loaded
         {
             add { AddEventListener(EventNames.Load, value); }
             remove { RemoveEventListener(EventNames.Load, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler LoadedData
         {
             add { AddEventListener(EventNames.LoadedData, value); }
             remove { RemoveEventListener(EventNames.LoadedData, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler LoadedMetadata
         {
             add { AddEventListener(EventNames.LoadedMetaData, value); }
             remove { RemoveEventListener(EventNames.LoadedMetaData, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Loading
         {
             add { AddEventListener(EventNames.LoadStart, value); }
             remove { RemoveEventListener(EventNames.LoadStart, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler MouseDown
         {
             add { AddEventListener(EventNames.Mousedown, value); }
             remove { RemoveEventListener(EventNames.Mousedown, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler MouseEnter
         {
             add { AddEventListener(EventNames.Mouseenter, value); }
             remove { RemoveEventListener(EventNames.Mouseenter, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler MouseLeave
         {
             add { AddEventListener(EventNames.Mouseleave, value); }
             remove { RemoveEventListener(EventNames.Mouseleave, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler MouseMove
         {
             add { AddEventListener(EventNames.Mousemove, value); }
             remove { RemoveEventListener(EventNames.Mousemove, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler MouseOut
         {
             add { AddEventListener(EventNames.Mouseout, value); }
             remove { RemoveEventListener(EventNames.Mouseout, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler MouseOver
         {
             add { AddEventListener(EventNames.Mouseover, value); }
             remove { RemoveEventListener(EventNames.Mouseover, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler MouseUp
         {
             add { AddEventListener(EventNames.Mouseup, value); }
             remove { RemoveEventListener(EventNames.Mouseup, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler MouseWheel
         {
             add { AddEventListener(EventNames.Wheel, value); }
             remove { RemoveEventListener(EventNames.Wheel, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Paused
         {
             add { AddEventListener(EventNames.Pause, value); }
             remove { RemoveEventListener(EventNames.Pause, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Played
         {
             add { AddEventListener(EventNames.Play, value); }
             remove { RemoveEventListener(EventNames.Play, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Playing
         {
             add { AddEventListener(EventNames.Playing, value); }
             remove { RemoveEventListener(EventNames.Playing, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Progress
         {
             add { AddEventListener(EventNames.Progress, value); }
             remove { RemoveEventListener(EventNames.Progress, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler RateChanged
         {
             add { AddEventListener(EventNames.RateChange, value); }
             remove { RemoveEventListener(EventNames.RateChange, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Resetted
         {
             add { AddEventListener(EventNames.Reset, value); }
             remove { RemoveEventListener(EventNames.Reset, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Resized
         {
             add { AddEventListener(EventNames.Resize, value); }
             remove { RemoveEventListener(EventNames.Resize, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Scrolled
         {
             add { AddEventListener(EventNames.Scroll, value); }
             remove { RemoveEventListener(EventNames.Scroll, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Seeked
         {
             add { AddEventListener(EventNames.Seeked, value); }
             remove { RemoveEventListener(EventNames.Seeked, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Seeking
         {
             add { AddEventListener(EventNames.Seeking, value); }
             remove { RemoveEventListener(EventNames.Seeking, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Selected
         {
             add { AddEventListener(EventNames.Select, value); }
             remove { RemoveEventListener(EventNames.Select, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Shown
         {
             add { AddEventListener(EventNames.Show, value); }
             remove { RemoveEventListener(EventNames.Show, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Stalled
         {
             add { AddEventListener(EventNames.Stalled, value); }
             remove { RemoveEventListener(EventNames.Stalled, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Submitted
         {
             add { AddEventListener(EventNames.Submit, value); }
             remove { RemoveEventListener(EventNames.Submit, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Suspended
         {
             add { AddEventListener(EventNames.Suspend, value); }
             remove { RemoveEventListener(EventNames.Suspend, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler TimeUpdated
         {
             add { AddEventListener(EventNames.TimeUpdate, value); }
             remove { RemoveEventListener(EventNames.TimeUpdate, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Toggled
         {
             add { AddEventListener(EventNames.Toggle, value); }
             remove { RemoveEventListener(EventNames.Toggle, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler VolumeChanged
         {
             add { AddEventListener(EventNames.VolumeChange, value); }
             remove { RemoveEventListener(EventNames.VolumeChange, value); }
         }
 
+        /// <inheritdoc />
         public event DomEventHandler Waiting
         {
             add { AddEventListener(EventNames.Waiting, value); }
@@ -373,6 +431,7 @@ namespace AngleSharp.Html.Dom
 
         #region ctor
 
+        /// <inheritdoc />
         public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, Combine(prefix, localName), localName, prefix, NamespaceNames.HtmlUri, flags | NodeFlags.HtmlMember)
         {
@@ -382,12 +441,14 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
+        /// <inheritdoc />
         public Boolean IsHidden
         {
             get { return this.GetBoolAttribute(AttributeNames.Hidden); }
             set { this.SetBoolAttribute(AttributeNames.Hidden, value); }
         }
 
+        /// <inheritdoc />
         public IHtmlMenuElement ContextMenu
         {
             get
@@ -407,6 +468,7 @@ namespace AngleSharp.Html.Dom
             set { _menu = value; }
         }
 
+        /// <inheritdoc />
         public ISettableTokenList DropZone
         {
             get
@@ -421,64 +483,75 @@ namespace AngleSharp.Html.Dom
             }
         }
 
+        /// <inheritdoc />
         public Boolean IsDraggable
         {
             get { return this.GetOwnAttribute(AttributeNames.Draggable).ToBoolean(false); }
             set { this.SetOwnAttribute(AttributeNames.Draggable, value.ToString()); }
         }
 
+        /// <inheritdoc />
         public String AccessKey
         {
             get { return this.GetOwnAttribute(AttributeNames.AccessKey) ?? String.Empty; }
             set { this.SetOwnAttribute(AttributeNames.AccessKey, value); }
         }
 
+        /// <inheritdoc />
         public String AccessKeyLabel
         {
             get { return AccessKey; }
         }
 
+        /// <inheritdoc />
         public String Language
         {
             get { return this.GetOwnAttribute(AttributeNames.Lang) ?? GetDefaultLanguage(); }
             set { this.SetOwnAttribute(AttributeNames.Lang, value); }
         }
 
+        /// <inheritdoc />
         public String Title
         {
             get { return this.GetOwnAttribute(AttributeNames.Title); }
             set { this.SetOwnAttribute(AttributeNames.Title, value); }
         }
 
+        /// <inheritdoc />
         public String Direction
         {
             get { return this.GetOwnAttribute(AttributeNames.Dir); }
             set { this.SetOwnAttribute(AttributeNames.Dir, value); }
         }
 
+        /// <inheritdoc />
         public Boolean IsSpellChecked
         {
             get { return this.GetOwnAttribute(AttributeNames.Spellcheck).ToBoolean(false); }
             set { this.SetOwnAttribute(AttributeNames.Spellcheck, value.ToString()); }
         }
 
+        /// <inheritdoc />
         public Int32 TabIndex
         {
             get { return this.GetOwnAttribute(AttributeNames.TabIndex).ToInteger(0); }
             set { this.SetOwnAttribute(AttributeNames.TabIndex, value.ToString()); }
         }
 
+        /// <inheritdoc />
         public IStringMap Dataset
         {
             get { return _dataset ?? (_dataset = new StringMap("data-", this)); }
         }
 
+        /// <inheritdoc />
         public String ContentEditable
         {
             get { return this.GetOwnAttribute(AttributeNames.ContentEditable); }
             set { this.SetOwnAttribute(AttributeNames.ContentEditable, value); }
         }
 
+        /// <inheritdoc />
         public Boolean IsContentEditable
         {
             get
@@ -501,6 +574,7 @@ namespace AngleSharp.Html.Dom
             }
         }
 
+        /// <inheritdoc />
         public Boolean IsTranslated
         {
             get { return this.GetOwnAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
@@ -511,6 +585,7 @@ namespace AngleSharp.Html.Dom
 
         #region Methods
 
+        /// <inheritdoc />
         public void DoSpellCheck()
         {
             var spellcheck = Context.GetSpellCheck(Language);
@@ -526,32 +601,36 @@ namespace AngleSharp.Html.Dom
             }
         }
 
+        /// <inheritdoc />
         public virtual void DoClick()
         {
             IsClickedCancelled();
         }
 
+        /// <inheritdoc />
         public virtual void DoFocus()
         {
             //Only certain elements can be focused
         }
 
+        /// <inheritdoc />
         public virtual void DoBlur()
         {
             //Only certain elements can be focused
         }
 
-        #endregion
-
-        #region Internal Methods
-
-        internal override Node Clone(Document owner, Boolean deep)
+        /// <inheritdoc />
+        public override Node Clone(Document owner, Boolean deep)
         {
             var factory = Context.GetFactory<IElementFactory<Document, HtmlElement>>();
             var node = factory.Create(owner, LocalName, Prefix);
             CloneElement(node, owner, deep);
             return node;
         }
+
+        #endregion
+
+        #region Internal Methods
 
         internal void UpdateDropZone(String value)
         {
@@ -562,11 +641,13 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
+        /// <inheritdoc />
         protected Boolean IsClickedCancelled()
         {
             return this.Fire<MouseEvent>(m => m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
         }
 
+        /// <inheritdoc />
         protected IHtmlFormElement GetAssignedForm()
         {
             var parent = Parent as INode;

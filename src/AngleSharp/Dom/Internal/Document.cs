@@ -979,11 +979,19 @@ namespace AngleSharp.Dom
 
         #region Methods
 
+        /// <summary>
+        /// Clears the whole document without any notification.
+        /// </summary>
+        public void Clear()
+        {
+            ReplaceAll(null, true);
+        }
+
         /// <inheritdoc />
         public void Dispose()
         {
             //Important to fix #45
-            ReplaceAll(null, true);
+            Clear();
             _loop.CancelAll();
             _loadingScripts.Clear();
             _source.Dispose();
@@ -1519,7 +1527,7 @@ namespace AngleSharp.Dom
         /// <param name="name">The name of the new element.</param>
         /// <param name="prefix">The optional prefix to use.</param>
         /// <returns>The created element.</returns>
-        internal abstract Element CreateElementFrom(String name, String prefix);
+        public abstract Element CreateElementFrom(String name, String prefix);
 
         #endregion
 

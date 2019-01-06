@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Html;
@@ -266,6 +266,14 @@
 
         #region Methods
 
+        public sealed override Node Clone(Document owner, Boolean deep)
+        {
+            var node = (HtmlInputElement)base.Clone(owner, deep);
+            node._checked = _checked;
+            node.UpdateType(_type.Name);
+            return node;
+        }
+
         public override void DoClick()
         {
             if (!IsClickedCancelled())
@@ -318,14 +326,6 @@
         #endregion
 
         #region Internal Methods
-
-        internal sealed override Node Clone(Document owner, Boolean deep)
-        {
-            var node = (HtmlInputElement)base.Clone(owner, deep);
-            node._checked = _checked;
-            node.UpdateType(_type.Name);
-            return node;
-        }
 
         internal override void SetupElement()
         {
