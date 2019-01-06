@@ -1,5 +1,21 @@
 # Migration Guide
 
+## 0.10 to 0.11
+
+This release follows the spirit of 0.10 an prepares for the 1.0 later this year. There are mainly additions, but also one important breaking change: We removed everything that is related to AngleSharp.Xml. This is now part of separate library called AngleSharp.Xml.
+
+### SVG
+
+The `ISvgDocument` interface and its implementation `SvgDocument` have been removed. They are now available via the `AngleSharp.Xml` library.
+
+### XML
+
+The full `AngleSharp.Xml` namespace has been moved to a dedicated library with the same name.
+
+### XHTML
+
+As with XML also XHTML has been mostly removed. This is not a big change though. It only impacts the `AutoSelectedMarkupFormatter`, which is now part of the AngleSharp.Xml library. Furthermore, it moved from `AngleSharp.Xhtml` to the `AngleSharp.Xml` namespace.
+
 ## 0.9.x to 0.10 (or later)
 
 The v0.10 release line of AngleSharp is breaking towards formerly used APIs. Even though the same concepts are mostly applied, many things changed and an upgrade from AngleSharp pre v0.10 to 0.10 will certainly break things. The following points should help you to perform the migration as fast as possible.

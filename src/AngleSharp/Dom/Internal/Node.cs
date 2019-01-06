@@ -7,7 +7,7 @@ namespace AngleSharp.Dom
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
-    abstract class Node : EventTarget, INode, IEquatable<INode>
+    public abstract class Node : EventTarget, INode, IEquatable<INode>
     {
         #region Fields
 
@@ -24,7 +24,8 @@ namespace AngleSharp.Dom
 
         #region ctor
 
-        internal Node(Document owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
+        /// <inheritdoc />
+        public Node(Document owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
             _owner = owner;
             _name = name ?? String.Empty;
@@ -37,16 +38,19 @@ namespace AngleSharp.Dom
 
         #region Public Properties
 
+        /// <inheritdoc />
         public Boolean HasChildNodes
         {
             get { return _children.Length != 0; }
         }
 
+        /// <inheritdoc />
         public String BaseUri
         {
             get { return BaseUrl?.Href ?? String.Empty; }
         }
 
+        /// <inheritdoc />
         public Url BaseUrl
         {
             get
@@ -83,17 +87,20 @@ namespace AngleSharp.Dom
             set { _baseUri = value; }
         }
 
+        /// <inheritdoc />
         public NodeType NodeType
         {
             get { return _type; }
         }
 
+        /// <inheritdoc />
         public virtual String NodeValue
         {
             get { return null; }
             set { }
         }
 
+        /// <inheritdoc />
         public virtual String TextContent
         {
             get { return null; }
@@ -130,6 +137,7 @@ namespace AngleSharp.Dom
             get { return _parent; }
         }
 
+        /// <inheritdoc />
         public IElement ParentElement
         {
             get { return _parent as IElement; }
@@ -140,6 +148,7 @@ namespace AngleSharp.Dom
             get { return _children; }
         }
 
+        /// <inheritdoc />
         public String NodeName
         {
             get { return _name; }
@@ -503,42 +512,50 @@ namespace AngleSharp.Dom
 
         #region Public Methods
 
+        /// <inheritdoc />
         public virtual void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
             writer.Write(TextContent);
         }
 
+        /// <inheritdoc />
         public INode AppendChild(INode child)
         {
             return this.PreInsert(child, null);
         }
 
+        /// <inheritdoc />
         public INode InsertChild(Int32 index, INode child)
         {
             var reference = index < _children.Length ? _children[index] : null;
             return this.PreInsert(child, reference);
         }
 
+        /// <inheritdoc />
         public INode InsertBefore(INode newElement, INode referenceElement)
         {
             return this.PreInsert(newElement, referenceElement);
         }
 
+        /// <inheritdoc />
         public INode ReplaceChild(INode newChild, INode oldChild)
         {
             return this.ReplaceChild(newChild as Node, oldChild as Node, false);
         }
 
+        /// <inheritdoc />
         public INode RemoveChild(INode child)
         {
             return this.PreRemove(child);
         }
 
+        /// <inheritdoc />
         public INode Clone(Boolean deep = true)
         {
             return Clone(Owner, deep);
         }
 
+        /// <inheritdoc />
         public DocumentPositions CompareDocumentPosition(INode otherNode)
         {
             if (Object.ReferenceEquals(this, otherNode))
@@ -566,11 +583,13 @@ namespace AngleSharp.Dom
             return DocumentPositions.Following;
         }
 
+        /// <inheritdoc />
         public Boolean Contains(INode otherNode)
         {
             return this.IsInclusiveAncestorOf(otherNode);
         }
 
+        /// <inheritdoc />
         public void Normalize()
         {
             for (var i = 0; i < _children.Length; i++)
@@ -621,6 +640,7 @@ namespace AngleSharp.Dom
             }
         }
 
+        /// <inheritdoc />
         public String LookupNamespaceUri(String prefix)
         {
             if (String.IsNullOrEmpty(prefix))
@@ -631,6 +651,7 @@ namespace AngleSharp.Dom
             return LocateNamespace(prefix);
         }
 
+        /// <inheritdoc />
         public String LookupPrefix(String namespaceUri)
         {
             if (String.IsNullOrEmpty(namespaceUri))
@@ -641,6 +662,7 @@ namespace AngleSharp.Dom
             return LocatePrefix(namespaceUri);
         }
 
+        /// <inheritdoc />
         public Boolean IsDefaultNamespace(String namespaceUri)
         {
             if (String.IsNullOrEmpty(namespaceUri))
@@ -652,6 +674,7 @@ namespace AngleSharp.Dom
             return namespaceUri.Is(defaultNamespace);
         }
 
+        /// <inheritdoc />
         public virtual Boolean Equals(INode otherNode)
         {
             if (BaseUri.Is(otherNode.BaseUri) && NodeName.Is(otherNode.NodeName) && ChildNodes.Length == otherNode.ChildNodes.Length)
@@ -727,6 +750,7 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.Namespace);
         }
 
+        /// <inheritdoc />
         protected static Boolean IsNamespaceError(String prefix, String namespaceUri, String qualifiedName)
         {
             return (prefix != null && namespaceUri == null) || (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
@@ -734,11 +758,13 @@ namespace AngleSharp.Dom
                 (namespaceUri.Is(NamespaceNames.XmlNsUri) && (!qualifiedName.Is(NamespaceNames.XmlNsPrefix) && !prefix.Is(NamespaceNames.XmlNsPrefix)));
         }
 
+        /// <inheritdoc />
         protected virtual String LocateNamespace(String prefix)
         {
             return _parent?.LocateNamespace(prefix);
         }
 
+        /// <inheritdoc />
         protected virtual String LocatePrefix(String namespaceUri)
         {
             return _parent?.LocatePrefix(namespaceUri);
@@ -768,11 +794,13 @@ namespace AngleSharp.Dom
             removedNode.OnParentChanged();
         }
 
+        /// <inheritdoc />
         protected virtual void OnParentChanged()
         {
             //TODO
         }
 
+        /// <inheritdoc />
         protected void CloneNode(Node target, Document owner, Boolean deep)
         {
             target._baseUri = _baseUri;

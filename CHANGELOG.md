@@ -2,7 +2,9 @@
 
 Planned for Friday, February 1 2019.
 
+- Moved everything from `AngleSharp.Xml` to its own library (#139)
 - Added .NET Standard 1.3 target (#738)
+- Moved `ISvgDocument` and `AutoSelectedMarkupFormatter` to AngleSharp.Xml
 
 # 0.10.0
 
