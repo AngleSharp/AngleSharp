@@ -2,6 +2,7 @@
 
 Released on Monday, January 7 2019.
 
+- Added .NET Standard 1.3 target (#738)
 - Fixed missing reference to `System.Encoding.CodePages` (#740)
 - Fixed invalid context of `OuterHtml` parsing (#741)
 

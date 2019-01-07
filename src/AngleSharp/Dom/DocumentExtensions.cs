@@ -8,6 +8,11 @@ namespace AngleSharp.Dom
     using System.Linq;
     using System.Threading.Tasks;
 
+    #if NETSTANDARD1_3
+    // Assembly.GetTypes is available as an extension in System.Reflection from NS1.3
+    using System.Reflection;
+    #endif
+
     /// <summary>
     /// Useful methods for document objects.
     /// </summary>
@@ -206,7 +211,7 @@ namespace AngleSharp.Dom
                     else
                     {
                         // Run the application cache selection algorithm with no
-                        // manifest. The algorithm must be passed the Document 
+                        // manifest. The algorithm must be passed the Document
                         // object.
                     }
                 }
@@ -224,7 +229,7 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
-        /// Provides a stable state by running the synchronous sections of 
+        /// Provides a stable state by running the synchronous sections of
         /// asynchronously-running algorithms until the asynchronous algorithm
         /// can be resumed (if appropriate).
         /// </summary>
@@ -246,12 +251,12 @@ namespace AngleSharp.Dom
 
         /// <summary>
         /// Checks if the document has any active stylesheets that block the
-        /// scripts. A style sheet is blocking scripts if the responsible 
+        /// scripts. A style sheet is blocking scripts if the responsible
         /// element was created by that Document's parser, and the element is
         /// either a style element or a link element that was an external
         /// resource link that contributes to the styling processing model when
         /// the element was created by the parser, and the element's style
-        /// sheet was enabled when the element was created by the parser, and 
+        /// sheet was enabled when the element was created by the parser, and
         /// the element's style sheet ready flag is not yet set.
         /// http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#has-no-style-sheet-that-is-blocking-scripts
         /// </summary>
