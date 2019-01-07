@@ -290,17 +290,22 @@ namespace AngleSharp.Dom
             get { return this.ToHtml(); }
             set
             {
-                var parent = Parent;
+                var parentNode = Parent;
 
-                if (parent == null)
-                    throw new DomException(DomError.NotSupported);
+                if (parentNode != null)
+                {
+                    switch (parentNode.NodeType)
+                    {
+                        case NodeType.Document:
+                            throw new DomException(DomError.NoModificationAllowed);
+                        case NodeType.DocumentFragment:
+                            parentNode = new Html.Dom.HtmlBodyElement(Owner);
+                            break;
+                    }
+                }
 
-                var document = Owner;
-
-                if (document != null && Object.ReferenceEquals(document.DocumentElement, this))
-                    throw new DomException(DomError.NoModificationAllowed);
-
-                parent.InsertChild(parent.IndexOf(this), new DocumentFragment(this, value));
+                var parent = parentNode as Element ?? throw new DomException(DomError.NotSupported);
+                parent.InsertChild(parent.IndexOf(this), new DocumentFragment(parent, value));
                 parent.RemoveChild(this);
             }
         }

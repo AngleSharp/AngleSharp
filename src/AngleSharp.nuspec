@@ -13,5 +13,16 @@
     <releaseNotes>https://github.com/AngleSharp/AngleSharp/blob/master/CHANGELOG.md</releaseNotes>
     <copyright>Copyright 2013-2019, AngleSharp.</copyright>
     <tags>html html5 css css3 xml dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text headless browser</tags>
+    <dependencies>
+      <group targetFramework="netstandard1.3">
+        <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
+        <dependency id="System.Net.Requests" version="4.3.0" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.5.1" />
+      </group>
+      <group targetFramework="netstandard2.0">
+        <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
+      </group>
+      <group targetFramework="net46" />
+    </dependencies>
   </metadata>
 </package>
