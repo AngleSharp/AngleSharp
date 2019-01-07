@@ -13,5 +13,11 @@
     <releaseNotes>https://github.com/AngleSharp/AngleSharp/blob/master/CHANGELOG.md</releaseNotes>
     <copyright>Copyright 2013-2019, AngleSharp.</copyright>
     <tags>html html5 css css3 xml dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text headless browser</tags>
+    <dependencies>
+      <group>
+        <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
+      </group>
+      <group targetFramework="net46" />
+    </dependencies>
   </metadata>
 </package>

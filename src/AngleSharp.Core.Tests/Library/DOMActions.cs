@@ -1323,5 +1323,20 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(cell.Closest("a"), null);
             Assert.AreEqual(cell.Closest("div"), document.QuerySelector("#div2"));
         }
+
+        [Test]
+        public void OuterHtmlForFrame_Issue741()
+        {
+            var document = Create("<html><body><iframe src=\"https://google.com\"></iframe></body></html>");
+            var iframe = document.QuerySelector("iframe");
+
+            Assert.IsNotNull(iframe);
+
+            iframe.OuterHtml = $"<div>{iframe.OuterHtml}</div>";
+
+            var newContent = document.Body.InnerHtml;
+
+            Assert.AreEqual("<div><iframe src=\"https://google.com\"></iframe></div>", newContent);
+        }
     }
 }

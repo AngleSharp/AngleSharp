@@ -1,3 +1,10 @@
+# 0.10.1
+
+Released on Monday, January 7 2019.
+
+- Fixed missing reference to `System.Encoding.CodePages` (#740)
+- Fixed invalid context of `OuterHtml` parsing (#741)
+
 # 0.10.0
 
 Released on Friday, January 4 2019.
