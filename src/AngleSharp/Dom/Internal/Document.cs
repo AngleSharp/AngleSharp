@@ -700,7 +700,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IWindow DefaultView 
+        public IWindow DefaultView
         {
             get { return _view; }
         }
@@ -725,7 +725,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IElement ActiveElement 
+        public IElement ActiveElement
         {
             get { return All.Where(m => m.IsFocused).FirstOrDefault(); }
         }
@@ -820,7 +820,7 @@ namespace AngleSharp.Dom
 
                 return null;
             }
-            set 
+            set
             {
                 if (value is IHtmlBodyElement == false && value is HtmlFrameSetElement == false)
                     throw new DomException(DomError.HierarchyRequest);
@@ -835,7 +835,7 @@ namespace AngleSharp.Dom
 
                         if (root == null)
                             throw new DomException(DomError.HierarchyRequest);
-                        
+
                         root.AppendChild(value);
                     }
                     else
@@ -882,7 +882,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String SelectedStyleSheetSet
         {
-            get 
+            get
             {
                 var enabled = StyleSheets.GetEnabledStyleSheetSets();
                 var enabledName = enabled.FirstOrDefault();
@@ -1039,7 +1039,7 @@ namespace AngleSharp.Dom
                     {
                         return this;
                     }
-                
+
                     Unload(recycle: true);
                     Abort();
                     RemoveEventListeners();
@@ -1328,6 +1328,31 @@ namespace AngleSharp.Dom
             return new Attr(prefix, localName, String.Empty, namespaceUri);
         }
 
+        /// <summary>
+        /// Sets the document up with the given parameters.
+        /// </summary>
+        /// <param name="response">The received response.</param>
+        /// <param name="contentType">The content-type.</param>
+        /// <param name="importAncestor">The ancestor, if any.</param>
+        public void Setup(IResponse response, MimeType contentType, IDocument importAncestor)
+        {
+            ContentType = contentType.Content;
+            StatusCode = response.StatusCode;
+            Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+            DocumentUri = response.Address.Href;
+            Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            ImportAncestor = importAncestor;
+            ReadyState = DocumentReadyState.Loading;
+        }
+
+        /// <summary>
+        /// Creates a new element in the current namespace from the infos.
+        /// </summary>
+        /// <param name="name">The name of the new element.</param>
+        /// <param name="prefix">The optional prefix to use.</param>
+        /// <returns>The created element.</returns>
+        public abstract Element CreateElementFrom(String name, String prefix);
+
         #endregion
 
         #region Internal Methods
@@ -1435,7 +1460,7 @@ namespace AngleSharp.Dom
                     }
                 }
             }
-             
+
             foreach (var descendant in descendants)
             {
                 var active = descendant.Active as Document;
@@ -1483,7 +1508,7 @@ namespace AngleSharp.Dom
             }
 
             CancelTasks();
-            
+
             foreach (var descendant in descendants)
             {
                 var active = descendant.Active as Document;
@@ -1503,31 +1528,6 @@ namespace AngleSharp.Dom
                 }
             }
         }
-
-        /// <summary>
-        /// Sets the document up with the given parameters.
-        /// </summary>
-        /// <param name="response">The received response.</param>
-        /// <param name="contentType">The content-type.</param>
-        /// <param name="importAncestor">The ancestor, if any.</param>
-        internal void Setup(IResponse response, MimeType contentType, IDocument importAncestor)
-        {
-            ContentType = contentType.Content;
-            StatusCode = response.StatusCode;
-            Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-            DocumentUri = response.Address.Href;
-            Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
-            ImportAncestor = importAncestor;
-            ReadyState = DocumentReadyState.Loading;
-        }
-
-        /// <summary>
-        /// Creates a new element in the current namespace from the infos.
-        /// </summary>
-        /// <param name="name">The name of the new element.</param>
-        /// <param name="prefix">The optional prefix to use.</param>
-        /// <returns>The created element.</returns>
-        public abstract Element CreateElementFrom(String name, String prefix);
 
         #endregion
 
