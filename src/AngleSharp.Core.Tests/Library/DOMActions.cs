@@ -2,6 +2,7 @@ namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Io;
     using NUnit.Framework;
     using System;
@@ -1337,6 +1338,27 @@ namespace AngleSharp.Core.Tests.Library
             var newContent = document.Body.InnerHtml;
 
             Assert.AreEqual("<div><iframe src=\"https://google.com\"></iframe></div>", newContent);
+        }
+
+        [Test]
+        public void OuterHtmlForParagraph_Issue741()
+        {
+            var parser = new HtmlParser();
+            var document = parser.ParseDocument("<html><head></head><body></body></html>");
+            var fragment = parser.ParseFragment("<p>some text</p>", document.Body);
+
+            (fragment.First() as IHtmlElement).OuterHtml = $"<br/>";
+
+            Assert.AreEqual("<br>", fragment.ToHtml());
+        }
+
+        [Test]
+        public async Task LinkWithoutAConfigurationShouldBeIgnored_Issue753()
+        {
+            var content = "<!DOCTYPE html>\n<html>\n<head>\n<link href=\"/style.css\" rel=\"stylesheet\" />\n\n</head></html>";
+            var parser = new HtmlParser();
+            var doc = await parser.ParseDocumentAsync(content);
+            Assert.IsNull(doc.QuerySelector<IHtmlLinkElement>("link").Sheet);
         }
     }
 }

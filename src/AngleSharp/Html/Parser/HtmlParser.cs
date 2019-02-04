@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -6,6 +6,7 @@
     using AngleSharp.Text;
     using System;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -129,7 +130,9 @@
             {
                 var context = document.Context;
                 element = document.CreateElementFrom(contextElement.LocalName, contextElement.Prefix);
-                return parser.ParseFragment(_options, element).DocumentElement.ChildNodes;
+                var fragment = parser.ParseFragment(_options, element).DocumentElement;
+                element.AppendNodes(fragment.ChildNodes.ToArray());
+                return element.ChildNodes;
             }
 
             return parser.Parse(_options).ChildNodes;

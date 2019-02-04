@@ -158,8 +158,7 @@ namespace AngleSharp.Html.Parser
         /// </param>
         public HtmlDocument ParseFragment(HtmlParserOptions options, Element context)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            context = context ?? throw new ArgumentNullException(nameof(context));
 
             _fragmentContext = context;
             var tagName = context.LocalName;

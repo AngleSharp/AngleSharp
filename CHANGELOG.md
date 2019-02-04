@@ -1,9 +1,10 @@
 # 0.11.0
 
-Planned for Friday, February 1 2019.
+Planned for Friday, February 8 2019.
 
 - Moved everything from `AngleSharp.Xml` to its own library (#139)
 - Moved `ISvgDocument` and `AutoSelectedMarkupFormatter` to AngleSharp.Xml
+- Fixed inconsistent behavior in fragment parsing (#741)
 
 # 0.10.1
 

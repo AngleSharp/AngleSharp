@@ -44,6 +44,7 @@ namespace AngleSharp.Dom
             {
                 var child = root.FirstChild;
                 root.RemoveChild(child);
+
                 if (child is Node)
                 {
                     Owner.AdoptNode(child);
