@@ -3,8 +3,12 @@
 Planned for Friday, February 8 2019.
 
 - Moved everything from `AngleSharp.Xml` to its own library (#139)
+- Added more examples regarding forms (#242)
 - Moved `ISvgDocument` and `AutoSelectedMarkupFormatter` to AngleSharp.Xml
+- Improved fragment parsing (#594)
 - Fixed inconsistent behavior in fragment parsing (#741)
+- Improved migration documentation (#743)
+- Fixed internal bug in `link` resolution (#753)
 
 # 0.10.1
 

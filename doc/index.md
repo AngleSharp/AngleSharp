@@ -5,6 +5,7 @@ We have more detailed information regarding the following subjects:
 - [Getting Started](Basics.md)
 - [API Documentation](API.md)
 - [More Examples](Examples.md)
+- [Form Submission by Example](Forms.md)
 - [Performance Comparisons](Performance.md)
 - [Feature Status](Features.md)
 - [Frequently Asked Questions](Questions.md)

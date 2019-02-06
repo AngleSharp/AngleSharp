@@ -6,7 +6,7 @@ This release follows the spirit of 0.10 an prepares for the 1.0 later this year.
 
 ### SVG
 
-The `ISvgDocument` interface and its implementation `SvgDocument` have been removed. They are now available via the `AngleSharp.Xml` library.
+The `ISvgDocument` interface and its implementation `SvgDocument` have been removed. They are now available via the `AngleSharp.Xml` library. There should be no need to access these types directly - in most cases `IDocument` should be more than sufficient.
 
 ### XML
 
@@ -51,6 +51,37 @@ you now have to write
 config.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true })
 ```
 
+### HTML
+
+The unified parser interface has been changed. It is no longer possible to call `Parse`, instead this is now `ParseDocument`. Hence some old code like
+
+```cs
+var htmlDocument = parser.Parse("");
+```
+
+is now
+
+```cs
+var htmlDocument = parser.ParseDocument("");
+```
+
+Note: Same applies to the `Async` parsing (which is still recommended). Here we now have `ParseDocumentAsync`.
+
+Also the `HtmlParser` does no longer accept an `IConfiguration` in the constructor. In this case we implicitly created an `BrowsingContext`, which we want to avoid to show the user what is really happening. Instead, a browsing context should be passed in now.
+
+The following old code
+
+```cs
+var parser = new HtmlParser(Configuration.Default);
+```
+
+is therefore to be replaced with
+
+```cs
+var context = BrowsingContext.New(Configuration.Default);
+var parser = new HtmlParser(context);
+```
+
 ### CSS
 
 The current version of AngleSharp split out the CSS parsing (except CSS selectors) in its own library. This library is called `AngleSharp.Css` and is available via NuGet.
@@ -60,6 +91,18 @@ The new library is much more feature rich than the old integration. Besides an i
 The basic usage is to configure AngleSharp using `WithCss`. Then, e.g., the style can be accessed by using `GetStyle` from `AngleSharp.Css.Dom`. Setting the style works now with the `SetStyle` extension method. This replaces the old `Style` property.
 
 The `ICssStyleDeclaration` does not contain all known declarations as properties. Instead, extension methods are used to dynamically attach these getters and setters, e.g., `GetDisplay()` and `SetDisplay(value)`  instead of `Display { get; set; }`.
+
+Therefore the following old code won't work any more:
+
+```cs
+((IHtmlElement)element).Style.Display = "flex";
+```
+
+Instead we now have to use the AngleSharp.Css NuGet package, which should be used in the configuration like `Configuration.Default.WithCss()`. If all this is fulfilled the following extension method will work:
+
+```cs
+((IHtmlElement)element).Style.SetDisplay("flex");
+```
 
 In previous versions the `IWindow` also contained CSS methods for style computation. These are now also available in the new CSS library as extension methods. The `WindowExtensions` are contained in the namespace `AngleSharp.Dom`.
 
