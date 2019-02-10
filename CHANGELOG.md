@@ -1,6 +1,6 @@
 # 0.11.0
 
-Planned for Friday, February 8 2019.
+Planned for Monday, February 11 2019.
 
 - Moved everything from `AngleSharp.Xml` to its own library (#139)
 - Added more examples regarding forms (#242)
@@ -9,6 +9,7 @@ Planned for Friday, February 8 2019.
 - Fixed inconsistent behavior in fragment parsing (#741)
 - Improved migration documentation (#743)
 - Fixed internal bug in `link` resolution (#753)
+- Removed `SetDefault` function from `Configuration`
 
 # 0.10.1
 
