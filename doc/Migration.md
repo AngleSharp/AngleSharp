@@ -16,6 +16,10 @@ The full `AngleSharp.Xml` namespace has been moved to a dedicated library with t
 
 As with XML also XHTML has been mostly removed. This is not a big change though. It only impacts the `AutoSelectedMarkupFormatter`, which is now part of the AngleSharp.Xml library. Furthermore, it moved from `AngleSharp.Xhtml` to the `AngleSharp.Xml` namespace.
 
+### Peer Dependencies
+
+The peer dependency to the System.Encoding.CodePages package for the .NET Framework release is gone. This is now also a dependency for the .NET Framework target.
+
 ## 0.9.x to 0.10 (or later)
 
 The v0.10 release line of AngleSharp is breaking towards formerly used APIs. Even though the same concepts are mostly applied, many things changed and an upgrade from AngleSharp pre v0.10 to 0.10 will certainly break things. The following points should help you to perform the migration as fast as possible.

@@ -40,4 +40,6 @@ var context = BrowsingContext.New(config);
 
 ## AJAX / JavaScript Powered Forms
 
-(tbd)
+AngleSharp itself does not provide a JavaScript parser or engine. Some libraries exist or try to solve this problem, however, at the moment no library is mature or powerful enough to cope with JavaScript powered forms in general.
+
+Once a form is no longer a real form, but relies on JavaScript manipulation (or just uses a bunch of input fields to form a set of data that is ultimately transferred to a server via a constructed XHR / `fetch` call) AngleSharp is essentially out of the game. At this point one may try to reverse engineer the logic of the JavaScript to perform the same steps and submit the same data. AngleSharp may assist here, but is certainly not the greatest help, if any.
