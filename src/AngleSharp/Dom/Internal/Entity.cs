@@ -1,21 +1,23 @@
 namespace AngleSharp.Dom
 {
+    using AngleSharp.Attributes;
     using System;
 
     /// <summary>
     /// Represents an entity node.
     /// </summary>
-    sealed class Entity : Node
+    [DomName("Entity")]
+    public sealed class Entity : Node
     {
         #region Fields
 
-        String _publicId;
-        String _systemId;
-        String _notationName;
-        String _inputEncoding;
-        String _xmlVersion;
-        String _xmlEncoding;
-        String _value;
+        private String _publicId;
+        private String _systemId;
+        private String _notationName;
+        private String _inputEncoding;
+        private String _xmlVersion;
+        private String _xmlEncoding;
+        private String _value;
 
         #endregion
 
@@ -24,7 +26,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
-        internal Entity(Document owner)
+        public Entity(Document owner)
             : this(owner, String.Empty)
         {
         }
@@ -32,9 +34,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Creates a new entity node.
         /// </summary>
-        /// <param name="owner">The initial owner.</param>
-        /// <param name="name">Name of the entity.</param>
-        internal Entity(Document owner, String name)
+        public Entity(Document owner, String name)
             : base(owner, name, NodeType.Entity)
         {
         }
@@ -46,6 +46,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the public identiifer.
         /// </summary>
+        [DomName("publicId")]
         public String PublicId
         {
             get { return _publicId; }
@@ -54,23 +55,26 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the system identifier.
         /// </summary>
+        [DomName("systemId")]
         public String SystemId
         {
             get { return _systemId; }
         }
 
         /// <summary>
-        /// Gets the notation name.
+        /// Gets or sets the notation name.
         /// </summary>
+        [DomName("notationName")]
         public String NotationName
         {
             get { return _notationName; }
-            internal set { _notationName = value; }
+            set { _notationName = value; }
         }
 
         /// <summary>
         /// Gets the used input encoding.
         /// </summary>
+        [DomName("inputEncoding")]
         public String InputEncoding
         {
             get { return _inputEncoding; }
@@ -79,6 +83,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the used XML encoding.
         /// </summary>
+        [DomName("xmlEncoding")]
         public String XmlEncoding
         {
             get { return _xmlEncoding; }
@@ -87,6 +92,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the used XML version.
         /// </summary>
+        [DomName("xmlVersion")]
         public String XmlVersion
         {
             get { return _xmlVersion; }
@@ -95,15 +101,17 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets or sets the entity's value.
         /// </summary>
+        [DomName("textContent")]
         public override String TextContent
         {
-            get { return _value; }
-            set { _value = value; }
+            get { return NodeValue; }
+            set { NodeValue = value; }
         }
 
         /// <summary>
         /// Gets or sets the value of the entity.
         /// </summary>
+        [DomName("nodeValue")]
         public override String NodeValue
         {
             get { return _value; }
@@ -114,18 +122,19 @@ namespace AngleSharp.Dom
 
         #region Methods
 
-        public override Node Clone(Document owner, Boolean deep)
+        /// <summary>
+        /// Returns a duplicate of the node on which this method was called.
+        /// </summary>
+        public override Node Clone(Document newOwner, Boolean deep)
         {
-            var node = new Entity(owner, NodeName)
-            {
-                _xmlEncoding = _xmlEncoding,
-                _xmlVersion = _xmlVersion,
-                _systemId = _systemId,
-                _publicId = _publicId,
-                _inputEncoding = _inputEncoding,
-                _notationName = _notationName
-            };
-            CloneNode(node, owner, deep);
+            var node = new Entity(newOwner, NodeName);
+            CloneNode(node, newOwner, deep);
+            node._xmlEncoding = this._xmlEncoding;
+            node._xmlVersion = this._xmlVersion;
+            node._systemId = this._systemId;
+            node._publicId = this._publicId;
+            node._inputEncoding = this._inputEncoding;
+            node._notationName = this._notationName;
             return node;
         }
 
