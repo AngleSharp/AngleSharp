@@ -1,9 +1,10 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Represents the an HTML5 markup formatter with inserted indents.
@@ -71,7 +72,7 @@
                 before = IndentBefore();
             }
 
-            return before + HtmlMarkupFormatter.Instance.Doctype(doctype);
+            return before + HtmlMarkupFormatter.Instance.Doctype(doctype) + NewLine;
         }
 
         String IMarkupFormatter.Processing(IProcessingInstruction processing)
@@ -84,9 +85,14 @@
         {
             var content = text.Data;
             var before = String.Empty;
-            var singleLine = content.Replace(Symbols.LineFeed, Symbols.Space).TrimEnd();
+            var singleLine = content.Replace(Symbols.LineFeed, Symbols.Space);
 
-            if (singleLine.Length > 0 && singleLine[0].IsSpaceCharacter())
+            if (text.NextSibling is ICharacterData == false)
+            {
+                singleLine = singleLine.TrimEnd();
+            }
+
+            if (singleLine.Length > 0 && text.PreviousSibling is ICharacterData == false && singleLine[0].IsSpaceCharacter())
             {
                 singleLine = singleLine.TrimStart();
                 before = IndentBefore();
