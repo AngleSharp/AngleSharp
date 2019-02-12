@@ -878,13 +878,10 @@
         /// <param name="attributeValue">The value of the attribute.</param>
         /// <returns>The collection itself.</returns>
         public static T Attr<T>(this T elements, String attributeName, String attributeValue)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            if (attributeName == null)
-                throw new ArgumentNullException(nameof(attributeName));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            attributeName = attributeName ?? throw new ArgumentNullException(nameof(attributeName));
 
             foreach (var element in elements)
             {
@@ -905,13 +902,10 @@
         /// </param>
         /// <returns>The collection itself.</returns>
         public static T Attr<T>(this T elements, IEnumerable<KeyValuePair<String, String>> attributes)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            if (attributes == null)
-                throw new ArgumentNullException(nameof(attributes));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            attributes = attributes ?? throw new ArgumentNullException(nameof(attributes));
 
             foreach (var element in elements)
             {
@@ -936,7 +930,7 @@
         /// </param>
         /// <returns>The collection itself.</returns>
         public static T Attr<T>(this T elements, Object attributes)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
             var realAttributes = attributes.ToDictionary();
             return elements.Attr(realAttributes);
@@ -963,9 +957,7 @@
         /// <returns>The element itself.</returns>
         public static IElement ClearAttr(this IElement element)
         {
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
+            element = element ?? throw new ArgumentNullException(nameof(element));
             element.Attributes.Clear();
             return element;
         }
@@ -977,10 +969,9 @@
         /// <param name="elements">The collection to clear.</param>
         /// <returns>The collection itself.</returns>
         public static T ClearAttr<T>(this T elements)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
 
             foreach (var element in elements)
             {
@@ -997,9 +988,7 @@
         /// <returns>The element itself.</returns>
         public static IElement Empty(this IElement element)
         {
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
+            element = element ?? throw new ArgumentNullException(nameof(element));
             element.InnerHtml = String.Empty;
             return element;
         }
@@ -1011,10 +1000,9 @@
         /// <param name="elements">The collection.</param>
         /// <returns>The collection itself.</returns>
         public static T Empty<T>(this T elements)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
 
             foreach (var element in elements)
             {
@@ -1031,9 +1019,7 @@
         /// <returns>The source code of the inner HTML.</returns>
         public static String Html(this IElement element)
         {
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
+            element = element ?? throw new ArgumentNullException(nameof(element));
             return element.InnerHtml;
         }
 
@@ -1047,10 +1033,9 @@
         /// </param>
         /// <returns>The collection itself.</returns>
         public static T Html<T>(this T elements, String html)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
 
             foreach (var element in elements)
             {
@@ -1069,14 +1054,10 @@
         /// <param name="className">The name(s) of the class(es).</param>
         /// <returns>The collection itself.</returns>
         public static T AddClass<T>(this T elements, String className)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            if (className == null)
-                throw new ArgumentNullException(nameof(className));
-
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            className = className ?? throw new ArgumentNullException(nameof(className));
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
@@ -1096,14 +1077,10 @@
         /// <param name="className">The name(s) of the class(es).</param>
         /// <returns>The collection itself.</returns>
         public static T RemoveClass<T>(this T elements, String className)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            if (className == null)
-                throw new ArgumentNullException(nameof(className));
-
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            className = className ?? throw new ArgumentNullException(nameof(className));
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
@@ -1123,14 +1100,10 @@
         /// <param name="className">The name(s) of the class(es).</param>
         /// <returns>The collection itself.</returns>
         public static T ToggleClass<T>(this T elements, String className)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            if (className == null)
-                throw new ArgumentNullException(nameof(className));
-
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            className = className ?? throw new ArgumentNullException(nameof(className));
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
@@ -1155,12 +1128,8 @@
         /// </returns>
         public static Boolean HasClass(this IEnumerable<IElement> elements, String className)
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            if (className == null)
-                throw new ArgumentNullException(nameof(className));
-
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            className = className ?? throw new ArgumentNullException(nameof(className));
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
@@ -1194,10 +1163,9 @@
         /// <param name="html">The HTML code that generates the nodes.</param>
         /// <returns>The unchanged collection.</returns>
         public static T Before<T>(this T elements, String html)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
 
             foreach (var element in elements)
             {
@@ -1222,10 +1190,9 @@
         /// <param name="html">The HTML code that generates the nodes.</param>
         /// <returns>The unchanged collection.</returns>
         public static T After<T>(this T elements, String html)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
 
             foreach (var element in elements)
             {
@@ -1250,10 +1217,9 @@
         /// <param name="html">The HTML code that generates the nodes.</param>
         /// <returns>The unchanged collection.</returns>
         public static T Append<T>(this T elements, String html)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
 
             foreach (var element in elements)
             {
@@ -1273,10 +1239,9 @@
         /// <param name="html">The HTML code that generates the nodes.</param>
         /// <returns>The unchanged collection.</returns>
         public static T Prepend<T>(this T elements, String html)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
 
             foreach (var element in elements)
             {
@@ -1296,10 +1261,9 @@
         /// <param name="html">The HTML code that generates the tree.</param>
         /// <returns>The unchanged collection.</returns>
         public static T Wrap<T>(this T elements, String html)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
 
             foreach (var element in elements)
             {
@@ -1397,7 +1361,7 @@
         /// <param name="element">The element of navigation.</param>
         /// <returns>The task eventually resulting in the response.</returns>
         public static Task<IDocument> NavigateAsync<TElement>(this TElement element)
-            where TElement : IUrlUtilities, IElement
+            where TElement : class, IUrlUtilities, IElement
         {
             return element.NavigateAsync(CancellationToken.None);
         }
@@ -1410,11 +1374,9 @@
         /// <param name="cancel">The token for cancellation.</param>
         /// <returns>The task eventually resulting in the response.</returns>
         public static Task<IDocument> NavigateAsync<TElement>(this TElement element, CancellationToken cancel)
-            where TElement : IUrlUtilities, IElement
+            where TElement : class, IUrlUtilities, IElement
         {
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
+            element = element ?? throw new ArgumentNullException(nameof(element));
             var address = element.Href;
             var url = Url.Create(address);
             return element.Owner.Context.OpenAsync(url, cancel);
@@ -1431,11 +1393,7 @@
         {
             var request = element.CreateRequestFor(url);
             var task = processor?.ProcessAsync(request);
-
-            if (task != null)
-            {
-                element.Owner?.DelayLoad(task);
-            }
+            element.Owner?.DelayLoad(task);
         }
 
         /// <summary>
@@ -1580,7 +1538,9 @@
         private static IElement GetInnerMostElement(this IDocumentFragment fragment)
         {
             if (fragment.ChildElementCount != 1)
+            {
                 throw new InvalidOperationException("The provided HTML code did not result in any element.");
+            }
 
             var element = default(IElement);
             var child = fragment.FirstElementChild;
