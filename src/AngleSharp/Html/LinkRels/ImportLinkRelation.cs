@@ -46,13 +46,13 @@ namespace AngleSharp.Html.LinkRels
             var list = ImportLists.GetOrCreateValue(document);
             var location = Url;
             var processor = Processor;
-            var item = new ImportEntry 
-            { 
+            var item = new ImportEntry
+            {
                 Relation = this,
                 IsCycle = location != null && CheckCycle(document, location)
             };
             list.Add(item);
-            
+
             if (location != null && !item.IsCycle)
             {
                 var request = link.CreateRequestFor(location);
@@ -60,7 +60,7 @@ namespace AngleSharp.Html.LinkRels
                 return processor?.ProcessAsync(request);
             }
 
-            return null;
+            return Task.CompletedTask;
         }
 
         #endregion

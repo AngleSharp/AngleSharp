@@ -36,7 +36,7 @@ namespace AngleSharp.Io.Processors
 
         #region Properties
 
-        public IDownload Download 
+        public IDownload Download
         {
             get;
             private set;
@@ -132,7 +132,7 @@ namespace AngleSharp.Io.Processors
                 return Download.Task;
             }
 
-            return null;
+            return Task.CompletedTask;
         }
 
         #endregion
