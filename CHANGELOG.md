@@ -1,3 +1,16 @@
+# 0.11.0
+
+Released on Monday, February 11 2019.
+
+- Moved everything from `AngleSharp.Xml` to its own library (#139)
+- Added more examples regarding forms (#242)
+- Moved `ISvgDocument` and `AutoSelectedMarkupFormatter` to AngleSharp.Xml
+- Improved fragment parsing (#594)
+- Fixed inconsistent behavior in fragment parsing (#741)
+- Improved migration documentation (#743)
+- Fixed internal bug in `link` resolution (#753)
+- Removed `SetDefault` function from `Configuration`
+
 # 0.10.1
 
 Released on Monday, January 7 2019.

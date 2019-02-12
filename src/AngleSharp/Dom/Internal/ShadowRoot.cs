@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Html;
@@ -177,11 +177,7 @@
             ChildNodes.ToHtml(writer, formatter);
         }
 
-        #endregion
-
-        #region Helpers
-
-        internal override Node Clone(Document owner, Boolean deep)
+        public override Node Clone(Document owner, Boolean deep)
         {
             var node = new ShadowRoot(_host, _mode);
             CloneNode(node, owner, deep);

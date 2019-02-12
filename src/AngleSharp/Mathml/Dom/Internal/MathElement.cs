@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Mathml.Dom
+namespace AngleSharp.Mathml.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -6,10 +6,11 @@
     /// <summary>
     /// Represents an element of the MathML DOM.
     /// </summary>
-    class MathElement : Element
+    public class MathElement : Element
     {
         #region ctor
 
+        /// <inheritdoc />
         public MathElement(Document owner, String name, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, NamespaceNames.MathMlUri, flags | NodeFlags.MathMember)
         {
@@ -17,9 +18,10 @@
 
         #endregion
 
-        #region Helpers
+        #region Methods
 
-        internal override Node Clone(Document owner, Boolean deep)
+        /// <inheritdoc />
+        public override Node Clone(Document owner, Boolean deep)
         {
             var factory = Context.GetFactory<IElementFactory<Document, MathElement>>();
             var node = factory.Create(owner, LocalName, Prefix);

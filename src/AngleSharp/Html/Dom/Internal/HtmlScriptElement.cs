@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Io;
@@ -89,6 +89,18 @@
         {
             get { return this.GetOwnAttribute(AttributeNames.Integrity); }
             set { this.SetOwnAttribute(AttributeNames.Integrity, value); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override Node Clone(Document owner, Boolean deep)
+        {
+            var node = new HtmlScriptElement(owner, Prefix, _parserInserted, _started);
+            CloneElement(node, owner, deep);
+            node._forceAsync = _forceAsync;
+            return node;
         }
 
         #endregion
@@ -185,14 +197,6 @@
         #endregion
 
         #region Helpers
-
-        internal override Node Clone(Document owner, Boolean deep)
-        {
-            var node = new HtmlScriptElement(owner, Prefix, _parserInserted, _started);
-            CloneElement(node, owner, deep);
-            node._forceAsync = _forceAsync;
-            return node;
-        }
 
         private Boolean InvokeLoadingScript(Document document, Url url)
         {

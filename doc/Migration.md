@@ -1,6 +1,26 @@
 # Migration Guide
 
-## 0.9 to 0.10
+## 0.10 to 0.11
+
+This release follows the spirit of 0.10 an prepares for the 1.0 later this year. There are mainly additions, but also one important breaking change: We removed everything that is related to AngleSharp.Xml. This is now part of separate library called AngleSharp.Xml.
+
+### SVG
+
+The `ISvgDocument` interface and its implementation `SvgDocument` have been removed. They are now available via the `AngleSharp.Xml` library. There should be no need to access these types directly - in most cases `IDocument` should be more than sufficient.
+
+### XML
+
+The full `AngleSharp.Xml` namespace has been moved to a dedicated library with the same name.
+
+### XHTML
+
+As with XML also XHTML has been mostly removed. This is not a big change though. It only impacts the `AutoSelectedMarkupFormatter`, which is now part of the AngleSharp.Xml library. Furthermore, it moved from `AngleSharp.Xhtml` to the `AngleSharp.Xml` namespace.
+
+### Peer Dependencies
+
+The peer dependency to the System.Encoding.CodePages package for the .NET Framework release is gone. This is now also a dependency for the .NET Framework target.
+
+## 0.9.x to 0.10 (or later)
 
 The v0.10 release line of AngleSharp is breaking towards formerly used APIs. Even though the same concepts are mostly applied, many things changed and an upgrade from AngleSharp pre v0.10 to 0.10 will certainly break things. The following points should help you to perform the migration as fast as possible.
 
@@ -8,7 +28,9 @@ In the following points the v0.10 release line will be named "current", while ol
 
 ### Silverlight / Pre .NET 4.5
 
-These platforms are no longer support. No solution planned.
+:warn: These platforms are no longer support. No solution planned.
+
+> Recommendation: Stay at AngleSharp pre-v0.10 for the moment. Sorry for inconvenience!
 
 ### Configuration
 
@@ -33,6 +55,37 @@ you now have to write
 config.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true })
 ```
 
+### HTML
+
+The unified parser interface has been changed. It is no longer possible to call `Parse`, instead this is now `ParseDocument`. Hence some old code like
+
+```cs
+var htmlDocument = parser.Parse("");
+```
+
+is now
+
+```cs
+var htmlDocument = parser.ParseDocument("");
+```
+
+Note: Same applies to the `Async` parsing (which is still recommended). Here we now have `ParseDocumentAsync`.
+
+Also the `HtmlParser` does no longer accept an `IConfiguration` in the constructor. In this case we implicitly created an `BrowsingContext`, which we want to avoid to show the user what is really happening. Instead, a browsing context should be passed in now.
+
+The following old code
+
+```cs
+var parser = new HtmlParser(Configuration.Default);
+```
+
+is therefore to be replaced with
+
+```cs
+var context = BrowsingContext.New(Configuration.Default);
+var parser = new HtmlParser(context);
+```
+
 ### CSS
 
 The current version of AngleSharp split out the CSS parsing (except CSS selectors) in its own library. This library is called `AngleSharp.Css` and is available via NuGet.
@@ -43,7 +96,27 @@ The basic usage is to configure AngleSharp using `WithCss`. Then, e.g., the styl
 
 The `ICssStyleDeclaration` does not contain all known declarations as properties. Instead, extension methods are used to dynamically attach these getters and setters, e.g., `GetDisplay()` and `SetDisplay(value)`  instead of `Display { get; set; }`.
 
+Therefore the following old code won't work any more:
+
+```cs
+((IHtmlElement)element).Style.Display = "flex";
+```
+
+Instead we now have to use the AngleSharp.Css NuGet package, which should be used in the configuration like `Configuration.Default.WithCss()`. If all this is fulfilled the following extension method will work:
+
+```cs
+((IHtmlElement)element).Style.SetDisplay("flex");
+```
+
 In previous versions the `IWindow` also contained CSS methods for style computation. These are now also available in the new CSS library as extension methods. The `WindowExtensions` are contained in the namespace `AngleSharp.Dom`.
+
+### Scripting
+
+:warn: Currently, `AngleSharp.Scripting.Js` is incompatible with AngleSharp v0.10.
+
+We plan to deprecate this package and release `AngleSharp.Js` instead. In the mean time there is no replacement.
+
+> Recommendation: Stay at AngleSharp pre-v0.10 for the moment and wait until AngleSharp.Js is released. Sorry for inconvenience!
 
 ### Namespaces
 

@@ -158,8 +158,7 @@ namespace AngleSharp.Html.Parser
         /// </param>
         public HtmlDocument ParseFragment(HtmlParserOptions options, Element context)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            context = context ?? throw new ArgumentNullException(nameof(context));
 
             _fragmentContext = context;
             var tagName = context.LocalName;
@@ -224,7 +223,7 @@ namespace AngleSharp.Html.Parser
         {
             _currentMode = HtmlTreeMode.Initial;
             _tokenizer.State = HtmlParseMode.PCData;
-            _document.ReplaceAll(null, true);
+            _document.Clear();
             _frameset = true;
             _openElements.Clear();
             _formattingElements.Clear();

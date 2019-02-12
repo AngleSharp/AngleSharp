@@ -46,7 +46,7 @@ namespace AngleSharp.Io.Processors
                 return base.ProcessAsync(request);
             }
 
-            return null;
+            return Task.CompletedTask;
         }
 
         #endregion

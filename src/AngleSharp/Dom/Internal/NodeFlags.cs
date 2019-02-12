@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
 
@@ -12,7 +12,7 @@
     /// SVG range    : 0x1000000 to 0x80000000
     /// </summary>
     [Flags]
-    enum NodeFlags : uint
+    public enum NodeFlags : uint
     {
         /// <summary>
         /// No special properties.

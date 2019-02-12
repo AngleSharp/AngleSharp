@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
@@ -6,9 +6,9 @@
     using System.Linq;
 
     /// <summary>
-    /// A bunch of methods for getting DOM elements.
+    /// A bunch of methods for getting DOM elements on some internal collections.
     /// </summary>
-    static class CollectionExtensions
+    public static class CollectionExtensions
     {
         /// <summary>
         /// Gets the descendents from the provided parent that fulfill the

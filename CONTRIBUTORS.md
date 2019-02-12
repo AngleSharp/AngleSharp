@@ -31,6 +31,7 @@ AngleSharp contains code written by (in order of first pull request / commit):
 * [Nikita Ilinykh](https://github.com/Gordory)
 * [Thomas Bolon](https://github.com/tbolon)
 * [Alexander Ubillus](https://github.com/alexanderuv)
+* [Max Katz](https://github.com/Tirraon)
 
 Without these awesome people AngleSharp could not exist. Thanks to everyone for your contributions! :beers:
 

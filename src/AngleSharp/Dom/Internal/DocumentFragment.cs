@@ -44,6 +44,7 @@ namespace AngleSharp.Dom
             {
                 var child = root.FirstChild;
                 root.RemoveChild(child);
+
                 if (child is Node)
                 {
                     Owner.AdoptNode(child);
@@ -176,11 +177,7 @@ namespace AngleSharp.Dom
             ChildNodes.ToHtml(writer, formatter);
         }
 
-        #endregion
-
-        #region Helpers
-
-        internal override Node Clone(Document owner, Boolean deep)
+        public override Node Clone(Document owner, Boolean deep)
         {
             var node = new DocumentFragment(owner);
             CloneNode(node, owner, deep);

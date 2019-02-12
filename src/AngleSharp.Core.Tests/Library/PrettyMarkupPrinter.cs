@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Dom;
     using AngleSharp.Html;
     using NUnit.Framework;
     using System;
@@ -127,9 +128,50 @@
             Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
         }
 
+        [Test]
+        public void SpacedConsecutiveAppendedTextNodesKeepSpace_Issue759()
+        {
+            var document = "<!DOCTYPE html><html><body></body></html>".ToHtmlDocument();
+            var body = document.QuerySelector("body");
+            body.AppendChild(document.CreateTextNode("To "));  // With a trailing space
+            body.AppendChild(document.CreateTextNode("get ")); // With a trailing space
+            body.AppendChild(document.CreateTextNode("her."));
+            var output = Print(document);
+            var result = @"<!DOCTYPE html>
+<html>
+	<head></head>
+	<body>To get her.</body>
+</html>";
+
+            Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
+        }
+
+        [Test]
+        public void SpacedConsecutivePrependedTextNodesKeepSpace()
+        {
+            var document = "<!DOCTYPE html><html><body></body></html>".ToHtmlDocument();
+            var body = document.QuerySelector("body");
+            body.AppendChild(document.CreateTextNode("To"));
+            body.AppendChild(document.CreateTextNode(" get"));
+            body.AppendChild(document.CreateTextNode(" her."));
+            var output = Print(document);
+            var result = @"<!DOCTYPE html>
+<html>
+	<head></head>
+	<body>To get her.</body>
+</html>";
+
+            Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
+        }
+
         private static String Print(String html)
         {
             var document = html.ToHtmlDocument();
+            return Print(document);
+        }
+
+        private static String Print(IDocument document)
+        {
             var formatter = new PrettyMarkupFormatter();
             return document.ToHtml(formatter);
         }

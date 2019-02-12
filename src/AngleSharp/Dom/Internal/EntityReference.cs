@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
 
@@ -29,9 +29,9 @@
 
         #endregion
 
-        #region Helpers
+        #region Methods
 
-        internal override Node Clone(Document owner, Boolean deep)
+        public override Node Clone(Document owner, Boolean deep)
         {
             var node = new EntityReference(owner, NodeName);
             CloneNode(node, owner, deep);

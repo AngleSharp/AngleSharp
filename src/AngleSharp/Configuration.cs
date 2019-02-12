@@ -12,7 +12,6 @@ namespace AngleSharp
     using AngleSharp.Mathml.Dom;
     using AngleSharp.Svg;
     using AngleSharp.Svg.Dom;
-    using AngleSharp.Xml.Parser;
     using System;
     using System.Collections.Generic;
 
@@ -38,36 +37,6 @@ namespace AngleSharp
             return creator;
         }
 
-        private static readonly Object[] standardServices = new Object[]
-        {
-            Instance<IElementFactory<Document, HtmlElement>>(new HtmlElementFactory()),
-            Instance<IElementFactory<Document, MathElement>>(new MathElementFactory()),
-            Instance<IElementFactory<Document, SvgElement>>(new SvgElementFactory()),
-            Instance<IEventFactory>(new DefaultEventFactory()),
-            Instance<IInputTypeFactory>(new DefaultInputTypeFactory()),
-            Instance<IAttributeSelectorFactory>(new DefaultAttributeSelectorFactory()),
-            Instance<IPseudoElementSelectorFactory>(new DefaultPseudoElementSelectorFactory()),
-            Instance<IPseudoClassSelectorFactory>(new DefaultPseudoClassSelectorFactory()),
-            Instance<ILinkRelationFactory>(new DefaultLinkRelationFactory()),
-            Instance<IDocumentFactory>(new DefaultDocumentFactory()),
-            Instance<IAttributeObserver>(new DefaultAttributeObserver()),
-            Instance<IMetaHandler>(new EncodingMetaHandler()),
-            Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
-            Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
-            Creator<IXmlParser>(ctx => new XmlParser(ctx)),
-            Creator<IEventLoop>(ctx => new TaskEventLoop(ctx)),
-        };
-
-        /// <summary>
-        /// A fixed configuration that cannot be changed.
-        /// </summary>
-        private static readonly Configuration defaultConfiguration = new Configuration();
-
-        /// <summary>
-        /// A custom configuration that is user-defined.
-        /// </summary>
-        private static IConfiguration customConfiguration;
-
         #endregion
 
         #region ctor
@@ -78,7 +47,24 @@ namespace AngleSharp
         /// <param name="services">The services to expose.</param>
         public Configuration(IEnumerable<Object> services = null)
         {
-            _services = services ?? standardServices;
+            _services = services ?? new Object[]
+            {
+                Instance<IElementFactory<Document, HtmlElement>>(new HtmlElementFactory()),
+                Instance<IElementFactory<Document, MathElement>>(new MathElementFactory()),
+                Instance<IElementFactory<Document, SvgElement>>(new SvgElementFactory()),
+                Instance<IEventFactory>(new DefaultEventFactory()),
+                Instance<IInputTypeFactory>(new DefaultInputTypeFactory()),
+                Instance<IAttributeSelectorFactory>(new DefaultAttributeSelectorFactory()),
+                Instance<IPseudoElementSelectorFactory>(new DefaultPseudoElementSelectorFactory()),
+                Instance<IPseudoClassSelectorFactory>(new DefaultPseudoClassSelectorFactory()),
+                Instance<ILinkRelationFactory>(new DefaultLinkRelationFactory()),
+                Instance<IDocumentFactory>(new DefaultDocumentFactory()),
+                Instance<IAttributeObserver>(new DefaultAttributeObserver()),
+                Instance<IMetaHandler>(new EncodingMetaHandler()),
+                Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
+                Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
+                Creator<IEventLoop>(ctx => new TaskEventLoop(ctx)),
+            }; ;
         }
 
         #endregion
@@ -89,18 +75,7 @@ namespace AngleSharp
         /// Gets the default configuration to use. The default configuration
         /// can be overriden by calling the SetDefault method.
         /// </summary>
-        public static IConfiguration Default => customConfiguration ?? defaultConfiguration;
-
-        /// <summary>
-        /// Sets the default configuration to use, when the configuration
-        /// is omitted. Providing a null-pointer will reset the default
-        /// configuration.
-        /// </summary>
-        /// <param name="configuration">The configuration to set.</param>
-        public static void SetDefault(IConfiguration configuration)
-        {
-            customConfiguration = configuration;
-        }
+        public static IConfiguration Default => new Configuration();
 
         #endregion
 

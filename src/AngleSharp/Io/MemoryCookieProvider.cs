@@ -1,6 +1,7 @@
 namespace AngleSharp.Io
 {
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Net;
 
@@ -42,7 +43,15 @@ namespace AngleSharp.Io
         public void SetCookie(Url url, String value)
         {
             var cookies = Sanatize(url.HostName, value);
-            _container.SetCookies(url, cookies);
+
+            try
+            {
+                _container.SetCookies(url, cookies);
+            }
+            catch (CookieException ex)
+            {
+                Debug.WriteLine("Cookie exception, see {0} for details.", ex);
+            }
         }
 
         private static String Sanatize(String host, String cookie)

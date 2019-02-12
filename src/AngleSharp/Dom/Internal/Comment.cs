@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.IO;
@@ -29,11 +29,7 @@
             writer.Write(formatter.Comment(this));
         }
 
-        #endregion
-
-        #region Helpers
-
-        internal override Node Clone(Document owner, Boolean deep)
+        public override Node Clone(Document owner, Boolean deep)
         {
             var node = new Comment(owner, Data);
             CloneNode(node, owner, deep);

@@ -11,11 +11,11 @@
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The included parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code and ensures compatibility with results in evergreen browsers. Also standard DOM features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
-:zap::zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10**? Look at our [migration documentation](doc/Migration.md). :zap::zap:
+:zap::zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10 or 0.11**? Look at our [migration documentation](doc/Migration.md). :zap::zap:
 
 ## Key Features
 
-- **Portable** (using .NET Standard 2.0)
+- **Portable** (using .NET Standard 1.3)
 - **Standards conform** (works exactly as evergreen browsers)
 - **Great performance** (outperforms similar parsers in most scenarios)
 - **Extensible** (extend with your own services)
@@ -54,15 +54,15 @@ Every collection in AngleSharp supports LINQ statements. AngleSharp also provide
 
 ## Supported Platforms
 
-AngleSharp has been created as a .NET Standard 2.0 compatible library. This includes, but is not limited to:
+AngleSharp has been created as a .NET Standard 1.3 (and 2.0) compatible library. This includes, but is not limited to:
 
-- .NET Core (2.0)
+- .NET Core (1.0 and 2.0)
 - .NET Framework (4.6)
-- Xamarin.Android (8.0)
-- Xamarin.iOS (10.14)
-- Xamarin.Mac (3.8)
-- Mono (4.5)
-- UWP (10.0.16299)
+- Xamarin.Android (7.0 and 8.0)
+- Xamarin.iOS (10.0 and 10.14)
+- Xamarin.Mac (3.0 and 3.8)
+- Mono (4.6 and 5.4)
+- UWP (10.0 and 10.0.16299)
 - Unity (2018.1)
 
 ## Documentation
@@ -114,6 +114,14 @@ More information is found in the [contribution guidelines](.github/CONTRIBUTING.
 
 All contributors can be found [in the CONTRIBUTORS](CONTRIBUTORS.md) file.
 
+## Funding / Support
+
+If you use AngleSharp frequently, but you do not have the time to support the project by active participation you may still be interested to ensure that the AngleSharp projects keeps the lights on.
+
+Therefore we created a backing model via [Bountysource](https://salt.bountysource.com/teams/anglesharp). Any donation is welcome and much appreciated. We will mostly spend the money on dedicated development time to improve AngleSharp where it needs to be improved, plus invest in the web utility eco-system in .NET (e.g., in JavaScript engines, other parsers, or a renderer for AngleSharp to mention some outstanding projects).
+
+> Visit [Bountysource](https://salt.bountysource.com/teams/anglesharp) for more details.
+
 ## Development
 
 AngleSharp is written in C# 7 and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2017+ is recommended on Windows. Alternatively, VSCode (with OmniSharp or another suitable Language Server Protocol implementation) should be the tool of choice on other platforms.
@@ -128,7 +136,7 @@ More important, however, is the proper usage of tests. Any new feature should co
 
 ## Changelog
 
-A very detailed [changelog](CHANGELOG.md) exists. If you are just interested in major releases then have a look at [our documentation](doc/Releases.md).
+A very detailed [changelog](CHANGELOG.md) exists. If you are just interested in major releases then have a look at [our own releases document](doc/Releases.md).
 
 ## License
 

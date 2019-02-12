@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -36,6 +36,26 @@
 
         #region Methods
 
+        public override Node Clone(Document owner, Boolean deep)
+        {
+            var template = new HtmlTemplateElement(owner);
+            CloneElement(template, owner, deep);
+            var clonedContent = template._content;
+
+            foreach (var child in _content.ChildNodes)
+            {
+                var node = child as Node;
+
+                if (node != null)
+                {
+                    var clone = node.Clone(owner, deep);
+                    clonedContent.AddNode(clone);
+                }
+            }
+
+            return template;
+        }
+
         public void PopulateFragment()
         {
             while (HasChildNodes)
@@ -56,26 +76,6 @@
         #endregion
 
         #region Helpers
-
-        internal override Node Clone(Document owner, Boolean deep)
-        {
-            var template = new HtmlTemplateElement(owner);
-            CloneElement(template, owner, deep);
-            var clonedContent = template._content;
-
-            foreach (var child in _content.ChildNodes)
-            {
-                var node = child as Node;
-
-                if (node != null)
-                {
-                    var clone = node.Clone(owner, deep);
-                    clonedContent.AddNode(clone);
-                }
-            }
-
-            return template;
-        }
 
         protected override void NodeIsAdopted(Document oldDocument)
         {
