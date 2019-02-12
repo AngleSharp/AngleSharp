@@ -11,7 +11,7 @@
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The included parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code and ensures compatibility with results in evergreen browsers. Also standard DOM features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
-:zap::zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10**? Look at our [migration documentation](doc/Migration.md). :zap::zap:
+:zap::zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10 or 0.11**? Look at our [migration documentation](doc/Migration.md). :zap::zap:
 
 ## Key Features
 
@@ -113,6 +113,14 @@ The project is always searching for additional contributors. Even if you do not 
 More information is found in the [contribution guidelines](.github/CONTRIBUTING.md). We also have a [code of conduct](.github/CODE_OF_CONDUCT.md) that we take serious.
 
 All contributors can be found [in the CONTRIBUTORS](CONTRIBUTORS.md) file.
+
+## Funding / Support
+
+If you use AngleSharp frequently, but you do not have the time to support the project by active participation you may still be interested to ensure that the AngleSharp projects keeps the lights on.
+
+Therefore we created a backing model via [Bountysource](https://salt.bountysource.com/teams/anglesharp). Any donation is welcome and much appreciated. We will mostly spend the money on dedicated development time to improve AngleSharp where it needs to be improved, plus invest in the web utility eco-system in .NET (e.g., in JavaScript engines, other parsers, or a renderer for AngleSharp to mention some outstanding projects).
+
+> Visit [Bountysource](https://salt.bountysource.com/teams/anglesharp) for more details.
 
 ## Development
 

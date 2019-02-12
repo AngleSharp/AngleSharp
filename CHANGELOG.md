@@ -1,6 +1,6 @@
 # 0.11.0
 
-Planned for Monday, February 11 2019.
+Released on Monday, February 11 2019.
 
 - Moved everything from `AngleSharp.Xml` to its own library (#139)
 - Added more examples regarding forms (#242)
