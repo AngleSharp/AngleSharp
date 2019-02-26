@@ -28,6 +28,10 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// The End-Of-File token to mark the end.
         /// </summary>
-        EndOfFile
+        EndOfFile,
+        /// <summary>
+        /// A processing instruction.
+        /// </summary>
+        ProcessingInstruction
     }
 }
