@@ -101,6 +101,11 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public HtmlTokenType Type => _type;
 
+        /// <summary>
+        /// Indicates that this comment token is a processing instruction.
+        /// </summary>
+        public bool IsProcessingInstruction { get; internal set; }
+
         #endregion
 
         #region Methods

@@ -2544,7 +2544,10 @@ namespace AngleSharp.Html.Parser
         private HtmlToken NewProcessingInstruction()
         {
             var content = FlushBuffer();
-            return new HtmlToken(HtmlTokenType.ProcessingInstruction, _position, content);
+            return new HtmlToken(HtmlTokenType.Comment, _position, content)
+            {
+                IsProcessingInstruction = true
+            };
         }
 
         private HtmlToken NewComment()

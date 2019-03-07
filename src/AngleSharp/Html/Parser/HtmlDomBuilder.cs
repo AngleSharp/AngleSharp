@@ -425,11 +425,6 @@ namespace AngleSharp.Html.Parser
                     _document.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    _document.AddProcessingInstruction(token);
-                    return;
-                }
             }
 
             if (!_options.IsEmbedded)
@@ -464,11 +459,6 @@ namespace AngleSharp.Html.Parser
                 case HtmlTokenType.Comment:
                 {
                     _document.AddComment(token);
-                    return;
-                    }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    _document.AddProcessingInstruction(token);
                     return;
                 }
                 case HtmlTokenType.StartTag:
@@ -555,11 +545,6 @@ namespace AngleSharp.Html.Parser
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
-                    return;
-                }
                 case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate, token);
@@ -594,11 +579,6 @@ namespace AngleSharp.Html.Parser
                 case HtmlTokenType.Comment:
                 {
                     CurrentNode.AddComment(token);
-                    return;
-                }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
                     return;
                 }
                 case HtmlTokenType.Doctype:
@@ -771,11 +751,6 @@ namespace AngleSharp.Html.Parser
                     InHead(token);
                     return;
                 }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    InHead(token);
-                    return;
-                }
                 case HtmlTokenType.StartTag:
                 {
                     var tagName = token.Name;
@@ -853,11 +828,6 @@ namespace AngleSharp.Html.Parser
                 case HtmlTokenType.Comment:
                 {
                     CurrentNode.AddComment(token);
-                    return;
-                }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
                     return;
                 }
                 case HtmlTokenType.Doctype:
@@ -1527,11 +1497,6 @@ namespace AngleSharp.Html.Parser
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
-                    return;
-                }
                 case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate, token);
@@ -1604,11 +1569,6 @@ namespace AngleSharp.Html.Parser
                 case HtmlTokenType.Comment:
                 {
                     CurrentNode.AddComment(token);
-                    return;
-                }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
                     return;
                 }
                 case HtmlTokenType.Doctype:
@@ -1841,11 +1801,6 @@ namespace AngleSharp.Html.Parser
                 case HtmlTokenType.Comment:
                 {
                     CurrentNode.AddComment(token);
-                    return;
-                }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
                     return;
                 }
                 case HtmlTokenType.Doctype:
@@ -2141,11 +2096,6 @@ namespace AngleSharp.Html.Parser
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
-                    return;
-                }
                 case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate, token);
@@ -2397,11 +2347,6 @@ namespace AngleSharp.Html.Parser
                     _openElements[0].AddComment(token);
                     return;
                 }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    _openElements[0].AddProcessingInstruction(token);
-                    return;
-                }
                 case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate, token);
@@ -2470,11 +2415,6 @@ namespace AngleSharp.Html.Parser
                 case HtmlTokenType.Comment:
                 {
                     CurrentNode.AddComment(token);
-                    return;
-                }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
                     return;
                 }
                 case HtmlTokenType.Doctype:
@@ -2581,11 +2521,6 @@ namespace AngleSharp.Html.Parser
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
-                    return;
-                }
                 case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate, token);
@@ -2659,11 +2594,6 @@ namespace AngleSharp.Html.Parser
                 case HtmlTokenType.Comment:
                 {
                     _document.AddComment(token);
-                    return;
-                }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    _document.AddProcessingInstruction(token);
                     return;
                 }
                 case HtmlTokenType.Doctype:
@@ -3465,11 +3395,6 @@ namespace AngleSharp.Html.Parser
                 case HtmlTokenType.Comment:
                 {
                     CurrentNode.AddComment(token);
-                    return;
-                }
-                case HtmlTokenType.ProcessingInstruction:
-                {
-                    CurrentNode.AddProcessingInstruction(token);
                     return;
                 }
                 case HtmlTokenType.Doctype:
