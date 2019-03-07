@@ -48,6 +48,16 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Gets or sets if XML processing instructions should
+        /// be parsed into DOM nodes.
+        /// </summary>
+        public Boolean IsSupportingProcessingInstructions
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the callback once a new element was created.
         /// </summary>
         public Action<IElement, TextPosition> OnCreated

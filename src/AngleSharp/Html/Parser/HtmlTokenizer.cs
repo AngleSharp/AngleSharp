@@ -80,6 +80,16 @@ namespace AngleSharp.Html.Parser
             set;
         }
 
+        /// <summary>
+        /// Gets or sets if XML processing instructions should
+        /// be parsed into DOM nodes.
+        /// </summary>
+        public Boolean IsSupportingProcessingInstructions
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Methods
@@ -636,6 +646,10 @@ namespace AngleSharp.Html.Parser
             {
                 return MarkupDeclaration(GetNext());
             }
+            else if (c == Symbols.QuestionMark && IsSupportingProcessingInstructions)
+            {
+                return ProcessingInstruction(c);
+            }
             else if (c != Symbols.QuestionMark)
             {
                 State = HtmlParseMode.PCData;
@@ -786,6 +800,37 @@ namespace AngleSharp.Html.Parser
             {
                 RaiseErrorOccurred(HtmlParseError.UndefinedMarkupDeclaration);
                 return BogusComment(c);
+            }
+        }
+
+        #endregion
+
+        #region ProcessingInstructions
+
+        private HtmlToken ProcessingInstruction(Char c)
+        {
+            StringBuffer.Clear();
+
+            while (true)
+            {
+                switch (c)
+                {
+                    case Symbols.GreaterThan:
+                        break;
+                    case Symbols.EndOfFile:
+                        Back();
+                        break;
+                    case Symbols.Null:
+                        c = Symbols.Replacement;
+                        goto default;
+                    default:
+                        StringBuffer.Append(c);
+                        c = GetNext();
+                        continue;
+                }
+
+                State = HtmlParseMode.PCData;
+                return NewProcessingInstruction();
             }
         }
 
@@ -2494,6 +2539,15 @@ namespace AngleSharp.Html.Parser
         {
             var content = FlushBuffer();
             return new HtmlToken(HtmlTokenType.Character, _position, content);
+        }
+
+        private HtmlToken NewProcessingInstruction()
+        {
+            var content = FlushBuffer();
+            return new HtmlToken(HtmlTokenType.Comment, _position, content)
+            {
+                IsProcessingInstruction = true
+            };
         }
 
         private HtmlToken NewComment()

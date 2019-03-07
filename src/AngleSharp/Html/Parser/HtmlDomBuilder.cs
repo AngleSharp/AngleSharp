@@ -103,6 +103,7 @@ namespace AngleSharp.Html.Parser
             var source = _document.Source;
             var token = default(HtmlToken);
             _tokenizer.IsStrictMode = options.IsStrictMode;
+            _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
             _options = options;
 
             do
@@ -134,6 +135,7 @@ namespace AngleSharp.Html.Parser
         {
             var token = default(HtmlToken);
             _tokenizer.IsStrictMode = options.IsStrictMode;
+            _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
             _options = options;
 
             do
