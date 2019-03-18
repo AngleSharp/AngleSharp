@@ -80,7 +80,7 @@ namespace AngleSharp.Io
 
                     if (DateTime.TryParse(middle.Replace("UTC", "GMT"), out var utc))
                     {
-                        var time = utc.ToString("ddd, dd MMM yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                        var time = utc.ToUniversalTime().ToString("ddd, dd MMM yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                         cookie = $"{front}{time}{back}";
                     }
 
