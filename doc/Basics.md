@@ -23,6 +23,7 @@ In the most simple case you have already a document source and want it to be par
 ```c#
 using System;
 using AngleSharp;
+using AngleSharp.Html.Parser;
 
 class MyClass {
     static void Main() {
@@ -31,7 +32,7 @@ class MyClass {
         //Source to be pared
         var source = "<h1>Some example source</h1><p>This is a paragraph element";
         //Parse source to document
-        var document = parser.Parse(source);
+        var document = parser.ParseDocument(source);
         //Do something with document like the following
 
         Console.WriteLine("Serializing the (original) document:");
