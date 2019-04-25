@@ -20,7 +20,7 @@
         /// <summary>
         /// Just inside the element, after its last child.
         /// </summary>
-        [DomName("beforebegin")]
+        [DomName("beforeend")]
         BeforeEnd,
         /// <summary>
         /// After the element itself.
