@@ -117,9 +117,13 @@ So the problem is not the encoding (this is just a serialization representation)
 
 There is, unfortunately, nothing that you can do here - you will need to close the `textarea`. All browsers (hence the initial remark with the specification) see it the same way - so this is not unique to AngleSharp.
 
+## What can I "click" in AngleSharp?
+
+The only thing you can click with AngleSharp (Core, i.e., non-JS) is everything that has an anchor (the link will be followed), such as `a`, or submit (e.g., `button`) buttons where the form will be submitted. If, e.g., we have a `div` that has a click handler defined in JS nothing would come out.
+
 ## How can I perform a click on a div without an UI?
 
-Let's first visit what can be done with AngleSharp:
+Let's first visit again what can be done with AngleSharp:
 
 - Any kind of requests incl. their manipulation (on request, but also before response)
 - General cookie management (and their manipulation, of course)
