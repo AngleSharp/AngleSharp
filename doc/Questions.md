@@ -359,3 +359,15 @@ public class CustomHtmlMarkupFormatter : IMarkupFormatter
     }
 }
 ```
+
+## How to use AngleSharp in Unity?
+
+The following steps will allow AngleSharp to be fully integrated from NuGet into a Unity solution.
+
+1. Get the AngleSharp NuGet package from the VS NuGet Package manager.
+2. Build the solution (Build -> Build Solution)
+3. Copy the "netstandard2.0" folder into the unity Assets folder. You can find it in "[your project]\Packages\AngleSharp.0.11.0". Version may vary.
+
+More details why this is the current approach can be found in this [StackOverflow](https://stackoverflow.com/questions/53447595/nuget-packages-in-unity) answer. This behavior is known and the advised approach is to use VS for installing the NuGet (which resolves the .NET Standard 2.0 dependency as it should be).
+
+The answer was taken from a discussion in issue #774.
