@@ -1,3 +1,12 @@
+# 0.12.0
+
+Released on Thursday, May 5 2019.
+
+- Enhanced documentation (#776, #774, #771)
+- Fixed bug regarding `set-cookie` header (#768)
+- Fixed DOM name attribute in `AdjacentPosition` (#775)
+- Added support for XML processing instruction (#761)
+
 # 0.11.0
 
 Released on Monday, February 11 2019.

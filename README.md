@@ -138,6 +138,10 @@ More important, however, is the proper usage of tests. Any new feature should co
 
 A very detailed [changelog](CHANGELOG.md) exists. If you are just interested in major releases then have a look at [our own releases document](doc/Releases.md).
 
+## .NET Foundation
+
+This project is supported by the [.NET Foundation](https://dotnetfoundation.org).
+
 ## License
 
 The MIT License (MIT)
