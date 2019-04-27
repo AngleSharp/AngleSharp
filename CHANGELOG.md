@@ -6,6 +6,7 @@ Released on Thursday, May 5 2019.
 - Fixed bug regarding `set-cookie` header (#768)
 - Fixed DOM name attribute in `AdjacentPosition` (#775)
 - Added support for XML processing instruction (#761)
+- Fixed serialization of xmlns attributes (#760)
 
 # 0.11.0
 
