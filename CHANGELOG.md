@@ -3,8 +3,9 @@
 Released on Thursday, May 5 2019.
 
 - Enhanced documentation (#776, #774, #771)
-- Fixed bug regarding `set-cookie` header (#768)
 - Fixed DOM name attribute in `AdjacentPosition` (#775)
+- Fixed bug regarding `set-cookie` header (#768)
+- Added attribute start position in token (#766)
 - Added support for XML processing instruction (#761)
 - Fixed serialization of xmlns attributes (#760)
 
