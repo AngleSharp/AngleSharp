@@ -12,14 +12,14 @@ namespace AngleSharp.Html.Parser
     /// </summary>
     static class HtmlDomBuilderExtensions
     {
-        public static void SetAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
+        public static void SetAttributes(this Element element, List<HtmlAttributeToken> attributes)
         {
             var container = element.Attributes;
 
             for (var i = 0; i < attributes.Count; i++)
             {
                 var attribute = attributes[i];
-                var item = new Attr(attribute.Key, attribute.Value);
+                var item = new Attr(attribute.Name, attribute.Value);
                 container.FastAddItem(item);
             }
         }
@@ -95,11 +95,11 @@ namespace AngleSharp.Html.Parser
             return (Int32)code;
         }
 
-        public static void SetUniqueAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
+        public static void SetUniqueAttributes(this Element element, List<HtmlAttributeToken> attributes)
         {
             for (var i = attributes.Count - 1; i >= 0; i--)
             {
-                if (element.HasAttribute(attributes[i].Key))
+                if (element.HasAttribute(attributes[i].Name))
                 {
                     attributes.RemoveAt(i);
                 }

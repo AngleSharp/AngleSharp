@@ -11,8 +11,7 @@ namespace AngleSharp.Html.Parser.Tokens
     {
         #region Fields
 
-        private readonly List<KeyValuePair<String, String>> _attributes;
-
+        private readonly List<HtmlAttributeToken> _attributes = new List<HtmlAttributeToken>();
         private Boolean _selfClosing;
 
         #endregion
@@ -38,7 +37,6 @@ namespace AngleSharp.Html.Parser.Tokens
         public HtmlTagToken(HtmlTokenType type, TextPosition position, String name)
             : base(type, position, name)
         {
-            _attributes = new List<KeyValuePair<String, String>>();
         }
 
         #endregion
@@ -81,7 +79,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets the list of attributes.
         /// </summary>
-        public List<KeyValuePair<String, String>> Attributes => _attributes;
+        public List<HtmlAttributeToken> Attributes => _attributes;
 
         #endregion
 
@@ -92,9 +90,10 @@ namespace AngleSharp.Html.Parser.Tokens
         /// be set to an empty string.
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
-        public void AddAttribute(String name)
+        /// <param name="position">The starting position of the attribute.</param>
+        public void AddAttribute(String name, TextPosition position)
         {
-            _attributes.Add(new KeyValuePair<String, String>(name, String.Empty));
+            _attributes.Add(new HtmlAttributeToken(position, name, String.Empty));
         }
 
         /// <summary>
@@ -104,7 +103,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="value">The value of the attribute.</param>
         public void AddAttribute(String name, String value)
         {
-            _attributes.Add(new KeyValuePair<String, String>(name, value));
+            _attributes.Add(new HtmlAttributeToken(TextPosition.Empty, name, value));
         }
 
         /// <summary>
@@ -113,7 +112,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="value">The value to set.</param>
         public void SetAttributeValue(String value)
         {
-            _attributes[_attributes.Count - 1] = new KeyValuePair<String, String>(_attributes[_attributes.Count - 1].Key, value);
+            var last = _attributes.Count - 1;
+            var attr = _attributes[last];
+            _attributes[last] = new HtmlAttributeToken(attr.Position, attr.Name, value);
         }
 
         /// <summary>
@@ -126,8 +127,12 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             for (var i = 0; i != _attributes.Count; i++)
             {
-                if (_attributes[i].Key == name)
-                    return _attributes[i].Value;
+                var attr = _attributes[i];
+
+                if (attr.Name.Is(name))
+                {
+                    return attr.Value;
+                }
             }
 
             return String.Empty;

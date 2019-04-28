@@ -1296,9 +1296,11 @@ namespace AngleSharp.Html.Parser
 
                     for (var i = 0; i < tag.Attributes.Count; i++)
                     {
-                        if (!tag.Attributes[i].Key.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt))
+                        var attr = tag.Attributes[i];
+
+                        if (!attr.Name.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt))
                         {
-                            input.AddAttribute(tag.Attributes[i].Key, tag.Attributes[i].Value);
+                            input.AddAttribute(attr.Name, attr.Value);
                         }
                     }
 
@@ -3336,7 +3338,7 @@ namespace AngleSharp.Html.Parser
                     {
                         for (var i = 0; i != tag.Attributes.Count; i++)
                         {
-                            if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
+                            if (tag.Attributes[i].Name.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
                             {
                                 ForeignNormalTag(tag);
                                 return;

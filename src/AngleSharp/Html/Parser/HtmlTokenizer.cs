@@ -1710,6 +1710,7 @@ namespace AngleSharp.Html.Parser
             var state = AttributeState.BeforeName;
             var quote = Symbols.DoubleQuote;
             var c = Symbols.Null;
+            var pos = GetCurrentPosition();
 
             while (true)
             {
@@ -1731,22 +1732,26 @@ namespace AngleSharp.Html.Parser
                         else if (c.IsUppercaseAscii())
                         {
                             StringBuffer.Append(Char.ToLowerInvariant(c));
+                            pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else if (c == Symbols.Null)
                         {
                             AppendReplacement();
+                            pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else if (c == Symbols.SingleQuote || c == Symbols.DoubleQuote || c == Symbols.Equality || c == Symbols.LessThan)
                         {
                             RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
                             StringBuffer.Append(c);
+                            pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else if (c != Symbols.EndOfFile)
                         {
                             StringBuffer.Append(c);
+                            pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else
@@ -1764,22 +1769,22 @@ namespace AngleSharp.Html.Parser
 
                         if (c == Symbols.Equality)
                         {
-                            tag.AddAttribute(FlushBuffer());
+                            tag.AddAttribute(FlushBuffer(), pos);
                             state = AttributeState.BeforeValue;
                         }
                         else if (c == Symbols.GreaterThan)
                         {
-                            tag.AddAttribute(FlushBuffer());
+                            tag.AddAttribute(FlushBuffer(), pos);
                             return EmitTag(tag);
                         }
                         else if (c.IsSpaceCharacter())
                         {
-                            tag.AddAttribute(FlushBuffer());
+                            tag.AddAttribute(FlushBuffer(), pos);
                             state = AttributeState.AfterName;
                         }
                         else if (c == Symbols.Solidus)
                         {
-                            tag.AddAttribute(FlushBuffer());
+                            tag.AddAttribute(FlushBuffer(), pos);
                             state = AttributeState.SelfClose;
                         }
                         else if (c.IsUppercaseAscii())
@@ -1827,22 +1832,26 @@ namespace AngleSharp.Html.Parser
                         else if (c.IsUppercaseAscii())
                         {
                             StringBuffer.Append(Char.ToLowerInvariant(c));
+                            pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
                         {
                             RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
                             StringBuffer.Append(c);
+                            pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else if (c == Symbols.Null)
                         {
                             AppendReplacement();
+                            pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else if (c != Symbols.EndOfFile)
                         {
                             StringBuffer.Append(c);
+                            pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else
@@ -2640,7 +2649,7 @@ namespace AngleSharp.Html.Parser
                     {
                         for (var j = i - 1; j >= 0; j--)
                         {
-                            if (attributes[j].Key == attributes[i].Key)
+                            if (attributes[j].Name.Is(attributes[i].Name))
                             {
                                 attributes.RemoveAt(i);
                                 RaiseErrorOccurred(HtmlParseError.AttributeDuplicateOmitted, tag.Position);
