@@ -44,10 +44,7 @@
             set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
         }
 
-        public IHtmlCollection<IHtmlTableCellElement> Cells
-        {
-            get { return _cells ?? (_cells = new HtmlCollection<IHtmlTableCellElement>(this, deep: false)); }
-        }
+        public IHtmlCollection<IHtmlTableCellElement> Cells => _cells ?? (_cells = new HtmlCollection<IHtmlTableCellElement>(this, deep: false));
 
         public Int32 Index
         {

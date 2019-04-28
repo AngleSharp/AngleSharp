@@ -19,10 +19,7 @@ namespace AngleSharp.Dom
 
         #region Properties
 
-        public String Target
-        {
-            get { return NodeName; }
-        }
+        public String Target => NodeName;
 
         #endregion
 

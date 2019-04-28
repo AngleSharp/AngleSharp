@@ -10,10 +10,7 @@
         {
         }
 
-        public String Text
-        {
-            get { return String.Concat("[", Attribute, "]"); }
-        }
+        public String Text => String.Concat("[", Attribute, "]");
 
         public void Accept(ISelectorVisitor visitor)
         {

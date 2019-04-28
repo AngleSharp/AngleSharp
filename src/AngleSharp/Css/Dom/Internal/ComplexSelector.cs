@@ -69,10 +69,7 @@
             }
         }
 
-        public Int32 Length
-        {
-            get { return _combinators.Count; }
-        }
+        public Int32 Length => _combinators.Count;
 
         public Boolean IsReady
         {

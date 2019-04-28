@@ -27,10 +27,7 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IDocumentFragment Content
-        {
-            get { return _content; }
-        }
+        public IDocumentFragment Content => _content;
 
         #endregion
 
@@ -44,9 +41,7 @@ namespace AngleSharp.Html.Dom
 
             foreach (var child in _content.ChildNodes)
             {
-                var node = child as Node;
-
-                if (node != null)
+                if (child is Node node)
                 {
                     var clone = node.Clone(owner, deep);
                     clonedContent.AddNode(clone);
@@ -77,10 +72,7 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
-        protected override void NodeIsAdopted(Document oldDocument)
-        {
-            _content.Owner = oldDocument;
-        }
+        protected override void NodeIsAdopted(Document oldDocument) => _content.Owner = oldDocument;
 
         #endregion
     }

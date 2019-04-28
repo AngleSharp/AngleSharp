@@ -30,10 +30,7 @@
 
         #region Properties
 
-        public IEnumerable<MutationObserver> Observers
-        {
-            get { return _observers; }
-        }
+        public IEnumerable<MutationObserver> Observers => _observers;
 
         #endregion
 

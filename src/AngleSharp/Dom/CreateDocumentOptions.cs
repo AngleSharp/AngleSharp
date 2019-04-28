@@ -53,34 +53,22 @@
         /// <summary>
         /// Gets the response to create the document for.
         /// </summary>
-        public IResponse Response
-        {
-            get { return _response; }
-        }
+        public IResponse Response => _response;
 
         /// <summary>
         /// Gets the provided content-type.
         /// </summary>
-        public MimeType ContentType
-        {
-            get { return _contentType; }
-        }
+        public MimeType ContentType => _contentType;
 
         /// <summary>
         /// Gets the text source that came with the response.
         /// </summary>
-        public TextSource Source
-        {
-            get { return _source; }
-        }
+        public TextSource Source => _source;
 
         /// <summary>
         /// Gets the import ancestor, if any.
         /// </summary>
-        public IDocument ImportAncestor 
-        { 
-            get { return _ancestor; }
-        }
+        public IDocument ImportAncestor => _ancestor;
 
         #endregion
     }

@@ -14,24 +14,12 @@
             _pseudoElement = pseudoElement;
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.OneTag; }
-        }
+        public Priority Specificity => Priority.OneTag;
 
-        public String Text
-        {
-            get { return PseudoElementNames.Separator + _pseudoElement; }
-        }
+        public String Text => PseudoElementNames.Separator + _pseudoElement;
 
-        public void Accept(ISelectorVisitor visitor)
-        {
-            visitor.PseudoElement(_pseudoElement);
-        }
+        public void Accept(ISelectorVisitor visitor) => visitor.PseudoElement(_pseudoElement);
 
-        public Boolean Match(IElement element, IElement scope)
-        {
-            return _action.Invoke(element);
-        }
+        public Boolean Match(IElement element, IElement scope) => _action.Invoke(element);
     }
 }

@@ -133,9 +133,7 @@ namespace AngleSharp.Dom
         {
             for (var i = 0; i < elements.Length; i++)
             {
-                var element = elements[i] as IElement;
-
-                if (element != null)
+                if (elements[i] is IElement element)
                 {
                     if (selector.Match(element))
                     {
@@ -182,8 +180,7 @@ namespace AngleSharp.Dom
         {
             for (var i = 0; i < elements.Length; i++)
             {
-                var element = elements[i] as IElement;
-                if (element != null)
+                if (elements[i] is IElement element)
                 {
                     foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
                     {
@@ -229,9 +226,8 @@ namespace AngleSharp.Dom
         {
             for (var i = 0; i < elements.Length; i++)
             {
-                var element = elements[i] as IElement;
 
-                if (element != null)
+                if (elements[i] is IElement element)
                 {
                     if (element.ClassList.Contains(classNames))
                     {
@@ -256,9 +252,7 @@ namespace AngleSharp.Dom
         {
             for (var i = 0; i < elements.Length; i++)
             {
-                var element = elements[i] as IElement;
-
-                if (element != null)
+                if (elements[i] is IElement element)
                 {
                     if (tagName == null || tagName.Isi(element.LocalName))
                     {
@@ -285,9 +279,7 @@ namespace AngleSharp.Dom
         {
             for (var i = 0; i < elements.Length; i++)
             {
-                var element = elements[i] as IElement;
-
-                if (element != null)
+                if (elements[i] is IElement element)
                 {
                     if (element.NamespaceUri.Is(namespaceUri) && (localName == null || localName.Isi(element.LocalName)))
                     {
@@ -302,12 +294,10 @@ namespace AngleSharp.Dom
             }
         }
 
-        private static IElement GetScope(INode scopeNode)
-        {
-            return scopeNode as IElement ??
-                (scopeNode as IDocument)?.DocumentElement ??
-                (scopeNode as IShadowRoot)?.Host;
-        }
+        private static IElement GetScope(INode scopeNode) =>
+            scopeNode as IElement ??
+            (scopeNode as IDocument)?.DocumentElement ??
+            (scopeNode as IShadowRoot)?.Host;
 
         private static ISelector CreateSelector(INodeList nodes, INode scope, String selectorText)
         {
@@ -317,10 +307,7 @@ namespace AngleSharp.Dom
             if (node != null)
             {
                 var parser = node.Owner.Context.GetService<ICssSelectorParser>();
-                sg = parser.ParseSelector(selectorText);
-
-                if (sg == null)
-                    throw new DomException(DomError.Syntax);
+                sg = parser.ParseSelector(selectorText) ?? throw new DomException(DomError.Syntax);
             }
 
             return sg;

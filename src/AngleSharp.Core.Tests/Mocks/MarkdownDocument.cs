@@ -12,15 +12,9 @@ namespace AngleSharp.Core.Tests.Mocks
         {
         }
 
-        public override IElement DocumentElement
-        {
-            get { return null; }
-        }
+        public override IElement DocumentElement => null;
 
-        public override IEntityProvider Entities
-        {
-            get { return HtmlEntityProvider.Resolver; }
-        }
+        public override IEntityProvider Entities => HtmlEntityProvider.Resolver;
 
         public override Element CreateElementFrom(String name, String prefix)
         {

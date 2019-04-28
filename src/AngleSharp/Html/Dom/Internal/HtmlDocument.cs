@@ -40,15 +40,9 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public override IElement DocumentElement
-        {
-            get { return this.FindChild<HtmlHtmlElement>(); }
-        }
+        public override IElement DocumentElement => this.FindChild<HtmlHtmlElement>();
 
-        public override IEntityProvider Entities
-        {
-            get { return Context.GetProvider<IEntityProvider>() ?? HtmlEntityProvider.Resolver; }
-        }
+        public override IEntityProvider Entities => Context.GetProvider<IEntityProvider>() ?? HtmlEntityProvider.Resolver;
 
         #endregion
 

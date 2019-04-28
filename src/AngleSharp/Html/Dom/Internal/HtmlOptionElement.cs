@@ -32,10 +32,7 @@
             set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
         }
 
-        public IHtmlFormElement Form
-        {
-            get { return GetAssignedForm(); }
-        }
+        public IHtmlFormElement Form => GetAssignedForm();
 
         public String Label
         {
@@ -53,9 +50,8 @@
         {
             get
             {
-                var group = Parent as HtmlOptionsGroupElement;
 
-                if (group != null)
+                if (Parent is HtmlOptionsGroupElement group)
                 {
                     var i = 0;
 

@@ -38,10 +38,7 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IDownload CurrentDownload
-        {
-            get { return _request?.Download; }
-        }
+        public IDownload CurrentDownload => _request?.Download;
 
         public String Source
         {

@@ -13,15 +13,9 @@
             _type = type;
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.OneTag; }
-        }
+        public Priority Specificity => Priority.OneTag;
 
-        public String Text
-        {
-            get { return _type; }
-        }
+        public String Text => _type;
 
         public void Accept(ISelectorVisitor visitor)
         {

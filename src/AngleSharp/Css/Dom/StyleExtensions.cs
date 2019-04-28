@@ -111,9 +111,7 @@ namespace AngleSharp.Css.Dom
             {
                 if (child.NodeType == NodeType.Element)
                 {
-                    var linkStyle = child as ILinkStyle;
-
-                    if (linkStyle != null)
+                    if (child is ILinkStyle linkStyle)
                     {
                         var sheet = linkStyle.Sheet;
 

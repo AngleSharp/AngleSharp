@@ -53,20 +53,11 @@
             set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
-        public Int32 Length
-        {
-            get { return Elements.Length; }
-        }
+        public Int32 Length => Elements.Length;
 
-        public HtmlFormControlsCollection Elements
-        {
-            get { return _elements ?? (_elements = new HtmlFormControlsCollection(this)); }
-        }
+        public HtmlFormControlsCollection Elements => _elements ?? (_elements = new HtmlFormControlsCollection(this));
 
-        IHtmlFormControlsCollection IHtmlFormElement.Elements
-        {
-            get { return Elements; }
-        }
+        IHtmlFormControlsCollection IHtmlFormElement.Elements => Elements;
 
         public String AcceptCharset
         {

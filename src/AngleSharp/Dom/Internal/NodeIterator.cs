@@ -36,30 +36,15 @@
 
         #region Properties
 
-        public INode Root
-        {
-            get { return _root; }
-        }
+        public INode Root => _root;
 
-        public FilterSettings Settings
-        {
-            get { return _settings; }
-        }
+        public FilterSettings Settings => _settings;
 
-        public NodeFilter Filter
-        {
-            get { return _filter; }
-        }
+        public NodeFilter Filter => _filter;
 
-        public INode Reference
-        {
-            get { return _reference; }
-        }
+        public INode Reference => _reference;
 
-        public Boolean IsBeforeReference
-        {
-            get { return _beforeNode; }
-        }
+        public Boolean IsBeforeReference => _beforeNode;
 
         #endregion
 

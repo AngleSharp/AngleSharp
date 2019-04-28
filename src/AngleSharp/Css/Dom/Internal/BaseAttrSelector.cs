@@ -24,19 +24,10 @@
             }
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.OneClass; }
-        }
+        public Priority Specificity => Priority.OneClass;
 
-        protected String Attribute
-        {
-            get { return !String.IsNullOrEmpty(_prefix) ? String.Concat(_prefix, "|", _name) : _name; }
-        }
+        protected String Attribute => !String.IsNullOrEmpty(_prefix) ? String.Concat(_prefix, "|", _name) : _name;
 
-        protected String Name
-        {
-            get { return _attr; }
-        }
+        protected String Name => _attr;
     }
 }

@@ -39,20 +39,11 @@
             set { _reruns = value; }
         }
 
-        internal IEnumerable<ITest> Tests
-        {
-            get { return _tests; }
-        }
+        internal IEnumerable<ITest> Tests => _tests;
 
-        internal IEnumerable<ITestee> Parsers
-        {
-            get { return _parsers; }
-        }
+        internal IEnumerable<ITestee> Parsers => _parsers;
 
-        internal IOutput Console
-        {
-            get { return _output; }
-        }
+        internal IOutput Console => _output;
 
         void Warmup()
         {

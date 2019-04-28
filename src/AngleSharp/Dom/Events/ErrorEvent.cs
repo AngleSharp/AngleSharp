@@ -13,10 +13,7 @@
         /// Gets the message describing the error.
         /// </summary>
         [DomName("message")]
-        public String Message
-        {
-            get { return Error.Message; }
-        }
+        public String Message => Error.Message;
 
         /// <summary>
         /// Gets the filename where the error occurred.

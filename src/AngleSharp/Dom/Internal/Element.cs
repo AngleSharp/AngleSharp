@@ -58,41 +58,26 @@ namespace AngleSharp.Dom
         #region Properties
 
         /// <inheritdoc />
-        public IElement AssignedSlot
-        {
-            get { return ParentElement?.ShadowRoot?.GetAssignedSlot(Slot); }
-        }
+        public IElement AssignedSlot => ParentElement?.ShadowRoot?.GetAssignedSlot(Slot);
 
         /// <inheritdoc />
         public String Slot
         {
-            get { return this.GetOwnAttribute(AttributeNames.Slot); }
-            set { this.SetOwnAttribute(AttributeNames.Slot, value); }
+            get => this.GetOwnAttribute(AttributeNames.Slot);
+            set => this.SetOwnAttribute(AttributeNames.Slot, value);
         }
 
         /// <inheritdoc />
-        public IShadowRoot ShadowRoot
-        {
-            get { return ShadowRootProperty.Get(this); }
-        }
+        public IShadowRoot ShadowRoot => ShadowRootProperty.Get(this);
 
         /// <inheritdoc />
-        public String Prefix
-        {
-            get { return _prefix; }
-        }
+        public String Prefix => _prefix;
 
         /// <inheritdoc />
-        public String LocalName
-        {
-            get { return _localName; }
-        }
+        public String LocalName => _localName;
 
         /// <inheritdoc />
-        public String NamespaceUri
-        {
-            get { return _namespace ?? this.GetNamespaceUri(); }
-        }
+        public String NamespaceUri => _namespace ?? this.GetNamespaceUri();
 
         /// <inheritdoc />
         public override String TextContent
@@ -133,22 +118,22 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String ClassName
         {
-            get { return this.GetOwnAttribute(AttributeNames.Class); }
-            set { this.SetOwnAttribute(AttributeNames.Class, value); }
+            get => this.GetOwnAttribute(AttributeNames.Class);
+            set => this.SetOwnAttribute(AttributeNames.Class, value);
         }
 
         /// <inheritdoc />
         public String Id
         {
-            get { return this.GetOwnAttribute(AttributeNames.Id); }
-            set { this.SetOwnAttribute(AttributeNames.Id, value); }
+            get => this.GetOwnAttribute(AttributeNames.Id);
+            set => this.SetOwnAttribute(AttributeNames.Id, value);
         }
 
         /// <inheritdoc />
-        public String TagName
-        {
-            get { return NodeName; }
-        }
+        public String TagName => NodeName;
+
+        /// <inheritdoc />
+        public ISourceReference SourceReference { get; set; }
 
         /// <inheritdoc />
         public IElement PreviousElementSibling
@@ -229,10 +214,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Children
-        {
-            get { return _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false)); }
-        }
+        public IHtmlCollection<IElement> Children => _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false));
 
         /// <inheritdoc />
         public IElement FirstElementChild
@@ -244,9 +226,7 @@ namespace AngleSharp.Dom
 
                 for (var i = 0; i < n; i++)
                 {
-                    var child = children[i] as IElement;
-
-                    if (child != null)
+                    if (children[i] is IElement child)
                     {
                         return child;
                     }
@@ -263,11 +243,10 @@ namespace AngleSharp.Dom
             {
                 var children = ChildNodes;
 
-                for (int i = children.Length - 1; i >= 0; i--)
+                for (var i = children.Length - 1; i >= 0; i--)
                 {
-                    var child = children[i] as IElement;
 
-                    if (child != null)
+                    if (children[i] is IElement child)
                     {
                         return child;
                     }
@@ -280,14 +259,14 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String InnerHtml
         {
-            get { return ChildNodes.ToHtml(); }
-            set { ReplaceAll(new DocumentFragment(this, value), false); }
+            get => ChildNodes.ToHtml();
+            set => ReplaceAll(new DocumentFragment(this, value), false);
         }
 
         /// <inheritdoc />
         public String OuterHtml
         {
-            get { return this.ToHtml(); }
+            get => this.ToHtml();
             set
             {
                 var parentNode = Parent;
@@ -310,15 +289,12 @@ namespace AngleSharp.Dom
             }
         }
 
-        INamedNodeMap IElement.Attributes
-        {
-            get { return _attributes; }
-        }
+        INamedNodeMap IElement.Attributes => _attributes;
 
         /// <inheritdoc />
         public Boolean IsFocused
         {
-            get { return Object.ReferenceEquals(Owner?.FocusElement, this); }
+            get => Object.ReferenceEquals(Owner?.FocusElement, this);
             protected set
             {
                 var document = Owner;
@@ -358,44 +334,25 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IElement QuerySelector(String selectors)
-        {
-            return ChildNodes.QuerySelector(selectors, this);
-        }
+        public IElement QuerySelector(String selectors) => ChildNodes.QuerySelector(selectors, this);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
-        {
-            return ChildNodes.QuerySelectorAll(selectors, this);
-        }
+        public IHtmlCollection<IElement> QuerySelectorAll(String selectors) => ChildNodes.QuerySelectorAll(selectors, this);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
-        {
-            return ChildNodes.GetElementsByClassName(classNames);
-        }
+        public IHtmlCollection<IElement> GetElementsByClassName(String classNames) => ChildNodes.GetElementsByClassName(classNames);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByTagName(String tagName)
-        {
-            return ChildNodes.GetElementsByTagName(tagName);
-        }
+        public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => ChildNodes.GetElementsByTagName(tagName);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName)
-        {
-            return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
-        }
+        public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
         /// <inheritdoc />
         public Boolean Matches(String selectorText)
         {
             var parser = Context.GetService<ICssSelectorParser>();
-            var sg = parser.ParseSelector(selectorText);
-
-            if (sg == null)
-                throw new DomException(DomError.Syntax);
-
+            var sg = parser.ParseSelector(selectorText) ?? throw new DomException(DomError.Syntax);
             return sg.Match(this, this);
         }
 
@@ -404,8 +361,7 @@ namespace AngleSharp.Dom
         {
             var parser = Context.GetService<ICssSelectorParser>();
             var sg = parser.ParseSelector(selectorText) ?? throw new DomException(DomError.Syntax);
-
-            IElement node = this;
+            var node = (IElement)this;
 
             while (node != null)
             {
@@ -418,6 +374,7 @@ namespace AngleSharp.Dom
                     node = node.ParentElement;
                 }
             }
+
             return null;
         }
 
@@ -546,9 +503,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public override Boolean Equals(INode otherNode)
         {
-            var otherElement = otherNode as IElement;
-
-            if (otherElement != null)
+            if (otherNode is IElement otherElement)
             {
                 return NamespaceUri.Is(otherElement.NamespaceUri) &&
                     _attributes.SameAs(otherElement.Attributes) &&
@@ -559,38 +514,22 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void Before(params INode[] nodes)
-        {
-            this.InsertBefore(nodes);
-        }
+        public void Before(params INode[] nodes) => this.InsertBefore(nodes);
 
         /// <inheritdoc />
-        public void After(params INode[] nodes)
-        {
-            this.InsertAfter(nodes);
-        }
+        public void After(params INode[] nodes) => this.InsertAfter(nodes);
 
         /// <inheritdoc />
-        public void Replace(params INode[] nodes)
-        {
-            this.ReplaceWith(nodes);
-        }
+        public void Replace(params INode[] nodes) => this.ReplaceWith(nodes);
 
         /// <inheritdoc />
-        public void Remove()
-        {
-            this.RemoveFromParent();
-        }
+        public void Remove() => this.RemoveFromParent();
 
         /// <inheritdoc />
         public void Insert(AdjacentPosition position, String html)
         {
             var useThis = position == AdjacentPosition.AfterBegin || position == AdjacentPosition.BeforeEnd;
-            var context = useThis ? this : Parent as Element;
-
-            if (context == null)
-                throw new DomException("The element has no parent.");
-
+            var context = useThis ? this : Parent as Element ?? throw new DomException("The element has no parent.");
             var nodes = new DocumentFragment(context, html);
 
             switch (position)
@@ -692,32 +631,20 @@ namespace AngleSharp.Dom
                 previousValue: oldValue));
         }
 
-        internal void UpdateClassList(String value)
-        {
-            _classList?.Update(value);
-        }
+        internal void UpdateClassList(String value) => _classList?.Update(value);
 
         #endregion
 
         #region Helpers
 
         /// <inheritdoc />
-        protected void UpdateAttribute(String name, String value)
-        {
-            this.SetOwnAttribute(name, value, suppressCallbacks: true);
-        }
+        protected void UpdateAttribute(String name, String value) => this.SetOwnAttribute(name, value, suppressCallbacks: true);
 
         /// <inheritdoc />
-        protected sealed override String LocateNamespace(String prefix)
-        {
-            return this.LocateNamespaceFor(prefix);
-        }
+        protected sealed override String LocateNamespace(String prefix) => this.LocateNamespaceFor(prefix);
 
         /// <inheritdoc />
-        protected sealed override String LocatePrefix(String namespaceUri)
-        {
-            return this.LocatePrefixFor(namespaceUri);
-        }
+        protected sealed override String LocatePrefix(String namespaceUri) => this.LocatePrefixFor(namespaceUri);
 
         /// <inheritdoc />
         protected void CloneElement(Element element, Document owner, Boolean deep)

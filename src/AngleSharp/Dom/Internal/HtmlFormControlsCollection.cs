@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
     using AngleSharp.Html;
@@ -33,9 +33,8 @@
             {
                 if (Object.ReferenceEquals(m.Form, form))
                 {
-                    var input = m as IHtmlInputElement;
 
-                    if (input == null || !input.Type.Is(InputTypeNames.Image))
+                    if (!(m is IHtmlInputElement input) || !input.Type.Is(InputTypeNames.Image))
                     {
                         return true;
                     }
@@ -49,53 +48,29 @@
 
         #region Properties
 
-        public Int32 Length
-        {
-            get { return _elements.Count(); }
-        }
+        public Int32 Length => _elements.Count();
 
         #endregion
 
         #region HtmlFormControlElement Implementation
 
-        public HtmlFormControlElement this[Int32 index]
-        {
-            get { return _elements.GetItemByIndex(index); }
-        }
+        public HtmlFormControlElement this[Int32 index] => _elements.GetItemByIndex(index);
 
-        public HtmlFormControlElement this[String id]
-        {
-            get { return _elements.GetElementById(id); }
-        }
+        public HtmlFormControlElement this[String id] => _elements.GetElementById(id);
 
-        public IEnumerator<HtmlFormControlElement> GetEnumerator()
-        {
-            return _elements.GetEnumerator();
-        }
+        public IEnumerator<HtmlFormControlElement> GetEnumerator() => _elements.GetEnumerator();
 
         #endregion
 
         #region IHtmlCollection Implementation
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _elements.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _elements.GetEnumerator();
 
-        IHtmlElement IHtmlCollection<IHtmlElement>.this[Int32 index]
-        {
-            get { return this[index]; }
-        }
+        IHtmlElement IHtmlCollection<IHtmlElement>.this[Int32 index] => this[index];
 
-        IHtmlElement IHtmlCollection<IHtmlElement>.this[String id]
-        {
-            get { return this[id]; }
-        }
+        IHtmlElement IHtmlCollection<IHtmlElement>.this[String id] => this[id];
 
-        IEnumerator<IHtmlElement> IEnumerable<IHtmlElement>.GetEnumerator()
-        {
-            return _elements.GetEnumerator();
-        }
+        IEnumerator<IHtmlElement> IEnumerable<IHtmlElement>.GetEnumerator() => _elements.GetEnumerator();
 
         #endregion
     }

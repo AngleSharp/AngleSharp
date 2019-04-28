@@ -497,9 +497,7 @@
         /// <returns>True if the element is currently showing a placeholder, otherwise false.</returns>
         public static Boolean IsPlaceholderShown(this IElement element)
         {
-            var input = element as HtmlInputElement;
-
-            if (input != null)
+            if (element is HtmlInputElement input)
             {
                 var containsPlaceholder = !String.IsNullOrEmpty(input.Placeholder);
                 var isEmpty = String.IsNullOrEmpty(input.Value);
@@ -806,9 +804,7 @@
         /// <returns>True if the element is invalid, otherwise false.</returns>
         public static Boolean IsOutOfRange(this IElement element)
         {
-            var validation = element as IValidation;
-
-            if (validation != null)
+            if (element is IValidation validation)
             {
                 var state = validation.Validity;
                 return state.IsRangeOverflow || state.IsRangeUnderflow;
@@ -824,9 +820,7 @@
         /// <returns>True if the element is valid, otherwise false.</returns>
         public static Boolean IsInRange(this IElement element)
         {
-            var validation = element as IValidation;
-
-            if (validation != null)
+            if (element is IValidation validation)
             {
                 var state = validation.Validity;
                 return !state.IsRangeOverflow && !state.IsRangeUnderflow;

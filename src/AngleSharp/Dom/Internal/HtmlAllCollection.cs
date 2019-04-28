@@ -42,10 +42,7 @@
 
         #region Properties
 
-        public Int32 Length
-        {
-            get { return _elements.Count(); }
-        }
+        public Int32 Length => _elements.Count();
 
         #endregion
 

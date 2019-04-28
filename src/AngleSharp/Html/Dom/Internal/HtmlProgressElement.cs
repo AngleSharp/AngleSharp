@@ -29,15 +29,9 @@
 
         #region Properties
 
-        public INodeList Labels
-        {
-            get { return _labels; }
-        }
+        public INodeList Labels => _labels;
 
-        public Boolean IsDeterminate
-        {
-            get { return !String.IsNullOrEmpty(this.GetOwnAttribute(AttributeNames.Value)); }
-        }
+        public Boolean IsDeterminate => !String.IsNullOrEmpty(this.GetOwnAttribute(AttributeNames.Value));
 
         public Double Value
         {
@@ -51,10 +45,7 @@
             set { this.SetOwnAttribute(AttributeNames.Max, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
-        public Double Position
-        {
-            get { return IsDeterminate ? Math.Max(Math.Min(Value / Maximum, 1.0), 0.0) : -1.0; }
-        }
+        public Double Position => IsDeterminate ? Math.Max(Math.Min(Value / Maximum, 1.0), 0.0) : -1.0;
 
         #endregion
     }

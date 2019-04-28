@@ -47,19 +47,13 @@ namespace AngleSharp.Dom
         /// Gets the public identiifer.
         /// </summary>
         [DomName("publicId")]
-        public String PublicId
-        {
-            get { return _publicId; }
-        }
+        public String PublicId => _publicId;
 
         /// <summary>
         /// Gets the system identifier.
         /// </summary>
         [DomName("systemId")]
-        public String SystemId
-        {
-            get { return _systemId; }
-        }
+        public String SystemId => _systemId;
 
         /// <summary>
         /// Gets or sets the notation name.
@@ -67,36 +61,27 @@ namespace AngleSharp.Dom
         [DomName("notationName")]
         public String NotationName
         {
-            get { return _notationName; }
-            set { _notationName = value; }
+            get => _notationName;
+            set => _notationName = value;
         }
 
         /// <summary>
         /// Gets the used input encoding.
         /// </summary>
         [DomName("inputEncoding")]
-        public String InputEncoding
-        {
-            get { return _inputEncoding; }
-        }
+        public String InputEncoding => _inputEncoding;
 
         /// <summary>
         /// Gets the used XML encoding.
         /// </summary>
         [DomName("xmlEncoding")]
-        public String XmlEncoding
-        {
-            get { return _xmlEncoding; }
-        }
+        public String XmlEncoding => _xmlEncoding;
 
         /// <summary>
         /// Gets the used XML version.
         /// </summary>
         [DomName("xmlVersion")]
-        public String XmlVersion
-        {
-            get { return _xmlVersion; }
-        }
+        public String XmlVersion => _xmlVersion;
 
         /// <summary>
         /// Gets or sets the entity's value.
@@ -104,8 +89,8 @@ namespace AngleSharp.Dom
         [DomName("textContent")]
         public override String TextContent
         {
-            get { return NodeValue; }
-            set { NodeValue = value; }
+            get => NodeValue;
+            set => NodeValue = value;
         }
 
         /// <summary>
@@ -114,8 +99,8 @@ namespace AngleSharp.Dom
         [DomName("nodeValue")]
         public override String NodeValue
         {
-            get { return _value; }
-            set { _value = value; }
+            get => _value;
+            set => _value = value;
         }
 
         #endregion

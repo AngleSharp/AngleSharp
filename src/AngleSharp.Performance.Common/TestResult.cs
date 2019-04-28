@@ -19,20 +19,11 @@
             private set;
         }
 
-        public TimeSpan Shortest
-        {
-            get { return Durations.Count > 0 ? Durations.Min() : TimeSpan.Zero; }
-        }
+        public TimeSpan Shortest => Durations.Count > 0 ? Durations.Min() : TimeSpan.Zero;
 
-        public TimeSpan Longest
-        {
-            get { return Durations.Count > 0 ? Durations.Max() : TimeSpan.Zero; }
-        }
+        public TimeSpan Longest => Durations.Count > 0 ? Durations.Max() : TimeSpan.Zero;
 
-        public TimeSpan Average
-        {
-            get { return TimeSpan.FromMilliseconds(Durations.Count > 0 ? Durations.Average(m => m.TotalMilliseconds) : 0.0); }
-        }
+        public TimeSpan Average => TimeSpan.FromMilliseconds(Durations.Count > 0 ? Durations.Average(m => m.TotalMilliseconds) : 0.0);
 
         public TimeSpan Deviation
         {

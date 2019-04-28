@@ -35,19 +35,13 @@
 
         #region Index
 
-        public String this[Int32 index]
-        {
-            get { return _tokens[index]; }
-        }
+        public String this[Int32 index] => _tokens[index];
 
         #endregion
 
         #region Properties
 
-        public Int32 Length
-        {
-            get { return _tokens.Count; }
-        }
+        public Int32 Length => _tokens.Count;
 
         #endregion
 
@@ -71,10 +65,7 @@
             }
         }
 
-        public Boolean Contains(String token)
-        {
-            return _tokens.Contains(token);
-        }
+        public Boolean Contains(String token) => _tokens.Contains(token);
 
         public void Remove(params String[] tokens)
         {
@@ -140,33 +131,21 @@
 
         #region Helper
 
-        private void RaiseChanged()
-        {
-            Changed?.Invoke(ToString());
-        }
+        private void RaiseChanged() => Changed?.Invoke(ToString());
 
         #endregion
 
         #region IEnumerable Implementation
 
-        public IEnumerator<String> GetEnumerator()
-        {
-            return _tokens.GetEnumerator();
-        }
+        public IEnumerator<String> GetEnumerator() => _tokens.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
 
         #region String representation
 
-        public override String ToString()
-        {
-            return String.Join(" ", _tokens);
-        }
+        public override String ToString() => String.Join(" ", _tokens);
 
         #endregion
     }

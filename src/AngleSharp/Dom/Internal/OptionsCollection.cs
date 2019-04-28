@@ -91,10 +91,7 @@
             }
         }
 
-        public Int32 Length
-        {
-            get { return _options.Count(); }
-        }
+        public Int32 Length => _options.Count();
 
         #endregion
 
@@ -146,15 +143,13 @@
         {
             foreach (var child in _parent.ChildNodes)
             {
-                var optgroup = child as IHtmlOptionsGroupElement;
 
-                if (optgroup != null)
+                if (child is IHtmlOptionsGroupElement optgroup)
                 {
                     foreach (var element in optgroup.ChildNodes)
                     {
-                        var option = element as IHtmlOptionElement;
 
-                        if (option != null)
+                        if (element is IHtmlOptionElement option)
                         {
                             yield return option;
                         }

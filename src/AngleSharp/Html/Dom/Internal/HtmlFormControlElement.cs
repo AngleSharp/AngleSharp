@@ -36,10 +36,7 @@ namespace AngleSharp.Html.Dom
             set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
-        public IHtmlFormElement Form
-        {
-            get { return GetAssignedForm(); }
-        }
+        public IHtmlFormElement Form => GetAssignedForm();
 
         public Boolean IsDisabled
         {
@@ -53,20 +50,11 @@ namespace AngleSharp.Html.Dom
             set { this.SetBoolAttribute(AttributeNames.AutoFocus, value); }
         }
 
-        public INodeList Labels
-        {
-            get { return _labels; }
-        }
+        public INodeList Labels => _labels;
 
-        public String ValidationMessage
-        {
-            get { return _vstate.IsCustomError ? _error : String.Empty; }
-        }
+        public String ValidationMessage => _vstate.IsCustomError ? _error : String.Empty;
 
-        public Boolean WillValidate
-        {
-            get { return !IsDisabled && CanBeValidated(); }
-        }
+        public Boolean WillValidate => !IsDisabled && CanBeValidated();
 
         public IValidityState Validity
         {

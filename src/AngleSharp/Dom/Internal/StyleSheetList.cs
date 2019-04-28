@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        readonly IEnumerable<IStyleSheet> _sheets;
+        private readonly IEnumerable<IStyleSheet> _sheets;
 
         #endregion
 
@@ -38,10 +38,7 @@
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The stylesheet.</returns>
-        public IStyleSheet this[Int32 index]
-        {
-            get { return _sheets.Skip(index).FirstOrDefault(); }
-        }
+        public IStyleSheet this[Int32 index] => _sheets.Skip(index).FirstOrDefault();
 
         #endregion
 
@@ -50,10 +47,7 @@
         /// <summary>
         /// Gets the number of elements in the list of stylesheets.
         /// </summary>
-        public Int32 Length
-        {
-            get { return _sheets.Count(); }
-        }
+        public Int32 Length => _sheets.Count();
 
         #endregion
 
@@ -63,19 +57,13 @@
         /// Returns an enumerator that iterates through the stylesheets.
         /// </summary>
         /// <returns>The enumerator.</returns>
-        public IEnumerator<IStyleSheet> GetEnumerator()
-        {
-            return _sheets.GetEnumerator();
-        }
+        public IEnumerator<IStyleSheet> GetEnumerator() => _sheets.GetEnumerator();
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>The enumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
     }

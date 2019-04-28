@@ -94,14 +94,8 @@ namespace AngleSharp.Io
         /// <summary>
         /// Gets an iterator over all integrated keys.
         /// </summary>
-        public IEnumerable<String> Keys
-        {
-            get
-            {
-                return _params.Split(';').Where(m => !String.IsNullOrEmpty(m))
+        public IEnumerable<String> Keys => _params.Split(';').Where(m => !String.IsNullOrEmpty(m))
                               .Select(m => m.IndexOf('=') >= 0 ? m.Substring(0, m.IndexOf('=')) : m);
-            }
-        }
 
         #endregion
 

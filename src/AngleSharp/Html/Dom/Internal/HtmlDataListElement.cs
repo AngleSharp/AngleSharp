@@ -25,10 +25,7 @@
 
         #region Properties
 
-        public IHtmlCollection<IHtmlOptionElement> Options
-        {
-            get { return _options ?? (_options = new HtmlCollection<IHtmlOptionElement>(this)); }
-        }
+        public IHtmlCollection<IHtmlOptionElement> Options => _options ?? (_options = new HtmlCollection<IHtmlOptionElement>(this));
 
         #endregion
     }

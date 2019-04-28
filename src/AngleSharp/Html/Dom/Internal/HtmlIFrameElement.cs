@@ -76,10 +76,7 @@ namespace AngleSharp.Html.Dom
             set { this.SetOwnAttribute(AttributeNames.ReferrerPolicy, value); }
         }
 
-        public IWindow ContentWindow
-        {
-            get { return NestedContext.Current; }
-        }
+        public IWindow ContentWindow => NestedContext.Current;
 
         #endregion
 

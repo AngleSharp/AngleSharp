@@ -94,26 +94,17 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets a list of defined entities.
         /// </summary>
-        public IEnumerable<Entity> Entities
-        {
-            get { return Enumerable.Empty<Entity>(); }
-        }
+        public IEnumerable<Entity> Entities => Enumerable.Empty<Entity>();
 
         /// <summary>
         /// Gets a list of defined notations.
         /// </summary>
-        public IEnumerable<Notation> Notations
-        {
-            get { return Enumerable.Empty<Notation>(); }
-        }
+        public IEnumerable<Notation> Notations => Enumerable.Empty<Notation>();
 
         /// <summary>
         /// Gets or sets the name of the document type.
         /// </summary>
-        public String Name 
-        {
-            get { return NodeName; }
-        }
+        public String Name => NodeName;
 
         /// <summary>
         /// Gets or sets the public ID of the document type.

@@ -17,10 +17,7 @@
             _extension = extension;
         }
 
-        public List<ITest> Tests
-        {
-            get { return _tests; }
-        }
+        public List<ITest> Tests => _tests;
 
         public async Task<UrlTests> Include(params String[] urls)
         {

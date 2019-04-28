@@ -29,7 +29,7 @@
 
         public Priority Specificity
         {
-            get 
+            get
             {
                 var sum = new Priority();
 
@@ -42,20 +42,14 @@
             }
         }
 
-        public String Text
-        {
-            get { return Stringify(); }
-        }
+        public String Text => Stringify();
 
-        public Int32 Length 
-        {
-            get { return _selectors.Count; } 
-        }
+        public Int32 Length => _selectors.Count;
 
         public ISelector this[Int32 index]
         {
-            get { return _selectors[index]; }
-            set { _selectors[index] = value; }
+            get => _selectors[index];
+            set => _selectors[index] = value;
         }
 
         #endregion
@@ -64,29 +58,17 @@
 
         protected abstract String Stringify();
 
-        public void Add(ISelector selector)
-        {
-            _selectors.Add(selector);
-        }
+        public void Add(ISelector selector) => _selectors.Add(selector);
 
-        public void Remove(ISelector selector)
-        {
-            _selectors.Remove(selector);
-        }
+        public void Remove(ISelector selector) => _selectors.Remove(selector);
 
         #endregion
 
         #region IEnumerable implementation
 
-        public IEnumerator<ISelector> GetEnumerator()
-        {
-            return _selectors.GetEnumerator();
-        }
+        public IEnumerator<ISelector> GetEnumerator() => _selectors.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
     }

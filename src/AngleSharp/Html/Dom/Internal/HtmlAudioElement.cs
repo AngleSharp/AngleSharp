@@ -31,10 +31,7 @@
 
         #region Properties
 
-        public override IAudioTrackList AudioTracks
-        {
-            get { return _audios; }
-        }
+        public override IAudioTrackList AudioTracks => _audios;
 
         #endregion
     }

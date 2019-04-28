@@ -36,20 +36,11 @@
 
         #region Properties
 
-        public Url Original
-        {
-            get { return _url; }
-        }
+        public Url Original => _url;
 
-        public String Origin
-        {
-            get { return _url.Origin; }
-        }
+        public String Origin => _url.Origin;
 
-        public Boolean IsRelative
-        {
-            get { return _url.IsRelative; }
-        }
+        public Boolean IsRelative => _url.IsRelative;
 
         public String UserName
         {
@@ -273,10 +264,7 @@
                 CurrentLocation = currentLocation;
             }
 
-            public Boolean IsReloaded
-            {
-                get { return PreviousLocation.Is(CurrentLocation); }
-            }
+            public Boolean IsReloaded => PreviousLocation.Is(CurrentLocation);
 
             public Boolean IsHashChanged
             {

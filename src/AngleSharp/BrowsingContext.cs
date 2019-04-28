@@ -108,13 +108,16 @@ namespace AngleSharp
 
                 if (instance == null)
                 {
-                    var creator = service as Func<IBrowsingContext, T>;
 
-                    if (creator == null)
+                    if (service is Func<IBrowsingContext, T> creator)
+                    {
+                        instance = creator.Invoke(this);
+                        _services[i] = instance;
+                    }
+                    else
+                    {
                         continue;
-
-                    instance = creator.Invoke(this);
-                    _services[i] = instance;
+                    }
                 }
 
                 return instance;
@@ -139,13 +142,15 @@ namespace AngleSharp
 
                 if (instance == null)
                 {
-                    var creator = service as Func<IBrowsingContext, T>;
-
-                    if (creator == null)
+                    if (service is Func<IBrowsingContext, T> creator)
+                    {
+                        instance = creator.Invoke(this);
+                        _services[i] = instance;
+                    }
+                    else
+                    {
                         continue;
-
-                    instance = creator.Invoke(this);
-                    _services[i] = instance;
+                    }
                 }
 
                 yield return instance;

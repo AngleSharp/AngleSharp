@@ -16,10 +16,7 @@
             _comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
         }
 
-        public String Text
-        {
-            get { return String.Concat("[", Attribute, "~=", _value.CssString(), "]"); }
-        }
+        public String Text => String.Concat("[", Attribute, "~=", _value.CssString(), "]");
 
         public void Accept(ISelectorVisitor visitor)
         {

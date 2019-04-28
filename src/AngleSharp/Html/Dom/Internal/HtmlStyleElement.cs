@@ -31,14 +31,11 @@
 
         public Boolean IsScoped
         {
-            get { return this.GetBoolAttribute(AttributeNames.Scoped); }
-            set { this.SetBoolAttribute(AttributeNames.Scoped, value); }
+            get => this.GetBoolAttribute(AttributeNames.Scoped);
+            set => this.SetBoolAttribute(AttributeNames.Scoped, value);
         }
 
-        public IStyleSheet Sheet
-        {
-            get { return _sheet; }
-        }
+        public IStyleSheet Sheet => _sheet;
 
         public Boolean IsDisabled
         {

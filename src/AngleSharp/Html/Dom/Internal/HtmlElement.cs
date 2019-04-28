@@ -498,10 +498,7 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        public String AccessKeyLabel
-        {
-            get { return AccessKey; }
-        }
+        public String AccessKeyLabel => AccessKey;
 
         /// <inheritdoc />
         public String Language
@@ -539,10 +536,7 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        public IStringMap Dataset
-        {
-            get { return _dataset ?? (_dataset = new StringMap("data-", this)); }
-        }
+        public IStringMap Dataset => _dataset ?? (_dataset = new StringMap("data-", this));
 
         /// <inheritdoc />
         public String ContentEditable
@@ -675,8 +669,7 @@ namespace AngleSharp.Html.Dom
 
         private String GetDefaultLanguage()
         {
-            var parent = ParentElement as IHtmlElement;
-            return parent != null ? parent.Language : Context.GetLanguage();
+            return ParentElement is IHtmlElement parent ? parent.Language : Context.GetLanguage();
         }
 
         private static String Combine(String prefix, String localName)

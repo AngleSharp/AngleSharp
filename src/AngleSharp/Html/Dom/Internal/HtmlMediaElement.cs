@@ -32,10 +32,7 @@
 
         #region Properties
 
-        public IDownload CurrentDownload
-        {
-            get { return _request?.Download; }
-        }
+        public IDownload CurrentDownload => _request?.Download;
 
         public String Source
         {
@@ -55,15 +52,9 @@
             set { this.SetOwnAttribute(AttributeNames.Preload, value); }
         }
 
-        public MediaNetworkState NetworkState
-        {
-            get { return _request?.NetworkState ?? MediaNetworkState.Empty; }
-        }
+        public MediaNetworkState NetworkState => _request?.NetworkState ?? MediaNetworkState.Empty;
 
-        public TResource Media
-        {
-            get { return _request?.Resource; }
-        }
+        public TResource Media => _request?.Resource;
 
         public MediaReadyState ReadyState
         {
@@ -80,19 +71,11 @@
             protected set;
         }
 
-        public String CurrentSource
-        {
-            get
-            {
+        public String CurrentSource =>
                 //TODO Check for Source elements
-                return Source; 
-            }
-        }
+                Source;
 
-        public Double Duration
-        {
-            get { return Controller?.Duration ?? 0.0; }
-        }
+        public Double Duration => Controller?.Duration ?? 0.0;
 
         public Double CurrentTime
         {
@@ -143,35 +126,17 @@
             set { this.SetBoolAttribute(AttributeNames.Muted, value); }
         }
 
-        public Boolean IsPaused
-        {
-            get { return PlaybackState == MediaControllerPlaybackState.Waiting && ReadyState >= MediaReadyState.CurrentData; }
-        }
+        public Boolean IsPaused => PlaybackState == MediaControllerPlaybackState.Waiting && ReadyState >= MediaReadyState.CurrentData;
 
-        public Boolean IsEnded
-        {
-            get { return PlaybackState == MediaControllerPlaybackState.Ended; }
-        }
+        public Boolean IsEnded => PlaybackState == MediaControllerPlaybackState.Ended;
 
-        public DateTime StartDate
-        {
-            get { return DateTime.Today; }
-        }
+        public DateTime StartDate => DateTime.Today;
 
-        public ITimeRanges BufferedTime
-        {
-            get { return Controller?.BufferedTime; }
-        }
+        public ITimeRanges BufferedTime => Controller?.BufferedTime;
 
-        public ITimeRanges SeekableTime
-        {
-            get { return Controller?.SeekableTime; }
-        }
+        public ITimeRanges SeekableTime => Controller?.SeekableTime;
 
-        public ITimeRanges PlayedTime
-        {
-            get { return Controller?.PlayedTime; }
-        }
+        public ITimeRanges PlayedTime => Controller?.PlayedTime;
 
         public String MediaGroup
         {
@@ -207,10 +172,7 @@
             }
         }
 
-        public IMediaController Controller
-        {
-            get { return _request?.Resource?.Controller; }
-        }
+        public IMediaController Controller => _request?.Resource?.Controller;
 
         public Double DefaultPlaybackRate
         {
@@ -240,10 +202,7 @@
             }
         }
 
-        public MediaControllerPlaybackState PlaybackState
-        {
-            get { return Controller?.PlaybackState ?? MediaControllerPlaybackState.Waiting; }
-        }
+        public MediaControllerPlaybackState PlaybackState => Controller?.PlaybackState ?? MediaControllerPlaybackState.Waiting;
 
         public IMediaError MediaError
         {
@@ -251,15 +210,9 @@
             private set;
         }
 
-        public virtual IAudioTrackList AudioTracks
-        {
-            get { return null; }
-        }
+        public virtual IAudioTrackList AudioTracks => null;
 
-        public virtual IVideoTrackList VideoTracks
-        {
-            get { return null; }
-        }
+        public virtual IVideoTrackList VideoTracks => null;
 
         public ITextTrackList TextTracks
         {

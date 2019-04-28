@@ -19,9 +19,9 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
-        /// Gets or sets if frames should not be supported.
-        /// Once set this will ignore frame elements and
-        /// respect noframes elements.
+        /// Gets or sets if frames should not be supported. Once
+        /// set this will ignore frame elements and respect
+        /// noframes elements.
         /// </summary>
         public Boolean IsNotSupportingFrames
         {
@@ -48,10 +48,20 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
-        /// Gets or sets if XML processing instructions should
-        /// be parsed into DOM nodes.
+        /// Gets or sets if XML processing instructions should be
+        /// parsed into DOM nodes.
         /// </summary>
         public Boolean IsSupportingProcessingInstructions
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets if references to the original source document
+        /// should be kept on the elements in form of their tokens.
+        /// </summary>
+        public Boolean IsKeepingSourceReferences
         {
             get;
             set;

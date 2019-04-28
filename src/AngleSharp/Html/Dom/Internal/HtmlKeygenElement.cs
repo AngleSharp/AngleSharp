@@ -45,10 +45,7 @@
         /// <summary>
         /// Gets the type of input control (keygen).
         /// </summary>
-        public String Type
-        {
-            get { return TagNames.Keygen; }
-        }
+        public String Type => TagNames.Keygen;
 
         #endregion
 

@@ -88,9 +88,8 @@
 
             var iterator = doc.CreateNodeIterator(rootnode, FilterSettings.Element, node =>
             {
-                var element = node as IHtmlListItemElement;
 
-                if (element != null && element.ClassList.Contains("item"))
+                if (node is IHtmlListItemElement element && element.ClassList.Contains("item"))
                     return FilterResult.Accept;
 
                 return FilterResult.Reject;

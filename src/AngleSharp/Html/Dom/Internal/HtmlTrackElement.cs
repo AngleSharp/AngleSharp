@@ -78,15 +78,9 @@
         /// <summary>
         /// Gets the ready state of the given track.
         /// </summary>
-        public TrackReadyState ReadyState
-        {
-            get { return _ready; }
-        }
+        public TrackReadyState ReadyState => _ready;
 
-        public ITextTrack Track
-        {
-            get { return null; }
-        }
+        public ITextTrack Track => null;
 
         #endregion
     }

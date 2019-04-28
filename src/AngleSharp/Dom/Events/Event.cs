@@ -58,73 +58,49 @@
         /// <summary>
         /// Gets the associated flags.
         /// </summary>
-        internal EventFlags Flags
-        {
-            get { return _flags; }
-        }
+        internal EventFlags Flags => _flags;
 
         /// <summary>
         /// Gets the type of event.
         /// </summary>
         [DomName("type")]
-        public String Type
-        {
-            get { return _type; }
-        }
+        public String Type => _type;
 
         /// <summary>
         /// Gets the original target of the event.
         /// </summary>
         [DomName("target")]
-        public IEventTarget OriginalTarget
-        {
-            get { return _target; }
-        }
+        public IEventTarget OriginalTarget => _target;
 
         /// <summary>
         /// Gets the current target (if bubbled).
         /// </summary>
         [DomName("currentTarget")]
-        public IEventTarget CurrentTarget
-        {
-            get { return _current; }
-        }
+        public IEventTarget CurrentTarget => _current;
 
         /// <summary>
         /// Gets the phase of the event.
         /// </summary>
         [DomName("eventPhase")]
-        public EventPhase Phase
-        {
-            get { return _phase; }
-        }
+        public EventPhase Phase => _phase;
 
         /// <summary>
         /// Gets if the event is actually bubbling.
         /// </summary>
         [DomName("bubbles")]
-        public Boolean IsBubbling
-        {
-            get { return _bubbles; }
-        }
+        public Boolean IsBubbling => _bubbles;
 
         /// <summary>
         /// Gets if the event is cancelable.
         /// </summary>
         [DomName("cancelable")]
-        public Boolean IsCancelable
-        {
-            get { return _cancelable; }
-        }
+        public Boolean IsCancelable => _cancelable;
 
         /// <summary>
         /// Gets if the default behavior has been prevented.
         /// </summary>
         [DomName("defaultPrevented")]
-        public Boolean IsDefaultPrevented
-        {
-            get { return (_flags & EventFlags.Canceled) == EventFlags.Canceled; }
-        }
+        public Boolean IsDefaultPrevented => (_flags & EventFlags.Canceled) == EventFlags.Canceled;
 
         /// <summary>
         /// Gets if the event is trusted.
@@ -140,10 +116,7 @@
         /// Gets the originating timestamp.
         /// </summary>
         [DomName("timeStamp")]
-        public DateTime Time
-        {
-            get { return _time; }
-        }
+        public DateTime Time => _time;
 
         #endregion
 
@@ -213,9 +186,8 @@
             _target = target;
 
             var eventPath = new List<IEventTarget>();
-            var parent = target as Node;
 
-            if (parent != null)
+            if (target is Node parent)
             {
                 while ((parent = parent.Parent) != null)
                 {

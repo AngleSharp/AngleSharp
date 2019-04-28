@@ -12,15 +12,9 @@
             _cls = cls;
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.OneClass; }
-        }
+        public Priority Specificity => Priority.OneClass;
 
-        public String Text
-        {
-            get { return "." + _cls; }
-        }
+        public String Text => "." + _cls;
 
         public void Accept(ISelectorVisitor visitor)
         {

@@ -29,10 +29,7 @@
 
         #region Properties
 
-        public override IVideoTrackList VideoTracks
-        {
-            get { return _videos; }
-        }
+        public override IVideoTrackList VideoTracks => _videos;
 
         public Int32 DisplayWidth
         {
@@ -46,15 +43,9 @@
             set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
-        public Int32 OriginalWidth
-        {
-            get { return Media?.Width ?? 0; }
-        }
+        public Int32 OriginalWidth => Media?.Width ?? 0;
 
-        public Int32 OriginalHeight
-        {
-            get { return Media?.Height ?? 0; }
-        }
+        public Int32 OriginalHeight => Media?.Height ?? 0;
 
         public String Poster
         {

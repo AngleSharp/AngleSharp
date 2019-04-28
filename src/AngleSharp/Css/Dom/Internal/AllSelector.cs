@@ -11,15 +11,9 @@
         {
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.Zero; }
-        }
+        public Priority Specificity => Priority.Zero;
 
-        public String Text
-        {
-            get { return "*"; }
-        }
+        public String Text => "*";
 
         public void Accept(ISelectorVisitor visitor)
         {

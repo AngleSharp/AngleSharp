@@ -39,16 +39,10 @@ namespace AngleSharp.Dom
         #region Public Properties
 
         /// <inheritdoc />
-        public Boolean HasChildNodes
-        {
-            get { return _children.Length != 0; }
-        }
+        public Boolean HasChildNodes => _children.Length != 0;
 
         /// <inheritdoc />
-        public String BaseUri
-        {
-            get { return BaseUrl?.Href ?? String.Empty; }
-        }
+        public String BaseUri => BaseUrl?.Href ?? String.Empty;
 
         /// <inheritdoc />
         public Url BaseUrl
@@ -84,75 +78,45 @@ namespace AngleSharp.Dom
 
                 return null;
             }
-            set { _baseUri = value; }
+            set => _baseUri = value;
         }
 
         /// <inheritdoc />
-        public NodeType NodeType
-        {
-            get { return _type; }
-        }
+        public NodeType NodeType => _type;
 
         /// <inheritdoc />
         public virtual String NodeValue
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
         /// <inheritdoc />
         public virtual String TextContent
         {
-            get { return null; }
+            get => null;
             set { }
         }
 
-        INode INode.PreviousSibling
-        {
-            get { return PreviousSibling; }
-        }
+        INode INode.PreviousSibling => PreviousSibling;
 
-        INode INode.NextSibling
-        {
-            get { return NextSibling; }
-        }
+        INode INode.NextSibling => NextSibling;
 
-        INode INode.FirstChild
-        {
-            get { return FirstChild; }
-        }
+        INode INode.FirstChild => FirstChild;
 
-        INode INode.LastChild
-        {
-            get { return LastChild; }
-        }
+        INode INode.LastChild =>LastChild;
 
-        IDocument INode.Owner
-        {
-            get { return Owner; }
-        }
+        IDocument INode.Owner => Owner;
 
-        INode INode.Parent
-        {
-            get { return _parent; }
-        }
+        INode INode.Parent => _parent;
 
         /// <inheritdoc />
-        public IElement ParentElement
-        {
-            get { return _parent as IElement; }
-        }
+        public IElement ParentElement => _parent as IElement;
 
-        INodeList INode.ChildNodes
-        {
-            get { return _children; }
-        }
+        INodeList INode.ChildNodes => _children;
 
         /// <inheritdoc />
-        public String NodeName
-        {
-            get { return _name; }
-        }
+        public String NodeName => _name;
 
         #endregion
 
@@ -200,31 +164,22 @@ namespace AngleSharp.Dom
             }
         }
 
-        internal Node FirstChild
-        {
-            get { return _children.Length > 0 ? _children[0] : null; }
-        }
+        internal Node FirstChild => _children.Length > 0 ? _children[0] : null;
 
-        internal Node LastChild
-        {
-            get { return _children.Length > 0 ? _children[_children.Length - 1] : null; }
-        }
+        internal Node LastChild => _children.Length > 0 ? _children[_children.Length - 1] : null;
 
-        internal NodeFlags Flags
-        {
-            get { return _flags; }
-        }
+        internal NodeFlags Flags => _flags;
 
         internal NodeList ChildNodes
         {
-            get { return _children; }
-            set { _children = value; }
+            get => _children;
+            set => _children = value;
         }
 
         internal Node Parent
         {
-            get { return _parent; }
-            set { _parent = value; }
+            get => _parent;
+            set => _parent = value;
         }
 
         internal Document Owner
@@ -411,13 +366,12 @@ namespace AngleSharp.Dom
 
             if (node.IsInsertable())
             {
-                var parent = this as IDocument;
                 var referenceChild = child.NextSibling;
                 var document = Owner;
                 var addedNodes = new NodeList();
                 var removedNodes = new NodeList();
 
-                if (parent != null && IsChangeForbidden(node, parent, child))
+                if (this is IDocument parent && IsChangeForbidden(node, parent, child))
                     throw new DomException(DomError.HierarchyRequest);
 
                 if (Object.ReferenceEquals(referenceChild, node))
@@ -470,15 +424,13 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public void AppendText(String s)
         {
-            var lastChild = LastChild as TextNode;
-
-            if (lastChild == null)
+            if (LastChild is TextNode lastChild)
             {
-                AddNode(new TextNode(Owner, s));
+                lastChild.Append(s);
             }
             else
             {
-                lastChild.Append(s);
+                AddNode(new TextNode(Owner, s));
             }
         }
 
@@ -524,16 +476,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public virtual void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            writer.Write(TextContent);
-        }
+        public virtual void ToHtml(TextWriter writer, IMarkupFormatter formatter) => writer.Write(TextContent);
 
         /// <inheritdoc />
-        public INode AppendChild(INode child)
-        {
-            return this.PreInsert(child, null);
-        }
+        public INode AppendChild(INode child) => this.PreInsert(child, null);
 
         /// <inheritdoc />
         public INode InsertChild(Int32 index, INode child)
@@ -543,28 +489,16 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public INode InsertBefore(INode newElement, INode referenceElement)
-        {
-            return this.PreInsert(newElement, referenceElement);
-        }
+        public INode InsertBefore(INode newElement, INode referenceElement) => this.PreInsert(newElement, referenceElement);
 
         /// <inheritdoc />
-        public INode ReplaceChild(INode newChild, INode oldChild)
-        {
-            return this.ReplaceChild(newChild as Node, oldChild as Node, false);
-        }
+        public INode ReplaceChild(INode newChild, INode oldChild) => this.ReplaceChild(newChild as Node, oldChild as Node, false);
 
         /// <inheritdoc />
-        public INode RemoveChild(INode child)
-        {
-            return this.PreRemove(child);
-        }
+        public INode RemoveChild(INode child) => this.PreRemove(child);
 
         /// <inheritdoc />
-        public INode Clone(Boolean deep = true)
-        {
-            return Clone(Owner, deep);
-        }
+        public INode Clone(Boolean deep = true) => Clone(Owner, deep);
 
         /// <inheritdoc />
         public DocumentPositions CompareDocumentPosition(INode otherNode)
@@ -595,19 +529,14 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public Boolean Contains(INode otherNode)
-        {
-            return this.IsInclusiveAncestorOf(otherNode);
-        }
+        public Boolean Contains(INode otherNode) => this.IsInclusiveAncestorOf(otherNode);
 
         /// <inheritdoc />
         public void Normalize()
         {
             for (var i = 0; i < _children.Length; i++)
             {
-                var text = _children[i] as TextNode;
-
-                if (text != null)
+                if (_children[i] is TextNode text)
                 {
                     var length = text.Length;
 
@@ -770,16 +699,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        protected virtual String LocateNamespace(String prefix)
-        {
-            return _parent?.LocateNamespace(prefix);
-        }
+        protected virtual String LocateNamespace(String prefix) => _parent?.LocateNamespace(prefix);
 
         /// <inheritdoc />
-        protected virtual String LocatePrefix(String namespaceUri)
-        {
-            return _parent?.LocatePrefix(namespaceUri);
-        }
+        protected virtual String LocatePrefix(String namespaceUri) => _parent?.LocatePrefix(namespaceUri);
 
         /// <summary>
         /// Run any adopting steps defined for node in other applicable
@@ -792,18 +715,12 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Specifications may define insertion steps for all or some nodes.
         /// </summary>
-        protected virtual void NodeIsInserted(Node newNode)
-        {
-            newNode.OnParentChanged();
-        }
+        protected virtual void NodeIsInserted(Node newNode) => newNode.OnParentChanged();
 
         /// <summary>
         /// Specifications may define removing steps for all or some nodes.
         /// </summary>
-        protected virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
-        {
-            removedNode.OnParentChanged();
-        }
+        protected virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling) => removedNode.OnParentChanged();
 
         /// <inheritdoc />
         protected virtual void OnParentChanged()
@@ -820,9 +737,8 @@ namespace AngleSharp.Dom
             {
                 foreach (var child in _children)
                 {
-                    var node = child as Node;
 
-                    if (node != null)
+                    if (child is Node node)
                     {
                         var clone = node.Clone(owner, true);
                         target.AddNode(clone);

@@ -14,24 +14,12 @@
             _pseudoClass = pseudoClass;
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.OneClass; }
-        }
+        public Priority Specificity => Priority.OneClass;
 
-        public String Text
-        {
-            get { return PseudoClassNames.Separator + _pseudoClass; }
-        }
+        public String Text => PseudoClassNames.Separator + _pseudoClass;
 
-        public void Accept(ISelectorVisitor visitor)
-        {
-            visitor.PseudoClass(_pseudoClass);
-        }
+        public void Accept(ISelectorVisitor visitor) => visitor.PseudoClass(_pseudoClass);
 
-        public Boolean Match(IElement element, IElement scope)
-        {
-            return _action.Invoke(element);
-        }
+        public Boolean Match(IElement element, IElement scope) => _action.Invoke(element);
     }
 }

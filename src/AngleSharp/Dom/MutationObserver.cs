@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -28,11 +28,8 @@
         [DomConstructor]
         public MutationObserver(MutationCallback callback)
         {
-            if (callback == null)
-                throw new ArgumentNullException(nameof(callback));
-
             _records = new Queue<IMutationRecord>();
-            _callback = callback;
+            _callback = callback ?? throw new ArgumentNullException(nameof(callback));
             _observing = new List<MutationObserving>();
         }
 
@@ -202,49 +199,45 @@
         [DomInitDict(offset: 1)]
         public void Connect(INode target, Boolean childList = false, Boolean subtree = false, Boolean? attributes = null, Boolean? characterData = null, Boolean? attributeOldValue = null, Boolean? characterDataOldValue = null, IEnumerable<String> attributeFilter = null)
         {
-            var node = target as Node;
-
-            if (node == null)
+            if (target is Node node)
             {
-                return;
+                var oldCharacterData = characterDataOldValue ?? false;
+                var oldAttributeValue = attributeOldValue ?? false;
+
+                var options = new MutationOptions
+                {
+                    IsObservingChildNodes = childList,
+                    IsObservingSubtree = subtree,
+                    IsExaminingOldCharacterData = oldCharacterData,
+                    IsExaminingOldAttributeValue = oldAttributeValue,
+                    IsObservingCharacterData = characterData ?? oldCharacterData,
+                    IsObservingAttributes = attributes ?? (oldAttributeValue || attributeFilter != null),
+                    AttributeFilters = attributeFilter
+                };
+
+                if (options.IsExaminingOldAttributeValue && !options.IsObservingAttributes)
+                    throw new DomException(DomError.TypeMismatch);
+
+                if (options.AttributeFilters != null && !options.IsObservingAttributes)
+                    throw new DomException(DomError.TypeMismatch);
+
+                if (options.IsExaminingOldCharacterData && !options.IsObservingCharacterData)
+                    throw new DomException(DomError.TypeMismatch);
+
+                if (options.IsInvalid)
+                    throw new DomException(DomError.Syntax);
+
+                node.Owner.Mutations.Register(this);
+                var existing = this[target];
+
+                if (existing != null)
+                {
+                    existing.TransientNodes.Clear();
+                    _observing.Remove(existing);
+                }
+
+                _observing.Add(new MutationObserving(target, options));
             }
-
-            var oldCharacterData = characterDataOldValue ?? false;
-            var oldAttributeValue = attributeOldValue ?? false;
-
-            var options = new MutationOptions
-            {
-                IsObservingChildNodes = childList,
-                IsObservingSubtree = subtree,
-                IsExaminingOldCharacterData = oldCharacterData,
-                IsExaminingOldAttributeValue = oldAttributeValue,
-                IsObservingCharacterData = characterData ?? oldCharacterData,
-                IsObservingAttributes = attributes ?? (oldAttributeValue || attributeFilter != null),
-                AttributeFilters = attributeFilter
-            };
-
-            if (options.IsExaminingOldAttributeValue && !options.IsObservingAttributes)
-                throw new DomException(DomError.TypeMismatch);
-
-            if (options.AttributeFilters != null && !options.IsObservingAttributes)
-                throw new DomException(DomError.TypeMismatch);
-
-            if (options.IsExaminingOldCharacterData && !options.IsObservingCharacterData)
-                throw new DomException(DomError.TypeMismatch);
-
-            if (options.IsInvalid)
-                throw new DomException(DomError.Syntax);
-
-            node.Owner.Mutations.Register(this);
-            var existing = this[target];
-
-            if (existing != null)
-            {
-                existing.TransientNodes.Clear();
-                _observing.Remove(existing);
-            }
-
-            _observing.Add(new MutationObserving(target, options));
         }
 
         /// <summary>
@@ -275,10 +268,7 @@
             public Boolean IsExaminingOldAttributeValue;
             public IEnumerable<String> AttributeFilters;
 
-            public Boolean IsInvalid
-            {
-                get { return !IsObservingAttributes && !IsObservingCharacterData && !IsObservingChildNodes; }
-            }
+            public Boolean IsInvalid => !IsObservingAttributes && !IsObservingCharacterData && !IsObservingChildNodes;
         }
 
         sealed class MutationObserving
@@ -294,20 +284,11 @@
                 _transientNodes = new List<INode>();
             }
 
-            public INode Target
-            {
-                get { return _target; }
-            }
+            public INode Target => _target;
 
-            public MutationOptions Options
-            {
-                get { return _options; }
-            }
+            public MutationOptions Options => _options;
 
-            public List<INode> TransientNodes
-            {
-                get { return _transientNodes; }
-            }
+            public List<INode> TransientNodes => _transientNodes;
         }
 
         #endregion

@@ -23,11 +23,8 @@
         {
             return mimeType.Equals(_type, StringComparison.OrdinalIgnoreCase);
         }
-        
-        public List<Tuple<String, ScriptOptions>> Requests
-        {
-            get { return _requests; }
-        }
+
+        public List<Tuple<String, ScriptOptions>> Requests => _requests;
 
         public Task EvaluateScriptAsync(IResponse response, ScriptOptions options, CancellationToken cancel)
         {

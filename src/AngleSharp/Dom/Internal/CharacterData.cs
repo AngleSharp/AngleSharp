@@ -107,10 +107,7 @@
             }
         }
 
-        public Int32 Length 
-        { 
-            get { return _content.Length; } 
-        }
+        public Int32 Length => _content.Length;
 
         public sealed override String NodeValue
         {

@@ -471,7 +471,7 @@ namespace AngleSharp.Html.Parser
                     AddRoot(token.AsTag());
                     _currentMode = HtmlTreeMode.BeforeHead;
                     return;
-                }                    
+                }
                 case HtmlTokenType.EndTag:
                 {
                     if (TagNames.AllBeforeHead.Contains(token.Name))
@@ -2855,7 +2855,7 @@ namespace AngleSharp.Html.Parser
                 {
                     break;
                 }
-                
+
                 node = _openElements[--index];
             }
 
@@ -3035,7 +3035,7 @@ namespace AngleSharp.Html.Parser
                     var newElement = CopyElement(node);
                     commonAncestor.AddNode(newElement);
                     _openElements[index] = newElement;
-                    
+
                     for (var l = 0; l != _formattingElements.Count; l++)
                     {
                         if (_formattingElements[l] == node)
@@ -3362,9 +3362,8 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
                     var node = CurrentNode;
-                    var script = node as HtmlScriptElement;
 
-                    if (script != null)
+                    if (node is HtmlScriptElement script)
                     {
                         HandleScript(script);
                         return;
@@ -4005,6 +4004,11 @@ namespace AngleSharp.Html.Parser
 
         private void AuxiliarySetupSteps(Element element, HtmlTagToken tag)
         {
+            if (_options.IsKeepingSourceReferences)
+            {
+                element.SourceReference = tag;
+            }
+
             if (_options.OnCreated != null)
             {
                 _options.OnCreated.Invoke(element, tag.Position);
@@ -4112,10 +4116,7 @@ namespace AngleSharp.Html.Parser
 
         #region Handlers
 
-        private void RaiseErrorOccurred(HtmlParseError code, HtmlToken token)
-        {
-            _tokenizer.RaiseErrorOccurred(code, token.Position);
-        }
+        private void RaiseErrorOccurred(HtmlParseError code, HtmlToken token) => _tokenizer.RaiseErrorOccurred(code, token.Position);
 
         #endregion
     }

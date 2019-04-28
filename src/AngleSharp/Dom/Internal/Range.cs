@@ -35,44 +35,23 @@
 
         #region Properties
 
-        public INode Root
-        {
-            get { return _start.Node.GetRoot(); }
-        }
+        public INode Root => _start.Node.GetRoot();
 
-        public IEnumerable<INode> Nodes
-        {
-            get { return CommonAncestor.GetNodes<INode>(predicate: Intersects); }
-        }
+        public IEnumerable<INode> Nodes => CommonAncestor.GetNodes<INode>(predicate: Intersects);
 
-        public INode Head
-        {
-            get { return _start.Node; }
-        }
+        public INode Head => _start.Node;
 
-        public Int32 Start
-        {
-            get { return _start.Offset; }
-        }
+        public Int32 Start => _start.Offset;
 
-        public INode Tail
-        {
-            get { return _end.Node; }
-        }
+        public INode Tail => _end.Node;
 
-        public Int32 End
-        {
-            get { return _end.Offset; }
-        }
+        public Int32 End => _end.Offset;
 
-        public Boolean IsCollapsed
-        {
-            get { return _start.Node == _end.Node; }
-        }
+        public Boolean IsCollapsed => _start.Node == _end.Node;
 
         public INode CommonAncestor
         {
-            get 
+            get
             {
                 var container = Head;
 
@@ -115,7 +94,7 @@
 
             if (refNode.NodeType == NodeType.DocumentType)
                 throw new DomException(DomError.InvalidNodeType);
-            
+
             if (offset > refNode.ChildNodes.Length)
                 throw new DomException(DomError.IndexSizeError);
 
@@ -476,7 +455,7 @@
             var referenceNode = istext ? snode : _start.ChildAtOffset;
             var parent = referenceNode == null ? snode : referenceNode.Parent;
             parent.EnsurePreInsertionValidity(node, referenceNode);
-            
+
             if (istext)
             {
                 referenceNode = ((IText)snode).Split(_start.Offset);
@@ -747,10 +726,7 @@
                 }
             }
 
-            public INode ChildAtOffset
-            {
-                get { return Node.ChildNodes.Length > Offset ? Node.ChildNodes[Offset] : null; }
-            }
+            public INode ChildAtOffset => Node.ChildNodes.Length > Offset ? Node.ChildNodes[Offset] : null;
         }
 
         #endregion
