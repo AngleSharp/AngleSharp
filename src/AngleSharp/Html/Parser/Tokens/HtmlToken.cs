@@ -5,7 +5,7 @@ namespace AngleSharp.Html.Parser.Tokens
     using System;
 
     /// <summary>
-    /// The abstract base class of any HTML token.
+    /// The abstract base class of top-level HTML tokens.
     /// </summary>
     public class HtmlToken
     {

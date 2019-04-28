@@ -105,7 +105,43 @@ namespace AngleSharp.Core.Tests.Html
             var token = t.Get();
             Assert.AreEqual(3, ((HtmlTagToken)token).Attributes.Count);
         }
-        
+
+        [Test]
+        public void TokenizationAttributePositionsFoundSameLine()
+        {
+            var s = new TextSource("<a target='_blank' href='http://whatever' title='ho'>");
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            var attrs = ((HtmlTagToken)token).Attributes;
+            Assert.AreEqual(new TextPosition(1, 4, 4), attrs[0].Position);
+            Assert.AreEqual(new TextPosition(1, 20, 20), attrs[1].Position);
+            Assert.AreEqual(new TextPosition(1, 43, 43), attrs[2].Position);
+        }
+
+        [Test]
+        public void TokenizationAttributePositionsFoundOtherLine()
+        {
+            var s = new TextSource("<a target='_blank'\nhref='http://whatever'\n title='ho'>");
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            var attrs = ((HtmlTagToken)token).Attributes;
+            Assert.AreEqual(new TextPosition(1, 4, 4), attrs[0].Position);
+            Assert.AreEqual(new TextPosition(2, 1, 20), attrs[1].Position);
+            Assert.AreEqual(new TextPosition(3, 2, 44), attrs[2].Position);
+        }
+
+        [Test]
+        public void TokenizationAttributePositionsFoundAdditionalSpacesInOtherLine()
+        {
+            var s = new TextSource("<a target='_blank'   \n href='http://whatever'\n    title='ho'>");
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            var attrs = ((HtmlTagToken)token).Attributes;
+            Assert.AreEqual(new TextPosition(1, 4, 4), attrs[0].Position);
+            Assert.AreEqual(new TextPosition(2, 2, 24), attrs[1].Position);
+            Assert.AreEqual(new TextPosition(3, 5, 51), attrs[2].Position);
+        }
+
         [Test]
         public void TokenizationAttributeNameDetection()
         {
