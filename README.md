@@ -6,6 +6,7 @@
 [![GitHub Tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/releases)
 [![NuGet Count](https://img.shields.io/nuget/dt/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
 [![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
+[![Gitter Chat](https://badges.gitter.im/AngleSharp/AngleSharp.png)](https://gitter.im/AngleSharp/AngleSharp)
 [![StackOverflow Questions](https://img.shields.io/stackexchange/stackoverflow/t/anglesharp.svg?style=flat-square)](https://stackoverflow.com/tags/anglesharp)
 [![CLA Assistant](https://cla-assistant.io/readme/badge/AngleSharp/AngleSharp?style=flat-square)](https://cla-assistant.io/AngleSharp/AngleSharp)
 
@@ -110,9 +111,13 @@ If you have an idea how to improve the API (or what is missing) then posts / mes
 
 The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active.
 
-More information is found in the [contribution guidelines](.github/CONTRIBUTING.md). We also have a [code of conduct](.github/CODE_OF_CONDUCT.md) that we take serious.
+Live discussions can take place in our [Gitter chat](https://gitter.im/AngleSharp/AngleSharp), which supports using GitHub accounts.
 
-All contributors can be found [in the CONTRIBUTORS](CONTRIBUTORS.md) file.
+More information is found in the [contribution guidelines](.github/CONTRIBUTING.md). All contributors can be found [in the CONTRIBUTORS](CONTRIBUTORS.md) file.
+
+This project has also adopted the code of conduct defined by the Contributor Covenant to clarify expected behavior in our community.
+
+For more information see the [.NET Foundation Code of Conduct](https://dotnetfoundation.org/code-of-conduct).
 
 ## Funding / Support
 
