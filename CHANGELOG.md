@@ -8,6 +8,7 @@ Released on Thursday, May 5 2019.
 - Added attribute start position in token (#766)
 - Added support for XML processing instruction (#761)
 - Fixed serialization of xmlns attributes (#760)
+- Added `ISourceReference` for source position retrieval (#754)
 
 # 0.11.0
 

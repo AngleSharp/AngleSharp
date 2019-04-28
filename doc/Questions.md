@@ -393,3 +393,48 @@ app.Append(nodes.ToArray());
 ```
 
 The example shows how nodes can be created in the context of a certain element (#app in this case) and that the behavior is different than, e.g., using `InnerHtml`, which would remove existing nodes.
+
+## Can I retrieve the positions of elements in the source code?
+
+By default AngleSharp will throw away the "tokens" that associate the element with a position in the source code. This is mostly done due to the required memory consumption. The tag tokens transport not only the position, but also some additional fields like the name, flags and other meta information, as well as attributes. These tokens, however, can be preserved.
+
+Currently, there are two ways to do this (both accessible via the `HtmlParserOptions`).
+
+1. For one-time scenarios during parsing the `OnCreated` callback can be used. The first argument is the `IElement` instance. The second argument received by the callback is a `TextPosition` value.
+2. For retrieval at a later point in time the `IsKeepingSourceReferences` option could be set to `true`. This way the `SourceReference` property of all parser-created `IElement` instances will be non-null. Currently, the referenced `ISourceReference` only contains a `Position` property.
+
+In code for option 1 this looks as follows:
+
+```cs
+var bodyPos = TextPosition.Empty;
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    OnCreated = (IElement element, TextPosition position) =>
+    {
+        if (element.TagName == "BODY")
+        {
+            bodyPos = position;
+        }
+    },
+});
+var document = parser.ParseDocument("<!doctype html><body>");
+```
+
+The code for option 2 looks as follows:
+
+```cs
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    IsKeepingSourceReferences = true,
+});
+var document = parser.ParseDocument("<!doctype html><body>");
+var bodyPos = document.Body.SourceReference.Position;
+```
+
+In both cases the position we care about will be stored in `bodyPos`.
+
+**Remark**: As `SourceReference` may be empty (e.g., when we omit the provided option or if we select an element that came in *after* parsing) we advise of using `SourceReference?.Position`, where we would end up with a `Nullable<TextPosition>`. Ideally, we then just use `TextPosition.Empty` as the fallback, e.g., in the code above:
+
+```cs
+var bodyPos = document.Body.SourceReference?.Position ?? TextPosition.Empty;
+```
