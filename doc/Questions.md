@@ -283,7 +283,8 @@ Notice that newlines between elements are also text nodes, so we need to filter 
 Given the following usage scenario:
 
 ```cs
-var document = new HtmlParser().Parse("");
+var context = BrowsingContext.New();
+var document = await context.OpenNewAsync();
 
 var tag = document.CreateElement("customTag");
 tag.SetAttribute("attr", "x");
@@ -375,3 +376,20 @@ The following steps will allow AngleSharp to be fully integrated from NuGet into
 More details why this is the current approach can be found in this [StackOverflow](https://stackoverflow.com/questions/53447595/nuget-packages-in-unity) answer. This behavior is known and the advised approach is to use VS for installing the NuGet (which resolves the .NET Standard 2.0 dependency as it should be).
 
 The answer was taken from a discussion in issue #774.
+
+## How to create elements from a string?
+
+This is possible using a document fragment.
+
+There are multiple possibilities how to use a document fragment, one way would be to use fragment parsing for generating a node list in the right (element) context:
+
+```cs
+var context = BrowsingContext.New(Configuration.Default);
+var document = await context.OpenAsync(r => r.Content("<div id=app><div>Some already available content...</div></div>"));
+var app = document.QuerySelector("#app");
+var parser = context.GetService<IHtmlParser>();
+var nodes = parser.ParseFragment("<div id='div1'>hi<p>world</p></div>", app);
+app.Append(nodes.ToArray());
+```
+
+The example shows how nodes can be created in the context of a certain element (#app in this case) and that the behavior is different than, e.g., using `InnerHtml`, which would remove existing nodes.

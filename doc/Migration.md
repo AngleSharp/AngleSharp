@@ -86,6 +86,13 @@ var context = BrowsingContext.New(Configuration.Default);
 var parser = new HtmlParser(context);
 ```
 
+but would be much better expressed as
+
+```cs
+var context = BrowsingContext.New(Configuration.Default);
+var parser = context.GetService<IHtmlParser>();
+```
+
 ### CSS
 
 The current version of AngleSharp split out the CSS parsing (except CSS selectors) in its own library. This library is called `AngleSharp.Css` and is available via NuGet.
