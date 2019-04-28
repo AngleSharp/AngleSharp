@@ -68,7 +68,7 @@ AngleSharp has been created as a .NET Standard 1.3 (and 2.0) compatible library.
 
 ## Documentation
 
-The documentation of AngleSharp is located [in the docs folder](doc/index.md). More examples, best-practices, and general information can be found there.
+The documentation of AngleSharp is located [in the docs folder](doc/index.md). More examples, best-practices, and general information can be found there. The documentation also contains a list of [frequently asked questions](doc/Questions.md).
 
 Historically, the [Wiki](https://github.com/AngleSharp/AngleSharp/wiki) was also used for documentation. Note, however, that updates for the documentation in the Wiki are no longer planned. The project's timeline, upcoming implementations, (currently) missing features, and milestones is still published and maintained in the Wiki. Issues should be reported on the GitHub's project page.
 

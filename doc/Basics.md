@@ -22,18 +22,24 @@ In the most simple case you have already a document source and want it to be par
 
 ```c#
 using System;
+using AngleSharp;
 using AngleSharp.Html.Parser;
 
 class MyClass {
-    static void Main() {
-        //Create a (re-usable) parser front-end
-        var parser = new HtmlParser();
-        //Source to be pared
-        var source = "<h1>Some example source</h1><p>This is a paragraph element";
-        //Parse source to document
-        var document = parser.ParseDocument(source);
-        //Do something with document like the following
+    static async void Main() {
+        //Use the default configuration for AngleSharp
+        var config = Configuration.Default;
 
+        //Create a new context for evaluating webpages with the given config
+        var context = BrowsingContext.New(config);
+
+        //Source to be parsed
+        var source = "<h1>Some example source</h1><p>This is a paragraph element";
+
+        //Create a virtual request to specify the document to load (here from our fixed string)
+        var document = await context.OpenAsync(req => req.Content(source));
+
+        //Do something with document like the following
         Console.WriteLine("Serializing the (original) document:");
         Console.WriteLine(document.DocumentElement.OuterHtml);
 
@@ -51,7 +57,18 @@ class MyClass {
 
 Of course one could go further and perform a lot more DOM manipulations.
 
-So what is the `HtmlParser`? This is a class that represents the HTML5 parser front-end. It has methods to create an instance of `IHtmlDocument`, which carries the parsed DOM. Since HTML is quite relaxed about possible errors, there is nothing like exceptions. We only might get some error messages. These messages can be received via a special interface and should be treated like warnings.
+`IBrowsingContext` represents a browsing context where document evaluations take place. This is a required construct for parsing any HTML page. It also allows submitting forms, following links, downloading resources, and more. We can think of it like a tab in a standard browser.
+
+Alternatively, we could have used the following code in the beginning:
+
+```c#
+var context = BrowsingContext.New(config);
+var parser = context.GetService<IHtmlParser>();
+var source = "<h1>Some example source</h1><p>This is a paragraph element";
+var document = parser.ParseDocument(source);
+```
+
+So what is the `IHtmlParser`? This is a class that represents the HTML5 parser front-end. It has methods to create an instance of `IHtmlDocument`, which carries the parsed DOM. Since HTML is quite relaxed about possible errors, there is nothing like exceptions. We only might get some error messages. These messages can be received via a special interface and should be treated like warnings.
 
 ## The DOM
 
@@ -106,10 +123,12 @@ Finally AngleSharp also brings some very helpful extension methods that try to b
 ```c#
 // using AngleSharp.Html.Parser;
 // using AngleSharp.Dom;
+// using AngleSharp;
 
-var parser = new HtmlParser();
+//Create a new browsing context for hosting the document
+var context = Browsing.New(Configuration.Default);
 //Generate HTML DOM for the following source code
-var document = parser.ParseDocument("<ul><li>First element<li>Second element<li>third<li class=bla>Last");
+var document = await context.OpenAsync(req => req.Content("<ul><li>First element<li>Second element<li>third<li class=bla>Last"));
 //Get all li elements and set the test attribute to the value test; elements still contains all li elements
 var elements = document.QuerySelectorAll("li").Attr("test", "test");
 ```
