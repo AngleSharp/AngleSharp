@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -15,14 +15,8 @@
 
         public String Text => "*";
 
-        public void Accept(ISelectorVisitor visitor)
-        {
-            visitor.Type(Text);
-        }
+        public void Accept(ISelectorVisitor visitor) => visitor.Type(Text);
 
-        public Boolean Match(IElement element, IElement scope)
-        {
-            return true;
-        }
+        public Boolean Match(IElement element, IElement scope) => true;
     }
 }

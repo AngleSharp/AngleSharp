@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -16,14 +16,8 @@
 
         public String Text => "." + _cls;
 
-        public void Accept(ISelectorVisitor visitor)
-        {
-            visitor.Class(_cls);
-        }
+        public void Accept(ISelectorVisitor visitor) => visitor.Class(_cls);
 
-        public Boolean Match(IElement element, IElement scope)
-        {
-            return element.ClassList.Contains(_cls);
-        }
+        public Boolean Match(IElement element, IElement scope) => element.ClassList.Contains(_cls);
     }
 }

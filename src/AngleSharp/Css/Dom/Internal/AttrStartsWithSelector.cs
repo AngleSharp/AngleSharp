@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -18,10 +18,7 @@
 
         public String Text => String.Concat("[", Attribute, "^=", _value.CssString(), "]");
 
-        public void Accept(ISelectorVisitor visitor)
-        {
-            visitor.Attribute(Attribute, "^=", _value);
-        }
+        public void Accept(ISelectorVisitor visitor) => visitor.Attribute(Attribute, "^=", _value);
 
         public Boolean Match(IElement element, IElement scope)
         {

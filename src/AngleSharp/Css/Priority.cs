@@ -115,10 +115,7 @@ namespace AngleSharp.Css
         /// <param name="a">The first priority.</param>
         /// <param name="b">The second priority.</param>
         /// <returns>The result of adding the two priorities.</returns>
-        public static Priority operator +(Priority a, Priority b)
-        {
-            return new Priority(a._priority + b._priority);
-        }
+        public static Priority operator +(Priority a, Priority b) => new Priority(a._priority + b._priority);
 
         #endregion
 
@@ -130,10 +127,7 @@ namespace AngleSharp.Css
         /// <param name="a">The first priority to use.</param>
         /// <param name="b">The second priority to use.</param>
         /// <returns>True if both priorities are equal, otherwise false.</returns>
-        public static Boolean operator ==(Priority a, Priority b)
-        {
-            return a._priority == b._priority;
-        }
+        public static Boolean operator ==(Priority a, Priority b) => a._priority == b._priority;
 
         /// <summary>
         /// Compares two priorities and returns a boolean indicating if the first one is greater.
@@ -141,10 +135,7 @@ namespace AngleSharp.Css
         /// <param name="a">The first priority to use.</param>
         /// <param name="b">The second priority to use.</param>
         /// <returns>True if the first priority is higher, otherwise false.</returns>
-        public static Boolean operator >(Priority a, Priority b)
-        {
-            return a._priority > b._priority;
-        }
+        public static Boolean operator >(Priority a, Priority b) => a._priority > b._priority;
 
         /// <summary>
         /// Compares two priorities and returns a boolean indicating if the first one is greater or equal.
@@ -152,10 +143,7 @@ namespace AngleSharp.Css
         /// <param name="a">The first priority to use.</param>
         /// <param name="b">The second priority to use.</param>
         /// <returns>True if the first priority is higher or equal, otherwise false.</returns>
-        public static Boolean operator >=(Priority a, Priority b)
-        {
-            return a._priority >= b._priority;
-        }
+        public static Boolean operator >=(Priority a, Priority b) => a._priority >= b._priority;
 
         /// <summary>
         /// Compares two priorities and returns a boolean indicating if the second one is greater.
@@ -163,10 +151,7 @@ namespace AngleSharp.Css
         /// <param name="a">The first priority to use.</param>
         /// <param name="b">The second priority to use.</param>
         /// <returns>True if the second priority is higher, otherwise false.</returns>
-        public static Boolean operator <(Priority a, Priority b)
-        {
-            return a._priority < b._priority;
-        }
+        public static Boolean operator <(Priority a, Priority b) => a._priority < b._priority;
 
         /// <summary>
         /// Compares two priorities and returns a boolean indicating if the second one is greater or equal.
@@ -174,10 +159,7 @@ namespace AngleSharp.Css
         /// <param name="a">The first priority to use.</param>
         /// <param name="b">The second priority to use.</param>
         /// <returns>True if the second priority is higher or equal, otherwise false.</returns>
-        public static Boolean operator <=(Priority a, Priority b)
-        {
-            return a._priority <= b._priority;
-        }
+        public static Boolean operator <=(Priority a, Priority b) => a._priority <= b._priority;
 
         /// <summary>
         /// Compares two priorities and returns a boolean indicating if the two do not match.
@@ -185,52 +167,34 @@ namespace AngleSharp.Css
         /// <param name="a">The first priority to use.</param>
         /// <param name="b">The second color to use.</param>
         /// <returns>True if both priorities are not equal, otherwise false.</returns>
-        public static Boolean operator !=(Priority a, Priority b)
-        {
-            return a._priority != b._priority;
-        }
+        public static Boolean operator !=(Priority a, Priority b) => a._priority != b._priority;
 
         /// <summary>
         /// Checks two priorities for equality.
         /// </summary>
         /// <param name="other">The other priority.</param>
         /// <returns>True if both priorities or equal, otherwise false.</returns>
-        public Boolean Equals(Priority other)
-        {
-            return this._priority == other._priority;
-        }
+        public Boolean Equals(Priority other) => _priority == other._priority;
 
         /// <summary>
         /// Tests if another object is equal to this object.
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
-        {
-            if (obj is Priority)
-                return this.Equals((Priority)obj);
-
-            return false;
-        }
+        public override Boolean Equals(Object obj) => (obj is Priority other) ? Equals(other) : false;
 
         /// <summary>
         /// Returns a hash code that defines the current priority.
         /// </summary>
         /// <returns>The integer value of the hashcode.</returns>
-        public override Int32 GetHashCode()
-        {
-            return (Int32)_priority;
-        }
+        public override Int32 GetHashCode() => (Int32)_priority;
 
         /// <summary>
         /// Compares the current priority with another priority.
         /// </summary>
         /// <param name="other">The priority to compare to.</param>
         /// <returns>A value greater than 1 if the current priority is larger.</returns>
-        public Int32 CompareTo(Priority other)
-        {
-            return this == other ? 0 : (this > other ? 1 : -1);
-        }
+        public Int32 CompareTo(Priority other) => this == other ? 0 : (this > other ? 1 : -1);
 
         #endregion
 
@@ -240,10 +204,7 @@ namespace AngleSharp.Css
         /// Returns a string representing the priority.
         /// </summary>
         /// <returns>The string representation.</returns>
-        public override String ToString()
-        {
-            return $"({_inlines}, {_ids}, {_classes}, {_tags})";
-        }
+        public override String ToString() => $"({_inlines}, {_ids}, {_classes}, {_tags})";
 
         #endregion
     }
