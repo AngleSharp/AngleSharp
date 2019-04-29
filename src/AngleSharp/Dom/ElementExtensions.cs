@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
     using AngleSharp.Css.Dom;
@@ -1283,7 +1283,9 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException(nameof(elements));
+            }
 
             foreach (var element in elements)
             {
@@ -1315,7 +1317,9 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException(nameof(elements));
+            }
 
             var element = elements.FirstOrDefault();
 
@@ -1547,6 +1551,57 @@
             while (child != null);
 
             return element;
+        }
+
+        /// <summary>
+        /// Creates a unique selector path used to locate the element in the DOM.
+        /// </summary>
+        /// <param name="node">The starting node to create the selector path from.</param>
+        /// <returns>The unique selector path for this element.</returns>
+        public static string GetSelector(this IElement node)
+        {
+            // Initialize path
+            var path = string.Empty;
+
+            // If the current node is having an unique id property
+            var hasId = false;
+
+            do
+            {
+                // Set if node has id attribute set...
+                hasId = !string.IsNullOrEmpty(node.Id);
+
+                // Get parent element of the node
+                var parent = node.ParentElement;
+
+                // Always lowercase node name in the path
+                var name = node.NodeName.ToLowerInvariant();
+
+                // If node has id attribute...
+                if (hasId)
+                {
+                    // Id is unique in the DOM, so we can use it to locate the element and skip other parents
+                    name = "#" + node.Id;
+                }
+                // If node has siblings of the same type...
+                else if (parent != null && !node.IsOnlyOfType())
+                {
+                    // Get node index in the parent node tree
+                    var index = parent.Children.Where(_ => _.GetType() == node.GetType()).Index(node);
+
+                    // Append nth child selector
+                    name += $":nth-child({index + 1})";
+                }
+
+                // Set current parent
+                node = parent;
+
+                // Recreate selector path
+                path = name + (!string.IsNullOrEmpty(path) ? ">" + path : "");
+            } while (node?.ParentElement != null && !hasId);
+
+            // Return generated selector
+            return path;
         }
     }
 }
