@@ -21,6 +21,45 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void TokenizationCarriageReturnPureCharactersIssue_786()
+        {
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes("\r\nThis is test 1\r\nThis is test 2"));
+            var s = new TextSource(ms);
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            Assert.AreEqual(HtmlTokenType.Character, token.Type);
+            Assert.AreEqual("\nThis is test 1\nThis is test 2", token.Data);
+        }
+
+        [Test]
+        public void TokenizationCarriageReturnNonLeadingIssue_786()
+        {
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes("<html><body><p>\r\nThis is test 1<p> \r\nThis is test 2</body></html>"));
+            var s = new TextSource(ms);
+            var t = CreateTokenizer(s);
+            var tokenHtmlOpen = t.Get();
+            var tokenBodyOpen = t.Get();
+            var tokenP1 = t.Get();
+            var tokenP1data = t.Get();
+            var tokenP2 = t.Get();
+            var tokenP2data = t.Get();
+            var tokenBodyClose = t.Get();
+            var tokenHtmlClose = t.Get();
+            var eof = t.Get();
+            Assert.AreEqual(HtmlTokenType.EndTag, tokenHtmlClose.Type);
+            Assert.AreEqual(HtmlTokenType.StartTag, tokenHtmlOpen.Type);
+            Assert.AreEqual(HtmlTokenType.EndTag, tokenBodyClose.Type);
+            Assert.AreEqual(HtmlTokenType.StartTag, tokenBodyOpen.Type);
+            Assert.AreEqual(HtmlTokenType.StartTag, tokenP1.Type);
+            Assert.AreEqual(HtmlTokenType.StartTag, tokenP2.Type);
+            Assert.AreEqual(HtmlTokenType.Character, tokenP1data.Type);
+            Assert.AreEqual(HtmlTokenType.Character, tokenP2data.Type);
+            Assert.AreEqual(HtmlTokenType.EndOfFile, eof.Type);
+            Assert.AreEqual("\nThis is test 1", tokenP1data.Data);
+            Assert.AreEqual(" \nThis is test 2", tokenP2data.Data);
+        }
+
+        [Test]
         public void TokenizationFinalEOF()
         {
             var s = new TextSource("");
