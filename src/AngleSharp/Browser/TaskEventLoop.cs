@@ -136,10 +136,7 @@ namespace AngleSharp.Browser
                 }
             }
 
-            public void Cancel()
-            {
-                _cts.Cancel();
-            }
+            public void Cancel() => _cts.Cancel();
         }
     }
 }

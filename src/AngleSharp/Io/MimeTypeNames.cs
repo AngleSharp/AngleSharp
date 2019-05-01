@@ -3,6 +3,7 @@ namespace AngleSharp.Io
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Contains a list of common mime-types.
@@ -28,7 +29,7 @@ namespace AngleSharp.Io
             "text/jscript",
             "text/livescript",
             "text/x-ecmascript",
-            "text/x-javascript"
+            "text/x-javascript",
         };
 
         #endregion
@@ -473,14 +474,14 @@ namespace AngleSharp.Io
             { ".xmz", "xgl/movie" },
             { ".xpix", "application/x-vnd.ls-xpix" },
             { ".xpm", "image/xpm" },
-            { ".x", "png	image/png" },
+            { ".x", "image/png" },
             { ".xsr", "video/x-amt-showrun" },
             { ".xwd", "image/x-xwd" },
             { ".xyz", "chemical/x-pdb" },
             { ".z", "application/x-compressed" },
             { ".zip", "application/zip" },
             { ".zoo", "application/octet-stream" },
-            { ".zsh", "text/x-script.zsh" }
+            { ".zsh", "text/x-script.zsh" },
         };
 
         /// <summary>
@@ -497,6 +498,13 @@ namespace AngleSharp.Io
 
             return Binary;
         }
+
+        /// <summary>
+        /// Gets some extension ".ext" from a MIME type.
+        /// </summary>
+        /// <param name="mimeType">The mime-type of the given extension.</param>
+        /// <returns>An extension (starting with a dot) or an empty string.</returns>
+        public static String GetExtension(String mimeType) => Extensions.FirstOrDefault(x => x.Value.Isi(mimeType)).Key ?? String.Empty;
 
         #endregion
 

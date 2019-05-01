@@ -30,10 +30,7 @@ namespace AngleSharp
         /// <param name="url">The optional base URL of the document.</param>
         /// <param name="cancellation">The cancellation token (optional)</param>
         /// <returns>The new, yet empty, document.</returns>
-        public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null, CancellationToken cancellation = default(CancellationToken))
-        {
-            return context.OpenAsync(m => m.Address(url), cancellation);
-        }
+        public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null, CancellationToken cancellation = default(CancellationToken)) => context.OpenAsync(m => m.Address(url), cancellation);
 
         /// <summary>
         /// Opens a new document created from the response asynchronously in
@@ -45,14 +42,8 @@ namespace AngleSharp
         /// <returns>The task that creates the document.</returns>
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel = default(CancellationToken))
         {
-            if (response == null)
-                throw new ArgumentNullException(nameof(response));
-
-            if (context == null)
-            {
-                context = BrowsingContext.New();
-            }
-
+            response = response ?? throw new ArgumentNullException(nameof(response));
+            context = context ?? BrowsingContext.New();
             var encoding = context.GetDefaultEncoding();
             var factory = context.GetFactory<IDocumentFactory>();
             var options = new CreateDocumentOptions(response, encoding);
@@ -69,9 +60,7 @@ namespace AngleSharp
         /// <returns>The task that creates the document.</returns>
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default(CancellationToken))
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
-
+            request = request ?? throw new ArgumentNullException(nameof(request));
             var loader = context.GetService<IDocumentLoader>();
 
             if (loader != null)
@@ -101,9 +90,7 @@ namespace AngleSharp
         /// <returns>The task that creates the document.</returns>
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel = default(CancellationToken))
         {
-            if (url == null)
-                throw new ArgumentNullException(nameof(url));
-            
+            url = url ?? throw new ArgumentNullException(nameof(url));
             var request = DocumentRequest.Get(url);
 
             if (context != null && context.Active != null)
@@ -115,7 +102,7 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Opens a new document loaded from a virtual response that can be 
+        /// Opens a new document loaded from a virtual response that can be
         /// filled via the provided callback.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
@@ -124,8 +111,7 @@ namespace AngleSharp
         /// <returns>The task that creates the document.</returns>
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel = default(CancellationToken))
         {
-            if (request == null)
-                throw new ArgumentNullException(nameof(request));
+            request = request ?? throw new ArgumentNullException(nameof(request));
 
             using (var response = VirtualResponse.Create(request))
             {
@@ -143,9 +129,7 @@ namespace AngleSharp
         /// <returns>The task that creates the document.</returns>
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, String address, CancellationToken cancellation = default(CancellationToken))
         {
-            if (address == null)
-                throw new ArgumentNullException(nameof(address));
-
+            address = address ?? throw new ArgumentNullException(nameof(address));
             return context.OpenAsync(Url.Create(address), cancellation);
         }
 
@@ -166,7 +150,7 @@ namespace AngleSharp
         }
 
         #endregion
-        
+
         #region Encoding
 
         /// <summary>
@@ -190,10 +174,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="context">The current context.</param>
         /// <returns>The culture info assigned to the context.</returns>
-        public static CultureInfo GetCulture(this IBrowsingContext context)
-        {
-            return context.GetService<CultureInfo>() ?? CultureInfo.CurrentUICulture;
-        }
+        public static CultureInfo GetCulture(this IBrowsingContext context) => context.GetService<CultureInfo>() ?? CultureInfo.CurrentUICulture;
 
         /// <summary>
         /// Gets the culture from the language string (or the current culture).
@@ -220,10 +201,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="context">The current context.</param>
         /// <returns>The ISO name of the culture.</returns>
-        public static String GetLanguage(this IBrowsingContext context)
-        {
-            return context.GetCulture().Name;
-        }
+        public static String GetLanguage(this IBrowsingContext context) => context.GetCulture().Name;
 
         #endregion
 
@@ -236,10 +214,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <returns>The factory instance.</returns>
         public static TFactory GetFactory<TFactory>(this IBrowsingContext context)
-            where TFactory : class
-        {
-            return context.GetServices<TFactory>().Single();
-        }
+            where TFactory : class => context.GetServices<TFactory>().Single();
 
         /// <summary>
         /// Gets a provider service instance. At most one has to be available.
@@ -248,10 +223,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <returns>The provider instance or null.</returns>
         public static TProvider GetProvider<TProvider>(this IBrowsingContext context)
-            where TProvider : class
-        {
-            return context.GetServices<TProvider>().SingleOrDefault();
-        }
+            where TProvider : class => context.GetServices<TProvider>().SingleOrDefault();
 
         /// <summary>
         /// Gets a resource service. Multiple resource services may be registered, so
@@ -353,10 +325,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="context">The current context.</param>
         /// <returns>The CSS styling service if any.</returns>
-        public static IStylingService GetCssStyling(this IBrowsingContext context)
-        {
-            return context.GetStyling(MimeTypeNames.Css);
-        }
+        public static IStylingService GetCssStyling(this IBrowsingContext context) => context.GetStyling(MimeTypeNames.Css);
 
         /// <summary>
         /// Tries to get the styling service for the given mime-type.
@@ -388,20 +357,14 @@ namespace AngleSharp
         /// </summary>
         /// <param name="context">The current context.</param>
         /// <returns>True if a scripting provider is available, otherwise false.</returns>
-        public static Boolean IsScripting(this IBrowsingContext context)
-        {
-            return context.GetServices<IScriptingService>().Any();
-        }
+        public static Boolean IsScripting(this IBrowsingContext context) => context.GetServices<IScriptingService>().Any();
 
         /// <summary>
         /// Tries to get the JavaScript service, if available.
         /// </summary>
         /// <param name="context">The current context.</param>
         /// <returns>The JavaScript scripting service, if any.</returns>
-        public static IScriptingService GetJsScripting(this IBrowsingContext context)
-        {
-            return context.GetScripting(MimeTypeNames.DefaultJavaScript);
-        }
+        public static IScriptingService GetJsScripting(this IBrowsingContext context) => context.GetScripting(MimeTypeNames.DefaultJavaScript);
 
         /// <summary>
         /// Tries to get the scripting service for the given mime-type.

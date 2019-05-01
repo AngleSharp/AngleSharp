@@ -50,8 +50,9 @@ Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore("./src/AngleSharp.Core.sln", new NuGetRestoreSettings {
-            ToolPath = "tools/nuget.exe"
+        NuGetRestore("./src/AngleSharp.Core.sln", new NuGetRestoreSettings
+        {
+            ToolPath = "tools/nuget.exe",
         });
     });
 
@@ -59,8 +60,9 @@ Task("Build")
     .IsDependentOn("Restore-Packages")
     .Does(() =>
     {
-        DotNetCoreBuild("./src/AngleSharp.Core.sln", new DotNetCoreBuildSettings() {
-           Configuration = configuration
+        DotNetCoreBuild("./src/AngleSharp.Core.sln", new DotNetCoreBuildSettings
+        {
+           Configuration = configuration,
         });
     });
 
@@ -68,9 +70,9 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var settings = new DotNetCoreTestSettings()
+        var settings = new DotNetCoreTestSettings
         {
-            Configuration = configuration
+            Configuration = configuration,
         };
 
         if (isRunningOnAppVeyor)
@@ -93,7 +95,7 @@ Task("Copy-Files")
         {
             { "net46", "net46" },
             { "netstandard1.3", "netstandard1.3" },
-            { "netstandard2.0", "netstandard2.0" }
+            { "netstandard2.0", "netstandard2.0" },
         };
 
         if (!isRunningOnWindows)
@@ -134,7 +136,10 @@ Task("Create-Package")
             Version = version,
             OutputDirectory = nugetRoot,
             Symbols = false,
-            Properties = new Dictionary<String, String> { { "Configuration", configuration } }
+            Properties = new Dictionary<String, String>
+            {
+                { "Configuration", configuration },
+            },
         });
     });
 
@@ -155,7 +160,7 @@ Task("Publish-Package")
             NuGetPush(nupkg, new NuGetPushSettings
             {
                 Source = "https://nuget.org/api/v2/package",
-                ApiKey = apiKey
+                ApiKey = apiKey,
             });
         }
     });
@@ -174,7 +179,7 @@ Task("Publish-Release")
 
         var github = new GitHubClient(new ProductHeaderValue("AngleSharpCakeBuild"))
         {
-            Credentials = new Credentials(githubToken)
+            Credentials = new Credentials(githubToken),
         };
 
         var newRelease = github.Repository.Release;
@@ -183,7 +188,7 @@ Task("Publish-Release")
             Name = version,
             Body = String.Join(Environment.NewLine, releaseNotes.Notes),
             Prerelease = false,
-            TargetCommitish = "master"
+            TargetCommitish = "master",
         }).Wait();
     });
 

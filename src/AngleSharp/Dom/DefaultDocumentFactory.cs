@@ -20,7 +20,7 @@ namespace AngleSharp.Dom
             { MimeTypeNames.Plain, LoadTextAsync },
             { MimeTypeNames.ApplicationJson, LoadTextAsync },
             { MimeTypeNames.DefaultJavaScript, LoadTextAsync },
-            { MimeTypeNames.Css, LoadTextAsync }
+            { MimeTypeNames.Css, LoadTextAsync },
         };
 
         /// <summary>
@@ -39,10 +39,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="contentType">The content-type value.</param>
         /// <param name="creator">The creator to invoke.</param>
-        public void Register(String contentType, Creator creator)
-        {
-            _creators.Add(contentType, creator);
-        }
+        public void Register(String contentType, Creator creator) => _creators.Add(contentType, creator);
 
         /// <summary>
         /// Unregisters an existing creator for the given content-type.
@@ -66,10 +63,7 @@ namespace AngleSharp.Dom
         /// <param name="options">The options to consider.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The task creating the document from the response.</returns>
-        protected virtual Task<IDocument> CreateDefaultAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
-        {
-            return LoadHtmlAsync(context, options, cancellationToken);
-        }
+        protected virtual Task<IDocument> CreateDefaultAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken) => LoadHtmlAsync(context, options, cancellationToken);
 
         /// <summary>
         /// Creates a new document from the given arguments using the Content-Type

@@ -23,12 +23,8 @@ namespace AngleSharp
         /// <returns>The new instance with the service.</returns>
         public static IConfiguration With(this IConfiguration configuration, Object service)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-            
+            configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            service = service ?? throw new ArgumentNullException(nameof(service));
             return new Configuration(configuration.Services.Concat(service));
         }
 
@@ -43,7 +39,9 @@ namespace AngleSharp
         public static IConfiguration WithOnly<TService>(this IConfiguration configuration, TService service)
         {
             if (service == null)
+            {
                 throw new ArgumentNullException(nameof(service));
+            }
 
             return configuration.Without<TService>().With(service);
         }
@@ -59,9 +57,7 @@ namespace AngleSharp
         /// <returns>The new instance with only the given service.</returns>
         public static IConfiguration WithOnly<TService>(this IConfiguration configuration, Func<IBrowsingContext, TService> creator)
         {
-            if (creator == null)
-                throw new ArgumentNullException(nameof(creator));
-
+            creator = creator ?? throw new ArgumentNullException(nameof(creator));
             return configuration.Without<TService>().With(creator);
         }
 
@@ -73,12 +69,8 @@ namespace AngleSharp
         /// <returns>The new instance without the service.</returns>
         public static IConfiguration Without(this IConfiguration configuration, Object service)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
-            if (service == null)
-                throw new ArgumentNullException(nameof(service));
-
+            configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            service = service ?? throw new ArgumentNullException(nameof(service));
             return new Configuration(configuration.Services.Except(service));
         }
 
@@ -90,12 +82,8 @@ namespace AngleSharp
         /// <returns>The new instance with the services.</returns>
         public static IConfiguration With(this IConfiguration configuration, IEnumerable<Object> services)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
+            configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            services = services ?? throw new ArgumentNullException(nameof(services));
             return new Configuration(services.Concat(configuration.Services));
         }
 
@@ -107,12 +95,8 @@ namespace AngleSharp
         /// <returns>The new instance without the services.</returns>
         public static IConfiguration Without(this IConfiguration configuration, IEnumerable<Object> services)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
-
+            configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            services = services ?? throw new ArgumentNullException(nameof(services));
             return new Configuration(configuration.Services.Except(services));
         }
 
@@ -125,9 +109,7 @@ namespace AngleSharp
         /// <returns>The new instance with the services.</returns>
         public static IConfiguration With<TService>(this IConfiguration configuration, Func<IBrowsingContext, TService> creator)
         {
-            if (creator == null)
-                throw new ArgumentNullException(nameof(creator));
-
+            creator = creator ?? throw new ArgumentNullException(nameof(creator));
             return configuration.With((Object)creator);
         }
 
@@ -139,9 +121,7 @@ namespace AngleSharp
         /// <returns>The new instance without the services.</returns>
         public static IConfiguration Without<TService>(this IConfiguration configuration)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
+            configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             var items = configuration.Services.OfType<TService>().Cast<Object>();
             var creators = configuration.Services.OfType<Func<IBrowsingContext, TService>>();
             return configuration.Without(items).Without(creators);
@@ -155,9 +135,7 @@ namespace AngleSharp
         /// <returns>True if any service / creators are found, otherwise false.</returns>
         public static Boolean Has<TService>(this IConfiguration configuration)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-
+            configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             return configuration.Services.OfType<TService>().Any() || configuration.Services.OfType<Func<IBrowsingContext, TService>>().Any();
         }
 
@@ -220,10 +198,7 @@ namespace AngleSharp
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="culture">The culture to set.</param>
         /// <returns>The new instance with the culture being set.</returns>
-        public static IConfiguration WithCulture(this IConfiguration configuration, CultureInfo culture)
-        {
-            return configuration.With(culture);
-        }
+        public static IConfiguration WithCulture(this IConfiguration configuration, CultureInfo culture) => configuration.With(culture);
 
         #endregion
 
