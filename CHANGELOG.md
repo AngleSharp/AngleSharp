@@ -2,6 +2,7 @@
 
 Released on Thursday, May 2 2019.
 
+- Improved extension capability for document fragment parsing
 - Added `Index` and more documentation to `TextPosition` (#787)
 - Added ability to create a selector for an element (#784)
 - Enhanced documentation (#776, #774, #771)
