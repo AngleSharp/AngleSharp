@@ -319,6 +319,15 @@ namespace AngleSharp.Dom
 
         #region Methods
 
+        /// <summary>
+        /// Takes a given string source and parses it into a subtree
+        /// using the current element as context.
+        /// Follows the fragment parsing strategy for the given namespace.
+        /// </summary>
+        /// <param name="source">The source to parse into a subtree.</param>
+        /// <returns>The documentElement of the new subtree.</returns>
+        public abstract IElement ParseSubtree(String source);
+
         /// <inheritdoc />
         public IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open)
         {

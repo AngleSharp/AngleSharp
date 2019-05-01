@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Css.Dom;
     using AngleSharp.Html;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Io;
     using AngleSharp.Io.Processors;
     using AngleSharp.Media;
@@ -1542,6 +1543,28 @@ namespace AngleSharp.Dom
 
             // Return generated selector
             return path;
+        }
+
+        /// <summary>
+        /// Parses the HTML subtree of the given content in the context of
+        /// the provided element.
+        /// </summary>
+        /// <param name="element">The element to use as context.</param>
+        /// <param name="html">The HTML source for the subtree.</param>
+        /// <returns>The root element of the HTML subtree.</returns>
+        internal static IElement ParseHtmlSubtree(this Element element, String html)
+        {
+            var context = element.Context;
+            var source = new TextSource(html);
+            var document = new HtmlDocument(context, source);
+            var parser = new HtmlDomBuilder(document);
+            var options = new HtmlParserOptions
+            {
+                IsEmbedded = false,
+                IsStrictMode = false,
+                IsScripting = context.IsScripting(),
+            };
+            return parser.ParseFragment(options, element).DocumentElement;
         }
     }
 }

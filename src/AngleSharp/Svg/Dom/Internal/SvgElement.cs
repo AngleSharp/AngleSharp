@@ -21,6 +21,9 @@ namespace AngleSharp.Svg.Dom
         #region Methods
 
         /// <inheritdoc />
+        public override IElement ParseSubtree(String html) => this.ParseHtmlSubtree(html);
+
+        /// <inheritdoc />
         public override Node Clone(Document owner, Boolean deep)
         {
             var factory = Context.GetFactory<IElementFactory<Document, SvgElement>>();

@@ -8,5 +8,8 @@ namespace AngleSharp.Dom
             : base(owner, localName, prefix, namespaceUri, flags)
         {
         }
+
+        /// <inheritdoc />
+        public override IElement ParseSubtree(String html) => this.ParseHtmlSubtree(html);
     }
 }

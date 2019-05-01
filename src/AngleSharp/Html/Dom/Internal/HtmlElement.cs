@@ -580,6 +580,9 @@ namespace AngleSharp.Html.Dom
         #region Methods
 
         /// <inheritdoc />
+        public override IElement ParseSubtree(String html) => this.ParseHtmlSubtree(html);
+
+        /// <inheritdoc />
         public void DoSpellCheck()
         {
             var spellcheck = Context.GetSpellCheck(Language);
@@ -596,10 +599,7 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        public virtual void DoClick()
-        {
-            IsClickedCancelled();
-        }
+        public virtual void DoClick() => IsClickedCancelled();
 
         /// <inheritdoc />
         public virtual void DoFocus()
@@ -626,20 +626,14 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
-        internal void UpdateDropZone(String value)
-        {
-            _dropZone?.Update(value);
-        }
+        internal void UpdateDropZone(String value) => _dropZone?.Update(value);
 
         #endregion
 
         #region Helpers
 
         /// <inheritdoc />
-        protected Boolean IsClickedCancelled()
-        {
-            return this.Fire<MouseEvent>(m => m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
-        }
+        protected Boolean IsClickedCancelled() => this.Fire<MouseEvent>(m => m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
 
         /// <inheritdoc />
         protected IHtmlFormElement GetAssignedForm()
@@ -667,15 +661,9 @@ namespace AngleSharp.Html.Dom
             return parent as IHtmlFormElement;
         }
 
-        private String GetDefaultLanguage()
-        {
-            return ParentElement is IHtmlElement parent ? parent.Language : Context.GetLanguage();
-        }
+        private String GetDefaultLanguage() => ParentElement is IHtmlElement parent ? parent.Language : Context.GetLanguage();
 
-        private static String Combine(String prefix, String localName)
-        {
-            return (prefix != null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant();
-        }
+        private static String Combine(String prefix, String localName) => (prefix != null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant();
 
         #endregion
     }

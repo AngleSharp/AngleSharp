@@ -1,7 +1,5 @@
 namespace AngleSharp.Dom
 {
-    using AngleSharp.Html.Dom;
-    using AngleSharp.Html.Parser;
     using AngleSharp.Text;
     using System;
     using System.IO;
@@ -28,17 +26,7 @@ namespace AngleSharp.Dom
         internal DocumentFragment(Element contextElement, String html)
             : this(contextElement.Owner)
         {
-            var source = new TextSource(html);
-            var context = Owner.Context;
-            var document = new HtmlDocument(context, source);
-            var parser = new HtmlDomBuilder(document);
-            var options = new HtmlParserOptions
-            {
-                IsEmbedded = false,
-                IsStrictMode = false,
-                IsScripting = context.IsScripting()
-            };
-            var root = parser.ParseFragment(options, contextElement).DocumentElement;
+            var root = contextElement.ParseSubtree(html);
 
             while (root.HasChildNodes)
             {
@@ -86,7 +74,7 @@ namespace AngleSharp.Dom
             {
                 var children = ChildNodes;
 
-                for (int i = children.Length - 1; i >= 0; i--)
+                for (var i = children.Length - 1; i >= 0; i--)
                 {
                     if (children[i] is IElement child)
                     {
