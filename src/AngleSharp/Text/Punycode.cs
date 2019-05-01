@@ -7,7 +7,7 @@ namespace AngleSharp.Text
     /// <summary>
     /// Represents a Punycode encoding helper class.
     /// </summary>
-    static class Punycode
+    public static class Punycode
     {
         #region Constants
 
@@ -39,6 +39,9 @@ namespace AngleSharp.Text
 
         #region Methods
 
+        /// <summary>
+        /// Encodes the given text using Punycode.
+        /// </summary>
         public static String Encode(String text)
         {
             const Int32 InitialBias = 72;
@@ -139,7 +142,7 @@ namespace AngleSharp.Text
                             }
                         }
 
-                        // Increase delta enough to advance the decoder's 
+                        // Increase delta enough to advance the decoder's
                         // <n,i> state to <m,0>, but guard against overflow:
                         delta += (m - n) * ((numProcessed - numSurrogatePairs) + 1);
                         n = m;
