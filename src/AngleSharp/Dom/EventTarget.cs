@@ -19,10 +19,7 @@
 
         #region Properties
 
-        private List<RegisteredEventListener> Listeners
-        {
-            get { return _listeners ?? (_listeners = new List<RegisteredEventListener>()); }
-        }
+        private List<RegisteredEventListener> Listeners => _listeners ?? (_listeners = new List<RegisteredEventListener>());
 
         #endregion
 

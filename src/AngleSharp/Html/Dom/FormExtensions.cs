@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
@@ -42,10 +42,8 @@
 
                 if (targetInput != null)
                 {
-                    if (targetInput is IHtmlInputElement)
+                    if (targetInput is IHtmlInputElement input)
                     {
-                        var input = (IHtmlInputElement)targetInput;
-
                         if (input.Type.Is(InputTypeNames.Radio))
                         {
                             var radios = inputs.OfType<IHtmlInputElement>().Where(i => i.Name.Is(targetInput.Name));
@@ -60,14 +58,12 @@
                             input.Value = field.Value;
                         }
                     }
-                    else if (targetInput is IHtmlTextAreaElement)
+                    else if (targetInput is IHtmlTextAreaElement textarea)
                     {
-                        var textarea = (IHtmlTextAreaElement)targetInput;
                         textarea.Value = field.Value;
                     }
-                    else if (targetInput is IHtmlSelectElement)
+                    else if (targetInput is IHtmlSelectElement select)
                     {
-                        var select = (IHtmlSelectElement)targetInput;
                         select.Value = field.Value;
                     }
                     else
@@ -102,10 +98,7 @@
         /// <param name="form">The form to submit.</param>
         /// <param name="fields">The fields to use as values.</param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> SubmitAsync(this IHtmlFormElement form, Object fields)
-        {
-            return form.SubmitAsync(fields.ToDictionary());
-        }
+        public static Task<IDocument> SubmitAsync(this IHtmlFormElement form, Object fields) => form.SubmitAsync(fields.ToDictionary());
 
         /// <summary>
         /// Submits the given form by using the dictionary which contains name
@@ -132,10 +125,7 @@
         /// <param name="element">The element to submit its form.</param>
         /// <param name="fields">The optional fields to use as values.</param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> SubmitAsync(this IHtmlElement element, Object fields = null)
-        {
-            return element.SubmitAsync(fields.ToDictionary());
-        }
+        public static Task<IDocument> SubmitAsync(this IHtmlElement element, Object fields = null) => element.SubmitAsync(fields.ToDictionary());
 
         /// <summary>
         /// Submits the form of the element by using the dictionary which contains name
@@ -151,20 +141,20 @@
         /// <returns>The task eventually resulting in the response.</returns>
         public static Task<IDocument> SubmitAsync(this IHtmlElement element, IDictionary<String, String> fields, Boolean createMissing = false)
         {
-            var button = element as HtmlFormControlElement;
-
-            if (button == null)
-                throw new ArgumentException(nameof(element));
-
-            var form = button.Form;
-
-            if (form != null)
+            if (element is HtmlFormControlElement button)
             {
-                form.SetValues(fields, createMissing);
-                return form.SubmitAsync(button);
+                var form = button.Form;
+
+                if (form != null)
+                {
+                    form.SetValues(fields, createMissing);
+                    return form.SubmitAsync(button);
+                }
+
+                return null;
             }
 
-            return null;
+            throw new ArgumentException(nameof(element));
         }
     }
 }

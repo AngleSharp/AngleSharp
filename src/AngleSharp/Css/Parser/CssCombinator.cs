@@ -79,10 +79,7 @@
         /// </summary>
         /// <param name="selector">The original selector.</param>
         /// <returns>The modified (or unmodified) selector.</returns>
-        public virtual ISelector Change(ISelector selector)
-        {
-            return selector;
-        }
+        public virtual ISelector Change(ISelector selector) => selector;
 
         #endregion
 
@@ -163,9 +160,7 @@
 
                         foreach (var child in parent.ChildNodes)
                         {
-                            var element = child as IElement;
-
-                            if (element != null)
+                            if (child is IElement element)
                             {
                                 if (Object.ReferenceEquals(element, el))
                                 {
@@ -192,10 +187,7 @@
                 Transform = el => Single(el);
             }
 
-            public override ISelector Change(ISelector selector)
-            {
-                return new NamespaceSelector(selector.Text);
-            }
+            public override ISelector Change(ISelector selector) => new NamespaceSelector(selector.Text);
         }
 
         private sealed class ColumnCombinator : CssCombinator

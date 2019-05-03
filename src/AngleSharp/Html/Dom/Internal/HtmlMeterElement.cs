@@ -30,10 +30,7 @@
 
         #region Properties
 
-        public INodeList Labels
-        {
-            get { return _labels; }
-        }
+        public INodeList Labels => _labels;
 
         public Double Value
         {

@@ -1,9 +1,10 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
     using AngleSharp.Css.Dom;
     using AngleSharp.Html;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Io;
     using AngleSharp.Io.Processors;
     using AngleSharp.Media;
@@ -203,10 +204,7 @@
         /// <param name="el">The element that is connected to a doc.</param>
         /// <param name="prefix">The prefix to lookup.</param>
         /// <returns>The namespace url for the prefix.</returns>
-        public static String GetCssNamespace(this IElement el, String prefix)
-        {
-            return el.Owner?.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespaceFor(prefix);
-        }
+        public static String GetCssNamespace(this IElement el, String prefix) => el.Owner?.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespaceFor(prefix);
 
         /// <summary>
         /// Checks if the element is currently hovered.
@@ -314,25 +312,25 @@
                 var href = element.GetAttribute(null, AttributeNames.Href);
                 return !String.IsNullOrEmpty(href);
             }
-            else if (element is HtmlButtonElement)
+            else if (element is HtmlButtonElement buttonElement)
             {
-                return !((HtmlButtonElement)element).IsDisabled;
+                return !buttonElement.IsDisabled;
             }
-            else if (element is HtmlInputElement)
+            else if (element is HtmlInputElement inputElement)
             {
-                return !((HtmlInputElement)element).IsDisabled;
+                return !inputElement.IsDisabled;
             }
-            else if (element is HtmlSelectElement)
+            else if (element is HtmlSelectElement selectElement)
             {
-                return !((HtmlSelectElement)element).IsDisabled;
+                return !selectElement.IsDisabled;
             }
-            else if (element is HtmlTextAreaElement)
+            else if (element is HtmlTextAreaElement textAreaElement)
             {
-                return !((HtmlTextAreaElement)element).IsDisabled;
+                return !textAreaElement.IsDisabled;
             }
-            else if (element is HtmlOptionElement)
+            else if (element is HtmlOptionElement optionElement)
             {
-                return !((HtmlOptionElement)element).IsDisabled;
+                return !optionElement.IsDisabled;
             }
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
             {
@@ -350,25 +348,25 @@
         /// <returns>True if the element is currently disabled, otherwise false.</returns>
         public static Boolean IsDisabled(this IElement element)
         {
-            if (element is HtmlButtonElement)
+            if (element is HtmlButtonElement buttonElement)
             {
-                return ((HtmlButtonElement)element).IsDisabled;
+                return buttonElement.IsDisabled;
             }
-            else if (element is HtmlInputElement)
+            else if (element is HtmlInputElement inputElement)
             {
-                return ((HtmlInputElement)element).IsDisabled;
+                return inputElement.IsDisabled;
             }
-            else if (element is HtmlSelectElement)
+            else if (element is HtmlSelectElement selectElement)
             {
-                return ((HtmlSelectElement)element).IsDisabled;
+                return selectElement.IsDisabled;
             }
-            else if (element is HtmlTextAreaElement)
+            else if (element is HtmlTextAreaElement textAreaElement)
             {
-                return ((HtmlTextAreaElement)element).IsDisabled;
+                return textAreaElement.IsDisabled;
             }
-            else if (element is HtmlOptionElement)
+            else if (element is HtmlOptionElement optionElement)
             {
-                return ((HtmlOptionElement)element).IsDisabled;
+                return optionElement.IsDisabled;
             }
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
             {
@@ -386,10 +384,9 @@
         /// <returns>True if the element is currently in its default state, otherwise false.</returns>
         public static Boolean IsDefault(this IElement element)
         {
-            if (element is HtmlButtonElement)
+            if (element is HtmlButtonElement buttonElement)
             {
-                var bt = (HtmlButtonElement)element;
-                var form = bt.Form;
+                var form = buttonElement.Form;
 
                 //TODO Check if button is form def. button
                 if (form != null)
@@ -397,14 +394,13 @@
                     return true;
                 }
             }
-            else if (element is HtmlInputElement)
+            else if (element is HtmlInputElement inputElement)
             {
-                var input = (HtmlInputElement)element;
-                var type = input.Type;
+                var type = inputElement.Type;
 
                 if (type == InputTypeNames.Submit || type == InputTypeNames.Image)
                 {
-                    var form = input.Form;
+                    var form = inputElement.Form;
 
                     //TODO Check if input is form def. button
                     if (form != null)
@@ -445,23 +441,20 @@
         /// <returns>True if the element is currently checked, otherwise false.</returns>
         public static Boolean IsChecked(this IElement element)
         {
-            if (element is HtmlInputElement)
+            if (element is HtmlInputElement input)
             {
-                var input = (HtmlInputElement)element;
                 var type = input.Type;
                 var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && input.IsChecked;
             }
-            else if (element is HtmlMenuItemElement)
+            else if (element is HtmlMenuItemElement menuItem)
             {
-                var menuItem = (HtmlMenuItemElement)element;
                 var type = menuItem.Type;
                 var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && menuItem.IsChecked;
             }
-            else if (element is HtmlOptionElement)
+            else if (element is HtmlOptionElement option)
             {
-                var option = ((HtmlOptionElement)element);
                 return option.IsSelected;
             }
 
@@ -475,9 +468,8 @@
         /// <returns>True if the element is currently indeterminate, otherwise false.</returns>
         public static Boolean IsIndeterminate(this IElement element)
         {
-            if (element is HtmlInputElement)
+            if (element is HtmlInputElement input)
             {
-                var input = (HtmlInputElement)element;
                 var isCheckbox = input.Type.Is(InputTypeNames.Checkbox);
                 return isCheckbox && input.IsIndeterminate;
             }
@@ -497,9 +489,7 @@
         /// <returns>True if the element is currently showing a placeholder, otherwise false.</returns>
         public static Boolean IsPlaceholderShown(this IElement element)
         {
-            var input = element as HtmlInputElement;
-
-            if (input != null)
+            if (element is HtmlInputElement input)
             {
                 var containsPlaceholder = !String.IsNullOrEmpty(input.Placeholder);
                 var isEmpty = String.IsNullOrEmpty(input.Value);
@@ -516,23 +506,20 @@
         /// <returns>True if the element is currently unchecked, otherwise false.</returns>
         public static Boolean IsUnchecked(this IElement element)
         {
-            if (element is HtmlInputElement)
+            if (element is HtmlInputElement input)
             {
-                var input = (HtmlInputElement)element;
                 var type = input.Type;
                 var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && !input.IsChecked;
             }
-            else if (element is HtmlMenuItemElement)
+            else if (element is HtmlMenuItemElement menuItem)
             {
-                var menuItem = (HtmlMenuItemElement)element;
                 var type = menuItem.Type;
                 var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && !menuItem.IsChecked;
             }
-            else if (element is HtmlOptionElement)
+            else if (element is HtmlOptionElement option)
             {
-                var option = (HtmlOptionElement)element;
                 return !option.IsSelected;
             }
 
@@ -546,39 +533,33 @@
         /// <returns>True if the element is currently active, otherwise false.</returns>
         public static Boolean IsActive(this IElement element)
         {
-            if (element is HtmlAnchorElement)
+            if (element is HtmlAnchorElement anchor)
             {
-                var anchor = (HtmlAnchorElement)element;
                 var href = element.GetAttribute(null, AttributeNames.Href);
                 return !String.IsNullOrEmpty(href) && anchor.IsActive;
             }
-            else if (element is HtmlAreaElement)
+            else if (element is HtmlAreaElement area)
             {
-                var area = (HtmlAreaElement)element;
                 var href = element.GetAttribute(null, AttributeNames.Href);
                 return !String.IsNullOrEmpty(href) && area.IsActive;
             }
-            else if (element is HtmlLinkElement)
+            else if (element is HtmlLinkElement link)
             {
-                var link = (HtmlLinkElement)element;
                 var href = element.GetAttribute(null, AttributeNames.Href);
                 return !String.IsNullOrEmpty(href) && link.IsActive;
             }
-            else if (element is HtmlButtonElement)
+            else if (element is HtmlButtonElement button)
             {
-                var button = (HtmlButtonElement)element;
                 return !button.IsDisabled && button.IsActive;
             }
-            else if (element is HtmlInputElement)
+            else if (element is HtmlInputElement input)
             {
-                var input = (HtmlInputElement)element;
                 var type = input.Type;
                 var canBeSubmitted = type.IsOneOf(InputTypeNames.Submit, InputTypeNames.Image, InputTypeNames.Reset, InputTypeNames.Button);
                 return canBeSubmitted && input.IsActive;
             }
-            else if (element is HtmlMenuItemElement)
+            else if (element is HtmlMenuItemElement menuItem)
             {
-                var menuItem = (HtmlMenuItemElement)element;
                 return !menuItem.IsDisabled && menuItem.IsActive;
             }
 
@@ -592,22 +573,19 @@
         /// <returns>True if the element has been visited, otherwise false.</returns>
         public static Boolean IsVisited(this IElement element)
         {
-            if (element is HtmlAnchorElement)
+            if (element is HtmlAnchorElement anchor)
             {
                 var href = element.GetAttribute(null, AttributeNames.Href);
-                var anchor = (HtmlAnchorElement)element;
                 return !String.IsNullOrEmpty(href) && anchor.IsVisited;
             }
-            else if (element is HtmlAreaElement)
+            else if (element is HtmlAreaElement area)
             {
                 var href = element.GetAttribute(null, AttributeNames.Href);
-                var area = (HtmlAreaElement)element;
                 return !String.IsNullOrEmpty(href) && area.IsVisited;
             }
-            else if (element is HtmlLinkElement)
+            else if (element is HtmlLinkElement link)
             {
                 var href = element.GetAttribute(null, AttributeNames.Href);
-                var link = (HtmlLinkElement)element;
                 return !String.IsNullOrEmpty(href) && link.IsVisited;
             }
 
@@ -621,22 +599,19 @@
         /// <returns>True if the element is a link, otherwise false.</returns>
         public static Boolean IsLink(this IElement element)
         {
-            if (element is HtmlAnchorElement)
+            if (element is HtmlAnchorElement anchor)
             {
                 var href = element.GetAttribute(null, AttributeNames.Href);
-                var anchor = (HtmlAnchorElement)element;
                 return !String.IsNullOrEmpty(href) && !anchor.IsVisited;
             }
-            else if (element is HtmlAreaElement)
+            else if (element is HtmlAreaElement area)
             {
                 var href = element.GetAttribute(null, AttributeNames.Href);
-                var area = (HtmlAreaElement)element;
                 return !String.IsNullOrEmpty(href) && !area.IsVisited;
             }
-            else if (element is HtmlLinkElement)
+            else if (element is HtmlLinkElement link)
             {
                 var href = element.GetAttribute(null, AttributeNames.Href);
-                var link = (HtmlLinkElement)element;
                 return !String.IsNullOrEmpty(href) && !link.IsVisited;
             }
 
@@ -648,10 +623,7 @@
         /// </summary>
         /// <param name="element">The element to check.</param>
         /// <returns>True if the element hosts a shadow tree.</returns>
-        public static Boolean IsShadow(this IElement element)
-        {
-            return element?.ShadowRoot != null;
-        }
+        public static Boolean IsShadow(this IElement element) => element?.ShadowRoot != null;
 
         /// <summary>
         /// Checks if the element is only optional and not required.
@@ -660,19 +632,16 @@
         /// <returns>True if the element is optional, otherwise false.</returns>
         public static Boolean IsOptional(this IElement element)
         {
-            if (element is HtmlInputElement)
+            if (element is HtmlInputElement input)
             {
-                var input = (HtmlInputElement)element;
                 return !input.IsRequired;
             }
-            else if (element is HtmlSelectElement)
+            else if (element is HtmlSelectElement select)
             {
-                var select = (HtmlSelectElement)element;
                 return !select.IsRequired;
             }
-            else if (element is HtmlTextAreaElement)
+            else if (element is HtmlTextAreaElement area)
             {
-                var area = (HtmlTextAreaElement)element;
                 return !area.IsRequired;
             }
 
@@ -686,19 +655,16 @@
         /// <returns>True if the element is required, otherwise false.</returns>
         public static Boolean IsRequired(this IElement element)
         {
-            if (element is HtmlInputElement)
+            if (element is HtmlInputElement input)
             {
-                var input = (HtmlInputElement)element;
                 return input.IsRequired;
             }
-            else if (element is HtmlSelectElement)
+            else if (element is HtmlSelectElement select)
             {
-                var select = (HtmlSelectElement)element;
                 return select.IsRequired;
             }
-            else if (element is HtmlTextAreaElement)
+            else if (element is HtmlTextAreaElement textArea)
             {
-                var textArea = (HtmlTextAreaElement)element;
                 return textArea.IsRequired;
             }
 
@@ -712,14 +678,12 @@
         /// <returns>True if the element is invalid, otherwise false.</returns>
         public static Boolean IsInvalid(this IElement element)
         {
-            if (element is IValidation)
+            if (element is IValidation validator)
             {
-                var validator = (IValidation)element;
                 return !validator.CheckValidity();
             }
-            else if (element is HtmlFormElement)
+            else if (element is HtmlFormElement form)
             {
-                var form = (HtmlFormElement)element;
                 return !form.CheckValidity();
             }
 
@@ -733,14 +697,12 @@
         /// <returns>True if the element is valid, otherwise false.</returns>
         public static Boolean IsValid(this IElement element)
         {
-            if (element is IValidation)
+            if (element is IValidation validator)
             {
-                var validator = (IValidation)element;
                 return validator.CheckValidity();
             }
-            else if (element is HtmlFormElement)
+            else if (element is HtmlFormElement form)
             {
-                var form = (HtmlFormElement)element;
                 return form.CheckValidity();
             }
 
@@ -754,19 +716,16 @@
         /// <returns>True if the element is readonly, otherwise false.</returns>
         public static Boolean IsReadOnly(this IElement element)
         {
-            if (element is HtmlInputElement)
+            if (element is HtmlInputElement input)
             {
-                var input = (HtmlInputElement)element;
                 return !input.IsMutable;
             }
-            else if (element is HtmlTextAreaElement)
+            else if (element is HtmlTextAreaElement textArea)
             {
-                var textArea = (HtmlTextAreaElement)element;
                 return !textArea.IsMutable;
             }
-            else if (element is IHtmlElement)
+            else if (element is IHtmlElement general)
             {
-                var general = (IHtmlElement)element;
                 return !general.IsContentEditable;
             }
 
@@ -780,19 +739,16 @@
         /// <returns>True if the element can be edited, otherwise false.</returns>
         public static Boolean IsEditable(this IElement element)
         {
-            if (element is HtmlInputElement)
+            if (element is HtmlInputElement input)
             {
-                var input = (HtmlInputElement)element;
                 return input.IsMutable;
             }
-            else if (element is HtmlTextAreaElement)
+            else if (element is HtmlTextAreaElement textArea)
             {
-                var textArea = (HtmlTextAreaElement)element;
                 return textArea.IsMutable;
             }
-            else if (element is IHtmlElement)
+            else if (element is IHtmlElement general)
             {
-                var general = (IHtmlElement)element;
                 return general.IsContentEditable;
             }
 
@@ -806,9 +762,7 @@
         /// <returns>True if the element is invalid, otherwise false.</returns>
         public static Boolean IsOutOfRange(this IElement element)
         {
-            var validation = element as IValidation;
-
-            if (validation != null)
+            if (element is IValidation validation)
             {
                 var state = validation.Validity;
                 return state.IsRangeOverflow || state.IsRangeUnderflow;
@@ -824,9 +778,7 @@
         /// <returns>True if the element is valid, otherwise false.</returns>
         public static Boolean IsInRange(this IElement element)
         {
-            var validation = element as IValidation;
-
-            if (validation != null)
+            if (element is IValidation validation)
             {
                 var state = validation.Validity;
                 return !state.IsRangeOverflow && !state.IsRangeUnderflow;
@@ -945,10 +897,7 @@
         /// <param name="attributeName">The name of the attribute.</param>
         /// <returns>The attributes' values.</returns>
         public static IEnumerable<String> Attr<T>(this T elements, String attributeName)
-            where T : IEnumerable<IElement>
-        {
-            return elements.Select(m => m.GetAttribute(attributeName));
-        }
+            where T : IEnumerable<IElement> => elements.Select(m => m.GetAttribute(attributeName));
 
         /// <summary>
         /// Clears the attributes of the given element.
@@ -1286,10 +1235,9 @@
         /// <param name="html">The HTML code that generates the tree.</param>
         /// <returns>The unchanged collection.</returns>
         public static T WrapInner<T>(this T elements, String html)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
 
             foreach (var element in elements)
             {
@@ -1318,11 +1266,9 @@
         /// <param name="html">The HTML code that generates the tree.</param>
         /// <returns>The unchanged collection.</returns>
         public static T WrapAll<T>(this T elements, String html)
-            where T : IEnumerable<IElement>
+            where T : class, IEnumerable<IElement>
         {
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
+            elements = elements ?? throw new ArgumentNullException(nameof(elements));
             var element = elements.FirstOrDefault();
 
             if (element != null)
@@ -1348,10 +1294,7 @@
         /// <param name="elements">The elements to include.</param>
         /// <returns>The created collection.</returns>
         public static IHtmlCollection<TElement> ToCollection<TElement>(this IEnumerable<TElement> elements)
-            where TElement : class, IElement
-        {
-            return new HtmlCollection<TElement>(elements);
-        }
+            where TElement : class, IElement => new HtmlCollection<TElement>(elements);
 
         /// <summary>
         /// Navigates to the hyper reference given by the provided element
@@ -1361,10 +1304,7 @@
         /// <param name="element">The element of navigation.</param>
         /// <returns>The task eventually resulting in the response.</returns>
         public static Task<IDocument> NavigateAsync<TElement>(this TElement element)
-            where TElement : class, IUrlUtilities, IElement
-        {
-            return element.NavigateAsync(CancellationToken.None);
-        }
+            where TElement : class, IUrlUtilities, IElement => element.NavigateAsync(CancellationToken.None);
 
         /// <summary>
         /// Navigates to the hyper reference given by the provided element.
@@ -1457,10 +1397,7 @@
         /// <param name="element">The element to host the attribute.</param>
         /// <param name="name">The name of the attribute.</param>
         /// <returns>The attribute's value, if any.</returns>
-        internal static String GetOwnAttribute(this Element element, String name)
-        {
-            return element.Attributes.GetNamedItem(null, name)?.Value;
-        }
+        internal static String GetOwnAttribute(this Element element, String name) => element.Attributes.GetNamedItem(null, name)?.Value;
 
         /// <summary>
         /// Faster way of checking for a (known) attribute.
@@ -1468,10 +1405,7 @@
         /// <param name="element">The element to host the attribute.</param>
         /// <param name="name">The name of the attribute.</param>
         /// <returns>True if the attribute exists, otherwise false.</returns>
-        internal static Boolean HasOwnAttribute(this Element element, String name)
-        {
-            return element.Attributes.GetNamedItem(null, name) != null;
-        }
+        internal static Boolean HasOwnAttribute(this Element element, String name) => element.Attributes.GetNamedItem(null, name) != null;
 
         /// <summary>
         /// Easy way of getting the current absolute url from attributes.
@@ -1523,10 +1457,7 @@
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The attribute's value.</param>
         /// <param name="suppressCallbacks">Flag to suppress callbacks.</param>
-        internal static void SetOwnAttribute(this Element element, String name, String value, Boolean suppressCallbacks = false)
-        {
-            element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value), suppressCallbacks);
-        }
+        internal static void SetOwnAttribute(this Element element, String name, String value, Boolean suppressCallbacks = false) => element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value), suppressCallbacks);
 
         private static IDocumentFragment CreateFragment(this IElement context, String html)
         {
@@ -1553,6 +1484,87 @@
             while (child != null);
 
             return element;
+        }
+
+        /// <summary>
+        /// Creates a unique selector path used to locate the element in the DOM.
+        /// </summary>
+        /// <param name="element">The starting node to create the selector path from.</param>
+        /// <returns>The unique selector path for this element.</returns>
+        public static String GetSelector(this IElement element)
+        {
+            // Initialize path
+            var path = String.Empty;
+
+            // If the current node is having an unique id property
+            var hasId = false;
+
+            do
+            {
+                // Set if node has id attribute set...
+                hasId = !String.IsNullOrEmpty(element.Id);
+
+                // Get parent element of the node
+                var parent = element.ParentElement;
+
+                // Always lowercase node name in the path
+                var name = element.LocalName;
+
+                // If node has id attribute...
+                if (hasId)
+                {
+                    // Id is unique in the DOM, so we can use it to locate the element and skip other parents
+                    name = "#" + element.Id;
+                }
+                // If node has siblings of the same type...
+                else if (parent != null && !element.IsOnlyOfType())
+                {
+                    // Get node index in the parent node tree
+                    var index = parent.Children.Where(_ => _.GetType() == element.GetType()).Index(element);
+
+                    // Append nth child selector
+                    name += $":nth-child({index + 1})";
+                }
+
+                // Recreate selector path
+                if (!String.IsNullOrEmpty(path))
+                {
+                    path = $"{name}>{path}";
+                }
+                else
+                {
+                    path = name;
+                }
+
+                // Set current parent
+                element = parent;
+            }
+            while (element?.ParentElement != null && !hasId);
+
+            // Return generated selector
+            return path;
+        }
+
+        /// <summary>
+        /// Parses the HTML subtree of the given content in the context of
+        /// the provided element.
+        /// </summary>
+        /// <param name="element">The element to use as context.</param>
+        /// <param name="html">The HTML source for the subtree.</param>
+        /// <returns>The root element of the HTML subtree.</returns>
+        internal static IElement ParseHtmlSubtree(this Element element, String html)
+        {
+            var context = element.Context;
+            var source = new TextSource(html);
+            var document = new HtmlDocument(context, source);
+            var parser = new HtmlDomBuilder(document);
+            var options = new HtmlParserOptions
+            {
+                IsEmbedded = false,
+                IsStrictMode = false,
+                IsScripting = context.IsScripting(),
+            };
+            return parser.ParseFragment(options, element).DocumentElement;
         }
     }
 }

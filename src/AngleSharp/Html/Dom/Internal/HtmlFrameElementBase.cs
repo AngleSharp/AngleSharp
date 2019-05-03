@@ -30,10 +30,7 @@
 
         #region Properties
 
-        public IDownload CurrentDownload
-        {
-            get { return _request?.Download; }
-        }
+        public IDownload CurrentDownload => _request?.Download;
 
         public String Name
         {
@@ -53,10 +50,7 @@
             set { this.SetOwnAttribute(AttributeNames.Scrolling, value); }
         }
 
-        public IDocument ContentDocument
-        {
-            get { return _request?.Document; }
-        }
+        public IDocument ContentDocument => _request?.Document;
 
         public String LongDesc
         {
@@ -70,10 +64,7 @@
             set { this.SetOwnAttribute(AttributeNames.FrameBorder, value); }
         }
 
-        public IBrowsingContext NestedContext
-        {
-            get { return _context ?? (_context = NewChildContext()); }
-        }
+        public IBrowsingContext NestedContext => _context ?? (_context = NewChildContext());
 
         #endregion
 

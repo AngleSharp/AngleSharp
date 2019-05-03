@@ -83,10 +83,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Gets if the input field has a value (via attribute or directly).
         /// </summary>
-        public Boolean HasValue
-        {
-            get { return _value != null || this.HasOwnAttribute(AttributeNames.Value); }
-        }
+        public Boolean HasValue => _value != null || this.HasOwnAttribute(AttributeNames.Value);
 
         /// <summary>
         /// Gets or sets the current value in the control.
@@ -157,10 +154,7 @@ namespace AngleSharp.Html.Dom
         /// direction of the current locale, or "backward" for the opposite
         /// direction.
         /// </summary>
-        public String SelectionDirection
-        {
-            get { return _direction.ToString().ToLowerInvariant(); }
-        }
+        public String SelectionDirection => _direction.ToString().ToLowerInvariant();
 
         #endregion
 

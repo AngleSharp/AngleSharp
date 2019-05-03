@@ -432,11 +432,9 @@ namespace AngleSharp.Css.Parser
             {
                 if (_combinators.Count == 0)
                 {
-                    var compound = _temp as CompoundSelector;
-
-                    if (compound == null)
+                    if (!(_temp is CompoundSelector compound))
                     {
-                        compound = new CompoundSelector { this._temp };
+                        compound = new CompoundSelector { _temp };
                     }
 
                     compound.Add(selector);
@@ -485,10 +483,7 @@ namespace AngleSharp.Css.Parser
             return _combinators.Pop();
         }
 
-        private void Insert(CssCombinator cssCombinator)
-        {
-            _combinators.Push(cssCombinator);
-        }
+        private void Insert(CssCombinator cssCombinator) => _combinators.Push(cssCombinator);
 
 		#endregion
 
@@ -564,10 +559,7 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private CssSelectorConstructor CreateChild()
-        {
-            return new CssSelectorConstructor(_tokenizer, _attributeSelector, _pseudoClassSelector, _pseudoElementSelector, true);
-        }
+        private CssSelectorConstructor CreateChild() => new CssSelectorConstructor(_tokenizer, _attributeSelector, _pseudoClassSelector, _pseudoElementSelector, true);
 
         #endregion
 
@@ -681,6 +673,7 @@ namespace AngleSharp.Css.Parser
                 if (valid)
                 {
                     var code = PseudoClassNames.Has.CssFunction(selText);
+
                     return new PseudoClassSelector(el =>
                     {
                         var elements = default(IEnumerable<IElement>);

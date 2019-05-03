@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
@@ -62,15 +62,7 @@
         /// <param name="node">The node that spawns the hyper reference.</param>
         /// <param name="url">The given URL.</param>
         /// <returns>The absolute URL.</returns>
-        public static Url HyperReference(this INode node, String url)
-        {
-            if (url == null)
-            {
-                return null;
-            }
-
-            return new Url(node.BaseUrl, url);
-        }
+        public static Url HyperReference(this INode node, String url) => url == null ? null : new Url(node.BaseUrl, url);
 
         /// <summary>
         /// Checks if the node is an descendant of the given parent.
@@ -100,10 +92,7 @@
         /// </summary>
         /// <param name="parent">The parent of the descendants.</param>
         /// <returns>An iterator over all descendants.</returns>
-        public static IEnumerable<INode> GetDescendants(this INode parent)
-        {
-            return GetDescendantsAndSelf(parent).Skip(1);
-        }
+        public static IEnumerable<INode> GetDescendants(this INode parent) => GetDescendantsAndSelf(parent).Skip(1);
 
         /// <summary>
         /// Gets the descendant nodes and itself of the provided parent, in tree order.
@@ -114,6 +103,7 @@
         {
             var stack = new Stack<INode>();
             stack.Push(parent);
+
             while (stack.Count > 0)
             {
                 var next = stack.Pop();
@@ -136,10 +126,7 @@
         /// True if the given parent is actually an inclusive ancestor of the
         /// provided node.
         /// </returns>
-        public static Boolean IsInclusiveDescendantOf(this INode node, INode parent)
-        {
-            return node == parent || node.IsDescendantOf(parent);
-        }
+        public static Boolean IsInclusiveDescendantOf(this INode node, INode parent) => node == parent || node.IsDescendantOf(parent);
 
         /// <summary>
         /// Checks if the parent is an ancestor of the given node.
@@ -149,10 +136,7 @@
         /// <returns>
         /// True if the given parent is actually an ancestor of the node.
         /// </returns>
-        public static Boolean IsAncestorOf(this INode parent, INode node)
-        {
-            return node.IsDescendantOf(parent);
-        }
+        public static Boolean IsAncestorOf(this INode parent, INode node) => node.IsDescendantOf(parent);
 
         /// <summary>
         /// Gets the ancestor nodes of the provided node, in tree order.
@@ -193,10 +177,7 @@
         /// True if the given parent is actually an inclusive ancestor of the
         /// provided node.
         /// </returns>
-        public static Boolean IsInclusiveAncestorOf(this INode parent, INode node)
-        {
-            return node == parent || node.IsDescendantOf(parent);
-        }
+        public static Boolean IsInclusiveAncestorOf(this INode parent, INode node) => node == parent || node.IsDescendantOf(parent);
 
         /// <summary>
         /// Gets the first ancestor node that is of the specified type.
@@ -224,10 +205,7 @@
         /// <returns>
         /// True if a datalist element is among the ancestors, otherwise false.
         /// </returns>
-        public static Boolean HasDataListAncestor(this INode child)
-        {
-            return child.Ancestors<IHtmlDataListElement>().Any();
-        }
+        public static Boolean HasDataListAncestor(this INode child) => child.Ancestors<IHtmlDataListElement>().Any();
 
         /// <summary>
         /// Checks if the current node is a sibling of the specified element.
@@ -239,10 +217,7 @@
         /// <returns>
         /// True if the parent is actually non-null and actually the same.
         /// </returns>
-        public static Boolean IsSiblingOf(this INode node, INode element)
-        {
-            return node?.Parent == element.Parent;
-        }
+        public static Boolean IsSiblingOf(this INode node, INode element) => node?.Parent == element.Parent;
 
         /// <summary>
         /// Gets the index of the provided node in the parent's collection.
@@ -251,10 +226,7 @@
         /// <returns>
         /// The index of the node or -1 if the node is not a child of a parent.
         /// </returns>
-        public static Int32 Index(this INode node)
-        {
-            return node.Parent.IndexOf(node);
-        }
+        public static Int32 Index(this INode node) => node.Parent.IndexOf(node);
 
         /// <summary>
         /// Finds the index of the given node of the provided parent node.
@@ -338,10 +310,7 @@
         /// <returns>
         /// True if the context node is following the ref node in tree order.
         /// </returns>
-        public static Boolean IsFollowing(this INode after, INode before)
-        {
-            return before.IsPreceding(after);
-        }
+        public static Boolean IsFollowing(this INode after, INode before) => before.IsPreceding(after);
 
         /// <summary>
         /// Gets the associated host object, if any. This is mostly interesting
@@ -387,7 +356,7 @@
         }
 
         /// <summary>
-        /// Ensures the validity for inserting the given node at parent before 
+        /// Ensures the validity for inserting the given node at parent before
         /// the provided child. Throws an error is the insertation is invalid.
         /// </summary>
         /// <param name="parent">The origin that will be mutated.</param>
@@ -404,9 +373,7 @@
             if (node is IElement == false && node is ICharacterData == false && node is IDocumentType == false && node is IDocumentFragment == false)
                 throw new DomException(DomError.HierarchyRequest);
 
-            var document = parent as IDocument;
-
-            if (document != null)
+            if (parent is IDocument document)
             {
                 var forbidden = false;
 
@@ -445,24 +412,25 @@
         /// <returns>The inserted node, which is node.</returns>
         public static INode PreInsert(this INode parent, INode node, INode child)
         {
-            var parentNode = parent as Node;
             var newNode = node as Node;
 
-            if (parentNode == null)
-                throw new DomException(DomError.NotSupported);
-
-            parent.EnsurePreInsertionValidity(node, child);
-            var referenceChild = child as Node;
-
-            if (referenceChild == node)
+            if (parent is Node parentNode)
             {
-                referenceChild = newNode.NextSibling;
+                parent.EnsurePreInsertionValidity(node, child);
+                var referenceChild = child as Node;
+
+                if (referenceChild == node)
+                {
+                    referenceChild = newNode.NextSibling;
+                }
+
+                var document = parent.Owner ?? parent as IDocument;
+                document.AdoptNode(node);
+                parentNode.InsertBefore(newNode, referenceChild, false);
+                return node;
             }
 
-            var document = parent.Owner ?? parent as IDocument;
-            document.AdoptNode(node);
-            parentNode.InsertBefore(newNode, referenceChild, false);
-            return node;
+            throw new DomException(DomError.NotSupported);
         }
 
         /// <summary>
@@ -473,16 +441,16 @@
         /// <returns>The removed node, which is child.</returns>
         public static INode PreRemove(this INode parent, INode child)
         {
-            var parentNode = parent as Node;
+            if (parent is Node parentNode)
+            {
+                if (child == null || child.Parent != parent)
+                    throw new DomException(DomError.NotFound);
 
-            if (parentNode == null)
-                throw new DomException(DomError.NotSupported);
+                parentNode.RemoveChild(child as Node, false);
+                return child;
+            }
 
-            if (child == null || child.Parent != parent)
-                throw new DomException(DomError.NotFound);
-
-            parentNode.RemoveChild(child as Node, false);
-            return child;
+            throw new DomException(DomError.NotSupported);
         }
 
         /// <summary>
@@ -492,10 +460,7 @@
         /// <returns>
         /// True if the node has any text nodes, otherwise false.
         /// </returns>
-        public static Boolean HasTextNodes(this INode node)
-        {
-            return node.ChildNodes.OfType<IText>().Any();
-        }
+        public static Boolean HasTextNodes(this INode node) => node.ChildNodes.OfType<IText>().Any();
 
         /// <summary>
         /// Checks if the given child is followed by a document type.
@@ -583,9 +548,8 @@
             {
                 for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
-                    var child = parent.ChildNodes[i] as TNode;
 
-                    if (child != null)
+                    if (parent.ChildNodes[i] is TNode child)
                     {
                         return child;
                     }
@@ -627,10 +591,7 @@
         /// <param name="root">The shadow tree hosting the slots.</param>
         /// <param name="name">The name of the slot to target.</param>
         /// <returns>The slot or default slot, if any.</returns>
-        public static IElement GetAssignedSlot(this IShadowRoot root, String name)
-        {
-            return root.GetDescendants().OfType<IHtmlSlotElement>().FirstOrDefault(m => m.Name.Is(name));
-        }
+        public static IElement GetAssignedSlot(this IShadowRoot root, String name) => root.GetDescendants().OfType<IHtmlSlotElement>().FirstOrDefault(m => m.Name.Is(name));
 
         /// <summary>
         /// Gets the content text of the given DOM node.
@@ -695,9 +656,6 @@
             return -1;
         }
 
-        private static Boolean IsCurrentlySame(Queue<INode> after, Queue<INode> before)
-        {
-            return after.Count > 0 && before.Count > 0 && after.Peek() == before.Peek();
-        }
+        private static Boolean IsCurrentlySame(Queue<INode> after, Queue<INode> before) => after.Count > 0 && before.Count > 0 && after.Peek() == before.Peek();
     }
 }

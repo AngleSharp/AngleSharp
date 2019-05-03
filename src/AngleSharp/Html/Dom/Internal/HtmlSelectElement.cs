@@ -51,15 +51,9 @@
             set { this.SetBoolAttribute(AttributeNames.Required, value); }
         }
 
-        public IHtmlCollection<IHtmlOptionElement> SelectedOptions
-        {
-            get { return _selected ?? (_selected = new HtmlCollection<IHtmlOptionElement>(Options.Where(m => m.IsSelected))); }
-        }
+        public IHtmlCollection<IHtmlOptionElement> SelectedOptions => _selected ?? (_selected = new HtmlCollection<IHtmlOptionElement>(Options.Where(m => m.IsSelected)));
 
-        public Int32 SelectedIndex
-        {
-            get { return Options.SelectedIndex; }
-        }
+        public Int32 SelectedIndex => Options.SelectedIndex;
 
         public String Value
         {
@@ -83,10 +77,7 @@
             }
         }
 
-        public Int32 Length
-        {
-            get { return Options.Length; }
-        }
+        public Int32 Length => Options.Length;
 
         public Boolean IsMultiple
         {
@@ -94,15 +85,9 @@
             set { this.SetBoolAttribute(AttributeNames.Multiple, value); }
         }
 
-        public IHtmlOptionsCollection Options
-        {
-            get { return _options ?? (_options = new OptionsCollection(this)); }
-        }
+        public IHtmlOptionsCollection Options => _options ?? (_options = new OptionsCollection(this));
 
-        public String Type
-        {
-            get { return IsMultiple ? InputTypeNames.SelectMultiple : InputTypeNames.SelectOne; }
-        }
+        public String Type => IsMultiple ? InputTypeNames.SelectMultiple : InputTypeNames.SelectOne;
 
         #endregion
 

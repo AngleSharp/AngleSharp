@@ -92,10 +92,7 @@
             set { SetLocationPart(m => m.Search = value); }
         }
 
-        public String Origin
-        {
-            get { return GetLocationPart(m => m.Origin); }
-        }
+        public String Origin => GetLocationPart(m => m.Origin);
 
         public String TargetLanguage
         {

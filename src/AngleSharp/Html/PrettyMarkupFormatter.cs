@@ -57,11 +57,7 @@ namespace AngleSharp.Html
 
         #region Methods
 
-        String IMarkupFormatter.Comment(IComment comment)
-        {
-            var before = IndentBefore();
-            return before + HtmlMarkupFormatter.Instance.Comment(comment);
-        }
+        String IMarkupFormatter.Comment(IComment comment) => IndentBefore() + HtmlMarkupFormatter.Instance.Comment(comment);
 
         String IMarkupFormatter.Doctype(IDocumentType doctype)
         {
@@ -129,10 +125,7 @@ namespace AngleSharp.Html
             return before + HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing);
         }
 
-        String IMarkupFormatter.Attribute(IAttr attribute)
-        {
-            return HtmlMarkupFormatter.Instance.Attribute(attribute);
-        }
+        String IMarkupFormatter.Attribute(IAttr attribute) => HtmlMarkupFormatter.Instance.Attribute(attribute);
 
         #endregion
 
@@ -144,10 +137,7 @@ namespace AngleSharp.Html
             return content.Length > 0 && content[content.Length - 1].IsSpaceCharacter();
         }
 
-        private String IndentBefore()
-        {
-            return _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount));
-        }
+        private String IndentBefore() => _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount));
 
         #endregion
     }

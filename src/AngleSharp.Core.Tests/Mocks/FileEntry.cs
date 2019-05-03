@@ -18,38 +18,17 @@
             _modified = DateTime.Now;
         }
 
-        public Stream Body
-        {
-            get { return _content; }
-        }
+        public Stream Body => _content;
 
-        public Boolean IsClosed
-        {
-            get { return _content.CanRead == false; }
-        }
+        public Boolean IsClosed => _content.CanRead == false;
 
-        public DateTime LastModified
-        {
-            get { return _modified; }
-        }
+        public DateTime LastModified => _modified;
 
-        public Int32 Length
-        {
-            get
-            {
-                return (Int32)_content.Length;
-            }
-        }
+        public Int32 Length => (Int32)_content.Length;
 
-        public String Name
-        {
-            get { return _fileName; }
-        }
+        public String Name => _fileName;
 
-        public String Type
-        {
-            get { return MimeTypeNames.FromExtension(Path.GetExtension(_fileName)); }
-        }
+        public String Type => MimeTypeNames.FromExtension(Path.GetExtension(_fileName));
 
         public void Close()
         {

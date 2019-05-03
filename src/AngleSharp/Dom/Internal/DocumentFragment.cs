@@ -1,7 +1,5 @@
 namespace AngleSharp.Dom
 {
-    using AngleSharp.Html.Dom;
-    using AngleSharp.Html.Parser;
     using AngleSharp.Text;
     using System;
     using System.IO;
@@ -28,17 +26,7 @@ namespace AngleSharp.Dom
         internal DocumentFragment(Element contextElement, String html)
             : this(contextElement.Owner)
         {
-            var source = new TextSource(html);
-            var context = Owner.Context;
-            var document = new HtmlDocument(context, source);
-            var parser = new HtmlDomBuilder(document);
-            var options = new HtmlParserOptions
-            {
-                IsEmbedded = false,
-                IsStrictMode = false,
-                IsScripting = context.IsScripting()
-            };
-            var root = parser.ParseFragment(options, contextElement).DocumentElement;
+            var root = contextElement.ParseSubtree(html);
 
             while (root.HasChildNodes)
             {
@@ -57,15 +45,9 @@ namespace AngleSharp.Dom
 
         #region Properties
 
-        public Int32 ChildElementCount
-        {
-            get { return ChildNodes.OfType<Element>().Count(); }
-        }
+        public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 
-        public IHtmlCollection<IElement> Children
-        {
-            get { return _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false)); }
-        }
+        public IHtmlCollection<IElement> Children => _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false));
 
         public IElement FirstElementChild
         {
@@ -76,9 +58,7 @@ namespace AngleSharp.Dom
 
                 for (int i = 0; i < n; i++)
                 {
-                    var child = children[i] as IElement;
-
-                    if (child != null)
+                    if (children[i] is IElement child)
                     {
                         return child;
                     }
@@ -94,11 +74,9 @@ namespace AngleSharp.Dom
             {
                 var children = ChildNodes;
 
-                for (int i = children.Length - 1; i >= 0; i--)
+                for (var i = children.Length - 1; i >= 0; i--)
                 {
-                    var child = children[i] as IElement;
-
-                    if (child != null)
+                    if (children[i] is IElement child)
                     {
                         return child;
                     }
@@ -132,50 +110,23 @@ namespace AngleSharp.Dom
 
         #region Methods
 
-        public void Prepend(params INode[] nodes)
-        {
-            this.PrependNodes(nodes);
-        }
+        public void Prepend(params INode[] nodes) => this.PrependNodes(nodes);
 
-        public void Append(params INode[] nodes)
-        {
-            this.AppendNodes(nodes);
-        }
+        public void Append(params INode[] nodes) => this.AppendNodes(nodes);
 
-        public IElement QuerySelector(String selectors)
-        {
-            return ChildNodes.QuerySelector(selectors, null);
-        }
+        public IElement QuerySelector(String selectors) => ChildNodes.QuerySelector(selectors, null);
 
-        public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
-        {
-            return ChildNodes.QuerySelectorAll(selectors, null);
-        }
+        public IHtmlCollection<IElement> QuerySelectorAll(String selectors) => ChildNodes.QuerySelectorAll(selectors, null);
 
-        public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
-        {
-            return ChildNodes.GetElementsByClassName(classNames);
-        }
+        public IHtmlCollection<IElement> GetElementsByClassName(String classNames) => ChildNodes.GetElementsByClassName(classNames);
 
-        public IHtmlCollection<IElement> GetElementsByTagName(String tagName)
-        {
-            return ChildNodes.GetElementsByTagName(tagName);
-        }
+        public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => ChildNodes.GetElementsByTagName(tagName);
 
-        public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName)
-        {
-            return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
-        }
+        public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
-        public IElement GetElementById(String elementId)
-        {
-            return ChildNodes.GetElementById(elementId);
-        }
+        public IElement GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
 
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            ChildNodes.ToHtml(writer, formatter);
-        }
+        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter) => ChildNodes.ToHtml(writer, formatter);
 
         public override Node Clone(Document owner, Boolean deep)
         {

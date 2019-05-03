@@ -19,15 +19,9 @@ namespace AngleSharp.Html.Forms
             _value = value;
         }
 
-        public String FileName
-        {
-            get { return _value?.Name ?? String.Empty; }
-        }
+        public String FileName => _value?.Name ?? String.Empty;
 
-        public String ContentType
-        {
-            get { return _value?.Type ?? MimeTypeNames.Binary; }
-        }
+        public String ContentType => _value?.Type ?? MimeTypeNames.Binary;
 
         public override Boolean Contains(String boundary, Encoding encoding)
         {

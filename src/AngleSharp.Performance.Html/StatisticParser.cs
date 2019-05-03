@@ -11,15 +11,9 @@
 
         private readonly Dictionary<String, Int32> _bins = new Dictionary<String, Int32>();
 
-        public String Name
-        {
-            get { return "AngleSharp-Statistics"; }
-        }
+        public String Name => "AngleSharp-Statistics";
 
-        public Type Library
-        {
-            get { return typeof(HtmlParser); }
-        }
+        public Type Library => typeof(HtmlParser);
 
         public void Run(String source)
         {

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Urls
+namespace AngleSharp.Core.Tests.Urls
 {
     using AngleSharp.Io;
     using NUnit.Framework;
@@ -111,6 +111,22 @@
             Assert.AreEqual("yo", mt.Keys.First());
             Assert.AreEqual("there", mt.GetParameter("yo"));
             Assert.AreEqual(original, mt.ToString());
+        }
+
+        [Test]
+        public void MimeTypeReverseMappingAvailable()
+        {
+            var original = "image/png";
+            var extension = MimeTypeNames.GetExtension(original);
+            Assert.AreEqual(".png", extension);
+        }
+
+        [Test]
+        public void MimeTypeReverseMappingUnavailable()
+        {
+            var original = "image/foobar";
+            var extension = MimeTypeNames.GetExtension(original);
+            Assert.AreEqual("", extension);
         }
     }
 }

@@ -35,38 +35,23 @@
 
         #region Index
 
-        public T this[Int32 index]
-        {
-            get { return _elements.GetItemByIndex(index); }
-        }
+        public T this[Int32 index] => _elements.GetItemByIndex(index);
 
-        public T this[String id]
-        {
-            get { return _elements.GetElementById(id); }
-        }
+        public T this[String id] => _elements.GetElementById(id);
 
         #endregion
 
         #region Properties
 
-        public Int32 Length
-        {
-            get { return _elements.Count(); }
-        }
+        public Int32 Length => _elements.Count();
 
         #endregion
 
         #region IEnumerable Implementation
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _elements.GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => _elements.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _elements.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _elements.GetEnumerator();
 
         #endregion
     }

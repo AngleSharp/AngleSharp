@@ -456,6 +456,17 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(String.Empty, receivedCookieHeader);
         }
 
+        [Test]
+        public void MissingCookie_Issue768()
+        {
+            var mcp = new MemoryCookieProvider();
+            var url = Url.Create("http://www.example.com");
+            var cookie = "A=A";
+            mcp.SetCookie(url,
+                $"{cookie}; expires={DateTime.UtcNow.AddHours(1).ToString("ddd, dd MMM yyyy HH:mm:ss")} GMT");
+            Assert.AreEqual(mcp.GetCookie(url), cookie);
+        }
+
         private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse,
             Func<Request, IResponse> onRequest)
         {

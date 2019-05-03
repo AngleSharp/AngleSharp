@@ -117,9 +117,13 @@ So the problem is not the encoding (this is just a serialization representation)
 
 There is, unfortunately, nothing that you can do here - you will need to close the `textarea`. All browsers (hence the initial remark with the specification) see it the same way - so this is not unique to AngleSharp.
 
+## What can I "click" in AngleSharp?
+
+The only thing you can click with AngleSharp (Core, i.e., non-JS) is everything that has an anchor (the link will be followed), such as `a`, or submit (e.g., `button`) buttons where the form will be submitted. If, e.g., we have a `div` that has a click handler defined in JS nothing would come out.
+
 ## How can I perform a click on a div without an UI?
 
-Let's first visit what can be done with AngleSharp:
+Let's first visit again what can be done with AngleSharp:
 
 - Any kind of requests incl. their manipulation (on request, but also before response)
 - General cookie management (and their manipulation, of course)
@@ -279,7 +283,8 @@ Notice that newlines between elements are also text nodes, so we need to filter 
 Given the following usage scenario:
 
 ```cs
-var document = new HtmlParser().Parse("");
+var context = BrowsingContext.New();
+var document = await context.OpenNewAsync();
 
 var tag = document.CreateElement("customTag");
 tag.SetAttribute("attr", "x");
@@ -358,4 +363,78 @@ public class CustomHtmlMarkupFormatter : IMarkupFormatter
         return temp.ToString();
     }
 }
+```
+
+## How to use AngleSharp in Unity?
+
+The following steps will allow AngleSharp to be fully integrated from NuGet into a Unity solution.
+
+1. Get the AngleSharp NuGet package from the VS NuGet Package manager.
+2. Build the solution (Build -> Build Solution)
+3. Copy the "netstandard2.0" folder into the unity Assets folder. You can find it in "[your project]\Packages\AngleSharp.0.11.0". Version may vary.
+
+More details why this is the current approach can be found in this [StackOverflow](https://stackoverflow.com/questions/53447595/nuget-packages-in-unity) answer. This behavior is known and the advised approach is to use VS for installing the NuGet (which resolves the .NET Standard 2.0 dependency as it should be).
+
+The answer was taken from a discussion in issue #774.
+
+## How to create elements from a string?
+
+This is possible using a document fragment.
+
+There are multiple possibilities how to use a document fragment, one way would be to use fragment parsing for generating a node list in the right (element) context:
+
+```cs
+var context = BrowsingContext.New(Configuration.Default);
+var document = await context.OpenAsync(r => r.Content("<div id=app><div>Some already available content...</div></div>"));
+var app = document.QuerySelector("#app");
+var parser = context.GetService<IHtmlParser>();
+var nodes = parser.ParseFragment("<div id='div1'>hi<p>world</p></div>", app);
+app.Append(nodes.ToArray());
+```
+
+The example shows how nodes can be created in the context of a certain element (#app in this case) and that the behavior is different than, e.g., using `InnerHtml`, which would remove existing nodes.
+
+## Can I retrieve the positions of elements in the source code?
+
+By default AngleSharp will throw away the "tokens" that associate the element with a position in the source code. This is mostly done due to the required memory consumption. The tag tokens transport not only the position, but also some additional fields like the name, flags and other meta information, as well as attributes. These tokens, however, can be preserved.
+
+Currently, there are two ways to do this (both accessible via the `HtmlParserOptions`).
+
+1. For one-time scenarios during parsing the `OnCreated` callback can be used. The first argument is the `IElement` instance. The second argument received by the callback is a `TextPosition` value.
+2. For retrieval at a later point in time the `IsKeepingSourceReferences` option could be set to `true`. This way the `SourceReference` property of all parser-created `IElement` instances will be non-null. Currently, the referenced `ISourceReference` only contains a `Position` property.
+
+In code for option 1 this looks as follows:
+
+```cs
+var bodyPos = TextPosition.Empty;
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    OnCreated = (IElement element, TextPosition position) =>
+    {
+        if (element.TagName == "BODY")
+        {
+            bodyPos = position;
+        }
+    },
+});
+var document = parser.ParseDocument("<!doctype html><body>");
+```
+
+The code for option 2 looks as follows:
+
+```cs
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    IsKeepingSourceReferences = true,
+});
+var document = parser.ParseDocument("<!doctype html><body>");
+var bodyPos = document.Body.SourceReference.Position;
+```
+
+In both cases the position we care about will be stored in `bodyPos`.
+
+**Remark**: As `SourceReference` may be empty (e.g., when we omit the provided option or if we select an element that came in *after* parsing) we advise of using `SourceReference?.Position`, where we would end up with a `Nullable<TextPosition>`. Ideally, we then just use `TextPosition.Empty` as the fallback, e.g., in the code above:
+
+```cs
+var bodyPos = document.Body.SourceReference?.Position ?? TextPosition.Empty;
 ```

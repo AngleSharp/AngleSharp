@@ -37,10 +37,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="combinator">The used CSS combinator.</param>
         /// <param name="creator">The creator to invoke.</param>
-        public void Register(String combinator, Creator creator)
-        {
-            _creators.Add(combinator, creator);
-        }
+        public void Register(String combinator, Creator creator) => _creators.Add(combinator, creator);
 
         /// <summary>
         /// Unregisters an existing creator for the given combinator.
@@ -65,10 +62,7 @@ namespace AngleSharp.Css
         /// <param name="prefix">The given prefix, if any.</param>
         /// <param name="insensitive">Should be evaluated insensitive.</param>
         /// <returns>The selector with the given options.</returns>
-        protected virtual ISelector CreateDefault(String name, String value, String prefix, Boolean insensitive)
-        {
-            return new AttrAvailableSelector(name, prefix);
-        }
+        protected virtual ISelector CreateDefault(String name, String value, String prefix, Boolean insensitive) => new AttrAvailableSelector(name, prefix);
 
         /// <summary>
         /// Creates the associated CSS attribute selector.

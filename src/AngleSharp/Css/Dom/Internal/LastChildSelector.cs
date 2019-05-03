@@ -24,9 +24,7 @@
 
                 for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
-                    var child = parent.ChildNodes[i] as IElement;
-
-                    if (child != null && Kind.Match(child, scope))
+                    if (parent.ChildNodes[i] is IElement child && Kind.Match(child, scope))
                     {
                         k += 1;
 

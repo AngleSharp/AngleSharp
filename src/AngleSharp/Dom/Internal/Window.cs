@@ -44,26 +44,17 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the proxy to the current browsing context.
         /// </summary>
-        public IWindow Proxy
-        {
-            get { return _document.Context.Current; }
-        }
+        public IWindow Proxy => _document.Context.Current;
 
         /// <summary>
         /// Gets the user-agent information.
         /// </summary>
-        public INavigator Navigator
-        {
-            get { return _navigator ?? (_navigator = _document.Context.GetService<INavigator>()); }
-        }
+        public INavigator Navigator => _navigator ?? (_navigator = _document.Context.GetService<INavigator>());
 
         /// <summary>
         /// Gets a reference to the document that the window contains.
         /// </summary>
-        public IDocument Document
-        {
-            get { return _document; }
-        }
+        public IDocument Document => _document;
 
         /// <summary>
         /// Gets or sets the name of the window.
@@ -115,10 +106,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the location of the currently contained document.
         /// </summary>
-        public ILocation Location
-        {
-            get { return Document.Location; }
-        }
+        public ILocation Location => Document.Location;
 
         /// <summary>
         /// Gets or sets the status string.
@@ -132,10 +120,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets if the window is currently open or already closed.
         /// </summary>
-        public Boolean IsClosed
-        {
-            get { return _closed; }
-        }
+        public Boolean IsClosed => _closed;
 
         #endregion
 
@@ -565,10 +550,7 @@ namespace AngleSharp.Dom
 
         #region UI Interaction
 
-        IHistory IWindow.History
-        {
-            get { return _document.Context.SessionHistory; }
-        }
+        IHistory IWindow.History => _document.Context.SessionHistory;
 
         IWindow IWindow.Open(String url, String name, String features, String replace)
         {

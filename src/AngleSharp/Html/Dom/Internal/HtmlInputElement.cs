@@ -318,10 +318,7 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Properties
 
-        internal Boolean IsMutable
-        {
-            get { return !IsDisabled && !IsReadOnly; }
-        }
+        internal Boolean IsMutable => !IsDisabled && !IsReadOnly;
 
         #endregion
 

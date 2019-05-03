@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -20,10 +20,7 @@
 
         #region Methods
 
-        String IMarkupFormatter.Comment(IComment comment)
-        {
-            return String.Concat("<!--", comment.Data, "-->");
-        }
+        String IMarkupFormatter.Comment(IComment comment) => String.Concat("<!--", comment.Data, "-->");
 
         String IMarkupFormatter.Doctype(IDocumentType doctype)
         {
@@ -163,10 +160,7 @@
             return $" PUBLIC \"{publicId}\" \"{systemId}\"";
         }
 
-        private static String XmlNamespaceLocalName(String name)
-        {
-            return name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":") : name;
-        }
+        private static String XmlNamespaceLocalName(String name) => name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":", name) : name;
 
         #endregion
     }

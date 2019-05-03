@@ -40,39 +40,21 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public override IElement DocumentElement
-        {
-            get { return this.FindChild<HtmlHtmlElement>(); }
-        }
+        public override IElement DocumentElement => this.FindChild<HtmlHtmlElement>();
 
-        public override IEntityProvider Entities
-        {
-            get { return Context.GetProvider<IEntityProvider>() ?? HtmlEntityProvider.Resolver; }
-        }
+        public override IEntityProvider Entities => Context.GetProvider<IEntityProvider>() ?? HtmlEntityProvider.Resolver;
 
         #endregion
 
         #region Methods
 
-        public HtmlElement CreateHtmlElement(String name, String prefix = null)
-        {
-            return _htmlFactory.Create(this, name, prefix);
-        }
+        public HtmlElement CreateHtmlElement(String name, String prefix = null) => _htmlFactory.Create(this, name, prefix);
 
-        public MathElement CreateMathElement(String name, String prefix = null)
-        {
-            return _mathFactory.Create(this, name, prefix);
-        }
+        public MathElement CreateMathElement(String name, String prefix = null) => _mathFactory.Create(this, name, prefix);
 
-        public SvgElement CreateSvgElement(String name, String prefix = null)
-        {
-            return _svgFactory.Create(this, name, prefix);
-        }
+        public SvgElement CreateSvgElement(String name, String prefix = null) => _svgFactory.Create(this, name, prefix);
 
-        public override Element CreateElementFrom(String name, String prefix)
-        {
-            return CreateHtmlElement(name, prefix);
-        }
+        public override Element CreateElementFrom(String name, String prefix) => CreateHtmlElement(name, prefix);
 
         public override Node Clone(Document owner, Boolean deep)
         {

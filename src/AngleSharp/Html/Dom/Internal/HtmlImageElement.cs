@@ -29,15 +29,9 @@
 
         #region Properties
 
-        public IDownload CurrentDownload
-        {
-            get { return _request?.Download; }
-        }
+        public IDownload CurrentDownload => _request?.Download;
 
-        public String ActualSource
-        {
-            get { return IsCompleted ? _request.Source : String.Empty; }
-        }
+        public String ActualSource => IsCompleted ? _request.Source : String.Empty;
 
         public String SourceSet
         {
@@ -87,20 +81,11 @@
             set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
-        public Int32 OriginalWidth
-        {
-            get { return _request?.Width ?? 0; }
-        }
+        public Int32 OriginalWidth => _request?.Width ?? 0;
 
-        public Int32 OriginalHeight
-        {
-            get { return _request?.Height ?? 0; }
-        }
+        public Int32 OriginalHeight => _request?.Height ?? 0;
 
-        public Boolean IsCompleted
-        {
-            get { return _request?.IsReady ?? false; }
-        }
+        public Boolean IsCompleted => _request?.IsReady ?? false;
 
         public Boolean IsMap
         {

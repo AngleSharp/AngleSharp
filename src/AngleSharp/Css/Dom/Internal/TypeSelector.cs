@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -13,24 +13,12 @@
             _type = type;
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.OneTag; }
-        }
+        public Priority Specificity => Priority.OneTag;
 
-        public String Text
-        {
-            get { return _type; }
-        }
+        public String Text => _type;
 
-        public void Accept(ISelectorVisitor visitor)
-        {
-            visitor.Type(_type);
-        }
+        public void Accept(ISelectorVisitor visitor) => visitor.Type(_type);
 
-        public Boolean Match(IElement element, IElement scope)
-        {
-            return _type.Isi(element.LocalName);
-        }
+        public Boolean Match(IElement element, IElement scope) => _type.Isi(element.LocalName);
     }
 }

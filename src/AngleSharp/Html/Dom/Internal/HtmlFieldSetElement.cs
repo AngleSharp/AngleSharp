@@ -25,15 +25,9 @@
 
         #region Properties
 
-        public String Type
-        {
-            get { return TagNames.Fieldset; }
-        }
+        public String Type => TagNames.Fieldset;
 
-        public IHtmlFormControlsCollection Elements
-        {
-            get { return _elements ?? (_elements = new HtmlFormControlsCollection(Form, this)); }
-        }
+        public IHtmlFormControlsCollection Elements => _elements ?? (_elements = new HtmlFormControlsCollection(Form, this));
 
         #endregion
 

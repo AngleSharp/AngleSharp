@@ -21,6 +21,45 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void TokenizationCarriageReturnPureCharactersIssue_786()
+        {
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes("\r\nThis is test 1\r\nThis is test 2"));
+            var s = new TextSource(ms);
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            Assert.AreEqual(HtmlTokenType.Character, token.Type);
+            Assert.AreEqual("\nThis is test 1\nThis is test 2", token.Data);
+        }
+
+        [Test]
+        public void TokenizationCarriageReturnNonLeadingIssue_786()
+        {
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes("<html><body><p>\r\nThis is test 1<p> \r\nThis is test 2</body></html>"));
+            var s = new TextSource(ms);
+            var t = CreateTokenizer(s);
+            var tokenHtmlOpen = t.Get();
+            var tokenBodyOpen = t.Get();
+            var tokenP1 = t.Get();
+            var tokenP1data = t.Get();
+            var tokenP2 = t.Get();
+            var tokenP2data = t.Get();
+            var tokenBodyClose = t.Get();
+            var tokenHtmlClose = t.Get();
+            var eof = t.Get();
+            Assert.AreEqual(HtmlTokenType.EndTag, tokenHtmlClose.Type);
+            Assert.AreEqual(HtmlTokenType.StartTag, tokenHtmlOpen.Type);
+            Assert.AreEqual(HtmlTokenType.EndTag, tokenBodyClose.Type);
+            Assert.AreEqual(HtmlTokenType.StartTag, tokenBodyOpen.Type);
+            Assert.AreEqual(HtmlTokenType.StartTag, tokenP1.Type);
+            Assert.AreEqual(HtmlTokenType.StartTag, tokenP2.Type);
+            Assert.AreEqual(HtmlTokenType.Character, tokenP1data.Type);
+            Assert.AreEqual(HtmlTokenType.Character, tokenP2data.Type);
+            Assert.AreEqual(HtmlTokenType.EndOfFile, eof.Type);
+            Assert.AreEqual("\nThis is test 1", tokenP1data.Data);
+            Assert.AreEqual(" \nThis is test 2", tokenP2data.Data);
+        }
+
+        [Test]
         public void TokenizationFinalEOF()
         {
             var s = new TextSource("");
@@ -105,14 +144,50 @@ namespace AngleSharp.Core.Tests.Html
             var token = t.Get();
             Assert.AreEqual(3, ((HtmlTagToken)token).Attributes.Count);
         }
-        
+
+        [Test]
+        public void TokenizationAttributePositionsFoundSameLine()
+        {
+            var s = new TextSource("<a target='_blank' href='http://whatever' title='ho'>");
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            var attrs = ((HtmlTagToken)token).Attributes;
+            Assert.AreEqual(new TextPosition(1, 4, 4), attrs[0].Position);
+            Assert.AreEqual(new TextPosition(1, 20, 20), attrs[1].Position);
+            Assert.AreEqual(new TextPosition(1, 43, 43), attrs[2].Position);
+        }
+
+        [Test]
+        public void TokenizationAttributePositionsFoundOtherLine()
+        {
+            var s = new TextSource("<a target='_blank'\nhref='http://whatever'\n title='ho'>");
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            var attrs = ((HtmlTagToken)token).Attributes;
+            Assert.AreEqual(new TextPosition(1, 4, 4), attrs[0].Position);
+            Assert.AreEqual(new TextPosition(2, 1, 20), attrs[1].Position);
+            Assert.AreEqual(new TextPosition(3, 2, 44), attrs[2].Position);
+        }
+
+        [Test]
+        public void TokenizationAttributePositionsFoundAdditionalSpacesInOtherLine()
+        {
+            var s = new TextSource("<a target='_blank'   \n href='http://whatever'\n    title='ho'>");
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            var attrs = ((HtmlTagToken)token).Attributes;
+            Assert.AreEqual(new TextPosition(1, 4, 4), attrs[0].Position);
+            Assert.AreEqual(new TextPosition(2, 2, 24), attrs[1].Position);
+            Assert.AreEqual(new TextPosition(3, 5, 51), attrs[2].Position);
+        }
+
         [Test]
         public void TokenizationAttributeNameDetection()
         {
             var s = new TextSource("<input required>");
             var t = CreateTokenizer(s);
             var token = t.Get();
-            Assert.AreEqual("required", ((HtmlTagToken)token).Attributes[0].Key);
+            Assert.AreEqual("required", ((HtmlTagToken)token).Attributes[0].Name);
         }
 
         [Test]

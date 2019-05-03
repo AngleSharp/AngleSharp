@@ -59,10 +59,7 @@
             }
         }
 
-        public String Type
-        {
-            get { return TagNames.Output; }
-        }
+        public String Type => TagNames.Output;
 
         #endregion
 

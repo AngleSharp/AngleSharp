@@ -40,19 +40,13 @@
         /// Gets a collection representing the area elements
         /// associated to this map.
         /// </summary>
-        public IHtmlCollection<IHtmlAreaElement> Areas
-        {
-            get { return _areas ?? (_areas = new HtmlCollection<IHtmlAreaElement>(this, deep: false)); }
-        }
+        public IHtmlCollection<IHtmlAreaElement> Areas => _areas ?? (_areas = new HtmlCollection<IHtmlAreaElement>(this, deep: false));
 
         /// <summary>
         /// Gets a collection representing the img and object
         /// elements associated to this element.
         /// </summary>
-        public IHtmlCollection<IHtmlImageElement> Images
-        {
-            get { return _images ?? (_images = new HtmlCollection<IHtmlImageElement>(Owner.DocumentElement, predicate: IsAssociatedImage)); }
-        }
+        public IHtmlCollection<IHtmlImageElement> Images => _images ?? (_images = new HtmlCollection<IHtmlImageElement>(Owner.DocumentElement, predicate: IsAssociatedImage));
 
         #endregion
 

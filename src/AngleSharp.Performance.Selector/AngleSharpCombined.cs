@@ -7,15 +7,9 @@
     {
         private static readonly HtmlParser parser = new HtmlParser();
 
-        public String Name
-        {
-            get { return "AngleSharp"; }
-        }
+        public String Name => "AngleSharp";
 
-        public Type Library
-        {
-            get { return typeof(HtmlParser); }
-        }
+        public Type Library => typeof(HtmlParser);
 
         public void Run(String source)
         {

@@ -5,7 +5,7 @@ namespace AngleSharp.Html.Parser.Tokens
     using System;
 
     /// <summary>
-    /// The abstract base class of any HTML token.
+    /// The abstract base class of top-level HTML tokens.
     /// </summary>
     public class HtmlToken
     {
@@ -100,6 +100,11 @@ namespace AngleSharp.Html.Parser.Tokens
         /// Gets the type of the token.
         /// </summary>
         public HtmlTokenType Type => _type;
+
+        /// <summary>
+        /// Indicates that this comment token is a processing instruction.
+        /// </summary>
+        public bool IsProcessingInstruction { get; internal set; }
 
         #endregion
 

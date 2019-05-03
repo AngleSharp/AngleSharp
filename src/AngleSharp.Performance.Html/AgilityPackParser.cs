@@ -5,15 +5,9 @@
 
     class AgilityPackParser : ITestee
     {
-        public String Name
-        {
-            get { return "HTMLAgilityPack"; }
-        }
+        public String Name => "HTMLAgilityPack";
 
-        public Type Library
-        {
-            get { return typeof(HtmlDocument); }
-        }
+        public Type Library => typeof(HtmlDocument);
 
         public void Run(String source)
         {

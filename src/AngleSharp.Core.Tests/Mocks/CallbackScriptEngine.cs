@@ -16,10 +16,7 @@
             _type = type ?? "c-sharp";
         }
 
-        public String Type
-        {
-            get { return _type; }
-        }
+        public String Type => _type;
 
         public Boolean SupportsType(String mimeType)
         {

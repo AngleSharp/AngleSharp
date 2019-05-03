@@ -8,10 +8,10 @@ namespace AngleSharp.Dom
     using System.Linq;
     using System.Threading.Tasks;
 
-    #if NETSTANDARD1_3
+#if NETSTANDARD1_3
     // Assembly.GetTypes is available as an extension in System.Reflection from NS1.3
     using System.Reflection;
-    #endif
+#endif
 
     /// <summary>
     /// Useful methods for document objects.
@@ -94,13 +94,15 @@ namespace AngleSharp.Dom
         /// <param name="node">The node to change its owner.</param>
         public static void AdoptNode(this IDocument document, INode node)
         {
-            var adoptedNode = node as Node;
-
-            if (adoptedNode == null)
+            if (node is Node adoptedNode)
+            {
+                adoptedNode.Parent?.RemoveChild(adoptedNode, false);
+                adoptedNode.Owner = document as Document;
+            }
+            else
+            {
                 throw new DomException(DomError.NotSupported);
-
-            adoptedNode.Parent?.RemoveChild(adoptedNode, false);
-            adoptedNode.Owner = document as Document;
+            }
         }
 
         /// <summary>
@@ -110,10 +112,7 @@ namespace AngleSharp.Dom
         /// The document that hosts the configuration.
         /// </param>
         /// <param name="action">The action that should be invoked.</param>
-        internal static void QueueTask(this Document document, Action action)
-        {
-            document.Loop.Enqueue(action);
-        }
+        internal static void QueueTask(this Document document, Action action) => document.Loop.Enqueue(action);
 
         /// <summary>
         /// Queues a mutation record for the corresponding observers.
@@ -191,9 +190,7 @@ namespace AngleSharp.Dom
         {
             if (document.IsInBrowsingContext)
             {
-                var root = document.DocumentElement as IHtmlHtmlElement;
-
-                if (root != null)
+                if (document.DocumentElement is IHtmlHtmlElement root)
                 {
                     var manifest = root.Manifest;
 
@@ -223,10 +220,7 @@ namespace AngleSharp.Dom
         /// Queue a mutation observer compound microtask.
         /// </summary>
         /// <param name="document">The document to use.</param>
-        internal static void PerformMicrotaskCheckpoint(this Document document)
-        {
-            document.Mutations.ScheduleCallback();
-        }
+        internal static void PerformMicrotaskCheckpoint(this Document document) => document.Mutations.ScheduleCallback();
 
         /// <summary>
         /// Provides a stable state by running the synchronous sections of
@@ -244,10 +238,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="document">The document to use.</param>
         /// <returns>Enumerable of awaitable tasks.</returns>
-        public static IEnumerable<Task> GetScriptDownloads(this IDocument document)
-        {
-            return document.Context.GetDownloads<HtmlScriptElement>();
-        }
+        public static IEnumerable<Task> GetScriptDownloads(this IDocument document) => document.Context.GetDownloads<HtmlScriptElement>();
 
         /// <summary>
         /// Checks if the document has any active stylesheets that block the
@@ -262,10 +253,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="document">The document to use.</param>
         /// <returns>Enumerable of awaitable tasks.</returns>
-        public static IEnumerable<Task> GetStyleSheetDownloads(this IDocument document)
-        {
-            return document.Context.GetDownloads<HtmlLinkElement>();
-        }
+        public static IEnumerable<Task> GetStyleSheetDownloads(this IDocument document) => document.Context.GetDownloads<HtmlLinkElement>();
 
         /// <summary>
         /// Spins the event loop until all stylesheets are downloaded (if

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Text;
     using System;
@@ -59,11 +59,7 @@
             return sb.Append(Symbols.Space).Append(Symbols.CurlyBracketClose).ToPool();
         }
 
-        String IStyleFormatter.Declaration(String name, String value, Boolean important)
-        {
-            var rest = String.Concat(value, important ? " !important" : String.Empty);
-            return String.Concat(name, ": ", rest);
-        }
+        String IStyleFormatter.Declaration(String name, String value, Boolean important) => String.Concat(name, ": ", String.Concat(value, important ? " !important" : String.Empty));
 
         String IStyleFormatter.BlockDeclarations(IEnumerable<IStyleFormattable> declarations)
         {
@@ -87,21 +83,11 @@
             return sb.Append(Symbols.Space).Append(Symbols.CurlyBracketClose).ToPool();
         }
 
-        String IStyleFormatter.Rule(String name, String value)
-        {
-            return String.Concat(name, " ", value, ";");
-        }
+        String IStyleFormatter.Rule(String name, String value) => String.Concat(name, " ", value, ";");
 
-        String IStyleFormatter.Rule(String name, String prelude, String rules)
-        {
-            var text = String.IsNullOrEmpty(prelude) ? String.Empty : prelude + " ";
-            return String.Concat(name, " ", text, rules);
-        }
+        String IStyleFormatter.Rule(String name, String prelude, String rules) => String.Concat(name, " ", String.IsNullOrEmpty(prelude) ? String.Empty : prelude + " ", rules);
 
-        String IStyleFormatter.Comment(String data)
-        {
-            return String.Join("/*", data, "*/");
-        }
+        String IStyleFormatter.Comment(String data) => String.Join("/*", data, "*/");
 
         #endregion
     }

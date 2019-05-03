@@ -13,24 +13,12 @@
             _id = id;
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.OneId; }
-        }
+        public Priority Specificity => Priority.OneId;
 
-        public String Text
-        {
-            get { return "#" + _id; }
-        }
+        public String Text => "#" + _id;
 
-        public void Accept(ISelectorVisitor visitor)
-        {
-            visitor.Id(_id);
-        }
+        public void Accept(ISelectorVisitor visitor) => visitor.Id(_id);
 
-        public Boolean Match(IElement element, IElement scope)
-        {
-            return element.Id.Is(_id);
-        }
+        public Boolean Match(IElement element, IElement scope) => element.Id.Is(_id);
     }
 }

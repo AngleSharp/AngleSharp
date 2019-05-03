@@ -152,8 +152,9 @@ namespace AngleSharp.Html.Parser
 
             for (var i = 0; i < count; i++)
             {
-                var name = tag.Attributes[i].Key;
-                var value = tag.Attributes[i].Value;
+                var attr = tag.Attributes[i];
+                var name = attr.Name;
+                var value = attr.Value;
                 element.AdjustAttribute(name.AdjustToMathAttribute(), value);
             }
 
@@ -172,8 +173,9 @@ namespace AngleSharp.Html.Parser
 
             for (var i = 0; i < count; i++)
             {
-                var name = tag.Attributes[i].Key;
-                var value = tag.Attributes[i].Value;
+                var attr = tag.Attributes[i];
+                var name = attr.Name;
+                var value = attr.Value;
                 element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
             }
 

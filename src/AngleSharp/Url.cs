@@ -159,26 +159,17 @@ namespace AngleSharp
         /// <summary>
         /// Gets if the URL parsing resulted in an error.
         /// </summary>
-        public Boolean IsInvalid
-        {
-            get { return _error; }
-        }
+        public Boolean IsInvalid => _error;
 
         /// <summary>
         /// Gets if the stored url is relative.
         /// </summary>
-        public Boolean IsRelative
-        {
-            get { return _relative && String.IsNullOrEmpty(_scheme); }
-        }
+        public Boolean IsRelative => _relative && String.IsNullOrEmpty(_scheme);
 
         /// <summary>
         /// Gets if the stored url is absolute.
         /// </summary>
-        public Boolean IsAbsolute
-        {
-            get { return !IsRelative; }
-        }
+        public Boolean IsAbsolute => !IsRelative;
 
         /// <summary>
         /// Gets or sets the username for authorization.
@@ -202,10 +193,7 @@ namespace AngleSharp
         /// Gets the additional stored data of the URL. This is data that could
         /// not be assigned.
         /// </summary>
-        public String Data
-        {
-            get { return _schemeData; }
-        }
+        public String Data => _schemeData;
 
         /// <summary>
         /// Gets or sets the fragment.
@@ -338,8 +326,7 @@ namespace AngleSharp
         /// </returns>
         public override Boolean Equals(Object obj)
         {
-            var url = obj as Url;
-            return url != null ? Equals(url) : false;
+            return obj is Url url ? Equals(url) : false;
         }
 
         /// <summary>

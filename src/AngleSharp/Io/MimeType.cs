@@ -61,7 +61,7 @@ namespace AngleSharp.Io
         /// <summary>
         /// Gets the content part, i.e. everything without the parameters.
         /// </summary>
-        public String Content 
+        public String Content
         {
             get
             {
@@ -94,14 +94,10 @@ namespace AngleSharp.Io
         /// <summary>
         /// Gets an iterator over all integrated keys.
         /// </summary>
-        public IEnumerable<String> Keys
-        {
-            get
-            {
-                return _params.Split(';').Where(m => !String.IsNullOrEmpty(m))
-                              .Select(m => m.IndexOf('=') >= 0 ? m.Substring(0, m.IndexOf('=')) : m);
-            }
-        }
+        public IEnumerable<String> Keys => _params
+            .Split(';')
+            .Where(m => !String.IsNullOrEmpty(m))
+            .Select(m => m.IndexOf('=') >= 0 ? m.Substring(0, m.IndexOf('=')) : m);
 
         #endregion
 
@@ -112,12 +108,9 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="key">The parameter's key.</param>
         /// <returns>The value of the parameter or null.</returns>
-        public String GetParameter(String key)
-        {
-            return _params.Split(';').Where(m => m.StartsWith(key + "="))
-                          .Select(m => m.Substring(m.IndexOf('=') + 1))
-                          .FirstOrDefault();
-        }
+        public String GetParameter(String key) => _params.Split(';').Where(m => m.StartsWith(key + "="))
+            .Select(m => m.Substring(m.IndexOf('=') + 1))
+            .FirstOrDefault();
 
         /// <summary>
         /// Returns the string representation of the MIME type.
@@ -145,12 +138,9 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="other">The type to compare to.</param>
         /// <returns>True if both types are equal, otherwise false.</returns>
-        public Boolean Equals(MimeType other)
-        {
-            return _general.Isi(other._general) && 
-                   _media.Isi(other._media) && 
-                   _suffix.Isi(other._suffix);
-        }
+        public Boolean Equals(MimeType other) => _general.Isi(other._general) &&
+            _media.Isi(other._media) &&
+            _suffix.Isi(other._suffix);
 
         /// <summary>
         /// Compares to the other object. It has to be a MIME type.
@@ -170,7 +160,7 @@ namespace AngleSharp.Io
 
                 return false;
             }
-            
+
             return true;
         }
 
@@ -178,12 +168,9 @@ namespace AngleSharp.Io
         /// Computes the hash code for the MIME type.
         /// </summary>
         /// <returns>The computed hash code.</returns>
-        public override Int32 GetHashCode()
-        {
-            return (_general.GetHashCode() << 2) ^ 
-                   (_media.GetHashCode() << 1) ^ 
-                   (_suffix.GetHashCode());
-        }
+        public override Int32 GetHashCode() => (_general.GetHashCode() << 2) ^
+            (_media.GetHashCode() << 1) ^
+            (_suffix.GetHashCode());
 
         /// <summary>
         /// Runs the Equals method from a with b.
@@ -191,10 +178,7 @@ namespace AngleSharp.Io
         /// <param name="a">The first MIME type.</param>
         /// <param name="b">The MIME type to compare to.</param>
         /// <returns>True if both are equal, otherwise false.</returns>
-        public static Boolean operator ==(MimeType a, MimeType b)
-        {
-            return a.Equals(b);
-        }
+        public static Boolean operator ==(MimeType a, MimeType b) => a.Equals(b);
 
         /// <summary>
         /// Runs the negated Equals method from a with b.
@@ -202,10 +186,7 @@ namespace AngleSharp.Io
         /// <param name="a">The first MIME type.</param>
         /// <param name="b">The MIME type to compare to.</param>
         /// <returns>True if both are not equal, otherwise false.</returns>
-        public static Boolean operator !=(MimeType a, MimeType b)
-        {
-            return !a.Equals(b);
-        }
+        public static Boolean operator !=(MimeType a, MimeType b) => !a.Equals(b);
 
         #endregion
     }

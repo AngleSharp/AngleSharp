@@ -73,37 +73,25 @@
         /// Gets if the control key is pressed.
         /// </summary>
         [DomName("ctrlKey")]
-        public Boolean IsCtrlPressed
-        {
-            get { return _modifiers.IsCtrlPressed(); }
-        }
+        public Boolean IsCtrlPressed => _modifiers.IsCtrlPressed();
 
         /// <summary>
         /// Gets if the shift key is pressed.
         /// </summary>
         [DomName("shiftKey")]
-        public Boolean IsShiftPressed
-        {
-            get { return _modifiers.IsShiftPressed(); }
-        }
+        public Boolean IsShiftPressed => _modifiers.IsShiftPressed();
 
         /// <summary>
         /// Gets if the alt key is pressed.
         /// </summary>
         [DomName("altKey")]
-        public Boolean IsAltPressed
-        {
-            get { return _modifiers.IsAltPressed(); }
-        }
+        public Boolean IsAltPressed => _modifiers.IsAltPressed();
 
         /// <summary>
         /// Gets if the meta key is pressed.
         /// </summary>
         [DomName("metaKey")]
-        public Boolean IsMetaPressed
-        {
-            get { return _modifiers.IsMetaPressed(); }
-        }
+        public Boolean IsMetaPressed => _modifiers.IsMetaPressed();
 
         /// <summary>
         /// Gets if the key press was repeated.
@@ -130,10 +118,7 @@
         /// Gets the locale of the keyboard.
         /// </summary>
         [DomName("locale")]
-        public String Locale
-        {
-            get { return IsTrusted ? String.Empty : null; }
-        }
+        public String Locale => IsTrusted ? String.Empty : null;
 
         #endregion
 

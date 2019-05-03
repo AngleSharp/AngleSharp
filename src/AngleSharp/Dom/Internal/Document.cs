@@ -509,10 +509,7 @@ namespace AngleSharp.Dom
         #region Properties
 
         /// <inheritdoc />
-        public TextSource Source
-        {
-            get { return _source; }
-        }
+        public TextSource Source => _source;
 
         /// <inheritdoc />
         public abstract IEntityProvider Entities
@@ -528,10 +525,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IEventLoop Loop
-        {
-            get { return _loop; }
-        }
+        public IEventLoop Loop => _loop;
 
         /// <inheritdoc />
         public String DesignMode
@@ -541,28 +535,16 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IHtmlAllCollection All
-        {
-            get { return _all ?? (_all = new HtmlAllCollection(this)); }
-        }
+        public IHtmlAllCollection All => _all ?? (_all = new HtmlAllCollection(this));
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlAnchorElement> Anchors
-        {
-            get { return _anchors ?? (_anchors = new HtmlCollection<IHtmlAnchorElement>(this, predicate: IsAnchor)); }
-        }
+        public IHtmlCollection<IHtmlAnchorElement> Anchors => _anchors ?? (_anchors = new HtmlCollection<IHtmlAnchorElement>(this, predicate: IsAnchor));
 
         /// <inheritdoc />
-        public Int32 ChildElementCount
-        {
-            get { return ChildNodes.OfType<Element>().Count(); }
-        }
+        public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Children
-        {
-            get { return _children ?? (_children = new HtmlCollection<IElement>(ChildNodes.OfType<Element>())); }
-        }
+        public IHtmlCollection<IElement> Children => _children ?? (_children = new HtmlCollection<IElement>(ChildNodes.OfType<Element>()));
 
         /// <inheritdoc />
         public IElement FirstElementChild
@@ -574,9 +556,7 @@ namespace AngleSharp.Dom
 
                 for (var i = 0; i < n; i++)
                 {
-                    var child = children[i] as IElement;
-
-                    if (child != null)
+                    if (children[i] is IElement child)
                     {
                         return child;
                     }
@@ -595,9 +575,7 @@ namespace AngleSharp.Dom
 
                 for (var i = children.Length - 1; i >= 0; i--)
                 {
-                    var child = children[i] as IElement;
-
-                    if (child != null)
+                    if (children[i] is IElement child)
                     {
                         return child;
                     }
@@ -608,22 +586,13 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public Boolean IsAsync
-        {
-            get { return _async; }
-        }
+        public Boolean IsAsync => _async;
 
         /// <inheritdoc />
-        public IHtmlScriptElement CurrentScript
-        {
-            get { return _loadingScripts.Count > 0 ? _loadingScripts.Peek() : null; }
-        }
+        public IHtmlScriptElement CurrentScript => _loadingScripts.Count > 0 ? _loadingScripts.Peek() : null;
 
         /// <inheritdoc />
-        public IImplementation Implementation
-        {
-            get { return _implementation ?? (_implementation = new DomImplementation(this)); }
-        }
+        public IImplementation Implementation => _implementation ?? (_implementation = new DomImplementation(this));
 
         /// <inheritdoc />
         public String LastModified
@@ -633,10 +602,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IDocumentType Doctype
-        {
-            get { return this.FindChild<DocumentType>(); }
-        }
+        public IDocumentType Doctype => this.FindChild<DocumentType>();
 
         /// <inheritdoc />
         public String ContentType
@@ -657,16 +623,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IStyleSheetList StyleSheets
-        {
-            get { return _styleSheets ?? (_styleSheets = this.CreateStyleSheets()); }
-        }
+        public IStyleSheetList StyleSheets => _styleSheets ?? (_styleSheets = this.CreateStyleSheets());
 
         /// <inheritdoc />
-        public IStringList StyleSheetSets
-        {
-            get { return _styleSheetSets ?? (_styleSheetSets = this.CreateStyleSheetSets()); }
-        }
+        public IStringList StyleSheetSets => _styleSheetSets ?? (_styleSheetSets = this.CreateStyleSheetSets());
 
         /// <inheritdoc />
         public String Referrer
@@ -676,10 +636,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public ILocation Location
-        {
-            get { return _location; }
-        }
+        public ILocation Location => _location;
 
         /// <inheritdoc />
         public String DocumentUri
@@ -694,16 +651,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public Url DocumentUrl
-        {
-            get { return _location.Original; }
-        }
+        public Url DocumentUrl => _location.Original;
 
         /// <inheritdoc />
-        public IWindow DefaultView
-        {
-            get { return _view; }
-        }
+        public IWindow DefaultView => _view;
 
         /// <inheritdoc />
         public String Direction
@@ -713,10 +664,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public String CharacterSet
-        {
-            get { return _source.CurrentEncoding.WebName; }
-        }
+        public String CharacterSet => _source.CurrentEncoding.WebName;
 
         /// <inheritdoc />
         public abstract IElement DocumentElement
@@ -725,58 +673,31 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IElement ActiveElement
-        {
-            get { return All.Where(m => m.IsFocused).FirstOrDefault(); }
-        }
+        public IElement ActiveElement => All.Where(m => m.IsFocused).FirstOrDefault();
 
         /// <inheritdoc />
-        public String CompatMode
-        {
-            get { return _quirksMode.GetCompatiblity(); }
-        }
+        public String CompatMode => _quirksMode.GetCompatiblity();
 
         /// <inheritdoc />
-        public String Url
-        {
-            get { return _location.Href; }
-        }
+        public String Url => _location.Href;
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlFormElement> Forms
-        {
-            get { return new HtmlCollection<IHtmlFormElement>(this); }
-        }
+        public IHtmlCollection<IHtmlFormElement> Forms => new HtmlCollection<IHtmlFormElement>(this);
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlImageElement> Images
-        {
-            get { return _images ?? (_images = new HtmlCollection<IHtmlImageElement>(this)); }
-        }
+        public IHtmlCollection<IHtmlImageElement> Images => _images ?? (_images = new HtmlCollection<IHtmlImageElement>(this));
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlScriptElement> Scripts
-        {
-            get { return _scripts ?? (_scripts = new HtmlCollection<IHtmlScriptElement>(this)); }
-        }
+        public IHtmlCollection<IHtmlScriptElement> Scripts => _scripts ?? (_scripts = new HtmlCollection<IHtmlScriptElement>(this));
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlEmbedElement> Plugins
-        {
-            get { return _plugins ?? (_plugins = new HtmlCollection<IHtmlEmbedElement>(this)); }
-        }
+        public IHtmlCollection<IHtmlEmbedElement> Plugins => _plugins ?? (_plugins = new HtmlCollection<IHtmlEmbedElement>(this));
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Commands
-        {
-            get { return _commands ?? (_commands = new HtmlCollection<IElement>(this, predicate: IsCommand)); }
-        }
+        public IHtmlCollection<IElement> Commands => _commands ?? (_commands = new HtmlCollection<IElement>(this, predicate: IsCommand));
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Links
-        {
-            get { return _links ?? (_links = new HtmlCollection<IElement>(this, predicate: IsLink)); }
-        }
+        public IHtmlCollection<IElement> Links => _links ?? (_links = new HtmlCollection<IElement>(this, predicate: IsLink));
 
         /// <inheritdoc />
         public String Title
@@ -786,10 +707,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IHtmlHeadElement Head
-        {
-            get { return DocumentElement.FindChild<IHtmlHeadElement>(); }
-        }
+        public IHtmlHeadElement Head => DocumentElement.FindChild<IHtmlHeadElement>();
 
         /// <inheritdoc />
         public IHtmlElement Body
@@ -802,16 +720,14 @@ namespace AngleSharp.Dom
                 {
                     foreach (var child in root.ChildNodes)
                     {
-                        var body = child as HtmlBodyElement;
 
-                        if (body != null)
+                        if (child is HtmlBodyElement body)
                         {
                             return body;
                         }
 
-                        var frameset = child as HtmlFrameSetElement;
 
-                        if (frameset != null)
+                        if (child is HtmlFrameSetElement frameset)
                         {
                             return frameset;
                         }
@@ -847,10 +763,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IBrowsingContext Context
-        {
-            get { return _context; }
-        }
+        public IBrowsingContext Context => _context;
 
         /// <inheritdoc />
         public HttpStatusCode StatusCode
@@ -874,10 +787,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public String Origin
-        {
-            get { return _location.Origin; }
-        }
+        public String Origin => _location.Origin;
 
         /// <inheritdoc />
         public String SelectedStyleSheetSet
@@ -917,31 +827,19 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public String PreferredStyleSheetSet
-        {
-            get { return All.OfType<IHtmlLinkElement>().Where(m => m.IsPreferred()).Select(m => m.Title).FirstOrDefault(); }
-        }
+        public String PreferredStyleSheetSet => All.OfType<IHtmlLinkElement>().Where(m => m.IsPreferred()).Select(m => m.Title).FirstOrDefault();
 
         /// <inheritdoc />
-        public Boolean IsReady
-        {
-            get { return ReadyState == DocumentReadyState.Complete; }
-        }
+        public Boolean IsReady => ReadyState == DocumentReadyState.Complete;
 
         /// <inheritdoc />
-        public Boolean IsLoading
-        {
-            get { return ReadyState == DocumentReadyState.Loading; }
-        }
+        public Boolean IsLoading => ReadyState == DocumentReadyState.Loading;
 
         #endregion
 
         #region Internal Properties
 
-        internal MutationHost Mutations
-        {
-            get { return _mutations; }
-        }
+        internal MutationHost Mutations => _mutations;
 
         internal QuirksMode QuirksMode
         {
@@ -960,20 +858,11 @@ namespace AngleSharp.Dom
             _loadingScripts.Enqueue(script);
         }
 
-        internal Boolean IsInBrowsingContext
-        {
-            get { return _context.Active != null; }
-        }
+        internal Boolean IsInBrowsingContext => _context.Active != null;
 
-        internal Boolean IsToBePrinted
-        {
-            get { return false; }
-        }
+        internal Boolean IsToBePrinted => false;
 
-        internal IElement FocusElement
-        {
-            get { return _focus; }
-        }
+        internal IElement FocusElement => _focus;
 
         #endregion
 
@@ -982,10 +871,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Clears the whole document without any notification.
         /// </summary>
-        public void Clear()
-        {
-            ReplaceAll(null, true);
-        }
+        public void Clear() => ReplaceAll(null, true);
 
         /// <inheritdoc />
         public void Dispose()
@@ -1084,10 +970,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void Load(String url)
-        {
-            Location.Href = url;
-        }
+        public void Load(String url) => Location.Href = url;
 
         void IDocument.Close()
         {
@@ -1113,10 +996,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void WriteLine(String content)
-        {
-            Write(content + Symbols.LineFeed);
-        }
+        public void WriteLine(String content) => Write(content + Symbols.LineFeed);
 
         /// <inheritdoc />
         public IHtmlCollection<IElement> GetElementsByName(String name)
@@ -1149,25 +1029,15 @@ namespace AngleSharp.Dom
         public Event CreateEvent(String type)
         {
             var factory = _context.GetFactory<IEventFactory>();
-            var ev = factory.Create(type);
-
-            if (ev == null)
-                throw new DomException(DomError.NotSupported);
-
+            var ev = factory.Create(type) ?? throw new DomException(DomError.NotSupported);
             return ev;
         }
 
         /// <inheritdoc />
-        public INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null)
-        {
-            return new NodeIterator(root, settings, filter);
-        }
+        public INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null) => new NodeIterator(root, settings, filter);
 
         /// <inheritdoc />
-        public ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null)
-        {
-            return new TreeWalker(root, settings, filter);
-        }
+        public ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null) => new TreeWalker(root, settings, filter);
 
         /// <inheritdoc />
         public IRange CreateRange()
@@ -1178,16 +1048,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void Prepend(params INode[] nodes)
-        {
-            this.PrependNodes(nodes);
-        }
+        public void Prepend(params INode[] nodes) => this.PrependNodes(nodes);
 
         /// <inheritdoc />
-        public void Append(params INode[] nodes)
-        {
-            this.AppendNodes(nodes);
-        }
+        public void Append(params INode[] nodes) => this.AppendNodes(nodes);
 
         /// <inheritdoc />
         public IElement CreateElement(String localName)
@@ -1238,16 +1102,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IComment CreateComment(String data)
-        {
-            return new Comment(this, data);
-        }
+        public IComment CreateComment(String data) => new Comment(this, data);
 
         /// <inheritdoc />
-        public IDocumentFragment CreateDocumentFragment()
-        {
-            return new DocumentFragment(this);
-        }
+        public IDocumentFragment CreateDocumentFragment() => new DocumentFragment(this);
 
         /// <inheritdoc />
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
@@ -1259,58 +1117,31 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IText CreateTextNode(String data)
-        {
-            return new TextNode(this, data);
-        }
+        public IText CreateTextNode(String data) => new TextNode(this, data);
 
         /// <inheritdoc />
-        public IElement GetElementById(String elementId)
-        {
-            return ChildNodes.GetElementById(elementId);
-        }
+        public IElement GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
 
         /// <inheritdoc />
-        public IElement QuerySelector(String selectors)
-        {
-            return ChildNodes.QuerySelector(selectors, DocumentElement);
-        }
+        public IElement QuerySelector(String selectors) => ChildNodes.QuerySelector(selectors, DocumentElement);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
-        {
-            return ChildNodes.QuerySelectorAll(selectors, DocumentElement);
-        }
+        public IHtmlCollection<IElement> QuerySelectorAll(String selectors) => ChildNodes.QuerySelectorAll(selectors, DocumentElement);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
-        {
-            return ChildNodes.GetElementsByClassName(classNames);
-        }
+        public IHtmlCollection<IElement> GetElementsByClassName(String classNames) => ChildNodes.GetElementsByClassName(classNames);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByTagName(String tagName)
-        {
-            return ChildNodes.GetElementsByTagName(tagName);
-        }
+        public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => ChildNodes.GetElementsByTagName(tagName);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByTagName(String namespaceURI, String tagName)
-        {
-            return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
-        }
+        public IHtmlCollection<IElement> GetElementsByTagName(String namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
         /// <inheritdoc />
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            ChildNodes.ToHtml(writer, formatter);
-        }
+        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter) => ChildNodes.ToHtml(writer, formatter);
 
         /// <inheritdoc />
-        public Boolean HasFocus()
-        {
-            return Object.ReferenceEquals(_context.Active, this);
-        }
+        public Boolean HasFocus() => Object.ReferenceEquals(_context.Active, this);
 
         /// <inheritdoc />
         public IAttr CreateAttribute(String localName)
@@ -1372,10 +1203,7 @@ namespace AngleSharp.Dom
         /// Attaches another reference to this document.
         /// </summary>
         /// <param name="value">The value to attach.</param>
-        internal void AttachReference(Object value)
-        {
-            _attachedReferences.Add(new WeakReference(value));
-        }
+        internal void AttachReference(Object value) => _attachedReferences.Add(new WeakReference(value));
 
         /// <summary>
         /// Waits for the given task before raising the load event.
@@ -1393,10 +1221,7 @@ namespace AngleSharp.Dom
         /// Sets the focus to the provided element.
         /// </summary>
         /// <param name="element">The element to focus on.</param>
-        internal void SetFocus(IElement element)
-        {
-            _focus = element;
-        }
+        internal void SetFocus(IElement element) => _focus = element;
 
         /// <summary>
         /// Finishes writing to a document.
@@ -1463,9 +1288,7 @@ namespace AngleSharp.Dom
 
             foreach (var descendant in descendants)
             {
-                var active = descendant.Active as Document;
-
-                if (active != null)
+                if (descendant.Active is Document active)
                 {
                     var result = await active.PromptToUnloadAsync().ConfigureAwait(false);
 
@@ -1511,9 +1334,7 @@ namespace AngleSharp.Dom
 
             foreach (var descendant in descendants)
             {
-                var active = descendant.Active as Document;
-
-                if (active != null)
+                if (descendant.Active is Document active)
                 {
                     active.Unload(false);
                     _salvageable = _salvageable && active._salvageable;
@@ -1584,9 +1405,7 @@ namespace AngleSharp.Dom
 
             foreach (var childContext in childContexts)
             {
-                var active = childContext.Active as Document;
-
-                if (active != null)
+                if (childContext.Active is Document active)
                 {
                     active.Abort(fromUser: false);
                     _salvageable = _salvageable && active._salvageable;
@@ -1613,10 +1432,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        private static Boolean IsCommand(IElement element)
-        {
-            return element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement;
-        }
+        private static Boolean IsCommand(IElement element) => element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement;
 
         private static Boolean IsLink(IElement element)
         {
@@ -1624,15 +1440,9 @@ namespace AngleSharp.Dom
             return isLinkElement && element.Attributes.Any(m => m.Name.Is(AttributeNames.Href));
         }
 
-        private static Boolean IsAnchor(IHtmlAnchorElement element)
-        {
-            return element.Attributes.Any(m => m.Name.Is(AttributeNames.Name));
-        }
+        private static Boolean IsAnchor(IHtmlAnchorElement element) => element.Attributes.Any(m => m.Name.Is(AttributeNames.Name));
 
-        private void RaiseDomContentLoaded()
-        {
-            this.FireSimpleEvent(EventNames.DomContentLoaded);
-        }
+        private void RaiseDomContentLoaded() => this.FireSimpleEvent(EventNames.DomContentLoaded);
 
         private void RaiseLoadedEvent()
         {
@@ -1719,10 +1529,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        protected virtual String GetTitle()
-        {
-            return String.Empty;
-        }
+        protected virtual String GetTitle() => String.Empty;
 
         /// <inheritdoc />
         protected abstract void SetTitle(String value);

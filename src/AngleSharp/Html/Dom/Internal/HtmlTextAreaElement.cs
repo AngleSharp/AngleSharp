@@ -45,10 +45,7 @@
         /// <summary>
         /// Gets the codepoint length of the control's value.
         /// </summary>
-        public Int32 TextLength
-        {
-            get { return Value.Length; }
-        }
+        public Int32 TextLength => Value.Length;
 
         /// <summary>
         /// Gets or sets the rows HTML attribute, indicating
@@ -73,19 +70,13 @@
         /// <summary>
         /// Gets the type of input control (texarea).
         /// </summary>
-        public String Type
-        {
-            get { return TagNames.Textarea; }
-        }
+        public String Type => TagNames.Textarea;
 
         #endregion
 
         #region Internal properties
 
-        internal Boolean IsMutable
-        {
-            get { return !IsDisabled && !IsReadOnly; }
-        }
+        internal Boolean IsMutable => !IsDisabled && !IsReadOnly;
 
         #endregion
 

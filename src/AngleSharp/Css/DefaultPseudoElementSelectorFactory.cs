@@ -28,10 +28,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The name of the CSS pseudo element.</param>
         /// <param name="selector">The selector to register.</param>
-        public void Register(String name, ISelector selector)
-        {
-            _selectors.Add(name, selector);
-        }
+        public void Register(String name, ISelector selector) => _selectors.Add(name, selector);
 
         /// <summary>
         /// Unregisters an existing selector for the given name.
@@ -54,10 +51,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The name of the CSS pseudo class.</param>
         /// <returns>The selector with the given name.</returns>
-        protected virtual ISelector CreateDefault(String name)
-        {
-            return null;
-        }
+        protected virtual ISelector CreateDefault(String name) => null;
 
         /// <summary>
         /// Creates or gets the associated CSS pseudo element selector.

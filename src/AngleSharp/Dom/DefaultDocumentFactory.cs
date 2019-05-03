@@ -20,7 +20,7 @@ namespace AngleSharp.Dom
             { MimeTypeNames.Plain, LoadTextAsync },
             { MimeTypeNames.ApplicationJson, LoadTextAsync },
             { MimeTypeNames.DefaultJavaScript, LoadTextAsync },
-            { MimeTypeNames.Css, LoadTextAsync }
+            { MimeTypeNames.Css, LoadTextAsync },
         };
 
         /// <summary>
@@ -39,17 +39,14 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="contentType">The content-type value.</param>
         /// <param name="creator">The creator to invoke.</param>
-        public void Register(String contentType, Creator creator)
-        {
-            _creators.Add(contentType, creator);
-        }
+        public virtual void Register(String contentType, Creator creator) => _creators.Add(contentType, creator);
 
         /// <summary>
         /// Unregisters an existing creator for the given content-type.
         /// </summary>
         /// <param name="contentType">The content-type value.</param>
         /// <returns>The registered creator, if any.</returns>
-        public Creator Unregister(String contentType)
+        public virtual Creator Unregister(String contentType)
         {
             if (_creators.TryGetValue(contentType, out var creator))
             {
@@ -66,10 +63,7 @@ namespace AngleSharp.Dom
         /// <param name="options">The options to consider.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The task creating the document from the response.</returns>
-        protected virtual Task<IDocument> CreateDefaultAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
-        {
-            return LoadHtmlAsync(context, options, cancellationToken);
-        }
+        protected virtual Task<IDocument> CreateDefaultAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken) => LoadHtmlAsync(context, options, cancellationToken);
 
         /// <summary>
         /// Creates a new document from the given arguments using the Content-Type
@@ -79,7 +73,7 @@ namespace AngleSharp.Dom
         /// <param name="options">The options to consider.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The task creating the document from the response.</returns>
-        public Task<IDocument> CreateAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
+        public virtual Task<IDocument> CreateAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
         {
             var contentType = options.ContentType;
 
@@ -94,7 +88,10 @@ namespace AngleSharp.Dom
             return CreateDefaultAsync(context, options, cancellationToken);
         }
 
-        private static Task<IDocument> LoadHtmlAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
+        /// <summary>
+        /// Loads the response as an HTML document.
+        /// </summary>
+        protected static Task<IDocument> LoadHtmlAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
         {
             var parser = context.GetService<IHtmlParser>();
             var document = new HtmlDocument(context, options.Source);
@@ -103,7 +100,10 @@ namespace AngleSharp.Dom
             return parser.ParseDocumentAsync(document, cancellationToken);
         }
 
-        private static async Task<IDocument> LoadTextAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
+        /// <summary>
+        /// Loads the response as a plain text (formatted as HTML) document.
+        /// </summary>
+        protected static async Task<IDocument> LoadTextAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
         {
             var document = new HtmlDocument(context, options.Source);
             document.Setup(options.Response, options.ContentType, options.ImportAncestor);

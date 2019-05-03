@@ -94,10 +94,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
             return steps;
         }
 
-        static IEnumerable<JsonStep> FailedJsonSteps(String original)
-        {
-            return new[] { new ObjectStep(original) };
-        }
+        static IEnumerable<JsonStep> FailedJsonSteps(String original) => new[] { new ObjectStep(original) };
 
         protected abstract JsonElement CreateElement();
 
@@ -188,10 +185,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
             public String Key { get; private set; }
 
-            protected override JsonElement GetValue(JsonElement context)
-            {
-                return context[Key];
-            }
+            protected override JsonElement GetValue(JsonElement context) => context[Key];
 
             protected override JsonElement SetValue(JsonElement context, JsonElement value)
             {
@@ -199,10 +193,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
                 return value;
             }
 
-            protected override JsonElement CreateElement()
-            {
-                return new JsonObject();
-            }
+            protected override JsonElement CreateElement() => new JsonObject();
 
             protected override JsonElement ConvertArray(JsonArray values)
             {
@@ -233,21 +224,18 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
             protected override JsonElement GetValue(JsonElement context)
             {
-                var array = context as JsonArray;
-
-                if (array == null)
+                if (context is JsonArray array)
                 {
-                    return context[Key.ToString()];
+                    return array[Key];
                 }
 
-                return array[Key];
+                return context[Key.ToString()];
             }
 
             protected override JsonElement SetValue(JsonElement context, JsonElement value)
             {
-                var array = context as JsonArray;
 
-                if (array != null)
+                if (context is JsonArray array)
                 {
                     array[Key] = value;
                 }
@@ -259,15 +247,9 @@ namespace AngleSharp.Html.Forms.Submitters.Json
                 return value;
             }
 
-            protected override JsonElement CreateElement()
-            {
-                return new JsonArray();
-            }
+            protected override JsonElement CreateElement() => new JsonArray();
 
-            protected override JsonElement ConvertArray(JsonArray value)
-            {
-                return value;
-            }
+            protected override JsonElement ConvertArray(JsonArray value) => value;
         }
     }
 }

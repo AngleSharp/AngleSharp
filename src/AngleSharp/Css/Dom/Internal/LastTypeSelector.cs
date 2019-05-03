@@ -25,9 +25,7 @@
 
                 for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
-                    var child = parent.ChildNodes[i] as IElement;
-
-                    if (child != null && child.NodeName.Is(element.NodeName))
+                    if (parent.ChildNodes[i] is IElement child && child.NodeName.Is(element.NodeName))
                     {
                         k += 1;
 

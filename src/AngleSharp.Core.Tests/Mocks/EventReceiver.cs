@@ -14,19 +14,15 @@
         {
             addHandler((s, ev) =>
             {
-                var data = ev as TReceivingEvent;
 
-                if (data != null)
+                if (ev is TReceivingEvent data)
                 {
                     Receive(data);
                 }
             });
         }
 
-        public List<TReceivingEvent> Received
-        {
-            get { return _received; }
-        }
+        public List<TReceivingEvent> Received => _received;
 
         public Action<TReceivingEvent> OnReceived
         {

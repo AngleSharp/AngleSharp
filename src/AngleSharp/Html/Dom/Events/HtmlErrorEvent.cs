@@ -41,26 +41,17 @@
         /// <summary>
         /// Gets the position of the error.
         /// </summary>
-        public TextPosition Position
-        {
-            get { return _position; }
-        }
+        public TextPosition Position => _position;
 
         /// <summary>
         /// Gets the provided error code.
         /// </summary>
-        public Int32 Code
-        {
-            get { return _code.GetCode(); }
-        }
+        public Int32 Code => _code.GetCode();
 
         /// <summary>
         /// Gets the associated error message.
         /// </summary>
-        public String Message
-        {
-            get { return _code.GetMessage(); }
-        }
+        public String Message => _code.GetMessage();
 
         #endregion
     }

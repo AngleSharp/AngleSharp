@@ -18,10 +18,7 @@
             _count = 0;
         }
 
-        public Int32 RequestCount
-        {
-            get { return _count; }
-        }
+        public Int32 RequestCount => _count;
 
         public override Boolean SupportsProtocol(String protocol)
         {

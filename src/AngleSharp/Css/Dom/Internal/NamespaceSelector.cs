@@ -12,24 +12,12 @@
             _prefix = prefix;
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.Zero; }
-        }
+        public Priority Specificity => Priority.Zero;
 
-        public String Text
-        {
-            get { return _prefix; }
-        }
+        public String Text => _prefix;
 
-        public Boolean Match(IElement element, IElement scope)
-        {
-            return element.MatchesCssNamespace(_prefix);
-        }
+        public Boolean Match(IElement element, IElement scope) => element.MatchesCssNamespace(_prefix);
 
-        public void Accept(ISelectorVisitor visitor)
-        {
-            visitor.Type(_prefix);
-        }
+        public void Accept(ISelectorVisitor visitor) => visitor.Type(_prefix);
     }
 }

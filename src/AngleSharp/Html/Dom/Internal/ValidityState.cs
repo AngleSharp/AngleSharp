@@ -120,10 +120,7 @@
         /// <summary>
         /// Gets if the value is valid.
         /// </summary>
-        public Boolean IsValid
-        {
-            get { return _err == ValidationErrors.None; }
-        }
+        public Boolean IsValid => _err == ValidationErrors.None;
 
         #endregion
 

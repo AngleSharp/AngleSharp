@@ -26,10 +26,7 @@ namespace AngleSharp.Browser.Dom.Events
         /// <summary>
         /// Gets the currently set result, if any.
         /// </summary>
-        public Task Result
-        {
-            get { return _result; }
-        }
+        public Task Result => _result;
 
         /// <summary>
         /// Sets the result to the given value. Multiple results

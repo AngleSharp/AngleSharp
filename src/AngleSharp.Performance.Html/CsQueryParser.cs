@@ -8,15 +8,9 @@
 
     class CsQueryParser : ITestee
     {
-        public String Name
-        {
-            get { return "CsQuery"; }
-        }
+        public String Name => "CsQuery";
 
-        public Type Library
-        {
-            get { return typeof(ElementFactory); }
-        }
+        public Type Library => typeof(ElementFactory);
 
         public void Run(String source)
         {

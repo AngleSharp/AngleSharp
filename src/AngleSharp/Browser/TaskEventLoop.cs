@@ -116,22 +116,13 @@ namespace AngleSharp.Browser
                 _action = action;
             }
 
-            public Boolean IsCompleted
-            {
-                get { return _task != null && _task.IsCompleted; }
-            }
+            public Boolean IsCompleted => _task != null && _task.IsCompleted;
 
-            public Boolean IsRunning
-            {
-                get
-                {
-                    return _task != null &&
+            public Boolean IsRunning => _task != null &&
                            (_task.Status == TaskStatus.Running ||
                            _task.Status == TaskStatus.WaitingForActivation ||
                            _task.Status == TaskStatus.WaitingToRun ||
                            _task.Status == TaskStatus.WaitingForChildrenToComplete);
-                }
-            }
 
             public void Run(Action callback)
             {
@@ -145,10 +136,7 @@ namespace AngleSharp.Browser
                 }
             }
 
-            public void Cancel()
-            {
-                _cts.Cancel();
-            }
+            public void Cancel() => _cts.Cancel();
         }
     }
 }

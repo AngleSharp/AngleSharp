@@ -12,10 +12,7 @@
             _tests = new List<ITest>();
         }
 
-        public List<ITest> Tests
-        {
-            get { return _tests; }
-        }
+        public List<ITest> Tests => _tests;
 
         public StandardTests Include(params String[] values)
         {

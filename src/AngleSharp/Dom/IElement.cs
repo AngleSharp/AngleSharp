@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -272,5 +272,10 @@
         /// Gets if the element is currently focused.
         /// </summary>
         Boolean IsFocused { get; }
+
+        /// <summary>
+        /// Gets the source reference if available.
+        /// </summary>
+        ISourceReference SourceReference { get; }
     }
 }

@@ -45,10 +45,7 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IDownload CurrentDownload
-        {
-            get { return _relation?.Processor?.Download; }
-        }
+        public IDownload CurrentDownload => _relation?.Processor?.Download;
 
         public String Href
         {

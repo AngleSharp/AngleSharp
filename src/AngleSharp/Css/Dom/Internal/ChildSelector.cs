@@ -30,10 +30,7 @@
 
         #region Properties
 
-        public Priority Specificity
-        {
-            get { return Priority.OneClass; }
-        }
+        public Priority Specificity => Priority.OneClass;
 
         public String Text
         {
@@ -58,25 +55,13 @@
             }
         }
 
-        public String Name
-        {
-            get { return _name; }
-        }
+        public String Name => _name;
 
-        public Int32 Step
-        {
-            get { return _step; }
-        }
+        public Int32 Step => _step;
 
-        public Int32 Offset
-        {
-            get { return _offset; }
-        }
+        public Int32 Offset => _offset;
 
-        public ISelector Kind
-        {
-            get { return _kind; }
-        }
+        public ISelector Kind => _kind;
 
         #endregion
 

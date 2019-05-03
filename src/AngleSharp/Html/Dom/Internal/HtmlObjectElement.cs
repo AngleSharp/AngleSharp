@@ -29,10 +29,7 @@
 
         #region Properties
 
-        public IDownload CurrentDownload
-        {
-            get { return _request?.Download; }
-        }
+        public IDownload CurrentDownload => _request?.Download;
 
         public String Source
         {
@@ -70,25 +67,13 @@
             set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
-        public Int32 OriginalWidth
-        {
-            get { return _request?.Width ?? 0; }
-        }
+        public Int32 OriginalWidth => _request?.Width ?? 0;
 
-        public Int32 OriginalHeight
-        {
-            get { return _request?.Height ?? 0; }
-        }
+        public Int32 OriginalHeight => _request?.Height ?? 0;
 
-        public IDocument ContentDocument
-        {
-            get { return null; }
-        }
+        public IDocument ContentDocument => null;
 
-        public IWindow ContentWindow
-        {
-            get { return null; }
-        }
+        public IWindow ContentWindow => null;
 
         #endregion
 

@@ -86,6 +86,13 @@ var context = BrowsingContext.New(Configuration.Default);
 var parser = new HtmlParser(context);
 ```
 
+but would be much better expressed as
+
+```cs
+var context = BrowsingContext.New(Configuration.Default);
+var parser = context.GetService<IHtmlParser>();
+```
+
 ### CSS
 
 The current version of AngleSharp split out the CSS parsing (except CSS selectors) in its own library. This library is called `AngleSharp.Css` and is available via NuGet.
@@ -109,6 +116,34 @@ Instead we now have to use the AngleSharp.Css NuGet package, which should be use
 ```
 
 In previous versions the `IWindow` also contained CSS methods for style computation. These are now also available in the new CSS library as extension methods. The `WindowExtensions` are contained in the namespace `AngleSharp.Dom`.
+
+### Building Query Selectors
+
+In AngleSharp v0.9 we can construct an `ISelector` directly like:
+
+```cs
+CssParser parser = new CssParser();
+ISelector selector = parser.ParseSelector("p > a");
+```
+
+Starting with AngleSharp v0.10 such direct access should be avoided. The `CssParser` is gone anyway and exists only in a reduced form within AngleSharp.Core (no CSS support), which implements the `ICssSelectorParser` interface.
+
+The current way for accessing this functionality is via the service collection.
+
+```cs
+var config = Configuration.Default;
+
+// use the consuming (or a new) context
+var context = BrowsingContext.New(config);
+
+// get the registered parser instance
+var parser = context.GetService<ICssSelectorParser>();
+
+// use as before
+var selector = parser.ParseSelector("foo");
+```
+
+Normally, a `BrowsingContext` instance already exists thus making the access much simpler.
 
 ### Scripting
 

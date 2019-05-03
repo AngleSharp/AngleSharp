@@ -54,10 +54,7 @@
         /// <summary>
         /// Gets the form element that the label is assigned for if any.
         /// </summary>
-        public IHtmlFormElement Form
-        {
-            get { return GetAssignedForm(); }
-        }
+        public IHtmlFormElement Form => GetAssignedForm();
 
         #endregion
     }

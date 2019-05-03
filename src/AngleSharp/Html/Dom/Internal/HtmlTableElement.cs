@@ -41,10 +41,7 @@
             set { DeleteHead(); AppendChild(value); }
         }
 
-        public IHtmlCollection<IHtmlTableSectionElement> Bodies
-        {
-            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName.Is(TagNames.Tbody))); }
-        }
+        public IHtmlCollection<IHtmlTableSectionElement> Bodies => _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName.Is(TagNames.Tbody)));
 
         public IHtmlTableSectionElement Foot
         {
@@ -97,10 +94,7 @@
             }
         }
 
-        public IHtmlCollection<IHtmlTableRowElement> Rows
-        {
-            get { return _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(AllRows)); }
-        }
+        public IHtmlCollection<IHtmlTableRowElement> Rows => _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(AllRows));
 
         public HorizontalAlignment Align
         {

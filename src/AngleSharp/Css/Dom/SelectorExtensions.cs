@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -55,10 +55,7 @@
         /// <param name="selector">The selector.</param>
         /// <param name="element">The element to match against.</param>
         /// <returns>The result of the match.</returns>
-        public static Boolean Match(this ISelector selector, IElement element)
-        {
-            return selector.Match(element, element?.Owner.DocumentElement);
-        }
+        public static Boolean Match(this ISelector selector, IElement element) => selector.Match(element, element?.Owner.DocumentElement);
 
         private static void MatchAll(this ISelector selector, IEnumerable<IElement> elements, IElement scope, List<IElement> result)
         {

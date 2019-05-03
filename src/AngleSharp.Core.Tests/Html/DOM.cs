@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Html
+namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
@@ -679,6 +679,15 @@
             var html = String.Join("", Enumerable.Repeat("<xyz>", 50 * 1000)) + "<img src=\"http://www.example.com/\">";
             document.Body.InnerHtml = html;
             Assert.True(true);
+        }
+
+        [Test]
+        public void MultipleXmlns_Issue760()
+        {
+            var doc = (@"<!DOCTYPE html>
+        <svg xmlns=http://www.w3.org/2000/svg xmlns:xlink=http://www.w3.org/1999/xlink></svg>").ToHtmlDocument();
+            var svg = doc.Body.FirstElementChild;
+            Assert.AreEqual("<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"></svg>", svg.ToHtml());
         }
     }
 }

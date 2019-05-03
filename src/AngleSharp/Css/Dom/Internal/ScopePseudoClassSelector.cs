@@ -11,20 +11,11 @@
         {
         }
 
-        public Priority Specificity
-        {
-            get { return Priority.OneClass; }
-        }
+        public Priority Specificity => Priority.OneClass;
 
-        public String Text
-        {
-            get { return PseudoClassNames.Separator + PseudoClassNames.Scope; }
-        }
+        public String Text => PseudoClassNames.Separator + PseudoClassNames.Scope;
 
-        public void Accept(ISelectorVisitor visitor)
-        {
-            visitor.PseudoClass(PseudoClassNames.Scope);
-        }
+        public void Accept(ISelectorVisitor visitor) => visitor.PseudoClass(PseudoClassNames.Scope);
 
         public Boolean Match(IElement element, IElement scope)
         {

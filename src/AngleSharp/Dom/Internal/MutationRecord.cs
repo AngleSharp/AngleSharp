@@ -79,20 +79,11 @@
 
         #region Properties
 
-        public Boolean IsAttribute
-        {
-            get { return Type.Is(AttributesType); }
-        }
+        public Boolean IsAttribute => Type.Is(AttributesType);
 
-        public Boolean IsCharacterData
-        {
-            get { return Type.Is(CharacterDataType); }
-        }
+        public Boolean IsCharacterData => Type.Is(CharacterDataType);
 
-        public Boolean IsChildList
-        {
-            get { return Type.Is(ChildListType); }
-        }
+        public Boolean IsChildList => Type.Is(ChildListType);
 
         public String Type
         {

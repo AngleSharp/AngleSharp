@@ -25,9 +25,7 @@
 
                 for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
-                    var child = parent.ChildNodes[i] as IHtmlTableCellElement;
-
-                    if (child != null)
+                    if (parent.ChildNodes[i] is IHtmlTableCellElement child)
                     {
                         var span = child.ColumnSpan;
                         k += span;

@@ -99,10 +99,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Gets the specified options.
         /// </summary>
-        public HtmlParserOptions Options
-        {
-            get { return _options; }
-        }
+        public HtmlParserOptions Options => _options;
 
         #endregion
 
@@ -124,9 +121,8 @@ namespace AngleSharp.Html.Parser
         {
             var document = CreateDocument(source);
             var parser = new HtmlDomBuilder(document);
-            var element = contextElement as Element;
 
-            if (element != null)
+            if (contextElement is Element element)
             {
                 var context = document.Context;
                 element = document.CreateElementFrom(contextElement.LocalName, contextElement.Prefix);

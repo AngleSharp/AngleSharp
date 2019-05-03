@@ -23,8 +23,8 @@
 
         public String Name
         {
-            get { return this.GetOwnAttribute(AttributeNames.Name); }
-            set { this.SetOwnAttribute(AttributeNames.Name, value); }
+            get => this.GetOwnAttribute(AttributeNames.Name);
+            set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
         #endregion
@@ -43,9 +43,7 @@
                 {
                     if (Object.ReferenceEquals(GetAssignedSlot(node), this))
                     {
-                        var otherSlot = node as HtmlSlotElement;
-
-                        if (otherSlot != null)
+                        if (node is HtmlSlotElement otherSlot)
                         {
                             list.AddRange(otherSlot.GetDistributedNodes());
                         }

@@ -39,9 +39,8 @@ namespace AngleSharp.Dom
         {
             for (var i = 0; i < children.Length; i++)
             {
-                var element = children[i] as IElement;
 
-                if (element != null)
+                if (children[i] is IElement element)
                 {
                     if (element.Id.Is(id))
                     {
@@ -70,9 +69,7 @@ namespace AngleSharp.Dom
         {
             for (var i = 0; i < children.Length; i++)
             {
-                var element = children[i] as IElement;
-
-                if (element != null)
+                if (children[i] is IElement element)
                 {
                     if (element.GetAttribute(null, AttributeNames.Name).Is(name))
                     {
@@ -151,9 +148,7 @@ namespace AngleSharp.Dom
         {
             for (var i = 0; i < parent.ChildNodes.Length; i++)
             {
-                var child = parent.ChildNodes[i] as T;
-
-                if (child != null && predicate(child))
+                if (parent.ChildNodes[i] is T child && predicate(child))
                 {
                     yield return child;
                 }
