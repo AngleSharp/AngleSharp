@@ -13,9 +13,9 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        readonly Queue<IMutationRecord> _records;
-        readonly MutationCallback _callback;
-        readonly List<MutationObserving> _observing;
+        private readonly Queue<IMutationRecord> _records;
+        private readonly MutationCallback _callback;
+        private readonly List<MutationObserving> _observing;
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace AngleSharp.Dom
 
         #region Properties
 
-        MutationObserving this[INode node]
+        private MutationObserving this[INode node]
         {
             get
             {
@@ -90,10 +90,7 @@ namespace AngleSharp.Dom
         /// Triggers the execution with the provided records.
         /// </summary>
         /// <param name="records">The records to supply as argument.</param>
-        internal void TriggerWith(IMutationRecord[] records)
-        {
-            _callback(records, this);
-        }
+        internal void TriggerWith(IMutationRecord[] records) => _callback(records, this);
 
         /// <summary>
         /// Gets the options, if any, for the given node. If null is returned
@@ -273,9 +270,9 @@ namespace AngleSharp.Dom
 
         sealed class MutationObserving
         {
-            readonly INode _target;
-            readonly MutationOptions _options;
-            readonly List<INode> _transientNodes;
+            private readonly INode _target;
+            private readonly MutationOptions _options;
+            private readonly List<INode> _transientNodes;
 
             public MutationObserving(INode target, MutationOptions options)
             {
