@@ -60,6 +60,7 @@ Task("Build")
     .IsDependentOn("Restore-Packages")
     .Does(() =>
     {
+        ReplaceRegexInFiles("./src/Directory.Build.props", "(?<=<Version>)(.+?)(?=</Version>)", version);
         DotNetCoreBuild("./src/AngleSharp.Core.sln", new DotNetCoreBuildSettings
         {
            Configuration = configuration,
@@ -110,7 +111,7 @@ Task("Copy-Files")
             CopyFiles(new FilePath[]
             {
                 buildDir + Directory(item.Value) + File("AngleSharp.dll"),
-                buildDir + Directory(item.Value) + File("AngleSharp.xml")
+                buildDir + Directory(item.Value) + File("AngleSharp.xml"),
             }, targetDir);
         }
 
@@ -122,12 +123,8 @@ Task("Create-Package")
     .Does(() =>
     {
         var nugetExe = GetFiles("./tools/**/nuget.exe").FirstOrDefault()
-            ?? (isRunningOnAppVeyor ? GetFiles("C:\\Tools\\NuGet3\\nuget.exe").FirstOrDefault() : null);
-
-        if (nugetExe == null)
-        {
-            throw new InvalidOperationException("Could not find nuget.exe.");
-        }
+            ?? (isRunningOnAppVeyor ? GetFiles("C:\\Tools\\NuGet3\\nuget.exe").FirstOrDefault() : null)
+            ?? throw new InvalidOperationException("Could not find nuget.exe.");
 
         var nuspec = nugetRoot + File("AngleSharp.nuspec");
 
