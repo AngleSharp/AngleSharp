@@ -2,6 +2,34 @@
 
 A more detailed changelog can be found in the [CHANGELOG](../CHANGELOG.md).
 
+**0.12.0**
+
+- Added `GetExtension` helper to `MimeTypeNames`
+- Improved extension capability for document fragment parsing
+- Added `Index` and more documentation to `TextPosition` (#787)
+- Added ability to create a selector for an element (#784)
+- Enhanced documentation (#776, #774, #771)
+- Fixed DOM name attribute in `AdjacentPosition` (#775)
+- Fixed bug regarding `set-cookie` header (#768)
+- Added attribute start position in token (#766)
+- Added support for XML processing instruction (#761)
+- Fixed serialization of xmlns attributes (#760)
+- Added `ISourceReference` for source position retrieval (#754)
+
+**0.11.0**
+
+- Moved everything from `AngleSharp.Xml` to its own library (#139)
+- Added more examples regarding forms (#242)
+- Moved `ISvgDocument` and `AutoSelectedMarkupFormatter` to AngleSharp.Xml
+- Improved fragment parsing (#594)
+- Fixed inconsistent behavior in fragment parsing (#741)
+- Improved migration documentation (#743)
+- Fixed internal bug in `link` resolution (#753)
+- Removed `SetDefault` function from `Configuration`
+- Added .NET Standard 1.3 target (#738)
+- Fixed missing reference to `System.Encoding.CodePages` (#740)
+- Fixed invalid context of `OuterHtml` parsing (#741)
+
 **0.10.0**
 
 - `HttpRequester` improvements

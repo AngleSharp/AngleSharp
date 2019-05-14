@@ -12,6 +12,7 @@ namespace AngleSharp.Browser
     sealed class TaskEventLoop : IEventLoop
     {
         private readonly Dictionary<TaskPriority, Queue<TaskEventLoopEntry>> _queues;
+        private readonly Object _lockObj = new Object();
         private TaskEventLoopEntry _current;
 
         public TaskEventLoop(IBrowsingContext context)
@@ -24,7 +25,7 @@ namespace AngleSharp.Browser
         {
             var entry = new TaskEventLoopEntry(task);
 
-            lock (this)
+            lock (_lockObj)
             {
                 if (!_queues.TryGetValue(priority, out var entries))
                 {
@@ -47,21 +48,15 @@ namespace AngleSharp.Browser
 
         public void Spin()
         {
-            lock (this)
+            lock (_lockObj)
             {
-                if (_current?.IsRunning != true)
-                {
-                    SetCurrent(Dequeue(TaskPriority.Critical) ??
-                               Dequeue(TaskPriority.Microtask) ??
-                               Dequeue(TaskPriority.Normal) ??
-                               Dequeue(TaskPriority.None));
-                }
+                SpinInternal();
             }
         }
 
         public void CancelAll()
         {
-            lock (this)
+            lock (_lockObj)
             {
                 foreach (var queue in _queues)
                 {
@@ -78,20 +73,31 @@ namespace AngleSharp.Browser
             }
         }
 
+        private void SpinInternal()
+        {
+            var completed = _current?.IsCompleted ?? true;
+
+            if (completed)
+            {
+                SetCurrent(
+                    Dequeue(TaskPriority.Critical) ??
+                    Dequeue(TaskPriority.Microtask) ??
+                    Dequeue(TaskPriority.Normal) ??
+                    Dequeue(TaskPriority.None));
+            }
+        }
+
         private void SetCurrent(TaskEventLoopEntry entry)
         {
             _current = entry;
-            entry?.Run(Continue);
-        }
-
-        private void Continue()
-        {
-            lock (this)
+            entry?.Run(() =>
             {
-                _current = null;
-            }
-
-            Spin();
+                lock (_lockObj)
+                {
+                    _current = null;
+                    SpinInternal();
+                }
+            });
         }
 
         private TaskEventLoopEntry Dequeue(TaskPriority priority)
@@ -128,11 +134,8 @@ namespace AngleSharp.Browser
             {
                 if (_task == null)
                 {
-                    _task = Task.Run(() =>
-                    {
-                        _action.Invoke(_cts.Token);
-                        callback.Invoke();
-                    }, _cts.Token);
+                    _task = Task.Run(() => _action.Invoke(_cts.Token), _cts.Token);
+                    _task.ContinueWith(_ => callback.Invoke());
                 }
             }
 
