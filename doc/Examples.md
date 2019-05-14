@@ -169,7 +169,7 @@ Here is the full sample code.
 static async Task SimpleScriptingSample()
 {
     //We require a custom configuration
-    var config = Configuration.Default.WithJavaScript();
+    var config = Configuration.Default.WithJs();
 
     //Create a new context for evaluating webpages with the given config
     var context = BrowsingContext.New(config);
@@ -204,7 +204,7 @@ The following example code performs DOM queries, creates new elements and remove
 static void ExtendedScriptingSample()
 {
     //We require a custom configuration with JavaScript and CSS
-    var config = Configuration.Default.WithJavaScript().WithCss();
+    var config = Configuration.Default.WithJs().WithCss();
 
     //Create a new context for evaluating webpages with the given config
     var context = BrowsingContext.New(config);
@@ -266,7 +266,7 @@ The listener is called once the document is fully loaded. This happens after exe
 public static void EventScriptingExample()
 {
     //We require a custom configuration
-    var config = Configuration.Default.WithJavaScript();
+    var config = Configuration.Default.WithJs();
 
     //Create a new context for evaluating webpages with the given config
     var context = BrowsingContext.New(config);

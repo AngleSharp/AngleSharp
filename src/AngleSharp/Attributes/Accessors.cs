@@ -23,6 +23,14 @@
         /// <summary>
         /// Specifies that the property or method should be handled by delete.
         /// </summary>
-        Deleter = 0x4
+        Deleter = 0x4,
+        /// <summary>
+        /// Specifies that the method should be handled as an event adder.
+        /// </summary>
+        Adder = 0x8,
+        /// <summary>
+        /// Specifies that the method should be handled by an event remover.
+        /// </summary>
+        Remover = 0x10
     }
 }

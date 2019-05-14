@@ -1,3 +1,10 @@
+# 0.12.1
+
+Released on Wednesday, May 15 2019.
+
+- Binary version fix
+- Updated documentation regarding AngleSharp.Js
+
 # 0.12.0
 
 Released on Thursday, May 2 2019.

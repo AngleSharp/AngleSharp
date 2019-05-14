@@ -1,5 +1,9 @@
 # Migration Guide
 
+## 0.11 to 0.12
+
+For this change we do not expect any migration work unless a custom implementation of `IElement` has been done (unlikely).
+
 ## 0.10 to 0.11
 
 This release follows the spirit of 0.10 an prepares for the 1.0 later this year. There are mainly additions, but also one important breaking change: We removed everything that is related to AngleSharp.Xml. This is now part of separate library called AngleSharp.Xml.
