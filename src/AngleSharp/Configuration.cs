@@ -27,15 +27,9 @@ namespace AngleSharp
 
         private readonly IEnumerable<Object> _services;
 
-        private static T Instance<T>(T instance)
-        {
-            return instance;
-        }
+        private static T Instance<T>(T instance) => instance;
 
-        private static Func<IBrowsingContext, T> Creator<T>(Func<IBrowsingContext, T> creator)
-        {
-            return creator;
-        }
+        private static Func<IBrowsingContext, T> Creator<T>(Func<IBrowsingContext, T> creator) => creator;
 
         #endregion
 
@@ -63,7 +57,6 @@ namespace AngleSharp
                 Instance<IMetaHandler>(new EncodingMetaHandler()),
                 Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
                 Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
-                Creator<IEventLoop>(ctx => new TaskEventLoop(ctx)),
             }; ;
         }
 

@@ -139,29 +139,18 @@ namespace AngleSharp.Io.Processors
 
         #region Helpers
 
-        private ScriptOptions CreateOptions()
+        private ScriptOptions CreateOptions() => new ScriptOptions(_document)
         {
-            return new ScriptOptions(_document)
-            {
-                Element = _script,
-                Encoding = TextEncoding.Resolve(_script.CharacterSet)
-            };
-        }
+            Element = _script,
+            Encoding = TextEncoding.Resolve(_script.CharacterSet)
+        };
 
-        private void FireLoadEvent()
-        {
-            _script.FireSimpleEvent(EventNames.Load);
-        }
+        private void FireLoadEvent() => _script.FireSimpleEvent(EventNames.Load);
 
-        private void FireErrorEvent()
-        {
-            _script.FireSimpleEvent(EventNames.Error);
-        }
+        private void FireErrorEvent() => _script.FireSimpleEvent(EventNames.Error);
 
-        private void FireAfterScriptExecuteEvent()
-        {
+        private void FireAfterScriptExecuteEvent() =>
             _script.FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
-        }
 
         #endregion
     }
