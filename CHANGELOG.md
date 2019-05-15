@@ -4,6 +4,7 @@
 
 - Removed the `TaskEventLoop` (#782)
 - Renamed `WithCookies` to `WithDefaultCookies`
+- Fixed bubbling of `DOMContentLoaded` event (#789)
 
 # 0.12.1
 

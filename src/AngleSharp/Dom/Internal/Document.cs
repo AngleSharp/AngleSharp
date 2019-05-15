@@ -1442,7 +1442,11 @@ namespace AngleSharp.Dom
 
         private static Boolean IsAnchor(IHtmlAnchorElement element) => element.Attributes.Any(m => m.Name.Is(AttributeNames.Name));
 
-        private void RaiseDomContentLoaded() => this.FireSimpleEvent(EventNames.DomContentLoaded);
+        private void RaiseDomContentLoaded()
+        {
+            this.FireSimpleEvent(EventNames.DomContentLoaded);
+            _view.FireSimpleEvent(EventNames.DomContentLoaded);
+        }
 
         private void RaiseLoadedEvent()
         {

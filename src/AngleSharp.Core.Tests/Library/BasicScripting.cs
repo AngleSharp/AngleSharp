@@ -2,6 +2,7 @@ namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
     using AngleSharp.Io;
     using NUnit.Framework;
     using System.Text;
@@ -119,6 +120,74 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(1, document.QuerySelectorAll("b").Length);
             Assert.AreEqual("dynamically written", bold.TextContent);
             Assert.AreEqual(5, index);
+        }
+
+        [Test]
+        public async Task CustomScriptEngineHookToDomContentLoadedFromWindow()
+        {
+            var scripting = new CallbackScriptEngine(options =>
+            {
+                options.Document.DefaultView.AddEventListener(EventNames.DomContentLoaded, (obj, ev) =>
+                {
+                    options.Document.Title = "B";
+                });
+            });
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>A</title><body><script type='c-sharp' src='foo.cs'></script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+
+            Assert.AreEqual("B", document.Title);
+        }
+
+        [Test]
+        public async Task CustomScriptEngineHookToDomContentLoadedFromDocument()
+        {
+            var scripting = new CallbackScriptEngine(options =>
+            {
+                options.Document.AddEventListener(EventNames.DomContentLoaded, (obj, ev) =>
+                {
+                    options.Document.Title = "B";
+                });
+            });
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>A</title><body><script type='c-sharp' src='foo.cs'></script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+
+            Assert.AreEqual("B", document.Title);
+        }
+
+        [Test]
+        public async Task CustomScriptEngineHookToLoadFromWindow()
+        {
+            var scripting = new CallbackScriptEngine(options =>
+            {
+                options.Document.DefaultView.AddEventListener(EventNames.Load, (obj, ev) =>
+                {
+                    options.Document.Title = "B";
+                });
+            });
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>A</title><body><script type='c-sharp' src='foo.cs'></script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+
+            Assert.AreEqual("B", document.Title);
+        }
+
+        [Test]
+        public async Task CustomScriptEngineHookToLoadFromDocument()
+        {
+            var scripting = new CallbackScriptEngine(options =>
+            {
+                options.Document.AddEventListener(EventNames.Load, (obj, ev) =>
+                {
+                    options.Document.Title = "B";
+                });
+            });
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>A</title><body><script type='c-sharp' src='foo.cs'></script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+
+            Assert.AreEqual("B", document.Title);
         }
 
         [Test]
