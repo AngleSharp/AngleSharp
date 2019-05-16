@@ -61,8 +61,8 @@ namespace AngleSharp.Dom
         /// </summary>
         public String Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get => _name;
+            set => _name = value;
         }
 
         /// <summary>
@@ -70,8 +70,8 @@ namespace AngleSharp.Dom
         /// </summary>
         public Int32 OuterHeight
         {
-            get { return _outerHeight; }
-            set { _outerHeight = value; }
+            get => _outerHeight;
+            set => _outerHeight = value;
         }
 
         /// <summary>
@@ -79,8 +79,8 @@ namespace AngleSharp.Dom
         /// </summary>
         public Int32 OuterWidth
         {
-            get { return _outerWidth; }
-            set { _outerWidth = value; }
+            get => _outerWidth;
+            set => _outerWidth = value;
         }
 
         /// <summary>
@@ -89,8 +89,8 @@ namespace AngleSharp.Dom
         /// </summary>
         public Int32 ScreenX
         {
-            get { return _screenX; }
-            set { _screenX = value; }
+            get => _screenX;
+            set => _screenX = value;
         }
 
         /// <summary>
@@ -99,8 +99,8 @@ namespace AngleSharp.Dom
         /// </summary>
         public Int32 ScreenY
         {
-            get { return _screenY; }
-            set { _screenY = value; }
+            get => _screenY;
+            set => _screenY = value;
         }
 
         /// <summary>
@@ -113,8 +113,8 @@ namespace AngleSharp.Dom
         /// </summary>
         public String Status
         {
-            get { return _status; }
-            set { _status = value; }
+            get => _status;
+            set => _status = value;
         }
 
         /// <summary>
@@ -560,10 +560,7 @@ namespace AngleSharp.Dom
             return new Window(document) { Name = name };
         }
 
-        void IWindow.Close()
-        {
-            _closed = true;
-        }
+        void IWindow.Close() => _closed = true;
 
         void IWindow.Stop()
         {
@@ -581,10 +578,7 @@ namespace AngleSharp.Dom
         {
         }
 
-        Boolean IWindow.Confirm(String message)
-        {
-            return false;
-        }
+        Boolean IWindow.Confirm(String message) => false;
 
         void IWindow.Print()
         {
@@ -594,25 +588,15 @@ namespace AngleSharp.Dom
 
         #region Timers
 
-        Int32 IWindowTimers.SetTimeout(Action<IWindow> handler, Int32 timeout)
-        {
-            return QueueTask(DoTimeoutAsync, handler, timeout);
-        }
+        Int32 IWindowTimers.SetTimeout(Action<IWindow> handler, Int32 timeout) =>
+            QueueTask(DoTimeoutAsync, handler, timeout);
 
-        void IWindowTimers.ClearTimeout(Int32 handle)
-        {
-            Clear(handle);
-        }
+        void IWindowTimers.ClearTimeout(Int32 handle) => Clear(handle);
 
-        void IWindowTimers.ClearInterval(Int32 handle)
-        {
-            Clear(handle);
-        }
+        void IWindowTimers.ClearInterval(Int32 handle) => Clear(handle);
 
-        Int32 IWindowTimers.SetInterval(Action<IWindow> handler, Int32 timeout)
-        {
-            return QueueTask(DoIntervalAsync, handler, timeout);
-        }
+        Int32 IWindowTimers.SetInterval(Action<IWindow> handler, Int32 timeout) =>
+            QueueTask(DoIntervalAsync, handler, timeout);
 
         #endregion
 
@@ -666,8 +650,10 @@ namespace AngleSharp.Dom
         {
             var timeoutTasks = _document.GetAttachedReferences<CancellationTokenSource>();
 
-            foreach ( var task in timeoutTasks )
+            foreach (var task in timeoutTasks)
+            {
                 task.Cancel();
+            }
         }
 
         #endregion

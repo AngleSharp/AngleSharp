@@ -530,8 +530,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String DesignMode
         {
-            get { return _designMode ? Keywords.On : Keywords.Off; }
-            set { _designMode = value.Isi(Keywords.On); }
+            get => _designMode ? Keywords.On : Keywords.Off;
+            set => _designMode = value.Isi(Keywords.On);
         }
 
         /// <inheritdoc />
@@ -614,7 +614,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public DocumentReadyState ReadyState
         {
-            get { return _ready; }
+            get => _ready;
             protected set
             {
                 _ready = value;
@@ -641,7 +641,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String DocumentUri
         {
-            get { return _location.Href; }
+            get => _location.Href;
             protected set
             {
                 _location.Changed -= LocationChanged;
@@ -659,8 +659,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String Direction
         {
-            get { return (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction; }
-            set { (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction = value; }
+            get => (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction;
+            set => (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction = value;
         }
 
         /// <inheritdoc />
@@ -702,8 +702,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String Title
         {
-            get { return GetTitle(); }
-            set { SetTitle(value); }
+            get => GetTitle();
+            set => SetTitle(value);
         }
 
         /// <inheritdoc />
@@ -768,21 +768,21 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public HttpStatusCode StatusCode
         {
-            get { return _statusCode; }
-            private set { _statusCode = value; }
+            get => _statusCode;
+            private set => _statusCode = value;
         }
 
         /// <inheritdoc />
         public String Cookie
         {
-            get { return _context.GetCookie(_location.Original); }
-            set { _context.SetCookie(_location.Original, value); }
+            get => _context.GetCookie(_location.Original);
+            set => _context.SetCookie(_location.Original, value);
         }
 
         /// <inheritdoc />
         public String Domain
         {
-            get { return String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host; }
+            get => String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host;
             set { if (_location == null) return; _location.Host = value; }
         }
 
@@ -843,14 +843,14 @@ namespace AngleSharp.Dom
 
         internal QuirksMode QuirksMode
         {
-            get { return _quirksMode; }
-            set { _quirksMode = value; }
+            get => _quirksMode;
+            set => _quirksMode = value;
         }
 
         internal Sandboxes ActiveSandboxing
         {
-            get { return _sandbox; }
-            set { _sandbox = value; }
+            get => _sandbox;
+            set => _sandbox = value;
         }
 
         internal void AddScript(HtmlScriptElement script)
@@ -1194,10 +1194,7 @@ namespace AngleSharp.Dom
         /// <typeparam name="T">The type of values to get.</typeparam>
         /// <returns>Gets the enumeration over all values.</returns>
         internal IEnumerable<T> GetAttachedReferences<T>()
-            where T : class
-        {
-            return _attachedReferences.Select(entry => entry.IsAlive ? entry.Target as T : null).Where(m => m != null);
-        }
+            where T : class => _attachedReferences.Select(entry => entry.IsAlive ? entry.Target as T : null).Where(m => m != null);
 
         /// <summary>
         /// Attaches another reference to this document.
