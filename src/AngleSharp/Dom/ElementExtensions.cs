@@ -1320,10 +1320,8 @@ namespace AngleSharp.Dom
             var document = element.Owner;
             var address = element.Href;
             var url = Url.Create(address);
-            var target = element is HtmlUrlBaseElement urlBase ? urlBase.Target : null;
-            var context = document.Context.ResolveTargetContext(target);
             var request = DocumentRequest.Get(url, source: element, referer: document.DocumentUri);
-            return context.NavigateToAsync(request);
+            return document.Context.NavigateToAsync(request);
         }
 
         /// <summary>

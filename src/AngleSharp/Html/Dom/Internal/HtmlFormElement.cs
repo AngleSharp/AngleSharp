@@ -108,15 +108,15 @@ namespace AngleSharp.Html.Dom
         public Task<IDocument> SubmitAsync()
         {
             var request = GetSubmission();
-            var target = Context.ResolveTargetContext(Target);
-            return target.NavigateToAsync(request);
+            var context = Context.ResolveTargetContext(Target);
+            return Context.NavigateToAsync(request);
         }
 
         public Task<IDocument> SubmitAsync(IHtmlElement sourceElement)
         {
             var request = GetSubmission(sourceElement);
-            var target = Context.ResolveTargetContext(Target);
-            return target.NavigateToAsync(request);
+            var context = Context.ResolveTargetContext(Target);
+            return context.NavigateToAsync(request);
         }
 
         public DocumentRequest GetSubmission() => SubmitForm(this, true);

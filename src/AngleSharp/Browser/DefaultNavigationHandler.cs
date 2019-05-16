@@ -1,6 +1,7 @@
 namespace AngleSharp.Browser
 {
     using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Io;
     using System;
     using System.Linq;
@@ -18,15 +19,25 @@ namespace AngleSharp.Browser
 
         public async Task<IDocument> NavigateAsync(DocumentRequest request, CancellationToken cancel)
         {
-            var download = _context.GetService<IDocumentLoader>()?.FetchAsync(request);
+            var target = request.Source is HtmlUrlBaseElement urlBase ? urlBase.Target : null;
+            var context = _context.ResolveTargetContext(target);
+            var loader = context.GetService<IDocumentLoader>();
 
-            if (download != null)
+            if (loader != null)
             {
-                var response = await download.Task.ConfigureAwait(false);
-                return await _context.OpenAsync(response, cancel).ConfigureAwait(false);
+                var download = loader.FetchAsync(request);
+                cancel.Register(download.Cancel);
+
+                using (var response = await download.Task.ConfigureAwait(false))
+                {
+                    if (response != null)
+                    {
+                        return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+                    }
+                }
             }
 
-            return null;
+            return await context.OpenNewAsync(request.Target.Href, cancel).ConfigureAwait(false);
         }
 
         public Boolean SupportsProtocol(String protocol) =>

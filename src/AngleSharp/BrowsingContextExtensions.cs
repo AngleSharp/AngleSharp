@@ -59,27 +59,11 @@ namespace AngleSharp
         /// <param name="request">The request to issue.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default)
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default)
         {
             request = request ?? throw new ArgumentNullException(nameof(request));
             context = context ?? BrowsingContext.New();
-            var loader = context.GetService<IDocumentLoader>();
-
-            if (loader != null)
-            {
-                var download = loader.FetchAsync(request);
-                cancel.Register(download.Cancel);
-
-                using (var response = await download.Task.ConfigureAwait(false))
-                {
-                    if (response != null)
-                    {
-                        return await context.OpenAsync(response, cancel).ConfigureAwait(false);
-                    }
-                }
-            }
-
-            return await context.OpenNewAsync(request.Target.Href, cancel).ConfigureAwait(false);
+            return context.NavigateToAsync(request);
         }
 
         /// <summary>
@@ -93,9 +77,7 @@ namespace AngleSharp
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel = default)
         {
             url = url ?? throw new ArgumentNullException(nameof(url));
-            context = context ?? BrowsingContext.New();
-            var request = DocumentRequest.Get(url, referer: context.Active?.DocumentUri);
-            return context.NavigateToAsync(request);
+            return context.OpenAsync(DocumentRequest.Get(url, referer: context?.Active?.DocumentUri), cancel);
         }
 
         /// <summary>
