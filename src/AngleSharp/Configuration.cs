@@ -57,6 +57,7 @@ namespace AngleSharp
                 Instance<IMetaHandler>(new EncodingMetaHandler()),
                 Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
                 Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
+                Creator<INavigationHandler>(ctx => new DefaultNavigationHandler(ctx)),
             }; ;
         }
 
