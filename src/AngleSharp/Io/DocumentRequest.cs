@@ -46,7 +46,7 @@ namespace AngleSharp.Io
             {
                 Method = HttpMethod.Get,
                 Referer = referer,
-                Source = source
+                Source = source,
             };
         }
 
@@ -75,7 +75,7 @@ namespace AngleSharp.Io
                 Body = body,
                 MimeType = type,
                 Referer = referer,
-                Source = source
+                Source = source,
             };
         }
 

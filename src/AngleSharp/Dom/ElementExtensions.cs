@@ -1317,9 +1317,13 @@ namespace AngleSharp.Dom
             where TElement : class, IUrlUtilities, IElement
         {
             element = element ?? throw new ArgumentNullException(nameof(element));
+            var document = element.Owner;
             var address = element.Href;
             var url = Url.Create(address);
-            return element.Owner.Context.OpenAsync(url, cancel);
+            var target = element is HtmlUrlBaseElement urlBase ? urlBase.Target : null;
+            var context = document.Context.ResolveTargetContext(target);
+            var request = DocumentRequest.Get(url, source: element, referer: document.DocumentUri);
+            return context.NavigateToAsync(request);
         }
 
         /// <summary>
@@ -1367,28 +1371,6 @@ namespace AngleSharp.Dom
             }
 
             return string.IsNullOrEmpty(img.Source) ? null : Url.Create(img.Source);
-        }
-
-        /// <summary>
-        /// Plan to navigate to an action using the specified method with the given
-        /// entity body of the mime type.
-        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#plan-to-navigate
-        /// </summary>
-        /// <param name="element">The element to navigate from.</param>
-        /// <param name="request">The request to issue.</param>
-        /// <returns>A task that will eventually result in a new document.</returns>
-        internal static async Task<IDocument> NavigateToAsync(this Element element, DocumentRequest request)
-        {
-            var download = element.Context.GetService<IDocumentLoader>()?.FetchAsync(request);
-
-            if (download != null)
-            {
-                var response = await download.Task.ConfigureAwait(false);
-                var cancel = CancellationToken.None;
-                return await element.Owner.Context.OpenAsync(response, cancel).ConfigureAwait(false);
-            }
-
-            return null;
         }
 
         /// <summary>

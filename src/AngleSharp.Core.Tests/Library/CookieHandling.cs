@@ -393,7 +393,7 @@ namespace AngleSharp.Core.Tests.Library
                 .Address("http://localhost/")
                 .Header(HeaderNames.SetCookie, cookieValue));
 
-            await context.OpenAsync("http://localhost/");
+            Assert.IsNotEmpty(document.Cookie);
         }
 
         [Test]
