@@ -11,7 +11,7 @@ build_script:
 - ps: >-
     if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null -and $env:APPVEYOR_REPO_BRANCH -eq "master") {
       .\build.ps1 -Target Publish
-    } else if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null -and $env:APPVEYOR_REPO_BRANCH -eq "devel") {
+    } elseif ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null -and $env:APPVEYOR_REPO_BRANCH -eq "devel") {
       .\build.ps1 -Target PrePublish
     } else {
       .\build.ps1 -Target AppVeyor
