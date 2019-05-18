@@ -105,6 +105,30 @@ git tag v1.0
 
 (The last part is automatically performed by our CI system.)
 
+### Basic Files
+
+The following files should not be edited directly in the current repository, but rather in the `AngleSharp.GitBase` repository. They are then synced via `git pull` from a different remote.
+
+```
+.editorconfig
+.gitignore
+.gitattributes
+.github/*
+appveyor.yml
+build.ps1
+build.sh
+tools/anglesharp.cake
+tools/packages.config
+LICENSE
+```
+
+To sync manually:
+
+```
+git remote add gitbase git@github.com:AngleSharp/AngleSharp.GitBase.git
+git pull gitbase master
+```
+
 ### Versioning
 
 The rules of [semver](http://semver.org/) don't necessarily apply here, but we will try to stay quite close to them.
