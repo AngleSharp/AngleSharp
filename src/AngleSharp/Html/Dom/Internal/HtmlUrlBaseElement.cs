@@ -172,11 +172,13 @@ namespace AngleSharp.Html.Dom
 
         #region Methods
 
-        public override void DoClick()
+        public override async void DoClick()
         {
-            if (!IsClickedCancelled())
+            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
+
+            if (!cancelled)
             {
-                this.NavigateAsync();
+                await this.NavigateAsync().ConfigureAwait(false);
             }
         }
 

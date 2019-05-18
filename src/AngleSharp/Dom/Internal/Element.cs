@@ -298,8 +298,7 @@ namespace AngleSharp.Dom
             protected set
             {
                 var document = Owner;
-
-                if (document != null)
+                document?.QueueTask(() =>
                 {
                     if (value)
                     {
@@ -311,7 +310,7 @@ namespace AngleSharp.Dom
                         document.SetFocus(null);
                         this.Fire<FocusEvent>(m => m.Init(EventNames.Blur, false, false));
                     }
-                }
+                });
             }
         }
 

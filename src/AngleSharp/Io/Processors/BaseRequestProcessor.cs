@@ -105,10 +105,8 @@ namespace AngleSharp.Io.Processors
         /// <summary>
         /// Fetches the given request with CORS.
         /// </summary>
-        protected IDownload DownloadWithCors(CorsRequest request)
-        {
-            return _loader.FetchWithCorsAsync(request);
-        }
+        protected IDownload DownloadWithCors(CorsRequest request) =>
+            _loader.FetchWithCorsAsync(request);
 
         /// <summary>
         /// Cancels the current download, if any.

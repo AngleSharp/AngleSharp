@@ -210,10 +210,7 @@ namespace AngleSharp.Html.Dom
             return executeDirectly;
         }
 
-        private void FireErrorEvent()
-        {
-            this.FireSimpleEvent(EventNames.Error);
-        }
+        private void FireErrorEvent() => Owner.QueueTask(() => this.FireSimpleEvent(EventNames.Error));
 
         #endregion
     }

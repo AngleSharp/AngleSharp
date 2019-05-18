@@ -8,6 +8,7 @@
 - Fixed maximum recursion depth at query selector (#763)
 - Added `MinifyMarkupFormatter` (#745)
 - Added `Prettify` and `Minify` extension methods
+- Moved `hashchange` to be emitted on `IWindow`
 
 # 0.12.1
 

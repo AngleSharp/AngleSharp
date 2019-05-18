@@ -6,6 +6,7 @@ namespace AngleSharp.Dom
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
 #if NETSTANDARD1_3
@@ -112,7 +113,34 @@ namespace AngleSharp.Dom
         /// The document that hosts the configuration.
         /// </param>
         /// <param name="action">The action that should be invoked.</param>
-        internal static void QueueTask(this Document document, Action action) => document.Loop.Enqueue(action);
+        internal static void QueueTask(this Document document, Action action) =>
+            document.Loop.Enqueue(action);
+
+        /// <summary>
+        /// Queues an action in the event loop of the document,
+        /// which can be awaited.
+        /// </summary>
+        /// <param name="document">
+        /// The document that hosts the configuration.
+        /// </param>
+        /// <param name="action">The action that should be invoked.</param>
+        internal static Task QueueTaskAsync(this Document document, Action<CancellationToken> action) =>
+            document.Loop.EnqueueAsync(_ =>
+            {
+                action(_);
+                return true;
+            });
+
+        /// <summary>
+        /// Queues a function in the event loop of the document,
+        /// which can be awaited with the result returned.
+        /// </summary>
+        /// <param name="document">
+        /// The document that hosts the configuration.
+        /// </param>
+        /// <param name="func">The function that should be invoked.</param>
+        internal static Task<T> QueueTaskAsync<T>(this Document document, Func<CancellationToken, T> func) =>
+            document.Loop.EnqueueAsync(func);
 
         /// <summary>
         /// Queues a mutation record for the corresponding observers.

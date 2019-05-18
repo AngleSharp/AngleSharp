@@ -5,7 +5,6 @@ namespace AngleSharp.Io.Processors
     using AngleSharp.Scripting;
     using AngleSharp.Text;
     using System;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -76,16 +75,15 @@ namespace AngleSharp.Io.Processors
                 {
                     _response = await download.Task.ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Debug.WriteLine(ex);
-                    FireErrorEvent();
+                    await _document.QueueTaskAsync(FireErrorEvent).ConfigureAwait(false);
                 }
             }
 
             if (_response != null)
             {
-                var cancelled = _script.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
+                var cancelled = await _document.QueueTaskAsync(FireBeforeScriptExecuteEvent).ConfigureAwait(false);
 
                 if (!cancelled)
                 {
@@ -102,9 +100,8 @@ namespace AngleSharp.Io.Processors
                     }
 
                     _document.Source.Index = insert;
-                    FireAfterScriptExecuteEvent();
-
-                    _document.QueueTask(FireLoadEvent);
+                    await _document.QueueTaskAsync(FireAfterScriptExecuteEvent).ConfigureAwait(false);
+                    await _document.QueueTaskAsync(FireLoadEvent).ConfigureAwait(false);
                     _response.Dispose();
                     _response = null;
                 }
@@ -145,11 +142,16 @@ namespace AngleSharp.Io.Processors
             Encoding = TextEncoding.Resolve(_script.CharacterSet)
         };
 
-        private void FireLoadEvent() => _script.FireSimpleEvent(EventNames.Load);
+        private void FireLoadEvent(CancellationToken _) =>
+            _script.FireSimpleEvent(EventNames.Load);
 
-        private void FireErrorEvent() => _script.FireSimpleEvent(EventNames.Error);
+        private void FireErrorEvent(CancellationToken _) =>
+            _script.FireSimpleEvent(EventNames.Error);
 
-        private void FireAfterScriptExecuteEvent() =>
+        private Boolean FireBeforeScriptExecuteEvent(CancellationToken _) =>
+            _script.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
+
+        private void FireAfterScriptExecuteEvent(CancellationToken _) =>
             _script.FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
 
         #endregion

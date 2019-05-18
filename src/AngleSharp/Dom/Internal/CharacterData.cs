@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.IO;
@@ -174,8 +174,7 @@
                 count = length - offset;
             }
             
-            owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: _content));
-
+            var previous = _content;
             var deleteOffset = offset + data.Length;
             _content = _content.Insert(offset, data);
 
@@ -184,6 +183,7 @@
                 _content = _content.Remove(deleteOffset, count);
             }
 
+            owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: previous));
             owner.ForEachRange(m => m.Head == this && m.Start > offset && m.Start <= offset + count, m => m.StartWith(this, offset));
             owner.ForEachRange(m => m.Tail == this && m.End > offset && m.End <= offset + count, m => m.EndWith(this, offset));
             owner.ForEachRange(m => m.Head == this && m.Start > offset + count, m => m.StartWith(this, m.Start + data.Length - count));
