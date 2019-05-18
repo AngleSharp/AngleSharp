@@ -1,8 +1,9 @@
-﻿namespace AngleSharp.Core.Tests.Css
+namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
     using System;
+    using System.Linq;
 
     [TestFixture]
     public class CssSelectorTests
@@ -871,6 +872,19 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var hiddens = document.QuerySelectorAll("*[style*='display: none' i],*[style*='display:none' i]");
 
             Assert.AreEqual(1, hiddens.Length);
+        }
+
+        [Test]
+        public void MaximumRecursionDepth_Issue763()
+        {
+            var depth = 10000;
+            var open = String.Join("", Enumerable.Repeat("<div>", depth));
+            var inner = String.Join("", Enumerable.Repeat("<a></a>", depth));
+            var close = String.Join("", Enumerable.Repeat("</div", depth));
+            var source = $"{open}{inner}{close}";
+            var document = source.ToHtmlDocument();
+            var result = document.All;
+            Assert.AreEqual(2 * depth + 3, result.Length);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -236,5 +236,10 @@
         /// <returns>The old node, if any.</returns>
         [DomName("replaceChild")]
         INode ReplaceChild(INode newChild, INode oldChild);
+
+        /// <summary>
+        /// Gets the associated node flags.
+        /// </summary>
+        NodeFlags Flags { get; }
     }
 }

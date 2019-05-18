@@ -5,6 +5,9 @@
 - Removed the `TaskEventLoop` (#782)
 - Renamed `WithCookies` to `WithDefaultCookies`
 - Fixed bubbling of `DOMContentLoaded` event (#789)
+- Fixed maximum recursion depth at query selector (#763)
+- Added `MinifyMarkupFormatter` (#745)
+- Added `Prettify` and `Minify` extension methods
 
 # 0.12.1
 

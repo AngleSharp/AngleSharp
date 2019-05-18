@@ -39,7 +39,6 @@ namespace AngleSharp.Dom
         {
             for (var i = 0; i < children.Length; i++)
             {
-
                 if (children[i] is IElement element)
                 {
                     if (element.Id.Is(id))

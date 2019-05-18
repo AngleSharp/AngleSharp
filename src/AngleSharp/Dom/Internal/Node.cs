@@ -39,6 +39,9 @@ namespace AngleSharp.Dom
         #region Public Properties
 
         /// <inheritdoc />
+        public NodeFlags Flags => _flags;
+
+        /// <inheritdoc />
         public Boolean HasChildNodes => _children.Length != 0;
 
         /// <inheritdoc />
@@ -168,8 +171,6 @@ namespace AngleSharp.Dom
 
         internal Node LastChild => _children.Length > 0 ? _children[_children.Length - 1] : null;
 
-        internal NodeFlags Flags => _flags;
-
         internal NodeList ChildNodes
         {
             get => _children;
@@ -188,7 +189,7 @@ namespace AngleSharp.Dom
             {
                 if (_type == NodeType.Document)
                 {
-                    return default(Document);
+                    return default;
                 }
 
                 return _owner;

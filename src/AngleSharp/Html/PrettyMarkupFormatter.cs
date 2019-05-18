@@ -4,7 +4,6 @@ namespace AngleSharp.Html
     using AngleSharp.Text;
     using System;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Represents the an HTML5 markup formatter with inserted indents.

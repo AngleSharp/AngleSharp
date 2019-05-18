@@ -1401,6 +1401,44 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Checks if the given attribute name corresponds to a boolean attribute.
+        /// </summary>
+        internal static Boolean IsBooleanAttribute(this IElement element, String name) =>
+            (element is HtmlDetailsElement && name.Is(AttributeNames.Open)) ||
+            (element is HtmlDialogElement && name.Is(AttributeNames.Open)) ||
+            (element is HtmlElement && name.Is(AttributeNames.Hidden)) ||
+            (element is HtmlFormControlElement && name.Is(AttributeNames.AutoFocus)) ||
+            (element is HtmlFormControlElement && name.Is(AttributeNames.Disabled)) ||
+            (element is HtmlLinkElement && name.Is(AttributeNames.Disabled)) ||
+            (element is HtmlIFrameElement && name.Is(AttributeNames.SrcDoc)) ||
+            (element is HtmlIFrameElement && name.Is(AttributeNames.AllowFullscreen)) ||
+            (element is HtmlIFrameElement && name.Is(AttributeNames.AllowPaymentRequest)) ||
+            (element is HtmlImageElement && name.Is(AttributeNames.IsMap)) ||
+            (element is HtmlInputElement && name.Is(AttributeNames.Checked)) ||
+            (element is HtmlInputElement && name.Is(AttributeNames.Multiple)) ||
+            (element is HtmlTrackElement && name.Is(AttributeNames.Default)) ||
+            (element is HtmlTextFormControlElement && name.Is(AttributeNames.Required)) ||
+            (element is HtmlTextFormControlElement && name.Is(AttributeNames.Readonly)) ||
+            (element is HtmlStyleElement && name.Is(AttributeNames.Scoped)) ||
+            (element is HtmlStyleElement && name.Is(AttributeNames.Disabled)) ||
+            (element is HtmlSelectElement && name.Is(AttributeNames.Required)) ||
+            (element is HtmlSelectElement && name.Is(AttributeNames.Multiple)) ||
+            (element is HtmlScriptElement && name.Is(AttributeNames.Defer)) ||
+            (element is HtmlScriptElement && name.Is(AttributeNames.Async)) ||
+            (element is HtmlOrderedListElement && name.Is(AttributeNames.Reversed)) ||
+            (element is HtmlOptionsGroupElement && name.Is(AttributeNames.Disabled)) ||
+            (element is HtmlOptionElement && name.Is(AttributeNames.Disabled)) ||
+            (element is HtmlOptionElement && name.Is(AttributeNames.Selected)) ||
+            (element is HtmlObjectElement && name.Is(AttributeNames.TypeMustMatch)) ||
+            (element is HtmlMenuItemElement && name.Is(AttributeNames.Disabled)) ||
+            (element is HtmlMenuItemElement && name.Is(AttributeNames.Checked)) ||
+            (element is HtmlMenuItemElement && name.Is(AttributeNames.Default)) ||
+            (element is IHtmlMediaElement && name.Is(AttributeNames.Autoplay)) ||
+            (element is IHtmlMediaElement && name.Is(AttributeNames.Loop)) ||
+            (element is IHtmlMediaElement && name.Is(AttributeNames.Muted)) ||
+            (element is IHtmlMediaElement && name.Is(AttributeNames.Controls));
+
+        /// <summary>
         /// Easy way of getting the current boolean value from attributes.
         /// </summary>
         /// <param name="element">The element to host the attribute.</param>
