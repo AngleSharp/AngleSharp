@@ -7,7 +7,7 @@ namespace AngleSharp.Browser
     /// <summary>
     /// A set of useful extensions for the event loop.
     /// </summary>
-    static class EventLoopExtensions
+    public static class EventLoopExtensions
     {
         /// <summary>
         /// Enqueues another action without considering the cancellation token.

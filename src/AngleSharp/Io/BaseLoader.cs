@@ -84,20 +84,16 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="url">The requested URL.</param>
         /// <returns>The associated cookie string, if any.</returns>
-        protected virtual String GetCookie(Url url)
-        {
-            return _context.GetCookie(url);
-        }
+        protected virtual String GetCookie(Url url) =>
+            _context.GetCookie(url);
 
         /// <summary>
         /// Sets the cookie string for the given URL.
         /// </summary>
         /// <param name="url">The requested URL.</param>
         /// <param name="value">The value of the cookie.</param>
-        protected virtual void SetCookie(Url url, String value)
-        {
+        protected virtual void SetCookie(Url url, String value) =>
             _context.SetCookie(url, value);
-        }
 
         /// <summary>
         /// Starts downloading the request.
@@ -117,8 +113,11 @@ namespace AngleSharp.Io
                 task.ContinueWith(m => Remove(download));
                 return download;
             }
-
-            return new Download(Task.FromResult(default(IResponse)), cancel, request.Address, originator);
+            else
+            {
+                var result = Task.FromResult(default(IResponse));
+                return new Download(result, cancel, request.Address, originator);
+            }
         }
 
         /// <summary>
@@ -205,7 +204,7 @@ namespace AngleSharp.Io
                 Address = new Url(request.Address, location),
                 Method = method,
                 Content = content,
-                Headers = headers
+                Headers = headers,
             };
         }
 

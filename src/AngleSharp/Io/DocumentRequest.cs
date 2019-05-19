@@ -19,11 +19,8 @@ namespace AngleSharp.Io
         /// <param name="target">The resource's url.</param>
         public DocumentRequest(Url target)
         {
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-
+            Target = target ?? throw new ArgumentNullException(nameof(target));
             Headers = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
-            Target = target;
             Method = HttpMethod.Get;
             Body = MemoryStream.Null;
         }
@@ -40,15 +37,12 @@ namespace AngleSharp.Io
         /// <param name="source">The optional source of the request.</param>
         /// <param name="referer">The optional referrer string.</param>
         /// <returns>The new document request.</returns>
-        public static DocumentRequest Get(Url target, INode source = null, String referer = null)
+        public static DocumentRequest Get(Url target, INode source = null, String referer = null) => new DocumentRequest(target)
         {
-            return new DocumentRequest(target)
-            {
-                Method = HttpMethod.Get,
-                Referer = referer,
-                Source = source,
-            };
-        }
+            Method = HttpMethod.Get,
+            Referer = referer,
+            Source = source,
+        };
 
         /// <summary>
         /// Creates a POST request for the given target with the provided body
@@ -61,23 +55,14 @@ namespace AngleSharp.Io
         /// <param name="source">The optional source of the request.</param>
         /// <param name="referer">The optional referrer string.</param>
         /// <returns>The new document request.</returns>
-        public static DocumentRequest Post(Url target, Stream body, String type, INode source = null, String referer = null)
+        public static DocumentRequest Post(Url target, Stream body, String type, INode source = null, String referer = null) => new DocumentRequest(target)
         {
-            if (body == null)
-                throw new ArgumentNullException(nameof(body));
-
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
-
-            return new DocumentRequest(target)
-            {
-                Method = HttpMethod.Post,
-                Body = body,
-                MimeType = type,
-                Referer = referer,
-                Source = source,
-            };
-        }
+            Method = HttpMethod.Post,
+            Body = body ?? throw new ArgumentNullException(nameof(body)),
+            MimeType = type ?? throw new ArgumentNullException(nameof(type)),
+            Referer = referer,
+            Source = source,
+        };
 
         /// <summary>
         /// Creates a POST request for the given target with the fields being
@@ -88,10 +73,8 @@ namespace AngleSharp.Io
         /// <returns>The new document request.</returns>
         public static DocumentRequest PostAsPlaintext(Url target, IDictionary<String, String> fields)
         {
-            if (fields == null)
-                throw new ArgumentNullException(nameof(fields));
-
             var fds = new FormDataSet();
+            fields = fields ?? throw new ArgumentNullException(nameof(fields));
 
             foreach (var field in fields)
             {
@@ -110,10 +93,8 @@ namespace AngleSharp.Io
         /// <returns>The new document request.</returns>
         public static DocumentRequest PostAsUrlencoded(Url target, IDictionary<String, String> fields)
         {
-            if (fields == null)
-                throw new ArgumentNullException(nameof(fields));
-
             var fds = new FormDataSet();
+            fields = fields ?? throw new ArgumentNullException(nameof(fields));
 
             foreach (var field in fields)
             {
@@ -151,8 +132,8 @@ namespace AngleSharp.Io
         /// </summary>
         public String Referer
         {
-            get { return GetHeader(HeaderNames.Referer); }
-            set { SetHeader(HeaderNames.Referer, value); }
+            get => GetHeader(HeaderNames.Referer);
+            set => SetHeader(HeaderNames.Referer, value);
         }
 
         /// <summary>
@@ -178,8 +159,8 @@ namespace AngleSharp.Io
         /// </summary>
         public String MimeType
         {
-            get { return GetHeader(HeaderNames.ContentType); }
-            set { SetHeader(HeaderNames.ContentType, value); }
+            get => GetHeader(HeaderNames.ContentType);
+            set => SetHeader(HeaderNames.ContentType, value);
         }
 
         /// <summary>
@@ -194,10 +175,7 @@ namespace AngleSharp.Io
 
         #region Helpers
 
-        private void SetHeader(String name, String value)
-        {
-            Headers[name] = value;
-        }
+        private void SetHeader(String name, String value) => Headers[name] = value;
 
         private String GetHeader(String name)
         {

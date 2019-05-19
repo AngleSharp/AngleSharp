@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Scripting
+namespace AngleSharp.Scripting
 {
+    using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using System.Text;
@@ -13,9 +14,19 @@
         /// Creates new script options for the given document.
         /// </summary>
         /// <param name="document">The document to use.</param>
-        public ScriptOptions(IDocument document)
+        /// <param name="loop">The event loop to use.</param>
+        public ScriptOptions(IDocument document, IEventLoop loop)
         {
             Document = document;
+            EventLoop = loop;
+        }
+
+        /// <summary>
+        /// Gets the event loop for the executing script.
+        /// </summary>
+        public IEventLoop EventLoop
+        {
+            get;
         }
 
         /// <summary>

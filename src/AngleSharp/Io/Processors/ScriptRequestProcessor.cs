@@ -5,6 +5,7 @@ namespace AngleSharp.Io.Processors
     using AngleSharp.Scripting;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -94,9 +95,10 @@ namespace AngleSharp.Io.Processors
                     {
                         await _engine.EvaluateScriptAsync(_response, options, cancel).ConfigureAwait(false);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         /* We omit failed 3rd party services */
+                        Debug.WriteLine(ex);
                     }
 
                     _document.Source.Index = insert;
@@ -136,7 +138,7 @@ namespace AngleSharp.Io.Processors
 
         #region Helpers
 
-        private ScriptOptions CreateOptions() => new ScriptOptions(_document)
+        private ScriptOptions CreateOptions() => new ScriptOptions(_document, _document.Loop)
         {
             Element = _script,
             Encoding = TextEncoding.Resolve(_script.CharacterSet)

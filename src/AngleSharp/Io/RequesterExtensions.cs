@@ -21,12 +21,13 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="status">The given status code.</param>
         /// <returns>True if the status code hints redirection, otherwise false.</returns>
-        public static Boolean IsRedirected(this HttpStatusCode status)
-        {
-            return status == HttpStatusCode.Redirect || status == HttpStatusCode.RedirectKeepVerb ||
-                   status == HttpStatusCode.RedirectMethod || status == HttpStatusCode.TemporaryRedirect ||
-                   status == HttpStatusCode.MovedPermanently || status == HttpStatusCode.MultipleChoices;
-        }
+        public static Boolean IsRedirected(this HttpStatusCode status) =>
+            status == HttpStatusCode.Redirect ||
+            status == HttpStatusCode.RedirectKeepVerb ||
+            status == HttpStatusCode.RedirectMethod ||
+            status == HttpStatusCode.TemporaryRedirect ||
+            status == HttpStatusCode.MovedPermanently ||
+            status == HttpStatusCode.MultipleChoices;
 
         /// <summary>
         /// Performs a potentially CORS-enabled fetch from the given URI by
@@ -117,10 +118,8 @@ namespace AngleSharp.Io
 
         #region Helpers
 
-        private static Boolean IsAnonymous(this CorsRequest cors)
-        {
-            return cors.Setting == CorsSetting.Anonymous;
-        }
+        private static Boolean IsAnonymous(this CorsRequest cors) =>
+            cors.Setting == CorsSetting.Anonymous;
 
         private static IDownload Wrap(this IDownload download, Func<IResponse, IDownload> callback)
         {
@@ -143,10 +142,8 @@ namespace AngleSharp.Io
             return await download.Task.ConfigureAwait(false);
         }
 
-        private static Boolean IsRedirected(this IResponse response)
-        {
-            return (response?.StatusCode ?? HttpStatusCode.NotFound).IsRedirected();
-        }
+        private static Boolean IsRedirected(this IResponse response) =>
+            (response?.StatusCode ?? HttpStatusCode.NotFound).IsRedirected();
 
         private static CorsRequest RedirectTo(this CorsRequest cors, Url url)
         {

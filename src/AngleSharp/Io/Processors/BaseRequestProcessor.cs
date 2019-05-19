@@ -79,7 +79,6 @@ namespace AngleSharp.Io.Processors
         {
             var download = Download;
             var response = await download.Task.ConfigureAwait(false);
-            var eventTarget = download.Source as EventTarget;
             var eventName = EventNames.Error;
 
             if (response != null)
@@ -99,7 +98,17 @@ namespace AngleSharp.Io.Processors
                 }
             }
 
-            eventTarget?.FireSimpleEvent(eventName);
+            if (download.Source is EventTarget eventTarget)
+            {
+                if (eventTarget is Element element)
+                {
+                    element.Owner.QueueTask(() => eventTarget.FireSimpleEvent(eventName));
+                }
+                else
+                {
+                    eventTarget.FireSimpleEvent(eventName);
+                }
+            }
         }
 
         /// <summary>
