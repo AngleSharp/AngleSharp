@@ -10,6 +10,7 @@
 - Added `Prettify` and `Minify` extension methods
 - Moved `hashchange` to be emitted on `IWindow`
 - Added option to avoid consuming character references (#494)
+- Added more pseudo elements for GCPM
 
 # 0.12.1
 
