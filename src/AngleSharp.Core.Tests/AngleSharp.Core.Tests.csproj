@@ -36,4 +36,8 @@
     <EmbeddedResource Include="Resources\*.bin" />
     <EmbeddedResource Include="Html\*.txt" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Html\BrokenMail.txt" />
+  </ItemGroup>
 </Project>

@@ -689,5 +689,16 @@ namespace AngleSharp.Core.Tests.Html
             var svg = doc.Body.FirstElementChild;
             Assert.AreEqual("<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"></svg>", svg.ToHtml());
         }
+
+        [Test]
+        public void IteratingThroughDomShouldNeverFail_Issue763()
+        {
+            var content = Assets.GetManifestResourceString("Html.BrokenMail.txt");
+            var p = new HtmlParser().ParseDocument(content);
+
+            Assert.IsNotNull(p);
+            var img = p.Images.Select(m => m).ToList();
+            Assert.AreEqual(1, img.Count);
+        }
     }
 }
