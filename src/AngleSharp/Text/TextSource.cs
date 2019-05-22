@@ -228,10 +228,8 @@ namespace AngleSharp.Text
         /// <param name="length">The number of bytes to prefetch.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The awaitable task.</returns>
-        public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken)
-        {
-            return ExpandBufferAsync(length, cancellationToken);
-        }
+        public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken) =>
+            ExpandBufferAsync(length, cancellationToken);
 
         /// <summary>
         /// Prefetches the whole stream by expanding the internal buffer.
@@ -274,10 +272,8 @@ namespace AngleSharp.Text
 
         #region Helpers
 
-        private static Char Replace(Char c)
-        {
-            return c == Symbols.EndOfFile ? (Char)0xFFFD : c;
-        }
+        private static Char Replace(Char c) =>
+            c == Symbols.EndOfFile ? (Char)0xFFFD : c;
 
         private async Task DetectByteOrderMarkAsync(CancellationToken cancellationToken)
         {
