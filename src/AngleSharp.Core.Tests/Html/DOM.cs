@@ -8,6 +8,7 @@ namespace AngleSharp.Core.Tests.Html
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -698,6 +699,7 @@ namespace AngleSharp.Core.Tests.Html
 
             Assert.IsNotNull(p);
             var img = p.Images.Select(m => m).ToList();
+            var html = p.ToHtml();
             Assert.AreEqual(1, img.Count);
         }
     }

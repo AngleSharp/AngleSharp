@@ -5,7 +5,6 @@ namespace AngleSharp.Dom
     using AngleSharp.Dom.Events;
     using AngleSharp.Text;
     using System;
-    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -558,33 +557,6 @@ namespace AngleSharp.Dom
                     AppendChild(nodes);
                     break;
             }
-        }
-
-        /// <inheritdoc />
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            var selfClosing = (Flags & NodeFlags.SelfClosing) == NodeFlags.SelfClosing;
-            writer.Write(formatter.OpenTag(this, selfClosing));
-
-            if (!selfClosing)
-            {
-                if (((Flags & NodeFlags.LineTolerance) == NodeFlags.LineTolerance) && FirstChild is IText)
-                {
-                    var text = (IText)FirstChild;
-
-                    if (text.Data.Has(Symbols.LineFeed))
-                    {
-                        writer.Write(Symbols.LineFeed);
-                    }
-                }
-
-                foreach (var child in ChildNodes)
-                {
-                    child.ToHtml(writer, formatter);
-                }
-            }
-
-            writer.Write(formatter.CloseTag(this, selfClosing));
         }
 
         /// <inheritdoc />

@@ -438,20 +438,17 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public void InsertText(Int32 index, String s)
         {
-            if (index > 0 && index <= _children.Length && _children[index - 1].NodeType == NodeType.Text)
+            if (index > 0 && index <= _children.Length && _children[index - 1] is IText text1)
             {
-                var node = (IText)_children[index - 1];
-                node.Append(s);
+                text1.Append(s);
             }
-            else if (index >= 0 && index < _children.Length && _children[index].NodeType == NodeType.Text)
+            else if (index >= 0 && index < _children.Length && _children[index] is IText text2)
             {
-                var node = (IText)_children[index];
-                node.Insert(0, s);
+                text2.Insert(0, s);
             }
             else
             {
-                var node = new TextNode(Owner, s);
-                InsertNode(index, node);
+                InsertNode(index, new TextNode(Owner, s));
             }
         }
 
@@ -477,7 +474,71 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public virtual void ToHtml(TextWriter writer, IMarkupFormatter formatter) => writer.Write(TextContent);
+        public void ToHtml(TextWriter writer, IMarkupFormatter formatter)
+        {
+            var end = ParentElement;
+
+            foreach (var node in this.GetDescendantsAndSelf())
+            {
+                if (node is IComment comment)
+                {
+                    writer.Write(formatter.Comment(comment));
+                }
+                else if (node is ICharacterData characterData)
+                {
+                    var p = characterData.Parent;
+
+                    if (p != null && p.Flags.HasFlag(NodeFlags.LiteralText))
+                    {
+                        writer.Write(characterData.Data);
+                    }
+                    else
+                    {
+                        writer.Write(formatter.Text(characterData));
+                    }
+                }
+                else if (node is IDocumentType docType)
+                {
+                    writer.Write(formatter.Doctype(docType));
+                }
+                else if (node is IProcessingInstruction processingInstruction)
+                {
+                    writer.Write(formatter.Processing(processingInstruction));
+                }
+                else if (node is IElement element)
+                {
+                    var flags = element.Flags;
+                    var selfClosing = flags.HasFlag(NodeFlags.SelfClosing);
+                    writer.Write(formatter.OpenTag(element, selfClosing));
+
+                    if (!selfClosing && flags.HasFlag(NodeFlags.LineTolerance) && element.FirstChild is IText text && text.Data.Has(Symbols.LineFeed))
+                    {
+                        writer.Write(Symbols.LineFeed);
+                    }
+
+                    if (element is Html.Dom.IHtmlTemplateElement template)
+                    {
+                        template.Content.ToHtml(writer, formatter);
+                    }
+
+                    if (!node.HasChildNodes)
+                    {
+                        writer.Write(formatter.CloseTag(element, selfClosing));
+                    }
+                }
+
+                if (!node.HasChildNodes && node.NextSibling == null)
+                {
+                    var p = node.ParentElement;
+
+                    while (p != end)
+                    {
+                        writer.Write(formatter.CloseTag(p, p.Flags.HasFlag(NodeFlags.SelfClosing)));
+                        p = p.NextSibling == null ? p.ParentElement : end;
+                    }
+                }
+            }
+        }
 
         /// <inheritdoc />
         public INode AppendChild(INode child) => this.PreInsert(child, null);

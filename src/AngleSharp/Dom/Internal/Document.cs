@@ -1138,9 +1138,6 @@ namespace AngleSharp.Dom
         public IHtmlCollection<IElement> GetElementsByTagName(String namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
         /// <inheritdoc />
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter) => ChildNodes.ToHtml(writer, formatter);
-
-        /// <inheritdoc />
         public Boolean HasFocus() => Object.ReferenceEquals(_context.Active, this);
 
         /// <inheritdoc />

@@ -2,7 +2,6 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
-    using System.IO;
 
     /// <summary>
     /// Represents a text node.
@@ -119,18 +118,6 @@ namespace AngleSharp.Dom
             }
 
             return newNode;
-        }
-
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            if (Parent != null && ((Parent.Flags & NodeFlags.LiteralText) == NodeFlags.LiteralText))
-            {
-                writer.Write(Data);
-            }
-            else
-            {
-                base.ToHtml(writer, formatter);
-            }
         }
 
         public override Node Clone(Document owner, Boolean deep)

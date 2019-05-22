@@ -129,8 +129,6 @@ namespace AngleSharp.Dom
 
         public IElement GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
 
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter) => ChildNodes.ToHtml(writer, formatter);
-
         public override Node Clone(Document owner, Boolean deep)
         {
             var node = new ShadowRoot(_host, _mode);

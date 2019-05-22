@@ -16,7 +16,7 @@ namespace AngleSharp.Core.Tests.Examples
             var queryDocument = await context.OpenAsync("https://google.com");
             var form = queryDocument.QuerySelector<IHtmlFormElement>("form");
             var resultDocument = await form.SubmitAsync(new { q = "AngleSharp" });
-            var itemCount = resultDocument.QuerySelectorAll<IHtmlAnchorElement>("#ires .g h3.r a").Select(m => m.Href).Count();
+            var itemCount = resultDocument.QuerySelectorAll<IHtmlAnchorElement>("a").Select(m => m.Href).Count();
 
             Assert.Greater(itemCount, 0);
         }
