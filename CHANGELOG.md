@@ -12,6 +12,7 @@
 - Added option to avoid consuming character references (#494)
 - Added more pseudo elements for GCPM
 - Fixed character position starting at normalized CRLF (#786)
+- Improved setting `Href` in `Url`
 
 # 0.12.1
 

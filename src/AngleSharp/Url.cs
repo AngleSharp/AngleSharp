@@ -176,8 +176,8 @@ namespace AngleSharp
         /// </summary>
         public String UserName
         {
-            get { return _username; }
-            set { _username = value; }
+            get => _username;
+            set => _username = value;
         }
 
         /// <summary>
@@ -185,8 +185,8 @@ namespace AngleSharp
         /// </summary>
         public String Password
         {
-            get { return _password; }
-            set { _password = value; }
+            get => _password;
+            set => _password = value;
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace AngleSharp
         /// </summary>
         public String Fragment
         {
-            get { return _fragment; }
+            get => _fragment;
             set
             {
                 if (value == null)
@@ -219,7 +219,7 @@ namespace AngleSharp
         /// </summary>
         public String Host
         {
-            get { return HostName + (String.IsNullOrEmpty(_port) ? String.Empty : ":" + _port); }
+            get => HostName + (String.IsNullOrEmpty(_port) ? String.Empty : ":" + _port);
             set
             {
                 var input = value ?? String.Empty;
@@ -232,7 +232,7 @@ namespace AngleSharp
         /// </summary>
         public String HostName
         {
-            get { return _host; }
+            get => _host;
             set
             {
                 var input = value ?? String.Empty;
@@ -245,8 +245,8 @@ namespace AngleSharp
         /// </summary>
         public String Href
         {
-            get { return Serialize(); }
-            set { _error = ParseUrl(value ?? String.Empty); }
+            get => Serialize();
+            set => _error = ParseUrl(value ?? String.Empty, this);
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace AngleSharp
         /// </summary>
         public String Path
         {
-            get { return _path; }
+            get => _path;
             set
             {
                 var input = value ?? String.Empty;
@@ -267,7 +267,7 @@ namespace AngleSharp
         /// </summary>
         public String Port
         {
-            get { return _port; }
+            get => _port;
             set
             {
                 var input = value ?? String.Empty;
@@ -280,7 +280,7 @@ namespace AngleSharp
         /// </summary>
         public String Scheme
         {
-            get { return _scheme; }
+            get => _scheme;
             set
             {
                 var input = value ?? String.Empty;
@@ -293,7 +293,7 @@ namespace AngleSharp
         /// </summary>
         public String Query
         {
-            get { return _query; }
+            get => _query;
             set
             {
                 var input = value ?? String.Empty;
