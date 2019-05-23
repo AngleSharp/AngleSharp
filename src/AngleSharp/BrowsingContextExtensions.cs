@@ -27,11 +27,11 @@ namespace AngleSharp
         /// Opens a new document without any content in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
-        /// <param name="url">The optional base URL of the document.</param>
+        /// <param name="url">The optional base URL of the document. By default "http://localhost/".</param>
         /// <param name="cancellation">The cancellation token (optional)</param>
         /// <returns>The new, yet empty, document.</returns>
         public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null, CancellationToken cancellation = default) =>
-            context.OpenAsync(m => m.Address(url), cancellation);
+            context.OpenAsync(m => m.Address(url ?? "http://localhost/"), cancellation);
 
         /// <summary>
         /// Opens a new document created from the response asynchronously in
@@ -128,7 +128,7 @@ namespace AngleSharp
         internal static Task<IDocument> NavigateToAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default)
         {
             var handler = context.GetNavigationHandler(request.Target);
-            return handler?.NavigateAsync(request, cancel);
+            return handler?.NavigateAsync(request, cancel) ?? Task.FromResult<IDocument>(null);
         }
 
         /// <summary>
