@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
@@ -59,6 +59,17 @@
             var div = document.QuerySelector<IHtmlElement>("div");
             var content = div.TextContent;
             Assert.AreEqual("a\n\n\n\nb", content);
+        }
+
+        [Test]
+        public async Task CallbackOnAnEmptyPageWorksDuringLoading()
+        {
+            var html = "<!doctype html><span id=test>Test</span><script type='c-sharp'>//...</script>";
+            var script = new CallbackScriptEngine(opt => opt.Document.Location.Href = "/foo");
+            var config = Configuration.Default.WithScripts(script);
+            var context = BrowsingContext.New(config);
+            await context.OpenAsync(m => m.Content(html).Address("http://example.com"));
+            Assert.AreEqual("http://example.com/foo", context.Active.Location.Href);
         }
 
         [Test]
