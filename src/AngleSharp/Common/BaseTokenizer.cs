@@ -19,6 +19,7 @@ namespace AngleSharp.Common
         private UInt16 _row;
         private Char _current;
         private StringBuilder _buffer;
+        private Boolean _normalized;
 
         #endregion
 
@@ -47,7 +48,7 @@ namespace AngleSharp.Common
         /// </summary>
         public Int32 InsertionPoint
         {
-            get { return _source.Index; }
+            get => _source.Index;
             protected set
             {
                 var delta = _source.Index - value;
@@ -69,7 +70,7 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the current source index.
         /// </summary>
-        public Int32 Position => _source.Index;
+        public Int32 Position => _source.Index  - (_normalized ? 1 : 0);
 
         /// <summary>
         /// Gets the current character.
@@ -80,6 +81,11 @@ namespace AngleSharp.Common
         /// Gets the allocated string buffer.
         /// </summary>
         protected StringBuilder StringBuffer => _buffer;
+
+        /// <summary>
+        /// Gets if the current index has been normalized (CRLF -> LF).
+        /// </summary>
+        protected Boolean IsNormalized => _normalized;
 
         #endregion
 
@@ -118,10 +124,7 @@ namespace AngleSharp.Common
         /// Gets the current text position in the source.
         /// </summary>
         /// <returns>The (row, col) position.</returns>
-        public TextPosition GetCurrentPosition()
-        {
-            return new TextPosition(_row, _column, Position);
-        }
+        public TextPosition GetCurrentPosition() => new TextPosition(_row, _column, Position);
 
         /// <summary>
         /// Checks if the source continues with the given string.
@@ -297,11 +300,16 @@ namespace AngleSharp.Common
         {
             if (p != Symbols.CarriageReturn)
             {
+                _normalized = false;
                 return p;
             }
             else if (_source.ReadCharacter() != Symbols.LineFeed)
             {
                 _source.Index--;
+            }
+            else
+            {
+                _normalized = true;
             }
             
             return Symbols.LineFeed;
@@ -311,15 +319,20 @@ namespace AngleSharp.Common
         {
             if (p != Symbols.CarriageReturn)
             {
+                _normalized = false;
                 return p;
             }
             else if (_source.Index < _source.Length && _source[_source.Index] == Symbols.LineFeed)
             {
+                _normalized = false;
                 BackUnsafe();
                 return Symbols.Null;
             }
-
-            return Symbols.LineFeed;
+            else
+            {
+                _normalized = true;
+                return Symbols.LineFeed;
+            }
         }
 
         #endregion

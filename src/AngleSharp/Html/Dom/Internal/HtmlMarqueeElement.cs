@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -64,18 +64,12 @@
         /// <summary>
         /// Starts the marquee loop.
         /// </summary>
-        public void Start()
-        {
-            this.FireSimpleEvent(EventNames.Play);
-        }
+        public void Start() => Owner.QueueTask(() => this.FireSimpleEvent(EventNames.Play));
 
         /// <summary>
         /// Stops the marquee loop.
         /// </summary>
-        public void Stop()
-        {
-            this.FireSimpleEvent(EventNames.Pause);
-        }
+        public void Stop() => Owner.QueueTask(() => this.FireSimpleEvent(EventNames.Pause));
 
         #endregion
     }

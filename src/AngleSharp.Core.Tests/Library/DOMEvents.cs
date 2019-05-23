@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
@@ -111,22 +111,24 @@
             var args = document.CreateEvent("event");
             var beforeOther = true;
             args.Init(evName, true, true);
-            DomEventHandler listener1 = (s, ev) =>
+
+            void listener1(object s, Event ev)
             {
                 Assert.AreEqual(evName, ev.Type);
                 Assert.AreEqual(EventPhase.AtTarget, ev.Phase);
                 Assert.AreEqual(element, ev.CurrentTarget);
                 Assert.AreEqual(element, ev.OriginalTarget);
                 Assert.IsTrue(beforeOther);
-            };
-            DomEventHandler listener2 = (s, ev) =>
+            }
+
+            void listener2(object s, Event ev)
             {
                 Assert.AreEqual(evName, ev.Type);
                 Assert.AreEqual(EventPhase.Bubbling, ev.Phase);
                 Assert.AreEqual(element.Parent, ev.CurrentTarget);
                 Assert.AreEqual(element, ev.OriginalTarget);
                 beforeOther = false;
-            };
+            }
             element.AddEventListener(evName, listener1);
             element.Parent.AddEventListener(evName, listener2);
             element.Dispatch(args);

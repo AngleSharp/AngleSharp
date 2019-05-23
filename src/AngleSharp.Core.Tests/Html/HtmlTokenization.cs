@@ -32,6 +32,18 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void TokenizationCarriageWithTextSourceIssue_786()
+        {
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes("\r\nThis is test 1\r\nThis is test 2"));
+            var s = new TextSource(ms);
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            var start = token.Position.Index;
+            var text = s.Text.Substring(start, s.Index - start);
+            Assert.AreEqual("\r\nThis is test 1\r\nThis is test 2", text);
+        }
+
+        [Test]
         public void TokenizationCarriageReturnNonLeadingIssue_786()
         {
             var ms = new MemoryStream(Encoding.UTF8.GetBytes("<html><body><p>\r\nThis is test 1<p> \r\nThis is test 2</body></html>"));

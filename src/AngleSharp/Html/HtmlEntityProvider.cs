@@ -29,86 +29,60 @@ namespace AngleSharp.Html
         private HtmlEntityProvider()
         {
             _entities = new Dictionary<Char, Dictionary<String, String>>
-                            {
-                                { 'a', this.GetSymbolLittleA() },
-                                { 'A', this.GetSymbolBigA() },
-                                { 'b', this.GetSymbolLittleB() },
-                                { 'B', this.GetSymbolBigB() },
-                                { 'c', this.GetSymbolLittleC() },
-                                { 'C', this.GetSymbolBigC() },
-                                { 'd', this.GetSymbolLittleD() },
-                                { 'D', this.GetSymbolBigD() },
-                                { 'e', this.GetSymbolLittleE() },
-                                { 'E', this.GetSymbolBigE() },
-                                { 'f', this.GetSymbolLittleF() },
-                                { 'F', this.GetSymbolBigF() },
-                                { 'g', this.GetSymbolLittleG() },
-                                { 'G', this.GetSymbolBigG() },
-                                { 'h', this.GetSymbolLittleH() },
-                                { 'H', this.GetSymbolBigH() },
-                                { 'i', this.GetSymbolLittleI() },
-                                { 'I', this.GetSymbolBigI() },
-                                { 'j', this.GetSymbolLittleJ() },
-                                { 'J', this.GetSymbolBigJ() },
-                                { 'k', this.GetSymbolLittleK() },
-                                { 'K', this.GetSymbolBigK() },
-                                { 'l', this.GetSymbolLittleL() },
-                                { 'L', this.GetSymbolBigL() },
-                                { 'm', this.GetSymbolLittleM() },
-                                { 'M', this.GetSymbolBigM() },
-                                { 'n', this.GetSymbolLittleN() },
-                                { 'N', this.GetSymbolBigN() },
-                                { 'o', this.GetSymbolLittleO() },
-                                { 'O', this.GetSymbolBigO() },
-                                { 'p', this.GetSymbolLittleP() },
-                                { 'P', this.GetSymbolBigP() },
-                                { 'q', this.GetSymbolLittleQ() },
-                                { 'Q', this.GetSymbolBigQ() },
-                                { 'r', this.GetSymbolLittleR() },
-                                { 'R', this.GetSymbolBigR() },
-                                { 's', this.GetSymbolLittleS() },
-                                { 'S', this.GetSymbolBigS() },
-                                { 't', this.GetSymbolLittleT() },
-                                { 'T', this.GetSymbolBigT() },
-                                { 'u', this.GetSymbolLittleU() },
-                                { 'U', this.GetSymbolBigU() },
-                                { 'v', this.GetSymbolLittleV() },
-                                { 'V', this.GetSymbolBigV() },
-                                { 'w', this.GetSymbolLittleW() },
-                                { 'W', this.GetSymbolBigW() },
-                                { 'x', this.GetSymbolLittleX() },
-                                { 'X', this.GetSymbolBigX() },
-                                { 'y', this.GetSymbolLittleY() },
-                                { 'Y', this.GetSymbolBigY() },
-                                { 'z', this.GetSymbolLittleZ() },
-                                { 'Z', this.GetSymbolBigZ() }
-                            };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            {
+                { 'a', GetSymbolLittleA() },
+                { 'A', GetSymbolBigA() },
+                { 'b', GetSymbolLittleB() },
+                { 'B', GetSymbolBigB() },
+                { 'c', GetSymbolLittleC() },
+                { 'C', GetSymbolBigC() },
+                { 'd', GetSymbolLittleD() },
+                { 'D', GetSymbolBigD() },
+                { 'e', GetSymbolLittleE() },
+                { 'E', GetSymbolBigE() },
+                { 'f', GetSymbolLittleF() },
+                { 'F', GetSymbolBigF() },
+                { 'g', GetSymbolLittleG() },
+                { 'G', GetSymbolBigG() },
+                { 'h', GetSymbolLittleH() },
+                { 'H', GetSymbolBigH() },
+                { 'i', GetSymbolLittleI() },
+                { 'I', GetSymbolBigI() },
+                { 'j', GetSymbolLittleJ() },
+                { 'J', GetSymbolBigJ() },
+                { 'k', GetSymbolLittleK() },
+                { 'K', GetSymbolBigK() },
+                { 'l', GetSymbolLittleL() },
+                { 'L', GetSymbolBigL() },
+                { 'm', GetSymbolLittleM() },
+                { 'M', GetSymbolBigM() },
+                { 'n', GetSymbolLittleN() },
+                { 'N', GetSymbolBigN() },
+                { 'o', GetSymbolLittleO() },
+                { 'O', GetSymbolBigO() },
+                { 'p', GetSymbolLittleP() },
+                { 'P', GetSymbolBigP() },
+                { 'q', GetSymbolLittleQ() },
+                { 'Q', GetSymbolBigQ() },
+                { 'r', GetSymbolLittleR() },
+                { 'R', GetSymbolBigR() },
+                { 's', GetSymbolLittleS() },
+                { 'S', GetSymbolBigS() },
+                { 't', GetSymbolLittleT() },
+                { 'T', GetSymbolBigT() },
+                { 'u', GetSymbolLittleU() },
+                { 'U', GetSymbolBigU() },
+                { 'v', GetSymbolLittleV() },
+                { 'V', GetSymbolBigV() },
+                { 'w', GetSymbolLittleW() },
+                { 'W', GetSymbolBigW() },
+                { 'x', GetSymbolLittleX() },
+                { 'X', GetSymbolBigX() },
+                { 'y', GetSymbolLittleY() },
+                { 'Y', GetSymbolBigY() },
+                { 'z', GetSymbolLittleZ() },
+                { 'Z', GetSymbolBigZ() },
+            };
         }
 
         #endregion
@@ -2581,10 +2555,8 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="code">The code to convert.</param>
         /// <returns>The array containing the character.</returns>
-        private static String Convert(Int32 code)
-        {
-            return Char.ConvertFromUtf32(code);
-        }
+        private static String Convert(Int32 code) =>
+            Char.ConvertFromUtf32(code);
 
         /// <summary>
         /// Converts a set of two numbers into their unicode characters.
@@ -2592,28 +2564,23 @@ namespace AngleSharp.Html
         /// <param name="leading">The first (leading) character code.</param>
         /// <param name="trailing">The second (trailing) character code.</param>
         /// <returns>The array containing the two characters.</returns>
-        private static String Convert(Int32 leading, Int32 trailing)
-        {
-            return Char.ConvertFromUtf32(leading) + Char.ConvertFromUtf32(trailing);
-        }
+        private static String Convert(Int32 leading, Int32 trailing) =>
+            Char.ConvertFromUtf32(leading) + Char.ConvertFromUtf32(trailing);
 
         /// <summary>
         /// Determines if the code is an invalid number.
         /// </summary>
         /// <param name="code">The code to examine.</param>
         /// <returns>True if it is an invalid number, false otherwise.</returns>
-        public static Boolean IsInvalidNumber(Int32 code)
-        {
+        public static Boolean IsInvalidNumber(Int32 code) =>
             /*
              * Otherwise, if the number is
-             *     in the range 0xD800 to 0xDFFF (surrogate Unicode zone)
-             *     or less than 0x0 or is greater than 0x10FFFF,
+             * in the range 0xD800 to 0xDFFF (surrogate Unicode zone)
+             * or less than 0x0 or is greater than 0x10FFFF,
              * then this is a parse error.
              * Return a U+FFFD REPLACEMENT CHARACTER.
              */
-
-            return (code >= 0xD800 && code <= 0xDFFF) || (code < 0x0) || (code > 0x10FFFF);
-        }
+            (code >= 0xD800 && code <= 0xDFFF) || (code < 0x0) || (code > 0x10FFFF);
 
         /// <summary>
         /// Determines if the given code is actually in the table of common
@@ -2621,16 +2588,14 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="code">The code to examine.</param>
         /// <returns>True if the code is in the table, else false.</returns>
-        public static Boolean IsInCharacterTable(Int32 code)
-        {
+        public static Boolean IsInCharacterTable(Int32 code) =>
             /* 
              * If that number is one of the numbers in the first column of the
              * following table, then this is a parse error. Find the row with that
              * number in the first column, and return a character token for the
              * Unicode character given in the second column of that row.
              */
-
-            return code == 0x00 || code == 0x0D || code == 0x80 || code == 0x81 ||
+            code == 0x00 || code == 0x0D || code == 0x80 || code == 0x81 ||
                    code == 0x82 || code == 0x83 || code == 0x84 || code == 0x85 ||
                    code == 0x86 || code == 0x87 || code == 0x88 || code == 0x89 ||
                    code == 0x8A || code == 0x8B || code == 0x8C || code == 0x8D ||
@@ -2639,7 +2604,6 @@ namespace AngleSharp.Html
                    code == 0x96 || code == 0x97 || code == 0x98 || code == 0x99 ||
                    code == 0x9A || code == 0x9B || code == 0x9C || code == 0x9D ||
                    code == 0x9E || code == 0x9F;
-        }
 
         /// <summary>
         /// Gets the symbol mapped by the table of common redirections.
@@ -2730,8 +2694,7 @@ namespace AngleSharp.Html
         /// <returns>
         /// True if it is within an invalid range, false otherwise.
         /// </returns>
-        public static Boolean IsInInvalidRange(Int32 code)
-        {
+        public static Boolean IsInInvalidRange(Int32 code) =>
             /*
              * Otherwise, return a character token for the Unicode character whose
              * code point is that number.  Additionally, if the number is in the
@@ -2743,8 +2706,7 @@ namespace AngleSharp.Html
              * 0xCFFFE, 0xCFFFF, 0xDFFFE, 0xDFFFF, 0xEFFFE, 0xEFFFF, 0xFFFFE,
              * 0xFFFFF, 0x10FFFE, or 0x10FFFF, then this is a parse error.
              */
-
-            return (code >= 0x0001 && code <= 0x0008) ||
+            (code >= 0x0001 && code <= 0x0008) ||
                     (code >= 0x000E && code <= 0x001F) ||
                     (code >= 0x007F && code <= 0x009F) ||
                     (code >= 0xFDD0 && code <= 0xFDEF) ||
@@ -2766,16 +2728,13 @@ namespace AngleSharp.Html
                     (code == 0xEFFFF || code == 0xFFFFE) ||
                     (code == 0xFFFFF || code == 0x10FFFE) ||
                     (code == 0x10FFFF);
-        }
 
         #endregion
 
         #region Helper
 
-        private static void AddSingle(Dictionary<String, String> symbols, String key, String value)
-        {
+        private static void AddSingle(Dictionary<String, String> symbols, String key, String value) =>
             symbols.Add(key, value);
-        }
 
         private static void AddBoth(Dictionary<String, String> symbols, String key, String value)
         {

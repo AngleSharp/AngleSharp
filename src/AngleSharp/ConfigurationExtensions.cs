@@ -242,7 +242,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="configuration">The configuration to extend.</param>
         /// <returns>The new instance with the service.</returns>
-        public static IConfiguration WithCookies(this IConfiguration configuration)
+        public static IConfiguration WithDefaultCookies(this IConfiguration configuration)
         {
             var service = new MemoryCookieProvider();
             return configuration.With(service);

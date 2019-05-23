@@ -37,9 +37,10 @@ namespace AngleSharp.Core.Tests
 
         public static IConfiguration WithPageRequester(this IConfiguration config, Boolean enableNavigation = true, Boolean enableResourceLoading = false)
         {
-            return config.With(new PageRequester()).WithDefaultLoader(new LoaderOptions {
+            return config.With(new PageRequester()).WithDefaultLoader(new LoaderOptions
+            {
                 IsResourceLoadingEnabled = enableResourceLoading,
-                IsNavigationDisabled = !enableNavigation
+                IsNavigationDisabled = !enableNavigation,
             });
         }
 
@@ -57,7 +58,10 @@ namespace AngleSharp.Core.Tests
 
         public static IConfiguration WithMockRequester(this IConfiguration config, IRequester mockRequester)
         {
-            return config.With(mockRequester).WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
+            return config.With(mockRequester).WithDefaultLoader(new LoaderOptions
+            {
+                IsResourceLoadingEnabled = true,
+            });
         }
 
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)

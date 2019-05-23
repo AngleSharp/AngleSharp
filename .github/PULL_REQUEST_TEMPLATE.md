@@ -1,13 +1,13 @@
-## Types of Changes
+# Types of Changes
 
-### Prerequisites
+## Prerequisites
 
 Please make sure you can check the following two boxes:
 
 - [ ] I have read the **CONTRIBUTING** document
 - [ ] My code follows the code style of this project
 
-### Contribution Type
+## Contribution Type
 
 What types of changes does your code introduce? Put an `x` in all the boxes that apply:
 
@@ -19,6 +19,6 @@ What types of changes does your code introduce? Put an `x` in all the boxes that
 - [ ] I have added tests to cover my changes
 - [ ] All new and existing tests passed
 
-### Description
+## Description
 
 [Place a meaningful description here.]

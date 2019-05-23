@@ -17,7 +17,6 @@ namespace AngleSharp.Text
     /// </summary>
     public static class StringExtensions
     {
-
         /// <summary>
         /// Checks if the given string has a certain character at a specific
         /// index. The index is optional (default is 0).
@@ -328,7 +327,7 @@ namespace AngleSharp.Text
 
             return false;
         }
-        
+
         /// <summary>
         /// Checks if two strings are exactly equal.
         /// </summary>
@@ -336,10 +335,8 @@ namespace AngleSharp.Text
         /// <param name="other">The other string.</param>
         /// <returns>True if both are equal, false otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean Is(this String current, String other)
-        {
-            return String.Equals(current, other, StringComparison.Ordinal);
-        }
+        public static Boolean Is(this String current, String other) =>
+            String.Equals(current, other, StringComparison.Ordinal);
 
         /// <summary>
         /// Checks if two strings are equal when viewed case-insensitive.
@@ -348,10 +345,8 @@ namespace AngleSharp.Text
         /// <param name="other">The other string.</param>
         /// <returns>True if both are equal, false otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean Isi(this String current, String other)
-        {
-            return String.Equals(current, other, StringComparison.OrdinalIgnoreCase);
-        }
+        public static Boolean Isi(this String current, String other) =>
+            String.Equals(current, other, StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
         /// Examines if the given element is equal to one of the given elements.
@@ -362,9 +357,7 @@ namespace AngleSharp.Text
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2)
-        {
-            return element.Is(item1) || element.Is(item2);
-        }
+            => element.Is(item1) || element.Is(item2);
 
         /// <summary>
         /// Examines if the given element is equal to one of the given elements.
@@ -375,10 +368,8 @@ namespace AngleSharp.Text
         /// <param name="item3">The third item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsOneOf(this String element, String item1, String item2, String item3)
-        {
-            return element.Is(item1) || element.Is(item2) || element.Is(item3);
-        }
+        public static Boolean IsOneOf(this String element, String item1, String item2, String item3) =>
+            element.Is(item1) || element.Is(item2) || element.Is(item3);
 
         /// <summary>
         /// Examines if the given element is equal to one of the given elements.
@@ -390,10 +381,8 @@ namespace AngleSharp.Text
         /// <param name="item4">The fourth item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4)
-        {
-            return element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4);
-        }
+        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4) =>
+            element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4);
 
         /// <summary>
         /// Examines if the given element is equal to one of the given elements.
@@ -406,10 +395,8 @@ namespace AngleSharp.Text
         /// <param name="item5">The fifth item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5)
-        {
-            return element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4) || element.Is(item5);
-        }
+        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5) =>
+            element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4) || element.Is(item5);
 
         /// <summary>
         /// Strips all line breaks from the given string.
@@ -447,10 +434,8 @@ namespace AngleSharp.Text
         /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String StripLeadingTrailingSpaces(this String str)
-        {
-            return StripLeadingTrailingSpaces(str.ToCharArray());
-        }
+        public static String StripLeadingTrailingSpaces(this String str) =>
+            StripLeadingTrailingSpaces(str.ToCharArray());
 
         /// <summary>
         /// Strips all leading and trailing space characters from the given char array.
@@ -483,10 +468,8 @@ namespace AngleSharp.Text
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String[] SplitWithoutTrimming(this String str, Char c)
-        {
-            return SplitWithoutTrimming(str.ToCharArray(), c);
-        }
+        public static String[] SplitWithoutTrimming(this String str, Char c) =>
+            SplitWithoutTrimming(str.ToCharArray(), c);
 
         /// <summary>
         /// Splits the char array with the given char delimiter.
@@ -526,10 +509,8 @@ namespace AngleSharp.Text
         /// <param name="str">The string to examine.</param>
         /// <returns>The list of tokens.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String[] SplitCommas(this String str)
-        {
-            return str.SplitWithTrimming(',');
-        }
+        public static String[] SplitCommas(this String str) =>
+            str.SplitWithTrimming(',');
 
         /// <summary>
         /// Checks if the provided string starts with the given value, either by exactly matching it,
@@ -540,10 +521,9 @@ namespace AngleSharp.Text
         /// <param name="comparison">The string comparison mode.</param>
         /// <returns>True if the string is exactly equal to or starts with the given value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean HasHyphen(this String str, String value, StringComparison comparison = StringComparison.Ordinal)
-        {
-            return String.Equals(str, value, comparison) || (str.Length > value.Length && str.StartsWith(value, comparison) && str[value.Length] == Symbols.Minus);
-        }
+        public static Boolean HasHyphen(this String str, String value, StringComparison comparison = StringComparison.Ordinal) =>
+            String.Equals(str, value, comparison) ||
+            (str.Length > value.Length && str.StartsWith(value, comparison) && str[value.Length] == Symbols.Minus);
 
         /// <summary>
         /// Splits the string on space characters.
@@ -624,10 +604,8 @@ namespace AngleSharp.Text
         /// <param name="s">The hexadecimal representation.</param>
         /// <returns>The integer number.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Int32 FromHex(this String s)
-        {
-            return Int32.Parse(s, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-        }
+        public static Int32 FromHex(this String s) =>
+            Int32.Parse(s, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Converts the given string to an integer.
@@ -635,10 +613,8 @@ namespace AngleSharp.Text
         /// <param name="s">The decimal representation.</param>
         /// <returns>The integer number.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Int32 FromDec(this String s)
-        {
-            return Int32.Parse(s, NumberStyles.Integer, CultureInfo.InvariantCulture);
-        }
+        public static Int32 FromDec(this String s) =>
+            Int32.Parse(s, NumberStyles.Integer, CultureInfo.InvariantCulture);
 
         /// <summary>
         /// Replaces characters in names and values that cannot be expressed by using the given
@@ -699,10 +675,8 @@ namespace AngleSharp.Text
         /// <param name="value">The CSS function name.</param>
         /// <param name="argument">The CSS function argument.</param>
         /// <returns>The CSS function string.</returns>
-        public static String CssFunction(this String value, String argument)
-        {
-            return String.Concat(value, "(", argument, ")");
-        }
+        public static String CssFunction(this String value, String argument) =>
+            String.Concat(value, "(", argument, ")");
 
         /// <summary>
         /// Replaces characters in names and values that should not be in URL
@@ -830,10 +804,10 @@ namespace AngleSharp.Text
         /// <returns>
         /// The encoding type with fallback application/x-www-form-urlencoded.
         /// </returns>
-        public static String ToEncodingType(this String encType)
-        {
-            return encType.Isi(MimeTypeNames.Plain) || encType.Isi(MimeTypeNames.MultipartForm) || encType.Isi(MimeTypeNames.ApplicationJson) ?
+        public static String ToEncodingType(this String encType) =>
+            encType.Isi(MimeTypeNames.Plain) ||
+            encType.Isi(MimeTypeNames.MultipartForm) ||
+            encType.Isi(MimeTypeNames.ApplicationJson) ?
                 encType : MimeTypeNames.UrlencodedForm;
-        }
     }
 }

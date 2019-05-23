@@ -44,6 +44,7 @@ namespace AngleSharp.Html.Parser
         {
             State = HtmlParseMode.PCData;
             IsAcceptingCharacterData = false;
+            IsNotConsumingCharacterReferences = false;
             IsStrictMode = false;
             _lastStartTag = String.Empty;
             _resolver = resolver;
@@ -57,6 +58,15 @@ namespace AngleSharp.Html.Parser
         /// Gets or sets if CDATA sections are accepted.
         /// </summary>
         public Boolean IsAcceptingCharacterData
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets if character references should be avoided.
+        /// </summary>
+        public Boolean IsNotConsumingCharacterReferences
         {
             get;
             set;
@@ -460,7 +470,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="allowedCharacter">The additionally allowed character if there is one.</param>
         private void AppendCharacterReference(Char c, Char allowedCharacter = Symbols.Null)
         {
-            if (c.IsSpaceCharacter() || c == Symbols.LessThan || c == Symbols.EndOfFile || c == Symbols.Ampersand || c == allowedCharacter)
+            if (IsNotConsumingCharacterReferences || c.IsSpaceCharacter() || c == Symbols.LessThan || c == Symbols.EndOfFile || c == Symbols.Ampersand || c == allowedCharacter)
             {
                 Back();
                 StringBuffer.Append(Symbols.Ampersand);

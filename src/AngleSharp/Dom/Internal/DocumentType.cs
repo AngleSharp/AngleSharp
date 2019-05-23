@@ -68,7 +68,7 @@ namespace AngleSharp.Dom
             get
             {
                 var parent = Parent;
-                
+
                 if (parent != null)
                 {
                     var n = parent.ChildNodes.Length;
@@ -109,28 +109,28 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets or sets the public ID of the document type.
         /// </summary>
-        public String PublicIdentifier 
-        { 
-            get; 
-            set; 
+        public String PublicIdentifier
+        {
+            get;
+            set;
         }
 
         /// <summary>
         /// Gets or sets the system ID of the document type.
         /// </summary>
-        public String SystemIdentifier 
-        { 
-            get; 
-            set; 
+        public String SystemIdentifier
+        {
+            get;
+            set;
         }
 
         /// <summary>
         /// Gets or sets the internal subset of the document type.
         /// </summary>
-        public String InternalSubset 
-        { 
-            get; 
-            set; 
+        public String InternalSubset
+        {
+            get;
+            set;
         }
 
         #endregion
@@ -142,48 +142,25 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="nodes">The nodes to insert before.</param>
         /// <returns>The current element.</returns>
-        public void Before(params INode[] nodes)
-        {
-            this.InsertBefore(nodes);
-        }
+        public void Before(params INode[] nodes) => this.InsertBefore(nodes);
 
         /// <summary>
         /// Inserts nodes after the current node.
         /// </summary>
         /// <param name="nodes">The nodes to insert after.</param>
         /// <returns>The current element.</returns>
-        public void After(params INode[] nodes)
-        {
-            this.InsertAfter(nodes);
-        }
+        public void After(params INode[] nodes) => this.InsertAfter(nodes);
 
         /// <summary>
         /// Replaces the current node with the nodes.
         /// </summary>
         /// <param name="nodes">The nodes to replace.</param>
-        public void Replace(params INode[] nodes)
-        {
-            this.ReplaceWith(nodes);
-        }
+        public void Replace(params INode[] nodes) => this.ReplaceWith(nodes);
 
         /// <summary>
         /// Removes the current element from the parent.
         /// </summary>
-        public void Remove()
-        {
-            this.RemoveFromParent();
-        }
-
-        /// <summary>
-        /// Returns an HTML-code representation of the node.
-        /// </summary>
-        /// <param name="writer">The serialization output target.</param>
-        /// <param name="formatter">The formatter to use.</param>
-        /// <returns>A string containing the HTML code.</returns>
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            writer.Write(formatter.Doctype(this));
-        }
+        public void Remove() => this.RemoveFromParent();
 
         /// <inheritdoc />
         public override Node Clone(Document owner, Boolean deep)
@@ -202,15 +179,9 @@ namespace AngleSharp.Dom
 
         #region Helpers
 
-        protected override String LocateNamespace(String prefix)
-        {
-            return null;
-        }
+        protected override String LocateNamespace(String prefix) => null;
 
-        protected override String LocatePrefix(String namespaceUri)
-        {
-            return null;
-        }
+        protected override String LocatePrefix(String namespaceUri) => null;
 
         #endregion
     }

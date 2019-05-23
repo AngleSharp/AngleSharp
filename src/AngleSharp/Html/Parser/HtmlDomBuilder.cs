@@ -102,9 +102,7 @@ namespace AngleSharp.Html.Parser
         {
             var source = _document.Source;
             var token = default(HtmlToken);
-            _tokenizer.IsStrictMode = options.IsStrictMode;
-            _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
-            _options = options;
+            SetOptions(options);
 
             do
             {
@@ -134,9 +132,7 @@ namespace AngleSharp.Html.Parser
         public HtmlDocument Parse(HtmlParserOptions options)
         {
             var token = default(HtmlToken);
-            _tokenizer.IsStrictMode = options.IsStrictMode;
-            _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
-            _options = options;
+            SetOptions(options);
 
             do
             {
@@ -278,6 +274,14 @@ namespace AngleSharp.Html.Parser
             {
                 Foreign(token);
             }
+        }
+
+        private void SetOptions(HtmlParserOptions options)
+        {
+            _tokenizer.IsStrictMode = options.IsStrictMode;
+            _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
+            _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
+            _options = options;
         }
 
         #endregion

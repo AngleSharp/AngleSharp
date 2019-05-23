@@ -1,18 +1,18 @@
-using System;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AngleSharp.Common;
-using AngleSharp.Core.Tests.Mocks;
-using AngleSharp.Dom;
-using AngleSharp.Html.Dom;
-using AngleSharp.Io;
-using Newtonsoft.Json.Linq;
-using NUnit.Framework;
-
 namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Common;
+    using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Io;
+    using Newtonsoft.Json.Linq;
+    using NUnit.Framework;
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     [TestFixture]
     public class CookieHandlingTests
     {
@@ -28,7 +28,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var configuration = Configuration.Default.WithDefaultLoader().WithCookies();
+                var configuration = Configuration.Default.WithDefaultLoader().WithDefaultCookies();
                 var context = BrowsingContext.New(configuration);
                 await context.OpenAsync("https://online.lloydsbank.co.uk/personal/logon/login.jsp");
             }
@@ -147,7 +147,7 @@ namespace AngleSharp.Core.Tests.Library
         public async Task SettingSingleCookieInDocumentAppearsInRequest()
         {
             var request = default(Request);
-            var config = Configuration.Default.WithCookies().WithMockRequester(req => request = req);
+            var config = Configuration.Default.WithDefaultCookies().WithMockRequester(req => request = req);
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res =>
                 res.Content("<a href=mockpage.html></a>").Address("http://localhost/"));
@@ -163,7 +163,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingNewCookieInSubsequentRequestDoesNotExpirePreviousCookies()
         {
-            var config = Configuration.Default.WithCookies().WithVirtualRequester(req => VirtualResponse.Create(
+            var config = Configuration.Default.WithDefaultCookies().WithVirtualRequester(req => VirtualResponse.Create(
                 res => res.Address("http://localhost/mockpage.html").Content("<div></div>")
                     .Cookie("Auth=Bar; Path=/")));
             var context = BrowsingContext.New(config);
@@ -178,7 +178,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingNoCookieInSubsequentRequestLeavesCookieSituationUnchanged()
         {
-            var config = Configuration.Default.WithCookies().WithVirtualRequester(req => VirtualResponse.Create(
+            var config = Configuration.Default.WithDefaultCookies().WithVirtualRequester(req => VirtualResponse.Create(
                 res => res.Address("http://localhost/mockpage.html").Content("<div></div>")));
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res =>
@@ -195,7 +195,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = "https://httpbin.org/cookies/set?k1=v1";
-                var config = Configuration.Default.WithCookies().WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
 
@@ -209,7 +209,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = "https://httpbin.org/cookies/set?k2=v2&k1=v1";
-                var config = Configuration.Default.WithCookies().WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
                 var cookies = document.Cookie.Split(';').Select(m => m.Trim());
@@ -224,7 +224,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = "https://httpbin.org/cookies/set?test=baz&k2=v2&k1=v1&foo=bar";
-                var config = Configuration.Default.WithCookies().WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
                 var cookies = document.Cookie.Split(';').Select(m => m.Trim());
@@ -240,7 +240,7 @@ namespace AngleSharp.Core.Tests.Library
             {
                 var baseUrl = "https://httpbin.org/cookies";
                 var url = baseUrl + "/set?test=baz&k2=v2&k1=v1&foo=bar";
-                var config = Configuration.Default.WithCookies().WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 await context.OpenAsync(url);
                 var document = await context.OpenAsync(baseUrl);
@@ -266,7 +266,7 @@ namespace AngleSharp.Core.Tests.Library
             {
                 var cookieUrl = "https://httpbin.org/cookies/set?test=baz";
                 var redirectUrl = "https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org%2Fcookies";
-                var config = Configuration.Default.WithCookies().WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 await context.OpenAsync(cookieUrl);
                 var document = await context.OpenAsync(redirectUrl);
@@ -384,7 +384,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task DefaultHttpRequesterWorksWithVersion1Cookies()
         {
-            var config = Configuration.Default.WithDefaultLoader().WithCookies();
+            var config = Configuration.Default.WithDefaultLoader().WithDefaultCookies();
             var context = BrowsingContext.New(config);
             var cookieValue =
                 "FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102; Version=1";
@@ -393,7 +393,7 @@ namespace AngleSharp.Core.Tests.Library
                 .Address("http://localhost/")
                 .Header(HeaderNames.SetCookie, cookieValue));
 
-            await context.OpenAsync("http://localhost/");
+            Assert.IsNotEmpty(document.Cookie);
         }
 
         [Test]
@@ -473,13 +473,13 @@ namespace AngleSharp.Core.Tests.Library
             var requester = new MockRequester();
             requester.BuildResponse(onRequest);
             var config = Configuration.Default.With(requester)
-                .WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).WithCookies();
+                .WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).WithDefaultCookies();
             return BrowsingContext.New(config).OpenAsync(initialResponse, CancellationToken.None);
         }
 
         private static async Task<IDocument> LoadDocumentAloneWithCookie(String cookieValue)
         {
-            var config = Configuration.Default.WithCookies();
+            var config = Configuration.Default.WithDefaultCookies();
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res =>
                 res.Content("<div></div>").Address("http://localhost/").Header(HeaderNames.SetCookie, cookieValue));

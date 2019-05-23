@@ -5,6 +5,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Html.Dom.Events;
     using AngleSharp.Text;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a standard HTML element in the node tree.
@@ -633,7 +634,10 @@ namespace AngleSharp.Html.Dom
         #region Helpers
 
         /// <inheritdoc />
-        protected Boolean IsClickedCancelled() => this.Fire<MouseEvent>(m => m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
+        protected Task<Boolean> IsClickedCancelled() =>
+            Owner.QueueTaskAsync(_ =>
+                this.Fire<MouseEvent>(m =>
+                    m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this)));
 
         /// <inheritdoc />
         protected IHtmlFormElement GetAssignedForm()

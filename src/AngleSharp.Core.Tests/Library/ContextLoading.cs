@@ -24,7 +24,7 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsNotNull(document.DocumentElement);
             Assert.IsNotNull(document.Body);
             Assert.IsNotNull(document.Head);
-            Assert.AreEqual("", document.DocumentUri);
+            Assert.AreEqual("http://localhost/", document.DocumentUri);
             Assert.AreEqual(2, document.DocumentElement.ChildElementCount);
             Assert.AreEqual(0, document.Body.ChildElementCount);
             Assert.AreEqual(0, document.Head.ChildElementCount);

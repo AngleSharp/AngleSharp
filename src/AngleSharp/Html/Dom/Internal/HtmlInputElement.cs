@@ -274,27 +274,28 @@ namespace AngleSharp.Html.Dom
             return node;
         }
 
-        public override void DoClick()
+        public override async void DoClick()
         {
-            if (!IsClickedCancelled())
+            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
+            var form = Form;
+
+            if (!cancelled && form != null)
             {
                 var type = Type;
 
                 if (type.Is(InputTypeNames.Submit))
                 {
-                    Form?.SubmitAsync();
+                    await form.SubmitAsync().ConfigureAwait(false);
                 }
                 else if (type.Is(InputTypeNames.Reset))
                 {
-                    Form?.Reset();
+                    form.Reset();
                 }
             }
         }
 
-        internal override FormControlState SaveControlState()
-        {
-            return new FormControlState(Name, Type, Value);
-        }
+        internal override FormControlState SaveControlState() =>
+            new FormControlState(Name, Type, Value);
 
         internal override void RestoreFormControlState(FormControlState state)
         {
@@ -304,15 +305,9 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public void StepUp(Int32 n = 1)
-        {
-            _type.DoStep(n);
-        }
+        public void StepUp(Int32 n = 1) => _type.DoStep(n);
 
-        public void StepDown(Int32 n = 1)
-        {
-            _type.DoStep(-n);
-        }
+        public void StepDown(Int32 n = 1) => _type.DoStep(-n);
 
         #endregion
 
@@ -331,11 +326,8 @@ namespace AngleSharp.Html.Dom
             UpdateType(type);
         }
 
-        internal void UpdateType(String value)
-        {
-            var factory = Context.GetFactory<IInputTypeFactory>();
-            _type = factory.Create(this, value);
-        }
+        internal void UpdateType(String value) =>
+            _type = Context.GetFactory<IInputTypeFactory>().Create(this, value);
 
         #endregion
 
@@ -363,10 +355,8 @@ namespace AngleSharp.Html.Dom
             state.Reset(result);
         }
 
-        protected override Boolean CanBeValidated()
-        {
-            return _type.CanBeValidated && base.CanBeValidated();
-        }
+        protected override Boolean CanBeValidated() =>
+            _type.CanBeValidated && base.CanBeValidated();
 
         #endregion
     }

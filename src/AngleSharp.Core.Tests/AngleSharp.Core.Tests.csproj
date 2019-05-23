@@ -4,6 +4,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,5 +35,9 @@
     <EmbeddedResource Include="Pages\*.*" />
     <EmbeddedResource Include="Resources\*.bin" />
     <EmbeddedResource Include="Html\*.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Html\BrokenMail.txt" />
   </ItemGroup>
 </Project>

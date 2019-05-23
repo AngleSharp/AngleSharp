@@ -82,15 +82,9 @@ namespace AngleSharp.Dom
 
             if (records.Length != 0)
             {
-                TriggerWith(records);
+                _callback(records, this);
             }
         }
-
-        /// <summary>
-        /// Triggers the execution with the provided records.
-        /// </summary>
-        /// <param name="records">The records to supply as argument.</param>
-        internal void TriggerWith(IMutationRecord[] records) => _callback(records, this);
 
         /// <summary>
         /// Gets the options, if any, for the given node. If null is returned

@@ -54,7 +54,7 @@ namespace AngleSharp.Html
 
             foreach (var attribute in element.Attributes)
             {
-                temp.Append(" ").Append(Instance.Attribute(attribute));
+                temp.Append(' ').Append(Instance.Attribute(attribute));
             }
 
             temp.Append(Symbols.GreaterThan);
@@ -65,7 +65,7 @@ namespace AngleSharp.Html
         {
             var prefix = element.Prefix;
             var name = element.LocalName;
-            var tag = !String.IsNullOrEmpty(prefix) ? prefix + ":" + name : name;
+            var tag = !String.IsNullOrEmpty(prefix) ? String.Concat(prefix, ":", name) : name;
             return selfClosing ? String.Empty : String.Concat("</", tag, ">");
         }
 

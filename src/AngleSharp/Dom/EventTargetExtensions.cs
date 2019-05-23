@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Events;
     using System;
@@ -81,7 +81,7 @@
                 throw new ArgumentNullException(nameof(eventName));
 
             var completion = new TaskCompletionSource<Event>();
-            DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
+            void handler(Object s, Event ev) => completion.TrySetResult(ev);
             node.AddEventListener(eventName, handler);
 
             try

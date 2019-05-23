@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -166,6 +166,20 @@
         {
             get;
             set;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override async void DoClick()
+        {
+            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
+
+            if (!cancelled)
+            {
+                await this.NavigateAsync().ConfigureAwait(false);
+            }
         }
 
         #endregion

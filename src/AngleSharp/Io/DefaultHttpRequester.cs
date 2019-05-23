@@ -85,10 +85,8 @@ namespace AngleSharp.Io
         /// <returns>
         /// True if the protocol is supported, otherwise false.
         /// </returns>
-        public override Boolean SupportsProtocol(String protocol)
-        {
-            return protocol.IsOneOf(ProtocolNames.Http, ProtocolNames.Https);
-        }
+        public override Boolean SupportsProtocol(String protocol) =>
+            protocol.IsOneOf(ProtocolNames.Http, ProtocolNames.Https);
 
         /// <summary>
         /// Performs an asynchronous http request that can be cancelled.

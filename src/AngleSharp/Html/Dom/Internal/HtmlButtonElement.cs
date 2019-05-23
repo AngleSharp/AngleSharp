@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Html;
@@ -118,17 +118,18 @@
 
         #region Methods
 
-        public override void DoClick()
+        public override async void DoClick()
         {
+            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
             var form = Form;
 
-            if (!IsClickedCancelled() && form != null)
+            if (!cancelled && form != null)
             {
                 var type = Type;
 
                 if (type.Is(InputTypeNames.Submit))
                 {
-                    form.SubmitAsync(this);
+                    await form.SubmitAsync(this).ConfigureAwait(false);
                 }
                 else if (type.Is(InputTypeNames.Reset))
                 {

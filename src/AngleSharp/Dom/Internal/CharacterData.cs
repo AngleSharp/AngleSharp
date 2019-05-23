@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.IO;
@@ -88,8 +88,8 @@
 
         internal Char this[Int32 index]
         {
-            get { return _content[index]; }
-            set 
+            get => _content[index];
+            set
             {
                 if (index >= 0)
                 {
@@ -111,20 +111,20 @@
 
         public sealed override String NodeValue
         {
-            get { return Data; }
-            set { Data = value; }
+            get => Data;
+            set => Data = value;
         }
 
         public sealed override String TextContent
         {
-            get { return Data; }
-            set { Data = value; }
+            get => Data;
+            set => Data = value;
         }
 
         public String Data
         {
-            get { return _content; }
-            set { Replace(0, Length, value); }
+            get => _content;
+            set => Replace(0, Length, value);
         }
 
         #endregion
@@ -146,20 +146,11 @@
             return _content.Substring(offset, count);
         }
 
-        public void Append(String value)
-        {
-            Replace(_content.Length, 0, value);
-        }
+        public void Append(String value) => Replace(_content.Length, 0, value);
 
-        public void Insert(Int32 offset, String data)
-        {
-            Replace(offset, 0, data);
-        }
+        public void Insert(Int32 offset, String data) => Replace(offset, 0, data);
 
-        public void Delete(Int32 offset, Int32 count)
-        {
-            Replace(offset, count, String.Empty);
-        }
+        public void Delete(Int32 offset, Int32 count) => Replace(offset, count, String.Empty);
 
         public void Replace(Int32 offset, Int32 count, String data)
         {
@@ -174,8 +165,7 @@
                 count = length - offset;
             }
             
-            owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: _content));
-
+            var previous = _content;
             var deleteOffset = offset + data.Length;
             _content = _content.Insert(offset, data);
 
@@ -184,36 +174,20 @@
                 _content = _content.Remove(deleteOffset, count);
             }
 
+            owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: previous));
             owner.ForEachRange(m => m.Head == this && m.Start > offset && m.Start <= offset + count, m => m.StartWith(this, offset));
             owner.ForEachRange(m => m.Tail == this && m.End > offset && m.End <= offset + count, m => m.EndWith(this, offset));
             owner.ForEachRange(m => m.Head == this && m.Start > offset + count, m => m.StartWith(this, m.Start + data.Length - count));
             owner.ForEachRange(m => m.Tail == this && m.End > offset + count, m => m.EndWith(this, m.End + data.Length - count));
         }
-        
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            writer.Write(formatter.Text(this));
-        }
 
-        public void Before(params INode[] nodes)
-        {
-            this.InsertBefore(nodes);
-        }
+        public void Before(params INode[] nodes) => this.InsertBefore(nodes);
 
-        public void After(params INode[] nodes)
-        {
-            this.InsertAfter(nodes);
-        }
+        public void After(params INode[] nodes) => this.InsertAfter(nodes);
 
-        public void Replace(params INode[] nodes)
-        {
-            this.ReplaceWith(nodes);
-        }
+        public void Replace(params INode[] nodes) => this.ReplaceWith(nodes);
 
-        public void Remove()
-        {
-            this.RemoveFromParent();
-        }
+        public void Remove() => this.RemoveFromParent();
 
         #endregion
     }
