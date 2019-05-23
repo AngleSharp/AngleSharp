@@ -44,20 +44,20 @@
 
         public String UserName
         {
-            get { return _url.UserName; }
-            set { _url.UserName = value; }
+            get => _url.UserName;
+            set => _url.UserName = value;
         }
 
         public String Password
         {
-            get { return _url.Password; }
-            set { _url.Password = value; }
+            get => _url.Password;
+            set => _url.Password = value;
         }
 
         public String Hash
         {
-            get { return NonEmptyPrefix(_url.Fragment, "#"); }
-            set 
+            get => NonEmptyPrefix(_url.Fragment, "#");
+            set
             {
                 var old = _url.Href;
 
@@ -74,17 +74,17 @@
                 }
 
                 if (!value.Is(_url.Fragment))
-                { 
-                    _url.Fragment = value; 
+                {
+                    _url.Fragment = value;
                     RaiseHashChanged(old);
-                } 
+                }
             }
         }
 
         public String Host
         {
-            get { return _url.Host; }
-            set 
+            get => _url.Host;
+            set
             {
                 var old = _url.Href;
 
@@ -98,8 +98,8 @@
 
         public String HostName
         {
-            get { return _url.HostName; }
-            set 
+            get => _url.HostName;
+            set
             {
                 var old = _url.Href;
 
@@ -113,8 +113,8 @@
 
         public String Href
         {
-            get { return _url.Href; }
-            set 
+            get => _url.Href;
+            set
             {
                 var old = _url.Href;
 
@@ -133,7 +133,7 @@
                 var data = _url.Data;
                 return String.IsNullOrEmpty(data) ? "/" + _url.Path : data;
             }
-            set 
+            set
             {
                 var old = _url.Href;
 
@@ -147,8 +147,8 @@
 
         public String Port
         {
-            get { return _url.Port; }
-            set 
+            get => _url.Port;
+            set
             {
                 var old = _url.Href;
 
@@ -162,8 +162,8 @@
 
         public String Protocol
         {
-            get { return NonEmptyPostfix(_url.Scheme, ":"); }
-            set 
+            get => NonEmptyPostfix(_url.Scheme, ":");
+            set
             {
                 var old = _url.Href;
 
@@ -177,8 +177,8 @@
 
         public String Search
         {
-            get { return NonEmptyPrefix(_url.Query, "?"); }
-            set 
+            get => NonEmptyPrefix(_url.Query, "?");
+            set
             {
                 var old = _url.Href;
 
@@ -216,40 +216,25 @@
             }
         }
 
-        public void Reload()
-        {
-            var href = _url.Href;
-            Changed?.Invoke(this, new ChangedEventArgs(false, href, href));
-        }
+        public void Reload() => Changed?.Invoke(this, new ChangedEventArgs(false, _url.Href, _url.Href));
 
-        public override String ToString()
-        {
-            return _url.Href;
-        }
+        public override String ToString() => _url.Href;
 
         #endregion
 
         #region Helpers
 
-        private void RaiseHashChanged(String oldAddress)
-        {
+        private void RaiseHashChanged(String oldAddress) =>
             Changed?.Invoke(this, new ChangedEventArgs(true, oldAddress, _url.Href));
-        }
 
-        private void RaiseLocationChanged(String oldAddress)
-        {
+        private void RaiseLocationChanged(String oldAddress) =>
             Changed?.Invoke(this, new ChangedEventArgs(false, oldAddress, _url.Href));
-        }
 
-        private static String NonEmptyPrefix(String check, String prefix)
-        {
-            return String.IsNullOrEmpty(check) ? String.Empty : String.Concat(prefix, check);
-        }
+        private static String NonEmptyPrefix(String check, String prefix) =>
+            String.IsNullOrEmpty(check) ? String.Empty : String.Concat(prefix, check);
 
-        private static String NonEmptyPostfix(String check, String postfix)
-        {
-            return String.IsNullOrEmpty(check) ? String.Empty : String.Concat(check, postfix);
-        }
+        private static String NonEmptyPostfix(String check, String postfix) =>
+            String.IsNullOrEmpty(check) ? String.Empty : String.Concat(check, postfix);
 
         #endregion
 
