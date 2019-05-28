@@ -877,7 +877,7 @@ namespace AngleSharp.Dom
         {
             //Important to fix #45
             Clear();
-            _loop.CancelAll();
+            _loop?.CancelAll();
             _loadingScripts.Clear();
             _source.Dispose();
             _view?.Dispose();
@@ -934,7 +934,7 @@ namespace AngleSharp.Dom
                         element.RemoveEventListeners();
                     }
 
-                    _loop.CancelAll();
+                    _loop?.CancelAll();
                     ReplaceAll(null, suppressObservers: true);
                     _source.CurrentEncoding = TextEncoding.Utf8;
                     _salvageable = true;

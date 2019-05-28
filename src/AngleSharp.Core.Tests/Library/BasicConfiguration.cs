@@ -38,5 +38,15 @@ namespace AngleSharp.Core.Tests.Library
             parser.ParseDocument(source);
             Assert.AreEqual(15, positions.Count);
         }
+
+        [Test]
+        public void ShouldNotCrashOnDispose_Issue794()
+        {
+            var parser = new HtmlParser();
+
+            using (var document = parser.ParseDocument("<html><head><meta http-equiv=\"Content - Type\">text/html; charset=utf-8</head><body></body></html>"))
+            {
+            }
+        }
     }
 }
