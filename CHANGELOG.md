@@ -13,6 +13,7 @@
 - Added more pseudo elements for GCPM
 - Fixed character position starting at normalized CRLF (#786)
 - Improved setting `Href` in `Url`
+- Fixed crash for invalid attribute names during SVG parsing (#795)
 
 # 0.12.1
 

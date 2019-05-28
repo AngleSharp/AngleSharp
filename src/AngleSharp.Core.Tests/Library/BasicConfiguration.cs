@@ -48,5 +48,20 @@ namespace AngleSharp.Core.Tests.Library
             {
             }
         }
+
+        [Test]
+        public void InvalidCharacterDetectedCrashTest_Issue795()
+        {
+            new HtmlParser().ParseDocument(
+        @"<html>
+<body>
+<svg>
+	<g>
+		<image xlink:href$="""" width=""274"" height=""186""></image>
+	</g>
+</svg>
+</body>
+</html>");
+        }
     }
 }
