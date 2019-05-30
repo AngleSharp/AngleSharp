@@ -1089,7 +1089,7 @@ namespace AngleSharp
                     default:
                         if (Punycode.Symbols.TryGetValue(hostName[i], out var chr))
                         {
-                            chars[count++] = (Byte)chr;
+                            chars[count++] = (Byte)Char.ToLowerInvariant(chr);
                         }
                         else if (hostName[i].IsAlphanumericAscii() == false)
                         {
