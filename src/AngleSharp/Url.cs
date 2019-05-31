@@ -1121,7 +1121,15 @@ namespace AngleSharp
             //TODO finish with
             //https://url.spec.whatwg.org/#concept-host-parser
             //missing IPv6/4 parsing, Punycode [no normalization in WP app.]
-            return TextEncoding.Utf8.GetString(chars, 0, count);
+            var str = TextEncoding.Utf8.GetString(chars, 0, count);
+#if NETSTANDARD2_0 || NET46
+            if (!String.IsNullOrEmpty(str))
+            {
+                var mapping = new System.Globalization.IdnMapping();
+                return mapping.GetAscii(str).ToLowerInvariant();
+            }
+#endif
+            return str;
         }
 
         private static String SanatizePort(String port, Int32 start, Int32 length)
@@ -1155,6 +1163,6 @@ namespace AngleSharp
             return new String(chars, 0, count);
         }
 
-        #endregion
+#endregion
     }
 }

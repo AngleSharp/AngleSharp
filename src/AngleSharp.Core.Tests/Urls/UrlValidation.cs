@@ -4181,7 +4181,7 @@ org");
             Assert.IsNotNull(document);
 		}
 
-        //TODO [Test]
+        [Test]
         public void DocumentUrlTest253()
 		{
 			var document = Html("<base id=base>");
