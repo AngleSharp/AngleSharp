@@ -4,6 +4,7 @@ namespace AngleSharp
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -728,7 +729,10 @@ namespace AngleSharp
             }
             else if (span != 0)
             {
-                _host = SanatizeHost(input, start, span);
+                if (!TrySanatizeHost(input, start, span, out _host))
+                {
+                    return false;
+                }
             }
 
             return ParsePath(input, index, length);
@@ -757,7 +761,10 @@ namespace AngleSharp
                         if (inBracket)
                             break;
 
-                        _host = SanatizeHost(input, start, index - start);
+                        if (!TrySanatizeHost(input, start, index - start, out _host))
+                        {
+                            return false;
+                        }
 
                         if (!onlyHost)
                         {
@@ -770,7 +777,11 @@ namespace AngleSharp
                     case Symbols.ReverseSolidus:
                     case Symbols.Num:
                     case Symbols.QuestionMark:
-                        _host = SanatizeHost(input, start, index - start);
+                        if (!TrySanatizeHost(input, start, index - start, out _host))
+                        {
+                            return false;
+                        }
+
                         var error = String.IsNullOrEmpty(_host);
 
                         if (!onlyHost)
@@ -785,7 +796,10 @@ namespace AngleSharp
                 index++;
             }
 
-            _host = SanatizeHost(input, start, index - start);
+            if (!TrySanatizeHost(input, start, index - start, out _host))
+            {
+                return false;
+            }
 
             if (!onlyHost)
             {
@@ -1038,11 +1052,12 @@ namespace AngleSharp
             return length - 1;
         }
 
-        private static String SanatizeHost(String hostName, Int32 start, Int32 length)
+        private static bool TrySanatizeHost(String hostName, Int32 start, Int32 length, out String sanatizedHostName)
         {
             if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
             {
-                return hostName.Substring(start, length);
+                sanatizedHostName = hostName.Substring(start, length);
+                return true;
             }
 
             var chars = new Byte[4 * length];
@@ -1095,11 +1110,6 @@ namespace AngleSharp
                         {
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
 
-                            if (l == 1 && !Char.IsLetterOrDigit(hostName[i]))
-                            {
-                                break;
-                            }
-
                             var bytes = TextEncoding.Utf8.GetBytes(hostName.Substring(i, l));
 
                             for (var j = 0; j < bytes.Length; j++)
@@ -1125,11 +1135,29 @@ namespace AngleSharp
 #if NETSTANDARD2_0 || NET46
             if (!String.IsNullOrEmpty(str))
             {
-                var mapping = new System.Globalization.IdnMapping();
-                return mapping.GetAscii(str).ToLowerInvariant();
+                // TODO: make IdnMapping static readonly (how to make it static while setting UseStd3AsciiRules?)
+                var mapping = new IdnMapping();
+                mapping.AllowUnassigned = false;
+
+                // This is against spec
+                // https://url.spec.whatwg.org/#concept-domain-to-ascii
+                // > UseSTD3ASCIIRules set to beStrict
+                // but if UseStd3AsciiRules set to true, _ (underscore) will be considered invalid in host name
+                mapping.UseStd3AsciiRules = false;
+
+                try
+                {
+                    str = mapping.GetAscii(str);
+                }
+                catch (ArgumentException)
+                {
+                    sanatizedHostName = str;
+                    return false;
+                }
             }
 #endif
-            return str;
+            sanatizedHostName = str;
+            return true;
         }
 
         private static String SanatizePort(String port, Int32 start, Int32 length)
