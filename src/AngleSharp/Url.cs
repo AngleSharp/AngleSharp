@@ -4,7 +4,6 @@ namespace AngleSharp
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -20,6 +19,14 @@ namespace AngleSharp
         private static readonly String UpperDirectory = "..";
         private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
         private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
+#if NETSTANDARD2_0 || NET46
+        // Remark: `UseStd3AsciiRules = false` is against spec
+        // https://url.spec.whatwg.org/#concept-domain-to-ascii
+        // > UseSTD3ASCIIRules set to beStrict
+        // But if UseStd3AsciiRules it set to true, _ (underscore) will be considered invalid in host name
+        // Set to false here to do loose validation
+        private static readonly System.Globalization.IdnMapping DefaultIdnMapping = new System.Globalization.IdnMapping() { AllowUnassigned = false, UseStd3AsciiRules = false };
+#endif
 
         private String _fragment;
         private String _query;
@@ -1135,19 +1142,9 @@ namespace AngleSharp
 #if NETSTANDARD2_0 || NET46
             if (!String.IsNullOrEmpty(str))
             {
-                // TODO: make IdnMapping static readonly (how to make it static while setting UseStd3AsciiRules?)
-                var mapping = new IdnMapping();
-                mapping.AllowUnassigned = false;
-
-                // This is against spec
-                // https://url.spec.whatwg.org/#concept-domain-to-ascii
-                // > UseSTD3ASCIIRules set to beStrict
-                // but if UseStd3AsciiRules set to true, _ (underscore) will be considered invalid in host name
-                mapping.UseStd3AsciiRules = false;
-
                 try
                 {
-                    str = mapping.GetAscii(str);
+                    str = DefaultIdnMapping.GetAscii(str);
                 }
                 catch (ArgumentException)
                 {
