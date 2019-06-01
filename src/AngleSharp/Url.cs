@@ -19,6 +19,14 @@ namespace AngleSharp
         private static readonly String UpperDirectory = "..";
         private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
         private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
+#if NETSTANDARD2_0 || NET46
+        // Remark: `UseStd3AsciiRules = false` is against spec
+        // https://url.spec.whatwg.org/#concept-domain-to-ascii
+        // > UseSTD3ASCIIRules set to beStrict
+        // But if UseStd3AsciiRules it set to true, _ (underscore) will be considered invalid in host name
+        // Set to false here to do loose validation
+        private static readonly System.Globalization.IdnMapping DefaultIdnMapping = new System.Globalization.IdnMapping() { AllowUnassigned = false, UseStd3AsciiRules = false };
+#endif
 
         private String _fragment;
         private String _query;
@@ -728,7 +736,10 @@ namespace AngleSharp
             }
             else if (span != 0)
             {
-                _host = SanatizeHost(input, start, span);
+                if (!TrySanatizeHost(input, start, span, out _host))
+                {
+                    return false;
+                }
             }
 
             return ParsePath(input, index, length);
@@ -757,7 +768,10 @@ namespace AngleSharp
                         if (inBracket)
                             break;
 
-                        _host = SanatizeHost(input, start, index - start);
+                        if (!TrySanatizeHost(input, start, index - start, out _host))
+                        {
+                            return false;
+                        }
 
                         if (!onlyHost)
                         {
@@ -770,7 +784,11 @@ namespace AngleSharp
                     case Symbols.ReverseSolidus:
                     case Symbols.Num:
                     case Symbols.QuestionMark:
-                        _host = SanatizeHost(input, start, index - start);
+                        if (!TrySanatizeHost(input, start, index - start, out _host))
+                        {
+                            return false;
+                        }
+
                         var error = String.IsNullOrEmpty(_host);
 
                         if (!onlyHost)
@@ -785,7 +803,10 @@ namespace AngleSharp
                 index++;
             }
 
-            _host = SanatizeHost(input, start, index - start);
+            if (!TrySanatizeHost(input, start, index - start, out _host))
+            {
+                return false;
+            }
 
             if (!onlyHost)
             {
@@ -1038,11 +1059,12 @@ namespace AngleSharp
             return length - 1;
         }
 
-        private static String SanatizeHost(String hostName, Int32 start, Int32 length)
+        private static bool TrySanatizeHost(String hostName, Int32 start, Int32 length, out String sanatizedHostName)
         {
             if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
             {
-                return hostName.Substring(start, length);
+                sanatizedHostName = hostName.Substring(start, length);
+                return true;
             }
 
             var chars = new Byte[4 * length];
@@ -1095,11 +1117,6 @@ namespace AngleSharp
                         {
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
 
-                            if (l == 1 && !Char.IsLetterOrDigit(hostName[i]))
-                            {
-                                break;
-                            }
-
                             var bytes = TextEncoding.Utf8.GetBytes(hostName.Substring(i, l));
 
                             for (var j = 0; j < bytes.Length; j++)
@@ -1125,11 +1142,19 @@ namespace AngleSharp
 #if NETSTANDARD2_0 || NET46
             if (!String.IsNullOrEmpty(str))
             {
-                var mapping = new System.Globalization.IdnMapping();
-                return mapping.GetAscii(str).ToLowerInvariant();
+                try
+                {
+                    str = DefaultIdnMapping.GetAscii(str);
+                }
+                catch (ArgumentException)
+                {
+                    sanatizedHostName = str;
+                    return false;
+                }
             }
 #endif
-            return str;
+            sanatizedHostName = str;
+            return true;
         }
 
         private static String SanatizePort(String port, Int32 start, Int32 length)

@@ -194,13 +194,18 @@ namespace AngleSharp.Core.Tests.Urls
         }
 
         [Test]
-        public void PunycodeSquareReplacement_Issue797()
+        public void PunycodeSquareReplacement_Issue797_Valid()
         {
-            var baseUrl = new Url("http://ec².com");
-            var relative = "http:";
-            var url = new Url(baseUrl, relative);
-            Assert.IsTrue(url.IsInvalid);
+            var url = new Url("http://ec².com");
+            Assert.IsFalse(url.IsInvalid);
             Assert.AreEqual("http://ec2.com/", url.ToString());
+        }
+
+        [Test]
+        public void PunycodeSquareReplacement_Issue797_Invalid()
+        {
+            var url = new Url("http://www.example.c؀om/");
+            Assert.IsTrue(url.IsInvalid);
         }
 
         [Test]
