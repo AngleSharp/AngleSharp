@@ -1083,7 +1083,7 @@ namespace AngleSharp
 
             for (var i = start; i < n; i++)
             {
-                Char cc = hostName[i];
+                var cc = hostName[i];
                 switch (cc)
                 {
                     case Symbols.Null:
@@ -1115,10 +1115,9 @@ namespace AngleSharp
 #if NETSTANDARD1_3
             // .Net Standard 1.3 does not have IdnMapping, using a manual table to cover some basic mapping
             buffer.Clear();
-            Char replacement;
             foreach(var cc in percentDecoded)
             {
-                replacement = cc;
+                var replacement = cc;
                 if(cc.IsAlphanumericAscii() || cc.IsOneOf(Symbols.Minus, Symbols.Underscore, Symbols.Dot) || Punycode.Symbols.TryGetValue(cc, out replacement))
                 {
                     buffer.Append(replacement);
