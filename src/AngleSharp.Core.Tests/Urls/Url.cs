@@ -209,6 +209,13 @@ namespace AngleSharp.Core.Tests.Urls
         }
 
         [Test]
+        public void PunycodeSquareReplacement_Issue797_InvalidAfterMapping()
+        {
+            var url = new Url("http://www.examp？le.com/");
+            Assert.IsTrue(url.IsInvalid);
+        }
+
+        [Test]
         public void InvalidRelativeUrlAsDifferentProtocolScheme()
         {
             var baseUrl = new Url("http://some.domain.com");
