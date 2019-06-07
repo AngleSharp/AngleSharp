@@ -1086,11 +1086,11 @@ namespace AngleSharp
                 var cc = hostName[i];
                 switch (cc)
                 {
-                    case Symbols.Null:
                     case Symbols.Tab:
-                    case Symbols.Space:
                     case Symbols.LineFeed:
                     case Symbols.CarriageReturn:
+                        // https://url.spec.whatwg.org/#concept-basic-url-parser
+                        // Remove all ASCII tab or newline from input.
                         break;
                     case Symbols.Percent:
                         if (i + 2 < n && hostName[i + 1].IsHex() && hostName[i + 2].IsHex())
