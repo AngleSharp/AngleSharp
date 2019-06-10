@@ -21,7 +21,7 @@ namespace AngleSharp
         private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
         private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
         private static readonly Char[] C0ControlAndSpace = Enumerable.Range(0x00, 0x21).Select(c => (Char)c).ToArray();
-#if NETSTANDARD2_0 || NET46
+#if !NETSTANDARD1_3
         // Remark: `UseStd3AsciiRules = false` is against spec
         // https://url.spec.whatwg.org/#concept-domain-to-ascii
         // > UseSTD3ASCIIRules set to beStrict
@@ -1063,27 +1063,95 @@ namespace AngleSharp
 
         private static bool TrySanatizeHost(String hostName, Int32 start, Int32 length, out String sanatizedHostName)
         {
+            if (length == 0)
+            {
+                sanatizedHostName = String.Empty;
+                return true;
+            }
+
+            // TODO: IPv6 Parsing
             if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
             {
                 sanatizedHostName = hostName.Substring(start, length);
                 return true;
             }
 
-            var chars = new Byte[4 * length];
-            var count = 0;
+            // https://url.spec.whatwg.org/#host-parsing 3.5.4
+            // string percent decoding of input.
+            var buffer = StringBuilderPool.Obtain();
             var n = start + length;
 
             for (var i = start; i < n; i++)
             {
-                switch (hostName[i])
+                var cc = hostName[i];
+                switch (cc)
                 {
-                    // U+0000, U+0009, U+000A, U+000D, U+0020, "#", "%", "/", ":", "?", "@", "[", "\", and "]"
+                    case Symbols.Tab:
+                    case Symbols.LineFeed:
+                    case Symbols.CarriageReturn:
+                        // https://url.spec.whatwg.org/#concept-basic-url-parser
+                        // Remove all ASCII tab or newline from input.
+                        break;
+                    case Symbols.Percent:
+                        if (i + 2 < n && hostName[i + 1].IsHex() && hostName[i + 2].IsHex())
+                        {
+                            var weight = hostName[i + 1].FromHex() * 16 + hostName[i + 2].FromHex();
+                            cc = (Char)weight;
+                            i += 2;
+                        }
+
+                        goto default;
+                    default:
+                        buffer.Append(cc);
+                        break;
+                }
+            }
+
+            string percentDecoded = buffer.ToString();
+
+            // https://url.spec.whatwg.org/#host-parsing 3.5.5
+            // domain to ASCII
+            string domainToAscii;
+#if NETSTANDARD1_3
+            // .Net Standard 1.3 does not have IdnMapping, using a manual table to cover some basic mapping
+            buffer.Clear();
+            foreach(var cc in percentDecoded)
+            {
+                var replacement = cc;
+                if(cc.IsAlphanumericAscii() || cc.IsOneOf(Symbols.Minus, Symbols.Underscore, Symbols.Dot) || Punycode.Symbols.TryGetValue(cc, out replacement))
+                {
+                    buffer.Append(replacement);
+                }
+            }
+
+            domainToAscii = buffer.ToString();
+#else
+            try
+            {
+                domainToAscii = DefaultIdnMapping.GetAscii(percentDecoded);
+            }
+            catch (ArgumentException)
+            {
+                buffer.ToPool();
+                sanatizedHostName = hostName.Substring(start, length);
+                return false;
+            }
+#endif
+            // https://url.spec.whatwg.org/#host-parsing 3.5.7
+            // forbidden host code point check
+            buffer.Clear();
+            foreach (var cc in domainToAscii)
+            {
+                switch (cc)
+                {
+                    // U+0000, U+0009, U+000A, U+000D, U+0020, "#", "%", "/", ":", "?", "@", "[", "\", and "]"'
                     case Symbols.Null:
                     case Symbols.Tab:
                     case Symbols.Space:
                     case Symbols.LineFeed:
                     case Symbols.CarriageReturn:
                     case Symbols.Num:
+                    case Symbols.Percent:
                     case Symbols.Solidus:
                     case Symbols.Colon:
                     case Symbols.QuestionMark:
@@ -1091,71 +1159,18 @@ namespace AngleSharp
                     case Symbols.SquareBracketOpen:
                     case Symbols.SquareBracketClose:
                     case Symbols.ReverseSolidus:
-                        break;
-                    case Symbols.Minus:
-                    case Symbols.Underscore:
-                    case Symbols.Dot:
-                        chars[count++] = (Byte)hostName[i];
-                        break;
-                    case Symbols.Percent:
-                        if (i + 2 < n && hostName[i + 1].IsHex() && hostName[i + 2].IsHex())
-                        {
-                            var weight = hostName[i + 1].FromHex() * 16 + hostName[i + 2].FromHex();
-                            chars[count++] = (Byte)weight;
-                            i += 2;
-                        }
-                        else
-                        {
-                            chars[count++] = (Byte)Symbols.Percent;
-                        }
-
-                        break;
+                        buffer.ToPool();
+                        sanatizedHostName = hostName.Substring(start, length);
+                        return false;
                     default:
-                        if (Punycode.Symbols.TryGetValue(hostName[i], out var chr))
-                        {
-                            chars[count++] = (Byte)Char.ToLowerInvariant(chr);
-                        }
-                        else if (hostName[i].IsAlphanumericAscii() == false)
-                        {
-                            var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
-
-                            var bytes = TextEncoding.Utf8.GetBytes(hostName.Substring(i, l));
-
-                            for (var j = 0; j < bytes.Length; j++)
-                            {
-                                chars[count++] = bytes[j];
-                            }
-
-                            i += (l - 1);
-                        }
-                        else
-                        {
-                            chars[count++] = (Byte)Char.ToLowerInvariant(hostName[i]);
-                        }
-
+                        buffer.Append(Char.ToLowerInvariant(cc));
                         break;
                 }
             }
 
-            //TODO finish with
-            //https://url.spec.whatwg.org/#concept-host-parser
-            //missing IPv6/4 parsing, Punycode [no normalization in WP app.]
-            var str = TextEncoding.Utf8.GetString(chars, 0, count);
-#if NETSTANDARD2_0 || NET46
-            if (!String.IsNullOrEmpty(str))
-            {
-                try
-                {
-                    str = DefaultIdnMapping.GetAscii(str);
-                }
-                catch (ArgumentException)
-                {
-                    sanatizedHostName = str;
-                    return false;
-                }
-            }
-#endif
-            sanatizedHostName = str;
+            sanatizedHostName = buffer.ToPool();
+
+            // TODO: IPv4 parsing
             return true;
         }
 
