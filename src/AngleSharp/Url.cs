@@ -1132,6 +1132,7 @@ namespace AngleSharp
             }
             catch (ArgumentException)
             {
+                buffer.ToPool();
                 sanatizedHostName = hostName.Substring(start, length);
                 return false;
             }
