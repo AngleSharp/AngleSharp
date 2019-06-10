@@ -4144,6 +4144,25 @@ org");
 		}
 
         [Test]
+        public void DocumentUrlShouldDropLeadingAndTrailingC0ControlOrSpace()
+        {
+            var document = Html("<base id=base>");
+            var element = document.GetElementById("base") as HtmlBaseElement;
+            Assert.IsNotNull(element);
+            element.Href = @"about:blank";
+            var anchor = document.CreateElement<IHtmlAnchorElement>();
+            anchor.SetAttribute("href", "\u0000\u001b\u0004\u0012 http://example.com/\u001f \u000d ");
+            Assert.AreEqual("http:", anchor.Protocol);
+            Assert.AreEqual("example.com", anchor.HostName);
+            Assert.AreEqual("", anchor.Port);
+            Assert.AreEqual("/", anchor.PathName);
+            Assert.AreEqual("", anchor.Search);
+            Assert.AreEqual("", anchor.Hash);
+            Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
+        }
+
+        [Test]
         public void DocumentUrlShouldTransformBigDot()
 		{
 			var document = Html("<base id=base>");
@@ -4275,5 +4294,24 @@ org");
             Assert.AreEqual("http://foo:%F0%9F%92%A9@example.com/bar", anchor.Href);
             Assert.IsNotNull(document);
 		}
-	}
+
+        [Test]
+        public void DocumentUrlShouldHandleNullCodePointInFragment()
+        {
+            var document = Html("<base id=base>");
+            var element = document.GetElementById("base") as HtmlBaseElement;
+            Assert.IsNotNull(element);
+            element.Href = @"about:blank";
+            var anchor = document.CreateElement<IHtmlAnchorElement>();
+            anchor.SetAttribute("href", "http://example.org/test?a#b\u0000c");
+            Assert.AreEqual("http:", anchor.Protocol);
+            Assert.AreEqual("example.org", anchor.HostName);
+            Assert.AreEqual("", anchor.Port);
+            Assert.AreEqual("/test", anchor.PathName);
+            Assert.AreEqual("?a", anchor.Search);
+            Assert.AreEqual("#bc", anchor.Hash);
+            Assert.AreEqual("http://example.org/test?a#bc", anchor.Href);
+            Assert.IsNotNull(document);
+        }
+    }
 }

@@ -4,6 +4,7 @@ namespace AngleSharp
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
@@ -19,6 +20,7 @@ namespace AngleSharp
         private static readonly String UpperDirectory = "..";
         private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
         private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
+        private static readonly Char[] C0ControlAndSpace = Enumerable.Range(0x00, 0x21).Select(c => (Char)c).ToArray();
 #if NETSTANDARD2_0 || NET46
         // Remark: `UseStd3AsciiRules = false` is against spec
         // https://url.spec.whatwg.org/#concept-domain-to-ascii
@@ -451,7 +453,7 @@ namespace AngleSharp
         private Boolean ParseUrl(String input, Url baseUrl = null)
         {
             Reset(baseUrl ?? DefaultBase);
-            var normalizedInput = input.Trim();
+            var normalizedInput = input.Trim(C0ControlAndSpace);
             var length = normalizedInput.Length;
             return !ParseScheme(normalizedInput, length);
         }
