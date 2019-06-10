@@ -1162,11 +1162,7 @@ namespace AngleSharp
                         sanatizedHostName = hostName.Substring(start, length);
                         return false;
                     default:
-                        if (cc.IsAlphanumericAscii() || cc.IsOneOf(Symbols.Minus, Symbols.Underscore, Symbols.Dot))
-                        {
-                            buffer.Append(Char.ToLowerInvariant(cc));
-                        }
-
+                        buffer.Append(Char.ToLowerInvariant(cc));
                         break;
                 }
             }
