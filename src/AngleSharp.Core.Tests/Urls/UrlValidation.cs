@@ -4163,6 +4163,25 @@ org");
         }
 
         [Test]
+        public void DocumentUrlShouldDropTabLFCR()
+        {
+            var document = Html("<base id=base>");
+            var element = document.GetElementById("base") as HtmlBaseElement;
+            Assert.IsNotNull(element);
+            element.Href = @"http://host:9000";
+            var anchor = document.CreateElement<IHtmlAnchorElement>();
+            anchor.SetAttribute("href", "h\tt\nt\rp://h\to\ns\rt:9\t0\n0\r0/p\ta\nt\rh?q\tu\ne\rry#f\tr\na\rg");
+            Assert.AreEqual("http:", anchor.Protocol);
+            Assert.AreEqual("host", anchor.HostName);
+            Assert.AreEqual("9000", anchor.Port);
+            Assert.AreEqual("/path", anchor.PathName);
+            Assert.AreEqual("?query", anchor.Search);
+            Assert.AreEqual("#frag", anchor.Hash);
+            Assert.AreEqual("http://host:9000/path?query#frag", anchor.Href);
+            Assert.IsNotNull(document);
+        }
+
+        [Test]
         public void DocumentUrlShouldTransformBigDot()
 		{
 			var document = Html("<base id=base>");
