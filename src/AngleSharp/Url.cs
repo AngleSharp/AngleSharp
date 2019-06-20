@@ -453,7 +453,7 @@ namespace AngleSharp
         private Boolean ParseUrl(String input, Url baseUrl = null)
         {
             Reset(baseUrl ?? DefaultBase);
-            var normalizedInput = input.Trim(C0ControlAndSpace);
+            var normalizedInput = NormalizeInput(input);
             var length = normalizedInput.Length;
             return !ParseScheme(normalizedInput, length);
         }
@@ -568,10 +568,6 @@ namespace AngleSharp
                 else if (c.IsInRange(0x20, 0x7e))
                 {
                     buffer.Append(c);
-                }
-                else if (c != Symbols.Tab && c != Symbols.LineFeed && c != Symbols.CarriageReturn)
-                {
-                    index += Utf8PercentEncode(buffer, input, index);
                 }
 
                 index++;
@@ -688,10 +684,6 @@ namespace AngleSharp
                 else if (c == Symbols.Percent && index + 2 < length && input[index + 1].IsHex() && input[index + 2].IsHex())
                 {
                     buffer.Append(input[index++]).Append(input[index++]).Append(input[index]);
-                }
-                else if (c.IsOneOf(Symbols.Tab, Symbols.LineFeed, Symbols.CarriageReturn))
-                {
-                    // Parse Error
                 }
                 else if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark))
                 {
@@ -833,7 +825,7 @@ namespace AngleSharp
                 {
                     break;
                 }
-                else if (c.IsDigit() || c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn)
+                else if (c.IsDigit())
                 {
                     index++;
                 }
@@ -953,10 +945,6 @@ namespace AngleSharp
                     buffer.Append(input[index++]);
                     buffer.Append(input[index]);
                 }
-                else if (c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn)
-                {
-                    // Parse Error
-                }
                 else if (c.IsNormalPathCharacter())
                 {
                     buffer.Append(c);
@@ -1028,9 +1016,6 @@ namespace AngleSharp
                 {
                     case Symbols.EndOfFile:
                     case Symbols.Null:
-                    case Symbols.Tab:
-                    case Symbols.LineFeed:
-                    case Symbols.CarriageReturn:
                         break;
                     default:
                         buffer.Append(c);
@@ -1047,6 +1032,27 @@ namespace AngleSharp
         #endregion
 
         #region Helpers
+
+        private static string NormalizeInput(string input)
+        {
+            var trimmedInput = input.Trim(C0ControlAndSpace);
+            var buffer = StringBuilderPool.Obtain();
+            foreach (Char c in trimmedInput)
+            {
+                switch (c)
+                {
+                    case Symbols.Tab:
+                    case Symbols.LineFeed:
+                    case Symbols.CarriageReturn:
+                        // parse error
+                        break;
+                    default:
+                        buffer.Append(c);
+                        break;
+                }
+            }
+            return buffer.ToPool();
+        }
 
         private static Int32 Utf8PercentEncode(StringBuilder buffer, String source, Int32 index)
         {
@@ -1086,12 +1092,6 @@ namespace AngleSharp
                 var cc = hostName[i];
                 switch (cc)
                 {
-                    case Symbols.Tab:
-                    case Symbols.LineFeed:
-                    case Symbols.CarriageReturn:
-                        // https://url.spec.whatwg.org/#concept-basic-url-parser
-                        // Remove all ASCII tab or newline from input.
-                        break;
                     case Symbols.Percent:
                         if (i + 2 < n && hostName[i + 1].IsHex() && hostName[i + 2].IsHex())
                         {
@@ -1182,23 +1182,13 @@ namespace AngleSharp
 
             for (var i = start; i < n; i++)
             {
-                switch (port[i])
+                if (count == 1 && chars[0] == '0')
                 {
-                    case Symbols.Tab:
-                    case Symbols.LineFeed:
-                    case Symbols.CarriageReturn:
-                        break;
-                    default:
-                        if (count == 1 && chars[0] == '0')
-                        {
-                            chars[0] = port[i];
-                        }
-                        else
-                        {
-                            chars[count++] = port[i];
-                        }
-
-                        break;
+                    chars[0] = port[i];
+                }
+                else
+                {
+                    chars[count++] = port[i];
                 }
             }
 
