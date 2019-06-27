@@ -23,7 +23,7 @@ namespace AngleSharp
         private static readonly Char[] C0ControlAndSpace = Enumerable.Range(0x00, 0x21).Select(c => (Char)c).ToArray();
 #if !NETSTANDARD1_3
         // Remark: `UseStd3AsciiRules = false` is against spec
-        // https://url.spec.whatwg.org/#concept-domain-to-ascii
+        // https://anglesharp.github.io/Specification-Url/#concept-domain-to-ascii
         // > UseSTD3ASCIIRules set to beStrict
         // But if UseStd3AsciiRules it set to true, _ (underscore) will be considered invalid in host name
         // Set to false here to do loose validation
@@ -1054,6 +1054,39 @@ namespace AngleSharp
             return buffer.ToPool();
         }
 
+        private static string Utf8PercentDecode(String source)
+        {
+            // https://anglesharp.github.io/Specification-Url/#string-percent-decode
+            // 1. Let bytes be the UTF-8 encoding of input.
+            var bytes = TextEncoding.Utf8.GetBytes(source);
+            var length = bytes.Length;
+
+            // 2. Return the percent decoding of bytes.
+            // in-place
+            for (int i = 0, insertIndex = 0; i < bytes.Length; i++, insertIndex++)
+            {
+                var cc = (Char)bytes[i];
+                switch (cc)
+                {
+                    case Symbols.Percent:
+                        if (i + 2 < bytes.Length && ((Char)bytes[i + 1]).IsHex() && ((Char)bytes[i + 2]).IsHex())
+                        {
+                            var weight = ((Char)bytes[i + 1]).FromHex() * 16 + ((Char)bytes[i + 2]).FromHex();
+                            cc = (Char)weight;
+                            i += 2;
+                            length -= 2;
+                        }
+
+                        goto default;
+                    default:
+                        bytes[insertIndex] = (Byte)cc;
+                        break;
+                }
+            }
+
+            return TextEncoding.Utf8.GetString(bytes, 0, length);
+        }
+
         private static Int32 Utf8PercentEncode(StringBuilder buffer, String source, Int32 index)
         {
             var length = Char.IsSurrogatePair(source, index) ? 2 : 1;
@@ -1082,40 +1115,17 @@ namespace AngleSharp
                 return true;
             }
 
-            // https://url.spec.whatwg.org/#host-parsing 3.5.4
-            // string percent decoding of input.
-            var buffer = StringBuilderPool.Obtain();
-            var n = start + length;
+            // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.4
+            // string utf 8 percent decoding of input.
+            string percentDecoded = Utf8PercentDecode(hostName.Substring(start, length));
 
-            for (var i = start; i < n; i++)
-            {
-                var cc = hostName[i];
-                switch (cc)
-                {
-                    case Symbols.Percent:
-                        if (i + 2 < n && hostName[i + 1].IsHex() && hostName[i + 2].IsHex())
-                        {
-                            var weight = hostName[i + 1].FromHex() * 16 + hostName[i + 2].FromHex();
-                            cc = (Char)weight;
-                            i += 2;
-                        }
-
-                        goto default;
-                    default:
-                        buffer.Append(cc);
-                        break;
-                }
-            }
-
-            string percentDecoded = buffer.ToString();
-
-            // https://url.spec.whatwg.org/#host-parsing 3.5.5
+            // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.5
             // domain to ASCII
             string domainToAscii;
+            var buffer = StringBuilderPool.Obtain();
 #if NETSTANDARD1_3
             // .Net Standard 1.3 does not have IdnMapping, using a manual table to cover some basic mapping
-            buffer.Clear();
-            foreach(var cc in percentDecoded)
+            foreach (var cc in percentDecoded)
             {
                 var replacement = cc;
                 if(cc.IsAlphanumericAscii() || cc.IsOneOf(Symbols.Minus, Symbols.Underscore, Symbols.Dot) || Punycode.Symbols.TryGetValue(cc, out replacement))
@@ -1125,6 +1135,7 @@ namespace AngleSharp
             }
 
             domainToAscii = buffer.ToString();
+            buffer.Clear();
 #else
             try
             {
@@ -1132,14 +1143,12 @@ namespace AngleSharp
             }
             catch (ArgumentException)
             {
-                buffer.ToPool();
                 sanatizedHostName = hostName.Substring(start, length);
                 return false;
             }
 #endif
-            // https://url.spec.whatwg.org/#host-parsing 3.5.7
+            // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.7
             // forbidden host code point check
-            buffer.Clear();
             foreach (var cc in domainToAscii)
             {
                 switch (cc)
