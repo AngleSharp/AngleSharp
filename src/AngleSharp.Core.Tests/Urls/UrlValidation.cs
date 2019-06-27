@@ -4182,6 +4182,25 @@ org");
         }
 
         [Test]
+        public void DocumentUrlShouldDoUtf8PercentDecoding()
+        {
+            var document = Html("<base id=base>");
+            var element = document.GetElementById("base") as HtmlBaseElement;
+            Assert.IsNotNull(element);
+            element.Href = @"about:blank";
+            var anchor = document.CreateElement<IHtmlAnchorElement>();
+            anchor.SetAttribute("href", "https://%e2%98%83");
+            Assert.AreEqual("https:", anchor.Protocol);
+            Assert.AreEqual("xn--n3h", anchor.HostName);
+            Assert.AreEqual("", anchor.Port);
+            Assert.AreEqual("/", anchor.PathName);
+            Assert.AreEqual("", anchor.Search);
+            Assert.AreEqual("", anchor.Hash);
+            Assert.AreEqual("https://xn--n3h/", anchor.Href);
+            Assert.IsNotNull(document);
+        }
+
+        [Test]
         public void DocumentUrlShouldTransformBigDot()
 		{
 			var document = Html("<base id=base>");
