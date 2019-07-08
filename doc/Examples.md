@@ -96,7 +96,7 @@ static async Task UsingLinq()
 
     foreach (var item in blueListItemsLinq)
     {
-        Console.WriteLine(item.Text());
+        Console.WriteLine(item.TextContent);
     }
 
     Console.WriteLine();
@@ -104,7 +104,7 @@ static async Task UsingLinq()
 
     foreach (var item in blueListItemsCssSelector)
     {
-        Console.WriteLine(item.Text());
+        Console.WriteLine(item.TextContent);
     }
 }
 ```
@@ -142,7 +142,7 @@ static async Task SingleElements()
     Console.WriteLine("Only from C# / AngleSharp:");
     Console.WriteLine();
     Console.WriteLine(emphasize.ToHtml());   //<em> bold <u>and</u> italic </em>
-    Console.WriteLine(emphasize.Text());   // bold and italic
+    Console.WriteLine(emphasize.TextContent);   // bold and italic
 
     Console.WriteLine();
     Console.WriteLine("From the DOM:");
