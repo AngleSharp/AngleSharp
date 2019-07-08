@@ -103,32 +103,32 @@ namespace AngleSharp.Html.Dom
 
         public String FormAction
         {
-            get { var form = Form; if (form == null) return String.Empty; return form.Action; }
-            set { var form = Form; if (form != null) form.Action = value; }
+            get { return this.GetOwnAttribute(AttributeNames.FormAction) ?? Owner?.DocumentUri; }
+            set { this.SetOwnAttribute(AttributeNames.FormAction, value); }
         }
 
         public String FormEncType
         {
-            get { var form = Form; if (form == null) return String.Empty; return form.Enctype; }
-            set { var form = Form; if (form != null) form.Enctype = value; }
+            get { return this.GetOwnAttribute(AttributeNames.FormEncType).ToEncodingType() ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.FormEncType, value); }
         }
 
         public String FormMethod
         {
-            get { var form = Form; if (form == null) return String.Empty; return form.Method; }
-            set { var form = Form; if (form != null) form.Method = value; }
+            get { return this.GetOwnAttribute(AttributeNames.FormMethod).ToFormMethod() ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.FormMethod, value); }
         }
 
         public Boolean FormNoValidate
         {
-            get { var form = Form; if (form == null) return false; return form.NoValidate; }
-            set { var form = Form; if (form != null) form.NoValidate = value; }
+            get { return this.GetBoolAttribute(AttributeNames.FormNoValidate); }
+            set { this.SetBoolAttribute(AttributeNames.FormNoValidate, value); }
         }
 
         public String FormTarget
         {
-            get { var form = Form; if (form == null) return String.Empty; return form.Target; }
-            set { var form = Form; if (form != null) form.Target = value; }
+            get { return this.GetOwnAttribute(AttributeNames.FormTarget) ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.FormTarget, value); }
         }
 
         public String Accept

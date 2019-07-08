@@ -3,6 +3,7 @@ namespace AngleSharp.Text
     using AngleSharp.Attributes;
     using AngleSharp.Browser;
     using AngleSharp.Dom;
+    using AngleSharp.Html;
     using AngleSharp.Io;
     using System;
     using System.Collections.Generic;
@@ -802,12 +803,25 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="encType">The string to convert.</param>
         /// <returns>
-        /// The encoding type with fallback application/x-www-form-urlencoded.
+        /// The valid encoding type string or null.
         /// </returns>
         public static String ToEncodingType(this String encType) =>
             encType.Isi(MimeTypeNames.Plain) ||
             encType.Isi(MimeTypeNames.MultipartForm) ||
             encType.Isi(MimeTypeNames.ApplicationJson) ?
-                encType : MimeTypeNames.UrlencodedForm;
+                encType.ToLowerInvariant() : null;
+
+        /// <summary>
+        /// Converts the current string to one of the form methods.
+        /// </summary>
+        /// <param name="method">The string to convert.</param>
+        /// <returns>
+        /// The valid form method string or null.
+        /// </returns>
+        public static String ToFormMethod(this String method) =>
+            method.Isi(FormMethodNames.Get) ||
+            method.Isi(FormMethodNames.Post) ||
+            method.Isi(FormMethodNames.Dialog) ?
+                method.ToLowerInvariant() : null;
     }
 }
