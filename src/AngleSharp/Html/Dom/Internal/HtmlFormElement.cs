@@ -61,7 +61,7 @@ namespace AngleSharp.Html.Dom
 
         public String Action
         {
-            get => this.GetOwnAttribute(AttributeNames.Action);
+            get => this.GetOwnAttribute(AttributeNames.Action) ?? Owner.DocumentUri;
             set => this.SetOwnAttribute(AttributeNames.Action, value);
         }
 
@@ -73,8 +73,8 @@ namespace AngleSharp.Html.Dom
 
         public String Enctype
         {
-            get => this.GetOwnAttribute(AttributeNames.Enctype).ToEncodingType();
-            set => this.SetOwnAttribute(AttributeNames.Enctype, value.ToEncodingType());
+            get => this.GetOwnAttribute(AttributeNames.Enctype).ToEncodingType() ?? MimeTypeNames.UrlencodedForm;
+            set => this.SetOwnAttribute(AttributeNames.Enctype, value);
         }
 
         public String Encoding
@@ -85,7 +85,7 @@ namespace AngleSharp.Html.Dom
 
         public String Method
         {
-            get => this.GetOwnAttribute(AttributeNames.Method) ?? String.Empty;
+            get => this.GetOwnAttribute(AttributeNames.Method).ToFormMethod() ?? FormMethodNames.Get;
             set => this.SetOwnAttribute(AttributeNames.Method, value);
         }
 
@@ -97,7 +97,7 @@ namespace AngleSharp.Html.Dom
 
         public String Target
         {
-            get => this.GetOwnAttribute(AttributeNames.Target);
+            get => this.GetOwnAttribute(AttributeNames.Target) ?? String.Empty;
             set => this.SetOwnAttribute(AttributeNames.Target, value);
         }
 
