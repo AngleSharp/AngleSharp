@@ -1,6 +1,6 @@
 # 0.13.0
 
-(tbd)
+Released on Friday, August 23 2019.
 
 - Removed the `TaskEventLoop` (#782)
 - Renamed `WithCookies` to `WithDefaultCookies`
