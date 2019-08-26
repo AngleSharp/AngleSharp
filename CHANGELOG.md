@@ -1,6 +1,6 @@
 # 0.13.0
 
-Released on Friday, August 23 2019.
+Released on Monday, August 26 2019.
 
 - Removed the `TaskEventLoop` (#782)
 - Renamed `WithCookies` to `WithDefaultCookies`
@@ -16,6 +16,7 @@ Released on Friday, August 23 2019.
 - Fixed crash for invalid attribute names during SVG parsing (#795)
 - Added more punycode replacement characters on .NET Standard 1.3 (#797)
 - Added use of correct hostname IDN on .NET Standard 2.0 and .NET Framework 4.6 (#797)
+- Added ability to delay load in `Document` (#815)
 
 # 0.12.1
 
