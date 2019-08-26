@@ -13,6 +13,7 @@ namespace AngleSharp
     {
         #region Fields
 
+        private readonly IEnumerable<Object> _originalServices;
         private readonly List<Object> _services;
         private readonly Sandboxes _security;
         private readonly IBrowsingContext _parent;
@@ -27,6 +28,7 @@ namespace AngleSharp
         private BrowsingContext(Sandboxes security)
         {
             _services = new List<Object>();
+            _originalServices = _services;
             _security = security;
             _children = new Dictionary<String, WeakReference<IBrowsingContext>>();
         }
@@ -35,15 +37,15 @@ namespace AngleSharp
             : this(security)
         {
             _services.AddRange(services);
+            _originalServices = services;
             _history = GetService<IHistory>();
         }
-        
+
         internal BrowsingContext(IBrowsingContext parent, Sandboxes security)
-            : this(security)
+            : this(parent.OriginalServices, security)
         {
             _parent = parent;
             _creator = _parent.Active;
-            _history = GetService<IHistory>();
         }
 
         #endregion
@@ -65,6 +67,11 @@ namespace AngleSharp
         /// creation.
         /// </summary>
         public IDocument Creator => _creator;
+
+        /// <summary>
+        /// Gets the original services for the given browsing context.
+        /// </summary>
+        public IEnumerable<Object> OriginalServices => _originalServices;
 
         /// <summary>
         /// Gets the current window proxy.
@@ -108,7 +115,6 @@ namespace AngleSharp
 
                 if (instance == null)
                 {
-
                     if (service is Func<IBrowsingContext, T> creator)
                     {
                         instance = creator.Invoke(this);
@@ -123,7 +129,7 @@ namespace AngleSharp
                 return instance;
             }
 
-            return _parent?.GetService<T>();
+            return null;
         }
 
         /// <summary>
@@ -154,14 +160,6 @@ namespace AngleSharp
                 }
 
                 yield return instance;
-            }
-
-            if (_parent != null)
-            {
-                foreach (var service in _parent.GetServices<T>())
-                {
-                    yield return service;
-                }
             }
         }
 
