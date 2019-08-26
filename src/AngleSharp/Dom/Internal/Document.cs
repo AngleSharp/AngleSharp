@@ -1180,6 +1180,18 @@ namespace AngleSharp.Dom
         /// <returns>The created element.</returns>
         public abstract Element CreateElementFrom(String name, String prefix);
 
+        /// <summary>
+        /// Waits for the given task before raising the load event.
+        /// </summary>
+        /// <param name="task">The task to wait for.</param>
+        public void DelayLoad(Task task)
+        {
+            if (!IsReady && task != null && !task.IsCompleted)
+            {
+                AttachReference(task);
+            }
+        }
+
         #endregion
 
         #region Internal Methods
@@ -1197,18 +1209,6 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="value">The value to attach.</param>
         internal void AttachReference(Object value) => _attachedReferences.Add(new WeakReference(value));
-
-        /// <summary>
-        /// Waits for the given task before raising the load event.
-        /// </summary>
-        /// <param name="task">The task to wait for.</param>
-        internal void DelayLoad(Task task)
-        {
-            if (!IsReady && task != null && !task.IsCompleted)
-            {
-                AttachReference(task);
-            }
-        }
 
         /// <summary>
         /// Sets the focus to the provided element.
