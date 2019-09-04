@@ -921,6 +921,19 @@
             Assert.AreEqual(1000, td.ColumnSpan);
         }
 
+        [Test]
+        public void InsertCellsWithTableCellKind_Issue818()
+        {
+            var document = Html("");
+            var table = document.CreateElement("table") as IHtmlTableElement;
+            var row = table.InsertRowAt();
+            row.InsertCellAt(tableCellKind: TableCellKind.Td);
+            row.InsertCellAt(tableCellKind: TableCellKind.Th);
+
+            StringAssert.AreEqualIgnoringCase(TagNames.Td, row.Children[0].TagName);
+            StringAssert.AreEqualIgnoringCase(TagNames.Th, row.Children[1].TagName);
+        }
+
         private static IHtmlTableRowElement MakeRowElement(params String[] names)
         {
             var document = Html("");
