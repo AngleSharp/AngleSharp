@@ -24,11 +24,6 @@ namespace AngleSharp.Dom
 
         #region Methods
 
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            writer.Write(formatter.Comment(this));
-        }
-
         public override Node Clone(Document owner, Boolean deep)
         {
             var node = new Comment(owner, Data);

@@ -34,7 +34,7 @@ namespace AngleSharp.Io
             {
                 Address = request.Target,
                 Content = request.Body,
-                Method = request.Method
+                Method = request.Method,
             };
 
             foreach (var header in request.Headers)

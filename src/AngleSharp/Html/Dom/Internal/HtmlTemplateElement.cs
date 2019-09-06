@@ -2,7 +2,6 @@ namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
-    using System.IO;
 
     /// <summary>
     /// Represents the template element.
@@ -59,13 +58,6 @@ namespace AngleSharp.Html.Dom
                 RemoveNode(0, node);
                 _content.AddNode(node);
             }
-        }
-
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            writer.Write(formatter.OpenTag(this, false));
-            _content.ChildNodes.ToHtml(writer, formatter);
-            writer.Write(formatter.CloseTag(this, false));
         }
 
         #endregion

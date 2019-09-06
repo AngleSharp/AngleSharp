@@ -1,0 +1,20 @@
+version: '{build}'
+branches:
+  only:
+  - master
+  - devel
+skip_tags: true
+image: Visual Studio 2015
+configuration: Release
+platform: Any CPU
+build_script:
+- ps: >-
+    if ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null -and $env:APPVEYOR_REPO_BRANCH -eq "master") {
+      .\build.ps1 -Target Publish
+    } elseif ($env:APPVEYOR_PULL_REQUEST_NUMBER -eq $null -and $env:APPVEYOR_REPO_BRANCH -eq "devel") {
+      .\build.ps1 -Target PrePublish
+    } else {
+      .\build.ps1 -Target AppVeyor
+    }
+test: off
+deploy: off

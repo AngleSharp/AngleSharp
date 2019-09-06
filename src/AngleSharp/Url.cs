@@ -4,6 +4,7 @@ namespace AngleSharp
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
@@ -19,6 +20,15 @@ namespace AngleSharp
         private static readonly String UpperDirectory = "..";
         private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
         private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
+        private static readonly Char[] C0ControlAndSpace = Enumerable.Range(0x00, 0x21).Select(c => (Char)c).ToArray();
+#if !NETSTANDARD1_3
+        // Remark: `UseStd3AsciiRules = false` is against spec
+        // https://anglesharp.github.io/Specification-Url/#concept-domain-to-ascii
+        // > UseSTD3ASCIIRules set to beStrict
+        // But if UseStd3AsciiRules it set to true, _ (underscore) will be considered invalid in host name
+        // Set to false here to do loose validation
+        private static readonly System.Globalization.IdnMapping DefaultIdnMapping = new System.Globalization.IdnMapping() { AllowUnassigned = false, UseStd3AsciiRules = false };
+#endif
 
         private String _fragment;
         private String _query;
@@ -176,8 +186,8 @@ namespace AngleSharp
         /// </summary>
         public String UserName
         {
-            get { return _username; }
-            set { _username = value; }
+            get => _username;
+            set => _username = value;
         }
 
         /// <summary>
@@ -185,8 +195,8 @@ namespace AngleSharp
         /// </summary>
         public String Password
         {
-            get { return _password; }
-            set { _password = value; }
+            get => _password;
+            set => _password = value;
         }
 
         /// <summary>
@@ -200,7 +210,7 @@ namespace AngleSharp
         /// </summary>
         public String Fragment
         {
-            get { return _fragment; }
+            get => _fragment;
             set
             {
                 if (value == null)
@@ -219,7 +229,7 @@ namespace AngleSharp
         /// </summary>
         public String Host
         {
-            get { return HostName + (String.IsNullOrEmpty(_port) ? String.Empty : ":" + _port); }
+            get => HostName + (String.IsNullOrEmpty(_port) ? String.Empty : ":" + _port);
             set
             {
                 var input = value ?? String.Empty;
@@ -232,7 +242,7 @@ namespace AngleSharp
         /// </summary>
         public String HostName
         {
-            get { return _host; }
+            get => _host;
             set
             {
                 var input = value ?? String.Empty;
@@ -245,8 +255,8 @@ namespace AngleSharp
         /// </summary>
         public String Href
         {
-            get { return Serialize(); }
-            set { _error = ParseUrl(value ?? String.Empty); }
+            get => Serialize();
+            set => _error = ParseUrl(value ?? String.Empty, this);
         }
 
         /// <summary>
@@ -254,7 +264,7 @@ namespace AngleSharp
         /// </summary>
         public String Path
         {
-            get { return _path; }
+            get => _path;
             set
             {
                 var input = value ?? String.Empty;
@@ -267,7 +277,7 @@ namespace AngleSharp
         /// </summary>
         public String Port
         {
-            get { return _port; }
+            get => _port;
             set
             {
                 var input = value ?? String.Empty;
@@ -280,7 +290,7 @@ namespace AngleSharp
         /// </summary>
         public String Scheme
         {
-            get { return _scheme; }
+            get => _scheme;
             set
             {
                 var input = value ?? String.Empty;
@@ -293,7 +303,7 @@ namespace AngleSharp
         /// </summary>
         public String Query
         {
-            get { return _query; }
+            get => _query;
             set
             {
                 var input = value ?? String.Empty;
@@ -443,7 +453,7 @@ namespace AngleSharp
         private Boolean ParseUrl(String input, Url baseUrl = null)
         {
             Reset(baseUrl ?? DefaultBase);
-            var normalizedInput = input.Trim();
+            var normalizedInput = NormalizeInput(input);
             var length = normalizedInput.Length;
             return !ParseScheme(normalizedInput, length);
         }
@@ -558,10 +568,6 @@ namespace AngleSharp
                 else if (c.IsInRange(0x20, 0x7e))
                 {
                     buffer.Append(c);
-                }
-                else if (c != Symbols.Tab && c != Symbols.LineFeed && c != Symbols.CarriageReturn)
-                {
-                    index += Utf8PercentEncode(buffer, input, index);
                 }
 
                 index++;
@@ -679,10 +685,6 @@ namespace AngleSharp
                 {
                     buffer.Append(input[index++]).Append(input[index++]).Append(input[index]);
                 }
-                else if (c.IsOneOf(Symbols.Tab, Symbols.LineFeed, Symbols.CarriageReturn))
-                {
-                    // Parse Error
-                }
                 else if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark))
                 {
                     break;
@@ -728,7 +730,10 @@ namespace AngleSharp
             }
             else if (span != 0)
             {
-                _host = SanatizeHost(input, start, span);
+                if (!TrySanatizeHost(input, start, span, out _host))
+                {
+                    return false;
+                }
             }
 
             return ParsePath(input, index, length);
@@ -757,7 +762,10 @@ namespace AngleSharp
                         if (inBracket)
                             break;
 
-                        _host = SanatizeHost(input, start, index - start);
+                        if (!TrySanatizeHost(input, start, index - start, out _host))
+                        {
+                            return false;
+                        }
 
                         if (!onlyHost)
                         {
@@ -770,7 +778,11 @@ namespace AngleSharp
                     case Symbols.ReverseSolidus:
                     case Symbols.Num:
                     case Symbols.QuestionMark:
-                        _host = SanatizeHost(input, start, index - start);
+                        if (!TrySanatizeHost(input, start, index - start, out _host))
+                        {
+                            return false;
+                        }
+
                         var error = String.IsNullOrEmpty(_host);
 
                         if (!onlyHost)
@@ -785,7 +797,10 @@ namespace AngleSharp
                 index++;
             }
 
-            _host = SanatizeHost(input, start, index - start);
+            if (!TrySanatizeHost(input, start, index - start, out _host))
+            {
+                return false;
+            }
 
             if (!onlyHost)
             {
@@ -810,7 +825,7 @@ namespace AngleSharp
                 {
                     break;
                 }
-                else if (c.IsDigit() || c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn)
+                else if (c.IsDigit())
                 {
                     index++;
                 }
@@ -930,10 +945,6 @@ namespace AngleSharp
                     buffer.Append(input[index++]);
                     buffer.Append(input[index]);
                 }
-                else if (c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn)
-                {
-                    // Parse Error
-                }
                 else if (c.IsNormalPathCharacter())
                 {
                     buffer.Append(c);
@@ -1005,9 +1016,6 @@ namespace AngleSharp
                 {
                     case Symbols.EndOfFile:
                     case Symbols.Null:
-                    case Symbols.Tab:
-                    case Symbols.LineFeed:
-                    case Symbols.CarriageReturn:
                         break;
                     default:
                         buffer.Append(c);
@@ -1025,6 +1033,60 @@ namespace AngleSharp
 
         #region Helpers
 
+        private static string NormalizeInput(string input)
+        {
+            var trimmedInput = input.Trim(C0ControlAndSpace);
+            var buffer = StringBuilderPool.Obtain();
+            foreach (Char c in trimmedInput)
+            {
+                switch (c)
+                {
+                    case Symbols.Tab:
+                    case Symbols.LineFeed:
+                    case Symbols.CarriageReturn:
+                        // parse error
+                        break;
+                    default:
+                        buffer.Append(c);
+                        break;
+                }
+            }
+            return buffer.ToPool();
+        }
+
+        private static string Utf8PercentDecode(String source)
+        {
+            // https://anglesharp.github.io/Specification-Url/#string-percent-decode
+            // 1. Let bytes be the UTF-8 encoding of input.
+            var bytes = TextEncoding.Utf8.GetBytes(source);
+            var length = bytes.Length;
+
+            // 2. Return the percent decoding of bytes.
+            // in-place
+            for (int i = 0, insertIndex = 0; i < bytes.Length; i++, insertIndex++)
+            {
+                var cc = (Char)bytes[i];
+                switch (cc)
+                {
+                    case Symbols.Percent:
+                        if (i + 2 < bytes.Length && ((Char)bytes[i + 1]).IsHex() && ((Char)bytes[i + 2]).IsHex())
+                        {
+                            var weight = ((Char)bytes[i + 1]).FromHex() * 16 + ((Char)bytes[i + 2]).FromHex();
+                            cc = (Char)weight;
+                            i += 2;
+                            length -= 2;
+                        }
+
+                        goto default;
+                    default:
+                        bytes[insertIndex] = (Byte)cc;
+                        break;
+                }
+            }
+
+            return TextEncoding.Utf8.GetString(bytes, 0, length);
+        }
+
         private static Int32 Utf8PercentEncode(StringBuilder buffer, String source, Int32 index)
         {
             var length = Char.IsSurrogatePair(source, index) ? 2 : 1;
@@ -1038,28 +1100,67 @@ namespace AngleSharp
             return length - 1;
         }
 
-        private static String SanatizeHost(String hostName, Int32 start, Int32 length)
+        private static bool TrySanatizeHost(String hostName, Int32 start, Int32 length, out String sanatizedHostName)
         {
-            if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
+            if (length == 0)
             {
-                return hostName.Substring(start, length);
+                sanatizedHostName = String.Empty;
+                return true;
             }
 
-            var chars = new Byte[4 * length];
-            var count = 0;
-            var n = start + length;
-
-            for (var i = start; i < n; i++)
+            // TODO: IPv6 Parsing
+            if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
             {
-                switch (hostName[i])
+                sanatizedHostName = hostName.Substring(start, length);
+                return true;
+            }
+
+            // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.4
+            // string utf 8 percent decoding of input.
+            string percentDecoded = Utf8PercentDecode(hostName.Substring(start, length));
+
+            // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.5
+            // domain to ASCII
+            string domainToAscii;
+            var buffer = StringBuilderPool.Obtain();
+#if NETSTANDARD1_3
+            // .Net Standard 1.3 does not have IdnMapping, using a manual table to cover some basic mapping
+            foreach (var cc in percentDecoded)
+            {
+                var replacement = cc;
+                if(cc.IsAlphanumericAscii() || cc.IsOneOf(Symbols.Minus, Symbols.Underscore, Symbols.Dot) || Punycode.Symbols.TryGetValue(cc, out replacement))
                 {
-                    // U+0000, U+0009, U+000A, U+000D, U+0020, "#", "%", "/", ":", "?", "@", "[", "\", and "]"
+                    buffer.Append(replacement);
+                }
+            }
+
+            domainToAscii = buffer.ToString();
+            buffer.Clear();
+#else
+            try
+            {
+                domainToAscii = DefaultIdnMapping.GetAscii(percentDecoded);
+            }
+            catch (ArgumentException)
+            {
+                sanatizedHostName = hostName.Substring(start, length);
+                return false;
+            }
+#endif
+            // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.7
+            // forbidden host code point check
+            foreach (var cc in domainToAscii)
+            {
+                switch (cc)
+                {
+                    // U+0000, U+0009, U+000A, U+000D, U+0020, "#", "%", "/", ":", "?", "@", "[", "\", and "]"'
                     case Symbols.Null:
                     case Symbols.Tab:
                     case Symbols.Space:
                     case Symbols.LineFeed:
                     case Symbols.CarriageReturn:
                     case Symbols.Num:
+                    case Symbols.Percent:
                     case Symbols.Solidus:
                     case Symbols.Colon:
                     case Symbols.QuestionMark:
@@ -1067,61 +1168,19 @@ namespace AngleSharp
                     case Symbols.SquareBracketOpen:
                     case Symbols.SquareBracketClose:
                     case Symbols.ReverseSolidus:
-                        break;
-                    case Symbols.Minus:
-                    case Symbols.Underscore:
-                    case Symbols.Dot:
-                        chars[count++] = (Byte)hostName[i];
-                        break;
-                    case Symbols.Percent:
-                        if (i + 2 < n && hostName[i + 1].IsHex() && hostName[i + 2].IsHex())
-                        {
-                            var weight = hostName[i + 1].FromHex() * 16 + hostName[i + 2].FromHex();
-                            chars[count++] = (Byte)weight;
-                            i += 2;
-                        }
-                        else
-                        {
-                            chars[count++] = (Byte)Symbols.Percent;
-                        }
-
-                        break;
+                        buffer.ToPool();
+                        sanatizedHostName = hostName.Substring(start, length);
+                        return false;
                     default:
-                        if (Punycode.Symbols.TryGetValue(hostName[i], out var chr))
-                        {
-                            chars[count++] = (Byte)chr;
-                        }
-                        else if (hostName[i].IsAlphanumericAscii() == false)
-                        {
-                            var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
-
-                            if (l == 1 && !Char.IsLetterOrDigit(hostName[i]))
-                            {
-                                break;
-                            }
-
-                            var bytes = TextEncoding.Utf8.GetBytes(hostName.Substring(i, l));
-
-                            for (var j = 0; j < bytes.Length; j++)
-                            {
-                                chars[count++] = bytes[j];
-                            }
-
-                            i += (l - 1);
-                        }
-                        else
-                        {
-                            chars[count++] = (Byte)Char.ToLowerInvariant(hostName[i]);
-                        }
-
+                        buffer.Append(Char.ToLowerInvariant(cc));
                         break;
                 }
             }
 
-            //TODO finish with
-            //https://url.spec.whatwg.org/#concept-host-parser
-            //missing IPv6/4 parsing, Punycode [no normalization in WP app.]
-            return TextEncoding.Utf8.GetString(chars, 0, count);
+            sanatizedHostName = buffer.ToPool();
+
+            // TODO: IPv4 parsing
+            return true;
         }
 
         private static String SanatizePort(String port, Int32 start, Int32 length)
@@ -1132,29 +1191,19 @@ namespace AngleSharp
 
             for (var i = start; i < n; i++)
             {
-                switch (port[i])
+                if (count == 1 && chars[0] == '0')
                 {
-                    case Symbols.Tab:
-                    case Symbols.LineFeed:
-                    case Symbols.CarriageReturn:
-                        break;
-                    default:
-                        if (count == 1 && chars[0] == '0')
-                        {
-                            chars[0] = port[i];
-                        }
-                        else
-                        {
-                            chars[count++] = port[i];
-                        }
-
-                        break;
+                    chars[0] = port[i];
+                }
+                else
+                {
+                    chars[count++] = port[i];
                 }
             }
 
             return new String(chars, 0, count);
         }
 
-        #endregion
+#endregion
     }
 }

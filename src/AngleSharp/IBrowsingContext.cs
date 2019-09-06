@@ -46,6 +46,11 @@
         IDocument Creator { get; }
 
         /// <summary>
+        /// Gets the original services for the browsing context.
+        /// </summary>
+        IEnumerable<Object> OriginalServices { get; }
+
+        /// <summary>
         /// Gets an instance of the given service.
         /// </summary>
         /// <typeparam name="T">The type of service to resolve.</typeparam>

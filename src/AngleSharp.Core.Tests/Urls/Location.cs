@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Urls
+namespace AngleSharp.Core.Tests.Urls
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
@@ -965,8 +965,8 @@
             Assert.AreEqual("", location.Search);
             Assert.AreEqual("/atomtests/iri/%E8%A9%B9.html", location.PathName);
             Assert.AreEqual("http:", location.Protocol);
-            Assert.AreEqual("www.詹姆斯.com", location.Host);
-            Assert.AreEqual("http://www.詹姆斯.com/atomtests/iri/%E8%A9%B9.html", location.Href);
+            Assert.AreEqual("www.xn--8ws00zhy3a.com", location.Host);
+            Assert.AreEqual("http://www.xn--8ws00zhy3a.com/atomtests/iri/%E8%A9%B9.html", location.Href);
             Assert.IsFalse(location.IsRelative);
         }
 

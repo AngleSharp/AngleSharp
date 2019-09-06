@@ -68,6 +68,19 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Gets or sets if the parsing of character references should
+        /// be avoided.
+        /// Note: With this option there is no way to determine from
+        /// AngleSharp what character references have been fully valid
+        /// vs. invalid.
+        /// </summary>
+        public Boolean IsNotConsumingCharacterReferences
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the callback once a new element was created.
         /// </summary>
         public Action<IElement, TextPosition> OnCreated

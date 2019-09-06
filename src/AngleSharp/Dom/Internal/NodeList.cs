@@ -34,14 +34,11 @@
 
         public Node this[Int32 index]
         {
-            get { return _entries[index]; }
-            set { _entries[index] = value; }
+            get => _entries[index];
+            set => _entries[index] = value;
         }
 
-        INode INodeList.this[Int32 index]
-        {
-            get { return this[index]; }
-        }
+        INode INodeList.this[Int32 index] => this[index];
 
         #endregion
 
@@ -53,35 +50,17 @@
 
         #region Internal Methods
 
-        internal void Add(Node node)
-        {
-            _entries.Add(node);
-        }
+        internal void Add(Node node) => _entries.Add(node);
 
-        internal void AddRange(NodeList nodeList)
-        {
-            _entries.AddRange(nodeList._entries);
-        }
+        internal void AddRange(NodeList nodeList) => _entries.AddRange(nodeList._entries);
 
-        internal void Insert(Int32 index, Node node)
-        {
-            _entries.Insert(index, node);
-        }
+        internal void Insert(Int32 index, Node node) => _entries.Insert(index, node);
 
-        internal void Remove(Node node)
-        {
-            _entries.Remove(node);
-        }
+        internal void Remove(Node node) => _entries.Remove(node);
 
-        internal void RemoveAt(Int32 index)
-        {
-            _entries.RemoveAt(index);
-        }
+        internal void RemoveAt(Int32 index) => _entries.RemoveAt(index);
 
-        internal Boolean Contains(Node node)
-        {
-            return _entries.Contains(node);
-        }
+        internal Boolean Contains(Node node) => _entries.Contains(node);
 
         #endregion
 
@@ -99,15 +78,9 @@
 
         #region IEnumerable Implementation
 
-        public IEnumerator<INode> GetEnumerator()
-        {
-            return _entries.GetEnumerator();
-        }
+        public IEnumerator<INode> GetEnumerator() => _entries.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _entries.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _entries.GetEnumerator();
 
         #endregion
     }

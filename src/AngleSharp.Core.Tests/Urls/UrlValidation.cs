@@ -4144,6 +4144,63 @@ org");
 		}
 
         [Test]
+        public void DocumentUrlShouldDropLeadingAndTrailingC0ControlOrSpace()
+        {
+            var document = Html("<base id=base>");
+            var element = document.GetElementById("base") as HtmlBaseElement;
+            Assert.IsNotNull(element);
+            element.Href = @"about:blank";
+            var anchor = document.CreateElement<IHtmlAnchorElement>();
+            anchor.SetAttribute("href", "\u0000\u001b\u0004\u0012 http://example.com/\u001f \u000d ");
+            Assert.AreEqual("http:", anchor.Protocol);
+            Assert.AreEqual("example.com", anchor.HostName);
+            Assert.AreEqual("", anchor.Port);
+            Assert.AreEqual("/", anchor.PathName);
+            Assert.AreEqual("", anchor.Search);
+            Assert.AreEqual("", anchor.Hash);
+            Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
+        }
+
+        [Test]
+        public void DocumentUrlShouldDropTabLFCR()
+        {
+            var document = Html("<base id=base>");
+            var element = document.GetElementById("base") as HtmlBaseElement;
+            Assert.IsNotNull(element);
+            element.Href = @"http://host:9000";
+            var anchor = document.CreateElement<IHtmlAnchorElement>();
+            anchor.SetAttribute("href", "h\tt\nt\rp://h\to\ns\rt:9\t0\n0\r0/p\ta\nt\rh?q\tu\ne\rry#f\tr\na\rg");
+            Assert.AreEqual("http:", anchor.Protocol);
+            Assert.AreEqual("host", anchor.HostName);
+            Assert.AreEqual("9000", anchor.Port);
+            Assert.AreEqual("/path", anchor.PathName);
+            Assert.AreEqual("?query", anchor.Search);
+            Assert.AreEqual("#frag", anchor.Hash);
+            Assert.AreEqual("http://host:9000/path?query#frag", anchor.Href);
+            Assert.IsNotNull(document);
+        }
+
+        [Test]
+        public void DocumentUrlShouldDoUtf8PercentDecoding()
+        {
+            var document = Html("<base id=base>");
+            var element = document.GetElementById("base") as HtmlBaseElement;
+            Assert.IsNotNull(element);
+            element.Href = @"about:blank";
+            var anchor = document.CreateElement<IHtmlAnchorElement>();
+            anchor.SetAttribute("href", "https://%e2%98%83");
+            Assert.AreEqual("https:", anchor.Protocol);
+            Assert.AreEqual("xn--n3h", anchor.HostName);
+            Assert.AreEqual("", anchor.Port);
+            Assert.AreEqual("/", anchor.PathName);
+            Assert.AreEqual("", anchor.Search);
+            Assert.AreEqual("", anchor.Hash);
+            Assert.AreEqual("https://xn--n3h/", anchor.Href);
+            Assert.IsNotNull(document);
+        }
+
+        [Test]
         public void DocumentUrlShouldTransformBigDot()
 		{
 			var document = Html("<base id=base>");
@@ -4181,7 +4238,7 @@ org");
             Assert.IsNotNull(document);
 		}
 
-        //TODO [Test]
+        [Test]
         public void DocumentUrlTest253()
 		{
 			var document = Html("<base id=base>");
@@ -4275,5 +4332,24 @@ org");
             Assert.AreEqual("http://foo:%F0%9F%92%A9@example.com/bar", anchor.Href);
             Assert.IsNotNull(document);
 		}
-	}
+
+        [Test]
+        public void DocumentUrlShouldHandleNullCodePointInFragment()
+        {
+            var document = Html("<base id=base>");
+            var element = document.GetElementById("base") as HtmlBaseElement;
+            Assert.IsNotNull(element);
+            element.Href = @"about:blank";
+            var anchor = document.CreateElement<IHtmlAnchorElement>();
+            anchor.SetAttribute("href", "http://example.org/test?a#b\u0000c");
+            Assert.AreEqual("http:", anchor.Protocol);
+            Assert.AreEqual("example.org", anchor.HostName);
+            Assert.AreEqual("", anchor.Port);
+            Assert.AreEqual("/test", anchor.PathName);
+            Assert.AreEqual("?a", anchor.Search);
+            Assert.AreEqual("#bc", anchor.Hash);
+            Assert.AreEqual("http://example.org/test?a#bc", anchor.Href);
+            Assert.IsNotNull(document);
+        }
+    }
 }

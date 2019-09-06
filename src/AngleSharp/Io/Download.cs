@@ -48,10 +48,7 @@ namespace AngleSharp.Io
 
         #region Methods
 
-        public void Cancel()
-        {
-            _cts.Cancel();
-        }
+        public void Cancel() => _cts.Cancel();
 
         #endregion
     }

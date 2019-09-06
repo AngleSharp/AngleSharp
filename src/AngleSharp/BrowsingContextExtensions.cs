@@ -27,10 +27,11 @@ namespace AngleSharp
         /// Opens a new document without any content in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
-        /// <param name="url">The optional base URL of the document.</param>
+        /// <param name="url">The optional base URL of the document. By default "http://localhost/".</param>
         /// <param name="cancellation">The cancellation token (optional)</param>
         /// <returns>The new, yet empty, document.</returns>
-        public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null, CancellationToken cancellation = default(CancellationToken)) => context.OpenAsync(m => m.Address(url), cancellation);
+        public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null, CancellationToken cancellation = default) =>
+            context.OpenAsync(m => m.Address(url ?? "http://localhost/"), cancellation);
 
         /// <summary>
         /// Opens a new document created from the response asynchronously in
@@ -40,7 +41,7 @@ namespace AngleSharp
         /// <param name="response">The response to examine.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel = default(CancellationToken))
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel = default)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));
             context = context ?? BrowsingContext.New();
@@ -58,26 +59,11 @@ namespace AngleSharp
         /// <param name="request">The request to issue.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default(CancellationToken))
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default)
         {
             request = request ?? throw new ArgumentNullException(nameof(request));
-            var loader = context.GetService<IDocumentLoader>();
-
-            if (loader != null)
-            {
-                var download = loader.FetchAsync(request);
-                cancel.Register(download.Cancel);
-
-                using (var response = await download.Task.ConfigureAwait(false))
-                {
-                    if (response != null)
-                    {
-                        return await context.OpenAsync(response, cancel).ConfigureAwait(false);
-                    }
-                }
-            }
-
-            return await context.OpenNewAsync(request.Target.Href, cancel).ConfigureAwait(false);
+            context = context ?? BrowsingContext.New();
+            return context.NavigateToAsync(request);
         }
 
         /// <summary>
@@ -88,17 +74,10 @@ namespace AngleSharp
         /// <param name="url">The URL to load.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel = default(CancellationToken))
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel = default)
         {
             url = url ?? throw new ArgumentNullException(nameof(url));
-            var request = DocumentRequest.Get(url);
-
-            if (context != null && context.Active != null)
-            {
-                request.Referer = context.Active.DocumentUri;
-            }
-
-            return context.OpenAsync(request, cancel);
+            return context.OpenAsync(DocumentRequest.Get(url, referer: context?.Active?.DocumentUri), cancel);
         }
 
         /// <summary>
@@ -109,7 +88,7 @@ namespace AngleSharp
         /// <param name="request">Callback with the response to setup.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel = default(CancellationToken))
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel = default)
         {
             request = request ?? throw new ArgumentNullException(nameof(request));
 
@@ -127,7 +106,7 @@ namespace AngleSharp
         /// <param name="address">The address to load.</param>
         /// <param name="cancellation">The cancellation token (optional)</param>
         /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, String address, CancellationToken cancellation = default(CancellationToken))
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, String address, CancellationToken cancellation = default)
         {
             address = address ?? throw new ArgumentNullException(nameof(address));
             return context.OpenAsync(Url.Create(address), cancellation);
@@ -136,6 +115,21 @@ namespace AngleSharp
         #endregion
 
         #region Navigate
+
+        /// <summary>
+        /// Plan to navigate to an action using the specified method with the given
+        /// entity body of the mime type.
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#plan-to-navigate
+        /// </summary>
+        /// <param name="context">The browsing context.</param>
+        /// <param name="request">The request to issue.</param>
+        /// <param name="cancel"></param>
+        /// <returns>A task that will eventually result in a new document.</returns>
+        internal static Task<IDocument> NavigateToAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default)
+        {
+            var handler = context.GetNavigationHandler(request.Target);
+            return handler?.NavigateAsync(request, cancel) ?? Task.FromResult<IDocument>(null);
+        }
 
         /// <summary>
         /// Navigates to the given document. Includes the document in the
@@ -148,6 +142,15 @@ namespace AngleSharp
             context.SessionHistory?.PushState(document, document.Title, document.Url);
             context.Active = document;
         }
+
+        /// <summary>
+        /// Gets the navigation handler that supports the provided protocol.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="url">The URL to navigate to.</param>
+        /// <returns>The found navigation handler, if any.</returns>
+        public static INavigationHandler GetNavigationHandler(this IBrowsingContext context, Url url) =>
+            context.GetServices<INavigationHandler>().FirstOrDefault(m => m.SupportsProtocol(url.Scheme));
 
         #endregion
 
@@ -246,7 +249,7 @@ namespace AngleSharp
                 }
             }
 
-            return default(IResourceService<TResource>);
+            return default;
         }
 
         #endregion
@@ -345,7 +348,7 @@ namespace AngleSharp
                 }
             }
 
-            return default(IStylingService);
+            return default;
         }
 
         #endregion
@@ -384,7 +387,7 @@ namespace AngleSharp
                 }
             }
 
-            return default(IScriptingService);
+            return default;
         }
 
         #endregion
@@ -425,6 +428,33 @@ namespace AngleSharp
         #endregion
 
         #region Children
+
+        /// <summary>
+        /// Resolves the given target context.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <param name="target">The desired target frame.</param>
+        /// <returns>The target context.</returns>
+        public static IBrowsingContext ResolveTargetContext(this IBrowsingContext context, String target)
+        {
+            var createBrowsingContext = false;
+            var targetBrowsingContext = context;
+            //var replace = owner.ReadyState != DocumentReadyState.Complete;
+
+            if (!String.IsNullOrEmpty(target))
+            {
+                targetBrowsingContext = context.FindChildFor(target);
+                createBrowsingContext = targetBrowsingContext == null;
+            }
+
+            if (createBrowsingContext)
+            {
+                targetBrowsingContext = context.CreateChildFor(target);
+                //replace = true;
+            }
+
+            return targetBrowsingContext;
+        }
 
         /// <summary>
         /// Creates the specified target browsing context.

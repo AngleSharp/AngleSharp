@@ -1,3 +1,23 @@
+# 0.13.0
+
+Released on Monday, August 26 2019.
+
+- Removed the `TaskEventLoop` (#782)
+- Renamed `WithCookies` to `WithDefaultCookies`
+- Fixed bubbling of `DOMContentLoaded` event (#789)
+- Fixed maximum recursion depth at query selector (#763)
+- Added `MinifyMarkupFormatter` (#745)
+- Added `Prettify` and `Minify` extension methods
+- Moved `hashchange` to be emitted on `IWindow`
+- Added option to avoid consuming character references (#494)
+- Added more pseudo elements for GCPM
+- Fixed character position starting at normalized CRLF (#786)
+- Improved setting `Href` in `Url`
+- Fixed crash for invalid attribute names during SVG parsing (#795)
+- Added more punycode replacement characters on .NET Standard 1.3 (#797)
+- Added use of correct hostname IDN on .NET Standard 2.0 and .NET Framework 4.6 (#797)
+- Added ability to delay load in `Document` (#815)
+
 # 0.12.1
 
 Released on Wednesday, May 15 2019.

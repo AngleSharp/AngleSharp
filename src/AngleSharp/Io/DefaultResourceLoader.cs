@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using System;
     using System.Collections.Generic;
@@ -39,8 +39,8 @@
                 Method = HttpMethod.Get,
                 Headers = new Dictionary<String, String>
                 {
-                    [HeaderNames.Referer] = request?.Source.Owner.DocumentUri ?? String.Empty
-                }
+                    [HeaderNames.Referer] = request?.Source.Owner.DocumentUri ?? String.Empty,
+                },
             };
 
             var cookie = GetCookie(request.Target);

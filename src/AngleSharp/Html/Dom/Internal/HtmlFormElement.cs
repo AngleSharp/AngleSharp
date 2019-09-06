@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Browser;
     using AngleSharp.Dom;
@@ -33,15 +33,9 @@
 
         #region Index
 
-        public IElement this[Int32 index]
-        {
-            get { return Elements[index]; }
-        }
+        public IElement this[Int32 index] => Elements[index];
 
-        public IElement this[String name]
-        {
-            get { return Elements[name]; }
-        }
+        public IElement this[String name] => Elements[name];
 
         #endregion
 
@@ -49,8 +43,8 @@
 
         public String Name
         {
-            get { return this.GetOwnAttribute(AttributeNames.Name); }
-            set { this.SetOwnAttribute(AttributeNames.Name, value); }
+            get => this.GetOwnAttribute(AttributeNames.Name);
+            set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
         public Int32 Length => Elements.Length;
@@ -61,50 +55,50 @@
 
         public String AcceptCharset
         {
-            get { return this.GetOwnAttribute(AttributeNames.AcceptCharset); }
-            set { this.SetOwnAttribute(AttributeNames.AcceptCharset, value); }
+            get => this.GetOwnAttribute(AttributeNames.AcceptCharset);
+            set => this.SetOwnAttribute(AttributeNames.AcceptCharset, value);
         }
 
         public String Action
         {
-            get { return this.GetOwnAttribute(AttributeNames.Action); }
-            set { this.SetOwnAttribute(AttributeNames.Action, value); }
+            get => this.GetOwnAttribute(AttributeNames.Action) ?? Owner.DocumentUri;
+            set => this.SetOwnAttribute(AttributeNames.Action, value);
         }
 
         public String Autocomplete
         {
-            get { return this.GetOwnAttribute(AttributeNames.AutoComplete); }
-            set { this.SetOwnAttribute(AttributeNames.AutoComplete, value); }
+            get => this.GetOwnAttribute(AttributeNames.AutoComplete);
+            set => this.SetOwnAttribute(AttributeNames.AutoComplete, value);
         }
 
         public String Enctype
         {
-            get { return this.GetOwnAttribute(AttributeNames.Enctype).ToEncodingType(); }
-            set { this.SetOwnAttribute(AttributeNames.Enctype, value.ToEncodingType()); }
+            get => this.GetOwnAttribute(AttributeNames.Enctype).ToEncodingType() ?? MimeTypeNames.UrlencodedForm;
+            set => this.SetOwnAttribute(AttributeNames.Enctype, value);
         }
 
         public String Encoding
         {
-            get { return Enctype; }
-            set { Enctype = value; }
+            get => Enctype;
+            set => Enctype = value;
         }
 
         public String Method
         {
-            get { return this.GetOwnAttribute(AttributeNames.Method) ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.Method, value); }
+            get => this.GetOwnAttribute(AttributeNames.Method).ToFormMethod() ?? FormMethodNames.Get;
+            set => this.SetOwnAttribute(AttributeNames.Method, value);
         }
 
         public Boolean NoValidate
         {
-            get { return this.GetBoolAttribute(AttributeNames.NoValidate); }
-            set { this.SetBoolAttribute(AttributeNames.NoValidate, value); }
+            get => this.GetBoolAttribute(AttributeNames.NoValidate);
+            set => this.SetBoolAttribute(AttributeNames.NoValidate, value);
         }
 
         public String Target
         {
-            get { return this.GetOwnAttribute(AttributeNames.Target); }
-            set { this.SetOwnAttribute(AttributeNames.Target, value); }
+            get => this.GetOwnAttribute(AttributeNames.Target) ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.Target, value);
         }
 
         #endregion
@@ -114,24 +108,20 @@
         public Task<IDocument> SubmitAsync()
         {
             var request = GetSubmission();
-            return this.NavigateToAsync(request);
+            var context = Context.ResolveTargetContext(Target);
+            return Context.NavigateToAsync(request);
         }
 
         public Task<IDocument> SubmitAsync(IHtmlElement sourceElement)
         {
             var request = GetSubmission(sourceElement);
-            return this.NavigateToAsync(request);
+            var context = Context.ResolveTargetContext(Target);
+            return context.NavigateToAsync(request);
         }
 
-        public DocumentRequest GetSubmission()
-        {
-            return SubmitForm(this, true);
-        }
+        public DocumentRequest GetSubmission() => SubmitForm(this, true);
 
-        public DocumentRequest GetSubmission(IHtmlElement sourceElement)
-        {
-            return SubmitForm(sourceElement ?? this, false);
-        }
+        public DocumentRequest GetSubmission(IHtmlElement sourceElement) => SubmitForm(sourceElement ?? this, false);
 
         public void Reset()
         {
@@ -216,24 +206,6 @@
             else
             {
                 var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
-                var createdBrowsingContext = false;
-                var context = Context;
-                var targetBrowsingContext = context;
-                var target = Target;
-                //var replace = owner.ReadyState != DocumentReadyState.Complete;
-
-                if (!String.IsNullOrEmpty(target))
-                {
-                    targetBrowsingContext = context.FindChildFor(target);
-                    createdBrowsingContext = targetBrowsingContext == null;
-                }
-
-                if (createdBrowsingContext)
-                {
-                    targetBrowsingContext = context.CreateChildFor(target);
-                    //replace = true;
-                }
-
                 var scheme = action.Scheme;
                 var method = Method.ToEnum(HttpMethod.Get);
                 return SubmitForm(method, scheme, action, from);
@@ -360,16 +332,13 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-get-action
         /// </summary>
-        private DocumentRequest GetActionUrl(Url action)
-        {
-            return DocumentRequest.Get(action, source: this, referer: Owner.DocumentUri);
-        }
+        private DocumentRequest GetActionUrl(Url action) => DocumentRequest.Get(action, source: this, referer: Owner.DocumentUri);
 
         /// <summary>
         /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        private DocumentRequest SubmitAsEntityBody(Url target, IHtmlElement submitter)
+        private DocumentRequest SubmitAsEntityBody(Url url, IHtmlElement submitter)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
@@ -381,7 +350,7 @@
                 enctype = String.Concat(MimeTypeNames.MultipartForm, "; boundary=", formDataSet.Boundary);
             }
 
-            return DocumentRequest.Post(target, body, enctype, source: this, referer: Owner.DocumentUri);
+            return DocumentRequest.Post(url, body, enctype, source: this, referer: Owner.DocumentUri);
         }
 
         /// <summary>

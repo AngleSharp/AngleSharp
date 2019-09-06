@@ -11,7 +11,6 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Threading;
@@ -530,8 +529,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String DesignMode
         {
-            get { return _designMode ? Keywords.On : Keywords.Off; }
-            set { _designMode = value.Isi(Keywords.On); }
+            get => _designMode ? Keywords.On : Keywords.Off;
+            set => _designMode = value.Isi(Keywords.On);
         }
 
         /// <inheritdoc />
@@ -614,11 +613,11 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public DocumentReadyState ReadyState
         {
-            get { return _ready; }
+            get => _ready;
             protected set
             {
                 _ready = value;
-                this.FireSimpleEvent(EventNames.ReadyStateChanged);
+                this.QueueTaskAsync(_ => this.FireSimpleEvent(EventNames.ReadyStateChanged));
             }
         }
 
@@ -641,7 +640,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String DocumentUri
         {
-            get { return _location.Href; }
+            get => _location.Href;
             protected set
             {
                 _location.Changed -= LocationChanged;
@@ -659,8 +658,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String Direction
         {
-            get { return (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction; }
-            set { (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction = value; }
+            get => (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction;
+            set => (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction = value;
         }
 
         /// <inheritdoc />
@@ -702,8 +701,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String Title
         {
-            get { return GetTitle(); }
-            set { SetTitle(value); }
+            get => GetTitle();
+            set => SetTitle(value);
         }
 
         /// <inheritdoc />
@@ -768,21 +767,21 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public HttpStatusCode StatusCode
         {
-            get { return _statusCode; }
-            private set { _statusCode = value; }
+            get => _statusCode;
+            private set => _statusCode = value;
         }
 
         /// <inheritdoc />
         public String Cookie
         {
-            get { return _context.GetCookie(_location.Original); }
-            set { _context.SetCookie(_location.Original, value); }
+            get => _context.GetCookie(_location.Original);
+            set => _context.SetCookie(_location.Original, value);
         }
 
         /// <inheritdoc />
         public String Domain
         {
-            get { return String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host; }
+            get => String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host;
             set { if (_location == null) return; _location.Host = value; }
         }
 
@@ -843,14 +842,14 @@ namespace AngleSharp.Dom
 
         internal QuirksMode QuirksMode
         {
-            get { return _quirksMode; }
-            set { _quirksMode = value; }
+            get => _quirksMode;
+            set => _quirksMode = value;
         }
 
         internal Sandboxes ActiveSandboxing
         {
-            get { return _sandbox; }
-            set { _sandbox = value; }
+            get => _sandbox;
+            set => _sandbox = value;
         }
 
         internal void AddScript(HtmlScriptElement script)
@@ -878,7 +877,7 @@ namespace AngleSharp.Dom
         {
             //Important to fix #45
             Clear();
-            _loop.CancelAll();
+            _loop?.CancelAll();
             _loadingScripts.Clear();
             _source.Dispose();
             _view?.Dispose();
@@ -926,7 +925,7 @@ namespace AngleSharp.Dom
                         return this;
                     }
 
-                    Unload(recycle: true);
+                    Unload(recycle: true).Wait();
                     Abort();
                     RemoveEventListeners();
 
@@ -935,7 +934,7 @@ namespace AngleSharp.Dom
                         element.RemoveEventListeners();
                     }
 
-                    _loop.CancelAll();
+                    _loop?.CancelAll();
                     ReplaceAll(null, suppressObservers: true);
                     _source.CurrentEncoding = TextEncoding.Utf8;
                     _salvageable = true;
@@ -1138,9 +1137,6 @@ namespace AngleSharp.Dom
         public IHtmlCollection<IElement> GetElementsByTagName(String namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
         /// <inheritdoc />
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter) => ChildNodes.ToHtml(writer, formatter);
-
-        /// <inheritdoc />
         public Boolean HasFocus() => Object.ReferenceEquals(_context.Active, this);
 
         /// <inheritdoc />
@@ -1184,6 +1180,18 @@ namespace AngleSharp.Dom
         /// <returns>The created element.</returns>
         public abstract Element CreateElementFrom(String name, String prefix);
 
+        /// <summary>
+        /// Waits for the given task before raising the load event.
+        /// </summary>
+        /// <param name="task">The task to wait for.</param>
+        public void DelayLoad(Task task)
+        {
+            if (!IsReady && task != null && !task.IsCompleted)
+            {
+                AttachReference(task);
+            }
+        }
+
         #endregion
 
         #region Internal Methods
@@ -1194,28 +1202,13 @@ namespace AngleSharp.Dom
         /// <typeparam name="T">The type of values to get.</typeparam>
         /// <returns>Gets the enumeration over all values.</returns>
         internal IEnumerable<T> GetAttachedReferences<T>()
-            where T : class
-        {
-            return _attachedReferences.Select(entry => entry.IsAlive ? entry.Target as T : null).Where(m => m != null);
-        }
+            where T : class => _attachedReferences.Select(entry => entry.IsAlive ? entry.Target as T : null).Where(m => m != null);
 
         /// <summary>
         /// Attaches another reference to this document.
         /// </summary>
         /// <param name="value">The value to attach.</param>
         internal void AttachReference(Object value) => _attachedReferences.Add(new WeakReference(value));
-
-        /// <summary>
-        /// Waits for the given task before raising the load event.
-        /// </summary>
-        /// <param name="task">The task to wait for.</param>
-        internal void DelayLoad(Task task)
-        {
-            if (!IsReady && task != null && !task.IsCompleted)
-            {
-                AttachReference(task);
-            }
-        }
 
         /// <summary>
         /// Sets the focus to the provided element.
@@ -1237,15 +1230,30 @@ namespace AngleSharp.Dom
                 await _loadingScripts.Dequeue().RunAsync(CancellationToken.None).ConfigureAwait(false);
             }
 
-            this.QueueTask(RaiseDomContentLoaded);
+            await this.QueueTaskAsync(_ =>
+            {
+                this.FireSimpleEvent(EventNames.DomContentLoaded);
+                _view.FireSimpleEvent(EventNames.DomContentLoaded);
+            }).ConfigureAwait(false);
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
 
-            this.QueueTask(RaiseLoadedEvent);
-
-            if (IsInBrowsingContext)
+            await this.QueueTaskAsync(_ =>
             {
-                this.QueueTask(ShowPage);
+                ReadyState = DocumentReadyState.Complete;
+
+                Body?.FireSimpleEvent(EventNames.Load);
+                this.FireSimpleEvent(EventNames.Load);
+                _view.FireSimpleEvent(EventNames.Load);
+            }).ConfigureAwait(false);
+
+            if (IsInBrowsingContext && !_shown)
+            {
+                _shown = true;
+                await this.QueueTaskAsync(_ =>
+                {
+                    this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view);
+                }).ConfigureAwait(false);
             }
 
             this.QueueTask(EmptyAppCache);
@@ -1267,7 +1275,8 @@ namespace AngleSharp.Dom
             if (_view.HasEventListener(EventNames.BeforeUnload))
             {
                 var unloadEvent = new Event(EventNames.BeforeUnload, bubbles: false, cancelable: true);
-                var shouldCancel = _view.Fire(unloadEvent);
+                var shouldCancel = await this.QueueTaskAsync(_ => _view.Fire(unloadEvent)).ConfigureAwait(false);
+
                 _salvageable = false;
 
                 if (shouldCancel)
@@ -1309,21 +1318,24 @@ namespace AngleSharp.Dom
         /// http://www.w3.org/html/wg/drafts/html/CR/browsers.html#unload-a-document
         /// </summary>
         /// <param name="recycle">The recycle parameter.</param>
-        internal void Unload(Boolean recycle)
+        internal async Task Unload(Boolean recycle)
         {
             var descendants = GetAttachedReferences<IBrowsingContext>();
 
             if (_shown)
             {
                 _shown = false;
-                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageHide, false, false, _salvageable), _view);
+                await this.QueueTaskAsync(_ =>
+                {
+                    this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageHide, false, false, _salvageable), _view);
+                }).ConfigureAwait(false);
             }
 
             if (_view.HasEventListener(EventNames.Unload))
             {
                 if (!_firedUnload)
                 {
-                    _view.FireSimpleEvent(EventNames.Unload);
+                    await this.QueueTaskAsync(_ => _view.FireSimpleEvent(EventNames.Unload)).ConfigureAwait(false);
                     _firedUnload = true;
                 }
 
@@ -1336,7 +1348,7 @@ namespace AngleSharp.Dom
             {
                 if (descendant.Active is Document active)
                 {
-                    active.Unload(false);
+                    await active.Unload(false).ConfigureAwait(false);
                     _salvageable = _salvageable && active._salvageable;
                 }
             }
@@ -1398,7 +1410,7 @@ namespace AngleSharp.Dom
         {
             if (fromUser && Object.ReferenceEquals(_context.Active, this))
             {
-                this.QueueTask(() => _view.FireSimpleEvent(EventNames.Abort));
+                this.QueueTaskAsync(_ => _view.FireSimpleEvent(EventNames.Abort));
             }
 
             var childContexts = GetAttachedReferences<IBrowsingContext>();
@@ -1442,16 +1454,6 @@ namespace AngleSharp.Dom
 
         private static Boolean IsAnchor(IHtmlAnchorElement element) => element.Attributes.Any(m => m.Name.Is(AttributeNames.Name));
 
-        private void RaiseDomContentLoaded() => this.FireSimpleEvent(EventNames.DomContentLoaded);
-
-        private void RaiseLoadedEvent()
-        {
-            ReadyState = DocumentReadyState.Complete;
-            Body?.FireSimpleEvent(EventNames.Load);
-            this.FireSimpleEvent(EventNames.Load);
-            _view.FireSimpleEvent(EventNames.Load);
-        }
-
         private void EmptyAppCache()
         {
             //TODO
@@ -1465,19 +1467,9 @@ namespace AngleSharp.Dom
 
         private async Task PrintAsync()
         {
-            var data = new { Document = this };
-            this.FireSimpleEvent(EventNames.BeforePrint);
-            await _context.InteractAsync(EventNames.Print, data).ConfigureAwait(false);
-            this.FireSimpleEvent(EventNames.AfterPrint);
-        }
-
-        private void ShowPage()
-        {
-            if (!_shown)
-            {
-                _shown = true;
-                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view);
-            }
+            await this.QueueTaskAsync(_ => this.FireSimpleEvent(EventNames.BeforePrint)).ConfigureAwait(false);
+            await _context.InteractAsync(EventNames.Print, new { Document = this }).ConfigureAwait(false);
+            await this.QueueTaskAsync(_ => this.FireSimpleEvent(EventNames.AfterPrint)).ConfigureAwait(false);
         }
 
         private async void LocationChanged(Object sender, Location.ChangedEventArgs e)
@@ -1487,7 +1479,7 @@ namespace AngleSharp.Dom
                 var ev = new HashChangedEvent();
                 ev.Init(EventNames.HashChange, false, false, e.PreviousLocation, e.CurrentLocation);
                 ev.IsTrusted = true;
-                ev.Dispatch(this);
+                this.QueueTask(() => ev.Dispatch(_view));
             }
             else if (!e.IsReloaded)
             {

@@ -190,21 +190,34 @@ namespace AngleSharp.Html.Parser
         /// <param name="value">The value of the attribute.</param>
         public static void AdjustAttribute(this Element element, String name, String value)
         {
+            var ns = default(String);
+
             if (IsXLinkAttribute(name))
             {
-                element.SetAttribute(NamespaceNames.XLinkUri, name.Substring(name.IndexOf(Symbols.Colon) + 1), value);
+                var newName = name.Substring(name.IndexOf(Symbols.Colon) + 1);
+
+                if (newName.IsXmlName() && newName.IsQualifiedName())
+                {
+                    ns = NamespaceNames.XLinkUri;
+                    name = newName;
+                }
             }
             else if (IsXmlAttribute(name))
             {
-                element.SetAttribute(NamespaceNames.XmlUri, name, value);
+                ns = NamespaceNames.XmlUri;
             }
             else if (IsXmlNamespaceAttribute(name))
             {
-                element.SetAttribute(NamespaceNames.XmlNsUri, name, value);
+                ns = NamespaceNames.XmlNsUri;
+            }
+
+            if (ns is null)
+            {
+                element.SetOwnAttribute(name, value);
             }
             else
             {
-                element.SetOwnAttribute(name, value);
+                element.SetAttribute(ns, name, value);
             }
         }
 
@@ -242,31 +255,23 @@ namespace AngleSharp.Html.Parser
 
         #region Helpers
 
-        private static Boolean IsXmlNamespaceAttribute(String name)
-        {
-            return name.Length > 4 && (name.Is(NamespaceNames.XmlNsPrefix) || name.Is("xmlns:xlink"));
-        }
+        private static Boolean IsXmlNamespaceAttribute(String name) =>
+            name.Length > 4 && (name.Is(NamespaceNames.XmlNsPrefix) || name.Is("xmlns:xlink"));
 
-        private static Boolean IsXmlAttribute(String name)
-        {
-            return (name.Length > 7 && "xml:".EqualsSubset(name, 0, 4)) &&
+        private static Boolean IsXmlAttribute(String name) =>
+            (name.Length > 7 && "xml:".EqualsSubset(name, 0, 4)) &&
                 (TagNames.Base.EqualsSubset(name, 4, 4) || AttributeNames.Lang.EqualsSubset(name, 4, 4) ||
                  AttributeNames.Space.EqualsSubset(name, 4, 5));
-        }
 
-        private static Boolean IsXLinkAttribute(String name)
-        {
-            return (name.Length > 9 && "xlink:".EqualsSubset(name, 0, 6)) &&
+        private static Boolean IsXLinkAttribute(String name) =>
+            (name.Length > 9 && "xlink:".EqualsSubset(name, 0, 6)) &&
                 (AttributeNames.Actuate.EqualsSubset(name, 6, 7) || AttributeNames.Arcrole.EqualsSubset(name, 6, 7) ||
                  AttributeNames.Href.EqualsSubset(name, 6, 4) || AttributeNames.Role.EqualsSubset(name, 6, 4) ||
                  AttributeNames.Show.EqualsSubset(name, 6, 4) || AttributeNames.Type.EqualsSubset(name, 6, 4) ||
                  AttributeNames.Title.EqualsSubset(name, 6, 5));
-        }
 
-        private static Boolean EqualsSubset(this String a, String b, Int32 index, Int32 length)
-        {
-            return String.Compare(a, 0, b, index, length, StringComparison.Ordinal) == 0;
-        }
+        private static Boolean EqualsSubset(this String a, String b, Int32 index, Int32 length) =>
+            String.Compare(a, 0, b, index, length, StringComparison.Ordinal) == 0;
 
         #endregion
     }

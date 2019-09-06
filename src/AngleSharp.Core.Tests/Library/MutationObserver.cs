@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Browser;
     using AngleSharp.Core.Tests.Mocks;
@@ -6,13 +6,20 @@
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class MutationObserverTests
     {
-        private static IDocument Html(String code)
+        private static IDocument Html(String code, Boolean defer = false)
         {
-            var config = Configuration.Default.With<IEventLoop>(ctx => new StandingEventLoop());
+            var config = Configuration.Default;
+
+            if (defer)
+            {
+                config = config.With<IEventLoop>(ctx => new StandingEventLoop());
+            }
+
             return code.ToHtmlDocument(config);
         }
 
@@ -34,7 +41,6 @@
 
             observer.Connect(document.Body, childList: true);
             document.Body.AppendChild(document.CreateElement("span"));
-            observer.TriggerWith(observer.Flush().ToArray());
             Assert.IsTrue(called);
         }
 
@@ -58,7 +64,6 @@
             observer.Connect(document.Body, attributes: true);
 
             document.Body.SetAttribute(attrName, attrValue);
-            observer.TriggerWith(observer.Flush().ToArray());
             Assert.IsTrue(called);
         }
 
@@ -98,11 +103,8 @@
             observer3.Connect(document.Body, attributes: true);
 
             document.Body.SetAttribute(attrName, attrValue);
-            observer1.TriggerWith(observer1.Flush().ToArray());
-            observer2.TriggerWith(observer2.Flush().ToArray());
-            observer3.TriggerWith(observer3.Flush().ToArray());
             Assert.IsTrue(called1);
-            Assert.IsTrue(called2);
+            Assert.IsFalse(called2);
             Assert.IsTrue(called3);
         }
 
@@ -130,7 +132,6 @@
             document.Body.TextContent = text;
             var textNode = document.Body.ChildNodes[0] as TextNode;
             textNode.Replace(text.Length, 0, replaced);
-            observer.TriggerWith(observer.Flush().ToArray());
             Assert.IsTrue(called);
         }
 
@@ -158,7 +159,6 @@
             document.Body.TextContent = text;
             var textNode = document.Body.ChildNodes[0] as TextNode;
             textNode.Replace(text.Length, 0, replaced);
-            observer.TriggerWith(observer.Flush().ToArray());
             Assert.IsTrue(called);
         }
 
@@ -182,8 +182,7 @@
             document.Body.TextContent = text;
             var textNode = document.Body.ChildNodes[0] as TextNode;
             textNode.Replace(text.Length, 0, replaced);
-            observer.TriggerWith(observer.Flush().ToArray());
-            Assert.IsTrue(called);
+            Assert.IsFalse(called);
         }
 
         [Test]
@@ -205,14 +204,13 @@
             observer.Connect(document.Body, subtree: false, childList: true);
 
             document.Body.TextContent = text;
-            observer.TriggerWith(observer.Flush().ToArray());
             Assert.IsTrue(called);
         }
 
         [Test]
         public void MutationObserverAttr()
         {
-            var document = Html("");
+            var document = Html("", true);
 
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
@@ -242,7 +240,7 @@
         [Test]
         public void MutationObserverAttrWithOldvalue()
         {
-            var document = Html("");
+            var document = Html("", true);
 
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
@@ -292,7 +290,7 @@
         [Test]
         public void MutationObserverAttrChangeSubtree()
         {
-            var document = Html("");
+            var document = Html("", true);
 
             var div = document.CreateElement("div");
             var child = document.CreateElement("div");
@@ -323,7 +321,7 @@
         [Test]
         public void MutationObserverMultipleObserversOnSameTarget()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
 
             var observer1 = new MutationObserver((obs, mut) => { });
@@ -372,7 +370,7 @@
         [Test]
         public void MutationObserverObserverObservesOnDifferentTarget()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var child = document.CreateElement("div");
             div.AppendChild(child);
@@ -412,7 +410,7 @@
         [Test]
         public void MutationObserverObservingOnTheSameNodeShouldUpdateTheOptions()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
             observer.Connect(div, attributes: true, attributeFilter: new[] { "a" });
@@ -453,7 +451,7 @@
         [Test]
         public void MutationObserverDisconnectShouldNotAffectOtherObservers()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var observer1 = new MutationObserver((obs, mut) => { });
             observer1.Connect(div, attributes: true);
@@ -491,10 +489,11 @@
         }
 
         [Test]
-        public void MutationObserverOneObserverTwoAttributeChanges()
+        public async Task MutationObserverOneObserverTwoAttributeChanges()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
+            var tcs = new TaskCompletionSource<Boolean>();
             var observer = new MutationObserver((records, obs) =>
             {
                 Assert.AreEqual(records.Count(), 2);
@@ -513,20 +512,24 @@
                     AttributeName = "a",
                     AttributeNamespace = null
                 });
+
+                tcs.SetResult(true);
             });
 
             observer.Connect(div, attributes: true);
 
             div.SetAttribute("a", "A");
             div.SetAttribute("a", "B");
+            await tcs.Task.ConfigureAwait(false);
         }
 
         [Test]
-        public void MutationObserverNestedChanges()
+        public async Task MutationObserverNestedChanges()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var fresh = true;
+            var tcs = new TaskCompletionSource<Boolean>();
             var observer = new MutationObserver((records, obs) =>
             {
                 Assert.AreEqual(records.Count(), 1);
@@ -552,18 +555,20 @@
                         AttributeName = "b",
                         AttributeNamespace = null
                     });
+                    tcs.SetResult(true);
                 }
             });
 
             observer.Connect(div, attributes: true);
 
             div.SetAttribute("a", "A");
+            await tcs.Task.ConfigureAwait(false);
         }
 
         [Test]
         public void MutationObserverCharacterdata()
         {
-            var document = Html("");
+            var document = Html("", true);
 
             var text = document.CreateTextNode("abc");
             var observer = new MutationObserver((obs, mut) => { });
@@ -589,7 +594,7 @@
         [Test]
         public void MutationObserverCharacterdataWithOldValue()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var text = testDiv.AppendChild(document.CreateTextNode("abc"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -617,7 +622,7 @@
         [Test]
         public void MutationObserverCharacterdataChangeInSubtreeShouldNotGenerateARecord()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("abc"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -632,7 +637,7 @@
         [Test]
         public void MutationObserverCharacterdataChangeInSubtree()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("abc"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -658,7 +663,7 @@
         [Test]
         public void MutationObserverAppendChild()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
             observer.Connect(div, childList: true);
@@ -691,7 +696,7 @@
         [Test]
         public void MutationObserverInsertBefore()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var a = document.CreateElement("a");
             var b = document.CreateElement("b");
@@ -728,7 +733,7 @@
         [Test]
         public void MutationObserverRemovechild()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var a = div.AppendChild(document.CreateElement("a"));
@@ -765,7 +770,7 @@
         [Test]
         public void MutationObserverDirectChildren()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -807,7 +812,7 @@
         [Test]
         public void MutationObserverSubtree()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -849,7 +854,7 @@
         [Test]
         public void MutationObserverBothDirectAndSubtree()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -884,7 +889,7 @@
         [Test]
         public void MutationObserverAppendMultipleAtOnceAtTheEnd()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             div.AppendChild(document.CreateTextNode("a"));
@@ -914,7 +919,7 @@
         [Test]
         public void MutationObserverAppendMultipleAtOnceAtTheFront()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var a = div.AppendChild(document.CreateTextNode("a"));
@@ -944,7 +949,7 @@
         [Test]
         public void MutationObserverAppendMultipleAtOnceInTheMiddle()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = document.CreateElement("div");
             testDiv.AppendChild(div);
@@ -975,7 +980,7 @@
         [Test]
         public void MutationObserverRemoveAllChildren()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = document.CreateElement("div");
             testDiv.AppendChild(div);
@@ -1003,7 +1008,7 @@
         [Test]
         public void MutationObserverReplaceAllChildrenUsingInnerhtml()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = document.CreateElement("div");
             testDiv.AppendChild(div);
@@ -1032,7 +1037,7 @@
         [Test]
         public void MutationObserverAttrAndCharacterdata()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             div.AppendChild(document.CreateTextNode("text"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -1061,7 +1066,7 @@
         [Test]
         public void MutationObserverAttrChanged()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = document.CreateElement("div");
@@ -1072,7 +1077,7 @@
             child.SetAttribute("a", "A");
 
             var records = observer.Flush().ToArray();
-            Assert.AreEqual(records.Count(), 1);
+            Assert.AreEqual(1, records.Count());
 
             AssertRecord(records[0], new TestMutationRecord
             {
@@ -1184,7 +1189,7 @@
         [Test]
         public void MutationObserverChildListCharacterdata()
         {
-            var document = Html("");
+            var document = Html("", true);
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateTextNode("text"));
             var observer = new MutationObserver((obs, mut) => { });
@@ -1245,7 +1250,7 @@
         [Test]
         public void MutationObserverChildlist()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = div.AppendChild(document.CreateElement("div"));
@@ -1285,14 +1290,15 @@
         }
 
         [Test]
-        public void MutationObserverChildlistCallback()
+        public async Task MutationObserverChildlistCallback()
         {
-            var document = Html("");
+            var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = div.AppendChild(document.CreateElement("div"));
             var grandChild = document.CreateElement("span");
             var i = 0;
+            var tcs = new TaskCompletionSource<Boolean>();
             var observer = new MutationObserver((records, obs) =>
             {
                 Assert.LessOrEqual(++i, 2);
@@ -1317,11 +1323,13 @@
 
                 records = obs.Flush().ToArray();
                 Assert.AreEqual(0, records.Count());
+                tcs.SetResult(true);
             });
             observer.Connect(div, childList: true, subtree: true);
             div.RemoveChild(child);
             child.AppendChild(grandChild);
             observer.Trigger();
+            await tcs.Task.ConfigureAwait(false);
         }
 
         private static Tuple<NodeList, NodeList> MergeRecords(IMutationRecord[] records)

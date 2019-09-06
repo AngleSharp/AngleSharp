@@ -1,7 +1,6 @@
 namespace AngleSharp.Dom
 {
     using System;
-    using System.IO;
 
     /// <summary>
     /// Represents a processing instruction node.
@@ -25,11 +24,6 @@ namespace AngleSharp.Dom
 
         #region Methods
 
-        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
-        {
-            writer.Write(formatter.Processing(this));
-        }
-
         public override Node Clone(Document owner, Boolean deep)
         {
             var node = new ProcessingInstruction(owner, Target);
@@ -42,12 +36,14 @@ namespace AngleSharp.Dom
         /// </summary>
         internal static ProcessingInstruction Create(Document owner, String data)
         {
-            int nameLength = data.IndexOf(' ');
+            var nameLength = data.IndexOf(' ');
             var pi = new ProcessingInstruction(owner, nameLength <= 0 ? data : data.Substring(0, nameLength));
+
             if (nameLength > 0)
             {
                 pi.Data = data.Substring(nameLength);
             }
+
             return pi;
         }
 

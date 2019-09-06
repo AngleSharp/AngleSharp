@@ -68,10 +68,10 @@
 
         #region Methods
 
-        public IHtmlTableCellElement InsertCellAt(Int32 index = -1)
+        public IHtmlTableCellElement InsertCellAt(Int32 index = -1, TableCellKind tableCellKind = TableCellKind.Td)
         {
             var cells = Cells;
-            var newCell = Owner.CreateElement(TagNames.Td) as IHtmlTableCellElement;
+            var newCell = Owner.CreateElement(tableCellKind == TableCellKind.Td ? TagNames.Td : TagNames.Th) as IHtmlTableCellElement;
 
             if (index >= 0 && index < cells.Length)
             {

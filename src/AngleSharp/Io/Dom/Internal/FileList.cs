@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Dom
+namespace AngleSharp.Io.Dom
 {
     using System;
     using System.Collections;
@@ -27,10 +27,7 @@
 
         #region Index
 
-        public IFile this[Int32 index]
-        {
-            get { return _entries[index]; }
-        }
+        public IFile this[Int32 index] => _entries[index];
 
         #endregion
 
@@ -42,34 +39,19 @@
 
         #region Methods
 
-        public void Add(IFile item)
-        {
-            _entries.Add(item);
-        }
+        public void Add(IFile item) => _entries.Add(item);
 
-        public void Clear()
-        {
-            _entries.Clear();
-        }
+        public void Clear() => _entries.Clear();
 
-        public Boolean Remove(IFile item)
-        {
-            return _entries.Remove(item);
-        }
+        public Boolean Remove(IFile item) => _entries.Remove(item);
 
         #endregion
 
         #region IEnumerable Implementation
 
-        public IEnumerator<IFile> GetEnumerator()
-        {
-            return _entries.GetEnumerator();
-        }
+        public IEnumerator<IFile> GetEnumerator() => _entries.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
     }

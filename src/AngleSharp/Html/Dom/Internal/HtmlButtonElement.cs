@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Html;
@@ -39,8 +39,8 @@
         /// </summary>
         public String FormAction
         {
-            get { var form = Form; if (form == null) return String.Empty; return form.Action; }
-            set { var form = Form; if (form != null) form.Action = value; }
+            get { return this.GetOwnAttribute(AttributeNames.FormAction) ?? Owner?.DocumentUri; }
+            set { this.SetOwnAttribute(AttributeNames.FormAction, value); }
         }
 
         /// <summary>
@@ -49,8 +49,8 @@
         /// </summary>
         public String FormEncType
         {
-            get { var form = Form; if (form == null) return String.Empty; return form.Enctype; }
-            set { var form = Form; if (form != null) form.Enctype = value; }
+            get { return this.GetOwnAttribute(AttributeNames.FormEncType).ToEncodingType() ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.FormEncType, value); }
         }
 
         /// <summary>
@@ -59,8 +59,8 @@
         /// </summary>
         public String FormMethod
         {
-            get { var form = Form; if (form == null) return String.Empty; return form.Method; }
-            set { var form = Form; if (form != null) form.Method = value; }
+            get { return this.GetOwnAttribute(AttributeNames.FormMethod).ToFormMethod() ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.FormMethod, value); }
         }
 
         /// <summary>
@@ -69,8 +69,8 @@
         /// </summary>
         public Boolean FormNoValidate
         {
-            get { var form = Form; if (form == null) return false; return form.NoValidate; }
-            set { var form = Form; if (form != null) form.NoValidate = value; }
+            get { return this.GetBoolAttribute(AttributeNames.FormNoValidate); }
+            set { this.SetBoolAttribute(AttributeNames.FormNoValidate, value); }
         }
 
         /// <summary>
@@ -79,8 +79,8 @@
         /// </summary>
         public String FormTarget
         {
-            get { var form = Form; if (form == null) return String.Empty; return form.Target; }
-            set { var form = Form; if (form != null) form.Target = value; }
+            get { return this.GetOwnAttribute(AttributeNames.FormTarget) ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.FormTarget, value); }
         }
 
         /// <summary>
@@ -118,17 +118,18 @@
 
         #region Methods
 
-        public override void DoClick()
+        public override async void DoClick()
         {
+            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
             var form = Form;
 
-            if (!IsClickedCancelled() && form != null)
+            if (!cancelled && form != null)
             {
                 var type = Type;
 
                 if (type.Is(InputTypeNames.Submit))
                 {
-                    form.SubmitAsync(this);
+                    await form.SubmitAsync(this).ConfigureAwait(false);
                 }
                 else if (type.Is(InputTypeNames.Reset))
                 {

@@ -111,15 +111,9 @@ namespace AngleSharp.Html.LinkRels
                 return false;
             }
 
-            public void Add(ImportEntry item)
-            {
-                _list.Add(item);
-            }
+            public void Add(ImportEntry item) => _list.Add(item);
 
-            public void Remove(ImportEntry item)
-            {
-                _list.Remove(item);
-            }
+            public void Remove(ImportEntry item) => _list.Remove(item);
         }
 
         private struct ImportEntry

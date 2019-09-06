@@ -38,6 +38,16 @@
         public static readonly String FirstLetter = "first-letter";
 
         /// <summary>
+        /// The footnote-call pseudo element.
+        /// </summary>
+        public static readonly String FootnoteCall = "footnote-call";
+
+        /// <summary>
+        /// The footnote-marker pseudo element.
+        /// </summary>
+        public static readonly String FootnoteMarker = "footnote-marker";
+
+        /// <summary>
         /// The content pseudo element.
         /// </summary>
         public static readonly String Content = "content";

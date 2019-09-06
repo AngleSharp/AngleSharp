@@ -143,6 +143,26 @@ namespace AngleSharp.Dom
         public static readonly String Shape = "shape";
 
         /// <summary>
+        /// The formaction attribute.
+        /// </summary>
+        public static readonly String FormAction = "formaction";
+
+        /// <summary>
+        /// The formmethod attribute.
+        /// </summary>
+        public static readonly String FormMethod = "formmethod";
+
+        /// <summary>
+        /// The formtarget attribute.
+        /// </summary>
+        public static readonly String FormTarget = "formtarget";
+
+        /// <summary>
+        /// The formenctype attribute.
+        /// </summary>
+        public static readonly String FormEncType = "formenctype";
+
+        /// <summary>
         /// The formnovalidate attribute.
         /// </summary>
         public static readonly String FormNoValidate = "formnovalidate";

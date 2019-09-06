@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Urls
+namespace AngleSharp.Core.Tests.Urls
 {
     using NUnit.Framework;
     using System;
@@ -191,6 +191,28 @@
             var url = new Url(baseUrl, relative);
             Assert.IsTrue(url.IsInvalid);
             Assert.AreEqual("http://some.domain.com/", url.ToString());
+        }
+
+        [Test]
+        public void PunycodeSquareReplacement_Issue797_Valid()
+        {
+            var url = new Url("http://ec².com");
+            Assert.IsFalse(url.IsInvalid);
+            Assert.AreEqual("http://ec2.com/", url.ToString());
+        }
+
+        [Test]
+        public void PunycodeSquareReplacement_Issue797_Invalid()
+        {
+            var url = new Url("http://www.example.c؀om/");
+            Assert.IsTrue(url.IsInvalid);
+        }
+
+        [Test]
+        public void PunycodeSquareReplacement_Issue797_InvalidAfterMapping()
+        {
+            var url = new Url("http://www.examp？le.com/");
+            Assert.IsTrue(url.IsInvalid);
         }
 
         [Test]

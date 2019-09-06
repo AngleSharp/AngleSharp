@@ -30,16 +30,19 @@
         IHtmlCollection<IHtmlTableCellElement> Cells { get; }
 
         /// <summary>
-        /// Insert an empty TD cell into this row. If index is -1 or equal to
+        /// Insert an empty TD or TH cell into this row. If index is -1 or equal to
         /// the number of cells, the new cell is appended.
         /// </summary>
         /// <param name="index">
         /// [Optional] The place to insert the cell, starting from 0. A negative
         /// value indicates that the cell should be appended to the row.
         /// </param>
+        /// <param name="tableCellKind">
+        /// [Optional] The kind of table cell to insert.
+        /// </param>
         /// <returns>The inserted table cell.</returns>
         [DomName("insertCell")]
-        IHtmlTableCellElement InsertCellAt(Int32 index = -1);
+        IHtmlTableCellElement InsertCellAt(Int32 index = -1, TableCellKind tableCellKind = TableCellKind.Td);
 
         /// <summary>
         /// Deletes a cell from the current row.

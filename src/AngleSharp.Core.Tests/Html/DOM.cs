@@ -8,6 +8,7 @@ namespace AngleSharp.Core.Tests.Html
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -458,6 +459,39 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void HtmlFormAttributes()
+        {
+            var content = @"
+<form method=""get"" action=""action1"">
+    <button type=""submit"" formmethod=""dialog"" formaction=""action2"" formnovalidate>
+    <input type=""submit"" formmethod=""post"" formaction=""action3"" formenctype=""multipart/form-data"" formtarget=""_blank"">
+</form>";
+
+            var doc = content.ToHtmlDocument();
+
+            var form = doc.QuerySelector("form") as IHtmlFormElement;
+            Assert.AreEqual("get", form.Method);
+            Assert.AreEqual("action1", form.Action);
+            Assert.AreEqual("application/x-www-form-urlencoded", form.Enctype);
+            Assert.AreEqual(false, form.NoValidate);
+            Assert.AreEqual(String.Empty, form.Target);
+
+            var button = form.QuerySelector("button") as IHtmlButtonElement;
+            Assert.AreEqual("dialog", button.FormMethod);
+            Assert.AreEqual("action2", button.FormAction);
+            Assert.AreEqual(String.Empty, button.FormEncType);
+            Assert.AreEqual(true, button.FormNoValidate);
+            Assert.AreEqual(String.Empty, button.FormTarget);
+
+            var input = form.QuerySelector("input") as IHtmlInputElement;
+            Assert.AreEqual("post", input.FormMethod);
+            Assert.AreEqual("action3", input.FormAction);
+            Assert.AreEqual("multipart/form-data", input.FormEncType);
+            Assert.AreEqual(false, input.FormNoValidate);
+            Assert.AreEqual("_blank", input.FormTarget);
+        }
+
+        [Test]
         public void HtmlStandardHead()
         {
             var content = @"<!doctype html>
@@ -688,6 +722,18 @@ namespace AngleSharp.Core.Tests.Html
         <svg xmlns=http://www.w3.org/2000/svg xmlns:xlink=http://www.w3.org/1999/xlink></svg>").ToHtmlDocument();
             var svg = doc.Body.FirstElementChild;
             Assert.AreEqual("<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"></svg>", svg.ToHtml());
+        }
+
+        [Test]
+        public void IteratingThroughDomShouldNeverFail_Issue763()
+        {
+            var content = Assets.GetManifestResourceString("Html.BrokenMail.txt");
+            var p = new HtmlParser().ParseDocument(content);
+
+            Assert.IsNotNull(p);
+            var img = p.Images.Select(m => m).ToList();
+            var html = p.ToHtml();
+            Assert.AreEqual(1, img.Count);
         }
     }
 }

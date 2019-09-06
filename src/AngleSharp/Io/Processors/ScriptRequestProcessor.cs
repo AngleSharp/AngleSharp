@@ -76,16 +76,15 @@ namespace AngleSharp.Io.Processors
                 {
                     _response = await download.Task.ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Debug.WriteLine(ex);
-                    FireErrorEvent();
+                    await _document.QueueTaskAsync(FireErrorEvent).ConfigureAwait(false);
                 }
             }
 
             if (_response != null)
             {
-                var cancelled = _script.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
+                var cancelled = await _document.QueueTaskAsync(FireBeforeScriptExecuteEvent).ConfigureAwait(false);
 
                 if (!cancelled)
                 {
@@ -96,15 +95,15 @@ namespace AngleSharp.Io.Processors
                     {
                         await _engine.EvaluateScriptAsync(_response, options, cancel).ConfigureAwait(false);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         /* We omit failed 3rd party services */
+                        Debug.WriteLine(ex);
                     }
 
                     _document.Source.Index = insert;
-                    FireAfterScriptExecuteEvent();
-
-                    _document.QueueTask(FireLoadEvent);
+                    await _document.QueueTaskAsync(FireAfterScriptExecuteEvent).ConfigureAwait(false);
+                    await _document.QueueTaskAsync(FireLoadEvent).ConfigureAwait(false);
                     _response.Dispose();
                     _response = null;
                 }
@@ -139,29 +138,23 @@ namespace AngleSharp.Io.Processors
 
         #region Helpers
 
-        private ScriptOptions CreateOptions()
+        private ScriptOptions CreateOptions() => new ScriptOptions(_document, _document.Loop)
         {
-            return new ScriptOptions(_document)
-            {
-                Element = _script,
-                Encoding = TextEncoding.Resolve(_script.CharacterSet)
-            };
-        }
+            Element = _script,
+            Encoding = TextEncoding.Resolve(_script.CharacterSet)
+        };
 
-        private void FireLoadEvent()
-        {
+        private void FireLoadEvent(CancellationToken _) =>
             _script.FireSimpleEvent(EventNames.Load);
-        }
 
-        private void FireErrorEvent()
-        {
+        private void FireErrorEvent(CancellationToken _) =>
             _script.FireSimpleEvent(EventNames.Error);
-        }
 
-        private void FireAfterScriptExecuteEvent()
-        {
+        private Boolean FireBeforeScriptExecuteEvent(CancellationToken _) =>
+            _script.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
+
+        private void FireAfterScriptExecuteEvent(CancellationToken _) =>
             _script.FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
-        }
 
         #endregion
     }
