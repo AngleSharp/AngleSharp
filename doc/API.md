@@ -2,7 +2,7 @@
 
 ## Core API
 
-AngleSharp has been created with a useful, yet standard complient API. If you just care about parsing a single document or stylesheet, then you can always just use the various parsers, such as the `HtmlParser` or the `CssParser`. In most cases (parsing and using webpages) we recommend the `BrowsingContext` located in the `AngleSharp` namespace. This namespace also contains some types with extension methods and a `Url` class that strictly follows the algorithms described in the WHATWG specification.
+AngleSharp has been created with a useful, yet standard compliant API. If you just care about parsing a single document or stylesheet, then you can always just use the various parsers, such as the `HtmlParser` or the `CssParser`. In most cases (parsing and using webpages) we recommend the `BrowsingContext` located in the `AngleSharp` namespace. This namespace also contains some types with extension methods and a `Url` class that strictly follows the algorithms described in the WHATWG specification.
 
 The `AngleSharp.Attributes` namespace also features the attributes being used to decorate the interfaces (and enumerations and delegates). Here we have:
 
