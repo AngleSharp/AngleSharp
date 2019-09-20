@@ -142,7 +142,7 @@ static async Task SingleElements()
     Console.WriteLine("Only from C# / AngleSharp:");
     Console.WriteLine();
     Console.WriteLine(emphasize.ToHtml());   //<em> bold <u>and</u> italic </em>
-    Console.WriteLine(emphasize.TextContent);   // bold and italic
+
 
     Console.WriteLine();
     Console.WriteLine("From the DOM:");
@@ -153,9 +153,9 @@ static async Task SingleElements()
 }
 ```
 
-The output commands try to demonstrate the differences between several ways of getting back strings from nodes. In fact the DOM property `OuterHtml` uses the `ToHtml()` version to generate the HTML code. The other variants are all different. While `Text()` is just a helper to strip text (and omit unwanted text contents like in `<script>` tags), the other two variants behave like the official W3C specified properties, leaving everything as it is.
+The output commands try to demonstrate the differences between several ways of getting back strings from nodes. In fact the DOM property `OuterHtml` uses the `ToHtml()` version to generate the HTML code. ~~The other variants are all different. While `Text()` is just a helper to strip text (and omit unwanted text contents like in `<script>` tags),~~ the other two variants behave like the official W3C specified properties, leaving everything as it is.
 
-Extension methods such as `ToHtml()` and `Text()` can be found in the namespace `AngleSharp.Extensions`.
+~~Extension methods such as `ToHtml()` and `Text()` can be found in the namespace `AngleSharp.Extensions`.~~
 
 ## Connecting JavaScript Evaluation
 
