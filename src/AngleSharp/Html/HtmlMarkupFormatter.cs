@@ -34,6 +34,8 @@ namespace AngleSharp.Html
             return String.Concat("<?", value, ">");
         }
 
+        String IMarkupFormatter.LiteralText(ICharacterData text) => text.Data;
+
         String IMarkupFormatter.Text(ICharacterData text)
         {
             var content = text.Data;

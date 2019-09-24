@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xhtml
+namespace AngleSharp.Xhtml
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -28,10 +28,8 @@
             return (selfClosing || !element.HasChildNodes) ? String.Empty : String.Concat("</", tag, ">");
         }
 
-        String IMarkupFormatter.Comment(IComment comment)
-        {
-            return String.Concat("<!--", comment.Data, "-->");
-        }
+        String IMarkupFormatter.Comment(IComment comment) =>
+            String.Concat("<!--", comment.Data, "-->");
 
         String IMarkupFormatter.Doctype(IDocumentType doctype)
         {
@@ -77,11 +75,9 @@
             return String.Concat("<?", value, "?>");
         }
 
-        String IMarkupFormatter.Text(ICharacterData text)
-        {
-            var content = text.Data;
-            return EscapeText(content);
-        }
+        String IMarkupFormatter.LiteralText(ICharacterData text) => text.Data;
+
+        String IMarkupFormatter.Text(ICharacterData text) => EscapeText(text.Data);
 
         String IMarkupFormatter.Attribute(IAttr attribute)
         {

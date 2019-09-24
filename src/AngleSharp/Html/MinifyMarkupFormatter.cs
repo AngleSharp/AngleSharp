@@ -70,6 +70,9 @@ namespace AngleSharp.Html
         String IMarkupFormatter.Processing(IProcessingInstruction processing) =>
             HtmlMarkupFormatter.Instance.Processing(processing);
 
+        String IMarkupFormatter.LiteralText(ICharacterData text) =>
+            HtmlMarkupFormatter.Instance.LiteralText(text);
+
         String IMarkupFormatter.Text(ICharacterData text)
         {
             if (text.Parent is IHtmlHeadElement || text.Parent is IHtmlHtmlElement)

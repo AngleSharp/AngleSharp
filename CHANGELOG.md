@@ -1,6 +1,12 @@
+# 0.14.0
+
+Released on ?.
+
+- Extended the `IMarkupFormatter` for literal text (#821)
+
 # 0.13.0
 
-Released on Monday, August 26 2019.
+Released on Friday, September 6 2019.
 
 - Removed the `TaskEventLoop` (#782)
 - Renamed `WithCookies` to `WithDefaultCookies`
