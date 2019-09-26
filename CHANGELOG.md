@@ -3,6 +3,7 @@
 Released on ?.
 
 - Extended the `IMarkupFormatter` for literal text (#821)
+- Extended the `IElementFactory` definition
 
 # 0.13.0
 
