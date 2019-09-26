@@ -19,7 +19,7 @@ namespace AngleSharp.Mathml
             { TagNames.Mi, (document, prefix) => new MathIdentifierElement(document, prefix) },
             { TagNames.Ms, (document, prefix) => new MathStringElement(document, prefix) },
             { TagNames.Mtext, (document, prefix) => new MathTextElement(document, prefix) },
-            { TagNames.AnnotationXml, (document, prefix) => new MathAnnotationXmlElement(document, prefix) }
+            { TagNames.AnnotationXml, (document, prefix) => new MathAnnotationXmlElement(document, prefix) },
         };
 
         /// <summary>
@@ -28,15 +28,16 @@ namespace AngleSharp.Mathml
         /// <param name="document">The document that owns the element.</param>
         /// <param name="localName">The given tag name.</param>
         /// <param name="prefix">The prefix of the element, if any.</param>
+        /// <param name="flags">The optional flags, if any.</param>
         /// <returns>The specialized MathMLElement instance.</returns>
-        public MathElement Create(Document document, String localName, String prefix = null)
+        public MathElement Create(Document document, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
         {
             if (creators.TryGetValue(localName, out var creator))
             {
-                return creator(document, prefix);
+                return creator.Invoke(document, prefix);
             }
 
-            return new MathElement(document, localName, prefix);
+            return new MathElement(document, localName, prefix, flags);
 
         }
     }

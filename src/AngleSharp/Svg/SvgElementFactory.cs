@@ -18,7 +18,7 @@ namespace AngleSharp.Svg
             { TagNames.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },
             { TagNames.Desc, (document, prefix) => new SvgDescElement(document, prefix) },
             { TagNames.ForeignObject, (document, prefix) => new SvgForeignObjectElement(document, prefix) },
-            { TagNames.Title, (document, prefix) => new SvgTitleElement(document, prefix) }
+            { TagNames.Title, (document, prefix) => new SvgTitleElement(document, prefix) },
         };
 
         /// <summary>
@@ -27,15 +27,16 @@ namespace AngleSharp.Svg
         /// <param name="document">The document that owns the element.</param>
         /// <param name="localName">The given tag name.</param>
         /// <param name="prefix">The prefix of the element, if any.</param>
+        /// <param name="flags">The optional flags, if any.</param>
         /// <returns>The specialized SVGElement instance.</returns>
-        public SvgElement Create(Document document, String localName, String prefix = null)
+        public SvgElement Create(Document document, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
         {
             if (creators.TryGetValue(localName, out var creator))
             {
-                return creator(document, prefix);
+                return creator.Invoke(document, prefix);
             }
 
-            return new SvgElement(document, localName);
+            return new SvgElement(document, localName, prefix, flags);
         }
     }
 }

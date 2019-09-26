@@ -1177,8 +1177,9 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="name">The name of the new element.</param>
         /// <param name="prefix">The optional prefix to use.</param>
+        /// <param name="flags">The optional flags, if any.</param>
         /// <returns>The created element.</returns>
-        public abstract Element CreateElementFrom(String name, String prefix);
+        public abstract Element CreateElementFrom(String name, String prefix, NodeFlags flags = NodeFlags.None);
 
         /// <summary>
         /// Waits for the given task before raising the load event.
