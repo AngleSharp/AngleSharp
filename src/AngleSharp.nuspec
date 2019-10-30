@@ -22,8 +22,11 @@
       <group targetFramework="netstandard2.0">
         <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
       </group>
-      <group targetFramework="net461">
+      <group targetFramework="net46">
         <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
+      </group>
+      <group targetFramework="net472">
+          <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
       </group>
     </dependencies>
   </metadata>
