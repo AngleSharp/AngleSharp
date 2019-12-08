@@ -4,6 +4,7 @@ Released on ?.
 
 - Extended the `IMarkupFormatter` for literal text (#821)
 - Extended the `IElementFactory` definition
+- Fixed an issue regarding n-th child for the `GetSelector` utility (#835)
 
 # 0.13.0
 

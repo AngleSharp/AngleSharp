@@ -886,5 +886,55 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var result = document.All;
             Assert.AreEqual(2 * depth + 3, result.Length);
         }
+
+        [Test]
+        public void DivNthChildSelectorUseSelector_Issue835()
+        {
+            var html = @"<dd>
+<span>
+    <span>Sub1</span>
+</span>
+<div>First</div>
+<div>
+    <div>
+        <a>Second</a>
+    </div>
+</div>
+<div>Third</div>
+<div>Fourth</div>
+<div>
+    <span>Fifth</span>
+</div>
+</dd>";
+            var document = html.ToHtmlDocument();
+            var link = document.Body.QuerySelector("dd:nth-child(1)>div:nth-child(3)>div:nth-child(1)>a");
+            Assert.IsNotNull(link);
+            Assert.AreEqual("Second", link.TextContent);
+        }
+
+        [Test]
+        public void DivNthChildSelectorGetSelector_Issue835()
+        {
+            var html = @"<dd>
+<span>
+    <span>Sub1</span>
+</span>
+<div>First</div>
+<div>
+    <div>
+        <a>Second</a>
+    </div>
+</div>
+<div>Third</div>
+<div>Fourth</div>
+<div>
+    <span>Fifth</span>
+</div>
+</dd>";
+            var document = html.ToHtmlDocument();
+            var link = document.Body.QuerySelector("dd:nth-child(1)>div:nth-child(3)>div:nth-child(1)>a");
+            var selector = link.GetSelector();
+            Assert.AreEqual("body>dd>div:nth-child(3)>div>a", selector);
+        }
     }
 }
