@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Css;
     using AngleSharp.Dom;
@@ -123,10 +123,11 @@
             {
                 Element = this,
                 IsDisabled = IsDisabled,
-                IsAlternate = false
+                IsAlternate = false,
             };
             var task = engine.ParseStylesheetAsync(response, options, cancel);
             _sheet = await task.ConfigureAwait(false);
+            UpdateMedia(Media);
         }
 
         #endregion

@@ -7,6 +7,7 @@ Released on ?.
 - Fixed an issue regarding n-th child for the `GetSelector` utility (#835)
 - Added public constructor to `BrowsingContext` (#844)
 - Force `IBrowsingContext` to be `IDisposable` for cleanup purposes
+- Fixed missing `Media` property of stylesheets (#846)
 
 # 0.13.0
 
