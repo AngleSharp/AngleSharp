@@ -25,6 +25,19 @@ namespace AngleSharp
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new browsing context with the given configuration, or the
+        /// default configuration, if no configuration is provided.
+        /// </summary>
+        /// <remarks>
+        /// This constructor was only added due to PowerShell. See #844 for details.
+        /// </remarks>
+        /// <param name="configuration">The optional configuration.</param>
+        public BrowsingContext(IConfiguration configuration = null)
+            : this((configuration ?? AngleSharp.Configuration.Default).Services, Sandboxes.None)
+        {
+        }
+
         private BrowsingContext(Sandboxes security)
         {
             _services = new List<Object>();
