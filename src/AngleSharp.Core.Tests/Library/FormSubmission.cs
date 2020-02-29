@@ -91,5 +91,27 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual("", documentRequest.Target.Href.Substring(document.Url.Length));
             Assert.AreEqual("sex=", GetText(documentRequest.Body));
         }
+
+        [Test]
+        public async Task RadioMultipleSameNameEntries()
+        {
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+            var content = @"<form method=post>
+  <input type=hidden name=color value=red3>
+  <label><input type=radio name=color value=blue>Blue</label>
+  <label><input type=radio name=color value=red checked>Red</label>
+  <label><input type=radio name=color value=red2 checked>Red</label>
+  <label><input type=radio name=color value=yellow>Yellow</label>
+  <input type=hidden name=color value=red4>
+</form>";
+            var document = await context.OpenAsync(req => req.Content(content).Address("http://example.com"));
+            var form = document.Forms[0];
+            var documentRequest = form.GetSubmission();
+
+            Assert.AreEqual(HttpMethod.Post, documentRequest.Method);
+            Assert.AreEqual("", documentRequest.Target.Href.Substring(document.Url.Length));
+            Assert.AreEqual("color=red3&color=red2&color=red4", GetText(documentRequest.Body));
+        }
     }
 }
