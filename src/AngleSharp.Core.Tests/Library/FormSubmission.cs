@@ -49,5 +49,47 @@ namespace AngleSharp.Core.Tests.Library
                 return Encoding.UTF8.GetString(content);
             }
         }
+
+        [Test]
+        public async Task SelectBasic()
+        {
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+            var content = @"<form method=post>
+  <select name=sex>
+    <option value=>--</option>
+    <option value=male selected>Man</option>
+    <option value=female>Woman</option>
+  </select>
+</form>";
+            var document = await context.OpenAsync(req => req.Content(content).Address("http://example.com"));
+            var form = document.Forms[0];
+            var documentRequest = form.GetSubmission();
+
+            Assert.AreEqual(HttpMethod.Post, documentRequest.Method);
+            Assert.AreEqual("", documentRequest.Target.Href.Substring(document.Url.Length));
+            Assert.AreEqual("sex=male", GetText(documentRequest.Body));
+        }
+
+        [Test]
+        public async Task SelectDefaultOptionIfNoOptionsSelected()
+        {
+            var config = Configuration.Default;
+            var context = BrowsingContext.New(config);
+            var content = @"<form method=post>
+  <select name=sex>
+    <option value=>--</option>
+    <option value=male>Man</option>
+    <option value=female>Woman</option>
+  </select>
+</form>";
+            var document = await context.OpenAsync(req => req.Content(content).Address("http://example.com"));
+            var form = document.Forms[0];
+            var documentRequest = form.GetSubmission();
+
+            Assert.AreEqual(HttpMethod.Post, documentRequest.Method);
+            Assert.AreEqual("", documentRequest.Target.Href.Substring(document.Url.Length));
+            Assert.AreEqual("sex=", GetText(documentRequest.Body));
+        }
     }
 }
