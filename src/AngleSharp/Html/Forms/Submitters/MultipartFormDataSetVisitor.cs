@@ -71,6 +71,8 @@
 
         public void Serialize(StreamWriter stream)
         {
+            stream.NewLine = "\r\n";    // multipart/form-data linefeed must be CRLF
+
             foreach (var writer in _writers)
             {
                 stream.Write(DashDash);
