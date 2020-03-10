@@ -224,5 +224,15 @@ namespace AngleSharp.Core.Tests.Urls
             Assert.IsFalse(url.IsInvalid);
             Assert.AreEqual("https:///", url.ToString());
         }
+
+        [TestCase("http://localhost:12345/signin")]
+        [TestCase("https://loony_picture.dirty.ru/")]
+        [TestCase("http://www.google.de/some-path?a=b#header")]
+        public void SameUrlsHaveSameHashCode(string url)
+        {
+            var url1 = new Url(url);
+            var url2 = new Url(url);
+            Assert.AreEqual(url1.GetHashCode(), url2.GetHashCode());
+        }
     }
 }
