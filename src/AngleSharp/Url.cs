@@ -321,7 +321,19 @@ namespace AngleSharp
         /// <returns>A hash code for the current url.</returns>
         public override Int32 GetHashCode()
         {
-            return base.GetHashCode();
+            unchecked
+            {
+                var hashCode =  _fragment != null ? StringComparer.Ordinal.GetHashCode(_fragment) : 0;
+                hashCode = (hashCode * 397) ^ (_query != null ? StringComparer.Ordinal.GetHashCode(_query) : 0);
+                hashCode = (hashCode * 397) ^ (_path != null ? StringComparer.Ordinal.GetHashCode(_path) : 0);
+                hashCode = (hashCode * 397) ^ (_scheme != null ? StringComparer.OrdinalIgnoreCase.GetHashCode(_scheme) : 0);
+                hashCode = (hashCode * 397) ^ (_port != null ? StringComparer.Ordinal.GetHashCode(_port) : 0);
+                hashCode = (hashCode * 397) ^ (_host != null ?  StringComparer.OrdinalIgnoreCase.GetHashCode(_host) : 0);
+                hashCode = (hashCode * 397) ^ (_username != null ? StringComparer.Ordinal.GetHashCode(_username) : 0);
+                hashCode = (hashCode * 397) ^ (_password != null ? StringComparer.Ordinal.GetHashCode(_password) : 0);
+                hashCode = (hashCode * 397) ^ (_schemeData != null ? StringComparer.Ordinal.GetHashCode(_schemeData) : 0);
+                return hashCode;
+            }
         }
 
         /// <summary>
@@ -336,7 +348,7 @@ namespace AngleSharp
         /// </returns>
         public override Boolean Equals(Object obj)
         {
-            return obj is Url url ? Equals(url) : false;
+            return ReferenceEquals(this, obj) || obj is Url other && Equals(other);
         }
 
         /// <summary>
@@ -351,7 +363,7 @@ namespace AngleSharp
         /// </returns>
         public Boolean Equals(Url other)
         {
-            return _fragment.Is(other._fragment) && _query.Is(other._query) &&
+            return other != null && _fragment.Is(other._fragment) && _query.Is(other._query) &&
                 _path.Is(other._path) && _scheme.Isi(other._scheme) &&
                 _port.Is(other._port) && _host.Isi(other._host) &&
                 _username.Is(other._username) && _password.Is(other._password) &&
@@ -936,9 +948,9 @@ namespace AngleSharp
                         break;
                     }
                 }
-                else if (c == Symbols.Percent && 
-                         index + 2 < length && 
-                         input[index + 1].IsHex() && 
+                else if (c == Symbols.Percent &&
+                         index + 2 < length &&
+                         input[index + 1].IsHex() &&
                          input[index + 2].IsHex())
                 {
                     buffer.Append(input[index++]);
