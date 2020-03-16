@@ -5,6 +5,7 @@ Released on ?.
 - Extended the `IMarkupFormatter` for literal text (#821)
 - Extended the `IElementFactory` definition
 - Fixed an issue regarding n-th child for the `GetSelector` utility (#835)
+- Added explicit support for .NET 4.6.1 (#842)
 - Added public constructor to `BrowsingContext` (#844)
 - Force `IBrowsingContext` to be `IDisposable` for cleanup purposes
 - Fixed missing `Media` property of stylesheets (#846)
