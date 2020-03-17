@@ -1,7 +1,8 @@
 # 0.14.0
 
-Released on ?.
+Released on Wednesday, March 18 2020.
 
+- Included context event `error` for error tracking (#698)
 - Extended the `IMarkupFormatter` for literal text (#821)
 - Extended the `IElementFactory` definition
 - Fixed an issue regarding n-th child for the `GetSelector` utility (#835)
