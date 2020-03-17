@@ -3,6 +3,7 @@ namespace AngleSharp.Text
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
 
     /// <summary>
@@ -297,10 +298,10 @@ namespace AngleSharp.Text
             {
                 return Encoding.GetEncoding(name);
             }
-            catch
+            catch (Exception ex)
             {
-                // We use a catch em all since WP8 does throw a different
-                // exception than W*.
+                Debug.WriteLine("The platform does not allow using the '{0}' encoding: {1}", name, ex);
+                // We use a catch em all since WP8 does throw a different exception than W*.
                 return fallback ?? Utf8;
             }
         }

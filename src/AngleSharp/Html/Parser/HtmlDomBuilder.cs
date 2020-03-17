@@ -609,8 +609,9 @@ namespace AngleSharp.Html.Parser
                         {
                             element.Handle();
                         }
-                        catch (NotSupportedException)
+                        catch (NotSupportedException ex)
                         {
+                            _document.Context.TrackError(ex);
                             Restart();
                         }
 

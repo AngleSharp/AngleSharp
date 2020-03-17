@@ -4,6 +4,7 @@ namespace AngleSharp.Io
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -338,8 +339,10 @@ namespace AngleSharp.Io
                         //This might fail on certain platforms
                         property.SetValue(_http, value, null);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        Debug.WriteLine("Exception while setting value on the HTTP requester: {0}", ex);
+
                         //Catch any failure and do not try again on the same platform
                         lock (Restricted)
                         {
