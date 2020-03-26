@@ -22,32 +22,32 @@ namespace AngleSharp.Html.Dom
 
         public String Content
         {
-            get { return this.GetOwnAttribute(AttributeNames.Content); }
-            set { this.SetOwnAttribute(AttributeNames.Content, value); }
+            get => this.GetOwnAttribute(AttributeNames.Content);
+            set => this.SetOwnAttribute(AttributeNames.Content, value);
         }
 
         public String Charset
         {
-            get { return this.GetOwnAttribute(AttributeNames.Charset); }
-            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
+            get => this.GetOwnAttribute(AttributeNames.Charset);
+            set => this.SetOwnAttribute(AttributeNames.Charset, value);
         }
 
         public String HttpEquivalent
         {
-            get { return this.GetOwnAttribute(AttributeNames.HttpEquiv); }
-            set { this.SetOwnAttribute(AttributeNames.HttpEquiv, value); }
+            get => this.GetOwnAttribute(AttributeNames.HttpEquiv);
+            set => this.SetOwnAttribute(AttributeNames.HttpEquiv, value);
         }
 
         public String Scheme
         {
-            get { return this.GetOwnAttribute(AttributeNames.Scheme); }
-            set { this.SetOwnAttribute(AttributeNames.Scheme, value); }
+            get => this.GetOwnAttribute(AttributeNames.Scheme);
+            set => this.SetOwnAttribute(AttributeNames.Scheme, value);
         }
 
         public String Name
         {
-            get { return this.GetOwnAttribute(AttributeNames.Name); }
-            set { this.SetOwnAttribute(AttributeNames.Name, value); }
+            get => this.GetOwnAttribute(AttributeNames.Name);
+            set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
         #endregion

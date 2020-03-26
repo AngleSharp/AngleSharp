@@ -21,8 +21,8 @@
 
         public String DateTime
         {
-            get { return this.GetOwnAttribute(AttributeNames.Datetime); }
-            set { this.SetOwnAttribute(AttributeNames.Datetime, value); }
+            get => this.GetOwnAttribute(AttributeNames.Datetime);
+            set => this.SetOwnAttribute(AttributeNames.Datetime, value);
         }
 
         #endregion

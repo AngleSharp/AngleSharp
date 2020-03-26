@@ -69,8 +69,8 @@ namespace AngleSharp.Io
         /// </summary>
         public TimeSpan Timeout
         {
-            get { return _timeOut; }
-            set { _timeOut = value; }
+            get => _timeOut;
+            set => _timeOut = value;
         }
 
         #endregion

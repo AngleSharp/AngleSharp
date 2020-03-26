@@ -36,8 +36,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Boolean IsDirty
         {
-            get { return _dirty; }
-            set { _dirty = value; }
+            get => _dirty;
+            set => _dirty = value;
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String DirectionName
         {
-            get { return this.GetOwnAttribute(AttributeNames.DirName); }
-            set { this.SetOwnAttribute(AttributeNames.DirName, value); }
+            get => this.GetOwnAttribute(AttributeNames.DirName);
+            set => this.SetOwnAttribute(AttributeNames.DirName, value);
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Int32 MaxLength
         {
-            get { return this.GetOwnAttribute(AttributeNames.MaxLength).ToInteger(-1); }
-            set { this.SetOwnAttribute(AttributeNames.MaxLength, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.MaxLength).ToInteger(-1);
+            set => this.SetOwnAttribute(AttributeNames.MaxLength, value.ToString());
         }
 
         /// <summary>
@@ -67,8 +67,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Int32 MinLength
         {
-            get { return this.GetOwnAttribute(AttributeNames.MinLength).ToInteger(0); }
-            set { this.SetOwnAttribute(AttributeNames.MinLength, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.MinLength).ToInteger(0);
+            set => this.SetOwnAttribute(AttributeNames.MinLength, value.ToString());
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String Value
         {
-            get { return _value ?? DefaultValue; }
-            set { _value = value; }
+            get => _value ?? DefaultValue;
+            set => _value = value;
         }
 
         /// <summary>
@@ -100,8 +100,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String Placeholder
         {
-            get { return this.GetOwnAttribute(AttributeNames.Placeholder); }
-            set { this.SetOwnAttribute(AttributeNames.Placeholder, value); }
+            get => this.GetOwnAttribute(AttributeNames.Placeholder);
+            set => this.SetOwnAttribute(AttributeNames.Placeholder, value);
         }
 
         /// <summary>
@@ -109,8 +109,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Boolean IsRequired
         {
-            get { return this.GetBoolAttribute(AttributeNames.Required); }
-            set { this.SetBoolAttribute(AttributeNames.Required, value); }
+            get => this.GetBoolAttribute(AttributeNames.Required);
+            set => this.SetBoolAttribute(AttributeNames.Required, value);
         }
 
         /// <summary>
@@ -118,8 +118,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Boolean IsReadOnly
         {
-            get { return this.GetBoolAttribute(AttributeNames.Readonly); }
-            set { this.SetBoolAttribute(AttributeNames.Readonly, value); }
+            get => this.GetBoolAttribute(AttributeNames.Readonly);
+            set => this.SetBoolAttribute(AttributeNames.Readonly, value);
         }
 
         /// <summary>
@@ -131,8 +131,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Int32 SelectionStart
         {
-            get { return _start; }
-            set { SetSelectionRange(value, _end, _direction); }
+            get => _start;
+            set => SetSelectionRange(value, _end, _direction);
         }
 
         /// <summary>
@@ -144,8 +144,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Int32 SelectionEnd
         {
-            get { return _end; }
-            set { SetSelectionRange(_start, value, _direction); }
+            get => _end;
+            set => SetSelectionRange(_start, value, _direction);
         }
 
         /// <summary>

@@ -34,34 +34,34 @@
 
         public String Name
         {
-            get { return this.GetOwnAttribute(AttributeNames.Name); }
-            set { this.SetOwnAttribute(AttributeNames.Name, value); }
+            get => this.GetOwnAttribute(AttributeNames.Name);
+            set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
         public String Source
         {
-            get { return this.GetUrlAttribute(AttributeNames.Src); }
-            set { this.SetOwnAttribute(AttributeNames.Src, value); }
+            get => this.GetUrlAttribute(AttributeNames.Src);
+            set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
         public String Scrolling
         {
-            get { return this.GetOwnAttribute(AttributeNames.Scrolling); }
-            set { this.SetOwnAttribute(AttributeNames.Scrolling, value); }
+            get => this.GetOwnAttribute(AttributeNames.Scrolling);
+            set => this.SetOwnAttribute(AttributeNames.Scrolling, value);
         }
 
         public IDocument ContentDocument => _request?.Document;
 
         public String LongDesc
         {
-            get { return this.GetOwnAttribute(AttributeNames.LongDesc); }
-            set { this.SetOwnAttribute(AttributeNames.LongDesc, value); }
+            get => this.GetOwnAttribute(AttributeNames.LongDesc);
+            set => this.SetOwnAttribute(AttributeNames.LongDesc, value);
         }
 
         public String FrameBorder
         {
-            get { return this.GetOwnAttribute(AttributeNames.FrameBorder); }
-            set { this.SetOwnAttribute(AttributeNames.FrameBorder, value); }
+            get => this.GetOwnAttribute(AttributeNames.FrameBorder);
+            set => this.SetOwnAttribute(AttributeNames.FrameBorder, value);
         }
 
         public IBrowsingContext NestedContext => _context ?? (_context = NewChildContext());

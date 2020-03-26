@@ -28,16 +28,16 @@
 
         public HorizontalAlignment Align
         {
-            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Center); }
-            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Center);
+            set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
         public IHtmlCollection<IHtmlTableRowElement> Rows => _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(this, deep: false));
 
         public VerticalAlignment VAlign
         {
-            get { return this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
-            set { this.SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle);
+            set => this.SetOwnAttribute(AttributeNames.Valign, value.ToString());
         }
 
         #endregion

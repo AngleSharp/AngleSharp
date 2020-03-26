@@ -61,8 +61,8 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public String Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get => _name;
+            set => _name = value;
         }
 
         /// <summary>

@@ -35,14 +35,14 @@
 
         public Double Value
         {
-            get { return this.GetOwnAttribute(AttributeNames.Value).ToDouble(0.0); }
-            set { this.SetOwnAttribute(AttributeNames.Value, value.ToString(NumberFormatInfo.InvariantInfo)); }
+            get => this.GetOwnAttribute(AttributeNames.Value).ToDouble(0.0);
+            set => this.SetOwnAttribute(AttributeNames.Value, value.ToString(NumberFormatInfo.InvariantInfo));
         }
 
         public Double Maximum
         {
-            get { return this.GetOwnAttribute(AttributeNames.Max).ToDouble(1.0); }
-            set { this.SetOwnAttribute(AttributeNames.Max, value.ToString(NumberFormatInfo.InvariantInfo)); }
+            get => this.GetOwnAttribute(AttributeNames.Max).ToDouble(1.0);
+            set => this.SetOwnAttribute(AttributeNames.Max, value.ToString(NumberFormatInfo.InvariantInfo));
         }
 
         public Double Position => IsDeterminate ? Math.Max(Math.Min(Value / Maximum, 1.0), 0.0) : -1.0;

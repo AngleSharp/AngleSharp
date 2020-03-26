@@ -40,8 +40,8 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public Boolean IsQuirksForced
         {
-            get { return _quirks; }
-            set { _quirks = value; }
+            get => _quirks;
+            set => _quirks = value;
         }
 
         /// <summary>
@@ -59,8 +59,8 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public String PublicIdentifier
         {
-            get { return _publicIdentifier ?? String.Empty; }
-            set { _publicIdentifier = value; }
+            get => _publicIdentifier ?? String.Empty;
+            set => _publicIdentifier = value;
         }
 
         /// <summary>
@@ -68,8 +68,8 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public String SystemIdentifier
         {
-            get { return _systemIdentifier ?? String.Empty; }
-            set { _systemIdentifier = value; }
+            get => _systemIdentifier ?? String.Empty;
+            set => _systemIdentifier = value;
         }
 
         /// <summary>

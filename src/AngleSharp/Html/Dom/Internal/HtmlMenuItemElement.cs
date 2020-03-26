@@ -67,8 +67,8 @@
         /// </summary>
         public String Type
         {
-            get { return this.GetOwnAttribute(AttributeNames.Type); }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => this.GetOwnAttribute(AttributeNames.Type);
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         /// <summary>
@@ -76,8 +76,8 @@
         /// </summary>
         public String Label
         {
-            get { return this.GetOwnAttribute(AttributeNames.Label); }
-            set { this.SetOwnAttribute(AttributeNames.Label, value); }
+            get => this.GetOwnAttribute(AttributeNames.Label);
+            set => this.SetOwnAttribute(AttributeNames.Label, value);
         }
 
         /// <summary>
@@ -85,8 +85,8 @@
         /// </summary>
         public String Icon
         {
-            get { return this.GetOwnAttribute(AttributeNames.Icon); }
-            set { this.SetOwnAttribute(AttributeNames.Icon, value); }
+            get => this.GetOwnAttribute(AttributeNames.Icon);
+            set => this.SetOwnAttribute(AttributeNames.Icon, value);
         }
 
         /// <summary>
@@ -94,8 +94,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return this.GetBoolAttribute(AttributeNames.Disabled); }
-            set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
+            get => this.GetBoolAttribute(AttributeNames.Disabled);
+            set => this.SetBoolAttribute(AttributeNames.Disabled, value);
         }
 
         /// <summary>
@@ -103,8 +103,8 @@
         /// </summary>
         public Boolean IsChecked
         {
-            get { return this.GetBoolAttribute(AttributeNames.Checked); }
-            set { this.SetBoolAttribute(AttributeNames.Checked, value); }
+            get => this.GetBoolAttribute(AttributeNames.Checked);
+            set => this.SetBoolAttribute(AttributeNames.Checked, value);
         }
 
         /// <summary>
@@ -112,8 +112,8 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return this.GetBoolAttribute(AttributeNames.Default); }
-            set { this.SetBoolAttribute(AttributeNames.Default, value); }
+            get => this.GetBoolAttribute(AttributeNames.Default);
+            set => this.SetBoolAttribute(AttributeNames.Default, value);
         }
 
         /// <summary>
@@ -122,8 +122,8 @@
         /// </summary>
         public String RadioGroup
         {
-            get { return this.GetOwnAttribute(AttributeNames.Radiogroup); }
-            set { this.SetOwnAttribute(AttributeNames.Radiogroup, value); }
+            get => this.GetOwnAttribute(AttributeNames.Radiogroup);
+            set => this.SetOwnAttribute(AttributeNames.Radiogroup, value);
         }
 
         #endregion

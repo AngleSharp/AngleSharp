@@ -27,8 +27,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String Charset
         {
-            get { return this.GetOwnAttribute(AttributeNames.Charset); }
-            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
+            get => this.GetOwnAttribute(AttributeNames.Charset);
+            set => this.SetOwnAttribute(AttributeNames.Charset, value);
         }
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String Name
         {
-            get { return this.GetOwnAttribute(AttributeNames.Name); }
-            set { this.SetOwnAttribute(AttributeNames.Name, value); }
+            get => this.GetOwnAttribute(AttributeNames.Name);
+            set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
         /// <summary>
@@ -45,8 +45,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String Text
         {
-            get { return TextContent; }
-            set { TextContent = value; }
+            get => TextContent;
+            set => TextContent = value;
         }
 
         #endregion

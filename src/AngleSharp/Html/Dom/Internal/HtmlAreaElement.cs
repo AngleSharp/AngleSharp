@@ -27,8 +27,8 @@
         /// </summary>
         public String AlternativeText
         {
-            get { return this.GetOwnAttribute(AttributeNames.Alt); }
-            set { this.SetOwnAttribute(AttributeNames.Alt, value); }
+            get => this.GetOwnAttribute(AttributeNames.Alt);
+            set => this.SetOwnAttribute(AttributeNames.Alt, value);
         }
 
         /// <summary>
@@ -36,8 +36,8 @@
         /// </summary>
         public String Coordinates
         {
-            get { return this.GetOwnAttribute(AttributeNames.Coords); }
-            set { this.SetOwnAttribute(AttributeNames.Coords, value); }
+            get => this.GetOwnAttribute(AttributeNames.Coords);
+            set => this.SetOwnAttribute(AttributeNames.Coords, value);
         }
 
         /// <summary>
@@ -47,8 +47,8 @@
         /// </summary>
         public String Shape
         {
-            get { return this.GetOwnAttribute(AttributeNames.Shape); }
-            set { this.SetOwnAttribute(AttributeNames.Shape, value); }
+            get => this.GetOwnAttribute(AttributeNames.Shape);
+            set => this.SetOwnAttribute(AttributeNames.Shape, value);
         }
 
         #endregion

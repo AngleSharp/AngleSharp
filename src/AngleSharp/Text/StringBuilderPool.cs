@@ -19,8 +19,8 @@
         /// </summary>
         public static Int32 MaxCount
         {
-            get { return _count; }
-            set { _count = Math.Max(1, value); }
+            get => _count;
+            set => _count = Math.Max(1, value);
         }
 
         /// <summary>
@@ -28,8 +28,8 @@
         /// </summary>
         public static Int32 SizeLimit
         {
-            get { return _limit; }
-            set { _limit = Math.Max(1024, value); }
+            get => _limit;
+            set => _limit = Math.Max(1024, value);
         }
 
         /// <summary>

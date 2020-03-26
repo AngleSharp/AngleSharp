@@ -25,8 +25,8 @@ namespace AngleSharp.Html.Dom
 
         public Int32? Value
         {
-            get { return Int32.TryParse(this.GetOwnAttribute(AttributeNames.Value), NumberStyles.Integer, CultureInfo.InvariantCulture, out var i) ? i : new Int32?(); }
-            set { this.SetOwnAttribute(AttributeNames.Value, value.HasValue ? value.Value.ToString() : null); }
+            get => Int32.TryParse(this.GetOwnAttribute(AttributeNames.Value), NumberStyles.Integer, CultureInfo.InvariantCulture, out var i) ? i : new Int32?();
+            set => this.SetOwnAttribute(AttributeNames.Value, value.HasValue ? value.Value.ToString() : null);
         }
 
         #endregion

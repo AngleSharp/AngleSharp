@@ -29,8 +29,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String Type
         {
-            get { return (this.GetOwnAttribute(AttributeNames.Type) ?? InputTypeNames.Submit).ToLowerInvariant(); }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => (this.GetOwnAttribute(AttributeNames.Type) ?? InputTypeNames.Submit).ToLowerInvariant();
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         /// <summary>
@@ -39,8 +39,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String FormAction
         {
-            get { return this.GetOwnAttribute(AttributeNames.FormAction) ?? Owner?.DocumentUri; }
-            set { this.SetOwnAttribute(AttributeNames.FormAction, value); }
+            get => this.GetOwnAttribute(AttributeNames.FormAction) ?? Owner?.DocumentUri;
+            set => this.SetOwnAttribute(AttributeNames.FormAction, value);
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String FormEncType
         {
-            get { return this.GetOwnAttribute(AttributeNames.FormEncType).ToEncodingType() ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.FormEncType, value); }
+            get => this.GetOwnAttribute(AttributeNames.FormEncType).ToEncodingType() ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.FormEncType, value);
         }
 
         /// <summary>
@@ -59,8 +59,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String FormMethod
         {
-            get { return this.GetOwnAttribute(AttributeNames.FormMethod).ToFormMethod() ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.FormMethod, value); }
+            get => this.GetOwnAttribute(AttributeNames.FormMethod).ToFormMethod() ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.FormMethod, value);
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Boolean FormNoValidate
         {
-            get { return this.GetBoolAttribute(AttributeNames.FormNoValidate); }
-            set { this.SetBoolAttribute(AttributeNames.FormNoValidate, value); }
+            get => this.GetBoolAttribute(AttributeNames.FormNoValidate);
+            set => this.SetBoolAttribute(AttributeNames.FormNoValidate, value);
         }
 
         /// <summary>
@@ -79,8 +79,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String FormTarget
         {
-            get { return this.GetOwnAttribute(AttributeNames.FormTarget) ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.FormTarget, value); }
+            get => this.GetOwnAttribute(AttributeNames.FormTarget) ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.FormTarget, value);
         }
 
         /// <summary>
@@ -88,8 +88,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public String Value
         {
-            get { return this.GetOwnAttribute(AttributeNames.Value) ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.Value, value); }
+            get => this.GetOwnAttribute(AttributeNames.Value) ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.Value, value);
         }
 
         #endregion

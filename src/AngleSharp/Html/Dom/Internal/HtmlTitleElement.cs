@@ -27,8 +27,8 @@
         /// </summary>
         public String Text
         {
-            get { return TextContent; }
-            set { TextContent = value; }
+            get => TextContent;
+            set => TextContent = value;
         }
 
         #endregion

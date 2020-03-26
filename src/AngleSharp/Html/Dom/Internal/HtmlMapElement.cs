@@ -32,8 +32,8 @@
         /// </summary>
         public String Name
         {
-            get { return this.GetOwnAttribute(AttributeNames.Name); }
-            set { this.SetOwnAttribute(AttributeNames.Name, value); }
+            get => this.GetOwnAttribute(AttributeNames.Name);
+            set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
         /// <summary>

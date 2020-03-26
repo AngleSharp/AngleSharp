@@ -6,8 +6,8 @@
     {
         public virtual JsonElement this[String key]
         {
-            get { throw new InvalidOperationException(); }
-            set { throw new InvalidOperationException(); }
+            get => throw new InvalidOperationException();
+            set => throw new InvalidOperationException();
         }
     }
 }

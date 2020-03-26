@@ -29,20 +29,20 @@
 
         public String DefaultValue
         {
-            get { return _defaultValue ?? TextContent; }
-            set { _defaultValue = value; }
+            get => _defaultValue ?? TextContent;
+            set => _defaultValue = value;
         }
 
         public override String TextContent
         {
-            get { return _value ?? _defaultValue ?? base.TextContent; }
-            set { base.TextContent = value; }
+            get => _value ?? _defaultValue ?? base.TextContent;
+            set => base.TextContent = value;
         }
 
         public String Value
         {
-            get { return TextContent; }
-            set { _value = value; }
+            get => TextContent;
+            set => _value = value;
         }
 
         public ISettableTokenList HtmlFor

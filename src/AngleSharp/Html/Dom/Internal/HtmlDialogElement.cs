@@ -27,14 +27,14 @@
 
         public Boolean Open
         {
-            get { return this.GetBoolAttribute(AttributeNames.Open); }
-            set { this.SetBoolAttribute(AttributeNames.Open, value); }
+            get => this.GetBoolAttribute(AttributeNames.Open);
+            set => this.SetBoolAttribute(AttributeNames.Open, value);
         }
 
         public String ReturnValue
         {
-            get { return _returnValue; }
-            set { _returnValue = value; }
+            get => _returnValue;
+            set => _returnValue = value;
         }
 
         public void Show(IElement anchor = null)

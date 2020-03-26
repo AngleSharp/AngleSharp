@@ -73,8 +73,8 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public Boolean IsSelfClosing
         {
-            get { return _selfClosing; }
-            set { _selfClosing = value; }
+            get => _selfClosing;
+            set => _selfClosing = value;
         }
 
         /// <summary>

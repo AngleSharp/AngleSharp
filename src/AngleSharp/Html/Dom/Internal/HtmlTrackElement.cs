@@ -35,8 +35,8 @@
         /// </summary>
         public String Kind
         {
-            get { return this.GetOwnAttribute(AttributeNames.Kind); }
-            set { this.SetOwnAttribute(AttributeNames.Kind, value); }
+            get => this.GetOwnAttribute(AttributeNames.Kind);
+            set => this.SetOwnAttribute(AttributeNames.Kind, value);
         }
 
         /// <summary>
@@ -44,8 +44,8 @@
         /// </summary>
         public String Source
         {
-            get { return this.GetUrlAttribute(AttributeNames.Src); }
-            set { this.SetOwnAttribute(AttributeNames.Src, value); }
+            get => this.GetUrlAttribute(AttributeNames.Src);
+            set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
         /// <summary>
@@ -53,8 +53,8 @@
         /// </summary>
         public String SourceLanguage
         {
-            get { return this.GetOwnAttribute(AttributeNames.SrcLang); }
-            set { this.SetOwnAttribute(AttributeNames.SrcLang, value); }
+            get => this.GetOwnAttribute(AttributeNames.SrcLang);
+            set => this.SetOwnAttribute(AttributeNames.SrcLang, value);
         }
 
         /// <summary>
@@ -62,8 +62,8 @@
         /// </summary>
         public String Label
         {
-            get { return this.GetOwnAttribute(AttributeNames.Label); }
-            set { this.SetOwnAttribute(AttributeNames.Label, value); }
+            get => this.GetOwnAttribute(AttributeNames.Label);
+            set => this.SetOwnAttribute(AttributeNames.Label, value);
         }
 
         /// <summary>
@@ -71,8 +71,8 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return this.GetBoolAttribute(AttributeNames.Default); }
-            set { this.SetBoolAttribute(AttributeNames.Default, value); }
+            get => this.GetBoolAttribute(AttributeNames.Default);
+            set => this.SetBoolAttribute(AttributeNames.Default, value);
         }
 
         /// <summary>

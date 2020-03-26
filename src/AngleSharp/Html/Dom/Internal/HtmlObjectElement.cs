@@ -33,38 +33,38 @@
 
         public String Source
         {
-            get { return this.GetUrlAttribute(AttributeNames.Data); }
-            set { this.SetOwnAttribute(AttributeNames.Data, value); }
+            get => this.GetUrlAttribute(AttributeNames.Data);
+            set => this.SetOwnAttribute(AttributeNames.Data, value);
         }
 
         public String Type
         {
-            get { return this.GetOwnAttribute(AttributeNames.Type); }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => this.GetOwnAttribute(AttributeNames.Type);
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         public Boolean TypeMustMatch
         {
-            get { return this.GetBoolAttribute(AttributeNames.TypeMustMatch); }
-            set { this.SetBoolAttribute(AttributeNames.TypeMustMatch, value); }
+            get => this.GetBoolAttribute(AttributeNames.TypeMustMatch);
+            set => this.SetBoolAttribute(AttributeNames.TypeMustMatch, value);
         }
 
         public String UseMap
         {
-            get { return this.GetOwnAttribute(AttributeNames.UseMap); }
-            set { this.SetOwnAttribute(AttributeNames.UseMap, value); }
+            get => this.GetOwnAttribute(AttributeNames.UseMap);
+            set => this.SetOwnAttribute(AttributeNames.UseMap, value);
         }
 
         public Int32 DisplayWidth
         {
-            get { return this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { this.SetOwnAttribute(AttributeNames.Width, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth);
+            set => this.SetOwnAttribute(AttributeNames.Width, value.ToString());
         }
 
         public Int32 DisplayHeight
         {
-            get { return this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight);
+            set => this.SetOwnAttribute(AttributeNames.Height, value.ToString());
         }
 
         public Int32 OriginalWidth => _request?.Width ?? 0;

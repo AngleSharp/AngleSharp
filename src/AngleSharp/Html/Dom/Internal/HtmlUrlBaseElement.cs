@@ -28,88 +28,88 @@ namespace AngleSharp.Html.Dom
 
         public String Download
         {
-            get { return this.GetOwnAttribute(AttributeNames.Download); }
-            set { this.SetOwnAttribute(AttributeNames.Download, value); }
+            get => this.GetOwnAttribute(AttributeNames.Download);
+            set => this.SetOwnAttribute(AttributeNames.Download, value);
         }
 
         public String Href
         {
-            get { return this.GetUrlAttribute(AttributeNames.Href); }
-            set { SetAttribute(AttributeNames.Href, value); }
+            get => this.GetUrlAttribute(AttributeNames.Href);
+            set => SetAttribute(AttributeNames.Href, value);
         }
 
         public String Hash
         {
-            get { return GetLocationPart(m => m.Hash); }
-            set { SetLocationPart(m => m.Hash = value); }
+            get => GetLocationPart(m => m.Hash);
+            set => SetLocationPart(m => m.Hash = value);
         }
 
         public String Host
         {
-            get { return GetLocationPart(m => m.Host); }
-            set { SetLocationPart(m => m.Host = value); }
+            get => GetLocationPart(m => m.Host);
+            set => SetLocationPart(m => m.Host = value);
         }
 
         public String HostName
         {
-            get { return GetLocationPart(m => m.HostName); }
-            set { SetLocationPart(m => m.HostName = value); }
+            get => GetLocationPart(m => m.HostName);
+            set => SetLocationPart(m => m.HostName = value);
         }
 
         public String PathName
         {
-            get { return GetLocationPart(m => m.PathName); }
-            set { SetLocationPart(m => m.PathName = value); }
+            get => GetLocationPart(m => m.PathName);
+            set => SetLocationPart(m => m.PathName = value);
         }
 
         public String Port
         {
-            get { return GetLocationPart(m => m.Port); }
-            set { SetLocationPart(m => m.Port = value); }
+            get => GetLocationPart(m => m.Port);
+            set => SetLocationPart(m => m.Port = value);
         }
 
         public String Protocol
         {
-            get { return GetLocationPart(m => m.Protocol); }
-            set { SetLocationPart(m => m.Protocol = value); }
+            get => GetLocationPart(m => m.Protocol);
+            set => SetLocationPart(m => m.Protocol = value);
         }
 
         public String UserName
         {
-            get { return GetLocationPart(m => m.UserName); }
-            set { SetLocationPart(m => m.UserName = value); }
+            get => GetLocationPart(m => m.UserName);
+            set => SetLocationPart(m => m.UserName = value);
         }
 
         public String Password
         {
-            get { return GetLocationPart(m => m.Password); }
-            set { SetLocationPart(m => m.Password = value); }
+            get => GetLocationPart(m => m.Password);
+            set => SetLocationPart(m => m.Password = value);
         }
 
         public String Search
         {
-            get { return GetLocationPart(m => m.Search); }
-            set { SetLocationPart(m => m.Search = value); }
+            get => GetLocationPart(m => m.Search);
+            set => SetLocationPart(m => m.Search = value);
         }
 
         public String Origin => GetLocationPart(m => m.Origin);
 
         public String TargetLanguage
         {
-            get { return this.GetOwnAttribute(AttributeNames.HrefLang); }
-            set { this.SetOwnAttribute(AttributeNames.HrefLang, value); }
+            get => this.GetOwnAttribute(AttributeNames.HrefLang);
+            set => this.SetOwnAttribute(AttributeNames.HrefLang, value);
         }
 
         public String Media
         {
-            get { return this.GetOwnAttribute(AttributeNames.Media); }
-            set { this.SetOwnAttribute(AttributeNames.Media, value); }
+            get => this.GetOwnAttribute(AttributeNames.Media);
+            set => this.SetOwnAttribute(AttributeNames.Media, value);
         }
 
         public String Relation
         {
-            get { return this.GetOwnAttribute(AttributeNames.Rel); }
-            set { this.SetOwnAttribute(AttributeNames.Rel, value); }
+            get => this.GetOwnAttribute(AttributeNames.Rel);
+            set => this.SetOwnAttribute(AttributeNames.Rel, value);
         }
 
         public ITokenList RelationList
@@ -142,14 +142,14 @@ namespace AngleSharp.Html.Dom
 
         public String Target
         {
-            get { return this.GetOwnAttribute(AttributeNames.Target); }
-            set { this.SetOwnAttribute(AttributeNames.Target, value); }
+            get => this.GetOwnAttribute(AttributeNames.Target);
+            set => this.SetOwnAttribute(AttributeNames.Target, value);
         }
 
         public String Type
         {
-            get { return this.GetOwnAttribute(AttributeNames.Type); }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => this.GetOwnAttribute(AttributeNames.Type);
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         #endregion

@@ -10,15 +10,12 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
         public override JsonElement this[String key]
         {
-            get 
-            { 
-                _properties.TryGetValue(key.ToString(), out var tmp); 
-                return tmp; 
-            }
-            set 
+            get
             {
-                _properties[key] = value; 
+                _properties.TryGetValue(key.ToString(), out var tmp);
+                return tmp;
             }
+            set => _properties[key] = value;
         }
 
         public override String ToString()

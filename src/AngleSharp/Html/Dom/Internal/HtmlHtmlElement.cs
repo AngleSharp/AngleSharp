@@ -19,10 +19,10 @@
 
         #region Properties
 
-        public String Manifest 
+        public String Manifest
         {
-            get { return this.GetOwnAttribute(AttributeNames.Manifest); }
-            set { this.SetOwnAttribute(AttributeNames.Manifest, value); }
+            get => this.GetOwnAttribute(AttributeNames.Manifest);
+            set => this.SetOwnAttribute(AttributeNames.Manifest, value);
         }
 
         #endregion

@@ -31,8 +31,8 @@
 
         public IHtmlOptionElement this[Int32 index]
         {
-            get { return Options.GetOptionAt(index); }
-            set { Options.SetOptionAt(index, value); }
+            get => Options.GetOptionAt(index);
+            set => Options.SetOptionAt(index, value);
         }
 
         #endregion
@@ -41,14 +41,14 @@
 
         public Int32 Size
         {
-            get { return this.GetOwnAttribute(AttributeNames.Size).ToInteger(0); }
-            set { this.SetOwnAttribute(AttributeNames.Size, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Size).ToInteger(0);
+            set => this.SetOwnAttribute(AttributeNames.Size, value.ToString());
         }
 
         public Boolean IsRequired
         {
-            get { return this.GetBoolAttribute(AttributeNames.Required); }
-            set { this.SetBoolAttribute(AttributeNames.Required, value); }
+            get => this.GetBoolAttribute(AttributeNames.Required);
+            set => this.SetBoolAttribute(AttributeNames.Required, value);
         }
 
         public IHtmlCollection<IHtmlOptionElement> SelectedOptions => _selected ?? (_selected = new HtmlCollection<IHtmlOptionElement>(Options.Where(m => m.IsSelected)));
@@ -71,18 +71,15 @@
 
                 return null;
             }
-            set
-            {
-                UpdateValue(value);
-            }
+            set => UpdateValue(value);
         }
 
         public Int32 Length => Options.Length;
 
         public Boolean IsMultiple
         {
-            get { return this.GetBoolAttribute(AttributeNames.Multiple); }
-            set { this.SetBoolAttribute(AttributeNames.Multiple, value); }
+            get => this.GetBoolAttribute(AttributeNames.Multiple);
+            set => this.SetBoolAttribute(AttributeNames.Multiple, value);
         }
 
         public IHtmlOptionsCollection Options => _options ?? (_options = new OptionsCollection(this));

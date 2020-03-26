@@ -28,20 +28,20 @@
 
         public HorizontalAlignment Align
         {
-            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
-            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left);
+            set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
         public VerticalAlignment VAlign
         {
-            get { return this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
-            set { this.SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle);
+            set => this.SetOwnAttribute(AttributeNames.Valign, value.ToString());
         }
 
         public String BgColor
         {
-            get { return this.GetOwnAttribute(AttributeNames.BgColor); }
-            set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
+            get => this.GetOwnAttribute(AttributeNames.BgColor);
+            set => this.SetOwnAttribute(AttributeNames.BgColor, value);
         }
 
         public IHtmlCollection<IHtmlTableCellElement> Cells => _cells ?? (_cells = new HtmlCollection<IHtmlTableCellElement>(this, deep: false));
