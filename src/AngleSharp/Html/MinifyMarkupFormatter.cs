@@ -11,7 +11,7 @@ namespace AngleSharp.Html
     /// <summary>
     /// Represents the an HTML5 markup formatter with a normalization scheme.
     /// </summary>
-    public class MinifyMarkupFormatter : IMarkupFormatter
+    public class MinifyMarkupFormatter : HtmlMarkupFormatter
     {
         #region Fields
 
@@ -61,19 +61,11 @@ namespace AngleSharp.Html
 
         #region Methods
 
-        String IMarkupFormatter.Comment(IComment comment) =>
-            ShouldKeepComments ? HtmlMarkupFormatter.Instance.Comment(comment) : String.Empty;
+        /// <inheritdoc />
+        public override string Comment(IComment comment) => ShouldKeepComments ? base.Comment(comment) : String.Empty;
 
-        String IMarkupFormatter.Doctype(IDocumentType doctype) =>
-            HtmlMarkupFormatter.Instance.Doctype(doctype);
-
-        String IMarkupFormatter.Processing(IProcessingInstruction processing) =>
-            HtmlMarkupFormatter.Instance.Processing(processing);
-
-        String IMarkupFormatter.LiteralText(ICharacterData text) =>
-            HtmlMarkupFormatter.Instance.LiteralText(text);
-
-        String IMarkupFormatter.Text(ICharacterData text)
+        /// <inheritdoc />
+        public override String Text(ICharacterData text)
         {
             if (text.Parent is IHtmlHeadElement || text.Parent is IHtmlHtmlElement)
             {
@@ -81,7 +73,7 @@ namespace AngleSharp.Html
             }
             else
             {
-                var data = HtmlMarkupFormatter.Instance.Text(text);
+                var data = base.Text(text);
 
                 if (!PreservedTags.Contains(text.ParentElement?.LocalName))
                 {
@@ -121,7 +113,8 @@ namespace AngleSharp.Html
             }
         }
 
-        String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
+        /// <inheritdoc />
+        public override String OpenTag(IElement element, Boolean selfClosing)
         {
             if (!CanBeRemoved(element))
             {
@@ -162,17 +155,16 @@ namespace AngleSharp.Html
             return String.Empty;
         }
 
-        String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
+        /// <inheritdoc />
+        public override String CloseTag(IElement element, Boolean selfClosing)
         {
             if (!CanBeRemoved(element) && !CanBeSkipped(element))
             {
-                return HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing);
+                return base.CloseTag(element, selfClosing);
             }
 
             return String.Empty;
         }
-
-        String IMarkupFormatter.Attribute(IAttr attribute) => Serialize(attribute);
 
         #endregion
 
@@ -211,7 +203,7 @@ namespace AngleSharp.Html
         {
             if (ShouldKeepEmptyAttributes || !String.IsNullOrEmpty(attribute.Value))
             {
-                var result = HtmlMarkupFormatter.Instance.Attribute(attribute);
+                var result = Attribute(attribute);
 
                 if (ShouldKeepAttributeQuotes || result.Any(CharExtensions.IsWhiteSpaceCharacter))
                 {

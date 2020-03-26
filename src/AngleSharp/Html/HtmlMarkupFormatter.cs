@@ -7,7 +7,7 @@ namespace AngleSharp.Html
     /// <summary>
     /// Represents the standard HTML5 markup formatter.
     /// </summary>
-    public sealed class HtmlMarkupFormatter : IMarkupFormatter
+    public class HtmlMarkupFormatter : IMarkupFormatter
     {
         #region Instance
 
@@ -20,29 +20,35 @@ namespace AngleSharp.Html
 
         #region Methods
 
-        String IMarkupFormatter.Comment(IComment comment) => String.Concat("<!--", comment.Data, "-->");
+        /// <inheritdoc />
+        public virtual String Comment(IComment comment) => String.Concat("<!--", comment.Data, "-->");
 
-        String IMarkupFormatter.Doctype(IDocumentType doctype)
+        /// <inheritdoc />
+        public virtual String Doctype(IDocumentType doctype)
         {
             var ids = GetIds(doctype.PublicIdentifier, doctype.SystemIdentifier);
             return String.Concat("<!DOCTYPE ", doctype.Name, ids, ">");
         }
 
-        String IMarkupFormatter.Processing(IProcessingInstruction processing)
+        /// <inheritdoc />
+        public virtual String Processing(IProcessingInstruction processing)
         {
             var value = String.Concat(processing.Target, " ", processing.Data);
             return String.Concat("<?", value, ">");
         }
 
-        String IMarkupFormatter.LiteralText(ICharacterData text) => text.Data;
+        /// <inheritdoc />
+        public virtual String LiteralText(ICharacterData text) => text.Data;
 
-        String IMarkupFormatter.Text(ICharacterData text)
+        /// <inheritdoc />
+        public virtual String Text(ICharacterData text)
         {
             var content = text.Data;
             return EscapeText(content);
         }
 
-        String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
+        /// <inheritdoc />
+        public virtual String OpenTag(IElement element, Boolean selfClosing)
         {
             var temp = StringBuilderPool.Obtain();
             temp.Append(Symbols.LessThan);
@@ -56,14 +62,15 @@ namespace AngleSharp.Html
 
             foreach (var attribute in element.Attributes)
             {
-                temp.Append(' ').Append(Instance.Attribute(attribute));
+                temp.Append(' ').Append(Attribute(attribute));
             }
 
             temp.Append(Symbols.GreaterThan);
             return temp.ToPool();
         }
 
-        String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
+        /// <inheritdoc />
+        public virtual String CloseTag(IElement element, Boolean selfClosing)
         {
             var prefix = element.Prefix;
             var name = element.LocalName;
@@ -71,7 +78,12 @@ namespace AngleSharp.Html
             return selfClosing ? String.Empty : String.Concat("</", tag, ">");
         }
 
-        String IMarkupFormatter.Attribute(IAttr attr)
+        /// <summary>
+        /// Creates the string representation of the attribute.
+        /// </summary>
+        /// <param name="attribute">The attribute to serialize.</param>
+        /// <returns>The string representation.</returns>
+        protected virtual String Attribute(IAttr attr)
         {
             var namespaceUri = attr.NamespaceUri;
             var localName = attr.LocalName;
@@ -144,7 +156,13 @@ namespace AngleSharp.Html
             return temp.ToPool();
         }
 
-        private static String GetIds(String publicId, String systemId)
+        /// <summary>
+        /// Gets the doctype identifiers from the given public and system identifier.
+        /// </summary>
+        /// <param name="publicId">The public identifier.</param>
+        /// <param name="systemId">The system identifier.</param>
+        /// <returns>The combined string representation.</returns>
+        public static String GetIds(String publicId, String systemId)
         {
             if (String.IsNullOrEmpty(publicId) && String.IsNullOrEmpty(systemId))
             {
@@ -162,7 +180,12 @@ namespace AngleSharp.Html
             return $" PUBLIC \"{publicId}\" \"{systemId}\"";
         }
 
-        private static String XmlNamespaceLocalName(String name) => name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":", name) : name;
+        /// <summary>
+        /// Gets the local name using the XML namespace prefix if required.
+        /// </summary>
+        /// <param name="name">The name to be properly represented.</param>
+        /// <returns>The string representation.</returns>
+        public static String XmlNamespaceLocalName(String name) => name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":", name) : name;
 
         #endregion
     }

@@ -66,12 +66,5 @@ namespace AngleSharp
         /// </param>
         /// <returns>The formatted closing tag.</returns>
         String CloseTag(IElement element, Boolean selfClosing);
-
-        /// <summary>
-        /// Formats an attribute specified by the argument.
-        /// </summary>
-        /// <param name="attribute">The attribute to serialize.</param>
-        /// <returns>The formatted attribute.</returns>
-        String Attribute(IAttr attribute);
     }
 }

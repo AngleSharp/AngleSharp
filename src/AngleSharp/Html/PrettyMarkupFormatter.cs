@@ -8,7 +8,7 @@ namespace AngleSharp.Html
     /// <summary>
     /// Represents the an HTML5 markup formatter with inserted indents.
     /// </summary>
-    public class PrettyMarkupFormatter : IMarkupFormatter
+    public class PrettyMarkupFormatter : HtmlMarkupFormatter
     {
         #region Fields
 
@@ -39,8 +39,8 @@ namespace AngleSharp.Html
         /// </summary>
         public String Indentation
         {
-            get { return _indentString; }
-            set { _indentString = value; }
+            get => _indentString;
+            set => _indentString = value;
         }
 
         /// <summary>
@@ -48,18 +48,20 @@ namespace AngleSharp.Html
         /// </summary>
         public String NewLine
         {
-            get { return _newLineString; }
-            set { _newLineString = value; }
+            get => _newLineString;
+            set => _newLineString = value;
         }
 
         #endregion
 
         #region Methods
 
-        String IMarkupFormatter.Comment(IComment comment) =>
-            IndentBefore() + HtmlMarkupFormatter.Instance.Comment(comment);
+        /// <inheritdoc />
+        public override String Comment(IComment comment) =>
+            IndentBefore() + base.Comment(comment);
 
-        String IMarkupFormatter.Doctype(IDocumentType doctype)
+        /// <inheritdoc />
+        public override String Doctype(IDocumentType doctype)
         {
             var before = String.Empty;
 
@@ -68,16 +70,15 @@ namespace AngleSharp.Html
                 before = IndentBefore();
             }
 
-            return before + HtmlMarkupFormatter.Instance.Doctype(doctype) + NewLine;
+            return before + base.Doctype(doctype) + NewLine;
         }
 
-        String IMarkupFormatter.Processing(IProcessingInstruction processing) =>
-            IndentBefore() + HtmlMarkupFormatter.Instance.Processing(processing);
+        /// <inheritdoc />
+        public override String Processing(IProcessingInstruction processing) =>
+            IndentBefore() + base.Processing(processing);
 
-        String IMarkupFormatter.LiteralText(ICharacterData text) =>
-            HtmlMarkupFormatter.Instance.LiteralText(text);
-
-        String IMarkupFormatter.Text(ICharacterData text)
+        /// <inheritdoc />
+        public override String Text(ICharacterData text)
         {
             var content = text.Data;
             var before = String.Empty;
@@ -97,7 +98,8 @@ namespace AngleSharp.Html
             return before + HtmlMarkupFormatter.EscapeText(singleLine);
         }
 
-        String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
+        /// <inheritdoc />
+        public override String OpenTag(IElement element, Boolean selfClosing)
         {
             var before = String.Empty;
             var previousSibling = element.PreviousSibling as IText;
@@ -108,10 +110,11 @@ namespace AngleSharp.Html
             }            
 
             _indentCount++;
-            return before + HtmlMarkupFormatter.Instance.OpenTag(element, selfClosing);
+            return before + base.OpenTag(element, selfClosing);
         }
 
-        String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
+        /// <inheritdoc />
+        public override String CloseTag(IElement element, Boolean selfClosing)
         {
             _indentCount--;
             var before = String.Empty;
@@ -122,11 +125,8 @@ namespace AngleSharp.Html
                 before = IndentBefore();
             }
             
-            return before + HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing);
+            return before + base.CloseTag(element, selfClosing);
         }
-
-        String IMarkupFormatter.Attribute(IAttr attribute) =>
-            HtmlMarkupFormatter.Instance.Attribute(attribute);
 
         #endregion
 

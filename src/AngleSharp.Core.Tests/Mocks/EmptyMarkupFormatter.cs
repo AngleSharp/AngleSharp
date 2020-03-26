@@ -18,7 +18,5 @@ namespace AngleSharp.Core.Tests.Mocks
         string IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing) => string.Empty;
 
         string IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing) => string.Empty;
-
-        string IMarkupFormatter.Attribute(IAttr attr) => string.Empty;
     }
 }
