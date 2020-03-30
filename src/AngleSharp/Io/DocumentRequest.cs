@@ -20,7 +20,10 @@ namespace AngleSharp.Io
         public DocumentRequest(Url target)
         {
             Target = target ?? throw new ArgumentNullException(nameof(target));
-            Headers = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
+            Headers = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
+            {
+                { HeaderNames.Accept, "text/html,application/xhtml+xml,application/xml" },
+            };
             Method = HttpMethod.Get;
             Body = MemoryStream.Null;
         }

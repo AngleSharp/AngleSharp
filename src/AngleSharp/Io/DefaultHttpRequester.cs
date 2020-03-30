@@ -51,7 +51,8 @@ namespace AngleSharp.Io
             _setup = setup ?? ((HttpWebRequest r) => { });
             _headers = new Dictionary<String, String>
             {
-                { HeaderNames.UserAgent, userAgent ?? AgentName }
+                { HeaderNames.UserAgent, userAgent ?? AgentName },
+                { HeaderNames.AcceptEncoding, "gzip, deflate" }
             };
         }
 

@@ -12,6 +12,7 @@ Released on Tuesday, March 31 2020.
 - Fixed missing `Media` property of stylesheets (#846)
 - Improved API of `IMarkupFormatter` (#858)
 - Enhanced existing `IMarkupFormatter` instances to allow inheritance
+- Added default accepts header for standard document requests (#859)
 
 # 0.13.0
 
