@@ -1,6 +1,6 @@
 # 0.14.0
 
-Released on Tuesday, March 24 2020.
+Released on Tuesday, March 31 2020.
 
 - Included context event `error` for error tracking (#698)
 - Extended the `IMarkupFormatter` for literal text (#821)
@@ -10,6 +10,8 @@ Released on Tuesday, March 24 2020.
 - Added public constructor to `BrowsingContext` (#844)
 - Force `IBrowsingContext` to be `IDisposable` for cleanup purposes
 - Fixed missing `Media` property of stylesheets (#846)
+- Improved API of `IMarkupFormatter` (#858)
+- Enhanced existing `IMarkupFormatter` instances to allow inheritance
 
 # 0.13.0
 
