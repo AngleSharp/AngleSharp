@@ -28,22 +28,22 @@
 
         public Boolean IsDisabled
         {
-            get { return this.GetBoolAttribute(AttributeNames.Disabled); }
-            set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
+            get => this.GetBoolAttribute(AttributeNames.Disabled);
+            set => this.SetBoolAttribute(AttributeNames.Disabled, value);
         }
 
         public IHtmlFormElement Form => GetAssignedForm();
 
         public String Label
         {
-            get { return this.GetOwnAttribute(AttributeNames.Label) ?? Text; }
-            set { this.SetOwnAttribute(AttributeNames.Label, value); }
+            get => this.GetOwnAttribute(AttributeNames.Label) ?? Text;
+            set => this.SetOwnAttribute(AttributeNames.Label, value);
         }
 
         public String Value
         {
-            get { return this.GetOwnAttribute(AttributeNames.Value) ?? Text; }
-            set { this.SetOwnAttribute(AttributeNames.Value, value); }
+            get => this.GetOwnAttribute(AttributeNames.Value) ?? Text;
+            set => this.SetOwnAttribute(AttributeNames.Value, value);
         }
 
         public Int32 Index
@@ -70,20 +70,20 @@
 
         public String Text
         {
-            get { return TextContent.CollapseAndStrip(); }
-            set { TextContent = value; }
+            get => TextContent.CollapseAndStrip();
+            set => TextContent = value;
         }
 
         public Boolean IsDefaultSelected
         {
-            get { return this.GetBoolAttribute(AttributeNames.Selected); }
-            set { this.SetBoolAttribute(AttributeNames.Selected, value); }
+            get => this.GetBoolAttribute(AttributeNames.Selected);
+            set => this.SetBoolAttribute(AttributeNames.Selected, value);
         }
 
         public Boolean IsSelected
         {
-            get { return _selected.HasValue ? _selected.Value : IsDefaultSelected; }
-            set { _selected = value; }
+            get => _selected.HasValue ? _selected.Value : IsDefaultSelected;
+            set => _selected = value;
         }
 
         #endregion

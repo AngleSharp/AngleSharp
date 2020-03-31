@@ -21,14 +21,14 @@
 
         public String Href
         {
-            get { return this.GetOwnAttribute(AttributeNames.Href); }
-            set { this.SetOwnAttribute(AttributeNames.Href, value); }
+            get => this.GetOwnAttribute(AttributeNames.Href);
+            set => this.SetOwnAttribute(AttributeNames.Href, value);
         }
 
         public String Target
         {
-            get { return this.GetOwnAttribute(AttributeNames.Target); }
-            set { this.SetOwnAttribute(AttributeNames.Target, value); }
+            get => this.GetOwnAttribute(AttributeNames.Target);
+            set => this.SetOwnAttribute(AttributeNames.Target, value);
         }
 
         #endregion

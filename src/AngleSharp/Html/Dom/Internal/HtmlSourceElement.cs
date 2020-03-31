@@ -21,32 +21,32 @@
 
         public String Source
         {
-            get { return this.GetUrlAttribute(AttributeNames.Src); }
-            set { this.SetOwnAttribute(AttributeNames.Src, value); }
+            get => this.GetUrlAttribute(AttributeNames.Src);
+            set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
         public String Media
         {
-            get { return this.GetOwnAttribute(AttributeNames.Media); }
-            set { this.SetOwnAttribute(AttributeNames.Media, value); }
+            get => this.GetOwnAttribute(AttributeNames.Media);
+            set => this.SetOwnAttribute(AttributeNames.Media, value);
         }
 
         public String Type
         {
-            get { return this.GetOwnAttribute(AttributeNames.Type); }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => this.GetOwnAttribute(AttributeNames.Type);
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         public String SourceSet
         {
-            get { return this.GetOwnAttribute(AttributeNames.SrcSet); }
-            set { this.SetOwnAttribute(AttributeNames.SrcSet, value); }
+            get => this.GetOwnAttribute(AttributeNames.SrcSet);
+            set => this.SetOwnAttribute(AttributeNames.SrcSet, value);
         }
 
         public String Sizes
         {
-            get { return this.GetOwnAttribute(AttributeNames.Sizes); }
-            set { this.SetOwnAttribute(AttributeNames.Sizes, value); }
+            get => this.GetOwnAttribute(AttributeNames.Sizes);
+            set => this.SetOwnAttribute(AttributeNames.Sizes, value);
         }
 
         #endregion

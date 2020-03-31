@@ -25,8 +25,8 @@
         /// </summary>
         public String Align
         {
-            get { return this.GetOwnAttribute(AttributeNames.Align) ?? Keywords.Top; }
-            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Align) ?? Keywords.Top;
+            set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
         #endregion

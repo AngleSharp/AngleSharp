@@ -98,7 +98,7 @@ namespace AngleSharp.Io.Processors
                     catch (Exception ex)
                     {
                         /* We omit failed 3rd party services */
-                        Debug.WriteLine(ex);
+                        _context.TrackError(ex);
                     }
 
                     _document.Source.Index = insert;

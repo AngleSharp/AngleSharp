@@ -19,7 +19,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
         public JsonElement this[Int32 key]
         {
-            get { return _elements.ElementAtOrDefault(key); }
+            get => _elements.ElementAtOrDefault(key);
             set
             {
                 for (var i = _elements.Count; i <= key; i++)

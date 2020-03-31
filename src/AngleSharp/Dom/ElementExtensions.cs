@@ -1538,7 +1538,7 @@ namespace AngleSharp.Dom
                 else if (parent != null && !element.IsOnlyOfType())
                 {
                     // Get node index in the parent node tree
-                    var index = parent.Children.Where(_ => _.GetType() == element.GetType()).Index(element);
+                    var index = parent.Children.Index(element);
 
                     // Append nth child selector
                     name += $":nth-child({index + 1})";

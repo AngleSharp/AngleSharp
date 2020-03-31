@@ -617,7 +617,7 @@ namespace AngleSharp.Dom
             protected set
             {
                 _ready = value;
-                this.QueueTaskAsync(_ => this.FireSimpleEvent(EventNames.ReadyStateChanged));
+                this.FireSimpleEvent(EventNames.ReadyStateChanged);
             }
         }
 
@@ -1177,8 +1177,9 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="name">The name of the new element.</param>
         /// <param name="prefix">The optional prefix to use.</param>
+        /// <param name="flags">The optional flags, if any.</param>
         /// <returns>The created element.</returns>
-        public abstract Element CreateElementFrom(String name, String prefix);
+        public abstract Element CreateElementFrom(String name, String prefix, NodeFlags flags = NodeFlags.None);
 
         /// <summary>
         /// Waits for the given task before raising the load event.
@@ -1230,30 +1231,21 @@ namespace AngleSharp.Dom
                 await _loadingScripts.Dequeue().RunAsync(CancellationToken.None).ConfigureAwait(false);
             }
 
-            await this.QueueTaskAsync(_ =>
-            {
-                this.FireSimpleEvent(EventNames.DomContentLoaded);
-                _view.FireSimpleEvent(EventNames.DomContentLoaded);
-            }).ConfigureAwait(false);
+            this.FireSimpleEvent(EventNames.DomContentLoaded);
+            _view.FireSimpleEvent(EventNames.DomContentLoaded);
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
 
-            await this.QueueTaskAsync(_ =>
-            {
-                ReadyState = DocumentReadyState.Complete;
+            ReadyState = DocumentReadyState.Complete;
 
-                Body?.FireSimpleEvent(EventNames.Load);
-                this.FireSimpleEvent(EventNames.Load);
-                _view.FireSimpleEvent(EventNames.Load);
-            }).ConfigureAwait(false);
+            Body?.FireSimpleEvent(EventNames.Load);
+            this.FireSimpleEvent(EventNames.Load);
+            _view.FireSimpleEvent(EventNames.Load);
 
             if (IsInBrowsingContext && !_shown)
             {
                 _shown = true;
-                await this.QueueTaskAsync(_ =>
-                {
-                    this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view);
-                }).ConfigureAwait(false);
+                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view);
             }
 
             this.QueueTask(EmptyAppCache);

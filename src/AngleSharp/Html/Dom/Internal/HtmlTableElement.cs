@@ -31,13 +31,13 @@
 
         public IHtmlTableCaptionElement Caption
         {
-            get { return ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Caption)); }
+            get => ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Caption));
             set { DeleteCaption(); InsertChild(0, value); }
         }
 
         public IHtmlTableSectionElement Head
         {
-            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Thead)); }
+            get => ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Thead));
             set { DeleteHead(); AppendChild(value); }
         }
 
@@ -45,7 +45,7 @@
 
         public IHtmlTableSectionElement Foot
         {
-            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Tfoot)); }
+            get => ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Tfoot));
             set { DeleteFoot(); AppendChild(value); }
         }
 
@@ -98,56 +98,56 @@
 
         public HorizontalAlignment Align
         {
-            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
-            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left);
+            set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
         public String BgColor
         {
-            get { return this.GetOwnAttribute(AttributeNames.BgColor); }
-            set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
+            get => this.GetOwnAttribute(AttributeNames.BgColor);
+            set => this.SetOwnAttribute(AttributeNames.BgColor, value);
         }
 
         public UInt32 Border
         {
-            get { return this.GetOwnAttribute(AttributeNames.Border).ToInteger(0u); }
-            set { this.SetOwnAttribute(AttributeNames.Border, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Border).ToInteger(0u);
+            set => this.SetOwnAttribute(AttributeNames.Border, value.ToString());
         }
 
         public Int32 CellPadding
         {
-            get { return this.GetOwnAttribute(AttributeNames.CellPadding).ToInteger(0); }
-            set { this.SetOwnAttribute(AttributeNames.CellPadding, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.CellPadding).ToInteger(0);
+            set => this.SetOwnAttribute(AttributeNames.CellPadding, value.ToString());
         }
 
         public Int32 CellSpacing
         {
-            get { return this.GetOwnAttribute(AttributeNames.CellSpacing).ToInteger(0); }
-            set { this.SetOwnAttribute(AttributeNames.CellSpacing, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.CellSpacing).ToInteger(0);
+            set => this.SetOwnAttribute(AttributeNames.CellSpacing, value.ToString());
         }
 
         public TableFrames Frame
         {
-            get { return this.GetOwnAttribute(AttributeNames.Frame).ToEnum(TableFrames.Void); }
-            set { this.SetOwnAttribute(AttributeNames.Frame, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Frame).ToEnum(TableFrames.Void);
+            set => this.SetOwnAttribute(AttributeNames.Frame, value.ToString());
         }
 
         public TableRules Rules
         {
-            get { return this.GetOwnAttribute(AttributeNames.Rules).ToEnum(TableRules.All); }
-            set { this.SetOwnAttribute(AttributeNames.Rules, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Rules).ToEnum(TableRules.All);
+            set => this.SetOwnAttribute(AttributeNames.Rules, value.ToString());
         }
 
         public String Summary
         {
-            get { return this.GetOwnAttribute(AttributeNames.Summary); }
-            set { this.SetOwnAttribute(AttributeNames.Summary, value); }
+            get => this.GetOwnAttribute(AttributeNames.Summary);
+            set => this.SetOwnAttribute(AttributeNames.Summary, value);
         }
 
         public String Width
         {
-            get { return this.GetOwnAttribute(AttributeNames.Width); }
-            set { this.SetOwnAttribute(AttributeNames.Width, value); }
+            get => this.GetOwnAttribute(AttributeNames.Width);
+            set => this.SetOwnAttribute(AttributeNames.Width, value);
         }
 
         #endregion

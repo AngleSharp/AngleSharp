@@ -5,6 +5,7 @@ namespace AngleSharp.Html.InputTypes
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Text.RegularExpressions;
 
@@ -308,7 +309,10 @@ namespace AngleSharp.Html.InputTypes
                     var regex = new Regex(pattern, RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
                     return !regex.IsMatch(value);
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Error while matching the pattern: {0}.", ex);
+                }
             }
 
             return false;

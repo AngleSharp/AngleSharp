@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+namespace AngleSharp
 {
     using AngleSharp.Dom;
     using System;
@@ -14,6 +14,13 @@
         /// <param name="text">The text to sanatize.</param>
         /// <returns>The formatted text.</returns>
         String Text(ICharacterData text);
+
+        /// <summary>
+        /// Emits the text literally.
+        /// </summary>
+        /// <param name="text">The text to return.</param>
+        /// <returns>The contained text.</returns>
+        String LiteralText(ICharacterData text);
 
         /// <summary>
         /// Formats the given comment.
@@ -59,12 +66,5 @@
         /// </param>
         /// <returns>The formatted closing tag.</returns>
         String CloseTag(IElement element, Boolean selfClosing);
-
-        /// <summary>
-        /// Formats an attribute specified by the argument.
-        /// </summary>
-        /// <param name="attribute">The attribute to serialize.</param>
-        /// <returns>The formatted attribute.</returns>
-        String Attribute(IAttr attribute);
     }
 }

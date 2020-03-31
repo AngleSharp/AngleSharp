@@ -5,6 +5,7 @@
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
     <LangVersion>7.1</LangVersion>
+    <AssemblyName>AngleSharp.Core.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

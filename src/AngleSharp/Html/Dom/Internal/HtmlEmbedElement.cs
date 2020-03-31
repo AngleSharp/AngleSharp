@@ -32,26 +32,26 @@
 
         public String Source
         {
-            get { return this.GetOwnAttribute(AttributeNames.Src); }
-            set { this.SetOwnAttribute(AttributeNames.Src, value); }
+            get => this.GetOwnAttribute(AttributeNames.Src);
+            set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
         public String Type
         {
-            get { return this.GetOwnAttribute(AttributeNames.Type); }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => this.GetOwnAttribute(AttributeNames.Type);
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         public String DisplayWidth
         {
-            get { return this.GetOwnAttribute(AttributeNames.Width); }
-            set { this.SetOwnAttribute(AttributeNames.Width, value); }
+            get => this.GetOwnAttribute(AttributeNames.Width);
+            set => this.SetOwnAttribute(AttributeNames.Width, value);
         }
 
         public String DisplayHeight
         {
-            get { return this.GetOwnAttribute(AttributeNames.Height); }
-            set { this.SetOwnAttribute(AttributeNames.Height, value); }
+            get => this.GetOwnAttribute(AttributeNames.Height);
+            set => this.SetOwnAttribute(AttributeNames.Height, value);
         }
 
         #endregion

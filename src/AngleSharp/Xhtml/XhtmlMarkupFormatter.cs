@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xhtml
+namespace AngleSharp.Xhtml
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the standard XHTML markup formatter.
     /// </summary>
-    public sealed class XhtmlMarkupFormatter : IMarkupFormatter
+    public class XhtmlMarkupFormatter : IMarkupFormatter
     {
         #region Instance
 
@@ -20,7 +20,8 @@
 
         #region Methods
 
-        String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)
+        /// <inheritdoc />
+        public virtual String CloseTag(IElement element, Boolean selfClosing)
         {
             var prefix = element.Prefix;
             var name = element.LocalName;
@@ -28,12 +29,12 @@
             return (selfClosing || !element.HasChildNodes) ? String.Empty : String.Concat("</", tag, ">");
         }
 
-        String IMarkupFormatter.Comment(IComment comment)
-        {
-            return String.Concat("<!--", comment.Data, "-->");
-        }
+        /// <inheritdoc />
+        public virtual String Comment(IComment comment) =>
+            String.Concat("<!--", comment.Data, "-->");
 
-        String IMarkupFormatter.Doctype(IDocumentType doctype)
+        /// <inheritdoc />
+        public virtual String Doctype(IDocumentType doctype)
         {
             var publicId = doctype.PublicIdentifier;
             var systemId = doctype.SystemIdentifier;
@@ -44,7 +45,8 @@
             return String.Concat("<!DOCTYPE ", doctype.Name, externalId, ">");
         }
 
-        String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)
+        /// <inheritdoc />
+        public virtual String OpenTag(IElement element, Boolean selfClosing)
         {
             var prefix = element.Prefix;
             var temp = StringBuilderPool.Obtain();
@@ -59,7 +61,7 @@
 
             foreach (var attribute in element.Attributes)
             {
-                temp.Append(" ").Append(Instance.Attribute(attribute));
+                temp.Append(" ").Append(Attribute(attribute));
             }
 
             if (selfClosing || !element.HasChildNodes)
@@ -71,19 +73,25 @@
             return temp.ToPool();
         }
 
-        String IMarkupFormatter.Processing(IProcessingInstruction processing)
+        /// <inheritdoc />
+        public virtual String Processing(IProcessingInstruction processing)
         {
             var value = String.Concat(processing.Target, " ", processing.Data);
             return String.Concat("<?", value, "?>");
         }
 
-        String IMarkupFormatter.Text(ICharacterData text)
-        {
-            var content = text.Data;
-            return EscapeText(content);
-        }
+        /// <inheritdoc />
+        public virtual String LiteralText(ICharacterData text) => text.Data;
 
-        String IMarkupFormatter.Attribute(IAttr attribute)
+        /// <inheritdoc />
+        public virtual String Text(ICharacterData text) => EscapeText(text.Data);
+
+        /// <summary>
+        /// Creates the string representation of the attribute.
+        /// </summary>
+        /// <param name="attribute">The attribute to serialize.</param>
+        /// <returns>The string representation.</returns>
+        protected virtual String Attribute(IAttr attribute)
         {
             var namespaceUri = attribute.NamespaceUri;
             var localName = attribute.LocalName;
@@ -157,10 +165,12 @@
             return temp.ToPool();
         }
 
-        private static String XmlNamespaceLocalName(String name)
-        {
-            return name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":") : name;
-        }
+        /// <summary>
+        /// Gets the local name using the XML namespace prefix if required.
+        /// </summary>
+        /// <param name="name">The name to be properly represented.</param>
+        /// <returns>The string representation.</returns>
+        public static String XmlNamespaceLocalName(String name) => name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":") : name;
 
         #endregion
     }

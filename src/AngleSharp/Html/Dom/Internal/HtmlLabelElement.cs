@@ -47,8 +47,8 @@
         /// </summary>
         public String HtmlFor
         {
-            get { return this.GetOwnAttribute(AttributeNames.For); }
-            set { this.SetOwnAttribute(AttributeNames.For, value); }
+            get => this.GetOwnAttribute(AttributeNames.For);
+            set => this.SetOwnAttribute(AttributeNames.For, value);
         }
 
         /// <summary>

@@ -20,8 +20,8 @@
 
         public String Value
         {
-            get { return ToString(); }
-            set { Update(value); }
+            get => ToString();
+            set => Update(value);
         }
 
         #endregion

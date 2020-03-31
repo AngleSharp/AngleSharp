@@ -27,8 +27,8 @@
 
         public String Prompt
         {
-            get { return this.GetOwnAttribute(AttributeNames.Prompt); }
-            set { this.SetOwnAttribute(AttributeNames.Prompt, value); }
+            get => this.GetOwnAttribute(AttributeNames.Prompt);
+            set => this.SetOwnAttribute(AttributeNames.Prompt, value);
         }
 
         #endregion

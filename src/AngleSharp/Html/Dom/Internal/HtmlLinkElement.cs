@@ -49,38 +49,38 @@ namespace AngleSharp.Html.Dom
 
         public String Href
         {
-            get { return this.GetUrlAttribute(AttributeNames.Href); }
-            set { this.SetOwnAttribute(AttributeNames.Href, value); }
+            get => this.GetUrlAttribute(AttributeNames.Href);
+            set => this.SetOwnAttribute(AttributeNames.Href, value);
         }
 
         public String TargetLanguage
         {
-            get { return this.GetOwnAttribute(AttributeNames.HrefLang); }
-            set { this.SetOwnAttribute(AttributeNames.HrefLang, value); }
+            get => this.GetOwnAttribute(AttributeNames.HrefLang);
+            set => this.SetOwnAttribute(AttributeNames.HrefLang, value);
         }
 
         public String Charset
         {
-            get { return this.GetOwnAttribute(AttributeNames.Charset); }
-            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
+            get => this.GetOwnAttribute(AttributeNames.Charset);
+            set => this.SetOwnAttribute(AttributeNames.Charset, value);
         }
 
         public String Relation
         {
-            get { return this.GetOwnAttribute(AttributeNames.Rel); }
-            set { this.SetOwnAttribute(AttributeNames.Rel, value); }
+            get => this.GetOwnAttribute(AttributeNames.Rel);
+            set => this.SetOwnAttribute(AttributeNames.Rel, value);
         }
 
         public String ReverseRelation
         {
-            get { return this.GetOwnAttribute(AttributeNames.Rev); }
-            set { this.SetOwnAttribute(AttributeNames.Rev, value); }
+            get => this.GetOwnAttribute(AttributeNames.Rev);
+            set => this.SetOwnAttribute(AttributeNames.Rev, value);
         }
 
         public String NumberUsedOnce
         {
-            get { return this.GetOwnAttribute(AttributeNames.Nonce); }
-            set { this.SetOwnAttribute(AttributeNames.Nonce, value); }
+            get => this.GetOwnAttribute(AttributeNames.Nonce);
+            set => this.SetOwnAttribute(AttributeNames.Nonce, value);
         }
 
         public ITokenList RelationList
@@ -113,38 +113,38 @@ namespace AngleSharp.Html.Dom
 
         public String Rev
         {
-            get { return this.GetOwnAttribute(AttributeNames.Rev); }
-            set { this.SetOwnAttribute(AttributeNames.Rev, value); }
+            get => this.GetOwnAttribute(AttributeNames.Rev);
+            set => this.SetOwnAttribute(AttributeNames.Rev, value);
         }
 
         public Boolean IsDisabled
         {
-            get { return this.GetBoolAttribute(AttributeNames.Disabled); }
-            set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
+            get => this.GetBoolAttribute(AttributeNames.Disabled);
+            set => this.SetBoolAttribute(AttributeNames.Disabled, value);
         }
 
         public String Target
         {
-            get { return this.GetOwnAttribute(AttributeNames.Target); }
-            set { this.SetOwnAttribute(AttributeNames.Target, value); }
+            get => this.GetOwnAttribute(AttributeNames.Target);
+            set => this.SetOwnAttribute(AttributeNames.Target, value);
         }
 
         public String Media
         {
-            get { return this.GetOwnAttribute(AttributeNames.Media); }
-            set { this.SetOwnAttribute(AttributeNames.Media, value); }
+            get => this.GetOwnAttribute(AttributeNames.Media);
+            set => this.SetOwnAttribute(AttributeNames.Media, value);
         }
 
         public String Type
         {
-            get { return this.GetOwnAttribute(AttributeNames.Type); }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => this.GetOwnAttribute(AttributeNames.Type);
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         public String Integrity
         {
-            get { return this.GetOwnAttribute(AttributeNames.Integrity); }
-            set { this.SetOwnAttribute(AttributeNames.Integrity, value); }
+            get => this.GetOwnAttribute(AttributeNames.Integrity);
+            set => this.SetOwnAttribute(AttributeNames.Integrity, value);
         }
 
         public IStyleSheet Sheet
@@ -167,8 +167,8 @@ namespace AngleSharp.Html.Dom
 
         public String CrossOrigin
         {
-            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
-            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
+            get => this.GetOwnAttribute(AttributeNames.CrossOrigin);
+            set => this.SetOwnAttribute(AttributeNames.CrossOrigin, value);
         }
 
         #endregion

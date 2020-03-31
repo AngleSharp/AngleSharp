@@ -29,8 +29,8 @@
         /// </summary>
         public String Wrap
         {
-            get { return this.GetOwnAttribute(AttributeNames.Wrap); }
-            set { this.SetOwnAttribute(AttributeNames.Wrap, value); }
+            get => this.GetOwnAttribute(AttributeNames.Wrap);
+            set => this.SetOwnAttribute(AttributeNames.Wrap, value);
         }
 
         /// <summary>
@@ -38,8 +38,8 @@
         /// </summary>
         public override String DefaultValue
         {
-            get { return TextContent; }
-            set { TextContent = value; }
+            get => TextContent;
+            set => TextContent = value;
         }
 
         /// <summary>
@@ -53,8 +53,8 @@
         /// </summary>
         public Int32 Rows
         {
-            get { return this.GetOwnAttribute(AttributeNames.Rows).ToInteger(2); }
-            set { this.SetOwnAttribute(AttributeNames.Rows, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Rows).ToInteger(2);
+            set => this.SetOwnAttribute(AttributeNames.Rows, value.ToString());
         }
 
         /// <summary>
@@ -63,8 +63,8 @@
         /// </summary>
         public Int32 Columns
         {
-            get { return this.GetOwnAttribute(AttributeNames.Cols).ToInteger(20); }
-            set { this.SetOwnAttribute(AttributeNames.Cols, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Cols).ToInteger(20);
+            set => this.SetOwnAttribute(AttributeNames.Cols, value.ToString());
         }
 
         /// <summary>

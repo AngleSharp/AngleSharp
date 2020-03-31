@@ -193,8 +193,9 @@ namespace AngleSharp
             {
                 return new CultureInfo(language);
             }
-            catch (CultureNotFoundException)
+            catch (CultureNotFoundException ex)
             {
+                context.TrackError(ex);
                 return context.GetCulture();
             }
         }
@@ -409,6 +410,17 @@ namespace AngleSharp
         #endregion
 
         #region Events
+
+        /// <summary>
+        /// Notifies the context of an exception that was handled internally.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <param name="ex">The exception to notify.</param>
+        public static void TrackError(this IBrowsingContext context, Exception ex)
+        {
+            var ev = new TrackEvent("error", ex);
+            context.Fire(ev);
+        }
 
         /// <summary>
         /// Fires an interactive event at the given context.

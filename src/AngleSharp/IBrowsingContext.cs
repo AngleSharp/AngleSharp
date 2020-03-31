@@ -1,4 +1,4 @@
-﻿namespace AngleSharp
+namespace AngleSharp
 {
     using AngleSharp.Browser;
     using AngleSharp.Browser.Dom;
@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents the browsing context interface.
     /// </summary>
-    public interface IBrowsingContext : IEventTarget
+    public interface IBrowsingContext : IEventTarget, IDisposable
     {
         /// <summary>
         /// Gets the current window proxy.

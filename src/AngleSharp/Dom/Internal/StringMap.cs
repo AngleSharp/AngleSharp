@@ -31,8 +31,8 @@
 
         public String this[String name]
         {
-            get { return _parent.GetOwnAttribute(_prefix + Check(name)); }
-            set { _parent.SetOwnAttribute(_prefix + Check(name), value); }
+            get => _parent.GetOwnAttribute(_prefix + Check(name));
+            set => _parent.SetOwnAttribute(_prefix + Check(name), value);
         }
 
         #endregion

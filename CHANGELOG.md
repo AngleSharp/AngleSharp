@@ -1,6 +1,22 @@
+# 0.14.0
+
+Released on Tuesday, March 31 2020.
+
+- Included context event `error` for error tracking (#698)
+- Extended the `IMarkupFormatter` for literal text (#821)
+- Extended the `IElementFactory` definition
+- Fixed an issue regarding n-th child for the `GetSelector` utility (#835)
+- Added explicit support for .NET 4.6.1 (#842)
+- Added public constructor to `BrowsingContext` (#844)
+- Force `IBrowsingContext` to be `IDisposable` for cleanup purposes
+- Fixed missing `Media` property of stylesheets (#846)
+- Improved API of `IMarkupFormatter` (#858)
+- Enhanced existing `IMarkupFormatter` instances to allow inheritance
+- Added default accepts header for standard document requests (#859)
+
 # 0.13.0
 
-Released on Monday, August 26 2019.
+Released on Friday, September 6 2019.
 
 - Removed the `TaskEventLoop` (#782)
 - Renamed `WithCookies` to `WithDefaultCookies`

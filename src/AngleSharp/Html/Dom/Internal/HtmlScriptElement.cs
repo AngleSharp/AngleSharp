@@ -42,50 +42,50 @@ namespace AngleSharp.Html.Dom
 
         public String Source
         {
-            get { return this.GetOwnAttribute(AttributeNames.Src); }
-            set { this.SetOwnAttribute(AttributeNames.Src, value); }
+            get => this.GetOwnAttribute(AttributeNames.Src);
+            set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
         public String Type
         {
-            get { return this.GetOwnAttribute(AttributeNames.Type); }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => this.GetOwnAttribute(AttributeNames.Type);
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         public String CharacterSet
         {
-            get { return this.GetOwnAttribute(AttributeNames.Charset); }
-            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
+            get => this.GetOwnAttribute(AttributeNames.Charset);
+            set => this.SetOwnAttribute(AttributeNames.Charset, value);
         }
 
         public String Text
         {
-            get { return TextContent; }
-            set { TextContent = value; }
+            get => TextContent;
+            set => TextContent = value;
         }
 
         public String CrossOrigin
         {
-            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
-            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
+            get => this.GetOwnAttribute(AttributeNames.CrossOrigin);
+            set => this.SetOwnAttribute(AttributeNames.CrossOrigin, value);
         }
 
         public Boolean IsDeferred
         {
-            get { return this.GetBoolAttribute(AttributeNames.Defer); }
-            set { this.SetBoolAttribute(AttributeNames.Defer, value); }
+            get => this.GetBoolAttribute(AttributeNames.Defer);
+            set => this.SetBoolAttribute(AttributeNames.Defer, value);
         }
 
         public Boolean IsAsync
         {
-            get { return this.GetBoolAttribute(AttributeNames.Async); }
-            set { this.SetBoolAttribute(AttributeNames.Async, value); }
+            get => this.GetBoolAttribute(AttributeNames.Async);
+            set => this.SetBoolAttribute(AttributeNames.Async, value);
         }
 
         public String Integrity
         {
-            get { return this.GetOwnAttribute(AttributeNames.Integrity); }
-            set { this.SetOwnAttribute(AttributeNames.Integrity, value); }
+            get => this.GetOwnAttribute(AttributeNames.Integrity);
+            set => this.SetOwnAttribute(AttributeNames.Integrity, value);
         }
 
         #endregion

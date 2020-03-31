@@ -445,8 +445,8 @@ namespace AngleSharp.Html.Dom
         /// <inheritdoc />
         public Boolean IsHidden
         {
-            get { return this.GetBoolAttribute(AttributeNames.Hidden); }
-            set { this.SetBoolAttribute(AttributeNames.Hidden, value); }
+            get => this.GetBoolAttribute(AttributeNames.Hidden);
+            set => this.SetBoolAttribute(AttributeNames.Hidden, value);
         }
 
         /// <inheritdoc />
@@ -466,7 +466,7 @@ namespace AngleSharp.Html.Dom
 
                 return _menu;
             }
-            set { _menu = value; }
+            set => _menu = value;
         }
 
         /// <inheritdoc />
@@ -487,15 +487,15 @@ namespace AngleSharp.Html.Dom
         /// <inheritdoc />
         public Boolean IsDraggable
         {
-            get { return this.GetOwnAttribute(AttributeNames.Draggable).ToBoolean(false); }
-            set { this.SetOwnAttribute(AttributeNames.Draggable, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Draggable).ToBoolean(false);
+            set => this.SetOwnAttribute(AttributeNames.Draggable, value.ToString());
         }
 
         /// <inheritdoc />
         public String AccessKey
         {
-            get { return this.GetOwnAttribute(AttributeNames.AccessKey) ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.AccessKey, value); }
+            get => this.GetOwnAttribute(AttributeNames.AccessKey) ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.AccessKey, value);
         }
 
         /// <inheritdoc />
@@ -504,36 +504,36 @@ namespace AngleSharp.Html.Dom
         /// <inheritdoc />
         public String Language
         {
-            get { return this.GetOwnAttribute(AttributeNames.Lang) ?? GetDefaultLanguage(); }
-            set { this.SetOwnAttribute(AttributeNames.Lang, value); }
+            get => this.GetOwnAttribute(AttributeNames.Lang) ?? GetDefaultLanguage();
+            set => this.SetOwnAttribute(AttributeNames.Lang, value);
         }
 
         /// <inheritdoc />
         public String Title
         {
-            get { return this.GetOwnAttribute(AttributeNames.Title); }
-            set { this.SetOwnAttribute(AttributeNames.Title, value); }
+            get => this.GetOwnAttribute(AttributeNames.Title);
+            set => this.SetOwnAttribute(AttributeNames.Title, value);
         }
 
         /// <inheritdoc />
         public String Direction
         {
-            get { return this.GetOwnAttribute(AttributeNames.Dir); }
-            set { this.SetOwnAttribute(AttributeNames.Dir, value); }
+            get => this.GetOwnAttribute(AttributeNames.Dir);
+            set => this.SetOwnAttribute(AttributeNames.Dir, value);
         }
 
         /// <inheritdoc />
         public Boolean IsSpellChecked
         {
-            get { return this.GetOwnAttribute(AttributeNames.Spellcheck).ToBoolean(false); }
-            set { this.SetOwnAttribute(AttributeNames.Spellcheck, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Spellcheck).ToBoolean(false);
+            set => this.SetOwnAttribute(AttributeNames.Spellcheck, value.ToString());
         }
 
         /// <inheritdoc />
         public Int32 TabIndex
         {
-            get { return this.GetOwnAttribute(AttributeNames.TabIndex).ToInteger(0); }
-            set { this.SetOwnAttribute(AttributeNames.TabIndex, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.TabIndex).ToInteger(0);
+            set => this.SetOwnAttribute(AttributeNames.TabIndex, value.ToString());
         }
 
         /// <inheritdoc />
@@ -542,8 +542,8 @@ namespace AngleSharp.Html.Dom
         /// <inheritdoc />
         public String ContentEditable
         {
-            get { return this.GetOwnAttribute(AttributeNames.ContentEditable); }
-            set { this.SetOwnAttribute(AttributeNames.ContentEditable, value); }
+            get => this.GetOwnAttribute(AttributeNames.ContentEditable);
+            set => this.SetOwnAttribute(AttributeNames.ContentEditable, value);
         }
 
         /// <inheritdoc />
@@ -572,8 +572,8 @@ namespace AngleSharp.Html.Dom
         /// <inheritdoc />
         public Boolean IsTranslated
         {
-            get { return this.GetOwnAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
-            set { this.SetOwnAttribute(AttributeNames.Translate, value ? Keywords.Yes : Keywords.No); }
+            get => this.GetOwnAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes;
+            set => this.SetOwnAttribute(AttributeNames.Translate, value ? Keywords.Yes : Keywords.No);
         }
 
         #endregion

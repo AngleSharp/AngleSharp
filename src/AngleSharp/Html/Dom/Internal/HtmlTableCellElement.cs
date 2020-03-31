@@ -44,62 +44,62 @@
 
         public HorizontalAlignment Align
         {
-            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
-            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left);
+            set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
         public VerticalAlignment VAlign
         {
-            get { return this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
-            set { this.SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle);
+            set => this.SetOwnAttribute(AttributeNames.Valign, value.ToString());
         }
 
         public String BgColor
         {
-            get { return this.GetOwnAttribute(AttributeNames.BgColor); }
-            set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
+            get => this.GetOwnAttribute(AttributeNames.BgColor);
+            set => this.SetOwnAttribute(AttributeNames.BgColor, value);
         }
 
         public String Width
         {
-            get { return this.GetOwnAttribute(AttributeNames.Width); }
-            set { this.SetOwnAttribute(AttributeNames.Width, value); }
+            get => this.GetOwnAttribute(AttributeNames.Width);
+            set => this.SetOwnAttribute(AttributeNames.Width, value);
         }
 
         public String Height
         {
-            get { return this.GetOwnAttribute(AttributeNames.Height); }
-            set { this.SetOwnAttribute(AttributeNames.Height, value); }
+            get => this.GetOwnAttribute(AttributeNames.Height);
+            set => this.SetOwnAttribute(AttributeNames.Height, value);
         }
 
         public Int32 ColumnSpan
         {
-            get { return LimitColSpan(this.GetOwnAttribute(AttributeNames.ColSpan).ToInteger(1)); }
-            set { this.SetOwnAttribute(AttributeNames.ColSpan, value.ToString()); }
+            get => LimitColSpan(this.GetOwnAttribute(AttributeNames.ColSpan).ToInteger(1));
+            set => this.SetOwnAttribute(AttributeNames.ColSpan, value.ToString());
         }
 
         public Int32 RowSpan
         {
-            get { return LimitRowSpan(this.GetOwnAttribute(AttributeNames.RowSpan).ToInteger(1)); }
-            set { this.SetOwnAttribute(AttributeNames.RowSpan, value.ToString()); }
+            get => LimitRowSpan(this.GetOwnAttribute(AttributeNames.RowSpan).ToInteger(1));
+            set => this.SetOwnAttribute(AttributeNames.RowSpan, value.ToString());
         }
 
         public Boolean NoWrap
         {
-            get { return this.GetOwnAttribute(AttributeNames.NoWrap).ToBoolean(false); }
-            set { this.SetOwnAttribute(AttributeNames.NoWrap, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.NoWrap).ToBoolean(false);
+            set => this.SetOwnAttribute(AttributeNames.NoWrap, value.ToString());
         }
 
         public String Abbr
         {
-            get { return this.GetOwnAttribute(AttributeNames.Abbr); }
-            set { this.SetOwnAttribute(AttributeNames.Abbr, value); }
+            get => this.GetOwnAttribute(AttributeNames.Abbr);
+            set => this.SetOwnAttribute(AttributeNames.Abbr, value);
         }
 
         public String Scope
         {
-            get { return this.GetOwnAttribute(AttributeNames.Scope); }
-            set { this.SetOwnAttribute(AttributeNames.Scope, value); }
+            get => this.GetOwnAttribute(AttributeNames.Scope);
+            set => this.SetOwnAttribute(AttributeNames.Scope, value);
         }
 
         public ISettableTokenList Headers
@@ -118,8 +118,8 @@
 
         public String Axis
         {
-            get { return this.GetOwnAttribute(AttributeNames.Axis); }
-            set { this.SetOwnAttribute(AttributeNames.Axis, value); }
+            get => this.GetOwnAttribute(AttributeNames.Axis);
+            set => this.SetOwnAttribute(AttributeNames.Axis, value);
         }
 
         #endregion

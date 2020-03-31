@@ -36,20 +36,20 @@
 
         public String Source
         {
-            get { return this.GetUrlAttribute(AttributeNames.Src); }
-            set { this.SetOwnAttribute(AttributeNames.Src, value); }
+            get => this.GetUrlAttribute(AttributeNames.Src);
+            set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
         public String CrossOrigin
         {
-            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
-            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
+            get => this.GetOwnAttribute(AttributeNames.CrossOrigin);
+            set => this.SetOwnAttribute(AttributeNames.CrossOrigin, value);
         }
 
         public String Preload
         {
-            get { return this.GetOwnAttribute(AttributeNames.Preload); }
-            set { this.SetOwnAttribute(AttributeNames.Preload, value); }
+            get => this.GetOwnAttribute(AttributeNames.Preload);
+            set => this.SetOwnAttribute(AttributeNames.Preload, value);
         }
 
         public MediaNetworkState NetworkState => _request?.NetworkState ?? MediaNetworkState.Empty;
@@ -79,7 +79,7 @@
 
         public Double CurrentTime
         {
-            get { return Controller?.CurrentTime ?? 0.0; }
+            get => Controller?.CurrentTime ?? 0.0;
             set
             {
                 var controller = Controller;
@@ -104,26 +104,26 @@
 
         public Boolean IsAutoplay
         {
-            get { return this.GetBoolAttribute(AttributeNames.Autoplay); }
-            set { this.SetBoolAttribute(AttributeNames.Autoplay, value); }
+            get => this.GetBoolAttribute(AttributeNames.Autoplay);
+            set => this.SetBoolAttribute(AttributeNames.Autoplay, value);
         }
 
         public Boolean IsLoop
         {
-            get { return this.GetBoolAttribute(AttributeNames.Loop); }
-            set { this.SetBoolAttribute(AttributeNames.Loop, value); }
+            get => this.GetBoolAttribute(AttributeNames.Loop);
+            set => this.SetBoolAttribute(AttributeNames.Loop, value);
         }
 
         public Boolean IsShowingControls
         {
-            get { return this.GetBoolAttribute(AttributeNames.Controls); }
-            set { this.SetBoolAttribute(AttributeNames.Controls, value); }
+            get => this.GetBoolAttribute(AttributeNames.Controls);
+            set => this.SetBoolAttribute(AttributeNames.Controls, value);
         }
 
         public Boolean IsDefaultMuted
         {
-            get { return this.GetBoolAttribute(AttributeNames.Muted); }
-            set { this.SetBoolAttribute(AttributeNames.Muted, value); }
+            get => this.GetBoolAttribute(AttributeNames.Muted);
+            set => this.SetBoolAttribute(AttributeNames.Muted, value);
         }
 
         public Boolean IsPaused => PlaybackState == MediaControllerPlaybackState.Waiting && ReadyState >= MediaReadyState.CurrentData;
@@ -140,13 +140,13 @@
 
         public String MediaGroup
         {
-            get { return this.GetOwnAttribute(AttributeNames.MediaGroup); }
-            set { this.SetOwnAttribute(AttributeNames.MediaGroup, value); }
+            get => this.GetOwnAttribute(AttributeNames.MediaGroup);
+            set => this.SetOwnAttribute(AttributeNames.MediaGroup, value);
         }
 
         public Double Volume
         {
-            get { return Controller?.Volume ?? 1.0; }
+            get => Controller?.Volume ?? 1.0;
             set
             {
                 var controller = Controller;
@@ -160,7 +160,7 @@
 
         public Boolean IsMuted
         {
-            get { return Controller?.IsMuted ?? false; }
+            get => Controller?.IsMuted ?? false;
             set
             {
                 var controller = Controller;
@@ -176,7 +176,7 @@
 
         public Double DefaultPlaybackRate
         {
-            get { return Controller?.DefaultPlaybackRate ?? 1.0; }
+            get => Controller?.DefaultPlaybackRate ?? 1.0;
             set
             {
                 var controller = Controller;
@@ -190,7 +190,7 @@
 
         public Double PlaybackRate
         {
-            get { return Controller?.PlaybackRate ?? 1.0; }
+            get => Controller?.PlaybackRate ?? 1.0;
             set
             {
                 var controller = Controller;
@@ -216,8 +216,8 @@
 
         public ITextTrackList TextTracks
         {
-            get { return _texts; }
-            protected set { _texts = value; }
+            get => _texts;
+            protected set => _texts = value;
         }
 
         #endregion

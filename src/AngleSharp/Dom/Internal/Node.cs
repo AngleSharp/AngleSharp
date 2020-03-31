@@ -486,11 +486,9 @@ namespace AngleSharp.Dom
                 }
                 else if (node is ICharacterData characterData)
                 {
-                    var p = characterData.Parent;
-
-                    if (p != null && p.Flags.HasFlag(NodeFlags.LiteralText))
+                    if (characterData.Parent?.Flags.HasFlag(NodeFlags.LiteralText) ?? false)
                     {
-                        writer.Write(characterData.Data);
+                        writer.Write(formatter.LiteralText(characterData));
                     }
                     else
                     {

@@ -25,14 +25,14 @@
 
         public Int32 Columns
         {
-            get { return this.GetOwnAttribute(AttributeNames.Cols).ToInteger(1); }
-            set { this.SetOwnAttribute(AttributeNames.Cols, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Cols).ToInteger(1);
+            set => this.SetOwnAttribute(AttributeNames.Cols, value.ToString());
         }
 
         public Int32 Rows
         {
-            get { return this.GetOwnAttribute(AttributeNames.Rows).ToInteger(1); }
-            set { this.SetOwnAttribute(AttributeNames.Rows, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Rows).ToInteger(1);
+            set => this.SetOwnAttribute(AttributeNames.Rows, value.ToString());
         }
 
         #endregion

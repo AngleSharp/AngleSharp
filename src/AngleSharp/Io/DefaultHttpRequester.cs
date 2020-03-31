@@ -4,6 +4,7 @@ namespace AngleSharp.Io
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -50,7 +51,8 @@ namespace AngleSharp.Io
             _setup = setup ?? ((HttpWebRequest r) => { });
             _headers = new Dictionary<String, String>
             {
-                { HeaderNames.UserAgent, userAgent ?? AgentName }
+                { HeaderNames.UserAgent, userAgent ?? AgentName },
+                { HeaderNames.AcceptEncoding, "gzip, deflate" }
             };
         }
 
@@ -68,8 +70,8 @@ namespace AngleSharp.Io
         /// </summary>
         public TimeSpan Timeout
         {
-            get { return _timeOut; }
-            set { _timeOut = value; }
+            get => _timeOut;
+            set => _timeOut = value;
         }
 
         #endregion
@@ -338,8 +340,10 @@ namespace AngleSharp.Io
                         //This might fail on certain platforms
                         property.SetValue(_http, value, null);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        Debug.WriteLine("Exception while setting value on the HTTP requester: {0}", ex);
+
                         //Catch any failure and do not try again on the same platform
                         lock (Restricted)
                         {

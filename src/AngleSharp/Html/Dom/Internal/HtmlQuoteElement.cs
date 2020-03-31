@@ -25,8 +25,8 @@
         /// </summary>
         public String Citation
         {
-            get { return this.GetOwnAttribute(AttributeNames.Cite); }
-            set { this.SetOwnAttribute(AttributeNames.Cite, value); }
+            get => this.GetOwnAttribute(AttributeNames.Cite);
+            set => this.SetOwnAttribute(AttributeNames.Cite, value);
         }
 
         #endregion

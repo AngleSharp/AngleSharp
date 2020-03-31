@@ -35,50 +35,50 @@
 
         public String SourceSet
         {
-            get { return this.GetOwnAttribute(AttributeNames.SrcSet); }
-            set { this.SetOwnAttribute(AttributeNames.SrcSet, value); }
+            get => this.GetOwnAttribute(AttributeNames.SrcSet);
+            set => this.SetOwnAttribute(AttributeNames.SrcSet, value);
         }
 
         public String Sizes
         {
-            get { return this.GetOwnAttribute(AttributeNames.Sizes); }
-            set { this.SetOwnAttribute(AttributeNames.Sizes, value); }
+            get => this.GetOwnAttribute(AttributeNames.Sizes);
+            set => this.SetOwnAttribute(AttributeNames.Sizes, value);
         }
 
         public String Source
         {
-            get { return this.GetUrlAttribute(AttributeNames.Src); }
-            set { this.SetOwnAttribute(AttributeNames.Src, value); }
+            get => this.GetUrlAttribute(AttributeNames.Src);
+            set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
         public String AlternativeText
         {
-            get { return this.GetOwnAttribute(AttributeNames.Alt); }
-            set { this.SetOwnAttribute(AttributeNames.Alt, value); }
+            get => this.GetOwnAttribute(AttributeNames.Alt);
+            set => this.SetOwnAttribute(AttributeNames.Alt, value);
         }
 
         public String CrossOrigin
         {
-            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
-            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
+            get => this.GetOwnAttribute(AttributeNames.CrossOrigin);
+            set => this.SetOwnAttribute(AttributeNames.CrossOrigin, value);
         }
 
         public String UseMap
         {
-            get { return this.GetOwnAttribute(AttributeNames.UseMap); }
-            set { this.SetOwnAttribute(AttributeNames.UseMap, value); }
+            get => this.GetOwnAttribute(AttributeNames.UseMap);
+            set => this.SetOwnAttribute(AttributeNames.UseMap, value);
         }
 
         public Int32 DisplayWidth
         {
-            get { return this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { this.SetOwnAttribute(AttributeNames.Width, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth);
+            set => this.SetOwnAttribute(AttributeNames.Width, value.ToString());
         }
 
         public Int32 DisplayHeight
         {
-            get { return this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight);
+            set => this.SetOwnAttribute(AttributeNames.Height, value.ToString());
         }
 
         public Int32 OriginalWidth => _request?.Width ?? 0;
@@ -89,8 +89,8 @@
 
         public Boolean IsMap
         {
-            get { return this.GetBoolAttribute(AttributeNames.IsMap); }
-            set { this.SetBoolAttribute(AttributeNames.IsMap, value); }
+            get => this.GetBoolAttribute(AttributeNames.IsMap);
+            set => this.SetBoolAttribute(AttributeNames.IsMap, value);
         }
 
         #endregion

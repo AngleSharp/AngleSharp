@@ -93,9 +93,9 @@ namespace AngleSharp.Dom
         /// </summary>
         public String Value
         {
-            get { return _value; }
-            set 
-            { 
+            get => _value;
+            set
+            {
                 var oldValue = _value;
                 _value = value;
                 Container?.RaiseChangedEvent(this, value, oldValue);

@@ -98,7 +98,7 @@ namespace AngleSharp.Text
         /// </summary>
         public Encoding CurrentEncoding
         {
-            get { return _encoding; }
+            get => _encoding;
             set
             {
                 if (_confidence != EncodingConfidence.Tentative)
@@ -155,8 +155,8 @@ namespace AngleSharp.Text
         /// </summary>
         public Int32 Index
         {
-            get { return _index; }
-            set { _index = value; }
+            get => _index;
+            set => _index = value;
         }
 
         #endregion

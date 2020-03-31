@@ -21,14 +21,14 @@
 
         public String Value
         {
-            get { return this.GetOwnAttribute(AttributeNames.Value); }
-            set { this.SetOwnAttribute(AttributeNames.Value, value); }
+            get => this.GetOwnAttribute(AttributeNames.Value);
+            set => this.SetOwnAttribute(AttributeNames.Value, value);
         }
 
         public String Name
         {
-            get { return this.GetOwnAttribute(AttributeNames.Name); }
-            set { this.SetOwnAttribute(AttributeNames.Name, value); }
+            get => this.GetOwnAttribute(AttributeNames.Name);
+            set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
         #endregion

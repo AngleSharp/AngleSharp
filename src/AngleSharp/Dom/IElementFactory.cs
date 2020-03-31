@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
 
@@ -17,7 +17,8 @@
         /// <param name="document">The owner of the element.</param>
         /// <param name="localName">The local name of the element.</param>
         /// <param name="prefix">The optional prefix of the element.</param>
+        /// <param name="flags">The optional flags for the node.</param>
         /// <returns>The created document's child element.</returns>
-        TElement Create(TDocument document, String localName, String prefix = null);
+        TElement Create(TDocument document, String localName, String prefix = null, NodeFlags flags = NodeFlags.None);
     }
 }

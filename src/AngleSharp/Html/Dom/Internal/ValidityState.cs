@@ -32,8 +32,8 @@
         /// </summary>
         public Boolean IsValueMissing
         {
-            get { return _err.HasFlag(ValidationErrors.ValueMissing); }
-            set { Set(IsValueMissing, value, ValidationErrors.ValueMissing); }
+            get => _err.HasFlag(ValidationErrors.ValueMissing);
+            set => Set(IsValueMissing, value, ValidationErrors.ValueMissing);
         }
 
         /// <summary>
@@ -41,8 +41,8 @@
         /// </summary>
         public Boolean IsTypeMismatch
         {
-            get { return _err.HasFlag(ValidationErrors.TypeMismatch); }
-            set { Set(IsTypeMismatch, value, ValidationErrors.TypeMismatch); }
+            get => _err.HasFlag(ValidationErrors.TypeMismatch);
+            set => Set(IsTypeMismatch, value, ValidationErrors.TypeMismatch);
         }
 
         /// <summary>
@@ -50,8 +50,8 @@
         /// </summary>
         public Boolean IsPatternMismatch
         {
-            get { return _err.HasFlag(ValidationErrors.PatternMismatch); }
-            set { Set(IsPatternMismatch, value, ValidationErrors.PatternMismatch); }
+            get => _err.HasFlag(ValidationErrors.PatternMismatch);
+            set => Set(IsPatternMismatch, value, ValidationErrors.PatternMismatch);
         }
 
         /// <summary>
@@ -59,8 +59,8 @@
         /// </summary>
         public Boolean IsBadInput
         {
-            get { return _err.HasFlag(ValidationErrors.BadInput); }
-            set { Set(IsBadInput, value, ValidationErrors.BadInput); }
+            get => _err.HasFlag(ValidationErrors.BadInput);
+            set => Set(IsBadInput, value, ValidationErrors.BadInput);
         }
 
         /// <summary>
@@ -68,8 +68,8 @@
         /// </summary>
         public Boolean IsTooLong
         {
-            get { return _err.HasFlag(ValidationErrors.TooLong); }
-            set { Set(IsTooLong, value, ValidationErrors.TooLong); }
+            get => _err.HasFlag(ValidationErrors.TooLong);
+            set => Set(IsTooLong, value, ValidationErrors.TooLong);
         }
 
         /// <summary>
@@ -77,8 +77,8 @@
         /// </summary>
         public Boolean IsTooShort
         {
-            get { return _err.HasFlag(ValidationErrors.TooShort); }
-            set { Set(IsTooShort, value, ValidationErrors.TooShort); }
+            get => _err.HasFlag(ValidationErrors.TooShort);
+            set => Set(IsTooShort, value, ValidationErrors.TooShort);
         }
 
         /// <summary>
@@ -86,8 +86,8 @@
         /// </summary>
         public Boolean IsRangeUnderflow
         {
-            get { return _err.HasFlag(ValidationErrors.RangeUnderflow); }
-            set { Set(IsRangeUnderflow, value, ValidationErrors.RangeUnderflow); }
+            get => _err.HasFlag(ValidationErrors.RangeUnderflow);
+            set => Set(IsRangeUnderflow, value, ValidationErrors.RangeUnderflow);
         }
 
         /// <summary>
@@ -95,8 +95,8 @@
         /// </summary>
         public Boolean IsRangeOverflow
         {
-            get { return _err.HasFlag(ValidationErrors.RangeOverflow); }
-            set { Set(IsRangeOverflow, value, ValidationErrors.RangeOverflow); }
+            get => _err.HasFlag(ValidationErrors.RangeOverflow);
+            set => Set(IsRangeOverflow, value, ValidationErrors.RangeOverflow);
         }
 
         /// <summary>
@@ -104,8 +104,8 @@
         /// </summary>
         public Boolean IsStepMismatch
         {
-            get { return _err.HasFlag(ValidationErrors.StepMismatch); }
-            set { Set(IsStepMismatch, value, ValidationErrors.StepMismatch); }
+            get => _err.HasFlag(ValidationErrors.StepMismatch);
+            set => Set(IsStepMismatch, value, ValidationErrors.StepMismatch);
         }
 
         /// <summary>
@@ -113,8 +113,8 @@
         /// </summary>
         public Boolean IsCustomError
         {
-            get { return _err.HasFlag(ValidationErrors.Custom); }
-            set { Set(IsCustomError, value, ValidationErrors.Custom); }
+            get => _err.HasFlag(ValidationErrors.Custom);
+            set => Set(IsCustomError, value, ValidationErrors.Custom);
         }
 
         /// <summary>

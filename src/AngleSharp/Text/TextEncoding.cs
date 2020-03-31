@@ -3,6 +3,7 @@ namespace AngleSharp.Text
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
 
     /// <summary>
@@ -147,10 +148,7 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="encoding">The encoding to check.</param>
         /// <returns>The result of the check (UTF-16BE, UTF-16LE).</returns>
-        public static Boolean IsUnicode(this Encoding encoding)
-        {
-            return encoding == Utf16Be || encoding == Utf16Le;
-        }
+        public static Boolean IsUnicode(this Encoding encoding) => encoding == Utf16Be || encoding == Utf16Le;
 
         #endregion
 
@@ -271,10 +269,7 @@ namespace AngleSharp.Text
         /// <returns>
         /// True if a valid encdoing has been found, otherwise false.
         /// </returns>
-        public static Boolean IsSupported(String charset)
-        {
-            return encodings.ContainsKey(charset);
-        }
+        public static Boolean IsSupported(String charset) => encodings.ContainsKey(charset);
 
         /// <summary>
         /// Resolves an Encoding instance given by the charset string.
@@ -297,17 +292,17 @@ namespace AngleSharp.Text
 
         #region Helper
 
-        private static Encoding GetEncoding(String name)
+        private static Encoding GetEncoding(String name, Encoding fallback = default)
         {
             try
             {
                 return Encoding.GetEncoding(name);
             }
-            catch
+            catch (Exception ex)
             {
-                // We use a catch em all since WP8 does throw a different
-                // exception than W*.
-                return Utf8;
+                Debug.WriteLine("The platform does not allow using the '{0}' encoding: {1}", name, ex);
+                // We use a catch em all since WP8 does throw a different exception than W*.
+                return fallback ?? Utf8;
             }
         }
 
@@ -504,19 +499,23 @@ namespace AngleSharp.Text
             encodings.Add("koi8_r", kr);
             encodings.Add("koi8-u", GetEncoding("koi8-u"));
 
-            var chinese = GetEncoding("x-cp20936");
-            encodings.Add("chinese", chinese);
-            encodings.Add("csgb2312", chinese);
-            encodings.Add("csiso58gb231280", chinese);
-            encodings.Add("gb2312", chinese);
-            encodings.Add("gb_2312", chinese);
-            encodings.Add("gb_2312-80", chinese);
-            encodings.Add("gbk", chinese);
-            encodings.Add("iso-ir-58", chinese);
-            encodings.Add("x-gbk", chinese);
+            var chineseOfficial = GetEncoding("GB18030", GetEncoding("x-cp20936"));
+            encodings.Add("chinese", chineseOfficial);
+            encodings.Add("csgb2312", chineseOfficial);
+            encodings.Add("csiso58gb231280", chineseOfficial);
+            encodings.Add("gb2312", chineseOfficial);
+            encodings.Add("gb_2312", chineseOfficial);
+            encodings.Add("gb_2312-80", chineseOfficial);
+            encodings.Add("gbk", chineseOfficial);
+            encodings.Add("iso-ir-58", chineseOfficial);
+            encodings.Add("x-gbk", chineseOfficial);
             encodings.Add("hz-gb-2312", GetEncoding("hz-gb-2312"));
             encodings.Add("gb18030", Gb18030);
-            
+
+            var chineseSimplified = GetEncoding("x-cp50227");
+            encodings.Add("x-cp50227", chineseSimplified);
+            encodings.Add("iso-22-cn", chineseSimplified);
+
             encodings.Add("big5", Big5);
             encodings.Add("big5-hkscs", Big5);
             encodings.Add("cn-big5", Big5);

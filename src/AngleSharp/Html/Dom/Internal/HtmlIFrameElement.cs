@@ -28,14 +28,14 @@ namespace AngleSharp.Html.Dom
 
         public Alignment Align
         {
-            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Bottom); }
-            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Bottom);
+            set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
         public String ContentHtml
         {
-            get { return this.GetOwnAttribute(AttributeNames.SrcDoc); }
-            set { this.SetOwnAttribute(AttributeNames.SrcDoc, value); }
+            get => this.GetOwnAttribute(AttributeNames.SrcDoc);
+            set => this.SetOwnAttribute(AttributeNames.SrcDoc, value);
         }
 
         public ISettableTokenList Sandbox
@@ -54,26 +54,26 @@ namespace AngleSharp.Html.Dom
 
         public Boolean IsSeamless
         {
-            get { return this.GetBoolAttribute(AttributeNames.SrcDoc); }
-            set { this.SetBoolAttribute(AttributeNames.SrcDoc, value); }
+            get => this.GetBoolAttribute(AttributeNames.SrcDoc);
+            set => this.SetBoolAttribute(AttributeNames.SrcDoc, value);
         }
 
         public Boolean IsFullscreenAllowed
         {
-            get { return this.GetBoolAttribute(AttributeNames.AllowFullscreen); }
-            set { this.SetBoolAttribute(AttributeNames.AllowFullscreen, value); }
+            get => this.GetBoolAttribute(AttributeNames.AllowFullscreen);
+            set => this.SetBoolAttribute(AttributeNames.AllowFullscreen, value);
         }
 
         public Boolean IsPaymentRequestAllowed
         {
-            get { return this.GetBoolAttribute(AttributeNames.AllowPaymentRequest); }
-            set { this.SetBoolAttribute(AttributeNames.AllowPaymentRequest, value); }
+            get => this.GetBoolAttribute(AttributeNames.AllowPaymentRequest);
+            set => this.SetBoolAttribute(AttributeNames.AllowPaymentRequest, value);
         }
 
         public String ReferrerPolicy
         {
-            get { return this.GetOwnAttribute(AttributeNames.ReferrerPolicy); }
-            set { this.SetOwnAttribute(AttributeNames.ReferrerPolicy, value); }
+            get => this.GetOwnAttribute(AttributeNames.ReferrerPolicy);
+            set => this.SetOwnAttribute(AttributeNames.ReferrerPolicy, value);
         }
 
         public IWindow ContentWindow => NestedContext.Current;

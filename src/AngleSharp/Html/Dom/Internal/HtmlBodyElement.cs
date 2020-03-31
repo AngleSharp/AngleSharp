@@ -97,38 +97,38 @@
 
         public String ALink
         {
-            get { return this.GetOwnAttribute(AttributeNames.Alink); }
-            set { this.SetOwnAttribute(AttributeNames.Alink, value); }
+            get => this.GetOwnAttribute(AttributeNames.Alink);
+            set => this.SetOwnAttribute(AttributeNames.Alink, value);
         }
 
         public String Background
         {
-            get { return this.GetOwnAttribute(AttributeNames.Background); }
-            set { this.SetOwnAttribute(AttributeNames.Background, value); }
+            get => this.GetOwnAttribute(AttributeNames.Background);
+            set => this.SetOwnAttribute(AttributeNames.Background, value);
         }
 
         public String BgColor
         {
-            get { return this.GetOwnAttribute(AttributeNames.BgColor); }
-            set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
+            get => this.GetOwnAttribute(AttributeNames.BgColor);
+            set => this.SetOwnAttribute(AttributeNames.BgColor, value);
         }
 
         public String Link
         {
-            get { return this.GetOwnAttribute(AttributeNames.Link); }
-            set { this.SetOwnAttribute(AttributeNames.Link, value); }
+            get => this.GetOwnAttribute(AttributeNames.Link);
+            set => this.SetOwnAttribute(AttributeNames.Link, value);
         }
 
         public String Text
         {
-            get { return this.GetOwnAttribute(AttributeNames.Text); }
-            set { this.SetOwnAttribute(AttributeNames.Text, value); }
+            get => this.GetOwnAttribute(AttributeNames.Text);
+            set => this.SetOwnAttribute(AttributeNames.Text, value);
         }
 
         public String VLink
         {
-            get { return this.GetOwnAttribute(AttributeNames.Vlink); }
-            set { this.SetOwnAttribute(AttributeNames.Vlink, value); }
+            get => this.GetOwnAttribute(AttributeNames.Vlink);
+            set => this.SetOwnAttribute(AttributeNames.Vlink, value);
         }
 
         #endregion

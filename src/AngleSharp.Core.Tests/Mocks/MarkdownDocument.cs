@@ -16,10 +16,7 @@ namespace AngleSharp.Core.Tests.Mocks
 
         public override IEntityProvider Entities => HtmlEntityProvider.Resolver;
 
-        public override Element CreateElementFrom(String name, String prefix)
-        {
-            return new AnyElement(this, name, prefix, null);
-        }
+        public override Element CreateElementFrom(String name, String prefix, NodeFlags flags) => new AnyElement(this, name, prefix, null, flags);
 
         public override Node Clone(Document owner, Boolean deep)
         {

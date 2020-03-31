@@ -32,22 +32,22 @@ namespace AngleSharp.Html.Dom
 
         public String Name
         {
-            get { return this.GetOwnAttribute(AttributeNames.Name); }
-            set { this.SetOwnAttribute(AttributeNames.Name, value); }
+            get => this.GetOwnAttribute(AttributeNames.Name);
+            set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
         public IHtmlFormElement Form => GetAssignedForm();
 
         public Boolean IsDisabled
         {
-            get { return this.GetBoolAttribute(AttributeNames.Disabled) || IsFieldsetDisabled(); }
-            set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
+            get => this.GetBoolAttribute(AttributeNames.Disabled) || IsFieldsetDisabled();
+            set => this.SetBoolAttribute(AttributeNames.Disabled, value);
         }
 
         public Boolean Autofocus
         {
-            get { return this.GetBoolAttribute(AttributeNames.AutoFocus); }
-            set { this.SetBoolAttribute(AttributeNames.AutoFocus, value); }
+            get => this.GetBoolAttribute(AttributeNames.AutoFocus);
+            set => this.SetBoolAttribute(AttributeNames.AutoFocus, value);
         }
 
         public INodeList Labels => _labels;

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Css;
     using AngleSharp.Dom;
@@ -39,7 +39,7 @@
 
         public Boolean IsDisabled
         {
-            get { return this.GetBoolAttribute(AttributeNames.Disabled); }
+            get => this.GetBoolAttribute(AttributeNames.Disabled);
             set
             {
                 this.SetBoolAttribute(AttributeNames.Disabled, value);
@@ -53,14 +53,14 @@
 
         public String Media
         {
-            get { return this.GetOwnAttribute(AttributeNames.Media); }
-            set { this.SetOwnAttribute(AttributeNames.Media, value); }
+            get => this.GetOwnAttribute(AttributeNames.Media);
+            set => this.SetOwnAttribute(AttributeNames.Media, value);
         }
 
         public String Type
         {
-            get { return this.GetOwnAttribute(AttributeNames.Type); }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => this.GetOwnAttribute(AttributeNames.Type);
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         #endregion
@@ -123,10 +123,11 @@
             {
                 Element = this,
                 IsDisabled = IsDisabled,
-                IsAlternate = false
+                IsAlternate = false,
             };
             var task = engine.ParseStylesheetAsync(response, options, cancel);
             _sheet = await task.ConfigureAwait(false);
+            UpdateMedia(Media);
         }
 
         #endregion

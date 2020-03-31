@@ -142,7 +142,7 @@ namespace AngleSharp.Html
             { TagNames.Plaintext, (document, prefix) => new HtmlSemanticElement(document, TagNames.Plaintext, prefix) },
             { TagNames.IsIndex, (document, prefix) => new HtmlIsIndexElement(document, prefix) },
             { TagNames.Mark, (document, prefix) => new HtmlElement(document, TagNames.Mark) },
-            { TagNames.Sub, (document, prefix) => new HtmlElement(document, TagNames.Sub) },//
+            { TagNames.Sub, (document, prefix) => new HtmlElement(document, TagNames.Sub) },
             { TagNames.Sup, (document, prefix) => new HtmlElement(document, TagNames.Sup) },
             { TagNames.Dfn, (document, prefix) => new HtmlElement(document, TagNames.Dfn) },
             { TagNames.Kbd, (document, prefix) => new HtmlElement(document, TagNames.Kbd) },
@@ -159,15 +159,16 @@ namespace AngleSharp.Html
         /// <param name="document">The document that owns the element.</param>
         /// <param name="localName">The given tag name.</param>
         /// <param name="prefix">The prefix of the element, if any.</param>
+        /// <param name="flags">The optional flags, if any.</param>
         /// <returns>The specialized HTMLElement instance.</returns>
-        public HtmlElement Create(Document document, String localName, String prefix = null)
+        public HtmlElement Create(Document document, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
         {
             if (creators.TryGetValue(localName, out var creator))
             {
-                return creator(document, prefix);
+                return creator.Invoke(document, prefix);
             }
 
-            return new HtmlUnknownElement(document, localName.HtmlLower(), prefix);
+            return new HtmlUnknownElement(document, localName.HtmlLower(), prefix, flags);
         }
     }
 }

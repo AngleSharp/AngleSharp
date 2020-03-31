@@ -110,6 +110,16 @@ namespace AngleSharp.Html
         /// <param name="type">The type of the entry.</param>
         public void Append(String name, String value, String type)
         {
+            if (type.Isi(InputTypeNames.Radio))
+            {
+                // If same name radio entry already exist, drop it.
+                var earlierEntry = _entries.FirstOrDefault(s => s.Name.Is(name) && s.Type.Isi(InputTypeNames.Radio));
+                if (earlierEntry != null)
+                {
+                    _entries.Remove(earlierEntry);
+                }
+            }
+
             if (type.Isi(TagNames.Textarea))
             {
                 name = name.NormalizeLineEndings();

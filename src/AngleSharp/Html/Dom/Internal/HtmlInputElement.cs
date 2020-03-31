@@ -32,26 +32,26 @@ namespace AngleSharp.Html.Dom
 
         public override String DefaultValue
         {
-            get { return this.GetOwnAttribute(AttributeNames.Value) ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.Value, value); }
+            get => this.GetOwnAttribute(AttributeNames.Value) ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.Value, value);
         }
 
         public Boolean IsDefaultChecked
         {
-            get { return this.GetBoolAttribute(AttributeNames.Checked); }
-            set { this.SetBoolAttribute(AttributeNames.Checked, value); }
+            get => this.GetBoolAttribute(AttributeNames.Checked);
+            set => this.SetBoolAttribute(AttributeNames.Checked, value);
         }
 
         public Boolean IsChecked
         {
-            get { return _checked.HasValue ? _checked.Value : IsDefaultChecked; }
-            set { _checked = value; }
+            get => _checked.HasValue ? _checked.Value : IsDefaultChecked;
+            set => _checked = value;
         }
 
         public String Type
         {
-            get { return _type.Name; }
-            set { this.SetOwnAttribute(AttributeNames.Type, value); }
+            get => _type.Name;
+            set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
         public Boolean IsIndeterminate
@@ -62,13 +62,13 @@ namespace AngleSharp.Html.Dom
 
         public Boolean IsMultiple
         {
-            get { return this.GetBoolAttribute(AttributeNames.Multiple); }
-            set { this.SetBoolAttribute(AttributeNames.Multiple, value); }
+            get => this.GetBoolAttribute(AttributeNames.Multiple);
+            set => this.SetBoolAttribute(AttributeNames.Multiple, value);
         }
 
         public DateTime? ValueAsDate
         {
-            get { return _type.ConvertToDate(Value); }
+            get => _type.ConvertToDate(Value);
             set
             {
                 if (value == null)
@@ -84,7 +84,7 @@ namespace AngleSharp.Html.Dom
 
         public Double ValueAsNumber
         {
-            get { return _type.ConvertToNumber(Value) ?? Double.NaN; }
+            get => _type.ConvertToNumber(Value) ?? Double.NaN;
             set
             {
                 if (Double.IsInfinity(value))
@@ -103,56 +103,56 @@ namespace AngleSharp.Html.Dom
 
         public String FormAction
         {
-            get { return this.GetOwnAttribute(AttributeNames.FormAction) ?? Owner?.DocumentUri; }
-            set { this.SetOwnAttribute(AttributeNames.FormAction, value); }
+            get => this.GetOwnAttribute(AttributeNames.FormAction) ?? Owner?.DocumentUri;
+            set => this.SetOwnAttribute(AttributeNames.FormAction, value);
         }
 
         public String FormEncType
         {
-            get { return this.GetOwnAttribute(AttributeNames.FormEncType).ToEncodingType() ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.FormEncType, value); }
+            get => this.GetOwnAttribute(AttributeNames.FormEncType).ToEncodingType() ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.FormEncType, value);
         }
 
         public String FormMethod
         {
-            get { return this.GetOwnAttribute(AttributeNames.FormMethod).ToFormMethod() ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.FormMethod, value); }
+            get => this.GetOwnAttribute(AttributeNames.FormMethod).ToFormMethod() ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.FormMethod, value);
         }
 
         public Boolean FormNoValidate
         {
-            get { return this.GetBoolAttribute(AttributeNames.FormNoValidate); }
-            set { this.SetBoolAttribute(AttributeNames.FormNoValidate, value); }
+            get => this.GetBoolAttribute(AttributeNames.FormNoValidate);
+            set => this.SetBoolAttribute(AttributeNames.FormNoValidate, value);
         }
 
         public String FormTarget
         {
-            get { return this.GetOwnAttribute(AttributeNames.FormTarget) ?? String.Empty; }
-            set { this.SetOwnAttribute(AttributeNames.FormTarget, value); }
+            get => this.GetOwnAttribute(AttributeNames.FormTarget) ?? String.Empty;
+            set => this.SetOwnAttribute(AttributeNames.FormTarget, value);
         }
 
         public String Accept
         {
-            get { return this.GetOwnAttribute(AttributeNames.Accept); }
-            set { this.SetOwnAttribute(AttributeNames.Accept, value); }
+            get => this.GetOwnAttribute(AttributeNames.Accept);
+            set => this.SetOwnAttribute(AttributeNames.Accept, value);
         }
 
         public Alignment Align
         {
-            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Left); }
-            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Left);
+            set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
         public String AlternativeText
         {
-            get { return this.GetOwnAttribute(AttributeNames.Alt); }
-            set { this.SetOwnAttribute(AttributeNames.Alt, value); }
+            get => this.GetOwnAttribute(AttributeNames.Alt);
+            set => this.SetOwnAttribute(AttributeNames.Alt, value);
         }
 
         public String Autocomplete
         {
-            get { return this.GetOwnAttribute(AttributeNames.AutoComplete); }
-            set { this.SetOwnAttribute(AttributeNames.AutoComplete, value); }
+            get => this.GetOwnAttribute(AttributeNames.AutoComplete);
+            set => this.SetOwnAttribute(AttributeNames.AutoComplete, value);
         }
 
         public IFileList Files
@@ -176,56 +176,56 @@ namespace AngleSharp.Html.Dom
 
         public String Maximum
         {
-            get { return this.GetOwnAttribute(AttributeNames.Max); }
-            set { this.SetOwnAttribute(AttributeNames.Max, value); }
+            get => this.GetOwnAttribute(AttributeNames.Max);
+            set => this.SetOwnAttribute(AttributeNames.Max, value);
         }
 
         public String Minimum
         {
-            get { return this.GetOwnAttribute(AttributeNames.Min); }
-            set { this.SetOwnAttribute(AttributeNames.Min, value); }
+            get => this.GetOwnAttribute(AttributeNames.Min);
+            set => this.SetOwnAttribute(AttributeNames.Min, value);
         }
 
         public String Pattern
         {
-            get { return this.GetOwnAttribute(AttributeNames.Pattern); }
-            set { this.SetOwnAttribute(AttributeNames.Pattern, value); }
+            get => this.GetOwnAttribute(AttributeNames.Pattern);
+            set => this.SetOwnAttribute(AttributeNames.Pattern, value);
         }
 
         public Int32 Size
         {
-            get { return this.GetOwnAttribute(AttributeNames.Size).ToInteger(20); }
-            set { this.SetOwnAttribute(AttributeNames.Size, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Size).ToInteger(20);
+            set => this.SetOwnAttribute(AttributeNames.Size, value.ToString());
         }
 
         public String Source
         {
-            get { return this.GetOwnAttribute(AttributeNames.Src); }
-            set { this.SetOwnAttribute(AttributeNames.Src, value); }
+            get => this.GetOwnAttribute(AttributeNames.Src);
+            set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
         public String Step
         {
-            get { return this.GetOwnAttribute(AttributeNames.Step); }
-            set { this.SetOwnAttribute(AttributeNames.Step, value); }
+            get => this.GetOwnAttribute(AttributeNames.Step);
+            set => this.SetOwnAttribute(AttributeNames.Step, value);
         }
 
         public String UseMap
         {
-            get { return this.GetOwnAttribute(AttributeNames.UseMap); }
-            set { this.SetOwnAttribute(AttributeNames.UseMap, value); }
+            get => this.GetOwnAttribute(AttributeNames.UseMap);
+            set => this.SetOwnAttribute(AttributeNames.UseMap, value);
         }
 
         public Int32 DisplayWidth
         {
-            get { return this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { this.SetOwnAttribute(AttributeNames.Width, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth);
+            set => this.SetOwnAttribute(AttributeNames.Width, value.ToString());
         }
 
         public Int32 DisplayHeight
         {
-            get { return this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
+            get => this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight);
+            set => this.SetOwnAttribute(AttributeNames.Height, value.ToString());
         }
 
         public Int32 OriginalWidth
