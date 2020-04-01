@@ -72,6 +72,36 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        [TestCase("=")]
+        [TestCase("`")]
+        [TestCase("<")]
+        [TestCase(">")]
+        [TestCase("'")]
+        [TestCase("&quot;")]
+        public void MinifiesPreservesQuotesWhenNeeded(string attributeValue)
+        {
+            var input = $"<div a=\"{attributeValue}\"></div>";
+            var output = Minify(input);
+            Assert.AreEqual(input, output);
+        }
+
+        [Test]
+        public void MinifiesAddSpaceAfterAttributeValueWhenItEndsWithASlash()
+        {
+            var input = "<div a='abc/'></div>";
+            var output = Minify(input);
+            Assert.AreEqual("<div a=abc/ ></div>", output);
+        }
+
+        [Test]
+        public void MinifiesDoNotAddSpaceAfterAttributeValueWhenItEndsWithASlashIfItIsNotTheLastAttribute()
+        {
+            var input = "<div a='abc/' b=abc></div>";
+            var output = Minify(input);
+            Assert.AreEqual("<div a=abc/ b=abc></div>", output);
+        }
+
+        [Test]
         public void MinifiesFullHtmlStripsOutComments()
         {
             var input = @"<html>
@@ -149,7 +179,7 @@ namespace AngleSharp.Core.Tests.Library
 </body>
 </html>";
             var output = Minify(input);
-            Assert.AreEqual(@"<!DOCTYPE html><html class=no-js lang=en><meta charset=utf-8><meta http-equiv=X-UA-Compatible content=IE=edge,chrome=1><title>Test</title><meta name=keywords content=""Some Test, Another""><header> <div class=tight> </div> </header> <aside> <ul> <li><a href=/filter/2019>2019</a> <li><a href=/filter/2019/5>May 2019</a> <li><a href=/filter/2019/3>March 2019</a> <li><a href=/filter/2019/2>February 2019</a> <li><a href=/filter/2019/1>January 2019</a> <li><a href=/filter/2018>2018</a> <li><a href=/filter/2018/11>November 2018</a> <li><a href=/filter/2017>2017</a> <li><a href=/filter/2016>2016</a> <li><a href=/filter/2015>2015</a> <li><a href=/filter/2014>2014</a> <li><a href=/filter/2013>2013</a> <li><a href=/filter/2012>2012</a> <li><a href=/filter/2011>2011</a> </ul> <div id=google> <div class=side-header>Advertisement</div> <script>google_ad_client = ""ca-pub-7557828921398403"";google_ad_slot = ""8589914705"";google_ad_width = 180;google_ad_height = 90;</script> <script src=https://pagead2.googlesyndication.com/pagead/show_ads.js></script> </div> </aside> <footer> <div id=footer> <a href=/Account/LogOn target=dialog>Log On</a> | <a href=/Account/Register>Register</a> </div> </footer> <script async defer src=//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js></script></html>", output);
+            Assert.AreEqual(@"<!DOCTYPE html><html class=no-js lang=en><meta charset=utf-8><meta http-equiv=X-UA-Compatible content=""IE=edge,chrome=1""><title>Test</title><meta name=keywords content=""Some Test, Another""><header> <div class=tight> </div> </header> <aside> <ul> <li><a href=/filter/2019>2019</a> <li><a href=/filter/2019/5>May 2019</a> <li><a href=/filter/2019/3>March 2019</a> <li><a href=/filter/2019/2>February 2019</a> <li><a href=/filter/2019/1>January 2019</a> <li><a href=/filter/2018>2018</a> <li><a href=/filter/2018/11>November 2018</a> <li><a href=/filter/2017>2017</a> <li><a href=/filter/2016>2016</a> <li><a href=/filter/2015>2015</a> <li><a href=/filter/2014>2014</a> <li><a href=/filter/2013>2013</a> <li><a href=/filter/2012>2012</a> <li><a href=/filter/2011>2011</a> </ul> <div id=google> <div class=side-header>Advertisement</div> <script>google_ad_client = ""ca-pub-7557828921398403"";google_ad_slot = ""8589914705"";google_ad_width = 180;google_ad_height = 90;</script> <script src=https://pagead2.googlesyndication.com/pagead/show_ads.js></script> </div> </aside> <footer> <div id=footer> <a href=/Account/LogOn target=dialog>Log On</a> | <a href=/Account/Register>Register</a> </div> </footer> <script async defer src=//s3.amazonaws.com/cc.silktide.com/cookieconsent.latest.min.js></script></html>", output);
         }
 
         private static String Minify(String input, MinifyMarkupFormatter formatter = null)
