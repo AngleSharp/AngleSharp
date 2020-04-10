@@ -1,3 +1,9 @@
+# 1.0.0
+
+Released on ?.
+
+- Added `ToHtmlAsync()` extension method (#863)
+
 # 0.14.0
 
 Released on Tuesday, March 31 2020.
