@@ -3,6 +3,7 @@
 Released on ?.
 
 - Added `ToHtmlAsync()` extension method (#863)
+- Fixed CSS attribute value comparison w.r.t. case sensitivity (#864)
 
 # 0.14.0
 

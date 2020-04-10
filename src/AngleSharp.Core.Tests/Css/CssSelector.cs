@@ -936,5 +936,27 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var selector = link.GetSelector();
             Assert.AreEqual("body>dd>div:nth-child(3)>div>a", selector);
         }
+
+        [Test]
+        public void AlwaysCaseInsensitiveInValueOfTypeAttribute_Issue864()
+        {
+            var html = @"<input type='teXt'>";
+            var document = html.ToHtmlDocument();
+            var input1 = document.Body.QuerySelector("input[type='text']");
+            var input2 = document.Body.QuerySelector("input[type='TEXT']");
+            Assert.IsNotNull(input1);
+            Assert.IsNotNull(input2);
+        }
+
+        [Test]
+        public void UsuallyCaseSensitiveInValueOfIdAttribute_Issue864()
+        {
+            var html = @"<input id='teXt'>";
+            var document = html.ToHtmlDocument();
+            var input1 = document.Body.QuerySelector("input[id='text']");
+            var input2 = document.Body.QuerySelector("input[id='TEXT']");
+            Assert.IsNull(input1);
+            Assert.IsNull(input2);
+        }
     }
 }

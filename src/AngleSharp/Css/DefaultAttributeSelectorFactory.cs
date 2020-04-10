@@ -1,6 +1,7 @@
 namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
+    using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
 
@@ -9,6 +10,57 @@ namespace AngleSharp.Css
     /// </summary>
     public class DefaultAttributeSelectorFactory : IAttributeSelectorFactory
     {
+        // see https://html.spec.whatwg.org/multipage/semantics-other.html#case-sensitivity-of-selectors
+        private static readonly HashSet<String> insensitiveAttributes = new HashSet<String>
+        {
+            AttributeNames.Accept,
+            AttributeNames.AcceptCharset,
+            AttributeNames.Align,
+            AttributeNames.Alink,
+            AttributeNames.Axis,
+            AttributeNames.BgColor,
+            AttributeNames.Charset,
+            AttributeNames.Checked,
+            AttributeNames.Clear,
+            AttributeNames.Codetype,
+            AttributeNames.Color,
+            AttributeNames.Compact,
+            AttributeNames.Declare,
+            AttributeNames.Defer,
+            AttributeNames.Dir,
+            AttributeNames.Direction,
+            AttributeNames.Disabled,
+            AttributeNames.Enctype,
+            AttributeNames.Face,
+            AttributeNames.Frame,
+            AttributeNames.HrefLang,
+            AttributeNames.HttpEquiv,
+            AttributeNames.Lang,
+            AttributeNames.Language,
+            AttributeNames.Link,
+            AttributeNames.Media,
+            AttributeNames.Method,
+            AttributeNames.Multiple,
+            AttributeNames.NoHref,
+            AttributeNames.NoResize,
+            AttributeNames.NoShade,
+            AttributeNames.NoWrap,
+            AttributeNames.Readonly,
+            AttributeNames.Rel,
+            AttributeNames.Rev,
+            AttributeNames.Rules,
+            AttributeNames.Scope,
+            AttributeNames.Scrolling,
+            AttributeNames.Selected,
+            AttributeNames.Shape,
+            AttributeNames.Target,
+            AttributeNames.Text,
+            AttributeNames.Type,
+            AttributeNames.Valign,
+            AttributeNames.ValueType,
+            AttributeNames.Vlink,
+        };
+
         private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>
         {
             { CombinatorSymbols.Exactly, (name, value, prefix, mode) => new AttrMatchSelector(name, value, prefix, mode) },
@@ -75,6 +127,12 @@ namespace AngleSharp.Css
         /// <returns>The associated selector.</returns>
         public ISelector Create(String combinator, String name, String value, String prefix, Boolean insensitive)
         {
+            if (!insensitive && insensitiveAttributes.Contains(name))
+            {
+                // for some known attributes we need to force insensitive
+                insensitive = true;
+            }
+
             if (_creators.TryGetValue(combinator, out var creator))
             {
                 return creator.Invoke(name, value, prefix, insensitive);

@@ -791,5 +791,45 @@ namespace AngleSharp.Dom
         /// The integrity attribute.
         /// </summary>
         public static readonly String Integrity = "integrity";
+
+        /// <summary>
+        /// The clear attribute.
+        /// </summary>
+        public static readonly string Clear = "clear";
+
+        /// <summary>
+        /// The codetype attribute.
+        /// </summary>
+        public static readonly string Codetype = "codetype";
+
+        /// <summary>
+        /// The compact attribute.
+        /// </summary>
+        public static readonly string Compact = "compact";
+
+        /// <summary>
+        /// The declare attribute.
+        /// </summary>
+        public static readonly string Declare = "declare";
+
+        /// <summary>
+        /// The direction attribute.
+        /// </summary>
+        public static readonly string Direction = "direction";
+
+        /// <summary>
+        /// The nohref attribute.
+        /// </summary>
+        public static readonly string NoHref = "nohref";
+
+        /// <summary>
+        /// The noshade attribute.
+        /// </summary>
+        public static readonly string NoShade = "noshade";
+
+        /// <summary>
+        /// The valuetype attribute.
+        /// </summary>
+        public static readonly string ValueType = "valuetype";
     }
 }
