@@ -63,7 +63,7 @@ namespace AngleSharp
         {
             request = request ?? throw new ArgumentNullException(nameof(request));
             context = context ?? BrowsingContext.New();
-            return context.NavigateToAsync(request);
+            return context.NavigateToAsync(request, cancel);
         }
 
         /// <summary>
