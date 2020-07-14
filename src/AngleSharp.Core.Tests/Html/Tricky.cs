@@ -958,5 +958,13 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
             Assert.IsNotNull(document);
             Assert.AreEqual("<html><head></head><body><svg><template>&gt;html&gt;<desc><template>&gt;<p>p</p><pre></pre></template></desc></template></svg></body></html>", document.ToHtml());
         }
+
+        [Test]
+        public void HeisenbergAlgorithmShouldNotBeOutOfBounds_Issue893()
+        {
+            var content = Assets.GetManifestResourceString("Html.Heisenberg.Bug.txt");
+            var document = content.ToHtmlDocument();
+            Assert.IsNotNull(document);
+        }
     }
 }

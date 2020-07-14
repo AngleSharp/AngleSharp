@@ -4,6 +4,7 @@ Released on ?.
 
 - Added `ToHtmlAsync()` extension method (#863)
 - Fixed CSS attribute value comparison w.r.t. case sensitivity (#864)
+- Fixed issue in the Heisenberg algorithm of the HTML5 parser (#893)
 
 # 0.14.0
 
