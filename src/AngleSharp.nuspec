@@ -5,6 +5,7 @@
     <version>$version$</version>
     <authors>AngleSharp</authors>
     <owners>Florian Rappl</owners>
+    <license type="expression">MIT</license>
     <licenseUrl>https://github.com/AngleSharp/AngleSharp/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://anglesharp.github.io</projectUrl>
     <iconUrl>https://raw.github.com/AngleSharp/AngleSharp/master/logo.png</iconUrl>
