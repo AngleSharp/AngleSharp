@@ -468,7 +468,8 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="allowedCharacter">The additionally allowed character if there is one.</param>
-        private void AppendCharacterReference(Char c, Char allowedCharacter = Symbols.Null)
+        /// <param name="isAttribute">Determines if we are in attribute parsing. Here, non-terminated refs are allowed.</param>
+        private void AppendCharacterReference(Char c, Char allowedCharacter = Symbols.Null, Boolean isAttribute = false)
         {
             if (IsNotConsumingCharacterReferences || c.IsSpaceCharacter() || c == Symbols.LessThan || c == Symbols.EndOfFile || c == Symbols.Ampersand || c == allowedCharacter)
             {
@@ -481,11 +482,11 @@ namespace AngleSharp.Html.Parser
 
                 if (c == Symbols.Num)
                 {
-                    entity = GetNumericCharacterReference(GetNext());
+                    entity = GetNumericCharacterReference(GetNext(), isAttribute);
                 }
                 else
                 {
-                    entity = GetLookupCharacterReference(c, allowedCharacter);
+                    entity = GetLookupCharacterReference(c, allowedCharacter, isAttribute);
                 }
 
                 if (entity == null)
@@ -499,7 +500,7 @@ namespace AngleSharp.Html.Parser
             }
         }
 
-        private String GetNumericCharacterReference(Char c)
+        private String GetNumericCharacterReference(Char c, Boolean isAttribute)
         {
             var exp = 10;
             var basis = 1;
@@ -540,7 +541,11 @@ namespace AngleSharp.Html.Parser
                     Back();
                 }
 
-                RaiseErrorOccurred(HtmlParseError.CharacterReferenceWrongNumber);
+                if (!isAttribute)
+                {
+                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceWrongNumber);
+                }
+
                 return null;
             }
 
@@ -568,7 +573,7 @@ namespace AngleSharp.Html.Parser
             return Char.ConvertFromUtf32(num);
         }
 
-        private String GetLookupCharacterReference(Char c, Char allowedCharacter)
+        private String GetLookupCharacterReference(Char c, Char allowedCharacter, Boolean isAttribute)
         {
             var entity = default(String);
             var start = InsertionPoint - 1;
@@ -622,7 +627,11 @@ namespace AngleSharp.Html.Parser
                 }
 
                 Back();
-                RaiseErrorOccurred(HtmlParseError.CharacterReferenceNotTerminated);
+
+                if (!isAttribute)
+                {
+                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceNotTerminated);
+                }
             }
 
             return entity;
@@ -1931,7 +1940,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c == Symbols.Ampersand)
                         {
-                            AppendCharacterReference(GetNext(), quote);
+                            AppendCharacterReference(GetNext(), quote, true);
                         }
                         else if (c == Symbols.Null)
                         {
@@ -1964,7 +1973,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c == Symbols.Ampersand)
                         {
-                            AppendCharacterReference(GetNext(), Symbols.GreaterThan);
+                            AppendCharacterReference(GetNext(), Symbols.GreaterThan, true);
                             c = GetNext();
                         }
                         else if (c == Symbols.Null)

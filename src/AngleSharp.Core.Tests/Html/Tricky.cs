@@ -1,6 +1,7 @@
 namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -964,6 +965,18 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
         {
             var content = Assets.GetManifestResourceString("Html.Heisenberg.Bug.txt");
             var document = content.ToHtmlDocument();
+            Assert.IsNotNull(document);
+        }
+
+        [Test]
+        public void AttributeValuesWithAmpersandAndUnderscoreAreOkay_Issue902()
+        {
+            var document = new HtmlParser(new HtmlParserOptions
+            {
+                IsScripting = false,
+                IsStrictMode = true,
+                IsEmbedded = false
+            }).ParseDocument("<!DOCTYPE html><a href=\"https://test.de/?foo&_\"></a>");
             Assert.IsNotNull(document);
         }
     }
