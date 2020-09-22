@@ -3,6 +3,7 @@
 Released on ?.
 
 - Added `ToHtmlAsync()` extension method (#863)
+- Added `ParseFragment` overload using `Stream` (#896)
 - Fixed CSS attribute value comparison w.r.t. case sensitivity (#864)
 - Fixed issue in the Heisenberg algorithm of the HTML5 parser (#893)
 

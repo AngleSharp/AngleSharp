@@ -115,23 +115,21 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses the stream and returns the result.
+        /// </summary>
+        public INodeList ParseFragment(Stream source, IElement contextElement)
+        {
+            var document = CreateDocument(source);
+            return ParseFragment(document, contextElement);
+        }
+
+        /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
         public INodeList ParseFragment(String source, IElement contextElement)
         {
             var document = CreateDocument(source);
-            var parser = new HtmlDomBuilder(document);
-
-            if (contextElement is Element element)
-            {
-                var context = document.Context;
-                element = document.CreateElementFrom(contextElement.LocalName, contextElement.Prefix);
-                var fragment = parser.ParseFragment(_options, element).DocumentElement;
-                element.AppendNodes(fragment.ChildNodes.ToArray());
-                return element.ChildNodes;
-            }
-
-            return parser.Parse(_options).ChildNodes;
+            return ParseFragment(document, contextElement);
         }
 
         /// <summary>
@@ -218,6 +216,21 @@ namespace AngleSharp.Html.Parser
             await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
             InvokeEventListener(new HtmlParseEvent(document, completed: true));
             return document;
+        }
+
+        private INodeList ParseFragment(HtmlDocument document, IElement contextElement)
+        {
+            var parser = new HtmlDomBuilder(document);
+
+            if (contextElement is Element element)
+            {
+                element = document.CreateElementFrom(element.LocalName, element.Prefix);
+                var fragment = parser.ParseFragment(_options, element).DocumentElement;
+                element.AppendNodes(fragment.ChildNodes.ToArray());
+                return element.ChildNodes;
+            }
+
+            return parser.Parse(_options).ChildNodes;
         }
 
         #endregion
