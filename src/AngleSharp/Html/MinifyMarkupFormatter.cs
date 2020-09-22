@@ -176,23 +176,29 @@ namespace AngleSharp.Html
         protected override string Attribute(IAttr attr)
         {
             var value = attr.Value;
+
             if (ShouldKeepEmptyAttributes || !String.IsNullOrEmpty(value))
             {
                 var temp = StringBuilderPool.Obtain();
 
                 WriteAttributeName(attr, temp);
-                temp.Append(Symbols.Equality);
-                var needQuotes = ShouldKeepAttributeQuotes || value.Any(MustBeQuotedAttributeValue);
-                if (needQuotes)
-                {
-                    temp.Append(Symbols.DoubleQuote);
-                }
 
-                WriteAttributeValue(attr, temp);
-
-                if (needQuotes)
+                if (value != null)
                 {
-                    temp.Append(Symbols.DoubleQuote);
+                    temp.Append(Symbols.Equality);
+                    var needQuotes = ShouldKeepAttributeQuotes || value.Any(MustBeQuotedAttributeValue);
+
+                    if (needQuotes)
+                    {
+                        temp.Append(Symbols.DoubleQuote);
+                    }
+
+                    WriteAttributeValue(attr, temp);
+
+                    if (needQuotes)
+                    {
+                        temp.Append(Symbols.DoubleQuote);
+                    }
                 }
 
                 return temp.ToPool();

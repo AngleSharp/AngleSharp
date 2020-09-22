@@ -89,9 +89,15 @@ namespace AngleSharp.Html
             var temp = StringBuilderPool.Obtain();
 
             WriteAttributeName(attr, temp);
-            temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
-            WriteAttributeValue(attr, temp);
-            return temp.Append(Symbols.DoubleQuote).ToPool();
+
+            if (attr.Value != null)
+            {
+                temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
+                WriteAttributeValue(attr, temp);
+                return temp.Append(Symbols.DoubleQuote).ToPool();
+            }
+
+            return temp.ToPool();
         }
 
         internal static void WriteAttributeName(IAttr attr, StringBuilder stringBuilder)
@@ -123,7 +129,8 @@ namespace AngleSharp.Html
 
         internal static void WriteAttributeValue(IAttr attr, StringBuilder stringBuilder)
         {
-            var value = attr.Value;
+            var value = attr.Value ?? String.Empty;
+
             for (var i = 0; i < value.Length; i++)
             {
                 switch (value[i])
