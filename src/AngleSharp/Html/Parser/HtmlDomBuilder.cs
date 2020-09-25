@@ -111,6 +111,7 @@ namespace AngleSharp.Html.Parser
                     await source.PrefetchAsync(8192, cancelToken).ConfigureAwait(false);
                 }
 
+                cancelToken.ThrowIfCancellationRequested();
                 token = _tokenizer.Get();
                 Consume(token);
 
