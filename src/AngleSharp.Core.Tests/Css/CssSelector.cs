@@ -936,5 +936,34 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var selector = link.GetSelector();
             Assert.AreEqual("body>dd>div:nth-child(3)>div>a", selector);
         }
+
+        [Test]
+        public void GetSelector_Issue910_ShouldReturnUniqueSelectorsForDivAndSpanWithSameId()
+        {
+            var html = @"<dd>
+                        <div id=""first"">First</div>
+                        <div>
+                            <div id=""second"">
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        <span>
+                            <span id=""second"">Sub1</span>
+                        </span>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            var bothMatchingElements = document.QuerySelectorAll("#second").ToList();
+            Assert.AreEqual(bothMatchingElements?.Count(), 2);
+
+            var div = bothMatchingElements[0];
+            var span = bothMatchingElements[1];
+            var divSelector = div.GetSelector();
+            var spanSelector = span.GetSelector();
+
+            Assert.AreNotEqual(spanSelector, divSelector);
+            Assert.AreEqual("body>dd>div:nth-child(2)>div", divSelector);
+            Assert.AreEqual("body>dd>span>span", spanSelector);
+        }
     }
 }
