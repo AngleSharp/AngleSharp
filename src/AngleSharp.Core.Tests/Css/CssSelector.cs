@@ -936,5 +936,101 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var selector = link.GetSelector();
             Assert.AreEqual("body>dd>div:nth-child(3)>div>a", selector);
         }
+
+        [Test]
+        public void GetSelector_Issue909_DivNumericIdSelector()
+        {
+            var html = @"<dd>
+                        <span>
+                            <span>Sub1</span>
+                        </span>
+                        <div id=""first"">First</div>
+                        <div id=""2nd"">
+                            <div>
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        <div id=""3rd"">Third</div>
+                        <div id=""4th"">Fourth</div>
+                        <div id=""5th"">
+                            <span>Fifth</span>
+                        </div>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            //var linkParentDiv = document.QuerySelector("#2nd"); //invalid css selector, this would throw an error
+            var linkParentDiv = document.QuerySelector("[id='2nd']"); //valid css selector
+            var selector = linkParentDiv.GetSelector();
+
+            Assert.AreEqual("[id='2nd']", selector);
+        }
+
+        [Test]
+        public void GetSelector_Issue909_DivNumericIdChildSelector()
+        {
+            var html = @"<dd>
+                        <span>
+                            <span>Sub1</span>
+                        </span>
+                        <div id=""first"">First</div>
+                        <div id=""2nd"">
+                            <div>
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            var link = document.QuerySelector("[id='2nd']>div>a");
+            var selector = link.GetSelector();
+
+            Assert.AreEqual("[id='2nd']>div>a", selector);
+        }
+
+        [Test]
+        public void GetSelector_Issue909_DivPlaintextIdTagSelector()
+        {
+            var html = @"<dd>
+                        <span>
+                            <span>Sub1</span>
+                        </span>
+                        <div id=""first"">First</div>
+                        <div id=""2nd"">
+                            <div>
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            var div = document.QuerySelector("#first");
+            var selector = div.GetSelector();
+
+            Assert.AreEqual("#first", selector);
+            Assert.AreNotEqual("[id='first']", selector);
+        }
+
+        [Test]
+        public void GetSelector_Issue909_DivPlaintextIdAttributeSelector()
+        {
+            var html = @"<dd>
+                        <span>
+                            <span>Sub1</span>
+                        </span>
+                        <div id=""first"">First</div>
+                        <div id=""2nd"">
+                            <div>
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            var div = document.QuerySelector("[id='first']");
+            var selector = div.GetSelector();
+
+            Assert.AreEqual("#first", selector);
+            Assert.AreNotEqual("[id='first']", selector);
+        }
     }
 }

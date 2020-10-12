@@ -1528,11 +1528,13 @@ namespace AngleSharp.Dom
                 // Always lowercase node name in the path
                 var name = element.LocalName;
 
-                // If node has id attribute...
+                // Id is unique in the DOM, so we can use it to locate the element and skip other parents
                 if (hasId)
                 {
-                    // Id is unique in the DOM, so we can use it to locate the element and skip other parents
-                    name = "#" + element.Id;
+                    var isFirstDigitNumeric = element.Id.Length > 0 && Char.IsNumber(element.Id[0]);
+                    name = isFirstDigitNumeric
+                        ? "[id='" + element.Id + "']"
+                        : "#" + element.Id;
                 }
                 // If node has siblings of the same type...
                 else if (parent != null && !element.IsOnlyOfType())
