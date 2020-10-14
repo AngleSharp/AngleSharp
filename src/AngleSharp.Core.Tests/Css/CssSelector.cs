@@ -938,7 +938,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         }
 
         [Test]
-        public void GetSelector_Issue909_DivNumericIdSelector()
+        public void GetSelector_Issue909_DivNumericLeadingDigitIdSelector()
         {
             var html = @"<dd>
                         <span>
@@ -950,9 +950,9 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
                                 <a>Second</a>
                             </div>
                         </div>
-                        <div id=""3rd"">Third</div>
-                        <div id=""4th"">Fourth</div>
-                        <div id=""5th"">
+                        <div id=""3"">Third</div>
+                        <div>Fourth</div>
+                        <div>
                             <span>Fifth</span>
                         </div>
                         </dd>";
@@ -960,13 +960,13 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
 
             //var linkParentDiv = document.QuerySelector("#2nd"); //invalid css selector, this would throw an error
             var linkParentDiv = document.QuerySelector("[id='2nd']"); //valid css selector
-            var selector = linkParentDiv.GetSelector();
+            var selector = linkParentDiv?.GetSelector();
 
             Assert.AreEqual("[id='2nd']", selector);
         }
 
         [Test]
-        public void GetSelector_Issue909_DivNumericIdChildSelector()
+        public void GetSelector_Issue909_DivNumericLeadingDigitIdChildSelector()
         {
             var html = @"<dd>
                         <span>
@@ -982,7 +982,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var document = html.ToHtmlDocument();
 
             var link = document.QuerySelector("[id='2nd']>div>a");
-            var selector = link.GetSelector();
+            var selector = link?.GetSelector();
 
             Assert.AreEqual("[id='2nd']>div>a", selector);
         }
@@ -1004,10 +1004,10 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var document = html.ToHtmlDocument();
 
             var div = document.QuerySelector("#first");
-            var selector = div.GetSelector();
+            var selector = div?.GetSelector();
 
-            Assert.AreEqual("#first", selector);
-            Assert.AreNotEqual("[id='first']", selector);
+            Assert.AreNotEqual("#first", selector); //old behavior
+            Assert.AreEqual("[id='first']", selector); //new behavior
         }
 
         [Test]
@@ -1027,10 +1027,125 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var document = html.ToHtmlDocument();
 
             var div = document.QuerySelector("[id='first']");
-            var selector = div.GetSelector();
+            var selector = div?.GetSelector();
 
-            Assert.AreEqual("#first", selector);
-            Assert.AreNotEqual("[id='first']", selector);
+            Assert.AreNotEqual("#first", selector);
+            Assert.AreEqual("[id='first']", selector);
         }
+
+        // The following characters have a special meaning in CSS: !, ", #, $, %, &, ', (, ), *, +, ,, -, ., /, :, ;, <, =, >, ?, @, [, \, ], ^, `, {, |, }, and ~.
+        [Test] // mathiasbynens.be/notes/css-escapes
+        public void GetSelector_Issue909_SomeCharactersNeedToBeEscaped()
+        {
+            var html = @"<dd>
+                        <span id=""something"">
+                            <span>Sub1</span>
+                        </span>
+                        <div id=""some!thing"">First</div>
+                        <div id=""some+thing"">
+                            <div>
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            var invalidSelectorDiv = document.QuerySelector("#some+thing");
+            var validSelectorDiv = document.QuerySelector("[id='some+thing']");
+
+            Assert.Null(invalidSelectorDiv);
+            Assert.NotNull(validSelectorDiv);
+        }
+
+        [Test]
+        public void GetSelector_Issue909_SpecialCharacterDivIdSelector()
+        {
+            var html = @"<dd>
+                        <span id=""something"">
+                            <span>Sub1</span>
+                        </span>
+                        <div id=""some!thing"">First</div>
+                        <div id=""some+thing"">
+                            <div>
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            var div = document.QuerySelector("[id='some+thing']");
+            var selector = div?.GetSelector();
+            //div = document.QuerySelector(selector);
+
+            Assert.AreEqual("[id='some+thing']", selector);
+        }
+
+        [Test]
+        public void GetSelector_Issue909_SpecialCharacterDivIdChildSelector()
+        {
+            var html = @"<dd>
+                        <span id=""something"">
+                            <span>Sub1</span>
+                        </span>
+                        <div id=""some!thing"">First</div>
+                        <div id=""some+thing"">
+                            <div>
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            var link = document.QuerySelector(@"[id='some+thing']>div>a");
+            var selector = link?.GetSelector();
+            //link = document.QuerySelector(selector);
+
+            Assert.AreEqual("[id='some+thing']>div>a", selector);
+        }
+
+        [Test]
+        public void GetSelector_Issue909_SpecialCharacterDivIdExclaim()
+        {
+            var html = @"<dd>
+                        <span id=""something"">
+                            <span>Sub1</span>
+                        </span>
+                        <div id=""some!thing"">First</div>
+                        <div id=""some+thing"">
+                            <div>
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            var div = document.QuerySelector(@"[id='some!thing']");
+            var selector = div?.GetSelector();
+
+            Assert.AreEqual("[id='some!thing']", selector);
+        }
+
+        [Test]
+        public void GetSelector_Issue909_SpecialCharacterDivIdNegativeNumber()
+        {
+            var html = @"<dd>
+                        <span id=""something"">
+                            <span>Sub1</span>
+                        </span>
+                        <div id=""1"">First</div>
+                        <div id=""-1"">
+                            <div>
+                                <a>Second</a>
+                            </div>
+                        </div>
+                        </dd>";
+            var document = html.ToHtmlDocument();
+
+            var div = document.QuerySelector(@"[id='-1']");
+            var selector = div?.GetSelector();
+
+            Assert.AreEqual("[id='-1']", selector);
+        }
+
     }
 }
