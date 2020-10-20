@@ -1360,5 +1360,15 @@ namespace AngleSharp.Core.Tests.Library
             var doc = await parser.ParseDocumentAsync(content);
             Assert.IsNull(doc.QuerySelector<IHtmlLinkElement>("link").Sheet);
         }
+
+        [Test]
+        public async Task RemovingVideoSourceShouldWork_Issue914()
+        {
+            var content = "<video src=\"abc\"></video>";
+            var parser = new HtmlParser();
+            var doc = await parser.ParseDocumentAsync(content);
+            var el = doc.GetElementsByTagName("video")[0];
+            el.RemoveAttribute("src");
+        }
     }
 }
