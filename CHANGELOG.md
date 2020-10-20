@@ -8,6 +8,9 @@ Released on ?.
 - Fixed issue in the Heisenberg algorithm of the HTML5 parser (#893)
 - Fixed issue with the strictness of broken char references in attribute values (#902)
 - Fixed possible NRE in the markup formatters / attribute serialization (#903)
+- Fixed `GetSelector` returning invalid ID selector (#909)
+- Fixed `GetSelector` returning duplicate element ids (#910)
+- Fixed possible NRE in media elements without `src` (#914)
 
 # 0.14.0
 
