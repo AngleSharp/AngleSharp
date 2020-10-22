@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Io;
@@ -106,6 +106,7 @@
         internal void UpdateSource()
         {
             var url = this.GetImageCandidate();
+
             if (url != null)
             {
                 this.Process(_request, url);
