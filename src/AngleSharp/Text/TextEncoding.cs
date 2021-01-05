@@ -538,6 +538,9 @@ namespace AngleSharp.Text
             var eucjp = GetEncoding("euc-jp");
             encodings.Add("euc-jp", eucjp);
 
+            var euckr = GetEncoding("euc-kr");
+            encodings.Add("euc-kr", euckr);
+
             return encodings;
         }
 

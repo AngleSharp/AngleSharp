@@ -770,5 +770,31 @@ iso8859-2
             Assert.AreEqual(UTF8Name, doc.CharacterSet);
         }
 
+        [Test]
+        public void CorrectlyDetectEucKrEncodingFromSourceWith296Characters()
+        {
+            var doc = NewDocument(@"<head>
+<meta http-equiv=""X-UA-Compatible"" content=""IE=edge,chrome=1"">
+<meta http-equiv=""Content-Type"" content=""text/html; charset=euc-kr"">
+<title> 해피카메니아 </title>
+<meta name=""Author"" content="""">
+<meta name=""Keywords"" content="""">
+<meta name=""Description"" content=""해피카메니아, 손상차, 사고차, 매각차, 체납차 매각전문"">");
+            Assert.AreEqual(@"euc-kr", doc.CharacterSet);
+        }
+
+        [Test]
+        public void CorrectlyDetectEucKrEncodingFromSourceWith29Characters()
+        {
+            var doc = NewDocument(@"<meta <meta charset='euc-kr'>");
+            Assert.AreEqual(@"euc-kr", doc.CharacterSet);
+        }
+
+        [Test]
+        public void CorrectlyDetectEucKrEncodingFromSourceWith38Characters()
+        {
+            var doc = NewDocument(@"<meta       charset    =     'euc-kr'>");
+            Assert.AreEqual(@"euc-kr", doc.CharacterSet);
+        }
     }
 }
