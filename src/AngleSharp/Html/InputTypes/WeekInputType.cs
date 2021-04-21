@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
@@ -21,15 +21,15 @@
         public override ValidationErrors Check(IValidityState current)
         {
             var value = Input.Value;
-            var date = ConvertFromWeek(value);
-            var min = ConvertFromWeek(Input.Minimum);
-            var max = ConvertFromWeek(Input.Maximum);
+            var date = ConvertFromWeek(value.AsSpan());
+            var min = ConvertFromWeek(Input.Minimum.AsSpan());
+            var max = ConvertFromWeek(Input.Maximum.AsSpan());
             return CheckTime(current, value, date, min, max);
         }
 
         public override Double? ConvertToNumber(String value)
         {
-            var dt = ConvertFromWeek(value);
+            var dt = ConvertFromWeek(value.AsSpan());
 
             if (dt.HasValue)
             {
@@ -47,7 +47,7 @@
 
         public override DateTime? ConvertToDate(String value)
         {
-            return ConvertFromWeek(value);
+            return ConvertFromWeek(value.AsSpan());
         }
 
         public override String ConvertFromDate(DateTime value)
@@ -58,13 +58,13 @@
 
         public override void DoStep(Int32 n)
         {
-            var dt = ConvertFromWeek(Input.Value);
+            var dt = ConvertFromWeek(Input.Value.AsSpan());
 
             if (dt.HasValue)
             {
                 var date = dt.Value.AddMilliseconds(GetStep() * n);
-                var min = ConvertFromWeek(Input.Minimum);
-                var max = ConvertFromWeek(Input.Maximum);
+                var min = ConvertFromWeek(Input.Minimum.AsSpan());
+                var max = ConvertFromWeek(Input.Maximum.AsSpan());
 
                 if ((!min.HasValue || min.Value <= date) && (!max.HasValue || max.Value >= date))
                 {
@@ -96,16 +96,16 @@
 
         #region Helper
 
-        protected static DateTime? ConvertFromWeek(String value)
+        protected static DateTime? ConvertFromWeek(ReadOnlySpan<char> value)
         {
-            if (!String.IsNullOrEmpty(value))
+            if (value.Length > 0)
             {
                 var position = FetchDigits(value);
 
                 if (IsLegalPosition(value, position))
                 {
-                    var year = Int32.Parse(value.Substring(0, position));
-                    var week = Int32.Parse(value.Substring(position + 2)) - 1;
+                    var year = NumberHelper.ParseInt32(value.Slice(0, position));
+                    var week = NumberHelper.ParseInt32(value.Slice(position + 2)) - 1;
 
                     if (IsLegalWeek(week, year))
                     {
@@ -129,7 +129,7 @@
             return null;
         }
 
-        private static Boolean IsLegalPosition(String value, Int32 position)
+        private static Boolean IsLegalPosition(ReadOnlySpan<char> value, Int32 position)
         {
             return position >= 4 && position == value.Length - 4 &&
                     value[position + 0] == Symbols.Minus &&

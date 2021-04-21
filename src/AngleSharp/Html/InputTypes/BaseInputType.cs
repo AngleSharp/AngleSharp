@@ -334,7 +334,7 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// Tries to convert the value to a time starting at the given position.
         /// </summary>
-        protected static TimeSpan? ToTime(String value, ref Int32 position)
+        protected static TimeSpan? ToTime(ReadOnlySpan<char> value, ref Int32 position)
         {
             var offset = position;
             var second = 0;
@@ -345,14 +345,14 @@ namespace AngleSharp.Html.InputTypes
                 value[position++].IsDigit() && 
                 value[position++] == Symbols.Colon)
             {
-                var hour = Int32.Parse(value.Substring(offset, 2), CultureInfo.InvariantCulture);
+                var hour = NumberHelper.ParseInt32(value.Slice(offset, 2));
 
                 if (!IsLegalHour(hour) || !value[position++].IsDigit() || !value[position++].IsDigit())
                 {
                     return null;
                 }
 
-                var minute = Int32.Parse(value.Substring(3 + offset, 2), CultureInfo.InvariantCulture);
+                var minute = NumberHelper.ParseInt32(value.Slice(3 + offset, 2));
 
                 if (!IsLegalMinute(minute))
                 {
@@ -368,7 +368,7 @@ namespace AngleSharp.Html.InputTypes
                         return null;
                     }
 
-                    second = Int32.Parse(value.Substring(6 + offset, 2), CultureInfo.InvariantCulture);
+                    second = NumberHelper.ParseInt32(value.Slice(6 + offset, 2));
 
                     if (!IsLegalSecond(second))
                     {
@@ -385,8 +385,8 @@ namespace AngleSharp.Html.InputTypes
                             position++;
                         }
 
-                        var fraction = value.Substring(start, position - start);
-                        ms = Int32.Parse(fraction, CultureInfo.InvariantCulture) * (Int32)Math.Pow(10, 3 - fraction.Length);
+                        var fraction = value.Slice(start, position - start);
+                        ms = NumberHelper.ParseInt32(fraction) * (Int32)Math.Pow(10, 3 - fraction.Length);
                     }
                 }
 
@@ -484,7 +484,7 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// Skips all legit digits while returning the final position.
         /// </summary>
-        protected static Int32 FetchDigits(String value)
+        protected static Int32 FetchDigits(ReadOnlySpan<char> value)
         {
             var position = 0;
 
@@ -499,7 +499,7 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// Checks the assumption that the string continues with a date time.
         /// </summary>
-        protected static Boolean PositionIsValidForDateTime(String value, Int32 position)
+        protected static Boolean PositionIsValidForDateTime(ReadOnlySpan<char> value, Int32 position)
         {
             return position >= 4 && position <= value.Length - 13 &&
                     value[position + 0] == Symbols.Minus &&

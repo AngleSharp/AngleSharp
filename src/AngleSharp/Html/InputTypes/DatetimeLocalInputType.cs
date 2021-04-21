@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Html.Dom;
     using System;
@@ -20,15 +20,15 @@
         public override ValidationErrors Check(IValidityState current)
         {
             var value = Input.Value;
-            var date = ConvertFromDateTime(value);
-            var min = ConvertFromDateTime(Input.Minimum);
-            var max = ConvertFromDateTime(Input.Maximum);
+            var date = ConvertFromDateTime(value.AsSpan());
+            var min = ConvertFromDateTime(Input.Minimum.AsSpan());
+            var max = ConvertFromDateTime(Input.Maximum.AsSpan());
             return CheckTime(current, value, date, min, max);
         }
 
         public override Double? ConvertToNumber(String value)
         {
-            var dt = ConvertFromDateTime(value);
+            var dt = ConvertFromDateTime(value.AsSpan());
 
             if (dt.HasValue)
             {
@@ -46,7 +46,7 @@
 
         public override DateTime? ConvertToDate(String value)
         {
-            return ConvertFromDateTime(value);
+            return ConvertFromDateTime(value.AsSpan());
         }
 
         public override String ConvertFromDate(DateTime value)
@@ -59,13 +59,13 @@
 
         public override void DoStep(Int32 n)
         {
-            var dt = ConvertFromDateTime(Input.Value);
+            var dt = ConvertFromDateTime(Input.Value.AsSpan());
 
             if (dt.HasValue)
             {
                 var date = dt.Value.AddMilliseconds(GetStep() * n);
-                var min = ConvertFromDateTime(Input.Minimum);
-                var max = ConvertFromDateTime(Input.Maximum);
+                var min = ConvertFromDateTime(Input.Minimum.AsSpan());
+                var max = ConvertFromDateTime(Input.Maximum.AsSpan());
 
                 if ((!min.HasValue || min.Value <= date) && (!max.HasValue || max.Value >= date))
                 {
@@ -97,20 +97,20 @@
 
         #region Helper
 
-        protected static DateTime? ConvertFromDateTime(String value)
+        protected static DateTime? ConvertFromDateTime(ReadOnlySpan<char> value)
         {
-            if (!String.IsNullOrEmpty(value))
+            if (value.Length > 0)
             {
                 var position = FetchDigits(value);
 
                 if (PositionIsValidForDateTime(value, position))
                 {
-                    var yearString = value.Substring(0, position);
-                    var year = Int32.Parse(yearString, CultureInfo.InvariantCulture);
-                    var monthString = value.Substring(position + 1, 2);
-                    var month = Int32.Parse(monthString, CultureInfo.InvariantCulture);
-                    var dayString = value.Substring(position + 4, 2);
-                    var day = Int32.Parse(dayString, CultureInfo.InvariantCulture);
+                    var yearString = value.Slice(0, position);
+                    var year = NumberHelper.ParseInt32(yearString);
+                    var monthString = value.Slice(position + 1, 2);
+                    var month = NumberHelper.ParseInt32(monthString);
+                    var dayString = value.Slice(position + 4, 2);
+                    var day = NumberHelper.ParseInt32(dayString);
                     position += 6;
 
                     if (IsLegalDay(day, month, year) && IsTimeSeparator(value[position]))

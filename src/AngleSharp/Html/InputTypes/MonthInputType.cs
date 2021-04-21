@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
@@ -21,15 +21,15 @@
         public override ValidationErrors Check(IValidityState current)
         {
             var value = Input.Value;
-            var date = ConvertFromMonth(value);
-            var min = ConvertFromMonth(Input.Minimum);
-            var max = ConvertFromMonth(Input.Maximum);
+            var date = ConvertFromMonth(value.AsSpan());
+            var min = ConvertFromMonth(Input.Minimum.AsSpan());
+            var max = ConvertFromMonth(Input.Maximum.AsSpan());
             return CheckTime(current, value, date, min, max);
         }
 
         public override Double? ConvertToNumber(String value)
         {
-            var dt = ConvertFromMonth(value);
+            var dt = ConvertFromMonth(value.AsSpan());
 
             if (dt.HasValue)
             {
@@ -47,7 +47,7 @@
 
         public override DateTime? ConvertToDate(String value)
         {
-            return ConvertFromMonth(value);
+            return ConvertFromMonth(value.AsSpan());
         }
 
         public override String ConvertFromDate(DateTime value)
@@ -57,13 +57,13 @@
 
         public override void DoStep(Int32 n)
         {
-            var dt = ConvertFromMonth(Input.Value);
+            var dt = ConvertFromMonth(Input.Value.AsSpan());
 
             if (dt.HasValue)
             {
                 var date = dt.Value.AddMilliseconds(GetStep() * n);
-                var min = ConvertFromMonth(Input.Minimum);
-                var max = ConvertFromMonth(Input.Maximum);
+                var min = ConvertFromMonth(Input.Minimum.AsSpan());
+                var max = ConvertFromMonth(Input.Maximum.AsSpan());
 
                 if ((!min.HasValue || min.Value <= date) && (!max.HasValue || max.Value >= date))
                 {
@@ -95,18 +95,18 @@
 
         #region Helper
 
-        protected static DateTime? ConvertFromMonth(String value)
+        protected static DateTime? ConvertFromMonth(ReadOnlySpan<char> value)
         {
-            if (!String.IsNullOrEmpty(value))
+            if (value.Length > 0)
             {
                 var position = FetchDigits(value);
 
                 if (IsLegalPosition(value, position))
                 {
-                    var yearString = value.Substring(0, position);
-                    var year = Int32.Parse(yearString, CultureInfo.InvariantCulture);
-                    var monthString = value.Substring(position + 1);
-                    var month = Int32.Parse(monthString, CultureInfo.InvariantCulture);
+                    var yearString = value.Slice(0, position);
+                    var year = NumberHelper.ParseInt32(yearString);
+                    var monthString = value.Slice(position + 1);
+                    var month = NumberHelper.ParseInt32(monthString);
 
                     if (IsLegalDay(1, month, year))
                     {
@@ -118,7 +118,7 @@
             return null;
         }
 
-        private static Boolean IsLegalPosition(String value, Int32 position)
+        private static Boolean IsLegalPosition(ReadOnlySpan<char> value, Int32 position)
         {
             return position >= 4 && position == value.Length - 3 &&
                     value[position + 0] == Symbols.Minus &&

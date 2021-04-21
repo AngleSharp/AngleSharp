@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Html.Dom;
     using System;
@@ -20,15 +20,15 @@
         public override ValidationErrors Check(IValidityState current)
         {
             var value = Input.Value;
-            var date = ConvertFromTime(value);
-            var min = ConvertFromTime(Input.Minimum);
-            var max = ConvertFromTime(Input.Maximum);
+            var date = ConvertFromTime(value.AsSpan());
+            var min = ConvertFromTime(Input.Minimum.AsSpan());
+            var max = ConvertFromTime(Input.Maximum.AsSpan());
             return CheckTime(current, value, date, min, max);
         }
 
         public override Double? ConvertToNumber(String value)
         {
-            var dt = ConvertFromTime(value);
+            var dt = ConvertFromTime(value.AsSpan());
 
             if (dt.HasValue)
             {
@@ -46,7 +46,7 @@
 
         public override DateTime? ConvertToDate(String value)
         {
-            var time = ConvertFromTime(value);
+            var time = ConvertFromTime(value.AsSpan());
 
             if (time != null)
             {
@@ -63,13 +63,13 @@
 
         public override void DoStep(Int32 n)
         {
-            var dt = ConvertFromTime(Input.Value);
+            var dt = ConvertFromTime(Input.Value.AsSpan());
 
             if (dt.HasValue)
             {
                 var date = dt.Value.AddMilliseconds(GetStep() * n);
-                var min = ConvertFromTime(Input.Minimum);
-                var max = ConvertFromTime(Input.Maximum);
+                var min = ConvertFromTime(Input.Minimum.AsSpan());
+                var max = ConvertFromTime(Input.Maximum.AsSpan());
 
                 if ((!min.HasValue || min.Value <= date) && (!max.HasValue || max.Value >= date))
                 {
@@ -101,9 +101,9 @@
 
         #region Helper
 
-        protected static DateTime? ConvertFromTime(String value)
+        protected static DateTime? ConvertFromTime(ReadOnlySpan<char> value)
         {
-            if (!String.IsNullOrEmpty(value))
+            if (value.Length > 0)
             {
                 var position = 0;
                 var ts = ToTime(value, ref position);
