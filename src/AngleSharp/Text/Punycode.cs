@@ -21,7 +21,7 @@ namespace AngleSharp.Text
         /// <summary>
         /// A list of available punycode character mappings.
         /// </summary>
-        public static IDictionary<Char, Char> Symbols = new Dictionary<Char, Char>
+        public static Dictionary<Char, Char> Symbols = new Dictionary<Char, Char>
         {
             { '。', '.' },
             { '．', '.' },
