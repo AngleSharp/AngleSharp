@@ -240,7 +240,11 @@ namespace AngleSharp.Text
                 return text;
             }
 
+#if NETCOREAPP3_1_OR_GREATER
+            return String.Concat(text.AsSpan(0, pos), replace, text.AsSpan(pos + search.Length));
+#else
             return String.Concat(text.Substring(0, pos), replace, text.Substring(pos + search.Length));
+#endif
         }
 
         /// <summary>
