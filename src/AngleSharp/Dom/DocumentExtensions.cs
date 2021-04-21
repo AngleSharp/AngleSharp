@@ -9,11 +9,6 @@ namespace AngleSharp.Dom
     using System.Threading;
     using System.Threading.Tasks;
 
-#if NETSTANDARD1_3
-    // Assembly.GetTypes is available as an extension in System.Reflection from NS1.3
-    using System.Reflection;
-#endif
-
     /// <summary>
     /// Useful methods for document objects.
     /// </summary>
@@ -52,9 +47,9 @@ namespace AngleSharp.Dom
             if (document == null)
                 throw new ArgumentNullException(nameof(document));
 
-            var type = typeof(BrowsingContext).GetAssembly().GetTypes()
-                .Where(m => m.Implements<TElement>())
-                .FirstOrDefault(m => !m.IsAbstractClass());
+            var type = typeof(BrowsingContext).Assembly.GetTypes()
+                .Where(m => !m.IsAbstract && m.GetInterfaces().Contains(typeof(TElement)))
+                .FirstOrDefault();
 
             if (type != null)
             {
