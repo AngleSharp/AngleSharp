@@ -22,7 +22,7 @@ namespace AngleSharp.Io
 
         private const Int32 BufferSize = 4096;
 
-        private static readonly String Version = typeof(DefaultHttpRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+        private static readonly String Version = typeof(DefaultHttpRequester).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
         private static readonly String AgentName = "AngleSharp/" + Version;
         private static readonly Dictionary<String, PropertyInfo> PropCache = new Dictionary<String, PropertyInfo>();
         private static readonly List<String> Restricted = new List<String>();
