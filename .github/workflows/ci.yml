@@ -23,11 +23,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build
-      run: .\build.ps1
-
-    - name: Upload nupkg
-      uses: actions/upload-artifact@v2
-      with:
-        name: nupkg
-        path: bin/*/nuget/*.nupkg
-        retention-days: 7
+      run: |
+        if ($env:GITHUB_REF -eq "refs/heads/master") {
+          .\build.ps1 -Target Publish
+        } elseif ($env:GITHUB_REF -eq "refs/heads/devel") {
+          .\build.ps1 -Target PrePublish
+        } else {
+          .\build.ps1
+        }
