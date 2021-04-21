@@ -161,8 +161,7 @@ namespace AngleSharp.Common
         public static String GetMessage<T>(this T code)
             where T : struct
         {
-            var type = typeof(T).GetTypeInfo();
-            var field = type.GetDeclaredField(code.ToString());
+            var field = typeof(T).GetField(code.ToString());
             var description = field.GetCustomAttribute<DomDescriptionAttribute>()?.Description;
             return description ?? "An unknown error occurred.";
         }
