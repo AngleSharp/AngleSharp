@@ -160,7 +160,7 @@ Task("Publish-Release")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
     {
-        var githubToken = EnvironmentVariable("GITHUB_API_TOKEN");
+        var githubToken = EnvironmentVariable("GITHUB_TOKEN");
 
         if (String.IsNullOrEmpty(githubToken))
         {
