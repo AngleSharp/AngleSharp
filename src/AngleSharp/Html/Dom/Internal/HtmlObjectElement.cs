@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Io;
@@ -91,19 +91,16 @@
         internal override void SetupElement()
         {
             base.SetupElement();
-
-            var data = this.GetOwnAttribute(AttributeNames.Data);
-
-            if (data != null)
-            {
-                UpdateSource(data);
-            }
+            UpdateSource(this.GetOwnAttribute(AttributeNames.Data));
         }
 
         internal void UpdateSource(String value)
-        {
-            var url = new Url(Source);
-            this.Process(_request, url);
+    {
+            if (value != null)
+            {
+                var url = new Url(Source);
+                this.Process(_request, url);
+            }
         }
 
         #endregion

@@ -3,6 +3,7 @@ namespace AngleSharp.Html
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Text;
 
     /// <summary>
     /// Represents the standard HTML5 markup formatter.
@@ -81,50 +82,65 @@ namespace AngleSharp.Html
         /// <summary>
         /// Creates the string representation of the attribute.
         /// </summary>
-        /// <param name="attribute">The attribute to serialize.</param>
+        /// <param name="attr">The attribute to serialize.</param>
         /// <returns>The string representation.</returns>
         protected virtual String Attribute(IAttr attr)
         {
+            var temp = StringBuilderPool.Obtain();
+
+            WriteAttributeName(attr, temp);
+
+            if (attr.Value != null)
+            {
+                temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
+                WriteAttributeValue(attr, temp);
+                return temp.Append(Symbols.DoubleQuote).ToPool();
+            }
+
+            return temp.ToPool();
+        }
+
+        internal static void WriteAttributeName(IAttr attr, StringBuilder stringBuilder)
+        {
             var namespaceUri = attr.NamespaceUri;
             var localName = attr.LocalName;
-            var value = attr.Value;
-            var temp = StringBuilderPool.Obtain();
 
             if (String.IsNullOrEmpty(namespaceUri))
             {
-                temp.Append(localName);
+                stringBuilder.Append(localName);
             }
             else if (namespaceUri.Is(NamespaceNames.XmlUri))
             {
-                temp.Append(NamespaceNames.XmlPrefix).Append(Symbols.Colon).Append(localName);
+                stringBuilder.Append(NamespaceNames.XmlPrefix).Append(Symbols.Colon).Append(localName);
             }
             else if (namespaceUri.Is(NamespaceNames.XLinkUri))
             {
-                temp.Append(NamespaceNames.XLinkPrefix).Append(Symbols.Colon).Append(localName);
+                stringBuilder.Append(NamespaceNames.XLinkPrefix).Append(Symbols.Colon).Append(localName);
             }
             else if (namespaceUri.Is(NamespaceNames.XmlNsUri))
             {
-                temp.Append(XmlNamespaceLocalName(localName));
+                stringBuilder.Append(XmlNamespaceLocalName(localName));
             }
             else
             {
-                temp.Append(attr.Name);
+                stringBuilder.Append(attr.Name);
             }
+        }
 
-            temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
+        internal static void WriteAttributeValue(IAttr attr, StringBuilder stringBuilder)
+        {
+            var value = attr.Value ?? String.Empty;
 
             for (var i = 0; i < value.Length; i++)
             {
                 switch (value[i])
                 {
-                    case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.NoBreakSpace: temp.Append("&nbsp;"); break;
-                    case Symbols.DoubleQuote: temp.Append("&quot;"); break;
-                    default: temp.Append(value[i]); break;
+                    case Symbols.Ampersand: stringBuilder.Append("&amp;"); break;
+                    case Symbols.NoBreakSpace: stringBuilder.Append("&nbsp;"); break;
+                    case Symbols.DoubleQuote: stringBuilder.Append("&quot;"); break;
+                    default: stringBuilder.Append(value[i]); break;
                 }
             }
-
-            return temp.Append(Symbols.DoubleQuote).ToPool();
         }
 
         #endregion

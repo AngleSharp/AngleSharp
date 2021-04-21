@@ -2,7 +2,7 @@
 
 # AngleSharp
 
-[![Build Status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp)
+[![Build Status](https://github.com/AngleSharp/AngleSharp/actions/workflows/ci.yml/badge.svg)](https://github.com/AngleSharp/AngleSharp/actions/workflows/ci.yml)
 [![GitHub Tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/releases)
 [![NuGet Count](https://img.shields.io/nuget/dt/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
 [![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
@@ -149,7 +149,7 @@ This project is supported by the [.NET Foundation](https://dotnetfoundation.org)
 
 The MIT License (MIT)
 
-Copyright (c) 2013 - 2019 AngleSharp
+Copyright (c) 2013 - 2020 AngleSharp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

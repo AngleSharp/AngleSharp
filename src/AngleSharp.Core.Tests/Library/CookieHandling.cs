@@ -271,12 +271,13 @@ namespace AngleSharp.Core.Tests.Library
                 await context.OpenAsync(cookieUrl);
                 var document = await context.OpenAsync(redirectUrl);
 
-                Assert.AreEqual(@"{
-  ""cookies"": {
-    ""test"": ""baz""
-  }
-}
-".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
+                Assert.Inconclusive("Temp. Disabled: https://github.com/postmanlabs/httpbin/issues/617");
+//                Assert.AreEqual(@"{
+//  ""cookies"": {
+//    ""test"": ""baz""
+//  }
+//}
+//".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
         }
 

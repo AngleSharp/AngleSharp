@@ -26,17 +26,17 @@ $NUGET_OLD_URL = "https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe"
 # Should we use experimental build of Roslyn?
 $UseExperimental = "";
 if ($Experimental.IsPresent) {
-    $UseExperimental = "-experimental"
+    $UseExperimental = "--experimental"
 }
 
 # Is this a dry run?
 if ($WhatIf.IsPresent) {
-    $UseDryRun = "-dryrun"
+    $UseDryRun = "--dryrun"
 }
 
 # Should we use mono?
 if ($Mono.IsPresent) {
-    $UseMono = "-mono"
+    $UseMono = "--mono"
 }
 
 # Try download NuGet.exe if do not exist.
@@ -77,5 +77,5 @@ if (!(Test-Path $CAKE_EXE)) {
 }
 
 # Start Cake
-Invoke-Expression "$CAKE_EXE `"$Script`" -target=`"$Target`" -configuration=`"$Configuration`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
+Invoke-Expression "$CAKE_EXE `"$Script`" --target=`"$Target`" --configuration=`"$Configuration`" --verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
 exit $LASTEXITCODE

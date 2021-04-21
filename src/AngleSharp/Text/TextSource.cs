@@ -238,7 +238,7 @@ namespace AngleSharp.Text
         /// <returns>The awaitable task.</returns>
         public async Task PrefetchAllAsync(CancellationToken cancellationToken)
         {
-            if (_content.Length == 0)
+            if (_baseStream != null && _content.Length == 0)
             {
                 await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -329,7 +329,7 @@ namespace AngleSharp.Text
                 await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
             }
 
-            while (size + _index > _content.Length && !_finished)
+            while (!_finished && size + _index > _content.Length)
             {
                 await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -348,7 +348,7 @@ namespace AngleSharp.Text
                 DetectByteOrderMarkAsync(CancellationToken.None).Wait();
             }
 
-            while (size + _index > _content.Length && !_finished)
+            while (!_finished && size + _index > _content.Length)
             {
                 ReadIntoBuffer();
             }
@@ -381,7 +381,7 @@ namespace AngleSharp.Text
         {
             Tentative,
             Certain,
-            Irrelevant
+            Irrelevant,
         }
 
         #endregion

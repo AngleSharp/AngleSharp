@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Browser;
     using AngleSharp.Dom;
@@ -27,6 +27,11 @@
         /// Parses the string and returns the result.
         /// </summary>
         INodeList ParseFragment(String source, IElement contextElement);
+
+        /// <summary>
+        /// Parses the stream and returns the result.
+        /// </summary>
+        INodeList ParseFragment(Stream source, IElement contextElement);
 
         /// <summary>
         /// Parses the string asynchronously.

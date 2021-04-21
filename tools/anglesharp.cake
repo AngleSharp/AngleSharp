@@ -5,23 +5,32 @@ using Octokit;
 var configuration = Argument("configuration", "Release");
 var isRunningOnUnix = IsRunningOnUnix();
 var isRunningOnWindows = IsRunningOnWindows();
-var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
-var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
-var buildNumber = AppVeyor.Environment.Build.Number;
+var isRunningOnGitHubActions = BuildSystem.GitHubActions.IsRunningOnGitHubActions;
 var releaseNotes = ParseReleaseNotes("./CHANGELOG.md");
 var version = releaseNotes.Version.ToString();
 var buildDir = Directory($"./src/{projectName}/bin") + Directory(configuration);
 var buildResultDir = Directory("./bin") + Directory(version);
 var nugetRoot = buildResultDir + Directory("nuget");
 
-if (target == "PrePublish")
+if (isRunningOnGitHubActions)
 {
-    version = $"{version}-alpha-{buildNumber}";
+    var buildNumber = BuildSystem.GitHubActions.Environment.Workflow.RunNumber;
+
+    if (target == "Default")
+    {
+        version = $"{version}-ci-{buildNumber}";
+    }
+    else if (target == "PrePublish")
+    {
+        version = $"{version}-alpha-{buildNumber}";
+    }
 }
 
 if (!isRunningOnWindows)
 {
     frameworks.Remove("net46");
+    frameworks.Remove("net461");
+    frameworks.Remove("net472");
 }
 
 // Initialization
@@ -74,13 +83,9 @@ Task("Run-Unit-Tests")
             Configuration = configuration,
         };
 
-        if (isRunningOnAppVeyor)
+        if (isRunningOnGitHubActions)
         {
-            settings.TestAdapterPath = Directory(".");
-            settings.Logger = "Appveyor";
-            // TODO Finds a way to exclude tests not allowed to run on appveyor
-            // Not used in current code
-            //settings.Where = "cat != ExcludeFromAppVeyor";
+            settings.Loggers.Add("GitHubActions");
         }
 
         DotNetCoreTest($"./src/{solutionName}.Tests/", settings);
@@ -101,7 +106,10 @@ Task("Copy-Files")
             }, targetDir);
         }
 
-        CopyFiles(new FilePath[] { $"src/{projectName}.nuspec" }, nugetRoot);
+        CopyFiles(new FilePath[] {
+            $"src/{projectName}.nuspec",
+            "logo.png"
+        }, nugetRoot);
     });
 
 Task("Create-Package")
@@ -109,7 +117,6 @@ Task("Create-Package")
     .Does(() =>
     {
         var nugetExe = GetFiles("./tools/**/nuget.exe").FirstOrDefault()
-            ?? (isRunningOnAppVeyor ? GetFiles("C:\\Tools\\NuGet3\\nuget.exe").FirstOrDefault() : null)
             ?? throw new InvalidOperationException("Could not find nuget.exe.");
 
         var nuspec = nugetRoot + File($"{projectName}.nuspec");
@@ -153,7 +160,7 @@ Task("Publish-Release")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
     {
-        var githubToken = EnvironmentVariable("GITHUB_API_TOKEN");
+        var githubToken = EnvironmentVariable("GITHUB_TOKEN");
 
         if (String.IsNullOrEmpty(githubToken))
         {
@@ -175,14 +182,6 @@ Task("Publish-Release")
         }).Wait();
     });
 
-Task("Update-AppVeyor-Build-Number")
-    .WithCriteria(() => isRunningOnAppVeyor)
-    .Does(() =>
-    {
-        var num = AppVeyor.Environment.Build.Number;
-        AppVeyor.UpdateBuildVersion($"{version}-{num}");
-    });
-
 // Targets
 // ----------------------------------------
 
@@ -194,12 +193,7 @@ Task("Default")
     .IsDependentOn("Package");
 
 Task("Publish")
-    .IsDependentOn("Publish-Package")
     .IsDependentOn("Publish-Release");
 
 Task("PrePublish")
     .IsDependentOn("Publish-Package");
-
-Task("AppVeyor")
-    .IsDependentOn("Run-Unit-Tests")
-    .IsDependentOn("Update-AppVeyor-Build-Number");
