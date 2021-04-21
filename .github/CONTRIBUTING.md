@@ -26,9 +26,12 @@ Discussion of issues should be placed transparently in the issue tracker here on
 
 * [AngleSharp.Core](https://github.com/AngleSharp/AngleSharp/issues/)
 * [AngleSharp.Css](https://github.com/AngleSharp/AngleSharp.Css/issues/)
+* [AngleSharp.Diffing](https://github.com/AngleSharp/AngleSharp.Diffing/issues/)
 * [AngleSharp.Io](https://github.com/AngleSharp/AngleSharp.Io/issues/)
 * [AngleSharp.Js](https://github.com/AngleSharp/AngleSharp.Js/issues/)
 * [AngleSharp.Xml](https://github.com/AngleSharp/AngleSharp.Xml/issues/)
+* [AngleSharp.XPath](https://github.com/AngleSharp/AngleSharp.XPath/issues/)
+* [AngleSharp.Wasm](https://github.com/AngleSharp/AngleSharp.Wasm/issues/)
 
 ### Modifying the code
 
@@ -76,19 +79,19 @@ Here we now created a new branch called `devel`. This is the development branch.
 
 Now active work is supposed to be done. Therefore a new branch should be created. Let's create one:
 
-```
+```sh
 git checkout -b feature/#777
 ```
 
 There may be many of these feature branches. Most of them are also pushed to the server for discussion or synchronization.
 
-```
+```sh
 git push -u origin feature/#777
 ```
 
 Now feature branches may be closed when they are done. Here we simply merge with the feature branch(es). For instance the following command takes the `feature/#777` branch from the server and merges it with the `devel` branch.
 
-```
+```sh
 git checkout devel
 git pull
 git pull origin feature/#777
@@ -97,7 +100,7 @@ git push
 
 Finally, we may have all the features that are needed to release a new version of AngleSharp. Here we tag the release. For instance for the 1.0 release we use `v1.0`.
 
-```
+```sh
 git checkout master
 git merge devel
 git tag v1.0
@@ -109,7 +112,7 @@ git tag v1.0
 
 The following files should not be edited directly in the current repository, but rather in the `AngleSharp.GitBase` repository. They are then synced via `git pull` from a different remote.
 
-```
+```plaintext
 .editorconfig
 .gitignore
 .gitattributes

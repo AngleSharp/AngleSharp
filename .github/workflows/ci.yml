@@ -1,0 +1,33 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build
+      run: ./build.sh
+
+  windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build
+      run: |
+        if ($env:GITHUB_REF -eq "refs/heads/master") {
+          .\build.ps1 -Target Publish
+        } elseif ($env:GITHUB_REF -eq "refs/heads/devel") {
+          .\build.ps1 -Target PrePublish
+        } else {
+          .\build.ps1
+        }
