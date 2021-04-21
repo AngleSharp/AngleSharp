@@ -1,0 +1,29 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build
+      run: ./build.sh
+
+  windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build
+      run: .\build.ps1
+
+    - name: Upload nupkg
+      uses: actions/upload-artifact@v2
+      with:
+        name: nupkg
+        path: bin/*/nuget/*.nupkg
+        retention-days: 7
