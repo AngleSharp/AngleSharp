@@ -38,38 +38,38 @@ Discussion of issues should be placed transparently in the issue tracker here on
 AngleSharp and its libraries uses features from the latest versions of C# (e.g., C# 7). You will therefore need a C# compiler that is up for the job.
 
 1. Fork and clone the repo.
-2. First try to build the AngleSharp.Core libray and see if you get the tests running.
+2. First try to build the AngleSharp.Core library and see if you get the tests running.
 3. You will be required to resolve some dependencies via NuGet.
 
 AngleSharp itself does not have dependencies, however, the tests are dependent on NUnit.
 
-The build system of AngleSharp uses Cake. A bootstrap script (build.ps1 for Windows or build.sh for *nix systems) is included. Note, that at the moment AngleSharp may require NuGet 3.5, which looks for MSBuild pre-15, i.e., before Visual Studio 2017 on Windows systems. We aim to drop this requirement enitirely soon.
+The build system of AngleSharp uses Cake. A bootstrap script (build.ps1 for Windows or build.sh for *nix systems) is included. Note, that at the moment AngleSharp may require NuGet 3.5, which looks for MSBuild pre-15, i.e., before Visual Studio 2017 on Windows systems. We aim to drop this requirement entirely soon.
 
 ### Code Conventions
 
 Most parts in the AngleSharp project are fairly straight forward. Among these are:
 
-- Always use statement blocks for control statements, e.g., in a for-loop, if-condition, ...
-- You may use a simple (throw) statement in case of enforcing contracts on argument
-- Be explicit about modifiers (some files follow an older convention of the code base, but we settled on the explicit style)
+* Always use statement blocks for control statements, e.g., in a for-loop, if-condition, ...
+* You may use a simple (throw) statement in case of enforcing contracts on argument
+* Be explicit about modifiers (some files follow an older convention of the code base, but we settled on the explicit style)
 
 There are a couple of rules, which are definitely not standard, but highly recommended for consistency and readability:
 
-- AngleSharp uses the RHS convention, where types are always put on the right hand side if possible, i.e., preferring `var` under all circumstances
-- A single empty line between two non-simple statements (e.g., for-loop and if-condition) should be inserted
-- Types are preferred to keywords (`String` instead of `string` or `Int32` instead of `int`)
-- `using` statements must be inside the namespace declaration
+* AngleSharp uses the RHS convention, where types are always put on the right hand side if possible, i.e., preferring `var` under all circumstances
+* A single empty line between two non-simple statements (e.g., for-loop and if-condition) should be inserted
+* Types are preferred to keywords (`String` instead of `string` or `Int32` instead of `int`)
+* `using` statements must be inside the namespace declaration
 
 ### Development Workflow
 
 1. If no issue already exists for the work you'll be doing, create one to document the problem(s) being solved and self-assign.
 2. Otherwise please let us know that you are working on the problem. Regular status updates (e.g. "still in progress", "no time anymore", "practically done", "pull request issued") are highly welcome.
-2. Create a new branch—please don't work in the `master` branch directly. It is reserved for releases. We recommend naming the branch to match the issue being addressed (`feature/#777` or `issue-777`).
-3. Add failing tests for the change you want to make. Tests are crucial and should be taken from W3C (or other specification).
-4. Fix stuff. Always go from edge case to edge case.
-5. All tests should pass now. Also your new implementation should not break existing tests.
-6. Update the documentation to reflect any changes. (or document such changes in the original issue)
-7. Push to your fork or push your issue-specific branch to the main repository, then submit a pull request against `devel`.
+3. Create a new branch—please don't work in the `master` branch directly. It is reserved for releases. We recommend naming the branch to match the issue being addressed (`feature/#777` or `issue-777`).
+4. Add failing tests for the change you want to make. Tests are crucial and should be taken from W3C (or other specification).
+5. Fix stuff. Always go from edge case to edge case.
+6. All tests should pass now. Also your new implementation should not break existing tests.
+7. Update the documentation to reflect any changes. (or document such changes in the original issue)
+8. Push to your fork or push your issue-specific branch to the main repository, then submit a pull request against `devel`.
 
 Just to illustrate the git workflow for AngleSharp a little bit more we've added the following graphs.
 
@@ -117,7 +117,6 @@ The following files should not be edited directly in the current repository, but
 .gitignore
 .gitattributes
 .github/*
-appveyor.yml
 build.ps1
 build.sh
 tools/anglesharp.cake
@@ -127,7 +126,7 @@ LICENSE
 
 To sync manually:
 
-```
+```sh
 git remote add gitbase git@github.com:AngleSharp/AngleSharp.GitBase.git
 git pull gitbase master
 ```
