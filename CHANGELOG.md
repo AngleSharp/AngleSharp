@@ -1,3 +1,20 @@
+# 0.15.0
+
+Released on Thursday, April 22 2021.
+
+- Added `ToHtmlAsync()` extension method (#863)
+- Added `ParseFragment` overload using `Stream` (#896)
+- Added `euc-kr` encoding (#928)
+- Fixed CSS attribute value comparison w.r.t. case sensitivity (#864)
+- Fixed issue in the Heisenberg algorithm of the HTML5 parser (#893)
+- Fixed issue with the strictness of broken char references in attribute values (#902)
+- Fixed possible NRE in the markup formatters / attribute serialization (#903)
+- Fixed `GetSelector` returning invalid ID selector (#909)
+- Fixed `GetSelector` returning duplicate element ids (#910)
+- Fixed possible NRE in media and `embed` elements without `src` (#914)
+- Updated CI/CD system to GitHub Actions (#942)
+- Dropped support for the .NET Standard 1.3 target (#944)
+
 # 0.14.0
 
 Released on Tuesday, March 31 2020.

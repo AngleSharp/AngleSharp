@@ -1360,5 +1360,55 @@ namespace AngleSharp.Core.Tests.Library
             var doc = await parser.ParseDocumentAsync(content);
             Assert.IsNull(doc.QuerySelector<IHtmlLinkElement>("link").Sheet);
         }
+
+        [Test]
+        public async Task RemovingVideoSourceShouldWork_Issue914()
+        {
+            var content = "<video src=\"abc\"></video>";
+            var parser = new HtmlParser();
+            var doc = await parser.ParseDocumentAsync(content);
+            var el = doc.GetElementsByTagName("video")[0];
+            el.RemoveAttribute("src");
+        }
+
+        [Test]
+        public async Task RemovingAudioSourceShouldWork_Issue914()
+        {
+            var content = "<audio src=\"abc\"></audio>";
+            var parser = new HtmlParser();
+            var doc = await parser.ParseDocumentAsync(content);
+            var el = doc.GetElementsByTagName("audio")[0];
+            el.RemoveAttribute("src");
+        }
+
+        [Test]
+        public async Task RemovingEmbedSourceShouldWork_Issue914()
+        {
+            var content = "<embed src=\"abc\"></embed>";
+            var parser = new HtmlParser();
+            var doc = await parser.ParseDocumentAsync(content);
+            var el = doc.GetElementsByTagName("embed")[0];
+            el.RemoveAttribute("src");
+        }
+
+        [Test]
+        public async Task RemovingObjectSourceShouldWork_Issue914()
+        {
+            var content = "<object data=\"abc\"></object>";
+            var parser = new HtmlParser();
+            var doc = await parser.ParseDocumentAsync(content);
+            var el = doc.GetElementsByTagName("object")[0];
+            el.RemoveAttribute("data");
+        }
+
+        [Test]
+        public async Task RemovingIFrameSourceShouldWork_Issue914()
+        {
+            var content = "<iframe src=\"abc\"></iframe>";
+            var parser = new HtmlParser();
+            var doc = await parser.ParseDocumentAsync(content);
+            var el = doc.GetElementsByTagName("iframe")[0];
+            el.RemoveAttribute("src");
+        }
     }
 }

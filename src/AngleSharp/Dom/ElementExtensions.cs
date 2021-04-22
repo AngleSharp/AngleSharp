@@ -1,6 +1,7 @@
 namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
+    using AngleSharp.Css;
     using AngleSharp.Css.Dom;
     using AngleSharp.Html;
     using AngleSharp.Html.Dom;
@@ -1520,7 +1521,7 @@ namespace AngleSharp.Dom
             do
             {
                 // Set if node has id attribute set...
-                hasId = !String.IsNullOrEmpty(element.Id);
+                hasId = !String.IsNullOrEmpty(element.Id) && element.Owner?.QuerySelectorAll($"[id='{element.Id}']").Length == 1;
 
                 // Get parent element of the node
                 var parent = element.ParentElement;
@@ -1532,7 +1533,7 @@ namespace AngleSharp.Dom
                 if (hasId)
                 {
                     // Id is unique in the DOM, so we can use it to locate the element and skip other parents
-                    name = "#" + element.Id;
+                    name = "#" + CssUtilities.Escape(element.Id);
                 }
                 // If node has siblings of the same type...
                 else if (parent != null && !element.IsOnlyOfType())

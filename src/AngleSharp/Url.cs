@@ -4,6 +4,7 @@ namespace AngleSharp
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
 
@@ -21,14 +22,13 @@ namespace AngleSharp
         private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
         private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
         private static readonly Char[] C0ControlAndSpace = Enumerable.Range(0x00, 0x21).Select(c => (Char)c).ToArray();
-#if !NETSTANDARD1_3
+
         // Remark: `UseStd3AsciiRules = false` is against spec
         // https://anglesharp.github.io/Specification-Url/#concept-domain-to-ascii
         // > UseSTD3ASCIIRules set to beStrict
         // But if UseStd3AsciiRules it set to true, _ (underscore) will be considered invalid in host name
         // Set to false here to do loose validation
-        private static readonly System.Globalization.IdnMapping DefaultIdnMapping = new System.Globalization.IdnMapping() { AllowUnassigned = false, UseStd3AsciiRules = false };
-#endif
+        private static readonly IdnMapping DefaultIdnMapping = new IdnMapping() { AllowUnassigned = false, UseStd3AsciiRules = false };
 
         private String _fragment;
         private String _query;
@@ -1135,20 +1135,7 @@ namespace AngleSharp
             // domain to ASCII
             string domainToAscii;
             var buffer = StringBuilderPool.Obtain();
-#if NETSTANDARD1_3
-            // .Net Standard 1.3 does not have IdnMapping, using a manual table to cover some basic mapping
-            foreach (var cc in percentDecoded)
-            {
-                var replacement = cc;
-                if(cc.IsAlphanumericAscii() || cc.IsOneOf(Symbols.Minus, Symbols.Underscore, Symbols.Dot) || Punycode.Symbols.TryGetValue(cc, out replacement))
-                {
-                    buffer.Append(replacement);
-                }
-            }
 
-            domainToAscii = buffer.ToString();
-            buffer.Clear();
-#else
             try
             {
                 domainToAscii = DefaultIdnMapping.GetAscii(percentDecoded);
@@ -1158,7 +1145,7 @@ namespace AngleSharp
                 sanatizedHostName = hostName.Substring(start, length);
                 return false;
             }
-#endif
+
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.7
             // forbidden host code point check
             foreach (var cc in domainToAscii)

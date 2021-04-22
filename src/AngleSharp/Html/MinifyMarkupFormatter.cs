@@ -134,7 +134,7 @@ namespace AngleSharp.Html
                     {
                         if (!element.IsBooleanAttribute(attribute.Name))
                         {
-                            var value = Serialize(attribute);
+                            var value = Attribute(attribute);
 
                             if (!String.IsNullOrEmpty(value))
                             {
@@ -146,6 +146,12 @@ namespace AngleSharp.Html
                             temp.Append(' ').Append(attribute.Name);
                         }
                     }
+                }
+
+                // The last attribute must not end with a '/' otherwise it is a self-closed tag
+                if(temp[temp.Length -1] == '/')
+                {
+                    temp.Append(' ');
                 }
 
                 temp.Append(Symbols.GreaterThan);
@@ -161,6 +167,41 @@ namespace AngleSharp.Html
             if (!CanBeRemoved(element) && !CanBeSkipped(element))
             {
                 return base.CloseTag(element, selfClosing);
+            }
+
+            return String.Empty;
+        }
+
+        /// <inheritdoc />
+        protected override string Attribute(IAttr attr)
+        {
+            var value = attr.Value;
+
+            if (ShouldKeepEmptyAttributes || !String.IsNullOrEmpty(value))
+            {
+                var temp = StringBuilderPool.Obtain();
+
+                WriteAttributeName(attr, temp);
+
+                if (value != null)
+                {
+                    temp.Append(Symbols.Equality);
+                    var needQuotes = ShouldKeepAttributeQuotes || value.Any(MustBeQuotedAttributeValue);
+
+                    if (needQuotes)
+                    {
+                        temp.Append(Symbols.DoubleQuote);
+                    }
+
+                    WriteAttributeValue(attr, temp);
+
+                    if (needQuotes)
+                    {
+                        temp.Append(Symbols.DoubleQuote);
+                    }
+                }
+
+                return temp.ToPool();
             }
 
             return String.Empty;
@@ -199,21 +240,10 @@ namespace AngleSharp.Html
             attr.Name.Is(AttributeNames.Type) &&
             attr.Value.Is(MimeTypeNames.Css);
 
-        private String Serialize(IAttr attribute)
+        private static bool MustBeQuotedAttributeValue(char c)
         {
-            if (ShouldKeepEmptyAttributes || !String.IsNullOrEmpty(attribute.Value))
-            {
-                var result = Attribute(attribute);
-
-                if (ShouldKeepAttributeQuotes || result.Any(CharExtensions.IsWhiteSpaceCharacter))
-                {
-                    return result;
-                }
-
-                return result.Replace("\"", "");
-            }
-
-            return String.Empty;
+            // https://w3c.github.io/html-reference/syntax.html#attr-value-unquoted
+            return CharExtensions.IsWhiteSpaceCharacter(c) || c == '"' || c == '\'' || c == '=' || c == '>' || c == '<' || c == '`';
         }
 
         #endregion

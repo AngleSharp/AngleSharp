@@ -26,7 +26,7 @@ using AngleSharp;
 using AngleSharp.Html.Parser;
 
 class MyClass {
-    static async void Main() {
+    static async Task Main() {
         //Use the default configuration for AngleSharp
         var config = Configuration.Default;
 

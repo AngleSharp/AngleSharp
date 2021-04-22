@@ -111,6 +111,7 @@ namespace AngleSharp.Html.Parser
                     await source.PrefetchAsync(8192, cancelToken).ConfigureAwait(false);
                 }
 
+                cancelToken.ThrowIfCancellationRequested();
                 token = _tokenizer.Get();
                 Consume(token);
 
@@ -3084,6 +3085,12 @@ namespace AngleSharp.Html.Parser
 
                 furthestBlock.AddNode(element);
                 _formattingElements.Remove(formattingElement);
+
+                if (bookmark > _formattingElements.Count)
+                {
+                    bookmark = _formattingElements.Count;
+                }
+
                 _formattingElements.Insert(bookmark, element);
                 CloseNode(formattingElement);
                 _openElements.Insert(_openElements.IndexOf(furthestBlock) + 1, element);

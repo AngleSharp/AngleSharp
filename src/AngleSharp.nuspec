@@ -5,31 +5,26 @@
     <version>$version$</version>
     <authors>AngleSharp</authors>
     <owners>Florian Rappl</owners>
-    <licenseUrl>https://github.com/AngleSharp/AngleSharp/blob/master/LICENSE</licenseUrl>
+    <license type="expression">MIT</license>
     <projectUrl>https://anglesharp.github.io</projectUrl>
-    <iconUrl>https://raw.github.com/AngleSharp/AngleSharp/master/logo.png</iconUrl>
+    <icon>logo.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>AngleSharp is the ultimate angle brackets parser library. It parses HTML5, CSS3, and XML to construct a DOM based on the official W3C specification.</description>
     <releaseNotes>https://github.com/AngleSharp/AngleSharp/blob/master/CHANGELOG.md</releaseNotes>
-    <copyright>Copyright 2013-2020, AngleSharp.</copyright>
+    <copyright>Copyright 2013-2021, AngleSharp.</copyright>
     <tags>html html5 css css3 xml dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text headless browser</tags>
     <dependencies>
-      <group targetFramework="netstandard1.3">
-        <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
-        <dependency id="System.Net.Requests" version="4.3.0" />
-        <dependency id="System.Reflection.TypeExtensions" version="4.5.1" />
-      </group>
       <group targetFramework="netstandard2.0">
-        <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
+        <dependency id="System.Text.Encoding.CodePages" version="5.0.0" />
       </group>
       <group targetFramework="net46">
-        <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
+        <dependency id="System.Text.Encoding.CodePages" version="5.0.0" />
       </group>
       <group targetFramework="net461">
-        <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
+        <dependency id="System.Text.Encoding.CodePages" version="5.0.0" />
       </group>
       <group targetFramework="net472">
-          <dependency id="System.Text.Encoding.CodePages" version="4.5.0" />
+          <dependency id="System.Text.Encoding.CodePages" version="5.0.0" />
       </group>
     </dependencies>
   </metadata>
