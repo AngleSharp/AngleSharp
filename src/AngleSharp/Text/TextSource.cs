@@ -31,10 +31,13 @@ namespace AngleSharp.Text
 
         #region ctor
 
-        private TextSource(Encoding encoding)
+        private TextSource(Encoding encoding, bool allocateBuffers)
         {
-            _buffer = new Byte[BufferSize];
-            _chars = new Char[BufferSize + 1];
+            if (allocateBuffers)
+            {
+                _buffer = new Byte[BufferSize];
+                _chars = new Char[BufferSize + 1];
+            }
             _raw = new MemoryStream();
             _index = 0;
             _encoding = encoding ?? TextEncoding.Utf8;
@@ -65,7 +68,7 @@ namespace AngleSharp.Text
         /// The initial encoding. Otherwise UTF-8.
         /// </param>
         public TextSource(Stream baseStream, Encoding encoding = null)
-            : this(encoding)
+            : this(encoding, allocateBuffers: baseStream != null)
         {
             _baseStream = baseStream;
             _content = StringBuilderPool.Obtain();
