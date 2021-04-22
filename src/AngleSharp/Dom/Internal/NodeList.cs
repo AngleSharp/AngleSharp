@@ -78,7 +78,9 @@
 
         #region IEnumerable Implementation
 
-        public IEnumerator<INode> GetEnumerator() => _entries.GetEnumerator();
+        public List<Node>.Enumerator GetEnumerator() => _entries.GetEnumerator();
+
+        IEnumerator<INode> IEnumerable<INode>.GetEnumerator() => _entries.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _entries.GetEnumerator();
 
