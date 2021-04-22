@@ -1,3 +1,9 @@
+# 1.0.0
+
+Released on ?
+
+- Remove usage of CWT and introduce context info bag (#918)
+
 # 0.15.0
 
 Released on Thursday, April 22 2021.
