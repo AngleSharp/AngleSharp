@@ -15,26 +15,6 @@ namespace AngleSharp.Dom
     public static class DocumentExtensions
     {
         /// <summary>
-        /// Iterates over all ranges in the document, applying the provided
-        /// action when the given condition is fulfilled.
-        /// </summary>
-        /// <param name="document">The document that hosts the ranges.</param>
-        /// <param name="condition">
-        /// The condition that needs to be fulfilled.
-        /// </param>
-        /// <param name="action">The action to apply to the range.</param>
-        internal static void ForEachRange(this Document document, Predicate<Range> condition, Action<Range> action)
-        {
-            foreach (var range in document.GetAttachedReferences<Range>())
-            {
-                if (condition.Invoke(range))
-                {
-                    action.Invoke(range);
-                }
-            }
-        }
-
-        /// <summary>
         /// Creates an element of the given type or throws an exception, if
         /// there is no such type.
         /// </summary>
