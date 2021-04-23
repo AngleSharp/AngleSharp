@@ -58,7 +58,7 @@ namespace AngleSharp
                 Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
                 Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
                 Creator<INavigationHandler>(ctx => new DefaultNavigationHandler(ctx)),
-            }; ;
+            };
         }
 
         #endregion
@@ -69,7 +69,7 @@ namespace AngleSharp
         /// Gets the default configuration to use. The default configuration
         /// can be overriden by calling the SetDefault method.
         /// </summary>
-        public static IConfiguration Default => new Configuration();
+        public static IConfiguration Default { get; } = new Configuration();
 
         #endregion
 
