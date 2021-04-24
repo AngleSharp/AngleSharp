@@ -103,18 +103,45 @@ namespace AngleSharp.Dom
                 var index = this.Index();
                 parent.InsertBefore(newNode, NextSibling);
 
-                owner.ForEachRange(m => m.Head == this && m.Start > offset, m => m.StartWith(newNode, m.Start - offset));
-                owner.ForEachRange(m => m.Tail == this && m.End > offset, m => m.EndWith(newNode, m.End - offset));
-                owner.ForEachRange(m => m.Head == parent && m.Start == index + 1, m => m.StartWith(parent, m.Start + 1));
-                owner.ForEachRange(m => m.Tail == parent && m.End == index + 1, m => m.StartWith(parent, m.End + 1));
+                foreach (var m in owner.GetAttachedReferences<Range>())
+                {
+                    if (m.Head == this && m.Start > offset)
+                    {
+                        m.StartWith(newNode, m.Start - offset);
+                    }
+
+                    if (m.Tail == this && m.End > offset)
+                    {
+                        m.EndWith(newNode, m.End - offset);
+                    }
+
+                    if (m.Head == parent && m.Start == index + 1)
+                    {
+                        m.StartWith(parent, m.Start + 1);
+                    }
+
+                    if (m.Tail == parent && m.End == index + 1)
+                    {
+                        m.StartWith(parent, m.End + 1);
+                    }
+                }
             }
 
             Replace(offset, count, String.Empty);
 
             if (parent != null)
             {
-                owner.ForEachRange(m => m.Head == this && m.Start > offset, m => m.StartWith(this, offset));
-                owner.ForEachRange(m => m.Tail == this && m.End > offset, m => m.EndWith(this, offset));
+                foreach (var m in owner.GetAttachedReferences<Range>())
+                {
+                    if (m.Head == this && m.Start > offset)
+                    {
+                        m.StartWith(this, offset);
+                    }
+                    if (m.Tail == this && m.End > offset)
+                    {
+                        m.EndWith(this, offset);
+                    }
+                }
             }
 
             return newNode;

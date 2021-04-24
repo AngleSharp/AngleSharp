@@ -63,7 +63,7 @@ namespace AngleSharp.Dom
             get
             {
                 var parent = Parent;
-                
+
                 if (parent != null)
                 {
                     var n = parent.ChildNodes.Length;
@@ -164,7 +164,7 @@ namespace AngleSharp.Dom
             {
                 count = length - offset;
             }
-            
+
             var previous = _content;
             var deleteOffset = offset + data.Length;
             _content = _content.Insert(offset, data);
@@ -175,10 +175,25 @@ namespace AngleSharp.Dom
             }
 
             owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: previous));
-            owner.ForEachRange(m => m.Head == this && m.Start > offset && m.Start <= offset + count, m => m.StartWith(this, offset));
-            owner.ForEachRange(m => m.Tail == this && m.End > offset && m.End <= offset + count, m => m.EndWith(this, offset));
-            owner.ForEachRange(m => m.Head == this && m.Start > offset + count, m => m.StartWith(this, m.Start + data.Length - count));
-            owner.ForEachRange(m => m.Tail == this && m.End > offset + count, m => m.EndWith(this, m.End + data.Length - count));
+            foreach (var m in owner.GetAttachedReferences<Range>())
+            {
+                if (m.Head == this && m.Start > offset && m.Start <= offset + count)
+                {
+                    m.StartWith(this, offset);
+                }
+                if (m.Tail == this && m.End > offset && m.End <= offset + count)
+                {
+                    m.EndWith(this, offset);
+                }
+                if (m.Head == this && m.Start > offset + count)
+                {
+                    m.StartWith(this, m.Start + data.Length - count);
+                }
+                if (m.Tail == this && m.End > offset + count)
+                {
+                    m.EndWith(this, m.End + data.Length - count);
+                }
+            }
         }
 
         public void Before(params INode[] nodes) => this.InsertBefore(nodes);

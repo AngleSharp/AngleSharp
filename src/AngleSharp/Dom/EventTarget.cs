@@ -148,6 +148,8 @@ namespace AngleSharp.Dom
             return false;
         }
 
+        internal Boolean HasEventListeners => _listeners != null && _listeners.Count > 0;
+
         /// <summary>
         /// Dispatch an event to this Node.
         /// </summary>

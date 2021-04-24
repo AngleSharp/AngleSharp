@@ -270,8 +270,17 @@ namespace AngleSharp.Dom
             if (referenceElement != null && document != null)
             {
                 var childIndex = referenceElement.Index();
-                document.ForEachRange(m => m.Head == this && m.Start > childIndex, m => m.StartWith(this, m.Start + count));
-                document.ForEachRange(m => m.Tail == this && m.End > childIndex, m => m.EndWith(this, m.End + count));
+                foreach (var m in document.GetAttachedReferences<Range>())
+                {
+                    if (m.Head == this && m.Start > childIndex)
+                    {
+                        m.StartWith(this, m.Start + count);
+                    }
+                    if (m.Tail == this && m.End > childIndex)
+                    {
+                        m.EndWith(this, m.End + count);
+                    }
+                }
             }
 
             if (newElement.NodeType == NodeType.Document || newElement.Contains(this))
@@ -332,10 +341,25 @@ namespace AngleSharp.Dom
 
             if (document != null)
             {
-                document.ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
-                document.ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
-                document.ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
-                document.ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
+                foreach (var m in document.GetAttachedReferences<Range>())
+                {
+                    if (m.Head.IsInclusiveDescendantOf(node))
+                    {
+                        m.StartWith(this, index);
+                    }
+                    if (m.Tail.IsInclusiveDescendantOf(node))
+                    {
+                        m.EndWith(this, index);
+                    }
+                    if (m.Head == this && m.Start > index)
+                    {
+                        m.StartWith(this, m.Start - 1);
+                    }
+                    if (m.Tail == this && m.End > index)
+                    {
+                        m.EndWith(this, m.End - 1);
+                    }
+                }
             }
 
             var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
@@ -617,11 +641,25 @@ namespace AngleSharp.Dom
                             sb.Append(sibling.Data);
                             end++;
 
-                            owner.ForEachRange(m => m.Head == sibling, m => m.StartWith(text, length));
-                            owner.ForEachRange(m => m.Tail == sibling, m => m.EndWith(text, length));
-                            owner.ForEachRange(m => m.Head == sibling.Parent && m.Start == end, m => m.StartWith(text, length));
-                            owner.ForEachRange(m => m.Tail == sibling.Parent && m.End == end, m => m.EndWith(text, length));
-
+                            foreach (var m in owner.GetAttachedReferences<Range>())
+                            {
+                                if (m.Head == sibling)
+                                {
+                                    m.StartWith(text, length);
+                                }
+                                if (m.Tail == sibling)
+                                {
+                                    m.EndWith(text, length);
+                                }
+                                if (m.Head == sibling.Parent && m.Start == end)
+                                {
+                                    m.StartWith(text, length);
+                                }
+                                if (m.Tail == sibling.Parent && m.End == end)
+                                {
+                                    m.EndWith(text, length);
+                                }
+                            }
                             length += sibling.Length;
                         }
 

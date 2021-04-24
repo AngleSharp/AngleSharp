@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
@@ -203,19 +205,28 @@ namespace AngleSharp.Html.Parser
         private IHtmlDocument Parse(HtmlDocument document)
         {
             var parser = CreateBuilder(document);
-            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            InvokeHtmlParseEvent(document, completed: false);
             parser.Parse(_options);
-            InvokeEventListener(new HtmlParseEvent(document, completed: true));
+            InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
 
         private async Task<IHtmlDocument> ParseAsync(HtmlDocument document, CancellationToken cancel)
         {
             var parser = CreateBuilder(document);
-            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            InvokeHtmlParseEvent(document, completed: false);
             await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
-            InvokeEventListener(new HtmlParseEvent(document, completed: true));
+            InvokeHtmlParseEvent(document, completed: true);
             return document;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void InvokeHtmlParseEvent(HtmlDocument document, bool completed)
+        {
+            if (HasEventListeners)
+            {
+                InvokeEventListener(new HtmlParseEvent(document, completed));
+            }
         }
 
         private INodeList ParseFragment(HtmlDocument document, IElement contextElement)

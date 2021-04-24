@@ -14,15 +14,13 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private static readonly AttachedProperty<Element, IShadowRoot> ShadowRootProperty = new AttachedProperty<Element, IShadowRoot>();
-
         private readonly NamedNodeMap _attributes;
         private readonly String _namespace;
         private readonly String? _prefix;
         private readonly String _localName;
-
         private HtmlCollection<IElement>? _elements;
         private TokenList? _classList;
+        private IShadowRoot? _shadowRoot;
 
         #endregion
 
@@ -67,7 +65,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IShadowRoot? ShadowRoot => ShadowRootProperty.Get(this);
+        public IShadowRoot? ShadowRoot => _shadowRoot;
 
         /// <inheritdoc />
         public String? Prefix => _prefix;
@@ -335,9 +333,8 @@ namespace AngleSharp.Dom
             if (ShadowRoot != null)
                 throw new DomException(DomError.InvalidState);
 
-            var root = new ShadowRoot(this, mode);
-            ShadowRootProperty.Set(this, root);
-            return root;
+            _shadowRoot = new ShadowRoot(this, mode);
+            return _shadowRoot;
         }
 
         /// <inheritdoc />

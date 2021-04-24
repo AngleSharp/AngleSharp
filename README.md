@@ -16,7 +16,7 @@ AngleSharp is a .NET library that gives you the ability to parse angle bracket b
 
 ## Key Features
 
-- **Portable** (using .NET Standard 1.3)
+- **Portable** (using .NET Standard 2.0)
 - **Standards conform** (works exactly as evergreen browsers)
 - **Great performance** (outperforms similar parsers in most scenarios)
 - **Extensible** (extend with your own services)
@@ -55,10 +55,10 @@ Every collection in AngleSharp supports LINQ statements. AngleSharp also provide
 
 ## Supported Platforms
 
-AngleSharp has been created as a .NET Standard 1.3 (and 2.0) compatible library. This includes, but is not limited to:
+AngleSharp has been created as a .NET Standard 2.0 compatible library. This includes, but is not limited to:
 
-- .NET Core (1.0 and 2.0)
-- .NET Framework (4.6)
+- .NET Core (2.0 and later)
+- .NET Framework (4.6 and later)
 - Xamarin.Android (7.0 and 8.0)
 - Xamarin.iOS (10.0 and 10.14)
 - Xamarin.Mac (3.0 and 3.8)
