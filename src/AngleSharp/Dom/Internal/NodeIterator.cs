@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,7 @@
 
         #region ctor
 
-        public NodeIterator(INode root, FilterSettings settings, NodeFilter filter)
+        public NodeIterator(INode root, FilterSettings settings, NodeFilter? filter)
         {
             _root = root;
             _settings = settings;
@@ -50,7 +50,7 @@
 
         #region Methods
 
-        public INode Next()
+        public INode? Next()
         {
             var node = _reference;
             var beforeNode = _beforeNode;
@@ -62,7 +62,7 @@
                     node = _iterator.SkipWhile(m => !Object.ReferenceEquals(m, node)).Skip(1).FirstOrDefault();
                 }
 
-                if (node == null)
+                if (node is null)
                 {
                     return null;
                 }
@@ -76,7 +76,7 @@
             return node;
         }
 
-        public INode Previous()
+        public INode? Previous()
         {
             var node = _reference;
             var beforeNode = _beforeNode;
@@ -88,7 +88,7 @@
                     node = _iterator.TakeWhile(m => !Object.ReferenceEquals(m, node)).LastOrDefault();
                 }
 
-                if (node == null)
+                if (node is null)
                 {
                     return null;
                 }

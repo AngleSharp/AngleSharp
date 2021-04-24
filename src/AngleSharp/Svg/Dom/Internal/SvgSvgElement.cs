@@ -8,7 +8,7 @@
     /// </summary>
     sealed class SvgSvgElement : SvgElement, ISvgSvgElement
     {
-        public SvgSvgElement(Document owner, String prefix = null)
+        public SvgSvgElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Svg, prefix)
         {
         }

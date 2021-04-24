@@ -11,7 +11,7 @@
     {
         #region ctor
 
-        public HtmlTableCaptionElement(Document owner, String prefix = null)
+        public HtmlTableCaptionElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Caption, prefix, NodeFlags.Special | NodeFlags.Scoped)
         {
         }

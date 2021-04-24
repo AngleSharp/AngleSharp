@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -19,13 +19,13 @@
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        IHtmlFormElement Form { get; }
+        IHtmlFormElement? Form { get; }
 
         /// <summary>
         /// Gets or sets the value of the name attribute.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets the type of input control (fieldset).

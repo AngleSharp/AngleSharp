@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,6 +13,6 @@
         /// Gets or sets the scope of the th element.
         /// </summary>
         [DomName("scope")]
-        String Scope { get; set; }
+        String? Scope { get; set; }
     }
 }

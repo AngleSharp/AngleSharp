@@ -31,7 +31,7 @@ namespace AngleSharp.Dom
 
         #region Properties
 
-        public IElement PreviousElementSibling
+        public IElement? PreviousElementSibling
         {
             get
             {
@@ -58,7 +58,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        public IElement NextElementSibling
+        public IElement? NextElementSibling
         {
             get
             {

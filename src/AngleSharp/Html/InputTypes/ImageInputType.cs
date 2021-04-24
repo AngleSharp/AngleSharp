@@ -9,7 +9,7 @@ namespace AngleSharp.Html.InputTypes
     {
         #region Fields
 
-        private readonly ImageRequestProcessor _request;
+        private readonly ImageRequestProcessor? _request;
 
         #endregion
 
@@ -20,7 +20,6 @@ namespace AngleSharp.Html.InputTypes
         {
             var inp = input as HtmlInputElement;
             var src = input.Source;
-
 
             if (src != null && inp != null)
             {
@@ -57,7 +56,7 @@ namespace AngleSharp.Html.InputTypes
 
             if (!String.IsNullOrEmpty(value))
             {
-                dataSet.Append(name, value, Input.Type);
+                dataSet.Append(name!, value, Input.Type);
             }
         }
 

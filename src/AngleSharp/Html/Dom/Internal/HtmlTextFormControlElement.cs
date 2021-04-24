@@ -4,6 +4,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents the base class for all HTML text form controls.
@@ -13,7 +14,7 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private Boolean _dirty;
-        private String _value;
+        private String? _value;
         private SelectionType _direction;
         private Int32 _start;
         private Int32 _end;
@@ -22,7 +23,7 @@ namespace AngleSharp.Html.Dom
 
         #region ctor
 
-        public HtmlTextFormControlElement(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
+        public HtmlTextFormControlElement(Document owner, String name, String? prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags)
         {
         }
@@ -43,7 +44,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Gets or sets the dirname HTML attribute.
         /// </summary>
-        public String DirectionName
+        public String? DirectionName
         {
             get => this.GetOwnAttribute(AttributeNames.DirName);
             set => this.SetOwnAttribute(AttributeNames.DirName, value);
@@ -88,6 +89,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Gets or sets the current value in the control.
         /// </summary>
+        [AllowNull]
         public String Value
         {
             get => _value ?? DefaultValue;
@@ -98,7 +100,7 @@ namespace AngleSharp.Html.Dom
         /// Gets or sets the placeholder HTML attribute, containing a hint to
         /// the user about what to enter in the control.
         /// </summary>
-        public String Placeholder
+        public String? Placeholder
         {
             get => this.GetOwnAttribute(AttributeNames.Placeholder);
             set => this.SetOwnAttribute(AttributeNames.Placeholder, value);
@@ -154,7 +156,7 @@ namespace AngleSharp.Html.Dom
         /// direction of the current locale, or "backward" for the opposite
         /// direction.
         /// </summary>
-        public String SelectionDirection => _direction.ToString().ToLowerInvariant();
+        public String? SelectionDirection => _direction.ToString().ToLowerInvariant();
 
         #endregion
 
@@ -180,7 +182,7 @@ namespace AngleSharp.Html.Dom
         /// <param name="selectionStart">The start of the selection.</param>
         /// <param name="selectionEnd">The end of the selection.</param>
         /// <param name="selectionDirection">Optional: The direction of the selection.</param>
-        public void Select(Int32 selectionStart, Int32 selectionEnd, String selectionDirection = null)
+        public void Select(Int32 selectionStart, Int32 selectionEnd, String? selectionDirection = null)
         {
             SetSelectionRange(selectionStart, selectionEnd, selectionDirection.ToEnum(SelectionType.Forward));
         }
@@ -239,12 +241,12 @@ namespace AngleSharp.Html.Dom
 
         protected void ConstructDataSet(FormDataSet dataSet, String type)
         {
-            dataSet.Append(Name, Value, type);
+            dataSet.Append(Name!, Value, type);
             var dirname = this.GetOwnAttribute(AttributeNames.DirName);
 
-            if (!String.IsNullOrEmpty(dirname))
+            if (dirname is { Length: > 0 })
             {
-                dataSet.Append(dirname, Direction.ToString().ToLowerInvariant(), "Direction");
+                dataSet.Append(dirname, Direction!.ToString().ToLowerInvariant(), "Direction");
             }
         }
 

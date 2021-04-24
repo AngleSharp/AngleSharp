@@ -14,7 +14,7 @@
     {
         #region ctor
 
-        public HtmlFrameSetElement(Document owner, String prefix = null)
+        public HtmlFrameSetElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Frameset, prefix, NodeFlags.Special)
         {
         }

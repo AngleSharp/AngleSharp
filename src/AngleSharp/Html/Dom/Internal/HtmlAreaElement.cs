@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -13,7 +13,7 @@
         /// <summary>
         /// Creates a new area element.
         /// </summary>
-        public HtmlAreaElement(Document owner, String prefix = null)
+        public HtmlAreaElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Area, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets or sets the alternative text for the element.
         /// </summary>
-        public String AlternativeText
+        public String? AlternativeText
         {
             get => this.GetOwnAttribute(AttributeNames.Alt);
             set => this.SetOwnAttribute(AttributeNames.Alt, value);
@@ -34,7 +34,7 @@
         /// <summary>
         /// Gets or sets the coordinates to define the hot-spot region.
         /// </summary>
-        public String Coordinates
+        public String? Coordinates
         {
             get => this.GetOwnAttribute(AttributeNames.Coords);
             set => this.SetOwnAttribute(AttributeNames.Coords, value);
@@ -45,7 +45,7 @@
         /// The known values are: circle, default. poly, rect. The missing
         /// value is rect.
         /// </summary>
-        public String Shape
+        public String? Shape
         {
             get => this.GetOwnAttribute(AttributeNames.Shape);
             set => this.SetOwnAttribute(AttributeNames.Shape, value);

@@ -11,7 +11,7 @@ namespace AngleSharp.Svg.Dom
         #region ctor
 
         /// <inheritdoc />
-        public SvgElement(Document owner, String name, String prefix = null, NodeFlags flags = NodeFlags.None)
+        public SvgElement(Document owner, String name, String? prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, NamespaceNames.SvgUri, flags | NodeFlags.SvgMember)
         {
         }

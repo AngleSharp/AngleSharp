@@ -12,7 +12,7 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private HtmlCollection<IElement> _elements;
+        private HtmlCollection<IElement>? _elements;
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace AngleSharp.Dom
 
         public IHtmlCollection<IElement> Children => _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false));
 
-        public IElement FirstElementChild
+        public IElement? FirstElementChild
         {
             get
             {
@@ -68,7 +68,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        public IElement LastElementChild
+        public IElement? LastElementChild
         {
             get
             {
@@ -114,7 +114,7 @@ namespace AngleSharp.Dom
 
         public void Append(params INode[] nodes) => this.AppendNodes(nodes);
 
-        public IElement QuerySelector(String selectors) => ChildNodes.QuerySelector(selectors, null);
+        public IElement? QuerySelector(String selectors) => ChildNodes.QuerySelector(selectors, null);
 
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors) => ChildNodes.QuerySelectorAll(selectors, null);
 
@@ -124,7 +124,7 @@ namespace AngleSharp.Dom
 
         public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
-        public IElement GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
+        public IElement? GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
 
         public override Node Clone(Document owner, Boolean deep)
         {

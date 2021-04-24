@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlTableHeaderCellElement : HtmlTableCellElement, IHtmlTableHeaderCellElement
     {
-        public HtmlTableHeaderCellElement(Document owner, String prefix = null)
+        public HtmlTableHeaderCellElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Th, prefix)
         {
         }

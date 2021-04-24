@@ -51,7 +51,7 @@ namespace AngleSharp.Dom
 
         public IDocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
-            if (qualifiedName == null)
+            if (qualifiedName is null)
                 throw new ArgumentNullException(nameof(qualifiedName));
 
             if (!qualifiedName.IsXmlName())
@@ -78,7 +78,7 @@ namespace AngleSharp.Dom
             {
                 var titleElement = document.CreateElement(TagNames.Title);
                 titleElement.AppendChild(document.CreateTextNode(title));
-                document.Head.AppendChild(titleElement);
+                document.Head!.AppendChild(titleElement);
             }
 
             document.DocumentElement.AppendChild(document.CreateElement(TagNames.Body));
@@ -86,9 +86,9 @@ namespace AngleSharp.Dom
             return document;
         }
 
-        public Boolean HasFeature(String feature, String version = null)
+        public Boolean HasFeature(String feature, String? version = null)
         {
-            if (feature == null)
+            if (feature is null)
                 throw new ArgumentNullException(nameof(feature));
 
             if (features.TryGetValue(feature, out var versions))

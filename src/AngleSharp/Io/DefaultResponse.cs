@@ -1,4 +1,6 @@
-﻿namespace AngleSharp.Io
+#nullable disable
+
+namespace AngleSharp.Io
 {
     using System;
     using System.Collections.Generic;

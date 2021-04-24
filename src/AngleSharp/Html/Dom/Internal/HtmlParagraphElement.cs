@@ -11,7 +11,7 @@
     {
         #region ctor
 
-        public HtmlParagraphElement(Document owner, String prefix = null)
+        public HtmlParagraphElement(Document owner, String? prefix = null)
             : base(owner, TagNames.P, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }

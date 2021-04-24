@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlItalicElement : HtmlElement
     {
-        public HtmlItalicElement(Document owner, String prefix = null)
+        public HtmlItalicElement(Document owner, String? prefix = null)
             : base(owner, TagNames.I, prefix, NodeFlags.HtmlFormatting)
         {
         }

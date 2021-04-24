@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -15,7 +15,7 @@
         /// Gets or sets the name attribute.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets the nodes from the distributed nodes of the context.

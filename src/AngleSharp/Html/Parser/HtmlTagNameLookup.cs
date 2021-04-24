@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using System;
@@ -6,30 +6,22 @@
 
     static class HtmlTagNameLookup
     {
-        public static String TryGetWellKnownTagName(StringBuilder builder)
+        public static String? TryGetWellKnownTagName(StringBuilder builder)
         {
             switch (builder.Length)
             {
                 case 1:
-                    switch (builder[0])
+                    return builder[0] switch
                     {
-                        case 'p':
-                            return TagNames.P;
-                        case 'b':
-                            return TagNames.B;
-                        case 'i':
-                            return TagNames.I;
-                        case 's':
-                            return TagNames.S;
-                        case 'u':
-                            return TagNames.U;
-                        case 'q':
-                            return TagNames.Q;
-                        case 'a':
-                            return TagNames.A;
-                        default:
-                            return null;
-                    }
+                        'p' => TagNames.P,
+                        'b' => TagNames.B,
+                        'i' => TagNames.I,
+                        's' => TagNames.S,
+                        'u' => TagNames.U,
+                        'q' => TagNames.Q,
+                        'a' => TagNames.A,
+                        _ => null
+                    };
                 case 2:
                     switch (builder[1])
                     {

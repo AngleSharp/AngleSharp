@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Dom;
     using System;
@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets or sets the element that triggered the evaluation.
         /// </summary>
-        public IElement Element
+        public IElement? Element
         {
             get;
             set;

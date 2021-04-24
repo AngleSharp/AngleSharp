@@ -13,24 +13,24 @@ namespace AngleSharp.Html.Dom
         /// Gets or sets the name of the meta element.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the equivalent in a meta element, which
         /// is effective if the server doesn't send a corresponding real header.
         /// </summary>
         [DomName("httpEquiv")]
-        String HttpEquivalent { get; set; }
+        String? HttpEquivalent { get; set; }
 
         /// <summary>
         /// Gets or sets the associated charset.
         /// </summary>
-        String Charset { get; set; }
+        String? Charset { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the content attribute of the meta element.
         /// </summary>
         [DomName("content")]
-        String Content { get; set; }
+        String? Content { get; set; }
     }
 }

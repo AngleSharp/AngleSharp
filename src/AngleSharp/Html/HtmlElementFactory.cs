@@ -11,7 +11,7 @@ namespace AngleSharp.Html
     /// </summary>
     sealed class HtmlElementFactory : IElementFactory<Document, HtmlElement>
     {
-        private delegate HtmlElement Creator(Document owner, String prefix);
+        private delegate HtmlElement Creator(Document owner, String? prefix);
 
         private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
@@ -161,7 +161,7 @@ namespace AngleSharp.Html
         /// <param name="prefix">The prefix of the element, if any.</param>
         /// <param name="flags">The optional flags, if any.</param>
         /// <returns>The specialized HTMLElement instance.</returns>
-        public HtmlElement Create(Document document, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
+        public HtmlElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
             if (creators.TryGetValue(localName, out var creator))
             {

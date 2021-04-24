@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom.Events
+namespace AngleSharp.Html.Dom.Events
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -13,12 +13,16 @@
     {
         #region ctor
 
+#nullable disable
+
         /// <summary>
         /// Creates a new event.
         /// </summary>
         public TouchEvent()
         {
         }
+
+#nullable enable
 
         /// <summary>
         /// Creates a new event and initializes it.
@@ -37,7 +41,7 @@
         /// <param name="metaKey">Sets if the meta key was pressed.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public TouchEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, Int32 detail = 0, ITouchList touches = null, ITouchList targetTouches = null, ITouchList changedTouches = null, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false)
+        public TouchEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, ITouchList? touches = null, ITouchList? targetTouches = null, ITouchList? changedTouches = null, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false)
         {
             Init(type, bubbles, cancelable, view, detail);
         }
@@ -50,7 +54,7 @@
         /// Gets a list with all active touch points.
         /// </summary>
         [DomName("touches")]
-        public ITouchList Touches
+        public ITouchList? Touches
         {
             get;
             private set;
@@ -60,7 +64,7 @@
         /// Gets a list with touch points over the target.
         /// </summary>
         [DomName("targetTouches")]
-        public ITouchList TargetTouches
+        public ITouchList? TargetTouches
         {
             get;
             private set;
@@ -70,7 +74,7 @@
         /// Gets a list with changed touch points.
         /// </summary>
         [DomName("changedTouches")]
-        public ITouchList ChangedTouches
+        public ITouchList? ChangedTouches
         {
             get;
             private set;
@@ -136,7 +140,7 @@
         /// <param name="shiftKey">Sets if the shift key was pressed.</param>
         /// <param name="metaKey">Sets if the meta key was pressed.</param>
         [DomName("initTouchEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail, ITouchList touches, ITouchList targetTouches, ITouchList changedTouches, Boolean ctrlKey, Boolean altKey, Boolean shiftKey, Boolean metaKey)
+        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow? view, Int32 detail, ITouchList? touches, ITouchList? targetTouches, ITouchList? changedTouches, Boolean ctrlKey, Boolean altKey, Boolean shiftKey, Boolean metaKey)
         {
             Init(type, bubbles, cancelable, view, detail);
             Touches = touches;

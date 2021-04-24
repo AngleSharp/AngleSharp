@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Io;
@@ -14,44 +14,44 @@
         /// Gets or sets the alternative text.
         /// </summary>
         [DomName("alt")]
-        String AlternativeText { get; set; }
+        String? AlternativeText { get; set; }
 
         /// <summary>
         /// Gets the actual used image source.
         /// </summary>
         [DomName("currentSrc")]
-        String ActualSource { get; }
+        String? ActualSource { get; }
 
         /// <summary>
         /// Gets or sets the image source.
         /// </summary>
         [DomName("src")]
-        String Source { get; set; }
+        String? Source { get; set; }
 
         /// <summary>
         /// Gets or sets the image candidates for higher density images.
         /// </summary>
         [DomName("srcset")]
-        String SourceSet { get; set; }
+        String? SourceSet { get; set; }
 
         /// <summary>
         /// Gets or sets the sizes to responsively.
         /// </summary>
         [DomName("sizes")]
-        String Sizes { get; set; }
+        String? Sizes { get; set; }
 
         /// <summary>
         /// Gets or sets the cross-origin attribute.
         /// </summary>
         [DomName("crossOrigin")]
-        String CrossOrigin { get; set; }
+        String? CrossOrigin { get; set; }
 
         /// <summary>
         /// Gets or sets the usemap attribute, which indicates that the image
         /// has an associated image map.
         /// </summary>
         [DomName("useMap")]
-        String UseMap { get; set; }
+        String? UseMap { get; set; }
 
         /// <summary>
         /// Gets or sets if the image element is a map. The attribute must not

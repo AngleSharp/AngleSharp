@@ -8,7 +8,7 @@
     /// </summary>
     sealed class SvgCircleElement : SvgElement, ISvgCircleElement
     {
-        public SvgCircleElement(Document owner, String prefix = null)
+        public SvgCircleElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Circle, prefix)
         {
         }

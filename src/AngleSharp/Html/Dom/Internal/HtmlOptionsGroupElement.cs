@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlOptionsGroupElement(Document owner, String prefix = null)
+        public HtmlOptionsGroupElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Optgroup, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }
@@ -19,7 +19,7 @@
 
         #region Properties
 
-        public String Label
+        public String? Label
         {
             get => this.GetOwnAttribute(AttributeNames.Label);
             set => this.SetOwnAttribute(AttributeNames.Label, value);

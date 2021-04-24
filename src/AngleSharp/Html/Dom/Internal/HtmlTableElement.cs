@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -13,14 +13,14 @@
     {
         #region Fields
 
-        private HtmlCollection<IHtmlTableSectionElement> _bodies;
-        private HtmlCollection<IHtmlTableRowElement> _rows;
+        private HtmlCollection<IHtmlTableSectionElement>? _bodies;
+        private HtmlCollection<IHtmlTableRowElement>? _rows;
 
         #endregion
 
         #region ctor
 
-        public HtmlTableElement(Document owner, String prefix = null)
+        public HtmlTableElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Table, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
         }
@@ -102,7 +102,7 @@
             set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
-        public String BgColor
+        public String? BgColor
         {
             get => this.GetOwnAttribute(AttributeNames.BgColor);
             set => this.SetOwnAttribute(AttributeNames.BgColor, value);
@@ -138,13 +138,13 @@
             set => this.SetOwnAttribute(AttributeNames.Rules, value.ToString());
         }
 
-        public String Summary
+        public String? Summary
         {
             get => this.GetOwnAttribute(AttributeNames.Summary);
             set => this.SetOwnAttribute(AttributeNames.Summary, value);
         }
 
-        public String Width
+        public String? Width
         {
             get => this.GetOwnAttribute(AttributeNames.Width);
             set => this.SetOwnAttribute(AttributeNames.Width, value);
@@ -157,12 +157,12 @@
         public IHtmlTableRowElement InsertRowAt(Int32 index = -1)
         {
             var rows = Rows;
-            var newRow = Owner.CreateElement(TagNames.Tr) as IHtmlTableRowElement;
+            var newRow = (IHtmlTableRowElement)Owner.CreateElement(TagNames.Tr);
 
             if (index >= 0 && index < rows.Length)
             {
                 var row = rows[index];
-                row.ParentElement.InsertBefore(newRow, row);
+                row.ParentElement!.InsertBefore(newRow, row);
             }
             else if (rows.Length == 0)
             {
@@ -178,7 +178,7 @@
             }
             else
             {
-                rows[rows.Length - 1].ParentElement.AppendChild(newRow);
+                rows[rows.Length - 1].ParentElement!.AppendChild(newRow);
             }
 
             return newRow;
@@ -198,9 +198,9 @@
         {
             var head = Head;
 
-            if (head == null)
+            if (head is null)
             {
-                head = Owner.CreateElement(TagNames.Thead) as IHtmlTableSectionElement;
+                head = (IHtmlTableSectionElement)Owner.CreateElement(TagNames.Thead);
                 AppendChild(head);
             }
 
@@ -210,7 +210,7 @@
         public IHtmlTableSectionElement CreateBody()
         {
             var lastBody = Bodies.LastOrDefault();
-            var body = Owner.CreateElement(TagNames.Tbody) as IHtmlTableSectionElement;
+            var body = (IHtmlTableSectionElement)Owner.CreateElement(TagNames.Tbody);
             var length = ChildNodes.Length;
             var index = lastBody != null ? lastBody.Index() + 1 : length;
 
@@ -235,9 +235,9 @@
         {
             var foot = Foot;
 
-            if (foot == null)
+            if (foot is null)
             {
-                foot = Owner.CreateElement(TagNames.Tfoot) as IHtmlTableSectionElement;
+                foot = (IHtmlTableSectionElement)Owner.CreateElement(TagNames.Tfoot);
                 AppendChild(foot);
             }
 
@@ -253,9 +253,9 @@
         {
             var caption = Caption;
 
-            if (caption == null)
+            if (caption is null)
             {
-                caption = Owner.CreateElement(TagNames.Caption) as IHtmlTableCaptionElement;
+                caption = (IHtmlTableCaptionElement)Owner.CreateElement(TagNames.Caption);
                 InsertChild(0, caption);
             }
 

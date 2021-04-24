@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlUnorderedListElement : HtmlElement, IHtmlUnorderedListElement
     {
-        public HtmlUnorderedListElement(Document owner, String prefix = null)
+        public HtmlUnorderedListElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Ul, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }

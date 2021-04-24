@@ -26,7 +26,7 @@ namespace AngleSharp.Browser
 
             if (encoding != null)
             {
-                var document = element.Owner;
+                var document = element.Owner!;
                 document.Source.CurrentEncoding = encoding;
             }
         }
@@ -36,7 +36,7 @@ namespace AngleSharp.Browser
         /// </summary>
         /// <param name="element">The element to get the encoding from.</param>
         /// <returns>The discovered encoding or null.</returns>
-        protected virtual Encoding GetEncoding(IHtmlMetaElement element)
+        protected virtual Encoding? GetEncoding(IHtmlMetaElement element)
         {
             var charset = element.Charset;
 

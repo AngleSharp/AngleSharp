@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -33,13 +33,13 @@
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        IHtmlFormElement Form { get; }
+        IHtmlFormElement? Form { get; }
 
         /// <summary>
         /// Gets or sets the name of the element.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets the type of input control (keygen).
@@ -51,12 +51,12 @@
         /// Gets or sets the type of encryption used.
         /// </summary>
         [DomName("keytype")]
-        String KeyEncryption { get; set; }
+        String? KeyEncryption { get; set; }
 
         /// <summary>
         /// Gets or sets the challenge attribute.
         /// </summary>
         [DomName("challenge")]
-        String Challenge { get; set; }
+        String? Challenge { get; set; }
     }
 }

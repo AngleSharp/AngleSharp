@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +20,7 @@
         {
             if (nodes.Length > 1)
             {
-                var node = parent.Owner.CreateDocumentFragment();
+                var node = parent.Owner!.CreateDocumentFragment();
 
                 for (var i = 0; i < nodes.Length; i++)
                 {
@@ -137,10 +137,10 @@
         public static TElement AppendElement<TElement>(this INode parent, TElement element)
             where TElement : class, IElement
         {
-            if (parent == null)
+            if (parent is null)
                 throw new ArgumentNullException(nameof(parent));
 
-            return parent.AppendChild(element) as TElement;
+            return (TElement)parent.AppendChild(element);
         }
 
         /// <summary>
@@ -156,10 +156,10 @@
         public static TElement InsertElement<TElement>(this INode parent, TElement newElement, INode referenceElement)
             where TElement : class, IElement
         {
-            if (parent == null)
+            if (parent is null)
                 throw new ArgumentNullException(nameof(parent));
 
-            return parent.InsertBefore(newElement, referenceElement) as TElement;
+            return (TElement)parent.InsertBefore(newElement, referenceElement);
         }
 
         /// <summary>
@@ -173,10 +173,10 @@
         public static TElement RemoveElement<TElement>(this INode parent, TElement element)
             where TElement : class, IElement
         {
-            if (parent == null)
+            if (parent is null)
                 throw new ArgumentNullException(nameof(parent));
 
-            return parent.RemoveChild(element) as TElement;
+            return (TElement)parent.RemoveChild(element);
         }
 
         /// <summary>
@@ -187,13 +187,13 @@
         /// <param name="parent">The parent of the nodes to gather.</param>
         /// <param name="selectors">The group of selectors to use.</param>
         /// <returns>The element, if there is any.</returns>
-        public static TElement QuerySelector<TElement>(this IParentNode parent, String selectors)
+        public static TElement? QuerySelector<TElement>(this IParentNode parent, String selectors)
             where TElement : class, IElement
         {
-            if (parent == null)
+            if (parent is null)
                 throw new ArgumentNullException(nameof(parent));
 
-            if (selectors == null)
+            if (selectors is null)
                 throw new ArgumentNullException(nameof(selectors));
 
             return parent.QuerySelector(selectors) as TElement;
@@ -210,10 +210,10 @@
         public static IEnumerable<TElement> QuerySelectorAll<TElement>(this IParentNode parent, String selectors)
             where TElement : IElement
         {
-            if (parent == null)
+            if (parent is null)
                 throw new ArgumentNullException(nameof(parent));
 
-            if (selectors == null)
+            if (selectors is null)
                 throw new ArgumentNullException(nameof(selectors));
 
             return parent.QuerySelectorAll(selectors).OfType<TElement>();
@@ -237,7 +237,7 @@
         /// <returns>The descendent nodes.</returns>
         public static IEnumerable<INode> Descendents(this INode parent)
         {
-            if (parent == null)
+            if (parent is null)
                 throw new ArgumentNullException(nameof(parent));
 
             return parent.GetDescendants();
@@ -261,7 +261,7 @@
         /// <returns>The descendent nodes including itself.</returns>
         public static IEnumerable<INode> DescendentsAndSelf(this INode parent)
         {
-            if (parent == null)
+            if (parent is null)
                 throw new ArgumentNullException(nameof(parent));
 
             return parent.GetDescendantsAndSelf();
@@ -285,7 +285,7 @@
         /// <returns>The ancestor nodes.</returns>
         public static IEnumerable<INode> Ancestors(this INode child)
         {
-            if (child == null)
+            if (child is null)
                 throw new ArgumentNullException(nameof(child));
 
             return child.GetAncestors();

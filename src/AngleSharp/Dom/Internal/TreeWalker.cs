@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     /// <summary>
     /// The treewalker for walking through the DOM tree.
@@ -16,7 +16,7 @@
 
         #region ctor
 
-        public TreeWalker(INode root, FilterSettings settings, NodeFilter filter)
+        public TreeWalker(INode root, FilterSettings settings, NodeFilter? filter)
         {
             _root = root;
             _settings = settings;
@@ -44,7 +44,7 @@
 
         #region Methods
 
-        public INode ToNext()
+        public INode? ToNext()
         {
             var node = _current;
             var result = FilterResult.Accept;
@@ -65,7 +65,7 @@
 
                 while (node != _root)
                 {
-                    var sibling = node.NextSibling;
+                    var sibling = node!.NextSibling;
 
                     if (sibling != null)
                     {
@@ -93,7 +93,7 @@
             return null;
         }
 
-        public INode ToPrevious()
+        public INode? ToPrevious()
         {
             var node = _current;
 
@@ -126,7 +126,7 @@
 
                 var parent = node.Parent;
 
-                if (parent == null)
+                if (parent is null)
                 {
                     break;
                 }
@@ -141,7 +141,7 @@
             return null;
         }
 
-        public INode ToParent()
+        public INode? ToParent()
         {
             var node = _current;
 
@@ -159,7 +159,7 @@
             return null;
         }
 
-        public INode ToFirst()
+        public INode? ToFirst()
         {
             var node = _current?.FirstChild;
 
@@ -195,7 +195,7 @@
 
                     var parent = node.Parent;
 
-                    if (parent == null || parent == _root || parent == _current)
+                    if (parent is null || parent == _root || parent == _current)
                     {
                         node = null;
                         break;
@@ -208,7 +208,7 @@
             return null;
         }
 
-        public INode ToLast()
+        public INode? ToLast()
         {
             var node = _current?.LastChild;
 
@@ -244,7 +244,7 @@
 
                     var parent = node.Parent;
 
-                    if (parent == null || parent == _root || parent == _current)
+                    if (parent is null || parent == _root || parent == _current)
                     {
                         node = null;
                         break;
@@ -257,7 +257,7 @@
             return null;
         }
 
-        public INode ToPreviousSibling()
+        public INode? ToPreviousSibling()
         {
             var node = _current;
 
@@ -280,7 +280,7 @@
 
                         sibling = node.LastChild;
 
-                        if (result == FilterResult.Reject || sibling == null)
+                        if (result == FilterResult.Reject || sibling is null)
                         {
                             sibling = node.PreviousSibling;
                         }
@@ -288,7 +288,7 @@
 
                     node = node.Parent;
 
-                    if (node == null || node == _root || Check(node) == FilterResult.Accept)
+                    if (node is null || node == _root || Check(node) == FilterResult.Accept)
                     {
                         break;
                     }
@@ -298,7 +298,7 @@
             return null;
         }
 
-        public INode ToNextSibling()
+        public INode? ToNextSibling()
         {
             var node = _current;
 
@@ -321,7 +321,7 @@
 
                         sibling = node.FirstChild;
 
-                        if (result == FilterResult.Reject || sibling == null)
+                        if (result == FilterResult.Reject || sibling is null)
                         {
                             sibling = node.NextSibling;
                         }
@@ -329,7 +329,7 @@
 
                     node = node.Parent;
 
-                    if (node == null || node == _root || Check(node) == FilterResult.Accept)
+                    if (node is null || node == _root || Check(node) == FilterResult.Accept)
                     {
                         break;
                     }

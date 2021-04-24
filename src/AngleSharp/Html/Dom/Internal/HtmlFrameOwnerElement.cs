@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -11,7 +11,7 @@
     {
         #region ctor
 
-        public HtmlFrameOwnerElement(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
+        public HtmlFrameOwnerElement(Document owner, String name, String? prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags)
         {
         }

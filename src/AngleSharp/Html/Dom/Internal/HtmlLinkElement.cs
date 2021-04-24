@@ -12,15 +12,15 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private BaseLinkRelation _relation;
-        private TokenList _relList;
-        private SettableTokenList _sizes;
+        private BaseLinkRelation? _relation;
+        private TokenList? _relList;
+        private SettableTokenList? _sizes;
 
         #endregion
 
         #region ctor
 
-        public HtmlLinkElement(Document owner, String prefix = null)
+        public HtmlLinkElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
@@ -45,39 +45,39 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IDownload CurrentDownload => _relation?.Processor?.Download;
+        public IDownload? CurrentDownload => _relation?.Processor?.Download;
 
-        public String Href
+        public String? Href
         {
             get => this.GetUrlAttribute(AttributeNames.Href);
             set => this.SetOwnAttribute(AttributeNames.Href, value);
         }
 
-        public String TargetLanguage
+        public String? TargetLanguage
         {
             get => this.GetOwnAttribute(AttributeNames.HrefLang);
             set => this.SetOwnAttribute(AttributeNames.HrefLang, value);
         }
 
-        public String Charset
+        public String? Charset
         {
             get => this.GetOwnAttribute(AttributeNames.Charset);
             set => this.SetOwnAttribute(AttributeNames.Charset, value);
         }
 
-        public String Relation
+        public String? Relation
         {
             get => this.GetOwnAttribute(AttributeNames.Rel);
             set => this.SetOwnAttribute(AttributeNames.Rel, value);
         }
 
-        public String ReverseRelation
+        public String? ReverseRelation
         {
             get => this.GetOwnAttribute(AttributeNames.Rev);
             set => this.SetOwnAttribute(AttributeNames.Rev, value);
         }
 
-        public String NumberUsedOnce
+        public String? NumberUsedOnce
         {
             get => this.GetOwnAttribute(AttributeNames.Nonce);
             set => this.SetOwnAttribute(AttributeNames.Nonce, value);
@@ -87,7 +87,7 @@ namespace AngleSharp.Html.Dom
         {
             get
             {
-                if (_relList == null)
+                if (_relList is null)
                 {
                     _relList = new TokenList(this.GetOwnAttribute(AttributeNames.Rel));
                     _relList.Changed += value => UpdateAttribute(AttributeNames.Rel, value);
@@ -101,7 +101,7 @@ namespace AngleSharp.Html.Dom
         {
             get
             {
-                if (_sizes == null)
+                if (_sizes is null)
                 {
                     _sizes = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Sizes));
                     _sizes.Changed += value => UpdateAttribute(AttributeNames.Sizes, value);
@@ -111,7 +111,7 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public String Rev
+        public String? Rev
         {
             get => this.GetOwnAttribute(AttributeNames.Rev);
             set => this.SetOwnAttribute(AttributeNames.Rev, value);
@@ -123,31 +123,31 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.Disabled, value);
         }
 
-        public String Target
+        public String? Target
         {
             get => this.GetOwnAttribute(AttributeNames.Target);
             set => this.SetOwnAttribute(AttributeNames.Target, value);
         }
 
-        public String Media
+        public String? Media
         {
             get => this.GetOwnAttribute(AttributeNames.Media);
             set => this.SetOwnAttribute(AttributeNames.Media, value);
         }
 
-        public String Type
+        public String? Type
         {
             get => this.GetOwnAttribute(AttributeNames.Type);
             set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
-        public String Integrity
+        public String? Integrity
         {
             get => this.GetOwnAttribute(AttributeNames.Integrity);
             set => this.SetOwnAttribute(AttributeNames.Integrity, value);
         }
 
-        public IStyleSheet Sheet
+        public IStyleSheet? Sheet
         {
             get
             {
@@ -156,7 +156,7 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public IDocument Import
+        public IDocument? Import
         {
             get
             {
@@ -165,7 +165,7 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public String CrossOrigin
+        public String? CrossOrigin
         {
             get => this.GetOwnAttribute(AttributeNames.CrossOrigin);
             set => this.SetOwnAttribute(AttributeNames.CrossOrigin, value);
@@ -223,7 +223,7 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
-        private BaseLinkRelation CreateFirstLegalRelation()
+        private BaseLinkRelation? CreateFirstLegalRelation()
         {
             var relations = RelationList;
             var factory = Context?.GetFactory<ILinkRelationFactory>();

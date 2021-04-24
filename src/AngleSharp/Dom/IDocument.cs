@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
@@ -42,7 +42,7 @@
         /// Gets or sets the value of the dir attribute.
         /// </summary>
         [DomName("dir")]
-        String Direction { get; set; }
+        String? Direction { get; set; }
 
         /// <summary>
         /// Gets the URI of the current document.
@@ -85,7 +85,7 @@
         /// Special annotation to replace the history.
         /// </param>
         [DomName("open")]
-        IDocument Open(String type = "text/html", String replace = null);
+        IDocument Open(String type = "text/html", String? replace = null);
 
         /// <summary>
         /// Finishes writing to a document.
@@ -304,7 +304,7 @@
         /// </param>
         /// <returns>The created node NodeIterator.</returns>
         [DomName("createNodeIterator")]
-        INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null);
+        INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter? filter = null);
 
         /// <summary>
         /// Creates a new TreeWalker object.
@@ -320,7 +320,7 @@
         /// </param>
         /// <returns>The created node TreeWalker.</returns>
         [DomName("createTreeWalker")]
-        ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null);
+        ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter? filter = null);
 
         /// <summary>
         /// Creates a copy of a node from an external document that can be
@@ -361,7 +361,7 @@
         /// Gets the date of the last modification.
         /// </summary>
         [DomName("lastModified")]
-        String LastModified { get; }
+        String? LastModified { get; }
 
         /// <summary>
         /// Gets the current ready state of the document.
@@ -420,19 +420,19 @@
         /// Gets or sets the title of the document.
         /// </summary>
         [DomName("title")]
-        String Title { get; set; }
+        String? Title { get; set; }
 
         /// <summary>
         /// Gets or sets the head element.
         /// </summary>
         [DomName("head")]
-        IHtmlHeadElement Head { get; }
+        IHtmlHeadElement? Head { get; }
 
         /// <summary>
         /// Gets the body element.
         /// </summary>
         [DomName("body")]
-        IHtmlElement Body { get; set; }
+        IHtmlElement? Body { get; set; }
 
         /// <summary>
         /// Gets or sets the document cookie.
@@ -444,7 +444,7 @@
         /// Gets the Unicode serialization of document's origin.
         /// </summary>
         [DomName("origin")]
-        String Origin { get; }
+        String? Origin { get; }
 
         /// <summary>
         /// Gets or sets the domain portion of the origin of the current
@@ -457,7 +457,7 @@
         /// Gets the referer to that pointed to the current document.
         /// </summary>
         [DomName("referrer")]
-        String Referrer { get; }
+        String? Referrer { get; }
 
         /// <summary>
         /// Event triggered after the ready state changed.
@@ -470,20 +470,20 @@
         /// get keystroke events if the user types any.
         /// </summary>
         [DomName("activeElement")]
-        IElement ActiveElement { get; }
+        IElement? ActiveElement { get; }
 
         /// <summary>
         /// Gets the script element which is currently being processed.
         /// </summary>
         [DomName("currentScript")]
-        IHtmlScriptElement CurrentScript { get; }
+        IHtmlScriptElement? CurrentScript { get; }
 
         /// <summary>
         /// Gets the window object associated with the document or null if none
         /// available.
         /// </summary>
         [DomName("defaultView")]
-        IWindow DefaultView { get; }
+        IWindow? DefaultView { get; }
 
         /// <summary>
         /// Checks if the document is currently focused.
@@ -556,7 +556,7 @@
         /// <param name="commandId">The id of the command to issue.</param>
         /// <returns>The modified value.</returns>
         [DomName("queryCommandValue")]
-        String GetCommandValue(String commandId);
+        String? GetCommandValue(String commandId);
 
         /// <summary>
         /// Gets the browsing context to use.
@@ -566,7 +566,7 @@
         /// <summary>
         /// Gets the import ancestor, if any.
         /// </summary>
-        IDocument ImportAncestor { get; }
+        IDocument? ImportAncestor { get; }
 
         /// <summary>
         /// Gets the underlying source.

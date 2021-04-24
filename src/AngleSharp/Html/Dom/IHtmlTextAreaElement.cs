@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -27,7 +27,7 @@
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        IHtmlFormElement Form { get; }
+        IHtmlFormElement? Form { get; }
 
         /// <summary>
         /// Gets the list of assigned labels.
@@ -39,7 +39,7 @@
         /// Gets or sets the name of the element.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets the type (textarea).
@@ -75,7 +75,7 @@
         /// Gets or sets the wrap HTML attribute, indicating how the control wraps text.
         /// </summary>
         [DomName("wrap")]
-        String Wrap { get; set; }
+        String? Wrap { get; set; }
 
         /// <summary>
         /// Gets the codepoint length of the control's value.
@@ -110,7 +110,7 @@
         /// the user about what to enter in the control.
         /// </summary>
         [DomName("placeholder")]
-        String Placeholder { get; set; }
+        String? Placeholder { get; set; }
         
         /// <summary>
         /// Gets the direction in which selection occurred. This is "forward" if
@@ -118,13 +118,13 @@
         /// locale, or "backward" for the opposite direction.
         /// </summary>
         [DomName("selectionDirection")]
-        String SelectionDirection { get; }
+        String? SelectionDirection { get; }
 
         /// <summary>
         /// Gets or sets the directionality of the form element.
         /// </summary>
         [DomName("dirName")]
-        String DirectionName { get; set; }
+        String? DirectionName { get; set; }
         
         /// <summary>
         /// Gets or sets the index of the beginning of selected text.
@@ -162,6 +162,6 @@
         /// <param name="selectionEnd">The end of the selection.</param>
         /// <param name="selectionDirection">Optional: The direction of the selection.</param>
         [DomName("setSelectionRange")]
-        void Select(Int32 selectionStart, Int32 selectionEnd, String selectionDirection = null);
+        void Select(Int32 selectionStart, Int32 selectionEnd, String? selectionDirection = null);
     }
 }

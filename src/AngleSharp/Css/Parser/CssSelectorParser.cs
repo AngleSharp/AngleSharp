@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Text;
@@ -24,9 +24,9 @@
         /// <summary>
         /// Creates a new selector parser using the different factories.
         /// </summary>
-        internal CssSelectorParser(IBrowsingContext context)
+        internal CssSelectorParser(IBrowsingContext? context)
         {
-            if (context == null)
+            if (context is null)
             {
                 context = BrowsingContext.NewFrom<ICssSelectorParser>(this);
             }
@@ -39,7 +39,7 @@
         /// <summary>
         /// Takes a string and transforms it into a selector object.
         /// </summary>
-        public ISelector ParseSelector(String selectorText)
+        public ISelector? ParseSelector(String selectorText)
         {
             var source = new StringSource(selectorText);
             var tokenizer = new CssTokenizer(source);

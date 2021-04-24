@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Media.Dom
+namespace AngleSharp.Media.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,25 +13,25 @@
         /// Gets the id of the video track.
         /// </summary>
         [DomName("id")]
-        String Id { get; }
+        String? Id { get; }
 
         /// <summary>
         /// Gets the kind of video track.
         /// </summary>
         [DomName("kind")]
-        String Kind { get; }
+        String? Kind { get; }
 
         /// <summary>
         /// Gets the label of the track.
         /// </summary>
         [DomName("label")]
-        String Label { get; }
+        String? Label { get; }
 
         /// <summary>
         /// Gets the language of the track.
         /// </summary>
         [DomName("language")]
-        String Language { get; }
+        String? Language { get; }
 
         /// <summary>
         /// Gets or sets if the track is selected.

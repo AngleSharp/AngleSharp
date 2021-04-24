@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -14,25 +14,25 @@
         /// Gets or sets the alternative text for the element.
         /// </summary>
         [DomName("alt")]
-        String AlternativeText { get; set; }
+        String? AlternativeText { get; set; }
 
         /// <summary>
         /// Gets or sets the coordinates to define the hot-spot region.
         /// </summary>
         [DomName("coords")]
-        String Coordinates { get; set; }
+        String? Coordinates { get; set; }
 
         /// <summary>
         /// Gets or sets the shape of the hot-spot, limited to known values.
         /// </summary>
         [DomName("shape")]
-        String Shape { get; set; }
+        String? Shape { get; set; }
 
         /// <summary>
         /// Gets or sets the browsing context in which to open the linked resource.
         /// </summary>
         [DomName("target")]
-        String Target { get; set; }
+        String? Target { get; set; }
 
         /// <summary>
         /// Gets or sets the linked resource is intended to be downloaded rather than displayed.
@@ -40,7 +40,7 @@
         /// underlying OS, the navigator will adapt it.
         /// </summary>
         [DomName("download")]
-        String Download { get; set; }
+        String? Download { get; set; }
 
         /// <summary>
         /// Gets the ping HTML attribute, as a settable list of otkens.
@@ -53,7 +53,7 @@
         /// current document to the linked resource.
         /// </summary>
         [DomName("rel")]
-        String Relation { get; set; }
+        String? Relation { get; set; }
 
         /// <summary>
         /// Gets the value indicating relationships of the current
@@ -66,12 +66,12 @@
         /// Gets or sets the language of the linked resource.
         /// </summary>
         [DomName("hreflang")]
-        String TargetLanguage { get; set; }
+        String? TargetLanguage { get; set; }
 
         /// <summary>
         /// Gets or sets the MIME type of the linked resource.
         /// </summary>
         [DomName("type")]
-        String Type { get; set; }
+        String? Type { get; set; }
     }
 }

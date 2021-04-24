@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
 
@@ -48,12 +48,12 @@
         /// <returns>The collection itself.</returns>
         public static INamedNodeMap Clear(this INamedNodeMap attributes)
         {
-            if (attributes == null)
+            if (attributes is null)
                 throw new ArgumentNullException(nameof(attributes));
 
             while (attributes.Length > 0)
             {
-                var name = attributes[attributes.Length - 1].Name;
+                var name = attributes[attributes.Length - 1]!.Name;
                 attributes.RemoveNamedItem(name);
             }
 

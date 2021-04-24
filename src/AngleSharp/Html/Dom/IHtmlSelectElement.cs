@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -27,7 +27,7 @@
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        IHtmlFormElement Form { get; }
+        IHtmlFormElement? Form { get; }
 
         /// <summary>
         /// Gets the list of assigned labels.
@@ -39,13 +39,13 @@
         /// Gets or sets the name of the element.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the value.
         /// </summary>
         [DomName("value")]
-        String Value { get; set; }
+        String? Value { get; set; }
 
         /// <summary>
         /// Gets the type of input element (select).
@@ -109,7 +109,7 @@
         /// <param name="element">The element to add.</param>
         /// <param name="before">The optional reference element for inserting.</param>
         [DomName("add")]
-        void AddOption(IHtmlOptionElement element, IHtmlElement before = null);
+        void AddOption(IHtmlOptionElement element, IHtmlElement? before = null);
 
         /// <summary>
         /// Adds an options group element to the options collection.
@@ -117,7 +117,7 @@
         /// <param name="element">The element to add.</param>
         /// <param name="before">The optional reference element for inserting.</param>
         [DomName("add")]
-        void AddOption(IHtmlOptionsGroupElement element, IHtmlElement before = null);
+        void AddOption(IHtmlOptionsGroupElement element, IHtmlElement? before = null);
 
         /// <summary>
         /// Removes an element from the options collection.

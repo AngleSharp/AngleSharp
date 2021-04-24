@@ -2538,7 +2538,7 @@ namespace AngleSharp.Html
         /// The name of the entity, specified by &amp;NAME; in the Html code.
         /// </param>
         /// <returns>The string with the symbol or null.</returns>
-        public String GetSymbol(String name)
+        public String? GetSymbol(String name)
         {
             var symbol = default(String);
 
@@ -2610,7 +2610,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="code">The original code.</param>
         /// <returns>The character wrapped in a string.</returns>
-        public static String GetSymbolFromTable(Int32 code)
+        public static String? GetSymbolFromTable(Int32 code)
         {
             switch (code)
             { 

@@ -15,17 +15,17 @@ namespace AngleSharp.Dom
         private readonly String _name;
         private readonly NodeFlags _flags;
 
-        private Url _baseUri;
-        private Node _parent;
+        private Url? _baseUri;
+        private Node? _parent;
         private NodeList _children;
-        private Document _owner;
+        private Document? _owner;
 
         #endregion
 
         #region ctor
 
         /// <inheritdoc />
-        public Node(Document owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
+        public Node(Document? owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
             _owner = owner;
             _name = name ?? String.Empty;
@@ -48,7 +48,7 @@ namespace AngleSharp.Dom
         public String BaseUri => BaseUrl?.Href ?? String.Empty;
 
         /// <inheritdoc />
-        public Url BaseUrl
+        public Url? BaseUrl
         {
             get
             {
@@ -90,31 +90,31 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public virtual String NodeValue
         {
-            get => null;
+            get => null!;
             set { }
         }
 
         /// <inheritdoc />
         public virtual String TextContent
         {
-            get => null;
+            get => null!;
             set { }
         }
 
-        INode INode.PreviousSibling => PreviousSibling;
+        INode? INode.PreviousSibling => PreviousSibling;
 
-        INode INode.NextSibling => NextSibling;
+        INode? INode.NextSibling => NextSibling;
 
-        INode INode.FirstChild => FirstChild;
+        INode? INode.FirstChild => FirstChild;
 
-        INode INode.LastChild =>LastChild;
+        INode? INode.LastChild => LastChild;
 
         IDocument INode.Owner => Owner;
 
-        INode INode.Parent => _parent;
+        INode? INode.Parent => _parent;
 
         /// <inheritdoc />
-        public IElement ParentElement => _parent as IElement;
+        public IElement? ParentElement => _parent as IElement;
 
         INodeList INode.ChildNodes => _children;
 
@@ -125,7 +125,7 @@ namespace AngleSharp.Dom
 
         #region Internal Properties
 
-        internal Node PreviousSibling
+        internal Node? PreviousSibling
         {
             get
             {
@@ -146,7 +146,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        internal Node NextSibling
+        internal Node? NextSibling
         {
             get
             {
@@ -167,9 +167,9 @@ namespace AngleSharp.Dom
             }
         }
 
-        internal Node FirstChild => _children.Length > 0 ? _children[0] : null;
+        internal Node? FirstChild => _children.Length > 0 ? _children[0] : null;
 
-        internal Node LastChild => _children.Length > 0 ? _children[_children.Length - 1] : null;
+        internal Node? LastChild => _children.Length > 0 ? _children[_children.Length - 1] : null;
 
         internal NodeList ChildNodes
         {
@@ -177,7 +177,7 @@ namespace AngleSharp.Dom
             set => _children = value;
         }
 
-        internal Node Parent
+        internal Node? Parent
         {
             get => _parent;
             set => _parent = value;
@@ -189,10 +189,10 @@ namespace AngleSharp.Dom
             {
                 if (_type == NodeType.Document)
                 {
-                    return default;
+                    return default!; // Supress to avoid common case where this is non-null
                 }
 
-                return _owner;
+                return _owner!;
             }
             set
             {
@@ -217,7 +217,7 @@ namespace AngleSharp.Dom
 
         #region Internal Methods
 
-        internal void ReplaceAll(Node node, Boolean suppressObservers)
+        internal void ReplaceAll(Node? node, Boolean suppressObservers)
         {
             var document = Owner;
 
@@ -262,7 +262,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        internal INode InsertBefore(Node newElement, Node referenceElement, Boolean suppressObservers)
+        internal INode InsertBefore(Node newElement, Node? referenceElement, Boolean suppressObservers)
         {
             var document = Owner;
             var count = newElement.NodeType == NodeType.DocumentFragment ? newElement.ChildNodes.Length : 1;
@@ -278,7 +278,7 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.HierarchyRequest);
 
             var addedNodes = new NodeList();
-            var n = _children.Index(referenceElement);
+            var n = _children.Index(referenceElement!);
 
             if (n == -1)
             {
@@ -525,14 +525,14 @@ namespace AngleSharp.Dom
                     }
                 }
 
-                if (!node.HasChildNodes && node.NextSibling == null)
+                if (!node.HasChildNodes && node.NextSibling is null)
                 {
                     var p = node.ParentElement;
 
                     while (p != end)
                     {
-                        writer.Write(formatter.CloseTag(p, p.Flags.HasFlag(NodeFlags.SelfClosing)));
-                        p = p.NextSibling == null ? p.ParentElement : end;
+                        writer.Write(formatter.CloseTag(p!, p!.Flags.HasFlag(NodeFlags.SelfClosing)));
+                        p = p.NextSibling is null ? p.ParentElement : end;
                     }
                 }
             }
@@ -549,10 +549,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public INode InsertBefore(INode newElement, INode referenceElement) => this.PreInsert(newElement, referenceElement);
+        public INode InsertBefore(INode newElement, INode? referenceElement) => this.PreInsert(newElement, referenceElement);
 
         /// <inheritdoc />
-        public INode ReplaceChild(INode newChild, INode oldChild) => this.ReplaceChild(newChild as Node, oldChild as Node, false);
+        public INode ReplaceChild(INode newChild, INode oldChild) => this.ReplaceChild((Node)newChild, (Node)oldChild, false);
 
         /// <inheritdoc />
         public INode RemoveChild(INode child) => this.PreRemove(child);
@@ -641,18 +641,18 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public String LookupNamespaceUri(String prefix)
+        public String? LookupNamespaceUri(String? prefix)
         {
             if (String.IsNullOrEmpty(prefix))
             {
                 prefix = null;
             }
 
-            return LocateNamespace(prefix);
+            return LocateNamespace(prefix!);
         }
 
         /// <inheritdoc />
-        public String LookupPrefix(String namespaceUri)
+        public String? LookupPrefix(String namespaceUri)
         {
             if (String.IsNullOrEmpty(namespaceUri))
             {
@@ -663,14 +663,14 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public Boolean IsDefaultNamespace(String namespaceUri)
+        public Boolean IsDefaultNamespace(String? namespaceUri)
         {
             if (String.IsNullOrEmpty(namespaceUri))
             {
                 namespaceUri = null;
             }
 
-            var defaultNamespace = LocateNamespace(null);
+            var defaultNamespace = LocateNamespace(null!);
             return namespaceUri.Is(defaultNamespace);
         }
 
@@ -720,7 +720,7 @@ namespace AngleSharp.Dom
         /// For more information, see:
         /// https://dom.spec.whatwg.org/#validate-and-extract
         /// </summary>
-        protected static void GetPrefixAndLocalName(String qualifiedName, ref String namespaceUri, out String prefix, out String localName)
+        protected static void GetPrefixAndLocalName(String qualifiedName, ref String? namespaceUri, out String? prefix, out String localName)
         {
             if (!qualifiedName.IsXmlName())
                 throw new DomException(DomError.InvalidCharacter);
@@ -751,18 +751,18 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        protected static Boolean IsNamespaceError(String prefix, String namespaceUri, String qualifiedName)
+        protected static Boolean IsNamespaceError(String? prefix, String? namespaceUri, String qualifiedName)
         {
-            return (prefix != null && namespaceUri == null) || (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
+            return (prefix != null && namespaceUri is null) || (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
                 ((qualifiedName.Is(NamespaceNames.XmlNsPrefix) || prefix.Is(NamespaceNames.XmlNsPrefix)) && !namespaceUri.Is(NamespaceNames.XmlNsUri)) ||
                 (namespaceUri.Is(NamespaceNames.XmlNsUri) && (!qualifiedName.Is(NamespaceNames.XmlNsPrefix) && !prefix.Is(NamespaceNames.XmlNsPrefix)));
         }
 
         /// <inheritdoc />
-        protected virtual String LocateNamespace(String prefix) => _parent?.LocateNamespace(prefix);
+        protected virtual String? LocateNamespace(String prefix) => _parent?.LocateNamespace(prefix);
 
         /// <inheritdoc />
-        protected virtual String LocatePrefix(String namespaceUri) => _parent?.LocatePrefix(namespaceUri);
+        protected virtual String? LocatePrefix(String namespaceUri) => _parent?.LocatePrefix(namespaceUri);
 
         /// <summary>
         /// Run any adopting steps defined for node in other applicable
@@ -780,7 +780,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Specifications may define removing steps for all or some nodes.
         /// </summary>
-        protected virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling) => removedNode.OnParentChanged();
+        protected virtual void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling) => removedNode.OnParentChanged();
 
         /// <inheritdoc />
         protected virtual void OnParentChanged()

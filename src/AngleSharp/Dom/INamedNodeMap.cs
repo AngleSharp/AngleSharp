@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -19,7 +19,7 @@
         /// <returns>The attribute at the specified numeric index.</returns>
         [DomName("item")]
         [DomAccessor(Accessors.Getter)]
-        IAttr this[Int32 index] { get; }
+        IAttr? this[Int32 index] { get; }
 
         /// <summary>
         /// Gets the node with the specified name.
@@ -27,7 +27,7 @@
         /// <param name="name">The name of the element.</param>
         /// <returns>The attribute at the specfied name.</returns>
         [DomAccessor(Accessors.Getter)]
-        IAttr this[String name] { get; }
+        IAttr? this[String name] { get; }
 
         /// <summary>
         /// Gets the number of nodes in the NamedNodeMap.
@@ -42,7 +42,7 @@
         /// <param name="name">The name of the item to get.</param>
         /// <returns>The attribute with the given name.</returns>
         [DomName("getNamedItem")]
-        IAttr GetNamedItem(String name);
+        IAttr? GetNamedItem(String name);
 
         /// <summary>
         /// Sets a named item in the NamedNodeMap.
@@ -50,7 +50,7 @@
         /// <param name="item">The named item to set.</param>
         /// <returns>The replaced attribute, if any.</returns>
         [DomName("setNamedItem")]
-        IAttr SetNamedItem(IAttr item);
+        IAttr? SetNamedItem(IAttr item);
 
         /// <summary>
         /// Removes a named item from the NamedNodeMap
@@ -68,7 +68,7 @@
         /// <param name="localName">The local name of the item.</param>
         /// <returns>The attribute with the namespaceUri and name.</returns>
         [DomName("getNamedItemNS")]
-        IAttr GetNamedItem(String namespaceUri, String localName);
+        IAttr? GetNamedItem(String? namespaceUri, String localName);
 
         /// <summary>
         /// Sets a named item in the NamedNodeMap.
@@ -76,7 +76,7 @@
         /// <param name="item">The named item to set.</param>
         /// <returns>The replaced attribute, if any.</returns>
         [DomName("setNamedItemNS")]
-        IAttr SetNamedItemWithNamespaceUri(IAttr item);
+        IAttr? SetNamedItemWithNamespaceUri(IAttr item);
 
         /// <summary>
         /// Removes a named item from the NamedNodeMap.

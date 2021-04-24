@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Media;
@@ -13,13 +13,13 @@
     {
         #region Fields
 
-        private IVideoTrackList _videos;
+        private IVideoTrackList? _videos;
 
         #endregion
 
         #region ctor
 
-        public HtmlVideoElement(Document owner, String prefix = null)
+        public HtmlVideoElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Video, prefix)
         {
             _videos = null;
@@ -29,7 +29,7 @@
 
         #region Properties
 
-        public override IVideoTrackList VideoTracks => _videos;
+        public override IVideoTrackList? VideoTracks => _videos;
 
         public Int32 DisplayWidth
         {
@@ -47,7 +47,7 @@
 
         public Int32 OriginalHeight => Media?.Height ?? 0;
 
-        public String Poster
+        public String? Poster
         {
             get => this.GetUrlAttribute(AttributeNames.Poster);
             set => this.SetOwnAttribute(AttributeNames.Poster, value);

@@ -136,12 +136,12 @@ namespace AngleSharp.Css.Dom
         /// </summary>
         /// <param name="sheets">The list of style sheets.</param>
         /// <param name="prefix">The prefix of the namespace to find.</param>
-        public static String LocateNamespace(this IStyleSheetList sheets, String prefix)
+        public static String? LocateNamespace(this IStyleSheetList sheets, String prefix)
         {
             var uri = default(String);
             var length = sheets.Length;
 
-            for (var i = 0; i < length && uri == null; i++)
+            for (var i = 0; i < length && uri is null; i++)
             {
                 uri = sheets[i].LocateNamespace(prefix);
             }

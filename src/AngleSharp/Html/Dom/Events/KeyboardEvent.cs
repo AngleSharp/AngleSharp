@@ -1,9 +1,10 @@
-﻿namespace AngleSharp.Html.Dom.Events
+namespace AngleSharp.Html.Dom.Events
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents the event arguments for a keyboard event.
@@ -19,12 +20,16 @@
 
         #region ctor
 
+#nullable disable
+
         /// <summary>
         /// Creates a new event.
         /// </summary>
         public KeyboardEvent()
         {
         }
+
+#nullable enable
 
         /// <summary>
         /// Creates a new event and initializes it.
@@ -40,7 +45,7 @@
         /// <param name="repeat">Sets if the key has been pressed again.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public KeyboardEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, Int32 detail = 0, String key = null, KeyboardLocation location = KeyboardLocation.Standard, String modifiersList = null, Boolean repeat = false)
+        public KeyboardEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, String? key = null, KeyboardLocation location = KeyboardLocation.Standard, String? modifiersList = null, Boolean repeat = false)
         {
             Init(type, bubbles, cancelable, view, detail, key ?? String.Empty, location, modifiersList ?? String.Empty, repeat);
         }
@@ -53,7 +58,7 @@
         /// Gets string representation of the pressed key.
         /// </summary>
         [DomName("key")]
-        public String Key
+        public String? Key
         {
             get;
             private set;
@@ -111,14 +116,14 @@
         [DomName("getModifierState")]
         public Boolean GetModifierState(String key)
         {
-            return _modifiers.ContainsKey(key);
+            return _modifiers!.ContainsKey(key);
         }
 
         /// <summary>
         /// Gets the locale of the keyboard.
         /// </summary>
         [DomName("locale")]
-        public String Locale => IsTrusted ? String.Empty : null;
+        public String? Locale => IsTrusted ? String.Empty : null;
 
         #endregion
 
@@ -137,7 +142,8 @@
         /// <param name="modifiersList">A list with keyboard modifiers that have been pressed.</param>
         /// <param name="repeat">Sets if the key has been pressed again.</param>
         [DomName("initKeyboardEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail, String key, KeyboardLocation location, String modifiersList, Boolean repeat)
+        [MemberNotNull(nameof(Key), nameof(Location), nameof(_modifiers))]
+        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow? view, Int32 detail, String key, KeyboardLocation location, String modifiersList, Boolean repeat)
         {
             Init(type, bubbles, cancelable, view, detail);
             Key = key;

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
 
@@ -45,7 +45,7 @@
         /// </summary>
         /// <returns>The next Node, if any.</returns>
         [DomName("nextNode")]
-        INode ToNext();
+        INode? ToNext();
 
         /// <summary>
         /// Moves the current Node to the previous visible node in the document
@@ -56,7 +56,7 @@
         /// </summary>
         /// <returns>The previous Node, if any.</returns>
         [DomName("previousNode")]
-        INode ToPrevious();
+        INode? ToPrevious();
 
         /// <summary>
         /// Moves the current Node to the first visible ancestor node in the
@@ -67,7 +67,7 @@
         /// </summary>
         /// <returns></returns>
         [DomName("parentNode")]
-        INode ToParent();
+        INode? ToParent();
 
         /// <summary>
         /// Moves the current Node to the first visible child of the current
@@ -77,7 +77,7 @@
         /// </summary>
         /// <returns></returns>
         [DomName("firstChild")]
-        INode ToFirst();
+        INode? ToFirst();
 
         /// <summary>
         /// Moves the current Node to the last visible child of the current
@@ -87,7 +87,7 @@
         /// </summary>
         /// <returns></returns>
         [DomName("lastChild")]
-        INode ToLast();
+        INode? ToLast();
 
         /// <summary>
         /// Moves the current Node to its previous sibling, if any, and returns
@@ -96,7 +96,7 @@
         /// </summary>
         /// <returns></returns>
         [DomName("previousSibling")]
-        INode ToPreviousSibling();
+        INode? ToPreviousSibling();
 
         /// <summary>
         /// Moves the current Node to its next sibling, if any, and returns the
@@ -105,6 +105,6 @@
         /// </summary>
         /// <returns></returns>
         [DomName("nextSibling")]
-        INode ToNextSibling();
+        INode? ToNextSibling();
     }
 }

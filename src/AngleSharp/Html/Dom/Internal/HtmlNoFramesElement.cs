@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlNoFramesElement : HtmlElement
     {
-        public HtmlNoFramesElement(Document owner, String prefix = null)
+        public HtmlNoFramesElement(Document owner, String? prefix = null)
             : base(owner, TagNames.NoFrames, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }

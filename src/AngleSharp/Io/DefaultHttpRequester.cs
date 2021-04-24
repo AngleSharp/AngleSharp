@@ -5,6 +5,7 @@ namespace AngleSharp.Io
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -45,7 +46,7 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="userAgent">The user-agent name to use, if any.</param>
         /// <param name="setup">An optional setup function for the HttpWebRequest object.</param>
-        public DefaultHttpRequester(String userAgent = null, Action<HttpWebRequest> setup = null)
+        public DefaultHttpRequester(String? userAgent = null, Action<HttpWebRequest>? setup = null)
         {
             _timeOut = new TimeSpan(0, 0, 0, 45);
             _setup = setup ?? ((HttpWebRequest r) => { });
@@ -117,7 +118,7 @@ namespace AngleSharp.Io
 
         private sealed class RequestState
         {
-            private static MethodInfo _serverString;
+            private static MethodInfo? _serverString;
             private readonly CookieContainer _cookies;
             private readonly IDictionary<String, String> _headers;
             private readonly HttpWebRequest _http;
@@ -129,7 +130,7 @@ namespace AngleSharp.Io
                 _cookies = new CookieContainer();
                 _headers = headers;
                 _request = request;
-                _http = WebRequest.Create(request.Address) as HttpWebRequest;
+                _http = (HttpWebRequest)WebRequest.Create(request.Address);
                 _http.CookieContainer = _cookies;
                 _http.Method = request.Method.ToString().ToUpperInvariant();
                 _buffer = new Byte[BufferSize];
@@ -162,7 +163,7 @@ namespace AngleSharp.Io
                 }
 
                 RaiseConnectionLimit(_http);
-                return GetResponse(response as HttpWebResponse);
+                return GetResponse((HttpWebResponse)response);
             }
 
             private void SendRequest(Stream target)
@@ -182,11 +183,12 @@ namespace AngleSharp.Io
                 }
             }
 
-            private DefaultResponse GetResponse(HttpWebResponse response)
+            [return:NotNullIfNotNull("response")]
+            private DefaultResponse? GetResponse(HttpWebResponse response)
             {
                 if (response != null)
                 {
-                    var originalCookies = _cookies.GetCookies(_request.Address);
+                    var originalCookies = _cookies.GetCookies(_request.Address!);
                     var newCookies = _cookies.GetCookies(response.ResponseUri);
                     var cookies = newCookies.OfType<Cookie>().Except(originalCookies.OfType<Cookie>()).ToArray();
                     var headers = response.Headers.AllKeys.Select(m => new { Key = m, Value = response.Headers[m] });
@@ -221,7 +223,7 @@ namespace AngleSharp.Io
             /// </summary>
             private static String Stringify(Cookie cookie)
             {
-                if (_serverString == null)
+                if (_serverString is null)
                 {
                     var methods = typeof(Cookie).GetMethods();
                     var func = methods.FirstOrDefault(m => m.Name.Equals("ToServerString"));

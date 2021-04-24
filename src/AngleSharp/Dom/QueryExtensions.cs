@@ -23,7 +23,7 @@ namespace AngleSharp.Dom
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
         /// <param name="scopeNode">The optional node to take as scope.</param>
         /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this INodeList nodes, String selectorText, INode scopeNode = null)
+        public static IElement? QuerySelector(this INodeList nodes, String selectorText, INode? scopeNode = null)
         {
             var scope = GetScope(scopeNode);
             var sg = CreateSelector(nodes, scope, selectorText);
@@ -45,7 +45,7 @@ namespace AngleSharp.Dom
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
         /// <param name="scopeNode">The optional node to take as scope.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList nodes, String selectorText, INode scopeNode = null)
+        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList nodes, String selectorText, INode? scopeNode = null)
         {
             var scope = GetScope(scopeNode);
             var sg = CreateSelector(nodes, scope, selectorText);
@@ -116,7 +116,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A selector object.</param>
         /// <returns>An element object.</returns>
-        public static T QuerySelector<T>(this INodeList elements, ISelector selectors)
+        public static T? QuerySelector<T>(this INodeList elements, ISelector selectors)
             where T : class, IElement
         {
             return elements.QuerySelector(selectors) as T;
@@ -129,7 +129,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
         /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this INodeList elements, ISelector selector)
+        public static IElement? QuerySelector(this INodeList elements, ISelector selector)
         {
             for (var i = 0; i < elements.Length; i++)
             {
@@ -142,7 +142,7 @@ namespace AngleSharp.Dom
 
                     if (element.HasChildNodes)
                     {
-                        element = QuerySelector(element.ChildNodes, selector);
+                        element = QuerySelector(element.ChildNodes, selector)!;
 
                         if (element != null)
                         {
@@ -248,20 +248,20 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        private static void GetElementsByTagName(this INodeList elements, String tagName, List<IElement> result)
+        private static void GetElementsByTagName(this INodeList elements, String? tagName, List<IElement> result)
         {
             for (var i = 0; i < elements.Length; i++)
             {
                 if (elements[i] is IElement element)
                 {
-                    if (tagName == null || tagName.Isi(element.LocalName))
+                    if (tagName is null || tagName.Isi(element.LocalName))
                     {
                         result.Add(element);
                     }
 
                     if (element.ChildElementCount != 0)
                     {
-                        GetElementsByTagName(element.ChildNodes, tagName, result);
+                        GetElementsByTagName(element.ChildNodes, tagName!, result);
                     }
                 }
             }
@@ -275,13 +275,13 @@ namespace AngleSharp.Dom
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        private static void GetElementsByTagName(this INodeList elements, String namespaceUri, String localName, List<IElement> result)
+        private static void GetElementsByTagName(this INodeList elements, String? namespaceUri, String? localName, List<IElement> result)
         {
             for (var i = 0; i < elements.Length; i++)
             {
                 if (elements[i] is IElement element)
                 {
-                    if (element.NamespaceUri.Is(namespaceUri) && (localName == null || localName.Isi(element.LocalName)))
+                    if (element.NamespaceUri.Is(namespaceUri) && (localName is null || localName.Isi(element.LocalName)))
                     {
                         result.Add(element);
                     }
@@ -294,19 +294,19 @@ namespace AngleSharp.Dom
             }
         }
 
-        private static IElement GetScope(INode scopeNode) =>
+        private static IElement? GetScope(INode? scopeNode) =>
             scopeNode as IElement ??
             (scopeNode as IDocument)?.DocumentElement ??
             (scopeNode as IShadowRoot)?.Host;
 
-        private static ISelector CreateSelector(INodeList nodes, INode scope, String selectorText)
+        private static ISelector? CreateSelector(INodeList nodes, INode? scope, String selectorText)
         {
             var node = nodes.Length > 0 ? nodes[0] : scope;
             var sg = default(ISelector);
 
             if (node != null)
             {
-                var parser = node.Owner.Context.GetService<ICssSelectorParser>();
+                var parser = node.Owner!.Context.GetService<ICssSelectorParser>()!;
                 sg = parser.ParseSelector(selectorText) ?? throw new DomException(DomError.Syntax);
             }
 

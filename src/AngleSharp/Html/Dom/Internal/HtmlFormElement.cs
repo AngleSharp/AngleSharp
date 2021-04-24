@@ -8,6 +8,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading.Tasks;
 
@@ -18,13 +19,13 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private HtmlFormControlsCollection _elements;
+        private HtmlFormControlsCollection? _elements;
 
         #endregion
 
         #region ctor
 
-        public HtmlFormElement(Document owner, String prefix = null)
+        public HtmlFormElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Form, prefix, NodeFlags.Special)
         {
         }
@@ -33,15 +34,15 @@ namespace AngleSharp.Html.Dom
 
         #region Index
 
-        public IElement this[Int32 index] => Elements[index];
+        public IElement? this[Int32 index] => Elements[index];
 
-        public IElement this[String name] => Elements[name];
+        public IElement? this[String name] => Elements[name];
 
         #endregion
 
         #region Properties
 
-        public String Name
+        public String? Name
         {
             get => this.GetOwnAttribute(AttributeNames.Name);
             set => this.SetOwnAttribute(AttributeNames.Name, value);
@@ -53,7 +54,7 @@ namespace AngleSharp.Html.Dom
 
         IHtmlFormControlsCollection IHtmlFormElement.Elements => Elements;
 
-        public String AcceptCharset
+        public String? AcceptCharset
         {
             get => this.GetOwnAttribute(AttributeNames.AcceptCharset);
             set => this.SetOwnAttribute(AttributeNames.AcceptCharset, value);
@@ -65,12 +66,13 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Action, value);
         }
 
-        public String Autocomplete
+        public String? Autocomplete
         {
             get => this.GetOwnAttribute(AttributeNames.AutoComplete);
             set => this.SetOwnAttribute(AttributeNames.AutoComplete, value);
         }
 
+        [AllowNull]
         public String Enctype
         {
             get => this.GetOwnAttribute(AttributeNames.Enctype).ToEncodingType() ?? MimeTypeNames.UrlencodedForm;
@@ -119,9 +121,9 @@ namespace AngleSharp.Html.Dom
             return context.NavigateToAsync(request);
         }
 
-        public DocumentRequest GetSubmission() => SubmitForm(this, true);
+        public DocumentRequest GetSubmission() => SubmitForm(this, true)!;
 
-        public DocumentRequest GetSubmission(IHtmlElement sourceElement) => SubmitForm(sourceElement ?? this, false);
+        public DocumentRequest GetSubmission(IHtmlElement sourceElement) => SubmitForm(sourceElement ?? this, false)!;
 
         public void Reset()
         {
@@ -191,7 +193,7 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
-        private DocumentRequest SubmitForm(IHtmlElement from, Boolean submittedFromSubmitMethod)
+        private DocumentRequest? SubmitForm(IHtmlElement from, Boolean submittedFromSubmitMethod)
         {
             var owner = Owner;
 
@@ -263,11 +265,11 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         private DocumentRequest PostToData(Url action, IHtmlElement submitter)
         {
-            var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
+            var charset = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
             var result = String.Empty;
-            var stream = formDataSet.CreateBody(enctype, encoding);
+            var stream = formDataSet.CreateBody(enctype, charset);
 
             using (var sr = new StreamReader(stream))
             {
@@ -340,10 +342,10 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         private DocumentRequest SubmitAsEntityBody(Url url, IHtmlElement submitter)
         {
-            var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
+            var charset = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
-            var body = formDataSet.CreateBody(enctype, encoding);
+            var body = formDataSet.CreateBody(enctype, charset);
 
             if (enctype.Isi(MimeTypeNames.MultipartForm))
             {

@@ -38,7 +38,7 @@ namespace AngleSharp.Io.Processors
         /// <summary>
         /// Gets the associated download.
         /// </summary>
-        public IDownload Download
+        public IDownload? Download
         {
             get;
             protected set;
@@ -77,7 +77,7 @@ namespace AngleSharp.Io.Processors
         /// </summary>
         protected async Task FinishDownloadAsync()
         {
-            var download = Download;
+            var download = Download!;
             var response = await download.Task.ConfigureAwait(false);
             var eventName = EventNames.Error;
 
@@ -136,7 +136,7 @@ namespace AngleSharp.Io.Processors
         protected Boolean IsDifferentToCurrentDownloadUrl(Url target)
         {
             var download = Download;
-            return download == null || !target.Equals(download.Target);
+            return download is null || !target.Equals(download.Target);
         }
 
         #endregion

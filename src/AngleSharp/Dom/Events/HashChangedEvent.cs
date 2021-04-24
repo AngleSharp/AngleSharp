@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Dom.Events
+namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents a custom event that provides an additional details property.
@@ -11,12 +12,16 @@
     {
         #region ctor
 
+#nullable disable
+
         /// <summary>
         /// Creates a new event.
         /// </summary>
         public HashChangedEvent()
         {
         }
+
+#nullable enable
 
         /// <summary>
         /// Creates a new event and initializes it.
@@ -28,7 +33,7 @@
         /// <param name="newURL">The current URL.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public HashChangedEvent(String type, Boolean bubbles = false, Boolean cancelable = false, String oldURL = null, String newURL = null)
+        public HashChangedEvent(String type, Boolean bubbles = false, Boolean cancelable = false, String? oldURL = null, String? newURL = null)
         {
             Init(type, bubbles, cancelable, oldURL ?? String.Empty, newURL ?? String.Empty);
         }
@@ -70,6 +75,7 @@
         /// <param name="previousUrl">The previous URL.</param>
         /// <param name="currentUrl">The current URL.</param>
         [DomName("initHashChangedEvent")]
+        [MemberNotNull(nameof(PreviousUrl), nameof(CurrentUrl))]
         public void Init(String type, Boolean bubbles, Boolean cancelable, String previousUrl, String currentUrl)
         {
             Init(type, bubbles, cancelable);

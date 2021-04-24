@@ -17,8 +17,8 @@ namespace AngleSharp.Io.Processors
         private readonly Document _document;
         private readonly HtmlScriptElement _script;
         private readonly IResourceLoader _loader;
-        private IResponse _response;
-        private IScriptingService _engine;
+        private IResponse? _response;
+        private IScriptingService? _engine;
 
         #endregion
 
@@ -29,22 +29,22 @@ namespace AngleSharp.Io.Processors
             _context = context;
             _document = script.Owner;
             _script = script;
-            _loader = context.GetService<IResourceLoader>();
+            _loader = context.GetService<IResourceLoader>()!;
         }
 
         #endregion
 
         #region Properties
 
-        public IDownload Download
+        public IDownload? Download
         {
             get;
             private set;
         }
 
-        public IScriptingService Engine => _engine ?? (_engine = _context.GetScripting(ScriptLanguage));
+        public IScriptingService? Engine => _engine ?? (_engine = _context.GetScripting(ScriptLanguage));
 
-        public String AlternativeLanguage
+        public String? AlternativeLanguage
         {
             get
             {
@@ -58,7 +58,7 @@ namespace AngleSharp.Io.Processors
             get
             {
                 var type = _script.Type ?? AlternativeLanguage;
-                return String.IsNullOrEmpty(type) ? MimeTypeNames.DefaultJavaScript : type;
+                return type is { Length: > 0 } ? type : MimeTypeNames.DefaultJavaScript;
             }
         }
 
@@ -93,7 +93,7 @@ namespace AngleSharp.Io.Processors
 
                     try
                     {
-                        await _engine.EvaluateScriptAsync(_response, options, cancel).ConfigureAwait(false);
+                        await _engine!.EvaluateScriptAsync(_response, options, cancel).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
@@ -138,7 +138,7 @@ namespace AngleSharp.Io.Processors
 
         #region Helpers
 
-        private ScriptOptions CreateOptions() => new ScriptOptions(_document, _document.Loop)
+        private ScriptOptions CreateOptions() => new ScriptOptions(_document, _document.Loop!)
         {
             Element = _script,
             Encoding = TextEncoding.Resolve(_script.CharacterSet)

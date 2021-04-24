@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlSourceElement(Document owner, String prefix = null)
+        public HtmlSourceElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Source, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
@@ -19,31 +19,31 @@
 
         #region Properties
 
-        public String Source
+        public String? Source
         {
             get => this.GetUrlAttribute(AttributeNames.Src);
             set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
-        public String Media
+        public String? Media
         {
             get => this.GetOwnAttribute(AttributeNames.Media);
             set => this.SetOwnAttribute(AttributeNames.Media, value);
         }
 
-        public String Type
+        public String? Type
         {
             get => this.GetOwnAttribute(AttributeNames.Type);
             set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
-        public String SourceSet
+        public String? SourceSet
         {
             get => this.GetOwnAttribute(AttributeNames.SrcSet);
             set => this.SetOwnAttribute(AttributeNames.SrcSet, value);
         }
 
-        public String Sizes
+        public String? Sizes
         {
             get => this.GetOwnAttribute(AttributeNames.Sizes);
             set => this.SetOwnAttribute(AttributeNames.Sizes, value);

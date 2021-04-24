@@ -30,14 +30,14 @@ namespace AngleSharp
         // Set to false here to do loose validation
         private static readonly IdnMapping DefaultIdnMapping = new IdnMapping() { AllowUnassigned = false, UseStd3AsciiRules = false };
 
-        private String _fragment;
-        private String _query;
+        private String? _fragment;
+        private String? _query;
         private String _path;
         private String _scheme;
         private String _port;
         private String _host;
-        private String _username;
-        private String _password;
+        private String? _username;
+        private String? _password;
         private Boolean _relative;
         private String _schemeData;
         private Boolean _error;
@@ -55,6 +55,8 @@ namespace AngleSharp
             _port = port;
             _relative = ProtocolNames.IsRelative(_scheme);
         }
+
+#nullable disable
 
         /// <summary>
         /// Creates a new Url from the given string.
@@ -77,6 +79,8 @@ namespace AngleSharp
         {
             _error = ParseUrl(relativeAddress, baseAddress);
         }
+
+#nullable enable
 
         /// <summary>
         /// Creates a new Url by copying the other Url.
@@ -127,7 +131,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the origin of the stored url.
         /// </summary>
-        public String Origin
+        public String? Origin
         {
             get
             {
@@ -184,7 +188,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the username for authorization.
         /// </summary>
-        public String UserName
+        public String? UserName
         {
             get => _username;
             set => _username = value;
@@ -193,7 +197,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the password for authorization.
         /// </summary>
-        public String Password
+        public String? Password
         {
             get => _password;
             set => _password = value;
@@ -208,12 +212,12 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the fragment.
         /// </summary>
-        public String Fragment
+        public String? Fragment
         {
             get => _fragment;
             set
             {
-                if (value == null)
+                if (value is null)
                 {
                     _fragment = null;
                 }
@@ -301,7 +305,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the query.
         /// </summary>
-        public String Query
+        public String? Query
         {
             get => _query;
             set
@@ -462,7 +466,7 @@ namespace AngleSharp
 
         #region Parsing
 
-        private Boolean ParseUrl(String input, Url baseUrl = null)
+        private Boolean ParseUrl(String input, Url? baseUrl = null)
         {
             Reset(baseUrl ?? DefaultBase);
             var normalizedInput = NormalizeInput(input);
@@ -673,7 +677,7 @@ namespace AngleSharp
 
                 if (c == Symbols.At)
                 {
-                    if (user == null)
+                    if (user is null)
                     {
                         user = buffer.ToString();
                     }
@@ -687,7 +691,7 @@ namespace AngleSharp
                     buffer.Append("%40");
                     start = index + 1;
                 }
-                else if (c == Symbols.Colon && user == null)
+                else if (c == Symbols.Colon && user is null)
                 {
                     user = buffer.ToString();
                     pass = String.Empty;

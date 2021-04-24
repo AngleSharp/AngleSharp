@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
 
@@ -15,7 +15,7 @@
         /// following this ChildNode.
         /// </summary>
         [DomName("nextElementSibling")]
-        IElement NextElementSibling { get; }
+        IElement? NextElementSibling { get; }
 
         /// <summary>
         /// Gets the Element immediately prior to this ChildNode in its
@@ -23,6 +23,6 @@
         /// prior to this ChildNode.
         /// </summary>
         [DomName("previousElementSibling")]
-        IElement PreviousElementSibling { get; }
+        IElement? PreviousElementSibling { get; }
     }
 }

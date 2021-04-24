@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -14,7 +14,7 @@
         {
         }
 
-        public Boolean Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement? scope)
         {
             var parent = element.ParentElement;
 

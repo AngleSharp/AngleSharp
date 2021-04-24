@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Browser.Dom
+namespace AngleSharp.Browser.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -76,7 +76,7 @@
         /// <param name="title">The title to take.</param>
         /// <param name="url">The URL to consider.</param>
         [DomName("pushState")]
-        void PushState(Object data, String title, String url = null);
+        void PushState(Object data, String? title, String? url = null);
         
         /// <summary>
         /// Updates the most recent entry on the history stack to have the
@@ -87,6 +87,6 @@
         /// <param name="title">The title to take.</param>
         /// <param name="url">The URL to consider.</param>
         [DomName("replaceState")]
-        void ReplaceState(Object data, String title, String url = null);
+        void ReplaceState(Object data, String? title, String? url = null);
     }
 }

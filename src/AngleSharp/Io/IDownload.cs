@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Common;
     using System;
@@ -16,6 +16,6 @@
         /// <summary>
         /// Gets the originator of the download, if any.
         /// </summary>
-        Object Source { get; }
+        Object? Source { get; }
     }
 }

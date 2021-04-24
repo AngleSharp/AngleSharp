@@ -97,7 +97,7 @@ namespace AngleSharp.Common
         /// <returns>The content of the buffer.</returns>
         public String FlushBuffer() => FlushBuffer(null);
 
-        internal String FlushBuffer(Func<StringBuilder, String> stringResolver)
+        internal String FlushBuffer(Func<StringBuilder, String?>? stringResolver)
         {
             var content = stringResolver?.Invoke(StringBuffer) ?? StringBuffer.ToString();
             StringBuffer.Clear();
@@ -109,14 +109,14 @@ namespace AngleSharp.Common
         /// </summary>
         public void Dispose()
         {
-            var isDisposed = StringBuffer == null;
+            var isDisposed = StringBuffer is null;
 
             if (!isDisposed)
             {
                 var disposable = _source as IDisposable;
                 disposable?.Dispose();
-                StringBuffer.Clear().ToPool();
-                _buffer = null;
+                StringBuffer!.Clear().ToPool();
+                _buffer = null!;
             }
         }
 

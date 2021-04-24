@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Processors
+namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -17,7 +17,7 @@
         #region ctor
 
         public FrameRequestProcessor(IBrowsingContext context, HtmlFrameElementBase element)
-            : base(context?.GetService<IResourceLoader>())
+            : base(context?.GetService<IResourceLoader>()!)
         {
             _element = element;
         }
@@ -26,7 +26,7 @@
 
         #region Properties
 
-        public IDocument Document
+        public IDocument? Document
         {
             get;
             private set;
@@ -38,7 +38,7 @@
 
         public override Task ProcessAsync(ResourceRequest request)
         {
-            var contentHtml = _element.GetContentHtml();
+            var contentHtml = _element!.GetContentHtml();
 
             if (contentHtml != null)
             {

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -38,6 +38,6 @@
         /// <returns>Returns the element with the specified name.</returns>
         [DomName("namedItem")]
         [DomAccessor(Accessors.Getter)]
-        T this[String id] { get; }
+        T? this[String id] { get; }
     }
 }

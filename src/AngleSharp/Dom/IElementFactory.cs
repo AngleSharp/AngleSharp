@@ -19,6 +19,6 @@ namespace AngleSharp.Dom
         /// <param name="prefix">The optional prefix of the element.</param>
         /// <param name="flags">The optional flags for the node.</param>
         /// <returns>The created document's child element.</returns>
-        TElement Create(TDocument document, String localName, String prefix = null, NodeFlags flags = NodeFlags.None);
+        TElement Create(TDocument document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None);
     }
 }

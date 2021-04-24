@@ -13,13 +13,13 @@ namespace AngleSharp.Html.Dom
 
         private readonly NodeList _labels;
         private readonly ValidityState _vstate;
-        private String _error;
+        private String? _error;
 
         #endregion
 
         #region ctor
 
-        public HtmlFormControlElement(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
+        public HtmlFormControlElement(Document owner, String name, String? prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
             _vstate = new ValidityState();
@@ -30,13 +30,13 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public String Name
+        public String? Name
         {
             get => this.GetOwnAttribute(AttributeNames.Name);
             set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
-        public IHtmlFormElement Form => GetAssignedForm();
+        public IHtmlFormElement? Form => GetAssignedForm();
 
         public Boolean IsDisabled
         {
@@ -52,7 +52,7 @@ namespace AngleSharp.Html.Dom
 
         public INodeList Labels => _labels;
 
-        public String ValidationMessage => _vstate.IsCustomError ? _error : String.Empty;
+        public String? ValidationMessage => _vstate.IsCustomError ? _error : String.Empty;
 
         public Boolean WillValidate => !IsDisabled && CanBeValidated();
 
@@ -77,7 +77,7 @@ namespace AngleSharp.Html.Dom
             return WillValidate && Validity.IsValid;
         }
 
-        public void SetCustomValidity(String error)
+        public void SetCustomValidity(String? error)
         {
             _error = error;
             ResetValidity(_vstate);

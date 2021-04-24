@@ -18,7 +18,7 @@ namespace AngleSharp.Html.Dom
 
         #region ctor
 
-        public HtmlEmbedElement(Document owner, String prefix = null)
+        public HtmlEmbedElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Embed, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _request = new ObjectRequestProcessor(owner.Context);
@@ -28,27 +28,27 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IDownload CurrentDownload => _request?.Download;
+        public IDownload? CurrentDownload => _request?.Download;
 
-        public String Source
+        public String? Source
         {
             get => this.GetOwnAttribute(AttributeNames.Src);
             set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
-        public String Type
+        public String? Type
         {
             get => this.GetOwnAttribute(AttributeNames.Type);
             set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
-        public String DisplayWidth
+        public String? DisplayWidth
         {
             get => this.GetOwnAttribute(AttributeNames.Width);
             set => this.SetOwnAttribute(AttributeNames.Width, value);
         }
 
-        public String DisplayHeight
+        public String? DisplayHeight
         {
             get => this.GetOwnAttribute(AttributeNames.Height);
             set => this.SetOwnAttribute(AttributeNames.Height, value);
@@ -64,11 +64,11 @@ namespace AngleSharp.Html.Dom
             UpdateSource(this.GetOwnAttribute(AttributeNames.Src));
         }
 
-        internal void UpdateSource(String value)
+        internal void UpdateSource(String? value)
         {
             if (value != null)
             {
-                var url = new Url(Source);
+                var url = new Url(Source!);
                 this.Process(_request, url);
             }
         }

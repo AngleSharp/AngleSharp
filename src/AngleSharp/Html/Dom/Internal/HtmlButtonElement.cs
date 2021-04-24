@@ -4,6 +4,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents an HTML button element.
@@ -15,7 +16,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Creates a new HTML button element.
         /// </summary>
-        public HtmlButtonElement(Document owner, String prefix = null)
+        public HtmlButtonElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Button, prefix)
         {
         }
@@ -37,7 +38,7 @@ namespace AngleSharp.Html.Dom
         /// Gets or sets the URI of a resource that processes information submitted by the button.
         /// If specified, this attribute overrides the action attribute of the form element that owns this element.
         /// </summary>
-        public String FormAction
+        public String? FormAction
         {
             get => this.GetOwnAttribute(AttributeNames.FormAction) ?? Owner?.DocumentUri;
             set => this.SetOwnAttribute(AttributeNames.FormAction, value);
@@ -77,6 +78,7 @@ namespace AngleSharp.Html.Dom
         /// Gets or sets A name or keyword indicating where to display the response that is received after submitting
         /// the form. If specified, this attribute overrides the target attribute of the form element that owns this element.
         /// </summary>
+        [AllowNull]
         public String FormTarget
         {
             get => this.GetOwnAttribute(AttributeNames.FormTarget) ?? String.Empty;
@@ -153,7 +155,7 @@ namespace AngleSharp.Html.Dom
 
             if (Object.ReferenceEquals(this, submitter) && type.IsOneOf(InputTypeNames.Submit, InputTypeNames.Reset))
             {
-                dataSet.Append(Name, Value, type);
+                dataSet.Append(Name!, Value, type);
             }
         }
 

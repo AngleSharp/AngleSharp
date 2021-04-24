@@ -162,7 +162,7 @@ namespace AngleSharp.Text
         /// <returns>
         /// The extracted encoding or null if the encoding is invalid.
         /// </returns>
-        public static Encoding Parse(String content)
+        public static Encoding? Parse(String content)
         {
             var encoding = String.Empty;
             var position = 0;
@@ -278,7 +278,7 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="charset">The charset string.</param>
         /// <returns>An instance of the Encoding class or null.</returns>
-        public static Encoding Resolve(String charset)
+        public static Encoding Resolve(String? charset)
         {
             if (charset != null && encodings.TryGetValue(charset, out var encoding))
             {
@@ -292,7 +292,7 @@ namespace AngleSharp.Text
 
         #region Helper
 
-        private static Encoding GetEncoding(String name, Encoding fallback = default)
+        private static Encoding GetEncoding(String name, Encoding? fallback = default)
         {
             try
             {

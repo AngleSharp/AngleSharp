@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Events;
     using AngleSharp.Html;
@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private List<RegisteredEventListener> _listeners;
+        private List<RegisteredEventListener>? _listeners;
 
         #endregion
 
@@ -43,7 +43,7 @@
         /// upward through the tree will not trigger a listener designated to
         /// use capture.
         /// </param>
-        public void AddEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
+        public void AddEventListener(String type, DomEventHandler? callback = null, Boolean capture = false)
         {
             if (callback != null)
             {
@@ -70,7 +70,7 @@
         /// Specifies whether the EventListener being removed was registered as
         /// a capturing listener or not.
         /// </param>
-        public void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
+        public void RemoveEventListener(String type, DomEventHandler? callback = null, Boolean capture = false)
         {
             if (callback != null)
             {
@@ -118,7 +118,7 @@
 
                         if ((!listener.IsCaptured || phase != EventPhase.Bubbling) && (listener.IsCaptured || phase != EventPhase.Capturing))
                         {
-                            listener.Callback(target, ev);
+                            listener.Callback(target!, ev);
                         }
                     }
                 }
@@ -158,7 +158,7 @@
         /// </returns>
         public Boolean Dispatch(Event ev)
         {
-            if (ev == null || ((ev.Flags & EventFlags.Dispatch) == EventFlags.Dispatch) || ((ev.Flags & EventFlags.Initialized) != EventFlags.Initialized))
+            if (ev is null || ((ev.Flags & EventFlags.Dispatch) == EventFlags.Dispatch) || ((ev.Flags & EventFlags.Initialized) != EventFlags.Initialized))
                 throw new DomException(DomError.InvalidState);
 
             ev.IsTrusted = false;

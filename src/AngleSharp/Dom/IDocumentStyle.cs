@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -21,19 +21,19 @@
         /// Gets or sets the selected set of stylesheets.
         /// </summary>
         [DomName("selectedStyleSheetSet")]
-        String SelectedStyleSheetSet { get; set; }
+        String? SelectedStyleSheetSet { get; set; }
 
         /// <summary>
         /// Gets the last stylesheet set.
         /// </summary>
         [DomName("lastStyleSheetSet")]
-        String LastStyleSheetSet { get; }
+        String? LastStyleSheetSet { get; }
 
         /// <summary>
         /// Gets the preferred stylesheet set.
         /// </summary>
         [DomName("preferredStyleSheetSet")]
-        String PreferredStyleSheetSet { get; }
+        String? PreferredStyleSheetSet { get; }
 
         /// <summary>
         /// Gets a live list of all of the currently-available style sheet

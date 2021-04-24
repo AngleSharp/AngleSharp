@@ -27,9 +27,9 @@ namespace AngleSharp.Dom
         private readonly Queue<HtmlScriptElement> _loadingScripts;
         private readonly MutationHost _mutations;
         private readonly IBrowsingContext _context;
-        private readonly IEventLoop _loop;
+        private readonly IEventLoop? _loop;
         private readonly Window _view;
-        private readonly IResourceLoader _loader;
+        private readonly IResourceLoader? _loader;
         private readonly Location _location;
         private readonly TextSource _source;
 
@@ -41,18 +41,18 @@ namespace AngleSharp.Dom
         private Boolean _salvageable;
         private Boolean _firedUnload;
         private DocumentReadyState _ready;
-        private IElement _focus;
-        private HtmlAllCollection _all;
-        private HtmlCollection<IHtmlAnchorElement> _anchors;
-        private HtmlCollection<IElement> _children;
-        private DomImplementation _implementation;
-        private IStringList _styleSheetSets;
-        private HtmlCollection<IHtmlImageElement> _images;
-        private HtmlCollection<IHtmlScriptElement> _scripts;
-        private HtmlCollection<IHtmlEmbedElement> _plugins;
-        private HtmlCollection<IElement> _commands;
-        private HtmlCollection<IElement> _links;
-        private IStyleSheetList _styleSheets;
+        private IElement? _focus;
+        private HtmlAllCollection? _all;
+        private HtmlCollection<IHtmlAnchorElement>? _anchors;
+        private HtmlCollection<IElement>? _children;
+        private DomImplementation? _implementation;
+        private IStringList? _styleSheetSets;
+        private HtmlCollection<IHtmlImageElement>? _images;
+        private HtmlCollection<IHtmlScriptElement>? _scripts;
+        private HtmlCollection<IHtmlEmbedElement>? _plugins;
+        private HtmlCollection<IElement>? _commands;
+        private HtmlCollection<IElement>? _links;
+        private IStyleSheetList? _styleSheets;
         private HttpStatusCode _statusCode;
 
         #endregion
@@ -498,7 +498,7 @@ namespace AngleSharp.Dom
             _location.Changed += LocationChanged;
             _view = new Window(this);
             _loader = context.GetService<IResourceLoader>();
-            _loop = context.GetService<IEventLoop>();
+            _loop = context.GetService<IEventLoop>()!;
             _mutations = new MutationHost(_loop);
             _statusCode = HttpStatusCode.OK;
         }
@@ -517,14 +517,14 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IDocument ImportAncestor
+        public IDocument? ImportAncestor
         {
             get;
             private set;
         }
 
         /// <inheritdoc />
-        public IEventLoop Loop => _loop;
+        public IEventLoop? Loop => _loop;
 
         /// <inheritdoc />
         public String DesignMode
@@ -546,7 +546,7 @@ namespace AngleSharp.Dom
         public IHtmlCollection<IElement> Children => _children ?? (_children = new HtmlCollection<IElement>(ChildNodes.OfType<Element>()));
 
         /// <inheritdoc />
-        public IElement FirstElementChild
+        public IElement? FirstElementChild
         {
             get
             {
@@ -566,7 +566,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IElement LastElementChild
+        public IElement? LastElementChild
         {
             get
             {
@@ -588,20 +588,20 @@ namespace AngleSharp.Dom
         public Boolean IsAsync => _async;
 
         /// <inheritdoc />
-        public IHtmlScriptElement CurrentScript => _loadingScripts.Count > 0 ? _loadingScripts.Peek() : null;
+        public IHtmlScriptElement? CurrentScript => _loadingScripts.Count > 0 ? _loadingScripts.Peek() : null;
 
         /// <inheritdoc />
         public IImplementation Implementation => _implementation ?? (_implementation = new DomImplementation(this));
 
         /// <inheritdoc />
-        public String LastModified
+        public String? LastModified
         {
             get;
             protected set;
         }
 
         /// <inheritdoc />
-        public IDocumentType Doctype => this.FindChild<DocumentType>();
+        public IDocumentType Doctype => this.FindChild<DocumentType>()!;
 
         /// <inheritdoc />
         public String ContentType
@@ -656,7 +656,7 @@ namespace AngleSharp.Dom
         public IWindow DefaultView => _view;
 
         /// <inheritdoc />
-        public String Direction
+        public String? Direction
         {
             get => (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction;
             set => (DocumentElement as IHtmlElement ?? new HtmlHtmlElement(this)).Direction = value;
@@ -699,17 +699,17 @@ namespace AngleSharp.Dom
         public IHtmlCollection<IElement> Links => _links ?? (_links = new HtmlCollection<IElement>(this, predicate: IsLink));
 
         /// <inheritdoc />
-        public String Title
+        public String? Title
         {
             get => GetTitle();
             set => SetTitle(value);
         }
 
         /// <inheritdoc />
-        public IHtmlHeadElement Head => DocumentElement.FindChild<IHtmlHeadElement>();
+        public IHtmlHeadElement? Head => DocumentElement.FindChild<IHtmlHeadElement>();
 
         /// <inheritdoc />
-        public IHtmlElement Body
+        public IHtmlElement? Body
         {
             get
             {
@@ -744,11 +744,11 @@ namespace AngleSharp.Dom
 
                 if (body != value)
                 {
-                    if (body == null)
+                    if (body is null)
                     {
                         var root = DocumentElement;
 
-                        if (root == null)
+                        if (root is null)
                             throw new DomException(DomError.HierarchyRequest);
 
                         root.AppendChild(value);
@@ -782,14 +782,14 @@ namespace AngleSharp.Dom
         public String Domain
         {
             get => String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host;
-            set { if (_location == null) return; _location.Host = value; }
+            set { if (_location is null) return; _location.Host = value; }
         }
 
         /// <inheritdoc />
-        public String Origin => _location.Origin;
+        public String? Origin => _location.Origin;
 
         /// <inheritdoc />
-        public String SelectedStyleSheetSet
+        public String? SelectedStyleSheetSet
         {
             get
             {
@@ -819,14 +819,14 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public String LastStyleSheetSet
+        public String? LastStyleSheetSet
         {
             get;
             private set;
         }
 
         /// <inheritdoc />
-        public String PreferredStyleSheetSet => All.OfType<IHtmlLinkElement>().Where(m => m.IsPreferred()).Select(m => m.Title).FirstOrDefault();
+        public String? PreferredStyleSheetSet => All.OfType<IHtmlLinkElement>().Where(m => m.IsPreferred()).Select(m => m.Title).FirstOrDefault();
 
         /// <inheritdoc />
         public Boolean IsReady => ReadyState == DocumentReadyState.Complete;
@@ -861,7 +861,7 @@ namespace AngleSharp.Dom
 
         internal Boolean IsToBePrinted => false;
 
-        internal IElement FocusElement => _focus;
+        internal IElement? FocusElement => _focus;
 
         #endregion
 
@@ -893,14 +893,14 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IDocument Open(String type = "text/html", String replace = null)
+        public IDocument Open(String type = "text/html", String? replace = null)
         {
             if (!ContentType.Is(MimeTypeNames.Html))
                 throw new DomException(DomError.InvalidState);
 
             if (!IsInBrowsingContext || Object.ReferenceEquals(_context.Active, this))
             {
-                var responsibleDocument = _context?.Parent.Active;
+                var responsibleDocument = _context?.Parent!.Active;
 
                 if (responsibleDocument != null && !responsibleDocument.Origin.Is(Origin))
                     throw new DomException(DomError.Security);
@@ -908,7 +908,7 @@ namespace AngleSharp.Dom
                 if (!_firedUnload && _loadingScripts.Count == 0)
                 {
                     var shallReplace = replace.Isi(Keywords.Replace);
-                    var history = _context.SessionHistory;
+                    var history = _context!.SessionHistory;
                     var index = type?.IndexOf(Symbols.Semicolon) ?? -1;
 
                     if (!shallReplace && history != null)
@@ -946,10 +946,10 @@ namespace AngleSharp.Dom
                     }
                     else if (index >= 0)
                     {
-                        type = type.Substring(0, index);
+                        type = type!.Substring(0, index);
                     }
 
-                    type = type.StripLeadingTrailingSpaces();
+                    type = type!.StripLeadingTrailingSpaces();
 
                     if (!type.Isi(MimeTypeNames.Html))
                     {
@@ -965,7 +965,7 @@ namespace AngleSharp.Dom
                 return this;
             }
 
-            return null;
+            return null!;
         }
 
         /// <inheritdoc />
@@ -1033,10 +1033,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null) => new NodeIterator(root, settings, filter);
+        public INodeIterator CreateNodeIterator(INode root, FilterSettings settings = FilterSettings.All, NodeFilter? filter = null) => new NodeIterator(root, settings, filter);
 
         /// <inheritdoc />
-        public ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter filter = null) => new TreeWalker(root, settings, filter);
+        public ITreeWalker CreateTreeWalker(INode root, FilterSettings settings = FilterSettings.All, NodeFilter? filter = null) => new TreeWalker(root, settings, filter);
 
         /// <inheritdoc />
         public IRange CreateRange()
@@ -1067,7 +1067,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IElement CreateElement(String namespaceUri, String qualifiedName)
+        public IElement CreateElement(String? namespaceUri, String qualifiedName)
         {
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out var prefix, out var localName);
 
@@ -1119,10 +1119,10 @@ namespace AngleSharp.Dom
         public IText CreateTextNode(String data) => new TextNode(this, data);
 
         /// <inheritdoc />
-        public IElement GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
+        public IElement? GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
 
         /// <inheritdoc />
-        public IElement QuerySelector(String selectors) => ChildNodes.QuerySelector(selectors, DocumentElement);
+        public IElement? QuerySelector(String selectors) => ChildNodes.QuerySelector(selectors, DocumentElement);
 
         /// <inheritdoc />
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors) => ChildNodes.QuerySelectorAll(selectors, DocumentElement);
@@ -1149,7 +1149,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IAttr CreateAttribute(String namespaceUri, String qualifiedName)
+        public IAttr CreateAttribute(String? namespaceUri, String qualifiedName)
         {
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out var prefix, out var localName);
             return new Attr(prefix, localName, String.Empty, namespaceUri);
@@ -1161,12 +1161,12 @@ namespace AngleSharp.Dom
         /// <param name="response">The received response.</param>
         /// <param name="contentType">The content-type.</param>
         /// <param name="importAncestor">The ancestor, if any.</param>
-        public void Setup(IResponse response, MimeType contentType, IDocument importAncestor)
+        public void Setup(IResponse response, MimeType contentType, IDocument? importAncestor)
         {
             ContentType = contentType.Content;
             StatusCode = response.StatusCode;
             Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-            DocumentUri = response.Address.Href;
+            DocumentUri = response.Address!.Href;
             Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
             ImportAncestor = importAncestor;
             ReadyState = DocumentReadyState.Loading;
@@ -1185,7 +1185,7 @@ namespace AngleSharp.Dom
         /// Waits for the given task before raising the load event.
         /// </summary>
         /// <param name="task">The task to wait for.</param>
-        public void DelayLoad(Task task)
+        public void DelayLoad(Task? task)
         {
             if (!IsReady && task != null && !task.IsCompleted)
             {
@@ -1203,7 +1203,16 @@ namespace AngleSharp.Dom
         /// <typeparam name="T">The type of values to get.</typeparam>
         /// <returns>Gets the enumeration over all values.</returns>
         internal IEnumerable<T> GetAttachedReferences<T>()
-            where T : class => _attachedReferences.Select(entry => entry.IsAlive ? entry.Target as T : null).Where(m => m != null);
+            where T : class
+        {
+            foreach (var entry in _attachedReferences)
+            {
+                if (entry.IsAlive && entry.Target is T entryTarget)
+                {
+                    yield return entryTarget;
+                }
+            }
+        }
 
         /// <summary>
         /// Attaches another reference to this document.
@@ -1215,7 +1224,7 @@ namespace AngleSharp.Dom
         /// Sets the focus to the provided element.
         /// </summary>
         /// <param name="element">The element to focus on.</param>
-        internal void SetFocus(IElement element) => _focus = element;
+        internal void SetFocus(IElement? element) => _focus = element;
 
         /// <summary>
         /// Finishes writing to a document.
@@ -1388,7 +1397,7 @@ namespace AngleSharp.Dom
             return command?.IsSupported(this) ?? false;
         }
 
-        String IDocument.GetCommandValue(String commandId)
+        String? IDocument.GetCommandValue(String commandId)
         {
             var command = _context.GetCommand(commandId);
             return command?.GetValue(this);
@@ -1416,7 +1425,7 @@ namespace AngleSharp.Dom
                 }
             }
 
-            var downloads = _loader.GetDownloads().Where(m => !m.IsCompleted);
+            var downloads = _loader!.GetDownloads().Where(m => !m.IsCompleted);
 
             foreach (var download in downloads)
             {
@@ -1488,13 +1497,13 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        protected sealed override String LocateNamespace(String prefix)
+        protected sealed override String? LocateNamespace(String prefix)
         {
             return DocumentElement?.LocateNamespaceFor(prefix);
         }
 
         /// <inheritdoc />
-        protected sealed override String LocatePrefix(String namespaceUri)
+        protected sealed override String? LocatePrefix(String namespaceUri)
         {
             return DocumentElement?.LocatePrefixFor(namespaceUri);
         }
@@ -1516,7 +1525,7 @@ namespace AngleSharp.Dom
         protected virtual String GetTitle() => String.Empty;
 
         /// <inheritdoc />
-        protected abstract void SetTitle(String value);
+        protected abstract void SetTitle(String? value);
 
         #endregion
     }

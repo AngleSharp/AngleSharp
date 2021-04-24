@@ -39,7 +39,7 @@ namespace AngleSharp
         /// Creates a new immutable configuration.
         /// </summary>
         /// <param name="services">The services to expose.</param>
-        public Configuration(IEnumerable<Object> services = null)
+        public Configuration(IEnumerable<Object>? services = null)
         {
             _services = services ?? new Object[]
             {

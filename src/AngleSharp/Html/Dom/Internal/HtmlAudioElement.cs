@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Media;
@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        private IAudioTrackList _audios;
+        private IAudioTrackList? _audios;
 
         #endregion
 
@@ -21,7 +21,7 @@
         /// <summary>
         /// Creates a new HTML audio element.
         /// </summary>
-        public HtmlAudioElement(Document owner, String prefix = null)
+        public HtmlAudioElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Audio, prefix)
         {
             _audios = null;
@@ -31,7 +31,7 @@
 
         #region Properties
 
-        public override IAudioTrackList AudioTracks => _audios;
+        public override IAudioTrackList? AudioTracks => _audios;
 
         #endregion
     }

@@ -8,7 +8,7 @@
     /// </summary>
     sealed class SvgTitleElement : SvgElement, ISvgTitleElement
     {
-        public SvgTitleElement(Document owner, String prefix = null)
+        public SvgTitleElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Title, prefix, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }

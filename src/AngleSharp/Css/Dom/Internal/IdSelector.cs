@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -19,6 +19,6 @@
 
         public void Accept(ISelectorVisitor visitor) => visitor.Id(_id);
 
-        public Boolean Match(IElement element, IElement scope) => element.Id.Is(_id);
+        public Boolean Match(IElement element, IElement? scope) => element.Id.Is(_id);
     }
 }

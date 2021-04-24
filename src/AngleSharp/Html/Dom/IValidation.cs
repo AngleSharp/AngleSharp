@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -25,7 +25,7 @@
         /// Gets the current validation message.
         /// </summary>
         [DomName("validationMessage")]
-        String ValidationMessage { get; }
+        String? ValidationMessage { get; }
 
         /// <summary>
         /// Checks the validity of the current element.

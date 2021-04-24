@@ -65,16 +65,16 @@ namespace AngleSharp.Dom
             }
         }
 
-        public IElement AssignedSlot
+        public IElement? AssignedSlot
         {
             get
             {
-                var parent = ParentElement;
+                var parent = ParentElement!;
 
                 if (parent.IsShadow())
                 {
                     var tree = parent.ShadowRoot;
-                    return tree.GetAssignedSlot(null);
+                    return tree?.GetAssignedSlot(null);
                 }
 
                 return null;

@@ -31,7 +31,7 @@ namespace AngleSharp.Dom
         /// of nodes,  null if the current element is the first element in that
         /// list.
         /// </summary>
-        public IElement PreviousElementSibling
+        public IElement? PreviousElementSibling
         {
             get
             {
@@ -63,7 +63,7 @@ namespace AngleSharp.Dom
         /// of nodes, or null if the current element is the last element in
         /// that list.
         /// </summary>
-        public IElement NextElementSibling
+        public IElement? NextElementSibling
         {
             get
             {
@@ -127,7 +127,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets or sets the internal subset of the document type.
         /// </summary>
-        public String InternalSubset
+        public String? InternalSubset
         {
             get;
             set;
@@ -179,9 +179,9 @@ namespace AngleSharp.Dom
 
         #region Helpers
 
-        protected override String LocateNamespace(String prefix) => null;
+        protected override String? LocateNamespace(String prefix) => null;
 
-        protected override String LocatePrefix(String namespaceUri) => null;
+        protected override String? LocatePrefix(String namespaceUri) => null;
 
         #endregion
     }

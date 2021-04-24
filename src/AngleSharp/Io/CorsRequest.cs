@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     /// <summary>
     /// Represents the arguments to perform a fetch with CORS.
@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets or sets the integrity provider, if any.
         /// </summary>
-        public IIntegrityProvider Integrity
+        public IIntegrityProvider? Integrity
         {
             get;
             set;

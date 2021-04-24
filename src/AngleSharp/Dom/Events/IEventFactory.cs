@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Events
+namespace AngleSharp.Dom.Events
 {
     using System;
 
@@ -12,6 +12,6 @@
         /// </summary>
         /// <param name="name">The name of the event.</param>
         /// <returns>The event data for the given event.</returns>
-        Event Create(String name);
+        Event? Create(String name);
     }
 }

@@ -15,16 +15,16 @@ namespace AngleSharp.Io.Processors
 
         private readonly IHtmlLinkElement _link;
         private readonly IBrowsingContext _context;
-        private IStylingService _engine;
+        private IStylingService? _engine;
 
         #endregion
 
         #region ctor
 
         public StyleSheetRequestProcessor(IBrowsingContext context, IHtmlLinkElement link)
-            : base(context?.GetService<IResourceLoader>())
+            : base(context?.GetService<IResourceLoader>()!)
         {
-            _context = context;
+            _context = context!;
             _link = link;
         }
 
@@ -32,13 +32,13 @@ namespace AngleSharp.Io.Processors
 
         #region Properties
 
-        public IStyleSheet Sheet
+        public IStyleSheet? Sheet
         {
             get;
             private set;
         }
 
-        public IStylingService Engine => _engine ?? (_engine = _context.GetStyling(LinkType));
+        public IStylingService? Engine => _engine ?? (_engine = _context?.GetStyling(LinkType));
 
         public String LinkType => _link.Type ?? MimeTypeNames.Css;
 
@@ -66,14 +66,14 @@ namespace AngleSharp.Io.Processors
         protected override async Task ProcessResponseAsync(IResponse response)
         {
             var cancel = CancellationToken.None;
-            var options = new StyleOptions(_link.Owner)
+            var options = new StyleOptions(_link.Owner!)
             {
                 Element = _link,
                 IsDisabled = _link.IsDisabled,
                 IsAlternate = _link.RelationList.Contains(Keywords.Alternate)
             };
 
-            var task = _engine.ParseStylesheetAsync(response, options, cancel);
+            var task = _engine!.ParseStylesheetAsync(response, options, cancel);
             var sheet = await task.ConfigureAwait(false);
             sheet.Media.MediaText = _link.Media ?? String.Empty;
             Sheet = sheet;

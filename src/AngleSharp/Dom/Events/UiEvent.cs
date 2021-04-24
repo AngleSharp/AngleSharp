@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Events
+namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
     using System;
@@ -28,7 +28,7 @@
         /// <param name="detail">Sets the detail id for the UIevent.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public UiEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, Int32 detail = 0)
+        public UiEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0)
         {
             Init(type, bubbles, cancelable, view, detail);
         }
@@ -41,7 +41,7 @@
         /// Gets the associated view.
         /// </summary>
         [DomName("view")]
-        public IWindow View
+        public IWindow? View
         {
             get;
             private set;
@@ -70,7 +70,7 @@
         /// <param name="view">Sets the associated view for the UI event.</param>
         /// <param name="detail">Sets the detail id for the UIevent.</param>
         [DomName("initUIEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail)
+        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow? view, Int32 detail)
         {
             Init(type, bubbles, cancelable);
             View = view;

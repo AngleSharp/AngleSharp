@@ -1,8 +1,9 @@
-﻿namespace AngleSharp.Html.Dom.Events
+namespace AngleSharp.Html.Dom.Events
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents a track that provides an additional track information.
@@ -12,12 +13,16 @@
     {
         #region ctor
 
+#nullable disable
+
         /// <summary>
         /// Creates a new event.
         /// </summary>
         public TrackEvent()
         {
         }
+
+#nullable enable
 
         /// <summary>
         /// Creates a new event and initializes it.
@@ -28,7 +33,7 @@
         /// <param name="track">The track object.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public TrackEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object track = null)
+        public TrackEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object? track = null)
         {
             Init(type, bubbles, cancelable, track);
         }
@@ -41,7 +46,7 @@
         /// Gets the assigned track object, if any.
         /// </summary>
         [DomName("track")]
-        public Object Track
+        public Object? Track
         {
             get;
             private set;
@@ -59,7 +64,7 @@
         /// <param name="cancelable">Determines if the event is cancelable.</param>
         /// <param name="track">The track object.</param>
         [DomName("initTrackEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, Object track)
+        public void Init(String type, Boolean bubbles, Boolean cancelable, Object? track)
         {
             Init(type, bubbles, cancelable);
             Track = track;

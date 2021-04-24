@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlDivElement : HtmlElement, IHtmlDivElement
     {
-        public HtmlDivElement(Document owner, String prefix = null)
+        public HtmlDivElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Div, prefix, NodeFlags.Special)
         {
         }

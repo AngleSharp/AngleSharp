@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -31,37 +31,37 @@
         /// Gets the nodes added, or null.
         /// </summary>
         [DomName("addedNodes")]
-        INodeList Added { get; }
+        INodeList? Added { get; }
 
         /// <summary>
         /// Gets the nodes removed, or null.
         /// </summary>
         [DomName("removedNodes")]
-        INodeList Removed { get; }
+        INodeList? Removed { get; }
 
         /// <summary>
         /// Gets the previous sibling of the added or removed nodes, or null.
         /// </summary>
         [DomName("previousSibling")]
-        INode PreviousSibling { get; }
+        INode? PreviousSibling { get; }
 
         /// <summary>
         /// Gets the next sibling of the added or removed nodes, or null.
         /// </summary>
         [DomName("nextSibling")]
-        INode NextSibling { get; }
+        INode? NextSibling { get; }
 
         /// <summary>
         /// Gets the local name of the changed attribute, or null.
         /// </summary>
         [DomName("attributeName")]
-        String AttributeName { get; }
+        String? AttributeName { get; }
 
         /// <summary>
         /// Gets the namespace of the changed attribute, or null.
         /// </summary>
         [DomName("attributeNamespace")]
-        String AttributeNamespace { get; }
+        String? AttributeNamespace { get; }
 
         /// <summary>
         /// Gets a string depending on the type. For attributes, it is the
@@ -70,6 +70,6 @@
         /// change. For childList, it is null.
         /// </summary>
         [DomName("oldValue")]
-        String PreviousValue { get; }
+        String? PreviousValue { get; }
     }
 }

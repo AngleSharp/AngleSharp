@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -14,13 +14,13 @@
         /// resource explaining the change.
         /// </summary>
         [DomName("cite")]
-        String Citation { get; set; }
+        String? Citation { get; set; }
 
         /// <summary>
         /// Gets the datetime HTML attribute, containing a date-and-time
         /// string representing a timestamp for the change.
         /// </summary>
         [DomName("datetime")]
-        String DateTime { get; set; }
+        String? DateTime { get; set; }
     }
 }

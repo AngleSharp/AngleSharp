@@ -12,7 +12,7 @@ namespace AngleSharp.Html.Dom
     {
         #region ctor
 
-        public HtmlMarqueeElement(Document owner, String prefix = null)
+        public HtmlMarqueeElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Marquee, prefix, NodeFlags.Special | NodeFlags.Scoped)
         {
         }

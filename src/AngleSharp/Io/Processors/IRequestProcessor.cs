@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Processors
+namespace AngleSharp.Io.Processors
 {
     using System.Threading.Tasks;
 
@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets the current download, if any.
         /// </summary>
-        IDownload Download { get; }
+        IDownload? Download { get; }
 
         /// <summary>
         /// Starts processing the given request by cancelling

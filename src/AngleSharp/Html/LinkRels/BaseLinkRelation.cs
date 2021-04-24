@@ -45,7 +45,7 @@ namespace AngleSharp.Html.LinkRels
         /// <summary>
         /// Gets the currently used URL.
         /// </summary>
-        public Url Url => String.IsNullOrEmpty(_link.Href) ? null : new Url(_link.Href);
+        public Url? Url => _link.Href is { Length: > 0 } ? new Url(_link.Href) : null;
 
         #endregion
 

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,6 +13,6 @@
         /// Gets or sets the value of the manifest attribute.
         /// </summary>
         [DomName("manifest")]
-        String Manifest { get; set; }
+        String? Manifest { get; set; }
     }
 }

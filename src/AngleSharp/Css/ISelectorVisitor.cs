@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using System;
@@ -15,7 +15,7 @@
         /// <param name="name">The name of the attribute.</param>
         /// <param name="op">The operator, if any.</param>
         /// <param name="value">The value, if any.</param>
-        void Attribute(String name, String op, String value);
+        void Attribute(String name, String op, String? value);
 
         /// <summary>
         /// Visited by type selectors.

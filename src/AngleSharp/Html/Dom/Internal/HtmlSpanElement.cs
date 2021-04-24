@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlSpanElement : HtmlElement, IHtmlSpanElement
     {
-        public HtmlSpanElement(Document owner, String prefix = null)
+        public HtmlSpanElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Span, prefix)
         {
         }

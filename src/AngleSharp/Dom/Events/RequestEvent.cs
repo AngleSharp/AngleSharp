@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Events
+namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Io;
 
@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="request">The data of the request.</param>
         /// <param name="response">The received response.</param>
-        public RequestEvent(Request request, IResponse response)
+        public RequestEvent(Request request, IResponse? response)
             : base(response != null ? EventNames.Requested : EventNames.Requesting)
         {
             Response = response;
@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the received response.
         /// </summary>
-        public IResponse Response
+        public IResponse? Response
         {
             get;
             private set;

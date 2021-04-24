@@ -57,7 +57,7 @@ namespace AngleSharp.Html
         /// <param name="link">The link element.</param>
         /// <param name="rel">The current value of the rel attribute.</param>
         /// <returns>The LinkRel provider instance or null.</returns>
-        protected virtual BaseLinkRelation CreateDefault(IHtmlLinkElement link, String rel)
+        protected virtual BaseLinkRelation? CreateDefault(IHtmlLinkElement link, String? rel)
         {
             return default(BaseLinkRelation);
         }
@@ -68,7 +68,7 @@ namespace AngleSharp.Html
         /// <param name="link">The link element.</param>
         /// <param name="rel">The current value of the rel attribute.</param>
         /// <returns>The LinkRel provider instance or null.</returns>
-        public BaseLinkRelation Create(IHtmlLinkElement link, String rel)
+        public BaseLinkRelation? Create(IHtmlLinkElement link, String? rel)
         {
             if (rel != null && _creators.TryGetValue(rel, out var creator))
             {

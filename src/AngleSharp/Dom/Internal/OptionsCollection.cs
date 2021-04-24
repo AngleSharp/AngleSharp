@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
     using AngleSharp.Html.Dom;
@@ -37,11 +37,11 @@
             get { return GetOptionAt(index); }
         }
 
-        public IHtmlOptionElement this[String name]
+        public IHtmlOptionElement? this[String name]
         {
             get 
             {
-                if (!String.IsNullOrEmpty(name))
+                if (name is { Length: > 0 })
                 {
                     foreach (var option in _options)
                     {
@@ -116,12 +116,12 @@
             }
         }
 
-        public void Add(IHtmlOptionElement element, IHtmlElement before = null)
+        public void Add(IHtmlOptionElement element, IHtmlElement? before = null)
         {
             _parent.InsertBefore(element, before);
         }
 
-        public void Add(IHtmlOptionsGroupElement element, IHtmlElement before = null)
+        public void Add(IHtmlOptionsGroupElement element, IHtmlElement? before = null)
         {
             _parent.InsertBefore(element, before);
         }

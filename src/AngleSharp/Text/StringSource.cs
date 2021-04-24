@@ -26,7 +26,7 @@ namespace AngleSharp.Text
             _content = content ?? String.Empty;
             _last = _content.Length - 1;
             _index = 0;
-            _current = _last == -1 ? Symbols.EndOfFile : content[0];
+            _current = _last == -1 ? Symbols.EndOfFile : content![0];
         }
 
         #endregion

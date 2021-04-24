@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -14,7 +14,7 @@
         /// Gets or sets the name of the target frame to which the resource applies.
         /// </summary>
         [DomName("target")]
-        String Target { get; set; }
+        String? Target { get; set; }
 
         /// <summary>
         /// Gets or sets the linked resource is intended to be downloaded rather than displayed.
@@ -22,7 +22,7 @@
         /// underlying OS, the navigator will adapt it.
         /// </summary>
         [DomName("download")]
-        String Download { get; set; }
+        String? Download { get; set; }
 
         /// <summary>
         /// Gets the element's ping attribute as a settable list of tokens.
@@ -35,7 +35,7 @@
         /// of the target object to the link object.
         /// </summary>
         [DomName("rel")]
-        String Relation { get; set; }
+        String? Relation { get; set; }
 
         /// <summary>
         /// Gets the rel HTML attribute, as a list of tokens.
@@ -47,13 +47,13 @@
         /// Gets or sets the language code for the linked resource.
         /// </summary>
         [DomName("hreflang")]
-        String TargetLanguage { get; set; }
+        String? TargetLanguage { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the resource. If present, the attribute must be a valid MIME type.
         /// </summary>
         [DomName("type")]
-        String Type { get; }
+        String? Type { get; }
 
         /// <summary>
         /// Gets the text of the anchor tag (same as TextContent).

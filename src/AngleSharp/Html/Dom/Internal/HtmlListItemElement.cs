@@ -14,7 +14,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Creates a new item tag.
         /// </summary>
-        public HtmlListItemElement(Document owner, String name = null, String prefix = null)
+        public HtmlListItemElement(Document owner, String? name = null, String? prefix = null)
             : base(owner, name ?? TagNames.Li, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }

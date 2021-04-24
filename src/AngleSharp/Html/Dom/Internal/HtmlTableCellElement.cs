@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -11,13 +11,13 @@
     {
         #region Fields
 
-        private SettableTokenList _headers;
+        private SettableTokenList? _headers;
 
         #endregion
 
         #region ctor
         
-        public HtmlTableCellElement(Document owner, String name, String prefix)
+        public HtmlTableCellElement(Document owner, String name, String? prefix)
             : base(owner, name, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped)
         {
         }
@@ -54,19 +54,19 @@
             set => this.SetOwnAttribute(AttributeNames.Valign, value.ToString());
         }
 
-        public String BgColor
+        public String? BgColor
         {
             get => this.GetOwnAttribute(AttributeNames.BgColor);
             set => this.SetOwnAttribute(AttributeNames.BgColor, value);
         }
 
-        public String Width
+        public String? Width
         {
             get => this.GetOwnAttribute(AttributeNames.Width);
             set => this.SetOwnAttribute(AttributeNames.Width, value);
         }
 
-        public String Height
+        public String? Height
         {
             get => this.GetOwnAttribute(AttributeNames.Height);
             set => this.SetOwnAttribute(AttributeNames.Height, value);
@@ -90,13 +90,13 @@
             set => this.SetOwnAttribute(AttributeNames.NoWrap, value.ToString());
         }
 
-        public String Abbr
+        public String? Abbr
         {
             get => this.GetOwnAttribute(AttributeNames.Abbr);
             set => this.SetOwnAttribute(AttributeNames.Abbr, value);
         }
 
-        public String Scope
+        public String? Scope
         {
             get => this.GetOwnAttribute(AttributeNames.Scope);
             set => this.SetOwnAttribute(AttributeNames.Scope, value);
@@ -106,7 +106,7 @@
         {
             get
             { 
-                if (_headers == null)
+                if (_headers is null)
                 {
                     _headers = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Headers));
                     _headers.Changed += value => UpdateAttribute(AttributeNames.Headers, value);
@@ -116,7 +116,7 @@
             }
         }
 
-        public String Axis
+        public String? Axis
         {
             get => this.GetOwnAttribute(AttributeNames.Axis);
             set => this.SetOwnAttribute(AttributeNames.Axis, value);

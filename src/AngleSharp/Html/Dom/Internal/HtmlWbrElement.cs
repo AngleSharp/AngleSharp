@@ -10,7 +10,7 @@
     /// </summary>
     sealed class HtmlWbrElement : HtmlElement
     {
-        public HtmlWbrElement(Document owner, String prefix = null)
+        public HtmlWbrElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Wbr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

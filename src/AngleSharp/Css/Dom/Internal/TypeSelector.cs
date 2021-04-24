@@ -19,6 +19,6 @@ namespace AngleSharp.Css.Dom
 
         public void Accept(ISelectorVisitor visitor) => visitor.Type(_type);
 
-        public Boolean Match(IElement element, IElement scope) => _type.Isi(element.LocalName);
+        public Boolean Match(IElement element, IElement? scope) => _type.Isi(element.LocalName);
     }
 }

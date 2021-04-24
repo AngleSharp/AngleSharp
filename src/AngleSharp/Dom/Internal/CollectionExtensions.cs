@@ -22,7 +22,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <param name="predicate">The filter function, if any.</param>
         /// <returns>The collection with the corresponding elements.</returns>
-        public static IEnumerable<T> GetNodes<T>(this INode parent, Boolean deep = true, Func<T, Boolean> predicate = null)
+        public static IEnumerable<T> GetNodes<T>(this INode parent, Boolean deep = true, Func<T, Boolean>? predicate = null)
             where T : class, INode
         {
             predicate = predicate ?? (m => true);
@@ -35,7 +35,7 @@ namespace AngleSharp.Dom
         /// <param name="children">The nodelist to investigate.</param>
         /// <param name="id">The id to find.</param>
         /// <returns>The element or null.</returns>
-        public static IElement GetElementById(this INodeList children, String id)
+        public static IElement? GetElementById(this INodeList children, String id)
         {
             for (var i = 0; i < children.Length; i++)
             {
@@ -46,7 +46,7 @@ namespace AngleSharp.Dom
                         return element;
                     }
 
-                    element = element.ChildNodes.GetElementById(id);
+                    element = element.ChildNodes.GetElementById(id)!;
 
                     if (element != null)
                     {
@@ -116,7 +116,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The list of elements to filter.</param>
         /// <param name="id">The id of the element to find.</param>
         /// <returns>The element with the given id, or null.</returns>
-        public static T GetElementById<T>(this IEnumerable<T> elements, String id)
+        public static T? GetElementById<T>(this IEnumerable<T> elements, String id)
             where T : class, IElement
         {
             foreach (var element in elements)

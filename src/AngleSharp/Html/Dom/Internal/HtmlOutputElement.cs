@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,15 +10,15 @@
     {
         #region Fields
 
-        private String _defaultValue;
-        private String _value;
-        private SettableTokenList _for;
+        private String? _defaultValue;
+        private String? _value;
+        private SettableTokenList? _for;
 
         #endregion
 
         #region ctor
         
-        public HtmlOutputElement(Document owner, String prefix = null)
+        public HtmlOutputElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Output, prefix)
         {
         }
@@ -49,7 +49,7 @@
         {
             get
             { 
-                if (_for == null)
+                if (_for is null)
                 {
                     _for = new SettableTokenList(this.GetOwnAttribute(AttributeNames.For));
                     _for.Changed += value => UpdateAttribute(AttributeNames.For, value);

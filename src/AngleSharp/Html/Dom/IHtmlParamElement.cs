@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,12 +13,12 @@
         /// Gets or sets the name of the parameter.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the value of the parameter.
         /// </summary>
         [DomName("value")]
-        String Value { get; set; }
+        String? Value { get; set; }
     }
 }

@@ -2,6 +2,7 @@ namespace AngleSharp.Browser.Dom.Events
 {
     using AngleSharp.Dom.Events;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -10,7 +11,7 @@ namespace AngleSharp.Browser.Dom.Events
     /// </summary>
     public class InteractivityEvent<T> : Event
     {
-        private Task _result;
+        private Task? _result;
 
         /// <summary>
         /// Creates a new event for an interactivity request.
@@ -26,13 +27,14 @@ namespace AngleSharp.Browser.Dom.Events
         /// <summary>
         /// Gets the currently set result, if any.
         /// </summary>
-        public Task Result => _result;
+        public Task? Result => _result;
 
         /// <summary>
         /// Sets the result to the given value. Multiple results
         /// will be combined accordingly.
         /// </summary>
         /// <param name="value">The resulting task.</param>
+        [MemberNotNull(nameof(_result))]
         public void SetResult(Task value)
         {
             if (_result != null)

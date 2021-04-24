@@ -16,9 +16,9 @@ namespace AngleSharp.Io.Processors
         #region ctor
 
         public ResourceRequestProcessor(IBrowsingContext context)
-            : base(context?.GetService<IResourceLoader>())
+            : base(context?.GetService<IResourceLoader>()!)
         {
-            _context = context;
+            _context = context!;
         }
 
         #endregion
@@ -29,7 +29,7 @@ namespace AngleSharp.Io.Processors
 
         public Boolean IsReady => Resource != null;
 
-        public TResource Resource
+        public TResource? Resource
         {
             get;
             protected set;
@@ -53,7 +53,7 @@ namespace AngleSharp.Io.Processors
 
         #region Helpers
 
-        protected IResourceService<TResource> GetService(IResponse response)
+        protected IResourceService<TResource>? GetService(IResponse response)
         {
             var type = response.GetContentType();
             return _context.GetResourceService<TResource>(type.Content);
@@ -62,7 +62,7 @@ namespace AngleSharp.Io.Processors
         private Boolean IsDifferentToCurrentResourceUrl(Url target)
         {
             var resource = Resource;
-            return resource == null || !target.Equals(resource.Source);
+            return resource is null || !target.Equals(resource.Source);
         }
 
         #endregion

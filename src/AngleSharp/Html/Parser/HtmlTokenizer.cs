@@ -28,7 +28,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Fired in case of a parse error.
         /// </summary>
-        public event EventHandler<HtmlErrorEvent> Error;
+        public event EventHandler<HtmlErrorEvent>? Error;
 
         #endregion
 
@@ -489,7 +489,7 @@ namespace AngleSharp.Html.Parser
                     entity = GetLookupCharacterReference(c, allowedCharacter, isAttribute);
                 }
 
-                if (entity == null)
+                if (entity is null)
                 {
                     StringBuffer.Append(Symbols.Ampersand);
                 }
@@ -500,7 +500,7 @@ namespace AngleSharp.Html.Parser
             }
         }
 
-        private String GetNumericCharacterReference(Char c, Boolean isAttribute)
+        private String? GetNumericCharacterReference(Char c, Boolean isAttribute)
         {
             var exp = 10;
             var basis = 1;
@@ -573,7 +573,7 @@ namespace AngleSharp.Html.Parser
             return Char.ConvertFromUtf32(num);
         }
 
-        private String GetLookupCharacterReference(Char c, Char allowedCharacter, Boolean isAttribute)
+        private String? GetLookupCharacterReference(Char c, Char allowedCharacter, Boolean isAttribute)
         {
             var entity = default(String);
             var start = InsertionPoint - 1;
@@ -600,12 +600,12 @@ namespace AngleSharp.Html.Parser
                 entity = _resolver.GetSymbol(value);
             }
 
-            while (entity == null && index > 0)
+            while (entity is null && index > 0)
             {
                 var value = new String(reference, 0, index--);
                 entity = _resolver.GetSymbol(value);
 
-                if (entity == null)
+                if (entity is null)
                 {
                     Back();
                 }
@@ -772,7 +772,7 @@ namespace AngleSharp.Html.Parser
             return TagSelfClosingInner(tag) ?? ParseAttributes(tag);
         }
 
-        private HtmlToken TagSelfClosingInner(HtmlTagToken tag)
+        private HtmlToken? TagSelfClosingInner(HtmlTagToken tag)
         {
             while (true)
             {
@@ -923,7 +923,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.47 Comment start dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken CommentDashStart(Char c)
+        private HtmlToken? CommentDashStart(Char c)
         {
             switch (c)
             {
@@ -988,7 +988,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.49 Comment end dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken CommentDashEnd(Char c)
+        private HtmlToken? CommentDashEnd(Char c)
         {
             switch (c)
             {
@@ -1012,7 +1012,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.50 Comment end state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken CommentEnd(Char c)
+        private HtmlToken? CommentEnd(Char c)
         {
             while (true)
             {
@@ -1050,7 +1050,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.51 Comment end bang state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken CommentBangEnd(Char c)
+        private HtmlToken? CommentBangEnd(Char c)
         {
             switch (c)
             {
@@ -2035,7 +2035,7 @@ namespace AngleSharp.Html.Parser
                     {
                         var token = TagSelfClosingInner(tag);
 
-                        if (token == null)
+                        if (token is null)
                         {
                             state = AttributeState.BeforeName;
                             break;
@@ -2624,7 +2624,7 @@ namespace AngleSharp.Html.Parser
             StringBuffer.Append(Symbols.Replacement);
         }
 
-        private HtmlToken CreateIfAppropriate(Char c)
+        private HtmlToken? CreateIfAppropriate(Char c)
         {
             var isspace = c.IsSpaceCharacter();
             var isclosed = c == Symbols.GreaterThan;

@@ -16,9 +16,9 @@ namespace AngleSharp
         private readonly IEnumerable<Object> _originalServices;
         private readonly List<Object> _services;
         private readonly Sandboxes _security;
-        private readonly IBrowsingContext _parent;
-        private readonly IDocument _creator;
-        private readonly IHistory _history;
+        private readonly IBrowsingContext? _parent;
+        private readonly IDocument? _creator;
+        private readonly IHistory? _history;
         private readonly Dictionary<String, WeakReference<IBrowsingContext>> _children;
 
         #endregion
@@ -33,7 +33,7 @@ namespace AngleSharp
         /// This constructor was only added due to PowerShell. See #844 for details.
         /// </remarks>
         /// <param name="configuration">The optional configuration.</param>
-        public BrowsingContext(IConfiguration configuration = null)
+        public BrowsingContext(IConfiguration? configuration = null)
             : this((configuration ?? AngleSharp.Configuration.Default).Services, Sandboxes.None)
         {
         }
@@ -68,7 +68,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the currently active document.
         /// </summary>
-        public IDocument Active
+        public IDocument? Active
         {
             get;
             set;
@@ -79,7 +79,7 @@ namespace AngleSharp
         /// creator is the active document of the parent at the time of
         /// creation.
         /// </summary>
-        public IDocument Creator => _creator;
+        public IDocument? Creator => _creator;
 
         /// <summary>
         /// Gets the original services for the given browsing context.
@@ -89,19 +89,19 @@ namespace AngleSharp
         /// <summary>
         /// Gets the current window proxy.
         /// </summary>
-        public IWindow Current => Active?.DefaultView;
+        public IWindow? Current => Active?.DefaultView;
 
         /// <summary>
         /// Gets the parent of the current context, if any. If a parent is
         /// available, then the current context contains only embedded
         /// documents.
         /// </summary>
-        public IBrowsingContext Parent => _parent;
+        public IBrowsingContext? Parent => _parent;
 
         /// <summary>
         /// Gets the session history of the given browsing context, if any.
         /// </summary>
-        public IHistory SessionHistory => _history;
+        public IHistory? SessionHistory => _history;
 
         /// <summary>
         /// Gets the sandboxing flag of the context.
@@ -117,7 +117,7 @@ namespace AngleSharp
         /// </summary>
         /// <typeparam name="T">The type of service to resolve.</typeparam>
         /// <returns>The instance of the service or null.</returns>
-        public T GetService<T>() where T : class
+        public T? GetService<T>() where T : class
         {
             var count = _services.Count;
 
@@ -126,7 +126,7 @@ namespace AngleSharp
                 var service = _services[i];
                 var instance = service as T;
 
-                if (instance == null)
+                if (instance is null)
                 {
                     if (service is Func<IBrowsingContext, T> creator)
                     {
@@ -159,7 +159,7 @@ namespace AngleSharp
                 var service = _services[i];
                 var instance = service as T;
 
-                if (instance == null)
+                if (instance is null)
                 {
                     if (service is Func<IBrowsingContext, T> creator)
                     {
@@ -182,11 +182,11 @@ namespace AngleSharp
         /// <param name="name">The name of the child context, if any.</param>
         /// <param name="security">The security flags to apply.</param>
         /// <returns></returns>
-        public IBrowsingContext CreateChild(String name, Sandboxes security)
+        public IBrowsingContext CreateChild(String? name, Sandboxes security)
         {
             var context = new BrowsingContext(this, security);
 
-            if (!String.IsNullOrEmpty(name))
+            if (name is { Length: > 0 })
             {
                 _children[name] = new WeakReference<IBrowsingContext>(context);
             }
@@ -199,7 +199,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="name">The name of the browsing context.</param>
         /// <returns>The found instance, if any.</returns>
-        public IBrowsingContext FindChild(String name)
+        public IBrowsingContext? FindChild(String name)
         {
             var context = default(IBrowsingContext);
 
@@ -217,9 +217,9 @@ namespace AngleSharp
         /// </summary>
         /// <param name="configuration">The optional configuration.</param>
         /// <returns>The browsing context to use.</returns>
-        public static IBrowsingContext New(IConfiguration configuration = null)
+        public static IBrowsingContext New(IConfiguration? configuration = null)
         {
-            if (configuration == null)
+            if (configuration is null)
             {
                 configuration = AngleSharp.Configuration.Default;
             }

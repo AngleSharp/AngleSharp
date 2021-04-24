@@ -27,7 +27,7 @@ namespace AngleSharp.Dom
         /// <param name="element">The element that might contain the namespace information.</param>
         /// <param name="namespaceUri">The url of the namespace.</param>
         /// <returns>The prefix or null, if the namespace could not be found.</returns>
-        public static String LocatePrefixFor(this IElement element, String namespaceUri)
+        public static String? LocatePrefixFor(this IElement element, String namespaceUri)
         {
             if (element.NamespaceUri.Is(namespaceUri) && element.Prefix != null)
             {
@@ -51,7 +51,7 @@ namespace AngleSharp.Dom
         /// <param name="element">The element that might contain the namespace information.</param>
         /// <param name="prefix">The prefix of the namespace to find.</param>
         /// <returns>The url of the namespace or null, if the prefix could not be found.</returns>
-        public static String LocateNamespaceFor(this IElement element, String prefix)
+        public static String? LocateNamespaceFor(this IElement element, String prefix)
         {
             var ns = element.NamespaceUri;
             var px = element.Prefix;
@@ -60,7 +60,7 @@ namespace AngleSharp.Dom
             {
                 var success = false;
 
-                if (prefix == null)
+                if (prefix is null)
                 {
                     success = element.TryLocateStandardNamespace(out ns);
                 }
@@ -71,7 +71,7 @@ namespace AngleSharp.Dom
 
                 if (!success)
                 {
-                    ns = element.ParentElement?.LocateNamespaceFor(prefix);
+                    ns = element.ParentElement?.LocateNamespaceFor(prefix!);
                 }
             }
 
@@ -83,13 +83,13 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>The url of the namespace.</returns>
-        public static String GetNamespaceUri(this IElement element)
+        public static String? GetNamespaceUri(this IElement element)
         {
             var prefix = element.Prefix;
             var success = false;
             var ns = String.Empty;
 
-            if (prefix == null)
+            if (prefix is null)
             {
                 success = element.TryLocateStandardNamespace(out ns);
             }
@@ -100,7 +100,7 @@ namespace AngleSharp.Dom
 
             if (!success)
             {
-                ns = element.ParentElement?.LocateNamespaceFor(prefix);
+                ns = element.ParentElement?.LocateNamespaceFor(prefix!);
             }
 
             return ns;
@@ -113,7 +113,7 @@ namespace AngleSharp.Dom
         /// <param name="prefix">The prefix of the custom namespace.</param>
         /// <param name="namespaceUri">The located namespace URI.</param>
         /// <returns>True if the namespace URI could be located, otherwise false.</returns>
-        public static Boolean TryLocateCustomNamespace(this IElement element, String prefix, out String namespaceUri)
+        public static Boolean TryLocateCustomNamespace(this IElement element, String prefix, out String? namespaceUri)
         {
             foreach (var attr in element.Attributes)
             {
@@ -141,11 +141,11 @@ namespace AngleSharp.Dom
         /// <param name="element">The element to locate the namespace URI for.</param>
         /// <param name="namespaceUri">The located namespace URI.</param>
         /// <returns>True if the namespace URI could be located, otherwise false.</returns>
-        public static Boolean TryLocateStandardNamespace(this IElement element, out String namespaceUri)
+        public static Boolean TryLocateStandardNamespace(this IElement element, out String? namespaceUri)
         {
             foreach (var attr in element.Attributes)
             {
-                if (attr.Prefix == null && attr.LocalName.Is(NamespaceNames.XmlNsPrefix))
+                if (attr.Prefix is null && attr.LocalName.Is(NamespaceNames.XmlNsPrefix))
                 {
                     var value = attr.Value;
 
@@ -205,7 +205,7 @@ namespace AngleSharp.Dom
         /// <param name="el">The element that is connected to a doc.</param>
         /// <param name="prefix">The prefix to lookup.</param>
         /// <returns>The namespace url for the prefix.</returns>
-        public static String GetCssNamespace(this IElement el, String prefix) => el.Owner?.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespaceFor(prefix);
+        public static String? GetCssNamespace(this IElement el, String prefix) => el.Owner?.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespaceFor(prefix);
 
         /// <summary>
         /// Checks if the element is currently hovered.
@@ -898,7 +898,7 @@ namespace AngleSharp.Dom
         /// <param name="attributeName">The name of the attribute.</param>
         /// <returns>The attributes' values.</returns>
         public static IEnumerable<String> Attr<T>(this T elements, String attributeName)
-            where T : IEnumerable<IElement> => elements.Select(m => m.GetAttribute(attributeName));
+            where T : IEnumerable<IElement> => elements.Select(m => m.GetAttribute(attributeName)!);
 
         /// <summary>
         /// Clears the attributes of the given element.
@@ -1318,7 +1318,7 @@ namespace AngleSharp.Dom
             where TElement : class, IUrlUtilities, IElement
         {
             element = element ?? throw new ArgumentNullException(nameof(element));
-            var document = element.Owner;
+            var document = element.Owner!;
             var address = element.Href;
             var url = Url.Create(address);
             var request = DocumentRequest.Get(url, source: element, referer: document.DocumentUri);
@@ -1344,7 +1344,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="img">The element to use.</param>
         /// <returns>The possibly valid URL to the right candidate.</returns>
-        internal static Url GetImageCandidate(this HtmlImageElement img)
+        internal static Url? GetImageCandidate(this HtmlImageElement img)
         {
             var srcset = new SourceSet();
             var context = img.Context;
@@ -1355,21 +1355,21 @@ namespace AngleSharp.Dom
                 var source = sources.Pop();
                 var type = source.Type;
 
-                if (String.IsNullOrEmpty(type) || context.GetResourceService<IImageInfo>(type) != null)
+                if (String.IsNullOrEmpty(type) || context?.GetResourceService<IImageInfo>(type!) != null)
                 {
                     foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
                     {
-                        return new Url(img.BaseUrl, candidate);
+                        return new Url(img.BaseUrl!, candidate);
                     }
                 }
             }
 
             foreach (var candidate in srcset.GetCandidates(img.SourceSet, img.Sizes))
             {
-                return new Url(img.BaseUrl, candidate);
+                return new Url(img.BaseUrl!, candidate);
             }
 
-            return string.IsNullOrEmpty(img.Source) ? null : Url.Create(img.Source);
+            return img.Source is { Length: > 0 } imageSource ? Url.Create(imageSource) : null;
         }
 
         /// <summary>
@@ -1378,7 +1378,7 @@ namespace AngleSharp.Dom
         /// <param name="element">The element to host the attribute.</param>
         /// <param name="name">The name of the attribute.</param>
         /// <returns>The attribute's value, if any.</returns>
-        internal static String GetOwnAttribute(this Element element, String name) => element.Attributes.GetNamedItem(null, name)?.Value;
+        internal static String? GetOwnAttribute(this Element element, String name) => element.Attributes.GetNamedItem(null, name)?.Value;
 
         /// <summary>
         /// Faster way of checking for a (known) attribute.
@@ -1397,7 +1397,7 @@ namespace AngleSharp.Dom
         internal static String GetUrlAttribute(this Element element, String name)
         {
             var value = element.GetOwnAttribute(name);
-            var url = value != null ? new Url(element.BaseUrl, value) : null;
+            var url = value != null ? new Url(element.BaseUrl!, value) : null;
             return url != null && !url.IsInvalid ? url.Href : String.Empty;
         }
 
@@ -1476,13 +1476,13 @@ namespace AngleSharp.Dom
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The attribute's value.</param>
         /// <param name="suppressCallbacks">Flag to suppress callbacks.</param>
-        internal static void SetOwnAttribute(this Element element, String name, String value, Boolean suppressCallbacks = false) => element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value), suppressCallbacks);
+        internal static void SetOwnAttribute(this Element element, String name, String? value, Boolean suppressCallbacks = false) => element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value!), suppressCallbacks);
 
         private static IDocumentFragment CreateFragment(this IElement context, String html)
         {
             var contextElement = context as Element;
             var content = html ?? String.Empty;
-            return new DocumentFragment(contextElement, content);
+            return new DocumentFragment(contextElement!, content);
         }
 
         private static IElement GetInnerMostElement(this IDocumentFragment fragment)
@@ -1493,7 +1493,7 @@ namespace AngleSharp.Dom
             }
 
             var element = default(IElement);
-            var child = fragment.FirstElementChild;
+            var child = fragment.FirstElementChild!;
 
             do
             {
@@ -1533,7 +1533,7 @@ namespace AngleSharp.Dom
                 if (hasId)
                 {
                     // Id is unique in the DOM, so we can use it to locate the element and skip other parents
-                    name = "#" + CssUtilities.Escape(element.Id);
+                    name = "#" + CssUtilities.Escape(element.Id!);
                 }
                 // If node has siblings of the same type...
                 else if (parent != null && !element.IsOnlyOfType())
@@ -1556,7 +1556,7 @@ namespace AngleSharp.Dom
                 }
 
                 // Set current parent
-                element = parent;
+                element = parent!;
             }
             while (element?.ParentElement != null && !hasId);
 

@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlDefinitionListElement : HtmlElement
     {
-        public HtmlDefinitionListElement(Document owner, String prefix = null)
+        public HtmlDefinitionListElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Dl, prefix, NodeFlags.Special)
         {
         }

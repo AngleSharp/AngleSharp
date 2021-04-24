@@ -22,11 +22,11 @@ namespace AngleSharp.Dom
 
         #region ctor
 
-        public HtmlFormControlsCollection(IElement form, IElement root = null)
+        public HtmlFormControlsCollection(IElement form, IElement? root = null)
         {
-            if (root == null)
+            if (root is null)
             {
-                root = form.Owner.DocumentElement;
+                root = form.Owner!.DocumentElement;
             }
 
             _elements = root.GetNodes<HtmlFormControlElement>().Where(m =>
@@ -56,7 +56,7 @@ namespace AngleSharp.Dom
 
         public HtmlFormControlElement this[Int32 index] => _elements.GetItemByIndex(index);
 
-        public HtmlFormControlElement this[String id] => _elements.GetElementById(id);
+        public HtmlFormControlElement? this[String id] => _elements.GetElementById(id);
 
         public IEnumerator<HtmlFormControlElement> GetEnumerator() => _elements.GetEnumerator();
 
@@ -68,7 +68,7 @@ namespace AngleSharp.Dom
 
         IHtmlElement IHtmlCollection<IHtmlElement>.this[Int32 index] => this[index];
 
-        IHtmlElement IHtmlCollection<IHtmlElement>.this[String id] => this[id];
+        IHtmlElement? IHtmlCollection<IHtmlElement>.this[String id] => this[id];
 
         IEnumerator<IHtmlElement> IEnumerable<IHtmlElement>.GetEnumerator() => _elements.GetEnumerator();
 

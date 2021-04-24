@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -14,7 +14,7 @@
             visitor.List(_selectors);
         }
 
-        public Boolean Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement? scope)
         {
             for (var i = 0; i < _selectors.Count; i++)
             {

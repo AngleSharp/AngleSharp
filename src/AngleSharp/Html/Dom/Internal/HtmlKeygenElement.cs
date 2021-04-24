@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Html;
@@ -15,7 +15,7 @@
         /// <summary>
         /// Creates a new HTML keygen element.
         /// </summary>
-        public HtmlKeygenElement(Document owner, String prefix = null)
+        public HtmlKeygenElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Keygen, prefix, NodeFlags.SelfClosing)
         {
         }
@@ -27,7 +27,7 @@
         /// <summary>
         /// Gets or sets the challenge attribute.
         /// </summary>
-        public String Challenge
+        public String? Challenge
         {
             get => this.GetOwnAttribute(AttributeNames.Challenge);
             set => this.SetOwnAttribute(AttributeNames.Challenge, value);
@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets or sets the type of key used.
         /// </summary>
-        public String KeyEncryption
+        public String? KeyEncryption
         {
             get => this.GetOwnAttribute(AttributeNames.Keytype);
             set => this.SetOwnAttribute(AttributeNames.Keytype, value);
@@ -53,7 +53,7 @@
 
         internal override FormControlState SaveControlState()
         {
-            return new FormControlState(Name, Type, Challenge);
+            return new FormControlState(Name!, Type, Challenge!);
         }
 
         internal override void RestoreFormControlState(FormControlState state)

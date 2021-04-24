@@ -14,9 +14,9 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private StringMap _dataset;
-        private IHtmlMenuElement _menu;
-        private SettableTokenList _dropZone;
+        private StringMap? _dataset;
+        private IHtmlMenuElement? _menu;
+        private SettableTokenList? _dropZone;
 
         #endregion
 
@@ -433,7 +433,7 @@ namespace AngleSharp.Html.Dom
         #region ctor
 
         /// <inheritdoc />
-        public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
+        public HtmlElement(Document owner, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, Combine(prefix, localName), localName, prefix, NamespaceNames.HtmlUri, flags | NodeFlags.HtmlMember)
         {
         }
@@ -450,15 +450,15 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        public IHtmlMenuElement ContextMenu
+        public IHtmlMenuElement? ContextMenu
         {
             get
             {
-                if (_menu == null)
+                if (_menu is null)
                 {
                     var id = this.GetOwnAttribute(AttributeNames.ContextMenu);
 
-                    if (!String.IsNullOrEmpty(id))
+                    if (id is { Length: > 0 })
                     {
                         return Owner.GetElementById(id) as IHtmlMenuElement;
                     }
@@ -474,7 +474,7 @@ namespace AngleSharp.Html.Dom
         {
             get
             {
-                if (_dropZone == null)
+                if (_dropZone is null)
                 {
                     _dropZone = new SettableTokenList(this.GetOwnAttribute(AttributeNames.DropZone));
                     _dropZone.Changed += value => UpdateAttribute(AttributeNames.DropZone, value);
@@ -492,31 +492,31 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        public String AccessKey
+        public String? AccessKey
         {
             get => this.GetOwnAttribute(AttributeNames.AccessKey) ?? String.Empty;
             set => this.SetOwnAttribute(AttributeNames.AccessKey, value);
         }
 
         /// <inheritdoc />
-        public String AccessKeyLabel => AccessKey;
+        public String? AccessKeyLabel => AccessKey;
 
         /// <inheritdoc />
-        public String Language
+        public String? Language
         {
             get => this.GetOwnAttribute(AttributeNames.Lang) ?? GetDefaultLanguage();
             set => this.SetOwnAttribute(AttributeNames.Lang, value);
         }
 
         /// <inheritdoc />
-        public String Title
+        public String? Title
         {
             get => this.GetOwnAttribute(AttributeNames.Title);
             set => this.SetOwnAttribute(AttributeNames.Title, value);
         }
 
         /// <inheritdoc />
-        public String Direction
+        public String? Direction
         {
             get => this.GetOwnAttribute(AttributeNames.Dir);
             set => this.SetOwnAttribute(AttributeNames.Dir, value);
@@ -540,7 +540,7 @@ namespace AngleSharp.Html.Dom
         public IStringMap Dataset => _dataset ?? (_dataset = new StringMap("data-", this));
 
         /// <inheritdoc />
-        public String ContentEditable
+        public String? ContentEditable
         {
             get => this.GetOwnAttribute(AttributeNames.ContentEditable);
             set => this.SetOwnAttribute(AttributeNames.ContentEditable, value);
@@ -586,7 +586,7 @@ namespace AngleSharp.Html.Dom
         /// <inheritdoc />
         public void DoSpellCheck()
         {
-            var spellcheck = Context.GetSpellCheck(Language);
+            var spellcheck = Context?.GetSpellCheck(Language!);
 
             if (spellcheck != null)
             {
@@ -617,7 +617,7 @@ namespace AngleSharp.Html.Dom
         /// <inheritdoc />
         public override Node Clone(Document owner, Boolean deep)
         {
-            var factory = Context.GetFactory<IElementFactory<Document, HtmlElement>>();
+            var factory = Context!.GetFactory<IElementFactory<Document, HtmlElement>>();
             var node = factory.Create(owner, LocalName, Prefix);
             CloneElement(node, owner, deep);
             return node;
@@ -640,7 +640,7 @@ namespace AngleSharp.Html.Dom
                     m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this)));
 
         /// <inheritdoc />
-        protected IHtmlFormElement GetAssignedForm()
+        protected IHtmlFormElement? GetAssignedForm()
         {
             var parent = Parent as INode;
 
@@ -649,25 +649,25 @@ namespace AngleSharp.Html.Dom
                 parent = parent.ParentElement;
             }
 
-            if (parent == null)
+            if (parent is null)
             {
                 var formid = this.GetOwnAttribute(AttributeNames.Form);
                 var owner = Owner;
 
-                if (owner == null || String.IsNullOrEmpty(formid))
+                if (owner is null || String.IsNullOrEmpty(formid))
                 {
                     return null;
                 }
 
-                parent = owner.GetElementById(formid);
+                parent = owner.GetElementById(formid!);
             }
 
             return parent as IHtmlFormElement;
         }
 
-        private String GetDefaultLanguage() => ParentElement is IHtmlElement parent ? parent.Language : Context.GetLanguage();
+        private String? GetDefaultLanguage() => ParentElement is IHtmlElement parent ? parent.Language : Context!.GetLanguage();
 
-        private static String Combine(String prefix, String localName) => (prefix != null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant();
+        private static String Combine(String? prefix, String localName) => (prefix != null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant();
 
         #endregion
     }

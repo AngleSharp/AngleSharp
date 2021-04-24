@@ -11,7 +11,7 @@ namespace AngleSharp.Html.Dom
     {
         #region ctor
 
-        public HtmlMetaElement(Document owner, String prefix = null)
+        public HtmlMetaElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Meta, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
@@ -20,31 +20,31 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public String Content
+        public String? Content
         {
             get => this.GetOwnAttribute(AttributeNames.Content);
             set => this.SetOwnAttribute(AttributeNames.Content, value);
         }
 
-        public String Charset
+        public String? Charset
         {
             get => this.GetOwnAttribute(AttributeNames.Charset);
             set => this.SetOwnAttribute(AttributeNames.Charset, value);
         }
 
-        public String HttpEquivalent
+        public String? HttpEquivalent
         {
             get => this.GetOwnAttribute(AttributeNames.HttpEquiv);
             set => this.SetOwnAttribute(AttributeNames.HttpEquiv, value);
         }
 
-        public String Scheme
+        public String? Scheme
         {
             get => this.GetOwnAttribute(AttributeNames.Scheme);
             set => this.SetOwnAttribute(AttributeNames.Scheme, value);
         }
 
-        public String Name
+        public String? Name
         {
             get => this.GetOwnAttribute(AttributeNames.Name);
             set => this.SetOwnAttribute(AttributeNames.Name, value);

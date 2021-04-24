@@ -4,7 +4,6 @@ namespace AngleSharp.Dom
     using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
-    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -18,7 +17,7 @@ namespace AngleSharp.Dom
         private readonly IStyleSheetList _styleSheets;
         private readonly ShadowRootMode _mode;
 
-        HtmlCollection<IElement> _elements;
+        HtmlCollection<IElement>? _elements;
 
         #endregion
 
@@ -52,7 +51,7 @@ namespace AngleSharp.Dom
 
         public IHtmlCollection<IElement> Children => _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false));
 
-        public IElement FirstElementChild
+        public IElement? FirstElementChild
         {
             get
             {
@@ -71,7 +70,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        public IElement LastElementChild
+        public IElement? LastElementChild
         {
             get
             {
@@ -117,7 +116,7 @@ namespace AngleSharp.Dom
 
         public void Append(params INode[] nodes) => this.AppendNodes(nodes);
 
-        public IElement QuerySelector(String selectors) => ChildNodes.QuerySelector(selectors, _host);
+        public IElement? QuerySelector(String selectors) => ChildNodes.QuerySelector(selectors, _host);
 
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors) => ChildNodes.QuerySelectorAll(selectors, _host);
 
@@ -127,7 +126,7 @@ namespace AngleSharp.Dom
 
         public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
-        public IElement GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
+        public IElement? GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
 
         public override Node Clone(Document owner, Boolean deep)
         {

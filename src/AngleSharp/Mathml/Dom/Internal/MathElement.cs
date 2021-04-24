@@ -11,7 +11,7 @@ namespace AngleSharp.Mathml.Dom
         #region ctor
 
         /// <inheritdoc />
-        public MathElement(Document owner, String name, String prefix = null, NodeFlags flags = NodeFlags.None)
+        public MathElement(Document owner, String name, String? prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, NamespaceNames.MathMlUri, flags | NodeFlags.MathMember)
         {
         }

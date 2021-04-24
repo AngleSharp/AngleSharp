@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
     using System;
@@ -33,7 +33,7 @@
             get { return _elements.GetItemByIndex(index); }
         }
 
-        public IElement this[String id]
+        public IElement? this[String id]
         {
             get { return _elements.GetElementById(id); }
         }

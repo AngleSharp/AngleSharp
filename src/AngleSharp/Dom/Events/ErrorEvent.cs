@@ -1,4 +1,6 @@
-﻿namespace AngleSharp.Dom.Events
+#nullable disable
+
+namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
     using System;

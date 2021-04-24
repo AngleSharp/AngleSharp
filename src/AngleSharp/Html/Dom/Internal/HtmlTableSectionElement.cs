@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -11,13 +11,13 @@
     {
         #region Fields
 
-        private HtmlCollection<IHtmlTableRowElement> _rows;
+        private HtmlCollection<IHtmlTableRowElement>? _rows;
 
         #endregion
 
         #region ctor
 
-        public HtmlTableSectionElement(Document owner, String name = null, String prefix = null)
+        public HtmlTableSectionElement(Document owner, String? name = null, String? prefix = null)
             : base(owner, name ?? TagNames.Tbody, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.HtmlTableSectionScoped)
         {
         }
@@ -47,7 +47,7 @@
         public IHtmlTableRowElement InsertRowAt(Int32 index = -1)
         {
             var rows = Rows;
-            var newRow = Owner.CreateElement(TagNames.Tr) as IHtmlTableRowElement;
+            var newRow = (IHtmlTableRowElement)Owner.CreateElement(TagNames.Tr);
 
             if (index >= 0 && index < rows.Length)
             {

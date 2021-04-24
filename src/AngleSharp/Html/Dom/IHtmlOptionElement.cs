@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -19,13 +19,13 @@
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        IHtmlFormElement Form { get; }
+        IHtmlFormElement? Form { get; }
 
         /// <summary>
         /// Gets or sets the label.
         /// </summary>
         [DomName("label")]
-        String Label { get; set; }
+        String? Label { get; set; }
 
         /// <summary>
         /// Gets or sets if the option is selected by default.

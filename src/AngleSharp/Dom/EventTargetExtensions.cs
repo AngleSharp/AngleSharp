@@ -56,7 +56,7 @@ namespace AngleSharp.Dom
         /// <returns>
         /// True if the element was cancelled, otherwise false.
         /// </returns>
-        public static Boolean Fire<T>(this IEventTarget target, Action<T> initializer, IEventTarget targetOverride = null)
+        public static Boolean Fire<T>(this IEventTarget target, Action<T> initializer, IEventTarget? targetOverride = null)
             where T : Event, new()
         {
             var eventData = new T { IsTrusted = true };
@@ -74,10 +74,10 @@ namespace AngleSharp.Dom
         public static async Task<Event> AwaitEventAsync<TEventTarget>(this TEventTarget node, String eventName)
             where TEventTarget : IEventTarget
         {
-            if (node == null)
+            if (node is null)
                 throw new ArgumentNullException(nameof(node));
 
-            if (eventName == null)
+            if (eventName is null)
                 throw new ArgumentNullException(nameof(eventName));
 
             var completion = new TaskCompletionSource<Event>();

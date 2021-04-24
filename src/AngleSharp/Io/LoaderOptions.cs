@@ -22,6 +22,6 @@ namespace AngleSharp.Io
         /// <summary>
         /// Gets or sets the filter, if any.
         /// </summary>
-        public Predicate<Request> Filter { get; set; }
+        public Predicate<Request>? Filter { get; set; }
     }
 }

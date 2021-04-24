@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlFormControlElementWithState(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
+        public HtmlFormControlElementWithState(Document owner, String name, String? prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags)
         {
             CanContainRangeEndpoint = false;

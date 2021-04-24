@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -31,12 +31,12 @@
         /// Gets the namespace URL of the attribute.
         /// </summary>
         [DomName("namespaceURI")]
-        String NamespaceUri { get; }
+        String? NamespaceUri { get; }
 
         /// <summary>
         /// Gets the prefix used by the namespace.
         /// </summary>
         [DomName("prefix")]
-        String Prefix { get; }
+        String? Prefix { get; }
     }
 }

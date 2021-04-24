@@ -22,7 +22,7 @@ namespace AngleSharp.Html.Dom
 
         #region ctor
 
-        internal HtmlDocument(IBrowsingContext context, TextSource source)
+        internal HtmlDocument(IBrowsingContext? context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypeNames.Html;
@@ -31,7 +31,7 @@ namespace AngleSharp.Html.Dom
             _svgFactory = Context.GetFactory<IElementFactory<Document, SvgElement>>();
         }
 
-        internal HtmlDocument(IBrowsingContext context = null)
+        internal HtmlDocument(IBrowsingContext? context = null)
             : this(context, new TextSource(String.Empty))
         {
         }
@@ -40,7 +40,7 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public override IElement DocumentElement => this.FindChild<HtmlHtmlElement>();
+        public override IElement DocumentElement => this.FindChild<HtmlHtmlElement>()!;
 
         public override IEntityProvider Entities => Context.GetProvider<IEntityProvider>() ?? HtmlEntityProvider.Resolver;
 
@@ -48,13 +48,13 @@ namespace AngleSharp.Html.Dom
 
         #region Methods
 
-        public HtmlElement CreateHtmlElement(String name, String prefix = null, NodeFlags flags = NodeFlags.None) => _htmlFactory.Create(this, name, prefix, flags);
+        public HtmlElement CreateHtmlElement(String name, String? prefix = null, NodeFlags flags = NodeFlags.None) => _htmlFactory.Create(this, name, prefix, flags);
 
-        public MathElement CreateMathElement(String name, String prefix = null, NodeFlags flags = NodeFlags.None) => _mathFactory.Create(this, name, prefix, flags);
+        public MathElement CreateMathElement(String name, String? prefix = null, NodeFlags flags = NodeFlags.None) => _mathFactory.Create(this, name, prefix, flags);
 
-        public SvgElement CreateSvgElement(String name, String prefix = null, NodeFlags flags = NodeFlags.None) => _svgFactory.Create(this, name, prefix, flags);
+        public SvgElement CreateSvgElement(String name, String? prefix = null, NodeFlags flags = NodeFlags.None) => _svgFactory.Create(this, name, prefix, flags);
 
-        public override Element CreateElementFrom(String name, String prefix, NodeFlags flags = NodeFlags.None) => CreateHtmlElement(name, prefix, flags);
+        public override Element CreateElementFrom(String name, String? prefix, NodeFlags flags = NodeFlags.None) => CreateHtmlElement(name, prefix, flags);
 
         public override Node Clone(Document owner, Boolean deep)
         {
@@ -70,19 +70,19 @@ namespace AngleSharp.Html.Dom
 
         protected override String GetTitle()
         {
-            var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
+            var title = DocumentElement!.FindDescendant<IHtmlTitleElement>();
             return title?.TextContent.CollapseAndStrip() ?? base.GetTitle();
         }
 
-        protected override void SetTitle(String value)
+        protected override void SetTitle(String? value)
         {
-            var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
+            var title = DocumentElement!.FindDescendant<IHtmlTitleElement>();
 
-            if (title == null)
+            if (title is null)
             {
                 var head = Head;
 
-                if (head == null)
+                if (head is null)
                 {
                     return;
                 }
@@ -91,7 +91,7 @@ namespace AngleSharp.Html.Dom
                 head.AppendChild(title);
             }
 
-            title.TextContent = value;
+            title.TextContent = value!;
         }
 
         #endregion

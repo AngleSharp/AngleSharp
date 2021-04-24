@@ -20,7 +20,7 @@ namespace AngleSharp.Html.LinkRels
         #region ctor
 
         public ImportLinkRelation(IHtmlLinkElement link)
-            : base(link, new DocumentRequestProcessor(link?.Owner.Context))
+            : base(link, new DocumentRequestProcessor(link?.Owner!.Context!))
         {
         }
 
@@ -28,7 +28,7 @@ namespace AngleSharp.Html.LinkRels
 
         #region Properties
 
-        public IDocument Import => (Processor as DocumentRequestProcessor)?.ChildDocument;
+        public IDocument? Import => (Processor as DocumentRequestProcessor)?.ChildDocument;
 
         public Boolean IsAsync => _async;
 
@@ -43,13 +43,13 @@ namespace AngleSharp.Html.LinkRels
         {
             var link = Link;
             var document = link.Owner;
-            var list = ImportLists.GetOrCreateValue(document);
+            var list = ImportLists.GetOrCreateValue(document!);
             var location = Url;
             var processor = Processor;
             var item = new ImportEntry
             {
                 Relation = this,
-                IsCycle = location != null && CheckCycle(document, location)
+                IsCycle = location != null && CheckCycle(document!, location)
             };
             list.Add(item);
 
@@ -57,7 +57,7 @@ namespace AngleSharp.Html.LinkRels
             {
                 var request = link.CreateRequestFor(location);
                 _async = link.HasAttribute(AttributeNames.Async);
-                return processor?.ProcessAsync(request);
+                return processor?.ProcessAsync(request)!;
             }
 
             return Task.CompletedTask;
@@ -101,7 +101,7 @@ namespace AngleSharp.Html.LinkRels
             {
                 for (var i = 0; i < _list.Count; i++)
                 {
-                    Url relationUrl = _list[i].Relation.Url;
+                    Url relationUrl = _list[i].Relation.Url!;
                     if (relationUrl != null && relationUrl.Equals(location))
                     {
                         return true;

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom.Events
+namespace AngleSharp.Html.Dom.Events
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -40,7 +40,7 @@
         /// <param name="deltaMode">The delta mode for the wheel event.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public WheelEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, MouseButton button = MouseButton.Primary, IEventTarget target = null, String modifiersList = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel)
+        public WheelEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, MouseButton button = MouseButton.Primary, IEventTarget? target = null, String? modifiersList = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel)
         {
             Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, button, target, modifiersList ?? String.Empty, deltaX, deltaY, deltaZ, deltaMode);
         }
@@ -113,7 +113,7 @@
         /// <param name="deltaZ">The mouse wheel delta in Z direction.</param>
         /// <param name="deltaMode">The delta mode for the wheel event.</param>
         [DomName("initWheelEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail, Int32 screenX, Int32 screenY, Int32 clientX, Int32 clientY, MouseButton button, IEventTarget target, String modifiersList, Double deltaX, Double deltaY, Double deltaZ, WheelMode deltaMode)
+        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow? view, Int32 detail, Int32 screenX, Int32 screenY, Int32 clientX, Int32 clientY, MouseButton button, IEventTarget? target, String modifiersList, Double deltaX, Double deltaY, Double deltaZ, WheelMode deltaMode)
         {
             Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, 
                 modifiersList.IsCtrlPressed(), modifiersList.IsAltPressed(), modifiersList.IsShiftPressed(), modifiersList.IsMetaPressed(), button, target);

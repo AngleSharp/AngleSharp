@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -50,7 +50,7 @@
         /// </summary>
         /// <returns>The next Node, if any.</returns>
         [DomName("nextNode")]
-        INode Next();
+        INode? Next();
 
         /// <summary>
         /// Returns the previous Node in the document, or null if there are
@@ -58,6 +58,6 @@
         /// </summary>
         /// <returns>The previous Node, if any.</returns>
         [DomName("previousNode")]
-        INode Previous();
+        INode? Previous();
     }
 }

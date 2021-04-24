@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -11,7 +11,7 @@
     {
         #region ctor
 
-        public HtmlTableColgroupElement(Document owner, String prefix = null)
+        public HtmlTableColgroupElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Colgroup, prefix, NodeFlags.Special)
         {
         }
@@ -50,7 +50,7 @@
         /// <summary>
         /// Gets or sets the value of the width attribute.
         /// </summary>
-        public String Width
+        public String? Width
         {
             get => this.GetOwnAttribute(AttributeNames.Width);
             set => this.SetOwnAttribute(AttributeNames.Width, value);

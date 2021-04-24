@@ -42,18 +42,18 @@ namespace AngleSharp.Css.Parser
         private readonly IPseudoClassSelectorFactory _pseudoClassSelector;
 
         private State _state;
-        private ISelector _temp;
-		private ListSelector _group;
-		private ComplexSelector _complex;
-		private String _attrName;
-		private String _attrValue;
+        private ISelector? _temp;
+		private ListSelector? _group;
+		private ComplexSelector? _complex;
+		private String? _attrName;
+		private String? _attrValue;
         private Boolean _attrInsensitive;
 		private String _attrOp;
-        private String _attrNs;
+        private String? _attrNs;
         private Boolean _valid;
         private Boolean _nested;
         private Boolean _ready;
-        private FunctionState _function;
+        private FunctionState? _function;
         private Boolean _invoked;
 
         #endregion
@@ -87,7 +87,7 @@ namespace AngleSharp.Css.Parser
 
         #region Methods
 
-        public ISelector Parse()
+        public ISelector? Parse()
         {
             var token = _tokenizer.Get();
 
@@ -100,22 +100,22 @@ namespace AngleSharp.Css.Parser
             return GetResult();
         }
 
-        private ISelector GetResult()
+        private ISelector? GetResult()
         {
             if (IsValid)
             {
                 if (_complex != null)
                 {
-                    _complex.ConcludeSelector(_temp);
+                    _complex.ConcludeSelector(_temp!);
                     _temp = _complex;
                     _complex = null;
                 }
 
-                if (_group == null || _group.Length == 0)
+                if (_group is null || _group.Length == 0)
                 {
                     return _temp ?? AllSelector.Instance;
                 }
-                else if (_temp == null && _group.Length == 1)
+                else if (_temp is null && _group.Length == 1)
                 {
                     return _group[0];
                 }
@@ -333,7 +333,7 @@ namespace AngleSharp.Css.Parser
 
                 if (token.Type == CssTokenType.SquareBracketClose)
                 {
-                    var selector = _attributeSelector.Create(_attrOp, _attrName, _attrValue, _attrNs, _attrInsensitive);
+                    var selector = _attributeSelector.Create(_attrOp, _attrName!, _attrValue!, _attrNs, _attrInsensitive);
                     _attrInsensitive = false;
                     Insert(selector);
                 }
@@ -406,7 +406,7 @@ namespace AngleSharp.Css.Parser
         {
             if (_temp != null)
             {
-                if (_group == null)
+                if (_group is null)
                 {
                     _group = new ListSelector();
                 }
@@ -442,7 +442,7 @@ namespace AngleSharp.Css.Parser
                 }
                 else
                 {
-                    if (_complex == null)
+                    if (_complex is null)
                     {
                         _complex = new ComplexSelector();
                     }
@@ -536,7 +536,7 @@ namespace AngleSharp.Css.Parser
 
         private void OnFunctionState(CssSelectorToken token)
         {
-            if (_function.Finished(token))
+            if (_function!.Finished(token))
             {
                 var sel = _function.Produce();
 
@@ -591,7 +591,7 @@ namespace AngleSharp.Css.Parser
                 return OnToken(token);
             }
 
-            public abstract ISelector Produce();
+            public abstract ISelector? Produce();
 
             protected abstract Boolean OnToken(CssSelectorToken token);
         }
@@ -617,14 +617,14 @@ namespace AngleSharp.Css.Parser
                 return true;
             }
 
-            public override ISelector Produce()
+            public override ISelector? Produce()
             {
                 var valid = _selector.IsValid;
                 var sel = _selector.GetResult();
 
                 if (valid)
                 {
-                    var code = PseudoClassNames.Not.CssFunction(sel.Text);
+                    var code = PseudoClassNames.Not.CssFunction(sel!.Text);
                     return new PseudoClassSelector(el => !sel.Match(el), code);
                 }
 
@@ -663,11 +663,11 @@ namespace AngleSharp.Css.Parser
                 return true;
             }
 
-            public override ISelector Produce()
+            public override ISelector? Produce()
             {
                 var valid = _nested.IsValid;
                 var sel = _nested.GetResult();
-                var selText = sel.Text;
+                var selText = sel!.Text;
                 var matchSiblings = _matchSiblings || selText.Contains(":" + PseudoClassNames.Scope);
 
                 if (valid)
@@ -687,7 +687,7 @@ namespace AngleSharp.Css.Parser
                             elements = el.Children;
                         }
 
-                        if (elements == null)
+                        if (elements is null)
                         {
                             elements = Enumerable.Empty<IElement>();
                         }
@@ -720,14 +720,14 @@ namespace AngleSharp.Css.Parser
                 return true;
             }
 
-            public override ISelector Produce()
+            public override ISelector? Produce()
             {
                 var valid = _selector.IsValid;
                 var sel = _selector.GetResult();
 
                 if (valid)
                 {
-                    var code = PseudoClassNames.Matches.CssFunction(sel.Text);
+                    var code = PseudoClassNames.Matches.CssFunction(sel!.Text);
                     return new PseudoClassSelector(el => sel.Match(el), code);
                 }
 
@@ -738,7 +738,7 @@ namespace AngleSharp.Css.Parser
         private sealed class DirFunctionState : FunctionState
         {
             private Boolean _valid;
-            private String _value;
+            private String ?_value;
 
             public DirFunctionState()
             {
@@ -764,7 +764,7 @@ namespace AngleSharp.Css.Parser
                 return false;
             }
 
-            public override ISelector Produce()
+            public override ISelector? Produce()
             {
                 if (_valid && _value != null)
                 {
@@ -779,7 +779,7 @@ namespace AngleSharp.Css.Parser
         private sealed class LangFunctionState : FunctionState
         {
             private Boolean valid;
-            private String value;
+            private String? value;
 
             public LangFunctionState()
             {
@@ -805,12 +805,12 @@ namespace AngleSharp.Css.Parser
                 return false;
             }
 
-            public override ISelector Produce()
+            public override ISelector? Produce()
             {
                 if (valid && value != null)
                 {
                     var code = PseudoClassNames.Lang.CssFunction(value);
-                    return new PseudoClassSelector(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
+                    return new PseudoClassSelector(el => el is IHtmlElement && ((IHtmlElement)el).Language!.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
                 }
 
                 return null;
@@ -820,7 +820,7 @@ namespace AngleSharp.Css.Parser
         private sealed class ContainsFunctionState : FunctionState
         {
             private Boolean _valid;
-            private String _value;
+            private String? _value;
 
             public ContainsFunctionState()
             {
@@ -846,7 +846,7 @@ namespace AngleSharp.Css.Parser
                 return false;
             }
 
-            public override ISelector Produce()
+            public override ISelector? Produce()
             {
                 if (_valid && _value != null)
                 {
@@ -878,14 +878,14 @@ namespace AngleSharp.Css.Parser
                 return true;
             }
 
-            public override ISelector Produce()
+            public override ISelector? Produce()
             {
                 var valid = _selector.IsValid;
                 var sel = _selector.GetResult();
 
                 if (valid)
                 {
-                    var code = PseudoClassNames.HostContext.CssFunction(sel.Text);
+                    var code = PseudoClassNames.HostContext.CssFunction(sel!.Text);
                     return new PseudoClassSelector(el =>
                     {
                         var shadowRoot = el.Parent as IShadowRoot;
@@ -918,7 +918,7 @@ namespace AngleSharp.Css.Parser
             private Int32 _offset;
             private Int32 _sign;
             private ParseState _state;
-            private CssSelectorConstructor _nested;
+            private CssSelectorConstructor? _nested;
             private Boolean _allowOf;
             private Func<Int32, Int32, ISelector, ISelector> _creator;
 
@@ -932,7 +932,7 @@ namespace AngleSharp.Css.Parser
                 _state = ParseState.Initial;
             }
 
-            public override ISelector Produce()
+            public override ISelector? Produce()
             {
                 var invalid = !_valid || (_nested != null && !_nested.IsValid);
 
@@ -998,9 +998,9 @@ namespace AngleSharp.Css.Parser
 
             private Boolean OnAfter(CssSelectorToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || _nested!._state != State.Data)
                 {
-                    _nested.Apply(token);
+                    _nested!.Apply(token);
                     return false;
                 }
 

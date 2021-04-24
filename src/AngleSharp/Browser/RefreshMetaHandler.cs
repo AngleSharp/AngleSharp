@@ -16,7 +16,7 @@ namespace AngleSharp.Browser
         /// Creates a new instance of the refresh meta handler.
         /// </summary>
         /// <param name="shouldRefresh">Optionally defines a predicate.</param>
-        public RefreshMetaHandler(Predicate<Url> shouldRefresh = null)
+        public RefreshMetaHandler(Predicate<Url>? shouldRefresh = null)
         {
             _shouldRefresh = shouldRefresh ?? AlwaysRefresh;
         }
@@ -27,8 +27,8 @@ namespace AngleSharp.Browser
 
             if (metaValue.Isi("refresh"))
             {
-                var document = element.Owner;
-                var content = element.Content;
+                var document = element.Owner!;
+                var content = element.Content!;
                 var baseUrl = new Url(document.DocumentUri);
                 var redirectUrl = baseUrl;
                 var delay = content;

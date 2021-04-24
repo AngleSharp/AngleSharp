@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -12,7 +12,7 @@
     {
         #region ctor
 
-        public HtmlSlotElement(Document owner, String prefix = null)
+        public HtmlSlotElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Slot, prefix)
         {
         }
@@ -21,7 +21,7 @@
 
         #region Properties
 
-        public String Name
+        public String? Name
         {
             get => this.GetOwnAttribute(AttributeNames.Name);
             set => this.SetOwnAttribute(AttributeNames.Name, value);
@@ -64,7 +64,7 @@
 
         #region Helpers
 
-        private static IElement GetAssignedSlot(INode node)
+        private static IElement? GetAssignedSlot(INode node)
         {
             switch (node.NodeType)
             {

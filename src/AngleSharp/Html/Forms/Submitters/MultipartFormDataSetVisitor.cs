@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Forms.Submitters
+namespace AngleSharp.Html.Forms.Submitters
 {
     using AngleSharp.Io.Dom;
     using AngleSharp.Text;
@@ -61,7 +61,7 @@
                     if (hasContent)
                     {
                         stream.Flush();
-                        content.Body.CopyTo(stream.BaseStream);
+                        content!.Body!.CopyTo(stream.BaseStream);
                     }
 
                     stream.WriteLine();

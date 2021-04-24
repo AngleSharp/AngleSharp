@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Processors
+namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Browser;
     using AngleSharp.Dom;
@@ -9,7 +9,7 @@
     {
         #region Fields
 
-        private readonly IDocument _parentDocument;
+        private readonly IDocument? _parentDocument;
         private readonly IBrowsingContext _context;
 
         #endregion
@@ -17,7 +17,7 @@
         #region ctor
 
         public DocumentRequestProcessor(IBrowsingContext context)
-            : base(context?.GetService<IResourceLoader>())
+            : base(context.GetService<IResourceLoader>()!)
         {
             _parentDocument = context.Active;
             _context = context;
@@ -27,7 +27,7 @@
 
         #region Properties
 
-        public IDocument ChildDocument
+        public IDocument? ChildDocument
         {
             get;
             private set;

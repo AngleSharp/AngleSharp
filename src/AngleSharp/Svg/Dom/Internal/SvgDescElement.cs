@@ -8,7 +8,7 @@
     /// </summary>
     sealed class SvgDescElement : SvgElement, ISvgDescriptionElement
     {
-        public SvgDescElement(Document owner, String prefix = null)
+        public SvgDescElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Desc, prefix, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }

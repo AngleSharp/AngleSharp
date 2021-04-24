@@ -11,13 +11,13 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private SettableTokenList _sandbox;
+        private SettableTokenList? _sandbox;
         
         #endregion
 
         #region ctor
         
-        public HtmlIFrameElement(Document owner, String prefix = null)
+        public HtmlIFrameElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Iframe, prefix, NodeFlags.LiteralText)
         {
         }
@@ -32,7 +32,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
-        public String ContentHtml
+        public String? ContentHtml
         {
             get => this.GetOwnAttribute(AttributeNames.SrcDoc);
             set => this.SetOwnAttribute(AttributeNames.SrcDoc, value);
@@ -42,7 +42,7 @@ namespace AngleSharp.Html.Dom
         {
             get
             { 
-                if (_sandbox == null)
+                if (_sandbox is null)
                 {
                     _sandbox = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Sandbox));
                     _sandbox.Changed += value => UpdateAttribute(AttributeNames.Sandbox, value);
@@ -70,13 +70,13 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.AllowPaymentRequest, value);
         }
 
-        public String ReferrerPolicy
+        public String? ReferrerPolicy
         {
             get => this.GetOwnAttribute(AttributeNames.ReferrerPolicy);
             set => this.SetOwnAttribute(AttributeNames.ReferrerPolicy, value);
         }
 
-        public IWindow ContentWindow => NestedContext.Current;
+        public IWindow? ContentWindow => NestedContext.Current;
 
         #endregion
 
@@ -84,7 +84,7 @@ namespace AngleSharp.Html.Dom
 
         internal override String GetContentHtml()
         {
-            return ContentHtml;
+            return ContentHtml!;
         }
 
         internal override void SetupElement()

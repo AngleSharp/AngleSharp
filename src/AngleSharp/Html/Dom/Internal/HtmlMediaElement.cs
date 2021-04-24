@@ -16,13 +16,13 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private readonly MediaRequestProcessor<TResource> _request;
-        private ITextTrackList _texts;
+        private ITextTrackList? _texts;
 
         #endregion
 
         #region ctor
         
-        public HtmlMediaElement(Document owner, String name, String prefix)
+        public HtmlMediaElement(Document owner, String name, String? prefix)
             : base(owner, name, prefix)
         {
             _request = new MediaRequestProcessor<TResource>(owner.Context);
@@ -32,21 +32,21 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IDownload CurrentDownload => _request?.Download;
+        public IDownload? CurrentDownload => _request?.Download;
 
-        public String Source
+        public String? Source
         {
             get => this.GetUrlAttribute(AttributeNames.Src);
             set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
-        public String CrossOrigin
+        public String? CrossOrigin
         {
             get => this.GetOwnAttribute(AttributeNames.CrossOrigin);
             set => this.SetOwnAttribute(AttributeNames.CrossOrigin, value);
         }
 
-        public String Preload
+        public String? Preload
         {
             get => this.GetOwnAttribute(AttributeNames.Preload);
             set => this.SetOwnAttribute(AttributeNames.Preload, value);
@@ -54,14 +54,14 @@ namespace AngleSharp.Html.Dom
 
         public MediaNetworkState NetworkState => _request?.NetworkState ?? MediaNetworkState.Empty;
 
-        public TResource Media => _request?.Resource;
+        public TResource? Media => _request?.Resource;
 
         public MediaReadyState ReadyState
         {
             get 
             { 
                 var controller = Controller; 
-                return controller == null ? MediaReadyState.Nothing : controller.ReadyState; 
+                return controller is null ? MediaReadyState.Nothing : controller.ReadyState; 
             }
         }
 
@@ -71,7 +71,7 @@ namespace AngleSharp.Html.Dom
             protected set;
         }
 
-        public String CurrentSource =>
+        public String? CurrentSource =>
                 //TODO Check for Source elements
                 Source;
 
@@ -132,13 +132,13 @@ namespace AngleSharp.Html.Dom
 
         public DateTime StartDate => DateTime.Today;
 
-        public ITimeRanges BufferedTime => Controller?.BufferedTime;
+        public ITimeRanges? BufferedTime => Controller?.BufferedTime;
 
-        public ITimeRanges SeekableTime => Controller?.SeekableTime;
+        public ITimeRanges? SeekableTime => Controller?.SeekableTime;
 
-        public ITimeRanges PlayedTime => Controller?.PlayedTime;
+        public ITimeRanges? PlayedTime => Controller?.PlayedTime;
 
-        public String MediaGroup
+        public String? MediaGroup
         {
             get => this.GetOwnAttribute(AttributeNames.MediaGroup);
             set => this.SetOwnAttribute(AttributeNames.MediaGroup, value);
@@ -172,7 +172,7 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public IMediaController Controller => _request?.Resource?.Controller;
+        public IMediaController? Controller => _request?.Resource?.Controller;
 
         public Double DefaultPlaybackRate
         {
@@ -204,17 +204,17 @@ namespace AngleSharp.Html.Dom
 
         public MediaControllerPlaybackState PlaybackState => Controller?.PlaybackState ?? MediaControllerPlaybackState.Waiting;
 
-        public IMediaError MediaError
+        public IMediaError? MediaError
         {
             get;
             private set;
         }
 
-        public virtual IAudioTrackList AudioTracks => null;
+        public virtual IAudioTrackList? AudioTracks => null;
 
-        public virtual IVideoTrackList VideoTracks => null;
+        public virtual IVideoTrackList? VideoTracks => null;
 
-        public ITextTrackList TextTracks
+        public ITextTrackList? TextTracks
         {
             get => _texts;
             protected set => _texts = value;
@@ -247,10 +247,10 @@ namespace AngleSharp.Html.Dom
             return service != null ? "maybe" : String.Empty;
         }
 
-        public ITextTrack AddTextTrack(String kind, String label = null, String language = null)
+        public ITextTrack AddTextTrack(String kind, String? label = null, String? language = null)
         {
             //TODO
-            return null;
+            return null!;
         }
 
         #endregion
@@ -263,7 +263,7 @@ namespace AngleSharp.Html.Dom
             UpdateSource(this.GetOwnAttribute(AttributeNames.Src));
         }
 
-        internal void UpdateSource(String value)
+        internal void UpdateSource(String? value)
         {
             if (value != null)
             {

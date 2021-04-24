@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -25,6 +25,6 @@
         /// Gets or sets the type of enumeration.
         /// </summary>
         [DomName("type")]
-        String Type { get; set; }
+        String? Type { get; set; }
     }
 }

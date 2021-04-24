@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,12 +13,12 @@
         /// Gets or sets the hyperreference to the base URL.
         /// </summary>
         [DomName("href")]
-        String Href { get; set; }
+        String? Href { get; set; }
 
         /// <summary>
         /// Gets or sets the base target.
         /// </summary>
         [DomName("target")]
-        String Target { get; set; }
+        String? Target { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -16,7 +16,7 @@
         /// Gets or sets the character encodings that are to be used for the submission.
         /// </summary>
         [DomName("acceptCharset")]
-        String AcceptCharset { get; set; }
+        String? AcceptCharset { get; set; }
 
         /// <summary>
         /// Gets or sets the form's name within the forms collection.
@@ -28,13 +28,13 @@
         /// Gets or sets if autocomplete is turned on or off.
         /// </summary>
         [DomName("autocomplete")]
-        String Autocomplete { get; set; }
+        String? Autocomplete { get; set; }
 
         /// <summary>
         /// Gets or sets the encoding to use for sending the form.
         /// </summary>
         [DomName("enctype")]
-        String Enctype { get; set; }
+        String? Enctype { get; set; }
 
         /// <summary>
         /// Gets or sets the encoding to use for sending the form.
@@ -52,7 +52,7 @@
         /// Gets or sets the value of the name attribute.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the indicator that the form is not to be validated during submission.
@@ -94,7 +94,7 @@
         /// Creates the document request from the form submitting itself.
         /// </summary>
         /// <returns>The resulting document (e.g., HTTP) request.</returns>
-        DocumentRequest GetSubmission();
+        DocumentRequest? GetSubmission();
 
         /// <summary>
         /// Creates the document request from the form by submitting by
@@ -102,7 +102,7 @@
         /// </summary>
         /// <param name="sourceElement">The form's submitter.</param>
         /// <returns>The resulting document (e.g., HTTP) request.</returns>
-        DocumentRequest GetSubmission(IHtmlElement sourceElement);
+        DocumentRequest? GetSubmission(IHtmlElement sourceElement);
 
         /// <summary>
         /// Resets the form to the previous (default) state.
@@ -131,7 +131,7 @@
         /// <param name="index">The index in the elements collection.</param>
         /// <returns>The element or null.</returns>
         [DomAccessor(Accessors.Getter)]
-        IElement this[Int32 index] { get; }
+        IElement? this[Int32 index] { get; }
 
         /// <summary>
         /// Gets the form element(s) with the specified name.
@@ -139,7 +139,7 @@
         /// <param name="name">The name or id of the element.</param>
         /// <returns>A collection with elements, an element or null.</returns>
         [DomAccessor(Accessors.Getter)]
-        IElement this[String name] { get; }
+        IElement? this[String name] { get; }
 
         /// <summary>
         /// Requests the input fields to be automatically filled with previous entries.

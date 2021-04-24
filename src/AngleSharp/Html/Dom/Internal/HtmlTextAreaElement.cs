@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Html;
@@ -15,7 +15,7 @@
         /// <summary>
         /// Creates a new HTML textarea element.
         /// </summary>
-        public HtmlTextAreaElement(Document owner, String prefix = null)
+        public HtmlTextAreaElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Textarea, prefix, NodeFlags.LineTolerance)
         {
         }
@@ -27,7 +27,7 @@
         /// <summary>
         /// Gets or sets the wrap HTML attribute, indicating how the control wraps text.
         /// </summary>
-        public String Wrap
+        public String? Wrap
         {
             get => this.GetOwnAttribute(AttributeNames.Wrap);
             set => this.SetOwnAttribute(AttributeNames.Wrap, value);
@@ -89,12 +89,12 @@
 
         internal override FormControlState SaveControlState()
         {
-            return new FormControlState(Name, Type, Value);
+            return new FormControlState(Name!, Type, Value);
         }
 
         internal override void RestoreFormControlState(FormControlState state)
         {
-            if (state.Type.Is(Type) && state.Name.Is(Name))
+            if (state.Type.Is(Type) && state.Name.Is(Name!))
             {
                 Value = state.Value;
             }

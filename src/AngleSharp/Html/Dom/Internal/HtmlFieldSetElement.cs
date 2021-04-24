@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,13 +10,13 @@
     {
         #region Fields
 
-        private HtmlFormControlsCollection _elements;
+        private HtmlFormControlsCollection? _elements;
 
         #endregion
 
         #region ctor
 
-        public HtmlFieldSetElement(Document owner, String prefix = null)
+        public HtmlFieldSetElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Fieldset, prefix)
         {
         }
@@ -27,7 +27,7 @@
 
         public String Type => TagNames.Fieldset;
 
-        public IHtmlFormControlsCollection Elements => _elements ?? (_elements = new HtmlFormControlsCollection(Form, this));
+        public IHtmlFormControlsCollection Elements => _elements ?? (_elements = new HtmlFormControlsCollection(Form!, this));
 
         #endregion
 

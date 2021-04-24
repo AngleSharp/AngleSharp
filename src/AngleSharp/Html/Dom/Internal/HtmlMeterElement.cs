@@ -20,7 +20,7 @@
 
         #region ctor
 
-        public HtmlMeterElement(Document owner, String prefix = null)
+        public HtmlMeterElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Meter, prefix)
         {
             _labels = new NodeList();

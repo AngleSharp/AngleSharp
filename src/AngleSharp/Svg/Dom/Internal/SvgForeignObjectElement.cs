@@ -8,7 +8,7 @@
     /// </summary>
     sealed class SvgForeignObjectElement : SvgElement, ISvgForeignObjectElement
     {
-        public SvgForeignObjectElement(Document owner, String prefix = null)
+        public SvgForeignObjectElement(Document owner, String? prefix = null)
             : base(owner, TagNames.ForeignObject, prefix, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }

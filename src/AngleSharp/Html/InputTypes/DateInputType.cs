@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
@@ -27,7 +27,7 @@
             return CheckTime(current, value, date, min, max);
         }
 
-        public override Double? ConvertToNumber(String value)
+        public override Double? ConvertToNumber(String? value)
         {
             var dt = ConvertFromDate(value);
 
@@ -95,9 +95,9 @@
 
         #region Helper
 
-        protected static DateTime? ConvertFromDate(String value)
+        protected static DateTime? ConvertFromDate(String? value)
         {
-            if (!String.IsNullOrEmpty(value))
+            if (value is { Length: > 0 })
             {
                 var position = FetchDigits(value);
 

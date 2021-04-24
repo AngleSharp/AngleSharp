@@ -28,10 +28,10 @@ namespace AngleSharp.Html.Dom
         /// <returns>The given form for chaining.</returns>
         public static IHtmlFormElement SetValues(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createMissing = false)
         {
-            if (form == null)
+            if (form is null)
                 throw new ArgumentNullException(nameof(form));
 
-            if (fields == null)
+            if (fields is null)
                 throw new ArgumentNullException(nameof(fields));
 
             var inputs = form.Elements.OfType<HtmlFormControlElement>();
@@ -75,7 +75,7 @@ namespace AngleSharp.Html.Dom
                 }
                 else if (createMissing)
                 {
-                    var newInput = form.Owner.CreateElement<IHtmlInputElement>();
+                    var newInput = form.Owner!.CreateElement<IHtmlInputElement>();
                     newInput.Type = InputTypeNames.Hidden;
                     newInput.Name = field.Key;
                     newInput.Value = field.Value;
@@ -125,7 +125,7 @@ namespace AngleSharp.Html.Dom
         /// <param name="element">The element to submit its form.</param>
         /// <param name="fields">The optional fields to use as values.</param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> SubmitAsync(this IHtmlElement element, Object fields = null) => element.SubmitAsync(fields.ToDictionary());
+        public static Task<IDocument> SubmitAsync(this IHtmlElement element, Object? fields = null) => element.SubmitAsync(fields.ToDictionary());
 
         /// <summary>
         /// Submits the form of the element by using the dictionary which contains name
@@ -151,7 +151,7 @@ namespace AngleSharp.Html.Dom
                     return form.SubmitAsync(button);
                 }
 
-                return null;
+                return null!;
             }
 
             throw new ArgumentException(nameof(element));

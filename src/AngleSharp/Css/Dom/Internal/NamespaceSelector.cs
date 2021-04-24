@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -16,7 +16,7 @@
 
         public String Text => _prefix;
 
-        public Boolean Match(IElement element, IElement scope) => element.MatchesCssNamespace(_prefix);
+        public Boolean Match(IElement element, IElement? scope) => element.MatchesCssNamespace(_prefix);
 
         public void Accept(ISelectorVisitor visitor) => visitor.Type(_prefix);
     }

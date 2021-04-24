@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Browser.Dom;
@@ -35,13 +35,13 @@
         /// Gets or sets the status of the window.
         /// </summary>
         [DomName("status")]
-        String Status { get; set; }
+        String? Status { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the window.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets the height of the outside of the browser window.
@@ -75,13 +75,13 @@
         [DomName("window")]
         [DomName("frames")]
         [DomName("self")]
-        IWindow Proxy { get; }
+        IWindow? Proxy { get; }
 
         /// <summary>
         /// Gets the user-agent information.
         /// </summary>
         [DomName("navigator")]
-        INavigator Navigator { get; }
+        INavigator? Navigator { get; }
 
         /// <summary>
         /// Closes the window.
@@ -103,7 +103,7 @@
         /// session history.
         /// </param>
         /// <returns>The new or reused window.</returns>
-        IWindow Open(String url = "about:blank", String name = null, String features = null, String replace = null);
+        IWindow Open(String url = "about:blank", String? name = null, String? features = null, String? replace = null);
 
         /// <summary>
         /// Stops the current document from being loaded.
@@ -150,6 +150,6 @@
         /// Gets the history of the current window.
         /// </summary>
         [DomName("history")]
-        IHistory History { get; }
+        IHistory? History { get; }
     }
 }

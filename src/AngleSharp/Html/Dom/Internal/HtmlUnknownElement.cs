@@ -8,7 +8,7 @@ namespace AngleSharp.Html.Dom
     /// </summary>
     sealed class HtmlUnknownElement : HtmlElement, IHtmlUnknownElement
     {
-        public HtmlUnknownElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
+        public HtmlUnknownElement(Document owner, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, localName, prefix, flags)
         {
         }
