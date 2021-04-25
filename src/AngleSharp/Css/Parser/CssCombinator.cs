@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Dom;
@@ -55,7 +55,7 @@
         /// <summary>
         /// Gets the transformation function for the combinator.
         /// </summary>
-        public Func<IElement, IEnumerable<IElement>> Transform
+        public Func<IElement, IEnumerable<IElement>>? Transform
         {
             get;
             protected set;
@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets the delimiter that represents the combinator.
         /// </summary>
-        public String Delimiter
+        public String? Delimiter
         {
             get;
             protected set;
@@ -85,7 +85,7 @@
 
         #region Helpers
 
-        protected static IEnumerable<IElement> Single(IElement element)
+        protected static IEnumerable<IElement> Single(IElement? element)
         {
             if (element != null)
             {
@@ -111,7 +111,7 @@
             public DeepCombinator()
             {
                 Delimiter = CombinatorSymbols.Deep;
-                Transform = el => Single(el.Parent is IShadowRoot ? ((IShadowRoot)el.Parent).Host : null);
+                Transform = el => Single(el.Parent is IShadowRoot shadowRoot ? shadowRoot.Host : null);
             }
         }
 

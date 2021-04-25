@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -14,30 +14,30 @@
         /// the picture element.
         /// </summary>
         [DomName("src")]
-        String Source { get; set; }
+        String? Source { get; set; }
 
         /// <summary>
         /// Gets or sets the URL of a picture element.
         /// </summary>
         [DomName("srcset")]
-        String SourceSet { get; set; }
+        String? SourceSet { get; set; }
 
         /// <summary>
         /// Gets or sets the sizes if used in conjunction with a picture.
         /// </summary>
         [DomName("sizes")]
-        String Sizes { get; set; }
+        String? Sizes { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the media source.
         /// </summary>
         [DomName("type")]
-        String Type { get; set; }
+        String? Type { get; set; }
 
         /// <summary>
         /// Gets or sets the intended type of the media resource.
         /// </summary>
         [DomName("media")]
-        String Media { get; set; }
+        String? Media { get; set; }
     }
 }

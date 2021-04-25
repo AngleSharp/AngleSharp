@@ -24,7 +24,7 @@ namespace AngleSharp.Dom
         public static TElement CreateElement<TElement>(this IDocument document)
             where TElement : IElement
         {
-            if (document == null)
+            if (document is null)
                 throw new ArgumentNullException(nameof(document));
 
             var type = typeof(BrowsingContext).Assembly.GetTypes()
@@ -73,7 +73,7 @@ namespace AngleSharp.Dom
             if (node is Node adoptedNode)
             {
                 adoptedNode.Parent?.RemoveChild(adoptedNode, false);
-                adoptedNode.Owner = document as Document;
+                adoptedNode.Owner = (document as Document)!;
             }
             else
             {
@@ -89,7 +89,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <param name="action">The action that should be invoked.</param>
         internal static void QueueTask(this Document document, Action action) =>
-            document.Loop.Enqueue(action);
+            document.Loop!.Enqueue(action);
 
         /// <summary>
         /// Queues an action in the event loop of the document,
@@ -100,7 +100,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <param name="action">The action that should be invoked.</param>
         internal static Task QueueTaskAsync(this Document document, Action<CancellationToken> action) =>
-            document.Loop.EnqueueAsync(_ =>
+            document.Loop!.EnqueueAsync(_ =>
             {
                 action(_);
                 return true;
@@ -115,7 +115,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <param name="func">The function that should be invoked.</param>
         internal static Task<T> QueueTaskAsync<T>(this Document document, Func<CancellationToken, T> func) =>
-            document.Loop.EnqueueAsync(func);
+            document.Loop!.EnqueueAsync(func);
 
         /// <summary>
         /// Queues a mutation record for the corresponding observers.
@@ -202,7 +202,7 @@ namespace AngleSharp.Dom
                     // to an absolute URL, relative to the newly created element.
                     var CanResolve = new Predicate<String>(str => false);
 
-                    if (!String.IsNullOrEmpty(manifest) && CanResolve(manifest))
+                    if (manifest is { Length: > 0 } && CanResolve(manifest))
                     {
                         // Run the application cache selection algorithm with the
                         // result of applying the URL serializer algorithm to the
@@ -281,10 +281,16 @@ namespace AngleSharp.Dom
         /// <returns>The collection of elements hosting resources.</returns>
         public static IEnumerable<IDownload> GetDownloads(this IDocument document)
         {
-            if (document == null)
+            if (document is null)
                 throw new ArgumentNullException(nameof(document));
 
-            return document.All.OfType<ILoadableElement>().Select(m => m.CurrentDownload).Where(m => m != null);
+            foreach (var element in document.All)
+            {
+                if (element is ILoadableElement { CurrentDownload: IDownload download })
+                {
+                    yield return download;
+                }
+            }
         }
     }
 }

@@ -219,7 +219,7 @@ namespace AngleSharp.Html
         private Boolean CanBeSkipped(IElement element) =>
             !ShouldKeepImpliedEndTag &&
             element.Flags.HasFlag(NodeFlags.ImpliedEnd) && (
-                element.NextElementSibling == null ||
+                element.NextElementSibling is null ||
                 element.NextElementSibling.LocalName == element.LocalName);
 
         private static Boolean ShouldOutput(ICharacterData text) =>

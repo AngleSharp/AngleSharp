@@ -47,6 +47,6 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns></returns>
         [DomName("hasFeature")]
-        Boolean HasFeature(String feature, String version = null);
+        Boolean HasFeature(String feature, String? version = null);
     }
 }

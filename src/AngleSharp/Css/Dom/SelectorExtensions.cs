@@ -17,7 +17,7 @@ namespace AngleSharp.Css.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="scope">The element to take as scope.</param>
         /// <returns>The resulting element or null.</returns>
-        public static IElement MatchAny(this ISelector selector, IEnumerable<IElement> elements, IElement scope)
+        public static IElement? MatchAny(this ISelector selector, IEnumerable<IElement> elements, IElement? scope)
         {
             foreach (var element in elements)
             {
@@ -41,7 +41,7 @@ namespace AngleSharp.Css.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="scope">The element to take as scope.</param>
         /// <returns>The collection containing the resulting elements.</returns>
-        public static IHtmlCollection<IElement> MatchAll(this ISelector selector, IEnumerable<IElement> elements, IElement scope)
+        public static IHtmlCollection<IElement> MatchAll(this ISelector selector, IEnumerable<IElement> elements, IElement? scope)
         {
             var result = new List<IElement>();
             selector.MatchAll(elements, scope, result);
@@ -55,9 +55,9 @@ namespace AngleSharp.Css.Dom
         /// <param name="selector">The selector.</param>
         /// <param name="element">The element to match against.</param>
         /// <returns>The result of the match.</returns>
-        public static Boolean Match(this ISelector selector, IElement element) => selector.Match(element, element?.Owner.DocumentElement);
+        public static Boolean Match(this ISelector selector, IElement element) => selector.Match(element, element?.Owner!.DocumentElement);
 
-        private static void MatchAll(this ISelector selector, IEnumerable<IElement> elements, IElement scope, List<IElement> result)
+        private static void MatchAll(this ISelector selector, IEnumerable<IElement> elements, IElement? scope, List<IElement> result)
         {
             foreach (var element in elements)
             {

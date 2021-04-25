@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Media.Dom
+namespace AngleSharp.Media.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -14,19 +14,19 @@
         /// Gets the currently buffered time range.
         /// </summary>
         [DomName("buffered")]
-        ITimeRanges BufferedTime { get; }
+        ITimeRanges? BufferedTime { get; }
 
         /// <summary>
         /// Gets the currently seekable time range.
         /// </summary>
         [DomName("seekable")]
-        ITimeRanges SeekableTime { get; }
+        ITimeRanges? SeekableTime { get; }
 
         /// <summary>
         /// Gets the currently played time range.
         /// </summary>
         [DomName("played")]
-        ITimeRanges PlayedTime { get; }
+        ITimeRanges? PlayedTime { get; }
 
         /// <summary>
         /// Gets the duration of the controlled media.

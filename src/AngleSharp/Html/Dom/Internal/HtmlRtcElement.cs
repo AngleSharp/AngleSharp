@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlRtcElement : HtmlElement
     {
-        public HtmlRtcElement(Document owner, String prefix = null)
+        public HtmlRtcElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Rtc, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }

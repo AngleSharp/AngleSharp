@@ -13,7 +13,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Creates a new anchor element.
         /// </summary>
-        public HtmlAnchorElement(Document owner, String prefix = null)
+        public HtmlAnchorElement(Document owner, String? prefix = null)
             : base(owner, TagNames.A, prefix, NodeFlags.HtmlFormatting)
         {
         }
@@ -25,7 +25,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Gets or sets the character encoding for the target resource.
         /// </summary>
-        public String Charset
+        public String? Charset
         {
             get => this.GetOwnAttribute(AttributeNames.Charset);
             set => this.SetOwnAttribute(AttributeNames.Charset, value);
@@ -34,7 +34,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Gets or sets the anchor name.
         /// </summary>
-        public String Name
+        public String? Name
         {
             get => this.GetOwnAttribute(AttributeNames.Name);
             set => this.SetOwnAttribute(AttributeNames.Name, value);

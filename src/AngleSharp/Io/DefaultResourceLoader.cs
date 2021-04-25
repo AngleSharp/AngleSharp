@@ -16,7 +16,7 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="context">The context to use.</param>
         /// <param name="filter">The optional request filter to use.</param>
-        public DefaultResourceLoader(IBrowsingContext context, Predicate<Request> filter = null)
+        public DefaultResourceLoader(IBrowsingContext context, Predicate<Request>? filter = null)
             : base(context, filter)
         {
         }
@@ -39,7 +39,7 @@ namespace AngleSharp.Io
                 Method = HttpMethod.Get,
                 Headers = new Dictionary<String, String>
                 {
-                    [HeaderNames.Referer] = request?.Source.Owner.DocumentUri ?? String.Empty,
+                    [HeaderNames.Referer] = request.Source?.Owner?.DocumentUri ?? String.Empty,
                 },
             };
 

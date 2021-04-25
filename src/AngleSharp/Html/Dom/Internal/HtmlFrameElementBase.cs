@@ -13,14 +13,14 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private IBrowsingContext _context;
+        private IBrowsingContext? _context;
         private FrameRequestProcessor _request;
 
         #endregion
 
         #region ctor
 
-        public HtmlFrameElementBase(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
+        public HtmlFrameElementBase(Document owner, String name, String? prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
             _request = new FrameRequestProcessor(owner.Context, this);
@@ -30,35 +30,35 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IDownload CurrentDownload => _request?.Download;
+        public IDownload? CurrentDownload => _request?.Download;
 
-        public String Name
+        public String? Name
         {
             get => this.GetOwnAttribute(AttributeNames.Name);
             set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
-        public String Source
+        public String? Source
         {
             get => this.GetUrlAttribute(AttributeNames.Src);
             set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
-        public String Scrolling
+        public String? Scrolling
         {
             get => this.GetOwnAttribute(AttributeNames.Scrolling);
             set => this.SetOwnAttribute(AttributeNames.Scrolling, value);
         }
 
-        public IDocument ContentDocument => _request?.Document;
+        public IDocument? ContentDocument => _request?.Document;
 
-        public String LongDesc
+        public String? LongDesc
         {
             get => this.GetOwnAttribute(AttributeNames.LongDesc);
             set => this.SetOwnAttribute(AttributeNames.LongDesc, value);
         }
 
-        public String FrameBorder
+        public String? FrameBorder
         {
             get => this.GetOwnAttribute(AttributeNames.FrameBorder);
             set => this.SetOwnAttribute(AttributeNames.FrameBorder, value);
@@ -72,7 +72,7 @@ namespace AngleSharp.Html.Dom
 
         internal virtual String GetContentHtml()
         {
-            return null;
+            return null!;
         }
 
         internal override void SetupElement()
@@ -92,8 +92,8 @@ namespace AngleSharp.Html.Dom
 
             if ((source != null && source != Owner.DocumentUri) || content != null)
             {
-                var url = this.HyperReference(source);
-                this.Process(_request, url);
+                var url = this.HyperReference(source!);
+                this.Process(_request, url!);
             }
         }
 

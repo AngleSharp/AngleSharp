@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Io;
@@ -14,7 +14,7 @@
         /// Gets or sets the source URL of the script.
         /// </summary>
         [DomName("src")]
-        String Source { get; set; }
+        String? Source { get; set; }
 
         /// <summary>
         /// Gets or sets if the script should be run asynchronously.
@@ -32,19 +32,19 @@
         /// Gets or sets the type of script.
         /// </summary>
         [DomName("type")]
-        String Type { get; set; }
+        String? Type { get; set; }
 
         /// <summary>
         /// Gets or sets the character set of the script.
         /// </summary>
         [DomName("charset")]
-        String CharacterSet { get; set; }
+        String? CharacterSet { get; set; }
 
         /// <summary>
         /// Gets or sets the cross-origin attribute.
         /// </summary>
         [DomName("crossOrigin")]
-        String CrossOrigin { get; set; }
+        String? CrossOrigin { get; set; }
 
         /// <summary>
         /// Gets or sets the script's source code.
@@ -56,6 +56,6 @@
         /// Gets or sets the linked source's integrity, if any.
         /// </summary>
         [DomName("integrity")]
-        String Integrity { get; set; }
+        String? Integrity { get; set; }
     }
 }

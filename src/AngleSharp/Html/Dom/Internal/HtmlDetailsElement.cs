@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlDetailsElement(Document owner, String prefix = null)
+        public HtmlDetailsElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Details, prefix, NodeFlags.Special)
         {
         }

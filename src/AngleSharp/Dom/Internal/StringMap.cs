@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
@@ -29,7 +29,7 @@
 
         #region Index
 
-        public String this[String name]
+        public String? this[String name]
         {
             get => _parent.GetOwnAttribute(_prefix + Check(name));
             set => _parent.SetOwnAttribute(_prefix + Check(name), value);
@@ -81,7 +81,7 @@
         {
             foreach (var attr in _parent.Attributes)
             {
-                if (attr.NamespaceUri == null && attr.Name.StartsWith(_prefix, StringComparison.OrdinalIgnoreCase))
+                if (attr.NamespaceUri is null && attr.Name.StartsWith(_prefix, StringComparison.OrdinalIgnoreCase))
                 {
                     var name = attr.Name.Remove(0, _prefix.Length);
                     var value = attr.Value;

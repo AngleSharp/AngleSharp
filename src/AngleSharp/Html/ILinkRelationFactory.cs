@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.LinkRels;
@@ -15,6 +15,6 @@
         /// <param name="link">The link element.</param>
         /// <param name="relation">The current value of the rel attribute.</param>
         /// <returns>The provider instance or null.</returns>
-        BaseLinkRelation Create(IHtmlLinkElement link, String relation);
+        BaseLinkRelation? Create(IHtmlLinkElement link, String? relation);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -11,13 +11,13 @@
     {
         #region Fields
 
-        private HtmlCollection<IHtmlTableCellElement> _cells;
+        private HtmlCollection<IHtmlTableCellElement>? _cells;
 
         #endregion
 
         #region ctor
 
-        public HtmlTableRowElement(Document owner, String prefix = null)
+        public HtmlTableRowElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Tr, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
         }
@@ -38,7 +38,7 @@
             set => this.SetOwnAttribute(AttributeNames.Valign, value.ToString());
         }
 
-        public String BgColor
+        public String? BgColor
         {
             get => this.GetOwnAttribute(AttributeNames.BgColor);
             set => this.SetOwnAttribute(AttributeNames.BgColor, value);
@@ -71,7 +71,7 @@
         public IHtmlTableCellElement InsertCellAt(Int32 index = -1, TableCellKind tableCellKind = TableCellKind.Td)
         {
             var cells = Cells;
-            var newCell = Owner.CreateElement(tableCellKind == TableCellKind.Td ? TagNames.Td : TagNames.Th) as IHtmlTableCellElement;
+            var newCell = (IHtmlTableCellElement)Owner.CreateElement(tableCellKind == TableCellKind.Td ? TagNames.Td : TagNames.Th);
 
             if (index >= 0 && index < cells.Length)
             {

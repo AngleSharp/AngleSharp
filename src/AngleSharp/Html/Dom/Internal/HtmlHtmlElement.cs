@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlHtmlElement(Document owner, String prefix = null)
+        public HtmlHtmlElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Html, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
         }
@@ -19,7 +19,7 @@
 
         #region Properties
 
-        public String Manifest
+        public String? Manifest
         {
             get => this.GetOwnAttribute(AttributeNames.Manifest);
             set => this.SetOwnAttribute(AttributeNames.Manifest, value);

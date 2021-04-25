@@ -54,7 +54,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="encoding">(Optional) Explicit encoding.</param>
         /// <returns>A stream containing the body.</returns>
-        public Stream AsMultipart(Encoding encoding = null)
+        public Stream AsMultipart(Encoding? encoding = null)
         {
             return BuildRequestContent(encoding, stream => Connect(new MultipartFormDataSetVisitor(stream.Encoding, _boundary), stream));
         }
@@ -65,7 +65,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="encoding">(Optional) Explicit encoding.</param>
         /// <returns>A stream containing the body.</returns>
-        public Stream AsUrlEncoded(Encoding encoding = null)
+        public Stream AsUrlEncoded(Encoding? encoding = null)
         {
             return BuildRequestContent(encoding, stream => Connect(new UrlEncodedFormDataSetVisitor(stream.Encoding), stream));
         }
@@ -76,7 +76,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="encoding">(Optional) Explicit encoding.</param>
         /// <returns>A stream containing the body.</returns>
-        public Stream AsPlaintext(Encoding encoding = null)
+        public Stream AsPlaintext(Encoding? encoding = null)
         {
             return BuildRequestContent(encoding, stream => Connect(new PlaintextFormDataSetVisitor(), stream));
         }
@@ -97,7 +97,7 @@ namespace AngleSharp.Html
         /// <param name="submitter">The algorithm to use.</param>
         /// <param name="encoding">(Optional) Explicit encoding.</param>
         /// <returns>A stream containing the body.</returns>
-        public Stream As(IFormSubmitter submitter, Encoding encoding = null)
+        public Stream As(IFormSubmitter submitter, Encoding? encoding = null)
         {
             return BuildRequestContent(encoding, stream => Connect(submitter, stream));
         }
@@ -149,7 +149,7 @@ namespace AngleSharp.Html
 
         #region Helpers
 
-        private Stream BuildRequestContent(Encoding encoding, Action<StreamWriter> process)
+        private Stream BuildRequestContent(Encoding? encoding, Action<StreamWriter> process)
         {
             encoding = encoding ?? TextEncoding.Utf8;
             var ms = new MemoryStream();

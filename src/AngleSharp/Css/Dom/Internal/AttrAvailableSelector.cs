@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Dom
 
     sealed class AttrAvailableSelector : BaseAttrSelector, ISelector
     {
-        public AttrAvailableSelector(String name, String prefix)
+        public AttrAvailableSelector(String name, String? prefix)
             : base(name, prefix)
         {
         }
@@ -14,6 +14,6 @@ namespace AngleSharp.Css.Dom
 
         public void Accept(ISelectorVisitor visitor) => visitor.Attribute(Attribute, String.Empty, null);
 
-        public Boolean Match(IElement element, IElement scope) => element.HasAttribute(Name);
+        public Boolean Match(IElement element, IElement? scope) => element.HasAttribute(Name);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom.Events
+namespace AngleSharp.Html.Dom.Events
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -13,12 +13,16 @@
     {
         #region ctor
 
+#nullable disable
+
         /// <summary>
         /// Creates a new event.
         /// </summary>
         public CompositionEvent()
         {
         }
+
+#nullable enable
 
         /// <summary>
         /// Creates a new event and initializes it.
@@ -30,7 +34,7 @@
         /// <param name="data">Sets the data to carry.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public CompositionEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, String data = null)
+        public CompositionEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, String? data = null)
         {
             Init(type, bubbles, cancelable, view, data ?? String.Empty);
         }
@@ -43,7 +47,7 @@
         /// Gets the associated data.
         /// </summary>
         [DomName("data")]
-        public String Data
+        public String? Data
         {
             get;
             private set;
@@ -62,7 +66,7 @@
         /// <param name="view">Sets the associated view for the UI event.</param>
         /// <param name="data">Sets the data to carry.</param>
         [DomName("initCompositionEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow view, String data)
+        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow? view, String data)
         {
             Init(type, bubbles, cancelable, view, 0);
             Data = data;

@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlHrElement : HtmlElement, IHtmlHrElement
     {
-        public HtmlHrElement(Document owner, String prefix = null)
+        public HtmlHrElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Hr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

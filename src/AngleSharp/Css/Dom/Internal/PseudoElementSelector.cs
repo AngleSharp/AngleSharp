@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -20,6 +20,6 @@
 
         public void Accept(ISelectorVisitor visitor) => visitor.PseudoElement(_pseudoElement);
 
-        public Boolean Match(IElement element, IElement scope) => _action.Invoke(element);
+        public Boolean Match(IElement element, IElement? scope) => _action.Invoke(element);
     }
 }

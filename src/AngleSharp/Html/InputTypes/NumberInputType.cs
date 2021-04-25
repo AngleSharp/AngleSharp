@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Html.Dom;
     using System;
@@ -17,7 +17,7 @@
 
         #region Methods
 
-        public override Double? ConvertToNumber(String value)
+        public override Double? ConvertToNumber(String? value)
         {
             return ToNumber(value);
         }

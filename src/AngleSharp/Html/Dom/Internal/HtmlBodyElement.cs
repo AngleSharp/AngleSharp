@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -86,7 +86,7 @@
 
         #region ctor
 
-        public HtmlBodyElement(Document owner, String prefix = null)
+        public HtmlBodyElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Body, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
         }
@@ -95,37 +95,37 @@
 
         #region Properties
 
-        public String ALink
+        public String? ALink
         {
             get => this.GetOwnAttribute(AttributeNames.Alink);
             set => this.SetOwnAttribute(AttributeNames.Alink, value);
         }
 
-        public String Background
+        public String? Background
         {
             get => this.GetOwnAttribute(AttributeNames.Background);
             set => this.SetOwnAttribute(AttributeNames.Background, value);
         }
 
-        public String BgColor
+        public String? BgColor
         {
             get => this.GetOwnAttribute(AttributeNames.BgColor);
             set => this.SetOwnAttribute(AttributeNames.BgColor, value);
         }
 
-        public String Link
+        public String? Link
         {
             get => this.GetOwnAttribute(AttributeNames.Link);
             set => this.SetOwnAttribute(AttributeNames.Link, value);
         }
 
-        public String Text
+        public String? Text
         {
             get => this.GetOwnAttribute(AttributeNames.Text);
             set => this.SetOwnAttribute(AttributeNames.Text, value);
         }
 
-        public String VLink
+        public String? VLink
         {
             get => this.GetOwnAttribute(AttributeNames.Vlink);
             set => this.SetOwnAttribute(AttributeNames.Vlink, value);

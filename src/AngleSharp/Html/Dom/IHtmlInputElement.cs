@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -23,7 +23,7 @@
         /// list of file types accepted by the server when type is file.
         /// </summary>
         [DomName("accept")]
-        String Accept { get; set; }
+        String? Accept { get; set; }
         
         /// <summary>
         /// Gets or sets the autocomplete HTML attribute, indicating whether
@@ -33,7 +33,7 @@
         /// image).
         /// </summary>
         [DomName("autocomplete")]
-        String Autocomplete { get; set; }
+        String? Autocomplete { get; set; }
 
         /// <summary>
         /// Gets or sets if the textarea is enabled or disabled.
@@ -45,7 +45,7 @@
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        IHtmlFormElement Form { get; }
+        IHtmlFormElement? Form { get; }
 
         /// <summary>
         /// Gets the list of assigned labels.
@@ -57,13 +57,13 @@
         /// Gets a list of selected files.
         /// </summary>
         [DomName("files")]
-        IFileList Files { get; }
+        IFileList? Files { get; }
 
         /// <summary>
         /// Gets or sets the name of the element.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the type of input control.
@@ -87,13 +87,13 @@
         /// Gets or sets the alternative text.
         /// </summary>
         [DomName("alt")]
-        String AlternativeText { get; set; }
+        String? AlternativeText { get; set; }
 
         /// <summary>
         /// Gets or sets the image source.
         /// </summary>
         [DomName("src")]
-        String Source { get; set; }
+        String? Source { get; set; }
 
         /// <summary>
         /// Gets or sets max HTML attribute, containing the maximum (numeric
@@ -101,7 +101,7 @@
         /// minimum (min attribute) value.
         /// </summary>
         [DomName("max")]
-        String Maximum { get; set; }
+        String? Maximum { get; set; }
 
         /// <summary>
         /// Gets or sets the min HTML attribute, containing the minimum (numeric
@@ -109,7 +109,7 @@
         /// its maximum (max attribute) value.
         /// </summary>
         [DomName("min")]
-        String Minimum { get; set; }
+        String? Minimum { get; set; }
 
         /// <summary>
         /// Gets or sets the pattern HTML attribute, containing a regular 
@@ -119,7 +119,7 @@
         /// url or email; otherwise it is ignored.
         /// </summary>
         [DomName("pattern")]
-        String Pattern { get; set; }
+        String? Pattern { get; set; }
         
         /// <summary>
         /// Gets or sets the step HTML attribute, which works with min and max 
@@ -129,7 +129,7 @@
         /// multiples of the step value greater than the minimum.
         /// </summary>
         [DomName("step")]
-        String Step { get; set; }
+        String? Step { get; set; }
 
         /// <summary>
         /// Increments the value by (step * n), where n defaults to 1 if not
@@ -154,7 +154,7 @@
         /// checkbox, radio, file, or a button type.
         /// </summary>
         [DomName("list")]
-        IHtmlDataListElement List { get; }
+        IHtmlDataListElement? List { get; }
 
         /// <summary>
         /// Gets or sets the URI of a resource that processes information 
@@ -162,7 +162,7 @@
         /// action attribute of the form element that owns this element.
         /// </summary>
         [DomName("formAction")]
-        String FormAction { get; set; }
+        String? FormAction { get; set; }
 
         /// <summary>
         /// Gets or sets the type of content that is used to submit the form to
@@ -195,7 +195,7 @@
         /// that owns this element.
         /// </summary>
         [DomName("formTarget")]
-        String FormTarget { get; set; }
+        String? FormTarget { get; set; }
 
         /// <summary>
         /// Gets or sets the default value.
@@ -278,13 +278,12 @@
         [DomName("minLength")]
         Int32 MinLength { get; set; }
 
-
         /// <summary>
         /// Gets or sets the placeholder HTML attribute, containing a hint to
         /// the user about what to enter in the control.
         /// </summary>
         [DomName("placeholder")]
-        String Placeholder { get; set; }
+        String? Placeholder { get; set; }
 
         /// <summary>
         /// Gets or sets the display width of the input element.
@@ -304,13 +303,13 @@
         /// locale, or "backward" for the opposite direction.
         /// </summary>
         [DomName("selectionDirection")]
-        String SelectionDirection { get; }
+        String? SelectionDirection { get; }
 
         /// <summary>
         /// Gets or sets the directionality of the form element.
         /// </summary>
         [DomName("dirName")]
-        String DirectionName { get; set; }
+        String? DirectionName { get; set; }
 
         /// <summary>
         /// Gets or sets the index of the beginning of selected text. If no 
@@ -350,6 +349,6 @@
         /// Optional: The direction of the selection.
         /// </param>
         [DomName("setSelectionRange")]
-        void Select(Int32 selectionStart, Int32 selectionEnd, String selectionDirection = null);
+        void Select(Int32 selectionStart, Int32 selectionEnd, String? selectionDirection = null);
     }
 }

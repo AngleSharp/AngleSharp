@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom.Events
+namespace AngleSharp.Html.Dom.Events
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
@@ -28,7 +28,7 @@
         /// <param name="data">Sets the data for the input event.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public InputEvent(String type, Boolean bubbles = false, Boolean cancelable = false, String data = null)
+        public InputEvent(String type, Boolean bubbles = false, Boolean cancelable = false, String? data = null)
         {
             Init(type, bubbles, cancelable, data ?? String.Empty);
         }
@@ -41,7 +41,7 @@
         /// Gets the data that has been entered.
         /// </summary>
         [DomName("data")]
-        public String Data
+        public String? Data
         {
             get;
             private set;

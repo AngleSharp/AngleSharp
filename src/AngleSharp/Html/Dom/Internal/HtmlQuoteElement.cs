@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -11,7 +11,7 @@
     {
         #region ctor
 
-        public HtmlQuoteElement(Document owner, String name = null, String prefix = null)
+        public HtmlQuoteElement(Document owner, String? name = null, String? prefix = null)
             : base(owner, name ?? TagNames.Quote, prefix, name.Is(TagNames.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
         {
         }
@@ -23,7 +23,7 @@
         /// <summary>
         /// Gets or sets the citation.
         /// </summary>
-        public String Citation
+        public String? Citation
         {
             get => this.GetOwnAttribute(AttributeNames.Cite);
             set => this.SetOwnAttribute(AttributeNames.Cite, value);

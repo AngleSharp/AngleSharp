@@ -116,7 +116,7 @@ namespace AngleSharp.Html.Parser
             {
                 var format = formatting[i];
 
-                if (format == null)
+                if (format is null)
                 {
                     break;
                 }
@@ -141,7 +141,7 @@ namespace AngleSharp.Html.Parser
                 var entry = formatting[index];
                 formatting.RemoveAt(index);
 
-                if (entry == null)
+                if (entry is null)
                 {
                     break;
                 }
@@ -151,7 +151,7 @@ namespace AngleSharp.Html.Parser
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddScopeMarker(this List<Element> formatting)
         {
-            formatting.Add(null);
+            formatting.Add(null!);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

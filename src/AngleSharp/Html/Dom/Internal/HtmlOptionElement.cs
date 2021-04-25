@@ -1,8 +1,9 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents the HTML option element.
@@ -17,7 +18,7 @@
 
         #region ctor
 
-        public HtmlOptionElement(Document owner, String prefix = null)
+        public HtmlOptionElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Option, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }
@@ -32,8 +33,9 @@
             set => this.SetBoolAttribute(AttributeNames.Disabled, value);
         }
 
-        public IHtmlFormElement Form => GetAssignedForm();
+        public IHtmlFormElement? Form => GetAssignedForm();
 
+        [AllowNull]
         public String Label
         {
             get => this.GetOwnAttribute(AttributeNames.Label) ?? Text;

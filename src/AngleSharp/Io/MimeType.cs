@@ -151,14 +151,7 @@ namespace AngleSharp.Io
         {
             if (!Object.ReferenceEquals(this, obj))
             {
-                var type = obj as MimeType;
-
-                if (type != null)
-                {
-                    return Equals(type);
-                }
-
-                return false;
+                return obj is MimeType other && Equals(other);
             }
 
             return true;

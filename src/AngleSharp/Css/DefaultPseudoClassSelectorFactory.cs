@@ -13,7 +13,7 @@ namespace AngleSharp.Css
     {
         private readonly Dictionary<String, ISelector> _selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
         {
-            { PseudoClassNames.Root, new PseudoClassSelector(el => el.Owner.DocumentElement == el, PseudoClassNames.Root) },
+            { PseudoClassNames.Root, new PseudoClassSelector(el => el.Owner!.DocumentElement == el, PseudoClassNames.Root) },
             { PseudoClassNames.Scope, ScopePseudoClassSelector.Instance },
             { PseudoClassNames.OnlyType, new PseudoClassSelector(el => el.IsOnlyOfType(), PseudoClassNames.OnlyType) },
             { PseudoClassNames.FirstOfType, new PseudoClassSelector(el => el.IsFirstOfType(), PseudoClassNames.FirstOfType) },
@@ -81,14 +81,14 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The name of the CSS pseudo class.</param>
         /// <returns>The selector with the given name.</returns>
-        protected virtual ISelector CreateDefault(String name) => null;
+        protected virtual ISelector? CreateDefault(String name) => null;
 
         /// <summary>
         /// Creates or gets the associated CSS pseudo class selector.
         /// </summary>
         /// <param name="name">The name of the CSS pseudo class.</param>
         /// <returns>The associated selector.</returns>
-        public ISelector Create(String name)
+        public ISelector? Create(String name)
         {
             if (_selectors.TryGetValue(name, out var selector))
             {

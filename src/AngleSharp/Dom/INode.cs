@@ -2,6 +2,7 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A Node is an interface from which a number of DOM types inherit, and
@@ -19,7 +20,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the base url.
         /// </summary>
-        Url BaseUrl { get; }
+        Url? BaseUrl { get; }
 
         /// <summary>
         /// Gets a string containing the name of the Node. The structure of the
@@ -83,7 +84,7 @@ namespace AngleSharp.Dom
         /// associated with it, returns null.
         /// </summary>
         [DomName("ownerDocument")]
-        IDocument Owner { get; }
+        IDocument? Owner { get; }
 
         /// <summary>
         /// Gets an Element that is the parent of this node. If the node has no
@@ -91,7 +92,7 @@ namespace AngleSharp.Dom
         /// null.
         /// </summary>
         [DomName("parentElement")]
-        IElement ParentElement { get; }
+        IElement? ParentElement { get; }
 
         /// <summary>
         /// Gets a node that is the parent of this node. If there is no such
@@ -99,7 +100,7 @@ namespace AngleSharp.Dom
         /// participate in a tree, this property returns null.
         /// </summary>
         [DomName("parentNode")]
-        INode Parent { get; }
+        INode? Parent { get; }
 
         /// <summary>
         /// Returns true if other is an inclusive descendant of the context
@@ -118,28 +119,28 @@ namespace AngleSharp.Dom
         /// or null if the node has no child.
         /// </summary>
         [DomName("firstChild")]
-        INode FirstChild { get; }
+        INode? FirstChild { get; }
 
         /// <summary>
         /// Gets a node representing the last direct child node of the node,
         /// or null if the node has no child.
         /// </summary>
         [DomName("lastChild")]
-        INode LastChild { get; }
+        INode? LastChild { get; }
 
         /// <summary>
         /// Gets a Node representing the next node in the tree, or null if
         /// there isn't such node.
         /// </summary>
         [DomName("nextSibling")]
-        INode NextSibling { get; }
+        INode? NextSibling { get; }
 
         /// <summary>
         /// Gets a Node representing the previous node in the tree, or null if
         /// there isn't such node.
         /// </summary>
         [DomName("previousSibling")]
-        INode PreviousSibling { get; }
+        INode? PreviousSibling { get; }
 
         /// <summary>
         /// Indicates whether or not a namespace is the default namespace for a
@@ -162,7 +163,7 @@ namespace AngleSharp.Dom
         /// <param name="prefix">The namespace prefix.</param>
         /// <returns>The URI of the namespace.</returns>
         [DomName("lookupNamespaceURI")]
-        String LookupNamespaceUri(String prefix);
+        String? LookupNamespaceUri(String prefix);
 
         /// <summary>
         /// Gets the namespace prefix associated with a Uniform
@@ -171,7 +172,7 @@ namespace AngleSharp.Dom
         /// <param name="namespaceUri">The URI.</param>
         /// <returns>The namespace prefix associated with the URI.</returns>
         [DomName("lookupPrefix")]
-        String LookupPrefix(String namespaceUri);
+        String? LookupPrefix(String namespaceUri);
 
         /// <summary>
         /// Gets an unsigned short representing the type of the node. 
@@ -197,6 +198,7 @@ namespace AngleSharp.Dom
         /// Gets an indicator if the element has any child nodes, or not.
         /// </summary>
         [DomName("hasChildNodes")]
+        [MemberNotNullWhen(true, nameof(ChildNodes), nameof(FirstChild), nameof(LastChild))]
         Boolean HasChildNodes { get; }
 
         /// <summary>
@@ -216,7 +218,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns>The inserted node.</returns>
         [DomName("insertBefore")]
-        INode InsertBefore(INode newElement, INode referenceElement);
+        INode InsertBefore(INode newElement, INode? referenceElement);
 
         /// <summary>
         /// Removes a child node from the current element, which must be a

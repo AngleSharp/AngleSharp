@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlStruckElement : HtmlElement
     {
-        public HtmlStruckElement(Document owner, String prefix = null)
+        public HtmlStruckElement(Document owner, String? prefix = null)
             : base(owner, TagNames.S, prefix, NodeFlags.HtmlFormatting)
         {
         }

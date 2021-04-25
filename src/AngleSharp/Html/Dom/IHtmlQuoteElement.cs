@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,6 +13,6 @@
         /// Gets or sets the citation of the element.
         /// </summary>
         [DomName("cite")]
-        String Citation { get; set; }
+        String? Citation { get; set; }
     }
 }

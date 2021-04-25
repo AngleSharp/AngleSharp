@@ -10,7 +10,7 @@ namespace AngleSharp.Svg
     /// </summary>
     sealed class SvgElementFactory : IElementFactory<Document, SvgElement>
     {
-        private delegate SvgElement Creator(Document owner, String prefix);
+        private delegate SvgElement Creator(Document owner, String? prefix);
 
         private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
@@ -29,7 +29,7 @@ namespace AngleSharp.Svg
         /// <param name="prefix">The prefix of the element, if any.</param>
         /// <param name="flags">The optional flags, if any.</param>
         /// <returns>The specialized SVGElement instance.</returns>
-        public SvgElement Create(Document document, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
+        public SvgElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
             if (creators.TryGetValue(localName, out var creator))
             {

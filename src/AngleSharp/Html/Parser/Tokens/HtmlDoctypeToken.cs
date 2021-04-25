@@ -11,8 +11,8 @@ namespace AngleSharp.Html.Parser.Tokens
         #region Fields
 
         private Boolean _quirks;
-        private String _publicIdentifier;
-        private String _systemIdentifier;
+        private String? _publicIdentifier;
+        private String? _systemIdentifier;
 
         #endregion
 
@@ -47,12 +47,12 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets the state of the public identifier.
         /// </summary>
-        public Boolean IsPublicIdentifierMissing => _publicIdentifier == null;
+        public Boolean IsPublicIdentifierMissing => _publicIdentifier is null;
 
         /// <summary>
         /// Gets the state of the system identifier.
         /// </summary>
-        public Boolean IsSystemIdentifierMissing => _systemIdentifier == null;
+        public Boolean IsSystemIdentifierMissing => _systemIdentifier is null;
 
         /// <summary>
         /// Gets or sets the value of the public identifier.

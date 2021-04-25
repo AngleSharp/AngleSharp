@@ -10,7 +10,7 @@ namespace AngleSharp.Html.LinkRels
         #region ctor
 
         public StyleSheetLinkRelation(IHtmlLinkElement link)
-            : base(link, new StyleSheetRequestProcessor(link?.Owner.Context, link))
+            : base(link, new StyleSheetRequestProcessor(link.Owner!.Context, link))
         {
         }
 
@@ -18,7 +18,7 @@ namespace AngleSharp.Html.LinkRels
 
         #region Properties
 
-        public IStyleSheet Sheet => (Processor as StyleSheetRequestProcessor)?.Sheet;
+        public IStyleSheet? Sheet => (Processor as StyleSheetRequestProcessor)?.Sheet;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace AngleSharp.Html.LinkRels
             if (Url != null)
             {
                 var request = Link.CreateRequestFor(Url);
-                await Processor?.ProcessAsync(request);
+                await Processor?.ProcessAsync(request)!;
             }
         }
 

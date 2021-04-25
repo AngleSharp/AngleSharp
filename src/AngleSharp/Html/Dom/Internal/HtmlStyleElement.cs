@@ -14,13 +14,13 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private IStyleSheet _sheet;
+        private IStyleSheet? _sheet;
 
         #endregion
 
         #region ctor
 
-        public HtmlStyleElement(Document owner, String prefix = null)
+        public HtmlStyleElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
@@ -35,7 +35,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.Scoped, value);
         }
 
-        public IStyleSheet Sheet => _sheet;
+        public IStyleSheet? Sheet => _sheet;
 
         public Boolean IsDisabled
         {
@@ -51,13 +51,13 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public String Media
+        public String? Media
         {
             get => this.GetOwnAttribute(AttributeNames.Media);
             set => this.SetOwnAttribute(AttributeNames.Media, value);
         }
 
-        public String Type
+        public String? Type
         {
             get => this.GetOwnAttribute(AttributeNames.Type);
             set => this.SetOwnAttribute(AttributeNames.Type, value);
@@ -91,7 +91,7 @@ namespace AngleSharp.Html.Dom
             UpdateSheet();
         }
 
-        protected override void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
+        protected override void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
         {
             base.NodeIsRemoved(removedNode, oldPreviousSibling);
             UpdateSheet();
@@ -127,7 +127,7 @@ namespace AngleSharp.Html.Dom
             };
             var task = engine.ParseStylesheetAsync(response, options, cancel);
             _sheet = await task.ConfigureAwait(false);
-            UpdateMedia(Media);
+            UpdateMedia(Media!);
         }
 
         #endregion

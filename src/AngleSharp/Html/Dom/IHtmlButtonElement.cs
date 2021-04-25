@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -27,7 +27,7 @@
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        IHtmlFormElement Form { get; }
+        IHtmlFormElement? Form { get; }
 
         /// <summary>
         /// Gets the list of assigned labels.
@@ -39,7 +39,7 @@
         /// Gets or sets the name of the element.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the type of button.
@@ -58,7 +58,7 @@
         /// If specified, this attribute overrides the action attribute of the form element that owns this element.
         /// </summary>
         [DomName("formAction")]
-        String FormAction { get; set; }
+        String? FormAction { get; set; }
 
         /// <summary>
         /// Gets or sets the type of content that is used to submit the form to the server. If specified, this
@@ -86,6 +86,6 @@
         /// the form. If specified, this attribute overrides the target attribute of the form element that owns this element.
         /// </summary>
         [DomName("formTarget")]
-        String FormTarget { get; set; }
+        String? FormTarget { get; set; }
     }
 }

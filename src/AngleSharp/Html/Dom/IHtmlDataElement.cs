@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,6 +13,6 @@
         /// Gets or sets the machine readable value.
         /// </summary>
         [DomName("value")]
-        String Value { get; set; }
+        String? Value { get; set; }
     }
 }

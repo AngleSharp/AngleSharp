@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlTimeElement(Document owner, String prefix = null)
+        public HtmlTimeElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Time, prefix, NodeFlags.Special)
         {
         }
@@ -19,7 +19,7 @@
 
         #region Properties
 
-        public String DateTime
+        public String? DateTime
         {
             get => this.GetOwnAttribute(AttributeNames.Datetime);
             set => this.SetOwnAttribute(AttributeNames.Datetime, value);

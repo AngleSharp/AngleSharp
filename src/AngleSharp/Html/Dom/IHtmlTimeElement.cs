@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,6 +13,6 @@
         /// Gets or sets the time.
         /// </summary>
         [DomName("datetime")]
-        String DateTime { get; set; }
+        String? DateTime { get; set; }
     }
 }

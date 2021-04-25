@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
     using AngleSharp.Text;
@@ -19,13 +19,13 @@
 
         #region Events
 
-        public event Action<String> Changed;
+        public event Action<String>? Changed;
 
         #endregion
 
         #region ctor
 
-        internal TokenList(String value)
+        internal TokenList(String? value)
         {
             _tokens = new List<String>();
             Update(value);
@@ -47,11 +47,11 @@
 
         #region Methods
 
-        public void Update(String value)
+        public void Update(String? value)
         {
             _tokens.Clear();
 
-            if (!String.IsNullOrEmpty(value))
+            if (value is { Length: > 0 })
             {
                 var elements = value.SplitSpaces();
 

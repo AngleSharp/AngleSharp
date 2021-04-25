@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -15,14 +15,14 @@
         /// Gets or sets the address of the resource.
         /// </summary>
         [DomName("data")]
-        String Source { get; set; }
+        String? Source { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the resource. If present,
         /// the attribute must be a valid MIME type.
         /// </summary>
         [DomName("type")]
-        String Type { get; set; }
+        String? Type { get; set; }
 
         /// <summary>
         /// Gets or sets an attribute whose presence indicates that the resource specified by the data
@@ -36,19 +36,19 @@
         /// Gets or sets the name of the object.
         /// </summary>
         [DomName("name")]
-        String Name { get; set; }
+        String? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the associated image map of the object if the object element represents an image.
         /// </summary>
         [DomName("useMap")]
-        String UseMap { get; set; }
+        String? UseMap { get; set; }
 
         /// <summary>
         /// Gets the associated HTML form element.
         /// </summary>
         [DomName("form")]
-        IHtmlFormElement Form { get; }
+        IHtmlFormElement? Form { get; }
 
         /// <summary>
         /// Gets or sets the display width of the object element.
@@ -67,12 +67,12 @@
         /// otherwise returns null.
         /// </summary>
         [DomName("contentDocument")]
-        IDocument ContentDocument { get; }
+        IDocument? ContentDocument { get; }
 
         /// <summary>
         /// Gets the object element's nested browsing context, if it has one; otherwise returns null.
         /// </summary>
         [DomName("contentWindow")]
-        IWindow ContentWindow { get; }
+        IWindow? ContentWindow { get; }
     }
 }

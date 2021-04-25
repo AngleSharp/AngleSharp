@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlDataElement(Document owner, String prefix = null)
+        public HtmlDataElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Data, prefix)
         {
         }
@@ -19,7 +19,7 @@
 
         #region Properties
 
-        public String Value
+        public String? Value
         {
             get => this.GetOwnAttribute(AttributeNames.Value);
             set => this.SetOwnAttribute(AttributeNames.Value, value);

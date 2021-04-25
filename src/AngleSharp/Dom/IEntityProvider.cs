@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
 
@@ -13,6 +13,6 @@
         /// </summary>
         /// <param name="name">The name of the entity in the markup.</param>
         /// <returns>The string with the symbol or null.</returns>
-        String GetSymbol(String name);
+        String? GetSymbol(String name);
     }
 }

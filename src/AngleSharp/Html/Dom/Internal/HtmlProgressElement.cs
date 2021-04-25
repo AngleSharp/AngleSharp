@@ -19,7 +19,7 @@
 
         #region ctor
 
-        public HtmlProgressElement(Document owner, String prefix = null)
+        public HtmlProgressElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Progress, prefix)
         {
             _labels = new NodeList();

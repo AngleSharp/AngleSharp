@@ -40,7 +40,7 @@ namespace AngleSharp.Io
         /// <param name="source">The optional source of the request.</param>
         /// <param name="referer">The optional referrer string.</param>
         /// <returns>The new document request.</returns>
-        public static DocumentRequest Get(Url target, INode source = null, String referer = null) => new DocumentRequest(target)
+        public static DocumentRequest Get(Url target, INode? source = null, String? referer = null) => new DocumentRequest(target)
         {
             Method = HttpMethod.Get,
             Referer = referer,
@@ -58,7 +58,7 @@ namespace AngleSharp.Io
         /// <param name="source">The optional source of the request.</param>
         /// <param name="referer">The optional referrer string.</param>
         /// <returns>The new document request.</returns>
-        public static DocumentRequest Post(Url target, Stream body, String type, INode source = null, String referer = null) => new DocumentRequest(target)
+        public static DocumentRequest Post(Url target, Stream body, String type, INode? source = null, String? referer = null) => new DocumentRequest(target)
         {
             Method = HttpMethod.Post,
             Body = body ?? throw new ArgumentNullException(nameof(body)),
@@ -114,7 +114,7 @@ namespace AngleSharp.Io
         /// <summary>
         /// Gets or sets the source of the request, if any.
         /// </summary>
-        public INode Source
+        public INode? Source
         {
             get;
             set;
@@ -133,10 +133,10 @@ namespace AngleSharp.Io
         /// intentionally spelled wrong, to emphasize the relationship with the
         /// HTTP header.
         /// </summary>
-        public String Referer
+        public String? Referer
         {
             get => GetHeader(HeaderNames.Referer);
-            set => SetHeader(HeaderNames.Referer, value);
+            set => SetHeader(HeaderNames.Referer, value!);
         }
 
         /// <summary>
@@ -160,10 +160,10 @@ namespace AngleSharp.Io
         /// <summary>
         /// Gets or sets the mime-type to use, if any.
         /// </summary>
-        public String MimeType
+        public String? MimeType
         {
             get => GetHeader(HeaderNames.ContentType);
-            set => SetHeader(HeaderNames.ContentType, value);
+            set => SetHeader(HeaderNames.ContentType, value!);
         }
 
         /// <summary>

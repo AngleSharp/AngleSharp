@@ -27,7 +27,7 @@ namespace AngleSharp.Dom
         /// Gets or sets the value of the public identifier.
         /// </summary>
         [DomName("publicId")]
-        public String PublicId
+        public String? PublicId
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace AngleSharp.Dom
         /// Gets or sets the value of the system identifier.
         /// </summary>
         [DomName("systemId")]
-        public String SystemId
+        public String? SystemId
         {
             get;
             set;

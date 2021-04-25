@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlStrongElement : HtmlElement
     {
-        public HtmlStrongElement(Document owner, String prefix = null)
+        public HtmlStrongElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Strong, prefix, NodeFlags.HtmlFormatting)
         {
         }

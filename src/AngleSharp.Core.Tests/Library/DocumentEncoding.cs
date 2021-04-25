@@ -6,6 +6,7 @@ namespace AngleSharp.Core.Tests.Library
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Net.Http;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -162,7 +163,7 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(text, doc.QuerySelectorAll(".label")[3].TextContent);
         }
 
-        [Test]
+        [Test, Ignore("empireaerials.net is having network issues")]
         public async Task GzippedEncodingIsHandledCorrectly()
         {
             if (Helper.IsNetworkAvailable())

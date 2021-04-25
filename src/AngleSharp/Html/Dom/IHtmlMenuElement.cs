@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,12 +13,12 @@
         /// Gets or sets the text label of the menu element.
         /// </summary>
         [DomName("label")]
-        String Label { get; set; }
+        String? Label { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the menu element.
         /// </summary>
         [DomName("type")]
-        String Type { get; set; }
+        String? Type { get; set; }
     }
 }

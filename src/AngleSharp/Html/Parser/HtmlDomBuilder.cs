@@ -28,14 +28,14 @@ namespace AngleSharp.Html.Parser
         private readonly List<Element> _formattingElements;
         private readonly Stack<HtmlTreeMode> _templateModes;
 
-        private HtmlFormElement _currentFormElement;
+        private HtmlFormElement? _currentFormElement;
         private HtmlTreeMode _currentMode;
         private HtmlTreeMode _previousMode;
         private HtmlParserOptions _options;
-        private Element _fragmentContext;
+        private Element? _fragmentContext;
         private Boolean _foster;
         private Boolean _frameset;
-        private Task _waiting;
+        private Task? _waiting;
 
         #endregion
 
@@ -82,12 +82,12 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Gets the adjusted current node.
         /// </summary>
-        public Element AdjustedCurrentNode => (_fragmentContext != null && _openElements.Count == 1) ? _fragmentContext : CurrentNode;
+        public Element? AdjustedCurrentNode => (_fragmentContext != null && _openElements.Count == 1) ? _fragmentContext : CurrentNode;
 
         /// <summary>
         /// Gets the current node.
         /// </summary>
-        public Element CurrentNode => _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null;
+        public Element CurrentNode => _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null!;
 
         #endregion
 
@@ -198,7 +198,7 @@ namespace AngleSharp.Html.Parser
 
             Reset();
 
-            _tokenizer.IsAcceptingCharacterData = (this.AdjustedCurrentNode.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember;
+            _tokenizer.IsAcceptingCharacterData = (this.AdjustedCurrentNode!.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember;
 
             do
             {
@@ -208,7 +208,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                context = context.ParentElement as Element;
+                context = (context.ParentElement as Element)!;
             }
             while (context != null);
 
@@ -264,7 +264,7 @@ namespace AngleSharp.Html.Parser
         {
             var node = AdjustedCurrentNode;
 
-            if (node == null || token.Type == HtmlTokenType.EndOfFile || ((node.Flags & NodeFlags.HtmlMember) == NodeFlags.HtmlMember) ||
+            if (node is null || token.Type == HtmlTokenType.EndOfFile || ((node.Flags & NodeFlags.HtmlMember) == NodeFlags.HtmlMember) ||
                 (((node.Flags & NodeFlags.HtmlTip) == NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
                 (((node.Flags & NodeFlags.MathTip) == NodeFlags.MathTip) && token.IsMathCompatible) ||
                 (((node.Flags & NodeFlags.MathMember) == NodeFlags.MathMember) && token.IsSvg && node.LocalName.Is(TagNames.AnnotationXml)))
@@ -863,9 +863,9 @@ namespace AngleSharp.Html.Parser
                         RaiseErrorOccurred(HtmlParseError.TagMustBeInHead, token);
                         var index = _openElements.Count;
                         var head = _document.Head as Element;
-                        _openElements.Add(head);
+                        _openElements.Add(head!);
                         InHead(token);
-                        CloseNode(head);
+                        CloseNode(head!);
                     }
                     else if (tagName.Is(TagNames.Head))
                     {
@@ -987,7 +987,7 @@ namespace AngleSharp.Html.Parser
             }
             else if (tagName.Is(TagNames.Form))
             {
-                if (_currentFormElement == null)
+                if (_currentFormElement is null)
                 {
                     if (IsInButtonScope())
                     {
@@ -1276,13 +1276,13 @@ namespace AngleSharp.Html.Parser
             {
                 RaiseErrorOccurred(HtmlParseError.TagInappropriate, tag);
 
-                if (_currentFormElement == null)
+                if (_currentFormElement is null)
                 {
                     InBody(HtmlTagToken.Open(TagNames.Form));
 
                     if (tag.GetAttribute(AttributeNames.Action).Length > 0)
                     {
-                        _currentFormElement.SetAttribute(AttributeNames.Action, tag.GetAttribute(AttributeNames.Action));
+                        _currentFormElement!.SetAttribute(AttributeNames.Action, tag.GetAttribute(AttributeNames.Action));
                     }
 
                     InBody(HtmlTagToken.Open(TagNames.Hr));
@@ -1646,7 +1646,7 @@ namespace AngleSharp.Html.Parser
                     {
                         RaiseErrorOccurred(HtmlParseError.FormInappropriate, token);
 
-                        if (_currentFormElement == null)
+                        if (_currentFormElement is null)
                         {
                             _currentFormElement = new HtmlFormElement(_document);
                             AddElement(_currentFormElement, token.AsTag());
@@ -2964,7 +2964,7 @@ namespace AngleSharp.Html.Parser
                     }
                 }
 
-                if (formattingElement == null)
+                if (formattingElement is null)
                 {
                     InBodyEndTagAnythingElse(tag);
                     break;
@@ -3000,7 +3000,7 @@ namespace AngleSharp.Html.Parser
                     }
                 }
 
-                if (furthestBlock == null)
+                if (furthestBlock is null)
                 {
                     do
                     {
@@ -3453,9 +3453,9 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="tag">The tag of the foreign element.</param>
         /// <returns>The element or NULL if it is no MathML or SVG element.</returns>
-        private Element CreateForeignElementFrom(HtmlTagToken tag)
+        private Element? CreateForeignElementFrom(HtmlTagToken tag)
         {
-            if ((AdjustedCurrentNode.Flags & NodeFlags.MathMember) == NodeFlags.MathMember)
+            if ((AdjustedCurrentNode!.Flags & NodeFlags.MathMember) == NodeFlags.MathMember)
             {
                 var tagName = tag.Name;
                 var element = _document.CreateMathElement(tagName);
@@ -3687,7 +3687,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Runs a script given by the current node.
         /// </summary>
-        private void HandleScript(HtmlScriptElement script)
+        private void HandleScript(HtmlScriptElement? script)
         {
             if (script != null)
             {
@@ -4102,14 +4102,14 @@ namespace AngleSharp.Html.Parser
             var index = _formattingElements.Count - 1;
             var entry = _formattingElements[index];
 
-            if (entry == null || _openElements.Contains(entry))
+            if (entry is null || _openElements.Contains(entry))
                 return;
 
             while (index > 0)
             {
                 entry = _formattingElements[--index];
 
-                if (entry == null || _openElements.Contains(entry))
+                if (entry is null || _openElements.Contains(entry))
                 {
                     index++;
                     break;

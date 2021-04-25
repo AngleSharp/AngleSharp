@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -11,14 +11,14 @@
     {
         #region Fields
 
-        private HtmlCollection<IHtmlAreaElement> _areas;
-        private HtmlCollection<IHtmlImageElement> _images;
+        private HtmlCollection<IHtmlAreaElement>? _areas;
+        private HtmlCollection<IHtmlImageElement>? _images;
 
         #endregion
 
         #region ctor
 
-        public HtmlMapElement(Document owner, String prefix = null)
+        public HtmlMapElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Map, prefix)
         {
         }
@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets or sets the value of the href attribute.
         /// </summary>
-        public String Name
+        public String? Name
         {
             get => this.GetOwnAttribute(AttributeNames.Name);
             set => this.SetOwnAttribute(AttributeNames.Name, value);

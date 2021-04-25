@@ -10,14 +10,14 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private TokenList _relList;
-        private SettableTokenList _ping;
+        private TokenList? _relList;
+        private SettableTokenList? _ping;
 
         #endregion
 
         #region ctor
         
-        public HtmlUrlBaseElement(Document owner, String name, String prefix, NodeFlags flags)
+        public HtmlUrlBaseElement(Document owner, String name, String? prefix, NodeFlags flags)
             : base(owner, name, prefix, flags)
         {
         }
@@ -26,7 +26,7 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public String Download
+        public String? Download
         {
             get => this.GetOwnAttribute(AttributeNames.Download);
             set => this.SetOwnAttribute(AttributeNames.Download, value);
@@ -40,47 +40,47 @@ namespace AngleSharp.Html.Dom
 
         public String Hash
         {
-            get => GetLocationPart(m => m.Hash);
+            get => GetLocationPart(m => m.Hash)!;
             set => SetLocationPart(m => m.Hash = value);
         }
 
         public String Host
         {
-            get => GetLocationPart(m => m.Host);
+            get => GetLocationPart(m => m.Host)!;
             set => SetLocationPart(m => m.Host = value);
         }
 
         public String HostName
         {
-            get => GetLocationPart(m => m.HostName);
+            get => GetLocationPart(m => m.HostName)!;
             set => SetLocationPart(m => m.HostName = value);
         }
 
         public String PathName
         {
-            get => GetLocationPart(m => m.PathName);
+            get => GetLocationPart(m => m.PathName)!;
             set => SetLocationPart(m => m.PathName = value);
         }
 
         public String Port
         {
-            get => GetLocationPart(m => m.Port);
+            get => GetLocationPart(m => m.Port)!;
             set => SetLocationPart(m => m.Port = value);
         }
 
         public String Protocol
         {
-            get => GetLocationPart(m => m.Protocol);
+            get => GetLocationPart(m => m.Protocol)!;
             set => SetLocationPart(m => m.Protocol = value);
         }
 
-        public String UserName
+        public String? UserName
         {
             get => GetLocationPart(m => m.UserName);
             set => SetLocationPart(m => m.UserName = value);
         }
 
-        public String Password
+        public String? Password
         {
             get => GetLocationPart(m => m.Password);
             set => SetLocationPart(m => m.Password = value);
@@ -88,25 +88,25 @@ namespace AngleSharp.Html.Dom
 
         public String Search
         {
-            get => GetLocationPart(m => m.Search);
+            get => GetLocationPart(m => m.Search)!;
             set => SetLocationPart(m => m.Search = value);
         }
 
-        public String Origin => GetLocationPart(m => m.Origin);
+        public String? Origin => GetLocationPart(m => m.Origin);
 
-        public String TargetLanguage
+        public String? TargetLanguage
         {
             get => this.GetOwnAttribute(AttributeNames.HrefLang);
             set => this.SetOwnAttribute(AttributeNames.HrefLang, value);
         }
 
-        public String Media
+        public String? Media
         {
             get => this.GetOwnAttribute(AttributeNames.Media);
             set => this.SetOwnAttribute(AttributeNames.Media, value);
         }
 
-        public String Relation
+        public String? Relation
         {
             get => this.GetOwnAttribute(AttributeNames.Rel);
             set => this.SetOwnAttribute(AttributeNames.Rel, value);
@@ -116,7 +116,7 @@ namespace AngleSharp.Html.Dom
         {
             get
             {
-                if (_relList == null)
+                if (_relList is null)
                 {
                     _relList = new TokenList(this.GetOwnAttribute(AttributeNames.Rel));
                     _relList.Changed += value => UpdateAttribute(AttributeNames.Rel, value);
@@ -130,7 +130,7 @@ namespace AngleSharp.Html.Dom
         {
             get
             {
-                if (_ping == null)
+                if (_ping is null)
                 {
                     _ping = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Ping));
                     _ping.Changed += value => UpdateAttribute(AttributeNames.Ping, value);
@@ -140,13 +140,13 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public String Target
+        public String? Target
         {
             get => this.GetOwnAttribute(AttributeNames.Target);
             set => this.SetOwnAttribute(AttributeNames.Target, value);
         }
 
-        public String Type
+        public String? Type
         {
             get => this.GetOwnAttribute(AttributeNames.Type);
             set => this.SetOwnAttribute(AttributeNames.Type, value);
@@ -200,10 +200,10 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
-        private String GetLocationPart(Func<ILocation, String> getter)
+        private String? GetLocationPart(Func<ILocation, String?> getter)
         {
             var href = this.GetOwnAttribute(AttributeNames.Href);
-            var url = href != null ? new Url(BaseUrl, href) : null;
+            var url = href != null ? new Url(BaseUrl!, href) : null;
 
             if (url != null && !url.IsInvalid)
             {
@@ -217,11 +217,11 @@ namespace AngleSharp.Html.Dom
         private void SetLocationPart(Action<ILocation> setter)
         {
             var href = this.GetOwnAttribute(AttributeNames.Href);
-            var url = href != null ? new Url(BaseUrl, href) : null;
+            var url = href != null ? new Url(BaseUrl!, href) : null;
 
-            if (url == null || url.IsInvalid)
+            if (url is null || url.IsInvalid)
             {
-                url = new Url(BaseUrl);
+                url = new Url(BaseUrl!);
             }
 
             var location = new Location(url);

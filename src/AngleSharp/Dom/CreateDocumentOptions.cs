@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Io;
     using AngleSharp.Text;
@@ -15,7 +15,7 @@
         private readonly IResponse _response;
         private readonly MimeType _contentType;
         private readonly TextSource _source;
-        private readonly IDocument _ancestor;
+        private readonly IDocument? _ancestor;
 
         #endregion
 
@@ -28,7 +28,7 @@
         /// <param name="response">The response to pass on.</param>
         /// <param name="encoding">The optional default encoding.</param>
         /// <param name="ancestor">The optional import ancestor.</param>
-        public CreateDocumentOptions(IResponse response, Encoding encoding = null, IDocument ancestor = null)
+        public CreateDocumentOptions(IResponse response, Encoding? encoding = null, IDocument? ancestor = null)
         {
             var contentType = response.GetContentType(MimeTypeNames.Html);
             var charset = contentType.GetParameter(AttributeNames.Charset);
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets the import ancestor, if any.
         /// </summary>
-        public IDocument ImportAncestor => _ancestor;
+        public IDocument? ImportAncestor => _ancestor;
 
         #endregion
     }

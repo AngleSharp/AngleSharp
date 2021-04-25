@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -23,7 +23,7 @@
         public static T Eq<T>(this IEnumerable<T> elements, Int32 index)
             where T : IElement
         {
-            if (elements == null)
+            if (elements is null)
                 throw new ArgumentNullException(nameof(elements));
 
             return elements.Skip(index).FirstOrDefault();
@@ -39,7 +39,7 @@
         public static IEnumerable<T> Gt<T>(this IEnumerable<T> elements, Int32 index)
             where T : IElement
         {
-            if (elements == null)
+            if (elements is null)
                 throw new ArgumentNullException(nameof(elements));
 
             return elements.Skip(index + 1);
@@ -55,7 +55,7 @@
         public static IEnumerable<T> Lt<T>(this IEnumerable<T> elements, Int32 index)
             where T : IElement
         {
-            if (elements == null)
+            if (elements is null)
                 throw new ArgumentNullException(nameof(elements));
 
             return elements.Take(index);
@@ -70,7 +70,7 @@
         public static IEnumerable<T> Even<T>(this IEnumerable<T> elements)
             where T : IElement
         {
-            if (elements == null)
+            if (elements is null)
                 throw new ArgumentNullException(nameof(elements));
 
             var even = true;
@@ -95,7 +95,7 @@
         public static IEnumerable<T> Odd<T>(this IEnumerable<T> elements)
             where T : IElement
         {
-            if (elements == null)
+            if (elements is null)
                 throw new ArgumentNullException(nameof(elements));
 
             var odd = false;
@@ -146,7 +146,7 @@
         /// <param name="elements">The elements owning the children.</param>
         /// <param name="selectorText">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the children.</returns>
-        public static IEnumerable<IElement> Children(this IEnumerable<IElement> elements, String selectorText = null)
+        public static IEnumerable<IElement> Children(this IEnumerable<IElement> elements, String? selectorText = null)
         {
             return elements.GetMany(m => m.Children, selectorText);
         }
@@ -158,9 +158,9 @@
         /// <param name="elements">The elements with siblings.</param>
         /// <param name="selectorText">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the siblings.</returns>
-        public static IEnumerable<IElement> Siblings(this IEnumerable<IElement> elements, String selectorText = null)
+        public static IEnumerable<IElement> Siblings(this IEnumerable<IElement> elements, String? selectorText = null)
         {
-            return elements.GetMany(m => m.Parent.ChildNodes.OfType<IElement>().Except(m), selectorText);
+            return elements.GetMany(m => m.Parent!.ChildNodes.OfType<IElement>().Except(m), selectorText);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@
         /// <param name="elements">The elements with parents.</param>
         /// <param name="selectorText">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the parents.</returns>
-        public static IEnumerable<IElement> Parent(this IEnumerable<IElement> elements, String selectorText = null)
+        public static IEnumerable<IElement> Parent(this IEnumerable<IElement> elements, String? selectorText = null)
         {
             return elements.Get(m => m.ParentElement, selectorText);
         }
@@ -182,7 +182,7 @@
         /// <param name="elements">The elements with siblings.</param>
         /// <param name="selectorText">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the next siblings.</returns>
-        public static IEnumerable<IElement> Next(this IEnumerable<IElement> elements, String selectorText = null)
+        public static IEnumerable<IElement> Next(this IEnumerable<IElement> elements, String? selectorText = null)
         {
             return elements.Get(m => m.NextElementSibling, selectorText);
         }
@@ -194,7 +194,7 @@
         /// <param name="elements">The elements with siblings.</param>
         /// <param name="selectorText">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the previous siblings.</returns>
-        public static IEnumerable<IElement> Previous(this IEnumerable<IElement> elements, String selectorText = null)
+        public static IEnumerable<IElement> Previous(this IEnumerable<IElement> elements, String? selectorText = null)
         {
             return elements.Get(m => m.PreviousElementSibling, selectorText);
         }
@@ -234,7 +234,7 @@
         /// <param name="elements">The elements owning the children.</param>
         /// <param name="selector">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the children.</returns>
-        public static IEnumerable<IElement> Children(this IEnumerable<IElement> elements, ISelector selector = null)
+        public static IEnumerable<IElement> Children(this IEnumerable<IElement> elements, ISelector? selector = null)
         {
             return elements.GetMany(m => m.Children, selector);
         }
@@ -246,9 +246,9 @@
         /// <param name="elements">The elements with siblings.</param>
         /// <param name="selector">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the siblings.</returns>
-        public static IEnumerable<IElement> Siblings(this IEnumerable<IElement> elements, ISelector selector = null)
+        public static IEnumerable<IElement> Siblings(this IEnumerable<IElement> elements, ISelector? selector = null)
         {
-            return elements.GetMany(m => m.Parent.ChildNodes.OfType<IElement>().Except(m), selector);
+            return elements.GetMany(m => m.Parent!.ChildNodes.OfType<IElement>().Except(m), selector);
         }
 
         /// <summary>
@@ -258,7 +258,7 @@
         /// <param name="elements">The elements with parents.</param>
         /// <param name="selector">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the parents.</returns>
-        public static IEnumerable<IElement> Parent(this IEnumerable<IElement> elements, ISelector selector = null)
+        public static IEnumerable<IElement> Parent(this IEnumerable<IElement> elements, ISelector? selector = null)
         {
             return elements.Get(m => m.ParentElement, selector);
         }
@@ -270,7 +270,7 @@
         /// <param name="elements">The elements with siblings.</param>
         /// <param name="selector">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the next siblings.</returns>
-        public static IEnumerable<IElement> Next(this IEnumerable<IElement> elements, ISelector selector = null)
+        public static IEnumerable<IElement> Next(this IEnumerable<IElement> elements, ISelector? selector = null)
         {
             return elements.Get(m => m.NextElementSibling, selector);
         }
@@ -282,7 +282,7 @@
         /// <param name="elements">The elements with siblings.</param>
         /// <param name="selector">The CSS selector to use, if any.</param>
         /// <returns>A filtered list containing the previous siblings.</returns>
-        public static IEnumerable<IElement> Previous(this IEnumerable<IElement> elements, ISelector selector = null)
+        public static IEnumerable<IElement> Previous(this IEnumerable<IElement> elements, ISelector? selector = null)
         {
             return elements.Get(m => m.PreviousElementSibling, selector);
         }
@@ -291,9 +291,9 @@
 
         #region Helpers
 
-        private static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, ISelector selector)
+        private static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, ISelector? selector)
         {
-            if (selector == null)
+            if (selector is null)
             {
                 selector = AllSelector.Instance;
             }
@@ -312,15 +312,15 @@
             }
         }
 
-        private static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, String selectorText)
+        private static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, String? selectorText)
         {
             var selector = CreateSelector(elements, selectorText);
             return elements.GetMany(getter, selector);
         }
 
-        private static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement> getter, ISelector selector)
+        private static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement?> getter, ISelector? selector)
         {
-            if (selector == null)
+            if (selector is null)
             {
                 selector = AllSelector.Instance;
             }
@@ -342,7 +342,7 @@
             }
         }
 
-        private static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement> getter, String selectorText)
+        private static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement?> getter, String? selectorText)
         {
             var selector = CreateSelector(elements, selectorText);
             return elements.Get(getter, selector);
@@ -359,10 +359,10 @@
             }
         }
 
-        private static IEnumerable<T> Filter<T>(this IEnumerable<T> elements, ISelector selector, Boolean result)
+        private static IEnumerable<T> Filter<T>(this IEnumerable<T> elements, ISelector? selector, Boolean result)
             where T : IElement
         {
-            if (selector == null)
+            if (selector is null)
             {
                 selector = AllSelector.Instance;
             }
@@ -383,7 +383,7 @@
             return elements.Filter(selector, result);
         }
 
-        private static ISelector CreateSelector<T>(IEnumerable<T> elements, String selector)
+        private static ISelector? CreateSelector<T>(IEnumerable<T> elements, String? selector)
             where T : IElement
         {
             if (selector != null)
@@ -392,7 +392,7 @@
 
                 if (element != null)
                 {
-                    var parser = element.Owner.Context.GetService<ICssSelectorParser>();
+                    var parser = element.Owner!.Context.GetService<ICssSelectorParser>()!;
                     return parser.ParseSelector(selector);
                 }
             }

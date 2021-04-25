@@ -7,6 +7,7 @@ namespace AngleSharp.Text
     using AngleSharp.Io;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Reflection;
@@ -27,7 +28,8 @@ namespace AngleSharp.Text
         /// <param name="index">The index of the character.</param>
         /// <returns>True if the value has the char, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean Has(this String value, Char chr, Int32 index = 0)
+       
+        public static Boolean Has([NotNullWhen(true)] this String? value, Char chr, Int32 index = 0)
         {
             return value != null && value.Length > index && value[index] == chr;
         }
@@ -148,7 +150,7 @@ namespace AngleSharp.Text
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted enum value.</returns>
-        public static T ToEnum<T>(this String value, T defaultValue)
+        public static T ToEnum<T>(this String? value, T defaultValue)
             where T : struct, IComparable
         {
             if (!String.IsNullOrEmpty(value) && Enum.TryParse(value, true, out T converted))
@@ -165,7 +167,7 @@ namespace AngleSharp.Text
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted double.</returns>
-        public static Double ToDouble(this String value, Double defaultValue = 0.0)
+        public static Double ToDouble(this String? value, Double defaultValue = 0.0)
         {
             if (!String.IsNullOrEmpty(value) && Double.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out var converted))
             {
@@ -181,7 +183,7 @@ namespace AngleSharp.Text
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted integer.</returns>
-        public static Int32 ToInteger(this String value, Int32 defaultValue = 0)
+        public static Int32 ToInteger(this String? value, Int32 defaultValue = 0)
         {
             if (!String.IsNullOrEmpty(value) && Int32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var converted))
             {
@@ -197,7 +199,7 @@ namespace AngleSharp.Text
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted unsigned integer.</returns>
-        public static UInt32 ToInteger(this String value, UInt32 defaultValue = 0)
+        public static UInt32 ToInteger(this String? value, UInt32 defaultValue = 0)
         {
             if (!String.IsNullOrEmpty(value) && UInt32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var converted))
             {
@@ -213,7 +215,7 @@ namespace AngleSharp.Text
         /// <param name="value">The value to convert.</param>
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted boolean.</returns>
-        public static Boolean ToBoolean(this String value, Boolean defaultValue = false)
+        public static Boolean ToBoolean(this String? value, Boolean defaultValue = false)
         {
             if (!String.IsNullOrEmpty(value) && Boolean.TryParse(value, out var converted))
             {
@@ -335,7 +337,7 @@ namespace AngleSharp.Text
         /// <param name="other">The other string.</param>
         /// <returns>True if both are equal, false otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean Is(this String current, String other) =>
+        public static Boolean Is(this String? current, String? other) =>
             String.Equals(current, other, StringComparison.Ordinal);
 
         /// <summary>
@@ -345,7 +347,7 @@ namespace AngleSharp.Text
         /// <param name="other">The other string.</param>
         /// <returns>True if both are equal, false otherwise.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean Isi(this String current, String other) =>
+        public static Boolean Isi(this String? current, String? other) =>
             String.Equals(current, other, StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
@@ -356,7 +358,7 @@ namespace AngleSharp.Text
         /// <param name="item2">The second item to compare to.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsOneOf(this String element, String item1, String item2)
+        public static Boolean IsOneOf(this String? element, String item1, String item2)
             => element.Is(item1) || element.Is(item2);
 
         /// <summary>
@@ -804,11 +806,11 @@ namespace AngleSharp.Text
         /// <returns>
         /// The valid encoding type string or null.
         /// </returns>
-        public static String ToEncodingType(this String encType) =>
+        public static String? ToEncodingType(this String? encType) =>
             encType.Isi(MimeTypeNames.Plain) ||
             encType.Isi(MimeTypeNames.MultipartForm) ||
             encType.Isi(MimeTypeNames.ApplicationJson) ?
-                encType.ToLowerInvariant() : null;
+                encType?.ToLowerInvariant() : null;
 
         /// <summary>
         /// Converts the current string to one of the form methods.
@@ -817,10 +819,10 @@ namespace AngleSharp.Text
         /// <returns>
         /// The valid form method string or null.
         /// </returns>
-        public static String ToFormMethod(this String method) =>
+        public static String? ToFormMethod(this String? method) =>
             method.Isi(FormMethodNames.Get) ||
             method.Isi(FormMethodNames.Post) ||
             method.Isi(FormMethodNames.Dialog) ?
-                method.ToLowerInvariant() : null;
+                method?.ToLowerInvariant() : null;
     }
 }

@@ -11,13 +11,13 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private String _publicId;
-        private String _systemId;
-        private String _notationName;
-        private String _inputEncoding;
-        private String _xmlVersion;
-        private String _xmlEncoding;
-        private String _value;
+        private String? _publicId;
+        private String? _systemId;
+        private String? _notationName;
+        private String? _inputEncoding;
+        private String? _xmlVersion;
+        private String? _xmlEncoding;
+        private String? _value;
 
         #endregion
 
@@ -47,19 +47,19 @@ namespace AngleSharp.Dom
         /// Gets the public identiifer.
         /// </summary>
         [DomName("publicId")]
-        public String PublicId => _publicId;
+        public String? PublicId => _publicId;
 
         /// <summary>
         /// Gets the system identifier.
         /// </summary>
         [DomName("systemId")]
-        public String SystemId => _systemId;
+        public String? SystemId => _systemId;
 
         /// <summary>
         /// Gets or sets the notation name.
         /// </summary>
         [DomName("notationName")]
-        public String NotationName
+        public String? NotationName
         {
             get => _notationName;
             set => _notationName = value;
@@ -69,19 +69,19 @@ namespace AngleSharp.Dom
         /// Gets the used input encoding.
         /// </summary>
         [DomName("inputEncoding")]
-        public String InputEncoding => _inputEncoding;
+        public String? InputEncoding => _inputEncoding;
 
         /// <summary>
         /// Gets the used XML encoding.
         /// </summary>
         [DomName("xmlEncoding")]
-        public String XmlEncoding => _xmlEncoding;
+        public String? XmlEncoding => _xmlEncoding;
 
         /// <summary>
         /// Gets the used XML version.
         /// </summary>
         [DomName("xmlVersion")]
-        public String XmlVersion => _xmlVersion;
+        public String? XmlVersion => _xmlVersion;
 
         /// <summary>
         /// Gets or sets the entity's value.
@@ -99,7 +99,7 @@ namespace AngleSharp.Dom
         [DomName("nodeValue")]
         public override String NodeValue
         {
-            get => _value;
+            get => _value!;
             set => _value = value;
         }
 

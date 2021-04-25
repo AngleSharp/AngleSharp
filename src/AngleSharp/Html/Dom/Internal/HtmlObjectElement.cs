@@ -19,7 +19,7 @@ namespace AngleSharp.Html.Dom
 
         #region ctor
         
-        public HtmlObjectElement(Document owner, String prefix = null)
+        public HtmlObjectElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Object, prefix, NodeFlags.Scoped)
         {
             _request = new ObjectRequestProcessor(owner.Context);
@@ -29,15 +29,15 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IDownload CurrentDownload => _request?.Download;
+        public IDownload? CurrentDownload => _request?.Download;
 
-        public String Source
+        public String? Source
         {
             get => this.GetUrlAttribute(AttributeNames.Data);
             set => this.SetOwnAttribute(AttributeNames.Data, value);
         }
 
-        public String Type
+        public String? Type
         {
             get => this.GetOwnAttribute(AttributeNames.Type);
             set => this.SetOwnAttribute(AttributeNames.Type, value);
@@ -49,7 +49,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.TypeMustMatch, value);
         }
 
-        public String UseMap
+        public String? UseMap
         {
             get => this.GetOwnAttribute(AttributeNames.UseMap);
             set => this.SetOwnAttribute(AttributeNames.UseMap, value);
@@ -71,9 +71,9 @@ namespace AngleSharp.Html.Dom
 
         public Int32 OriginalHeight => _request?.Height ?? 0;
 
-        public IDocument ContentDocument => null;
+        public IDocument? ContentDocument => null;
 
-        public IWindow ContentWindow => null;
+        public IWindow? ContentWindow => null;
 
         #endregion
 
@@ -94,11 +94,11 @@ namespace AngleSharp.Html.Dom
             UpdateSource(this.GetOwnAttribute(AttributeNames.Data));
         }
 
-        internal void UpdateSource(String value)
+        internal void UpdateSource(String? value)
     {
             if (value != null)
             {
-                var url = new Url(Source);
+                var url = new Url(Source!);
                 this.Process(_request, url);
             }
         }

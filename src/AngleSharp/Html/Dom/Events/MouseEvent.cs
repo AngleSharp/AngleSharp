@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom.Events
+namespace AngleSharp.Html.Dom.Events
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -40,7 +40,7 @@
         /// <param name="relatedTarget">The target of the mouse event.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public MouseEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget relatedTarget = null)
+        public MouseEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null)
         {
             Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget);
         }
@@ -153,7 +153,7 @@
         /// Gets the target of the mouse event.
         /// </summary>
         [DomName("relatedTarget")]
-        public IEventTarget Target
+        public IEventTarget? Target
         {
             get;
             private set;
@@ -193,7 +193,7 @@
         /// <param name="button">Sets which button has been pressed.</param>
         /// <param name="target">The target of the mouse event.</param>
         [DomName("initMouseEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail, Int32 screenX, Int32 screenY, Int32 clientX, Int32 clientY, Boolean ctrlKey, Boolean altKey, Boolean shiftKey, Boolean metaKey, MouseButton button, IEventTarget target)
+        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow? view, Int32 detail, Int32 screenX, Int32 screenY, Int32 clientX, Int32 clientY, Boolean ctrlKey, Boolean altKey, Boolean shiftKey, Boolean metaKey, MouseButton button, IEventTarget? target)
         {
             Init(type, bubbles, cancelable, view, detail);
             ScreenX = screenX;

@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Dom.Events
+namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents the event arguments when receiving a message.
@@ -11,12 +12,16 @@
     {
         #region ctor
 
+#nullable disable
+
         /// <summary>
         /// Creates a new event.
         /// </summary>
         public MessageEvent()
         {
         }
+
+#nullable enable
 
         /// <summary>
         /// Creates a new event and initializes it.
@@ -31,7 +36,7 @@
         /// <param name="ports">The message ports to include.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public MessageEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object data = null, String origin = null, String lastEventId = null, IWindow source = null, params IMessagePort[] ports)
+        public MessageEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object? data = null, String? origin = null, String? lastEventId = null, IWindow? source = null, params IMessagePort[] ports)
         {
             Init(type, bubbles, cancelable, data, origin ?? String.Empty, lastEventId ?? String.Empty, source, ports);
         }
@@ -44,7 +49,7 @@
         /// Gets the data that is carried by the message.
         /// </summary>
         [DomName("data")]
-        public Object Data
+        public Object? Data
         {
             get;
             private set;
@@ -74,7 +79,7 @@
         /// Gets the source of the message.
         /// </summary>
         [DomName("source")]
-        public IWindow Source
+        public IWindow? Source
         {
             get;
             private set;
@@ -106,7 +111,8 @@
         /// <param name="source">Sets the source window of the message.</param>
         /// <param name="ports">The message ports to include.</param>
         [DomName("initMessageEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, Object data, String origin, String lastEventId, IWindow source, params IMessagePort[] ports)
+        [MemberNotNull(nameof(Origin), nameof(LastEventId), nameof(Ports))]
+        public void Init(String type, Boolean bubbles, Boolean cancelable, Object? data, String origin, String lastEventId, IWindow? source, params IMessagePort[] ports)
         {
             Init(type, bubbles, cancelable);
             Data = data;

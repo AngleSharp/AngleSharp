@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,13 +10,13 @@
     {
         #region Fields
 
-        private HtmlCollection<IHtmlOptionElement> _options;
+        private HtmlCollection<IHtmlOptionElement>? _options;
 
         #endregion
 
         #region ctor
 
-        public HtmlDataListElement(Document owner, String prefix = null)
+        public HtmlDataListElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Datalist, prefix)
         {
         }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
@@ -59,7 +59,7 @@
                     for (var i = 0; i < n; i++)
                     {
                         parts[l++] = _combinators[i].Selector.Text;
-                        parts[l++] = _combinators[i].Delimiter;
+                        parts[l++] = _combinators[i].Delimiter!;
                     }
 
                     parts[l] = _combinators[n].Selector.Text;
@@ -84,11 +84,11 @@
         public void Accept(ISelectorVisitor visitor)
         {
             var selectors = _combinators.Select(m => m.Selector);
-            var symbols = _combinators.Take(_combinators.Count - 1).Select(m => m.Delimiter);
+            var symbols = _combinators.Take(_combinators.Count - 1).Select(m => m.Delimiter!);
             visitor.Combinator(selectors, symbols);
         }
 
-        public Boolean Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement? scope)
         {
             var last = _combinators.Count - 1;
 
@@ -131,9 +131,9 @@
 
         #region Helpers
 
-        private Boolean MatchCascade(Int32 pos, IElement element, IElement scope)
+        private Boolean MatchCascade(Int32 pos, IElement element, IElement? scope)
         {
-            var newElements = _combinators[pos].Transform(element);
+            var newElements = _combinators[pos].Transform!(element);
 
             foreach (var newElement in newElements)
             {
@@ -152,8 +152,8 @@
 
         private struct CombinatorSelector
         {
-            public String Delimiter;
-            public Func<IElement, IEnumerable<IElement>> Transform;
+            public String? Delimiter;
+            public Func<IElement, IEnumerable<IElement>>? Transform;
             public ISelector Selector;
         }
 

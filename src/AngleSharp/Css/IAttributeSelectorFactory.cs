@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using System;
@@ -17,6 +17,6 @@
         /// <param name="prefix">The prefix, if any.</param>
         /// <param name="insensitive">Should be evaluated insensitive.</param>
         /// <returns>The created selector, if possible.</returns>
-        ISelector Create(String combinator, String name, String value, String prefix, Boolean insensitive);
+        ISelector Create(String combinator, String name, String value, String? prefix, Boolean insensitive);
     }
 }

@@ -1,9 +1,10 @@
-﻿namespace AngleSharp.Dom.Events
+namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <summary>
@@ -16,11 +17,11 @@
 
         private EventFlags _flags;
         private EventPhase _phase;
-        private IEventTarget _current;
-        private IEventTarget _target;
+        private IEventTarget? _current;
+        private IEventTarget? _target;
         private Boolean _bubbles;
         private Boolean _cancelable;
-        private String _type;
+        private String? _type;
         private DateTime _time;
 
         #endregion
@@ -64,19 +65,19 @@
         /// Gets the type of event.
         /// </summary>
         [DomName("type")]
-        public String Type => _type;
+        public String Type => _type!;
 
         /// <summary>
         /// Gets the original target of the event.
         /// </summary>
         [DomName("target")]
-        public IEventTarget OriginalTarget => _target;
+        public IEventTarget? OriginalTarget => _target;
 
         /// <summary>
         /// Gets the current target (if bubbled).
         /// </summary>
         [DomName("currentTarget")]
-        public IEventTarget CurrentTarget => _current;
+        public IEventTarget? CurrentTarget => _current;
 
         /// <summary>
         /// Gets the phase of the event.
@@ -189,7 +190,7 @@
 
             if (target is Node parent)
             {
-                while ((parent = parent.Parent) != null)
+                while ((parent = parent.Parent!) != null)
                 {
                     eventPath.Add(parent);
                 }
@@ -212,7 +213,7 @@
 
             _flags &= ~EventFlags.Dispatch;
             _phase = EventPhase.None;
-            _current = null;
+            _current = null!;
             return (_flags & EventFlags.Canceled) == EventFlags.Canceled;
         }
 

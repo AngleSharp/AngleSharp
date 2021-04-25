@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlLabelElement(Document owner, String prefix = null)
+        public HtmlLabelElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Label, prefix)
         {
         }
@@ -22,13 +22,13 @@
         /// <summary>
         /// Gets the control that the label is assigned for if any.
         /// </summary>
-        public IHtmlElement Control
+        public IHtmlElement? Control
         {
             get
             {
                 var controlId = HtmlFor;
 
-                if (!String.IsNullOrEmpty(controlId))
+                if (controlId is { Length: > 0 })
                 {
                     var control = Owner.GetElementById(controlId) as IHtmlElement;
 
@@ -45,7 +45,7 @@
         /// <summary>
         /// Gets or sets the ID of the labeled control. Reflects the for attribute.
         /// </summary>
-        public String HtmlFor
+        public String? HtmlFor
         {
             get => this.GetOwnAttribute(AttributeNames.For);
             set => this.SetOwnAttribute(AttributeNames.For, value);
@@ -54,7 +54,7 @@
         /// <summary>
         /// Gets the form element that the label is assigned for if any.
         /// </summary>
-        public IHtmlFormElement Form => GetAssignedForm();
+        public IHtmlFormElement? Form => GetAssignedForm();
 
         #endregion
     }

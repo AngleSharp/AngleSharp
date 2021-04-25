@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Media.Dom;
@@ -29,7 +29,7 @@
         /// <param name="type">The type of image e.g image/png.</param>
         /// <returns>A data URI with the data if any.</returns>
         [DomName("toDataURL")]
-        String ToDataUrl(String type = null);
+        String ToDataUrl(String? type = null);
 
         /// <summary>
         /// Creates a BLOB out of the canvas pixel data and passes it
@@ -38,7 +38,7 @@
         /// <param name="callback">The callback function.</param>
         /// <param name="type">The type of object to create.</param>
         [DomName("toBlob")]
-        void ToBlob(Action<Stream> callback, String type = null);
+        void ToBlob(Action<Stream> callback, String? type = null);
 
         /// <summary>
         /// Gets the drawing context.

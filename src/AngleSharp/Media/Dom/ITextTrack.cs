@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Media.Dom
+namespace AngleSharp.Media.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -14,19 +14,19 @@
         /// Gets the text track kind of the text track.
         /// </summary>
         [DomName("kind")]
-        String Kind { get; }
+        String? Kind { get; }
 
         /// <summary>
         /// Gets the text track label of the text track.
         /// </summary>
         [DomName("label")]
-        String Label { get; }
+        String? Label { get; }
 
         /// <summary>
         /// Gets the text track language of the text track.
         /// </summary>
         [DomName("language")]
-        String Language { get; }
+        String? Language { get; }
 
         /// <summary>
         /// Gets or sets the mode of the text track.

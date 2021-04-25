@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
@@ -31,7 +31,7 @@
         /// designated to use capture.
         /// </param>
         [DomName("addEventListener")]
-        void AddEventListener(String type, DomEventHandler callback = null, Boolean capture = false);
+        void AddEventListener(String type, DomEventHandler? callback = null, Boolean capture = false);
 
         /// <summary>
         /// Removes an event listener from the EventTarget.
@@ -48,7 +48,7 @@
         /// a capturing listener or not.
         /// </param>
         [DomName("removeEventListener")]
-        void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false);
+        void RemoveEventListener(String type, DomEventHandler? callback = null, Boolean capture = false);
 
         /// <summary>
         /// Calls the listener registered for the given event.

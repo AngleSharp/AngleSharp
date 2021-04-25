@@ -13,7 +13,7 @@ namespace AngleSharp.Dom
         /// Gets the namespace prefix of this element.
         /// </summary>
         [DomName("prefix")]
-        String Prefix { get; }
+        String? Prefix { get; }
 
         /// <summary>
         /// Gets the local part of the qualified name of this element.
@@ -25,7 +25,7 @@ namespace AngleSharp.Dom
         /// Gets the namespace URI of this element.
         /// </summary>
         [DomName("namespaceURI")]
-        String NamespaceUri { get; }
+        String? NamespaceUri { get; }
 
         /// <summary>
         /// Gets the sequence of associated attributes.
@@ -43,13 +43,13 @@ namespace AngleSharp.Dom
         /// Gets or sets the value of the class attribute.
         /// </summary>
         [DomName("className")]
-        String ClassName { get; set; }
+        String? ClassName { get; set; }
 
         /// <summary>
         /// Gets or sets the id value of the element.
         /// </summary>
         [DomName("id")]
-        String Id { get; set; }
+        String? Id { get; set; }
 
         /// <summary>
         /// Inserts new HTML elements specified by the given HTML string at
@@ -80,7 +80,7 @@ namespace AngleSharp.Dom
         /// <param name="localName">The attributes name.</param>
         /// <returns>The return value of true or false.</returns>
         [DomName("hasAttributeNS")]
-        Boolean HasAttribute(String namespaceUri, String localName);
+        Boolean HasAttribute(String? namespaceUri, String localName);
 
         /// <summary>
         /// Returns the value of the named attribute on the specified element.
@@ -93,7 +93,7 @@ namespace AngleSharp.Dom
         /// null, otherwise the attribute's value.
         /// </returns>
         [DomName("getAttribute")]
-        String GetAttribute(String name);
+        String? GetAttribute(String name);
 
         /// <summary>
         /// Returns the value of the named attribute on the specified element.
@@ -109,7 +109,7 @@ namespace AngleSharp.Dom
         /// null, otherwise the attribute's value.
         /// </returns>
         [DomName("getAttributeNS")]
-        String GetAttribute(String namespaceUri, String localName);
+        String? GetAttribute(String? namespaceUri, String localName);
 
         /// <summary>
         /// Adds a new attribute or changes the value of an existing attribute
@@ -218,7 +218,7 @@ namespace AngleSharp.Dom
         /// The closest ancestor of the current element (or the current element itself) which matches the selectors given. If there isn't such an ancestor, it returns null.
         /// </returns>
         [DomName("closest")]
-        IElement Closest(String selectors);
+        IElement? Closest(String selectors);
 
         /// <summary>
         /// Gets or sets the inner HTML (excluding the current element) of the
@@ -254,19 +254,19 @@ namespace AngleSharp.Dom
         /// Gets the assigned slot of the current element, if any.
         /// </summary>
         [DomName("assignedSlot")]
-        IElement AssignedSlot { get; }
+        IElement? AssignedSlot { get; }
 
         /// <summary>
         /// Gets the value of the slot attribute.
         /// </summary>
         [DomName("slot")]
-        String Slot { get; set; }
+        String? Slot { get; set; }
 
         /// <summary>
         /// Gets the shadow root of the current element, if any.
         /// </summary>
         [DomName("shadowRoot")]
-        IShadowRoot ShadowRoot { get; }
+        IShadowRoot? ShadowRoot { get; }
 
         /// <summary>
         /// Gets if the element is currently focused.
@@ -276,6 +276,6 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the source reference if available.
         /// </summary>
-        ISourceReference SourceReference { get; }
+        ISourceReference? SourceReference { get; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -34,9 +34,9 @@
             base.ConstructDataSet(dataSet);
             var dirname = Input.GetAttribute(null, AttributeNames.DirName);
 
-            if (!String.IsNullOrEmpty(dirname))
+            if (dirname is { Length: > 0 })
             {
-                dataSet.Append(dirname, Input.Direction.ToLowerInvariant(), "Direction");
+                dataSet.Append(dirname, Input.Direction?.ToLowerInvariant()!, "Direction");
             }
         }
 

@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlAddressElement : HtmlElement
     {
-        public HtmlAddressElement(Document owner, String prefix = null)
+        public HtmlAddressElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Address, prefix, NodeFlags.Special)
         {
         }

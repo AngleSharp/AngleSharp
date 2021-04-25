@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,19 +13,19 @@
         /// Gets or sets the type of command.
         /// </summary>
         [DomName("type")]
-        String Type { get; set; }
+        String? Type { get; set; }
 
         /// <summary>
         /// Gets or sets the assigned label.
         /// </summary>
         [DomName("label")]
-        String Label { get; set; }
+        String? Label { get; set; }
 
         /// <summary>
         /// Gets or sets the icon of the command.
         /// </summary>
         [DomName("icon")]
-        String Icon { get; set; }
+        String? Icon { get; set; }
 
         /// <summary>
         /// Gets or sets if the command is disabled.
@@ -43,7 +43,7 @@
         /// Gets or sets the id of the radio group of the command.
         /// </summary>
         [DomName("radiogroup")]
-        String RadioGroup { get; set; }
+        String? RadioGroup { get; set; }
 
         /// <summary>
         /// Gets the assigned element.

@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A location object with information about a Url.
@@ -16,7 +17,7 @@
 
         #region Events
 
-        public event EventHandler<ChangedEventArgs> Changed;
+        public event EventHandler<ChangedEventArgs>? Changed;
 
         #endregion
 
@@ -38,22 +39,23 @@
 
         public Url Original => _url;
 
-        public String Origin => _url.Origin;
+        public String? Origin => _url.Origin;
 
         public Boolean IsRelative => _url.IsRelative;
 
-        public String UserName
+        public String? UserName
         {
             get => _url.UserName;
             set => _url.UserName = value;
         }
 
-        public String Password
+        public String? Password
         {
             get => _url.Password;
             set => _url.Password = value;
         }
 
+        [AllowNull]
         public String Hash
         {
             get => NonEmptyPrefix(_url.Fragment, "#");
@@ -69,7 +71,7 @@
                     }
                     else if (value.Length == 0)
                     {
-                        value = null;
+                        value = null!;
                     }
                 }
 
@@ -230,10 +232,10 @@
         private void RaiseLocationChanged(String oldAddress) =>
             Changed?.Invoke(this, new ChangedEventArgs(false, oldAddress, _url.Href));
 
-        private static String NonEmptyPrefix(String check, String prefix) =>
+        private static String NonEmptyPrefix(String? check, String prefix) =>
             String.IsNullOrEmpty(check) ? String.Empty : String.Concat(prefix, check);
 
-        private static String NonEmptyPostfix(String check, String postfix) =>
+        private static String NonEmptyPostfix(String? check, String postfix) =>
             String.IsNullOrEmpty(check) ? String.Empty : String.Concat(check, postfix);
 
         #endregion

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Events
+namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
     using System;
@@ -29,7 +29,7 @@
         /// <param name="target">The target that is being focused.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public FocusEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, Int32 detail = 0, IEventTarget target = null)
+        public FocusEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, IEventTarget? target = null)
         {
             Init(type, bubbles, cancelable, view, detail, target);
         }
@@ -42,7 +42,7 @@
         /// Gets the target of the event.
         /// </summary>
         [DomName("relatedTarget")]
-        public IEventTarget Target
+        public IEventTarget? Target
         {
             get;
             private set;
@@ -62,7 +62,7 @@
         /// <param name="detail">Sets the detail id for the UIevent.</param>
         /// <param name="target">The target that is being focused.</param>
         [DomName("initFocusEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail, IEventTarget target)
+        public void Init(String type, Boolean bubbles, Boolean cancelable, IWindow? view, Int32 detail, IEventTarget? target)
         {
             Init(type, bubbles, cancelable, view, detail);
             Target = target;

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Dom;
     using System;
@@ -19,7 +19,7 @@
         {
             Source = source;
             Target = target;
-            Origin = source.Owner.Origin;
+            Origin = source.Owner!.Origin;
             IsManualRedirectDesired = false;
             IsSameOriginForced = false;
             IsCookieBlocked = false;
@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets or sets the origin of the request, if any.
         /// </summary>
-        public String Origin
+        public String? Origin
         {
             get;
             set;

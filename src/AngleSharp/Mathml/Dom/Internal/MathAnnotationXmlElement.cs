@@ -8,7 +8,7 @@
     /// </summary>
     sealed class MathAnnotationXmlElement : MathElement
     {
-        public MathAnnotationXmlElement(Document owner, String prefix = null)
+        public MathAnnotationXmlElement(Document owner, String? prefix = null)
             : base(owner, TagNames.AnnotationXml, prefix, NodeFlags.Special | NodeFlags.Scoped)
 	    {
 	    }

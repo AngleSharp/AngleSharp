@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Common;
     using AngleSharp.Html.Dom;
@@ -35,7 +35,7 @@
             if (Input.IsChecked)
             {
                 var value = Input.HasValue ? Input.Value : Keywords.On;
-                dataSet.Append(Input.Name, value, Input.Type);
+                dataSet.Append(Input.Name!, value, Input.Type);
             }
         }
 

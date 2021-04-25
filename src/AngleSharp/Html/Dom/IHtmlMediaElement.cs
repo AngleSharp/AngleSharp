@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Io;
@@ -15,25 +15,25 @@
         /// Gets or sets the media source.
         /// </summary>
         [DomName("src")]
-        String Source { get; set; }
+        String? Source { get; set; }
 
         /// <summary>
         /// Gets or sets the cross-origin attribute.
         /// </summary>
         [DomName("crossOrigin")]
-        String CrossOrigin { get; set; }
+        String? CrossOrigin { get; set; }
 
         /// <summary>
         /// Gets or sets the preload attribute.
         /// </summary>
         [DomName("preload")]
-        String Preload { get; set; }
+        String? Preload { get; set; }
 
         /// <summary>
         /// Gets or sets the id of the assigned media group.
         /// </summary>
         [DomName("mediaGroup")]
-        String MediaGroup { get; set; }
+        String? MediaGroup { get; set; }
 
         /// <summary>
         /// Gets the current network state.
@@ -51,19 +51,19 @@
         /// Gets the current media source.
         /// </summary>
         [DomName("currentSrc")]
-        String CurrentSource { get; }
+        String? CurrentSource { get; }
 
         /// <summary>
         /// Gets the current media error, if any.
         /// </summary>
         [DomName("error")]
-        IMediaError MediaError { get; }
+        IMediaError? MediaError { get; }
 
         /// <summary>
         /// Gets the current media's controller, if any.
         /// </summary>
         [DomName("controller")]
-        IMediaController Controller { get; }
+        IMediaController? Controller { get; }
 
         /// <summary>
         /// Gets if the media has ended.
@@ -119,19 +119,19 @@
         /// Gets a list of contained audio tracks.
         /// </summary>
         [DomName("audioTracks")]
-        IAudioTrackList AudioTracks { get; }
+        IAudioTrackList? AudioTracks { get; }
 
         /// <summary>
         /// Gets a list of contained video tracks.
         /// </summary>
         [DomName("videoTracks")]
-        IVideoTrackList VideoTracks { get; }
+        IVideoTrackList? VideoTracks { get; }
 
         /// <summary>
         /// Gets a list of contained text tracks.
         /// </summary>
         [DomName("textTracks")]
-        ITextTrackList TextTracks { get; }
+        ITextTrackList? TextTracks { get; }
 
         /// <summary>
         /// Adds a new text track to the media element.
@@ -141,6 +141,6 @@
         /// <param name="language">The optional language of the track.</param>
         /// <returns>The freshly created text track.</returns>
         [DomName("addTextTrack")]
-        ITextTrack AddTextTrack(String kind, String label = null, String language = null);
+        ITextTrack AddTextTrack(String kind, String? label = null, String? language = null);
     }
 }

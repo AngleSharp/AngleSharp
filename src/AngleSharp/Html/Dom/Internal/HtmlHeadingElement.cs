@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlHeadingElement : HtmlElement, IHtmlHeadingElement
     {
-        public HtmlHeadingElement(Document owner, String name = null, String prefix = null)
+        public HtmlHeadingElement(Document owner, String? name = null, String? prefix = null)
             : base(owner, name ?? TagNames.H1, prefix, NodeFlags.Special)
         {
         }

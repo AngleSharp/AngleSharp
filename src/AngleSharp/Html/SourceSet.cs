@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+namespace AngleSharp.Html
 {
     using AngleSharp.Text;
     using AngleSharp.Dom;
@@ -83,7 +83,7 @@
             };
         }
 
-        private Double ParseDescriptor(String descriptor, String sizesattr = null)
+        private Double ParseDescriptor(String descriptor, String? sizesattr = null)
         {
             var sizes = sizesattr ?? FullWidth;
             var sizeDescriptor = descriptor.Trim();
@@ -145,23 +145,26 @@
         /// <param name="srcset">The value of the srcset attribute.</param>
         /// <param name="sizes">The value of the sizes attribute.</param>
         /// <returns>An iterator of the different URLs yielding matching images.</returns>
-        public IEnumerable<String> GetCandidates(String srcset, String sizes)
+        public IEnumerable<String> GetCandidates(String? srcset, String? sizes)
         {
-            if (!String.IsNullOrEmpty(srcset))
+            if (srcset is { Length: > 0 })
             {
                 //Resolution = ParseDescriptor(candidate.Descriptor, sizes)
                 foreach (var candidate in Parse(srcset))
                 {
-                    yield return candidate.Url;
+                    if (candidate.Url is not null)
+                    {
+                        yield return candidate.Url;
+                    }
                 }
             }
         }
 
         private sealed class MediaSize
         {
-            public String Media { get; set; }
+            public String? Media { get; set; }
 
-            public String Length { get; set; }
+            public String? Length { get; set; }
         }
 
         /// <summary>
@@ -172,12 +175,12 @@
             /// <summary>
             /// The URL of the given image.
             /// </summary>
-            public String Url { get; set; }
+            public String? Url { get; set; }
 
             /// <summary>
             /// The descriptor of the given image.
             /// </summary>
-            public String Descriptor { get; set; }
+            public String? Descriptor { get; set; }
         }
     }
 }

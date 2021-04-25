@@ -3,6 +3,7 @@ namespace AngleSharp.Common
     using AngleSharp.Attributes;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
 
     /// <summary>
@@ -15,7 +16,7 @@ namespace AngleSharp.Common
         /// </summary>
         /// <param name="values">The object instance to convert.</param>
         /// <returns>A dictionary mapping field names to values.</returns>
-        public static Dictionary<String, String> ToDictionary(this Object values)
+        public static Dictionary<String, String> ToDictionary(this Object? values)
         {
             var symbols = new Dictionary<String, String>();
 
@@ -136,7 +137,10 @@ namespace AngleSharp.Common
         /// <param name="key">The key to look for.</param>
         /// <param name="defaultValue">The provided fallback value.</param>
         /// <returns>The value or the provided fallback.</returns>
-        public static U GetOrDefault<T, U>(this IDictionary<T, U> values, T key, U defaultValue)
+        [return: NotNullIfNotNull("defaultValue")]
+        public static U? GetOrDefault<T, U>(this IDictionary<T, U> values, T key, U? defaultValue)
+            where T: notnull
+            where U: notnull
         {
             return values.TryGetValue(key, out var value) ? value : defaultValue;
         }

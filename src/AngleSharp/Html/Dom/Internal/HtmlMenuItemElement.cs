@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -13,7 +13,7 @@
         /// <summary>
         /// Creates a new HTML menuitem element.
         /// </summary>
-        public HtmlMenuItemElement(Document owner, String prefix = null)
+        public HtmlMenuItemElement(Document owner, String? prefix = null)
             : base(owner, TagNames.MenuItem, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
@@ -47,13 +47,13 @@
         /// <summary>
         /// Gets the assigned master command, if any.
         /// </summary>
-        public IHtmlElement Command
+        public IHtmlElement? Command
         {
             get
             {
                 var id = this.GetOwnAttribute(AttributeNames.Command);
 
-                if (!String.IsNullOrEmpty(id))
+                if (id is { Length: > 0 })
                 {
                     return Owner?.GetElementById(id) as IHtmlElement;
                 }
@@ -65,7 +65,7 @@
         /// <summary>
         /// Gets or sets the type of command.
         /// </summary>
-        public String Type
+        public String? Type
         {
             get => this.GetOwnAttribute(AttributeNames.Type);
             set => this.SetOwnAttribute(AttributeNames.Type, value);
@@ -74,7 +74,7 @@
         /// <summary>
         /// Gets or sets the user-visible label.
         /// </summary>
-        public String Label
+        public String? Label
         {
             get => this.GetOwnAttribute(AttributeNames.Label);
             set => this.SetOwnAttribute(AttributeNames.Label, value);
@@ -83,7 +83,7 @@
         /// <summary>
         /// Gets or sets the icon for the command.
         /// </summary>
-        public String Icon
+        public String? Icon
         {
             get => this.GetOwnAttribute(AttributeNames.Icon);
             set => this.SetOwnAttribute(AttributeNames.Icon, value);
@@ -120,7 +120,7 @@
         /// Gets or sets the name of group of commands to
         /// treat as a radio button group.
         /// </summary>
-        public String RadioGroup
+        public String? RadioGroup
         {
             get => this.GetOwnAttribute(AttributeNames.Radiogroup);
             set => this.SetOwnAttribute(AttributeNames.Radiogroup, value);

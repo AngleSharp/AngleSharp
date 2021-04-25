@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
@@ -18,13 +18,15 @@
 
         #region ctor
 
+#nullable disable
         MutationRecord() { }
+#nullable enable
 
         #endregion
 
         #region Methods
 
-        public static MutationRecord CharacterData(INode target, String previousValue = null)
+        public static MutationRecord CharacterData(INode target, String? previousValue = null)
         {
             return new MutationRecord
             {
@@ -34,7 +36,7 @@
             };
         }
 
-        public static MutationRecord ChildList(INode target, INodeList addedNodes = null, INodeList removedNodes = null, INode previousSibling = null, INode nextSibling = null)
+        public static MutationRecord ChildList(INode target, INodeList? addedNodes = null, INodeList? removedNodes = null, INode? previousSibling = null, INode? nextSibling = null)
         {
             return new MutationRecord
             {
@@ -47,7 +49,7 @@
             };
         }
 
-        public static MutationRecord Attributes(INode target, String attributeName = null, String attributeNamespace = null, String previousValue = null)
+        public static MutationRecord Attributes(INode target, String? attributeName = null, String? attributeNamespace = null, String? previousValue = null)
         {
             return new MutationRecord
             {
@@ -97,43 +99,43 @@
             private set;
         }
 
-        public INodeList Added
+        public INodeList? Added
         {
             get;
             private set;
         }
 
-        public INodeList Removed
+        public INodeList? Removed
         {
             get;
             private set;
         }
 
-        public INode PreviousSibling
+        public INode? PreviousSibling
         {
             get;
             private set;
         }
 
-        public INode NextSibling
+        public INode? NextSibling
         {
             get;
             private set;
         }
 
-        public String AttributeName
+        public String? AttributeName
         {
             get;
             private set;
         }
 
-        public String AttributeNamespace
+        public String? AttributeNamespace
         {
             get;
             private set;
         }
 
-        public String PreviousValue
+        public String? PreviousValue
         {
             get;
             private set;

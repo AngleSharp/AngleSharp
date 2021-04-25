@@ -10,7 +10,7 @@ namespace AngleSharp.Mathml
     /// </summary>
     sealed class MathElementFactory : IElementFactory<Document, MathElement>
     {
-        private delegate MathElement Creator(Document owner, String prefix);
+        private delegate MathElement Creator(Document owner, String? prefix);
 
         private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
@@ -30,7 +30,7 @@ namespace AngleSharp.Mathml
         /// <param name="prefix">The prefix of the element, if any.</param>
         /// <param name="flags">The optional flags, if any.</param>
         /// <returns>The specialized MathMLElement instance.</returns>
-        public MathElement Create(Document document, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
+        public MathElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
             if (creators.TryGetValue(localName, out var creator))
             {

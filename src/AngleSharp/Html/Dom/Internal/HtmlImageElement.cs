@@ -19,7 +19,7 @@ namespace AngleSharp.Html.Dom
 
         #region ctor
         
-        public HtmlImageElement(Document owner, String prefix = null)
+        public HtmlImageElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _request = new ImageRequestProcessor(owner.Context);
@@ -29,41 +29,41 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IDownload CurrentDownload => _request?.Download;
+        public IDownload? CurrentDownload => _request?.Download;
 
         public String ActualSource => IsCompleted ? _request.Source : String.Empty;
 
-        public String SourceSet
+        public String? SourceSet
         {
             get => this.GetOwnAttribute(AttributeNames.SrcSet);
             set => this.SetOwnAttribute(AttributeNames.SrcSet, value);
         }
 
-        public String Sizes
+        public String? Sizes
         {
             get => this.GetOwnAttribute(AttributeNames.Sizes);
             set => this.SetOwnAttribute(AttributeNames.Sizes, value);
         }
 
-        public String Source
+        public String? Source
         {
             get => this.GetUrlAttribute(AttributeNames.Src);
             set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
-        public String AlternativeText
+        public String? AlternativeText
         {
             get => this.GetOwnAttribute(AttributeNames.Alt);
             set => this.SetOwnAttribute(AttributeNames.Alt, value);
         }
 
-        public String CrossOrigin
+        public String? CrossOrigin
         {
             get => this.GetOwnAttribute(AttributeNames.CrossOrigin);
             set => this.SetOwnAttribute(AttributeNames.CrossOrigin, value);
         }
 
-        public String UseMap
+        public String? UseMap
         {
             get => this.GetOwnAttribute(AttributeNames.UseMap);
             set => this.SetOwnAttribute(AttributeNames.UseMap, value);

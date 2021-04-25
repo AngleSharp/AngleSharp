@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
 
@@ -14,6 +14,6 @@
         /// null if there is none.
         /// </summary>
         [DomName("sheet")]
-        IStyleSheet Sheet { get; }
+        IStyleSheet? Sheet { get; }
     }
 }

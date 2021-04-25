@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
 
@@ -14,6 +14,6 @@
         /// if there is none.
         /// </summary>
         [DomName("import")]
-        IDocument Import { get; }
+        IDocument? Import { get; }
     }
 }

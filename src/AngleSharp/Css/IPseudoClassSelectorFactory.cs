@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using AngleSharp.Css.Dom;
     using System;
@@ -13,6 +13,6 @@
         /// </summary>
         /// <param name="name">The name of the pseudo-class.</param>
         /// <returns>The created selector, if any.</returns>
-        ISelector Create(String name);
+        ISelector? Create(String name);
     }
 }

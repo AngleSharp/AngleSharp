@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Processors
+namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Media;
     using AngleSharp.Media.Dom;
@@ -23,7 +23,7 @@
 
         #region Properties
 
-        public TMediaInfo Media
+        public TMediaInfo? Media
         {
             get;
             private set;
@@ -41,7 +41,7 @@
                     {
                         return MediaNetworkState.Loading;
                     }
-                    else if (Resource == null)
+                    else if (Resource is null)
                     {
                         return MediaNetworkState.NoSource;
                     }

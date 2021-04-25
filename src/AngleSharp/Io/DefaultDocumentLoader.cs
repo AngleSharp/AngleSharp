@@ -14,7 +14,7 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="context">The context to use.</param>
         /// <param name="filter">The optional request filter to use.</param>
-        public DefaultDocumentLoader(IBrowsingContext context, Predicate<Request> filter = null)
+        public DefaultDocumentLoader(IBrowsingContext context, Predicate<Request>? filter = null)
             : base(context, filter)
         {
         }

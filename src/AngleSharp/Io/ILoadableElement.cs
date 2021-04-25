@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Attributes;
 
@@ -11,6 +11,6 @@
         /// <summary>
         /// Gets the current download or resource, if any.
         /// </summary>
-        IDownload CurrentDownload { get; }
+        IDownload? CurrentDownload { get; }
     }
 }

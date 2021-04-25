@@ -40,7 +40,7 @@ namespace AngleSharp.Scripting
         /// <summary>
         /// Gets or sets the script element that triggered the invocation.
         /// </summary>
-        public IHtmlScriptElement Element
+        public IHtmlScriptElement? Element
         {
             get;
             set;
@@ -49,7 +49,7 @@ namespace AngleSharp.Scripting
         /// <summary>
         /// Gets or sets the encoding that has been selected for the script.
         /// </summary>
-        public Encoding Encoding
+        public Encoding? Encoding
         {
             get;
             set;

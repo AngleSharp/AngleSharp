@@ -1,3 +1,5 @@
+#nullable disable
+
 namespace AngleSharp.Io
 {
     using AngleSharp.Common;

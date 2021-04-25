@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
@@ -20,7 +20,7 @@
 
         private readonly IEnumerable<IRenderingService> _renderServices;
         private ContextMode _mode;
-        private IRenderingContext _current;
+        private IRenderingContext? _current;
 
         #endregion
 
@@ -29,7 +29,7 @@
         /// <summary>
         /// Creates a new HTML canvas element.
         /// </summary>
-        public HtmlCanvasElement(Document owner, String prefix = null)
+        public HtmlCanvasElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Canvas, prefix)
         {
             _renderServices = owner.Context.GetServices<IRenderingService>();
@@ -69,7 +69,7 @@
         /// <returns>An object that defines the drawing context.</returns>
         public IRenderingContext GetContext(String contextId)
         {
-            if (_current == null || contextId.Isi(_current.ContextId))
+            if (_current is null || contextId.Isi(_current.ContextId))
             {
                 foreach (var renderService in _renderServices)
                 {
@@ -83,11 +83,11 @@
                             _current = context;
                         }
 
-                        return context;
+                        return context!;
                     }
                 }
 
-                return null;
+                return null!;
             }
 
             return _current;
@@ -136,7 +136,7 @@
         /// </summary>
         /// <param name="type">The type of image e.g image/png.</param>
         /// <returns>A data URI with the data if any.</returns>
-        public String ToDataUrl(String type = null)
+        public String ToDataUrl(String? type = null)
         {
             var content = GetImageData(type);
             return Convert.ToBase64String(content);
@@ -148,7 +148,7 @@
         /// </summary>
         /// <param name="callback">The callback function.</param>
         /// <param name="type">The type of object to create.</param>
-        public void ToBlob(Action<Stream> callback, String type = null)
+        public void ToBlob(Action<Stream> callback, String? type = null)
         {
             var content = GetImageData(type);
             var ms = new MemoryStream(content);
@@ -159,7 +159,7 @@
 
         #region Helpers
 
-        private Byte[] GetImageData(String type)
+        private Byte[] GetImageData(String? type)
         {
             return _current?.ToImage(type ?? MimeTypeNames.Plain) ?? new Byte[0];
         }

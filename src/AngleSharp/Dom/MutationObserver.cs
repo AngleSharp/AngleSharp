@@ -37,7 +37,7 @@ namespace AngleSharp.Dom
 
         #region Properties
 
-        private MutationObserving this[INode node]
+        private MutationObserving? this[INode node]
         {
             get
             {
@@ -188,7 +188,7 @@ namespace AngleSharp.Dom
         /// </param>
         [DomName("observe")]
         [DomInitDict(offset: 1)]
-        public void Connect(INode target, Boolean childList = false, Boolean subtree = false, Boolean? attributes = null, Boolean? characterData = null, Boolean? attributeOldValue = null, Boolean? characterDataOldValue = null, IEnumerable<String> attributeFilter = null)
+        public void Connect(INode target, Boolean childList = false, Boolean subtree = false, Boolean? attributes = null, Boolean? characterData = null, Boolean? attributeOldValue = null, Boolean? characterDataOldValue = null, IEnumerable<String>? attributeFilter = null)
         {
             if (target is Node node)
             {
@@ -257,7 +257,7 @@ namespace AngleSharp.Dom
             public Boolean IsObservingAttributes;
             public Boolean IsExaminingOldCharacterData;
             public Boolean IsExaminingOldAttributeValue;
-            public IEnumerable<String> AttributeFilters;
+            public IEnumerable<String>? AttributeFilters;
 
             public Boolean IsInvalid => !IsObservingAttributes && !IsObservingCharacterData && !IsObservingChildNodes;
         }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Events
+namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
     using System;
@@ -27,7 +27,7 @@
         /// <param name="details">Sets the details for the custom event.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public CustomEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object details = null)
+        public CustomEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object? details = null)
         {
             Init(type, bubbles, cancelable, details);
         }
@@ -40,7 +40,7 @@
         /// Gets the details that have been associated with the custom event.
         /// </summary>
         [DomName("detail")]
-        public Object Details
+        public Object? Details
         {
             get;
             private set;
@@ -58,7 +58,7 @@
         /// <param name="cancelable">Determines if the event is cancelable.</param>
         /// <param name="details">Sets the details for the custom event.</param>
         [DomName("initCustomEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, Object details)
+        public void Init(String type, Boolean bubbles, Boolean cancelable, Object? details)
         {
             Init(type, bubbles, cancelable);
             Details = details;

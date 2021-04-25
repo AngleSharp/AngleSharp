@@ -1,6 +1,9 @@
+#nullable disable
+
 namespace AngleSharp.Text
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
     using System.Threading;
@@ -67,6 +70,7 @@ namespace AngleSharp.Text
         /// <param name="encoding">
         /// The initial encoding. Otherwise UTF-8.
         /// </param>
+        [MemberNotNull("_content")]
         public TextSource(Stream baseStream, Encoding encoding = null)
             : this(encoding, allocateBuffers: baseStream != null)
         {
@@ -135,7 +139,7 @@ namespace AngleSharp.Text
                 var content = new String(raw_chars, 0, charLength);
                 var index = Math.Min(_index, content.Length);
 
-                if (content.Substring(0, index).Is(_content.ToString(0, index)))
+                if (content.Substring(0, index).Is(_content!.ToString(0, index)))
                 {
                     //If everything seems to fit up to this point, do an
                     //instant switch
@@ -171,12 +175,12 @@ namespace AngleSharp.Text
         /// </summary>
         public void Dispose()
         {
-            var isDisposed = _content == null;
+            var isDisposed = _content is null;
 
             if (!isDisposed)
             {
                 _raw.Dispose();
-                _content.Clear().ToPool();
+                _content!.Clear().ToPool();
                 _content = null;
             }
         }
@@ -213,7 +217,7 @@ namespace AngleSharp.Text
             var start = _index;
             var end = start + characters;
 
-            if (end <= _content.Length)
+            if (end <= _content!.Length)
             {
                 _index += characters;
                 return _content.ToString(start, characters);
@@ -241,7 +245,7 @@ namespace AngleSharp.Text
         /// <returns>The awaitable task.</returns>
         public async Task PrefetchAllAsync(CancellationToken cancellationToken)
         {
-            if (_baseStream != null && _content.Length == 0)
+            if (_baseStream != null && _content!.Length == 0)
             {
                 await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -259,13 +263,13 @@ namespace AngleSharp.Text
         /// <param name="content">The content to insert.</param>
         public void InsertText(String content)
         {
-            if (_index >= 0 && _index < _content.Length)
+            if (_index >= 0 && _index < _content!.Length)
             {
                 _content.Insert(_index, content);
             }
             else
             {
-                _content.Append(content);
+                _content!.Append(content);
             }
 
             _index += content.Length;
@@ -280,7 +284,7 @@ namespace AngleSharp.Text
 
         private async Task DetectByteOrderMarkAsync(CancellationToken cancellationToken)
         {
-            var count = await _baseStream.ReadAsync(_buffer, 0, BufferSize).ConfigureAwait(false);
+            var count = await _baseStream!.ReadAsync(_buffer, 0, BufferSize).ConfigureAwait(false);
             var offset = 0;
 
             if (count > 2 && _buffer[0] == 0xef && _buffer[1] == 0xbb && _buffer[2] == 0xbf)
@@ -327,12 +331,12 @@ namespace AngleSharp.Text
 
         private async Task ExpandBufferAsync(Int64 size, CancellationToken cancellationToken)
         {
-            if (!_finished && _content.Length == 0)
+            if (!_finished && _content!.Length == 0)
             {
                 await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
             }
 
-            while (!_finished && size + _index > _content.Length)
+            while (!_finished && size + _index > _content!.Length)
             {
                 await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -340,18 +344,18 @@ namespace AngleSharp.Text
 
         private async Task ReadIntoBufferAsync(CancellationToken cancellationToken)
         {
-            var returned = await _baseStream.ReadAsync(_buffer, 0, BufferSize, cancellationToken).ConfigureAwait(false);
+            var returned = await _baseStream!.ReadAsync(_buffer, 0, BufferSize, cancellationToken).ConfigureAwait(false);
             AppendContentFromBuffer(returned);
         }
 
         private void ExpandBuffer(Int64 size)
         {
-            if (!_finished && _content.Length == 0)
+            if (!_finished && _content!.Length == 0)
             {
                 DetectByteOrderMarkAsync(CancellationToken.None).Wait();
             }
 
-            while (!_finished && size + _index > _content.Length)
+            while (!_finished && size + _index > _content!.Length)
             {
                 ReadIntoBuffer();
             }
@@ -359,7 +363,7 @@ namespace AngleSharp.Text
 
         private void ReadIntoBuffer()
         {
-            var returned = _baseStream.Read(_buffer, 0, BufferSize);
+            var returned = _baseStream!.Read(_buffer, 0, BufferSize);
             AppendContentFromBuffer(returned);
         }
 

@@ -1,4 +1,6 @@
-﻿namespace AngleSharp.Dom
+#nullable disable
+
+namespace AngleSharp.Dom
 {
     using System;
     using System.Collections;

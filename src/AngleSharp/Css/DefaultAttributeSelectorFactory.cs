@@ -80,7 +80,7 @@ namespace AngleSharp.Css
         /// <param name="prefix">The prefix for the attribute.</param>
         /// <param name="insensitive">Sets the evaluation mode.</param>
         /// <returns></returns>
-        public delegate ISelector Creator(String name, String value, String prefix, Boolean insensitive);
+        public delegate ISelector Creator(String name, String value, String? prefix, Boolean insensitive);
 
         /// <summary>
         /// Registers a new creator for the specified combinator.
@@ -114,7 +114,7 @@ namespace AngleSharp.Css
         /// <param name="prefix">The given prefix, if any.</param>
         /// <param name="insensitive">Should be evaluated insensitive.</param>
         /// <returns>The selector with the given options.</returns>
-        protected virtual ISelector CreateDefault(String name, String value, String prefix, Boolean insensitive) => new AttrAvailableSelector(name, prefix);
+        protected virtual ISelector CreateDefault(String name, String value, String? prefix, Boolean insensitive) => new AttrAvailableSelector(name, prefix);
 
         /// <summary>
         /// Creates the associated CSS attribute selector.
@@ -125,7 +125,7 @@ namespace AngleSharp.Css
         /// <param name="prefix">The given prefix, if any.</param>
         /// <param name="insensitive">Should be evaluated insensitive.</param>
         /// <returns>The associated selector.</returns>
-        public ISelector Create(String combinator, String name, String value, String prefix, Boolean insensitive)
+        public ISelector Create(String combinator, String name, String value, String? prefix, Boolean insensitive)
         {
             if (!insensitive && insensitiveAttributes.Contains(name))
             {

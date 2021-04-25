@@ -19,14 +19,14 @@ namespace AngleSharp.Dom
 
         private readonly Document _document;
 
-        private String _name;
+        private String? _name;
         private Int32 _outerHeight;
         private Int32 _outerWidth;
         private Int32 _screenX;
         private Int32 _screenY;
-        private String _status;
+        private String? _status;
         private Boolean _closed;
-        private INavigator _navigator;
+        private INavigator? _navigator;
 
         #endregion
 
@@ -44,12 +44,12 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the proxy to the current browsing context.
         /// </summary>
-        public IWindow Proxy => _document.Context.Current;
+        public IWindow? Proxy => _document.Context.Current;
 
         /// <summary>
         /// Gets the user-agent information.
         /// </summary>
-        public INavigator Navigator => _navigator ?? (_navigator = _document.Context.GetService<INavigator>());
+        public INavigator? Navigator => _navigator ?? (_navigator = _document.Context.GetService<INavigator>());
 
         /// <summary>
         /// Gets a reference to the document that the window contains.
@@ -59,7 +59,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets or sets the name of the window.
         /// </summary>
-        public String Name
+        public String? Name
         {
             get => _name;
             set => _name = value;
@@ -111,7 +111,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets or sets the status string.
         /// </summary>
-        public String Status
+        public String? Status
         {
             get => _status;
             set => _status = value;
@@ -550,9 +550,9 @@ namespace AngleSharp.Dom
 
         #region UI Interaction
 
-        IHistory IWindow.History => _document.Context.SessionHistory;
+        IHistory? IWindow.History => _document.Context.SessionHistory;
 
-        IWindow IWindow.Open(String url, String name, String features, String replace)
+        IWindow IWindow.Open(String url, String? name, String? features, String? replace)
         {
             var context = _document.Context.CreateChild(name, Sandboxes.None);
             var document = new HtmlDocument(context);

@@ -30,7 +30,7 @@ namespace AngleSharp
         /// <param name="url">The optional base URL of the document. By default "http://localhost/".</param>
         /// <param name="cancellation">The cancellation token (optional)</param>
         /// <returns>The new, yet empty, document.</returns>
-        public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null, CancellationToken cancellation = default) =>
+        public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String? url = null, CancellationToken cancellation = default) =>
             context.OpenAsync(m => m.Address(url ?? "http://localhost/"), cancellation);
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace AngleSharp
         internal static Task<IDocument> NavigateToAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default)
         {
             var handler = context.GetNavigationHandler(request.Target);
-            return handler?.NavigateAsync(request, cancel) ?? Task.FromResult<IDocument>(null);
+            return handler?.NavigateAsync(request, cancel) ?? Task.FromResult<IDocument>(null!);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <param name="type">The mime-type of the resource.</param>
         /// <returns>The service instance or null.</returns>
-        public static IResourceService<TResource> GetResourceService<TResource>(this IBrowsingContext context, String type)
+        public static IResourceService<TResource>? GetResourceService<TResource>(this IBrowsingContext context, String type)
             where TResource : IResourceInfo
         {
             var services = context.GetServices<IResourceService<TResource>>();
@@ -291,7 +291,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <param name="language">The language of the spellchecker.</param>
         /// <returns>The spell check service, if any.</returns>
-        public static ISpellCheckService GetSpellCheck(this IBrowsingContext context, String language)
+        public static ISpellCheckService? GetSpellCheck(this IBrowsingContext context, String language)
         {
             var substitute = default(ISpellCheckService);
             var services = context.GetServices<ISpellCheckService>();
@@ -310,7 +310,7 @@ namespace AngleSharp
                     {
                         return service;
                     }
-                    else if (substitute == null && otherTwoLetters.Is(twoLetters))
+                    else if (substitute is null && otherTwoLetters.Is(twoLetters))
                     {
                         substitute = service;
                     }
@@ -329,7 +329,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="context">The current context.</param>
         /// <returns>The CSS styling service if any.</returns>
-        public static IStylingService GetCssStyling(this IBrowsingContext context) => context.GetStyling(MimeTypeNames.Css);
+        public static IStylingService? GetCssStyling(this IBrowsingContext context) => context.GetStyling(MimeTypeNames.Css);
 
         /// <summary>
         /// Tries to get the styling service for the given mime-type.
@@ -337,7 +337,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <param name="type">The type of the style engine.</param>
         /// <returns>The styling service if any.</returns>
-        public static IStylingService GetStyling(this IBrowsingContext context, String type)
+        public static IStylingService? GetStyling(this IBrowsingContext context, String type)
         {
             var services = context.GetServices<IStylingService>();
 
@@ -368,7 +368,7 @@ namespace AngleSharp
         /// </summary>
         /// <param name="context">The current context.</param>
         /// <returns>The JavaScript scripting service, if any.</returns>
-        public static IScriptingService GetJsScripting(this IBrowsingContext context) => context.GetScripting(MimeTypeNames.DefaultJavaScript);
+        public static IScriptingService? GetJsScripting(this IBrowsingContext context) => context.GetScripting(MimeTypeNames.DefaultJavaScript);
 
         /// <summary>
         /// Tries to get the scripting service for the given mime-type.
@@ -376,7 +376,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <param name="type">The type of the scripting language.</param>
         /// <returns>The scripting service, if any.</returns>
-        public static IScriptingService GetScripting(this IBrowsingContext context, String type)
+        public static IScriptingService? GetScripting(this IBrowsingContext context, String type)
         {
             var services = context.GetServices<IScriptingService>();
 
@@ -401,7 +401,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <param name="commandId">The command to get.</param>
         /// <returns>The command if any.</returns>
-        public static ICommand GetCommand(this IBrowsingContext context, String commandId)
+        public static ICommand? GetCommand(this IBrowsingContext context, String commandId)
         {
             var provider = context.GetProvider<ICommandProvider>();
             return provider?.GetCommand(commandId);
@@ -447,16 +447,16 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <param name="target">The desired target frame.</param>
         /// <returns>The target context.</returns>
-        public static IBrowsingContext ResolveTargetContext(this IBrowsingContext context, String target)
+        public static IBrowsingContext ResolveTargetContext(this IBrowsingContext context, String? target)
         {
             var createBrowsingContext = false;
             var targetBrowsingContext = context;
             //var replace = owner.ReadyState != DocumentReadyState.Complete;
 
-            if (!String.IsNullOrEmpty(target))
+            if (target is { Length: > 0 })
             {
                 targetBrowsingContext = context.FindChildFor(target);
-                createBrowsingContext = targetBrowsingContext == null;
+                createBrowsingContext = targetBrowsingContext is null;
             }
 
             if (createBrowsingContext)
@@ -465,7 +465,7 @@ namespace AngleSharp
                 //replace = true;
             }
 
-            return targetBrowsingContext;
+            return targetBrowsingContext!;
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <param name="target">The specified target name.</param>
         /// <returns>The new context.</returns>
-        public static IBrowsingContext CreateChildFor(this IBrowsingContext context, String target)
+        public static IBrowsingContext CreateChildFor(this IBrowsingContext context, String? target)
         {
             var security = Sandboxes.None;
 
@@ -494,7 +494,7 @@ namespace AngleSharp
         /// <returns>
         /// The available context, or null, if the context does not exist yet.
         /// </returns>
-        public static IBrowsingContext FindChildFor(this IBrowsingContext context, String target)
+        public static IBrowsingContext? FindChildFor(this IBrowsingContext context, String target)
         {
             if (String.IsNullOrEmpty(target) || target.Is("_self"))
             {
@@ -527,7 +527,7 @@ namespace AngleSharp
         {
             var loader = context.GetService<IResourceLoader>();
 
-            if (loader == null)
+            if (loader is null)
             {
                 return Enumerable.Empty<Task>();
             }

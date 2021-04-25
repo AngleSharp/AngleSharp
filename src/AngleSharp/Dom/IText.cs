@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
 	using System;
@@ -36,6 +36,6 @@
         /// Gets the assigned slot of the current text, if any.
         /// </summary>
         [DomName("assignedSlot")]
-        IElement AssignedSlot { get; }
+        IElement? AssignedSlot { get; }
 	}
 }

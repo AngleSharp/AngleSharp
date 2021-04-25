@@ -11,7 +11,7 @@
     [DomHistorical]
     sealed class HtmlDirectoryElement : HtmlElement
     {
-        public HtmlDirectoryElement(Document owner, String prefix = null)
+        public HtmlDirectoryElement(Document owner, String? prefix = null)
             : base (owner, TagNames.Dir, prefix, NodeFlags.Special)
         {
         }

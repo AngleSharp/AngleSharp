@@ -93,7 +93,7 @@ namespace AngleSharp.Dom
         /// </summary>
         protected static Task<IDocument> LoadHtmlAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
         {
-            var parser = context.GetService<IHtmlParser>();
+            var parser = context.GetService<IHtmlParser>()!;
             var document = new HtmlDocument(context, options.Source);
             document.Setup(options.Response, options.ContentType, options.ImportAncestor);
             context.NavigateTo(document);

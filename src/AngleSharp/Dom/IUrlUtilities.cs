@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -61,21 +61,21 @@
         String Hash { get; set; }
 
         /// <summary>
-        /// Gets or sets the username specified before the domain name..
+        /// Gets or sets the username specified before the domain name.
         /// </summary>
         [DomName("username")]
-        String UserName { get; set; }
+        String? UserName { get; set; }
 
         /// <summary>
         /// Gets or sets the password specified before the domain name.
         /// </summary>
         [DomName("password")]
-        String Password { get; set; }
+        String? Password { get; set; }
 
         /// <summary>
         /// Gets the canonical form of the origin of the specific location.
         /// </summary>
         [DomName("origin")]
-        String Origin { get; }
+        String? Origin { get; }
     }
 }

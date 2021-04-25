@@ -78,7 +78,7 @@ namespace AngleSharp.Html.Parser
         /// Creates a new parser with the custom context.
         /// </summary>
         /// <param name="context">The context to use.</param>
-        internal HtmlParser(IBrowsingContext context)
+        internal HtmlParser(IBrowsingContext? context)
             : this(new HtmlParserOptions { IsScripting = context?.IsScripting() ?? false }, context)
         {
         }
@@ -88,7 +88,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="options">The options to use.</param>
         /// <param name="context">The context to use.</param>
-        public HtmlParser(HtmlParserOptions options, IBrowsingContext context)
+        public HtmlParser(HtmlParserOptions options, IBrowsingContext? context)
         {
             _options = options;
             _context = context ?? BrowsingContext.NewFrom<IHtmlParser>(this);

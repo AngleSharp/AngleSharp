@@ -55,7 +55,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The name of the CSS pseudo class.</param>
         /// <returns>The selector with the given name.</returns>
-        protected virtual ISelector CreateDefault(String name) => null;
+        protected virtual ISelector CreateDefault(String name) => null!;
 
         /// <summary>
         /// Creates or gets the associated CSS pseudo element selector.

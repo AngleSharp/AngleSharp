@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -20,13 +20,13 @@
         /// Gets or sets the use with one or more target media.
         /// </summary>
         [DomName("media")]
-        String Media { get; set; }
+        String? Media { get; set; }
 
         /// <summary>
         /// Gets or sets the content type of the style sheet language.
         /// </summary>
         [DomName("type")]
-        String Type { get; set; }
+        String? Type { get; set; }
 
         /// <summary>
         /// Gets or sets if the style is scoped.

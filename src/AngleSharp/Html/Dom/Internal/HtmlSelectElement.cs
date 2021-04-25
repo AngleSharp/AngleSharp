@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Html;
@@ -13,14 +13,14 @@
     {
         #region Fields
 
-        private OptionsCollection _options;
-        private HtmlCollection<IHtmlOptionElement> _selected;
+        private OptionsCollection? _options;
+        private HtmlCollection<IHtmlOptionElement>? _selected;
 
         #endregion
 
         #region ctor
         
-        public HtmlSelectElement(Document owner, String prefix = null)
+        public HtmlSelectElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Select, prefix)
         {
         }
@@ -55,7 +55,7 @@
 
         public Int32 SelectedIndex => Options.SelectedIndex;
 
-        public String Value
+        public String? Value
         {
             get
             {
@@ -71,7 +71,7 @@
 
                 return null;
             }
-            set => UpdateValue(value);
+            set => UpdateValue(value!);
         }
 
         public Int32 Length => Options.Length;
@@ -90,12 +90,12 @@
 
         #region Methods
 
-        public void AddOption(IHtmlOptionElement element, IHtmlElement before = null)
+        public void AddOption(IHtmlOptionElement element, IHtmlElement? before = null)
         {
             Options.Add(element, before);
         }
 
-        public void AddOption(IHtmlOptionsGroupElement element, IHtmlElement before = null)
+        public void AddOption(IHtmlOptionsGroupElement element, IHtmlElement? before = null)
         {
             Options.Add(element, before);
         }
@@ -111,7 +111,7 @@
 
         internal override FormControlState SaveControlState()
         {
-            return new FormControlState(Name, Type, Value);
+            return new FormControlState(Name!, Type, Value);
         }
 
         internal override void RestoreFormControlState(FormControlState state)
@@ -133,7 +133,7 @@
 
                 if (option.IsSelected && !option.IsDisabled)
                 {
-                    dataSet.Append(Name, option.Value, Type);
+                    dataSet.Append(Name!, option.Value, Type);
                     isAdded = true;
                 }
             }
@@ -144,12 +144,12 @@
                 var option = GetDefaultOptionOrNull();
                 if (option != null)
                 {
-                    dataSet.Append(Name, option.Value, Type);
+                    dataSet.Append(Name!, option.Value, Type);
                 }
             }
         }
 
-        private IHtmlOptionElement GetDefaultOptionOrNull()
+        private IHtmlOptionElement? GetDefaultOptionOrNull()
         {
             var options = Options;
 

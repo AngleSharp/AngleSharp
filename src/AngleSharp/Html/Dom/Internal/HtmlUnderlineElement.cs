@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlUnderlineElement : HtmlElement
     {
-        public HtmlUnderlineElement(Document owner, String prefix = null)
+        public HtmlUnderlineElement(Document owner, String? prefix = null)
             : base(owner, TagNames.U, prefix, NodeFlags.HtmlFormatting)
         {
         }

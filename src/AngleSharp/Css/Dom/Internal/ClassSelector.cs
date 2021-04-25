@@ -18,6 +18,6 @@ namespace AngleSharp.Css.Dom
 
         public void Accept(ISelectorVisitor visitor) => visitor.Class(_cls);
 
-        public Boolean Match(IElement element, IElement scope) => element.ClassList.Contains(_cls);
+        public Boolean Match(IElement element, IElement? scope) => element.ClassList.Contains(_cls);
     }
 }

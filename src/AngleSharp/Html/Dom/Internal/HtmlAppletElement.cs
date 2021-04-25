@@ -10,7 +10,7 @@
     [DomHistorical]
     sealed class HtmlAppletElement : HtmlElement
     {
-        public HtmlAppletElement(Document owner, String prefix = null)
+        public HtmlAppletElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Applet, prefix, NodeFlags.Special | NodeFlags.Scoped)
         {
         }

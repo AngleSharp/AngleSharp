@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
 
@@ -13,6 +13,6 @@
         /// <param name="host">The element hosting the attribute.</param>
         /// <param name="name">The name of the changed attribute.</param>
         /// <param name="value">The new value of the attribute.</param>
-        void NotifyChange(IElement host, String name, String value);
+        void NotifyChange(IElement host, String name, String? value);
     }
 }

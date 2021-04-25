@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -11,7 +11,7 @@
     {
         #region ctor
 
-        public HtmlOrderedListElement(Document owner, String prefix = null)
+        public HtmlOrderedListElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Ol, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }
@@ -41,7 +41,7 @@
         /// <summary>
         /// Gets or sets a value within [ 1, a, A, i, I ].
         /// </summary>
-        public String Type
+        public String? Type
         {
             get => this.GetOwnAttribute(AttributeNames.Type);
             set => this.SetOwnAttribute(AttributeNames.Type, value);

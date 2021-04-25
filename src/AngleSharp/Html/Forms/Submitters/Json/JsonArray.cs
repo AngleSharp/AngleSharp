@@ -24,7 +24,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
             {
                 for (var i = _elements.Count; i <= key; i++)
                 {
-                    _elements.Add(null);
+                    _elements.Add(null!);
                 }
 
                 _elements[key] = value;

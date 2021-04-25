@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlModElement(Document owner, String name = null, String prefix = null)
+        public HtmlModElement(Document owner, String? name = null, String? prefix = null)
             : base(owner, name ?? TagNames.Ins, prefix)
         {
         }
@@ -23,7 +23,7 @@
         /// Gets or sets the value that contains a URI of a resource
         /// explaining the change.
         /// </summary>
-        public String Citation
+        public String? Citation
         {
             get => this.GetOwnAttribute(AttributeNames.Cite);
             set => this.SetOwnAttribute(AttributeNames.Cite, value);
@@ -33,7 +33,7 @@
         /// Gets or sets the value that contains date-and-time string
         /// representing a timestamp for the change.
         /// </summary>
-        public String DateTime
+        public String? DateTime
         {
             get => this.GetOwnAttribute(AttributeNames.Datetime);
             set => this.SetOwnAttribute(AttributeNames.Datetime, value);

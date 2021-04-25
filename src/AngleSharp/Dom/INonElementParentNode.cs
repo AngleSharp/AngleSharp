@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -21,6 +21,6 @@
         /// </param>
         /// <returns>The matching element.</returns>
         [DomName("getElementById")]
-        IElement GetElementById(String elementId);
+        IElement? GetElementById(String elementId);
     }
 }

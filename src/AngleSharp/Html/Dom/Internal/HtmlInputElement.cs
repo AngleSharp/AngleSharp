@@ -6,6 +6,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Io.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents an HTML input element.
@@ -14,14 +15,14 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private BaseInputType _type;
+        private BaseInputType? _type;
         private Boolean? _checked;
 
         #endregion
 
         #region ctor
 
-        public HtmlInputElement(Document owner, String prefix = null)
+        public HtmlInputElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Input, prefix, NodeFlags.SelfClosing)
         {
         }
@@ -50,7 +51,7 @@ namespace AngleSharp.Html.Dom
 
         public String Type
         {
-            get => _type.Name;
+            get => _type!.Name;
             set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
@@ -68,23 +69,23 @@ namespace AngleSharp.Html.Dom
 
         public DateTime? ValueAsDate
         {
-            get => _type.ConvertToDate(Value);
+            get => _type!.ConvertToDate(Value);
             set
             {
-                if (value == null)
+                if (value is null)
                 {
                     Value = String.Empty;
                 }
                 else
                 {
-                    Value = _type.ConvertFromDate(value.Value);
+                    Value = _type!.ConvertFromDate(value.Value);
                 }
             }
         }
 
         public Double ValueAsNumber
         {
-            get => _type.ConvertToNumber(Value) ?? Double.NaN;
+            get => _type!.ConvertToNumber(Value) ?? Double.NaN;
             set
             {
                 if (Double.IsInfinity(value))
@@ -96,12 +97,12 @@ namespace AngleSharp.Html.Dom
                 }
                 else
                 {
-                    Value = _type.ConvertFromNumber(value);
+                    Value = _type!.ConvertFromNumber(value);
                 }
             }
         }
 
-        public String FormAction
+        public String? FormAction
         {
             get => this.GetOwnAttribute(AttributeNames.FormAction) ?? Owner?.DocumentUri;
             set => this.SetOwnAttribute(AttributeNames.FormAction, value);
@@ -125,13 +126,14 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.FormNoValidate, value);
         }
 
+        [AllowNull]
         public String FormTarget
         {
             get => this.GetOwnAttribute(AttributeNames.FormTarget) ?? String.Empty;
             set => this.SetOwnAttribute(AttributeNames.FormTarget, value);
         }
 
-        public String Accept
+        public String? Accept
         {
             get => this.GetOwnAttribute(AttributeNames.Accept);
             set => this.SetOwnAttribute(AttributeNames.Accept, value);
@@ -143,19 +145,19 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
-        public String AlternativeText
+        public String? AlternativeText
         {
             get => this.GetOwnAttribute(AttributeNames.Alt);
             set => this.SetOwnAttribute(AttributeNames.Alt, value);
         }
 
-        public String Autocomplete
+        public String? Autocomplete
         {
             get => this.GetOwnAttribute(AttributeNames.AutoComplete);
             set => this.SetOwnAttribute(AttributeNames.AutoComplete, value);
         }
 
-        public IFileList Files
+        public IFileList? Files
         {
             get
             {
@@ -164,29 +166,35 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public IHtmlDataListElement List
+        public IHtmlDataListElement? List
         {
             get
             {
                 var list = this.GetOwnAttribute(AttributeNames.List);
-                var element = Owner?.GetElementById(list);
-                return element as IHtmlDataListElement;
+
+                if (list is { Length: > 0 })
+                {
+                    var element = Owner?.GetElementById(list);
+                    return element as IHtmlDataListElement;
+                }
+
+                return null;
             }
         }
 
-        public String Maximum
+        public String? Maximum
         {
             get => this.GetOwnAttribute(AttributeNames.Max);
             set => this.SetOwnAttribute(AttributeNames.Max, value);
         }
 
-        public String Minimum
+        public String? Minimum
         {
             get => this.GetOwnAttribute(AttributeNames.Min);
             set => this.SetOwnAttribute(AttributeNames.Min, value);
         }
 
-        public String Pattern
+        public String? Pattern
         {
             get => this.GetOwnAttribute(AttributeNames.Pattern);
             set => this.SetOwnAttribute(AttributeNames.Pattern, value);
@@ -198,19 +206,19 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Size, value.ToString());
         }
 
-        public String Source
+        public String? Source
         {
             get => this.GetOwnAttribute(AttributeNames.Src);
             set => this.SetOwnAttribute(AttributeNames.Src, value);
         }
 
-        public String Step
+        public String? Step
         {
             get => this.GetOwnAttribute(AttributeNames.Step);
             set => this.SetOwnAttribute(AttributeNames.Step, value);
         }
 
-        public String UseMap
+        public String? UseMap
         {
             get => this.GetOwnAttribute(AttributeNames.UseMap);
             set => this.SetOwnAttribute(AttributeNames.UseMap, value);
@@ -270,7 +278,7 @@ namespace AngleSharp.Html.Dom
         {
             var node = (HtmlInputElement)base.Clone(owner, deep);
             node._checked = _checked;
-            node.UpdateType(_type.Name);
+            node.UpdateType(_type!.Name);
             return node;
         }
 
@@ -295,7 +303,7 @@ namespace AngleSharp.Html.Dom
         }
 
         internal override FormControlState SaveControlState() =>
-            new FormControlState(Name, Type, Value);
+            new FormControlState(Name!, Type, Value);
 
         internal override void RestoreFormControlState(FormControlState state)
         {
@@ -305,9 +313,9 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public void StepUp(Int32 n = 1) => _type.DoStep(n);
+        public void StepUp(Int32 n = 1) => _type!.DoStep(n);
 
-        public void StepDown(Int32 n = 1) => _type.DoStep(-n);
+        public void StepDown(Int32 n = 1) => _type!.DoStep(-n);
 
         #endregion
 
@@ -323,7 +331,7 @@ namespace AngleSharp.Html.Dom
         {
             base.SetupElement();
             var type = this.GetOwnAttribute(AttributeNames.Type);
-            UpdateType(type);
+            UpdateType(type!);
         }
 
         internal void UpdateType(String value) =>
@@ -335,7 +343,7 @@ namespace AngleSharp.Html.Dom
 
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
-            if (_type.IsAppendingData(submitter))
+            if (_type!.IsAppendingData(submitter))
             {
                 _type.ConstructDataSet(dataSet);
             }
@@ -351,12 +359,12 @@ namespace AngleSharp.Html.Dom
         protected override void Check(ValidityState state)
         {
             base.Check(state);
-            var result = _type.Check(state);
+            var result = _type!.Check(state);
             state.Reset(result);
         }
 
         protected override Boolean CanBeValidated() =>
-            _type.CanBeValidated && base.CanBeValidated();
+            _type!.CanBeValidated && base.CanBeValidated();
 
         #endregion
     }

@@ -104,7 +104,7 @@ namespace AngleSharp.Html
             var before = String.Empty;
             var previousSibling = element.PreviousSibling as IText;
 
-            if (element.ParentElement != null && (previousSibling == null || EndsWithSpace(previousSibling)))
+            if (element.ParentElement != null && (previousSibling is null || EndsWithSpace(previousSibling)))
             {
                 before = IndentBefore();
             }            
@@ -120,7 +120,7 @@ namespace AngleSharp.Html
             var before = String.Empty;
             var lastChild = element.LastChild as IText;
 
-            if (element.HasChildNodes && (lastChild == null || EndsWithSpace(lastChild)))
+            if (element.HasChildNodes && (lastChild is null || EndsWithSpace(lastChild)))
             {
                 before = IndentBefore();
             }

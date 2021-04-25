@@ -32,10 +32,10 @@ namespace AngleSharp.Dom
         #region Index
 
         /// <inheritdoc />
-        public IAttr this[String name] => GetNamedItem(name);
+        public IAttr? this[String name] => GetNamedItem(name);
 
         /// <inheritdoc />
-        public IAttr this[Int32 index] => index >= 0 && index < _items.Count ? _items[index] : null;
+        public IAttr? this[Int32 index] => index >= 0 && index < _items.Count ? _items[index] : null;
 
         #endregion
 
@@ -53,7 +53,7 @@ namespace AngleSharp.Dom
             _items.Add(attr);
         }
 
-        internal void RaiseChangedEvent(Attr attr, String newValue, String oldValue)
+        internal void RaiseChangedEvent(Attr attr, String? newValue, String? oldValue)
         {
             var element = default(Element);
 
@@ -63,7 +63,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        internal IAttr RemoveNamedItemOrDefault(String name, Boolean suppressMutationObservers)
+        internal IAttr? RemoveNamedItemOrDefault(String name, Boolean suppressMutationObservers)
         {
             for (var i = 0; i < _items.Count; i++)
             {
@@ -85,12 +85,12 @@ namespace AngleSharp.Dom
             return null;
         }
 
-        internal IAttr RemoveNamedItemOrDefault(String name)
+        internal IAttr? RemoveNamedItemOrDefault(String name)
         {
             return RemoveNamedItemOrDefault(name, false);
         }
 
-        internal IAttr RemoveNamedItemOrDefault(String namespaceUri, String localName, Boolean suppressMutationObservers)
+        internal IAttr? RemoveNamedItemOrDefault(String? namespaceUri, String localName, Boolean suppressMutationObservers)
         {
             for (var i = 0; i < _items.Count; i++)
             {
@@ -112,7 +112,7 @@ namespace AngleSharp.Dom
             return null;
         }
 
-        internal IAttr RemoveNamedItemOrDefault(String namespaceUri, String localName)
+        internal IAttr? RemoveNamedItemOrDefault(String? namespaceUri, String localName)
         {
             return RemoveNamedItemOrDefault(namespaceUri, localName, false);
         }
@@ -122,7 +122,7 @@ namespace AngleSharp.Dom
         #region Methods
 
         /// <inheritdoc />
-        public IAttr GetNamedItem(String name)
+        public IAttr? GetNamedItem(String name)
         {
             for (var i = 0; i < _items.Count; i++)
             {
@@ -136,7 +136,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IAttr GetNamedItem(String namespaceUri, String localName)
+        public IAttr? GetNamedItem(String? namespaceUri, String localName)
         {
             for (var i = 0; i < _items.Count; i++)
             {
@@ -150,7 +150,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IAttr SetNamedItem(IAttr item)
+        public IAttr? SetNamedItem(IAttr item)
         {
             var proposed = Prepare(item);
 
@@ -177,7 +177,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IAttr SetNamedItemWithNamespaceUri(IAttr item, Boolean suppressMutationObservers)
+        public IAttr? SetNamedItemWithNamespaceUri(IAttr item, Boolean suppressMutationObservers)
         {
             var proposed = Prepare(item);
 
@@ -214,7 +214,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IAttr SetNamedItemWithNamespaceUri(IAttr item)
+        public IAttr? SetNamedItemWithNamespaceUri(IAttr item)
         {
             return SetNamedItemWithNamespaceUri(item, false);
         }
@@ -224,7 +224,7 @@ namespace AngleSharp.Dom
         {
             var result = RemoveNamedItemOrDefault(name);
 
-            if (result == null)
+            if (result is null)
                 throw new DomException(DomError.NotFound);
 
             return result;
@@ -235,7 +235,7 @@ namespace AngleSharp.Dom
         {
             var result = RemoveNamedItemOrDefault(namespaceUri, localName);
 
-            if (result == null)
+            if (result is null)
                 throw new DomException(DomError.NotFound);
 
             return result;
@@ -256,7 +256,7 @@ namespace AngleSharp.Dom
 
         #region Helpers
 
-        private Attr Prepare(IAttr item)
+        private Attr? Prepare(IAttr item)
         {
             var attr = item as Attr;
 

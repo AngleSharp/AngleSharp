@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io.Dom
+namespace AngleSharp.Io.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -42,7 +42,7 @@
         /// <param name="contentType">The mime-type of the new blob.</param>
         /// <returns>A new blob with this blob's subset.</returns>
         [DomName("slice")]
-        IBlob Slice(Int32 start = 0, Int32 end = Int32.MaxValue, String contentType = null);
+        IBlob Slice(Int32 start = 0, Int32 end = Int32.MaxValue, String? contentType = null);
 
         /// <summary>
         /// Closes the stream to the blob.

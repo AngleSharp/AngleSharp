@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
@@ -72,11 +72,11 @@
             });
         }
 
-        void IAttributeObserver.NotifyChange(IElement host, String name, String value)
+        void IAttributeObserver.NotifyChange(IElement host, String name, String? value)
         {
             foreach (var action in _actions)
             {
-                action.Invoke(host, name, value);
+                action.Invoke(host, name, value!);
             }
         }
     }

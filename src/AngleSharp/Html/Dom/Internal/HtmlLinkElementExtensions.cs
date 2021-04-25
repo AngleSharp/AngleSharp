@@ -18,7 +18,7 @@
         /// <returns>True if the link hosts a persistent stylesheet.</returns>
         public static Boolean IsPersistent(this IHtmlLinkElement link)
         {
-            return link.Relation.Isi(LinkRelNames.StyleSheet) && link.Title == null;
+            return link.Relation.Isi(LinkRelNames.StyleSheet) && link.Title is null;
         }
 
         /// <summary>

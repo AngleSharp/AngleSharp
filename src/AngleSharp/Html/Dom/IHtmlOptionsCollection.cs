@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -32,7 +32,7 @@
         /// <param name="element">The element to add.</param>
         /// <param name="before">The optional reference element for inserting.</param>
         [DomName("add")]
-        void Add(IHtmlOptionElement element, IHtmlElement before = null);
+        void Add(IHtmlOptionElement element, IHtmlElement? before = null);
 
         /// <summary>
         /// Adds an options group element to the collection.
@@ -40,7 +40,7 @@
         /// <param name="element">The element to add.</param>
         /// <param name="before">The optional reference element for inserting.</param>
         [DomName("add")]
-        void Add(IHtmlOptionsGroupElement element, IHtmlElement before = null);
+        void Add(IHtmlOptionsGroupElement element, IHtmlElement? before = null);
 
         /// <summary>
         /// Removes an element from the collection.

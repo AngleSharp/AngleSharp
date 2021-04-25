@@ -9,7 +9,7 @@ namespace AngleSharp.Css.Dom
         private readonly String _value;
         private readonly StringComparison _comparison;
 
-        public AttrNotMatchSelector(String name, String value, String prefix = null, Boolean insensitive = false)
+        public AttrNotMatchSelector(String name, String value, String? prefix = null, Boolean insensitive = false)
             : base(name, prefix)
         {
             _value = value;
@@ -20,6 +20,6 @@ namespace AngleSharp.Css.Dom
 
         public void Accept(ISelectorVisitor visitor) => visitor.Attribute(Attribute, "!=", _value);
 
-        public Boolean Match(IElement element, IElement scope) => !String.Equals(element.GetAttribute(Name), _value, _comparison);
+        public Boolean Match(IElement element, IElement? scope) => !String.Equals(element.GetAttribute(Name), _value, _comparison);
     }
 }

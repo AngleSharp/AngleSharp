@@ -25,11 +25,11 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="type">The exact type of the token.</param>
         /// <param name="position">The token's text position.</param>
         /// <param name="name">The optional name of the token, if any.</param>
-        public HtmlToken(HtmlTokenType type, TextPosition position, String name = null)
+        public HtmlToken(HtmlTokenType type, TextPosition position, String? name = null)
         {
             _type = type;
             _position = position;
-            _name = name;
+            _name = name!; // null is rare, default to non-null
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             get
             {
-                for (var i = 0; i < _name.Length; i++)
+                for (var i = 0; i < _name!.Length; i++)
                 {
                     if (!_name[i].IsSpaceCharacter())
                     {

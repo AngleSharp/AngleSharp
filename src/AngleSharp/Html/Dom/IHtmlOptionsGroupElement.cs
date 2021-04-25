@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -19,6 +19,6 @@
         /// Gets or sets the label.
         /// </summary>
         [DomName("label")]
-        String Label { get; set; }
+        String? Label { get; set; }
     }
 }

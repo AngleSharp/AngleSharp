@@ -72,7 +72,7 @@ namespace AngleSharp.Dom.Events
         /// </summary>
         /// <param name="name">The name of the event.</param>
         /// <returns>The created event.</returns>
-        protected virtual Event CreateDefault(String name)
+        protected virtual Event? CreateDefault(String name)
         {
             return default(Event);
         }
@@ -82,14 +82,14 @@ namespace AngleSharp.Dom.Events
         /// </summary>
         /// <param name="name">The name of the event.</param>
         /// <returns>The created event.</returns>
-        public Event Create(String name)
+        public Event? Create(String name)
         {
             if (name != null && _creators.TryGetValue(name, out var creator))
             {
                 return creator.Invoke();
             }
 
-            return CreateDefault(name);
+            return CreateDefault(name!);
         }
 
         private void AddEventAlias(String aliasName, String aliasFor)

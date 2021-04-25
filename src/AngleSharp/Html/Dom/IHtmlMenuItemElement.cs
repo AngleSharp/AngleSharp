@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,25 +13,25 @@
         /// Gets the assigned master command, if any.
         /// </summary>
         [DomName("command")]
-        IHtmlElement Command { get; }
+        IHtmlElement? Command { get; }
 
         /// <summary>
         /// Gets or sets the type of command.
         /// </summary>
         [DomName("type")]
-        String Type { get; set; }
+        String? Type { get; set; }
 
         /// <summary>
         /// Gets or sets the user-visible label.
         /// </summary>
         [DomName("label")]
-        String Label { get; set; }
+        String? Label { get; set; }
 
         /// <summary>
         /// Gets or sets the icon for the command.
         /// </summary>
         [DomName("icon")]
-        String Icon { get; set; }
+        String? Icon { get; set; }
 
         /// <summary>
         /// Gets or sets if the menuitem element is enabled or disabled.
@@ -56,6 +56,6 @@
         /// treat as a radio button group.
         /// </summary>
         [DomName("radiogroup")]
-        String RadioGroup { get; set; }
+        String? RadioGroup { get; set; }
     }
 }

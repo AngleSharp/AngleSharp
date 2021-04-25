@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlPictureElement : HtmlElement
     {
-        public HtmlPictureElement(Document owner, String prefix = null)
+        public HtmlPictureElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Picture, prefix)
         {
         }

@@ -1,3 +1,5 @@
+#nullable disable
+
 namespace AngleSharp.Html.Forms.Submitters.Json
 {
     using AngleSharp.Text;
@@ -106,7 +108,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
         public JsonElement Run(JsonElement context, JsonElement value, Boolean file = false)
         {
-            if (Next == null)
+            if (Next is null)
             {
                 return JsonEncodeLastValue(context, value, file);
             }
@@ -120,7 +122,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
         {
             var currentValue = GetValue(context);
 
-            if (currentValue == null)
+            if (currentValue is null)
             {
                 var newValue = Next.CreateElement();
                 return SetValue(context, newValue);
@@ -145,7 +147,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
             var currentValue = GetValue(context);
 
             //undefined
-            if (currentValue == null)
+            if (currentValue is null)
             {
                 if (Append)
                 {

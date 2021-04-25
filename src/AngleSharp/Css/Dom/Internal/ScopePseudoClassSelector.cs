@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -17,9 +17,9 @@
 
         public void Accept(ISelectorVisitor visitor) => visitor.PseudoClass(PseudoClassNames.Scope);
 
-        public Boolean Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement? scope)
         {
-            var realScope = scope ?? element.Owner.DocumentElement;
+            var realScope = scope ?? element.Owner!.DocumentElement;
             return Object.ReferenceEquals(element, realScope);
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
     using System;
@@ -26,7 +26,7 @@
             _elements = elements;
         }
 
-        public HtmlCollection(INode parent, Boolean deep = true, Func<T, bool> predicate = null)
+        public HtmlCollection(INode parent, Boolean deep = true, Func<T, bool>? predicate = null)
         {
             _elements = parent.GetNodes(deep, predicate);
         }
@@ -37,7 +37,7 @@
 
         public T this[Int32 index] => _elements.GetItemByIndex(index);
 
-        public T this[String id] => _elements.GetElementById(id);
+        public T? this[String id] => _elements.GetElementById(id);
 
         #endregion
 

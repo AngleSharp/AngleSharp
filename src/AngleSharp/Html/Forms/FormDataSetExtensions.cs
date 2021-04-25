@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Forms
+namespace AngleSharp.Html.Forms
 {
     using AngleSharp.Io;
     using AngleSharp.Text;
@@ -8,7 +8,7 @@
 
     static class FormDataSetExtensions
     {
-        public static Stream CreateBody(this FormDataSet formDataSet, String enctype, String charset)
+        public static Stream CreateBody(this FormDataSet formDataSet, String enctype, String? charset)
         {
             var encoding = TextEncoding.Resolve(charset);
             return formDataSet.CreateBody(enctype, encoding);

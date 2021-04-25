@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -9,7 +9,7 @@
     /// </summary>
     sealed class CompoundSelector : Selectors, ISelector
     {
-        public Boolean Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement? scope)
         {
             for (var i = 0; i < _selectors.Count; i++)
             {

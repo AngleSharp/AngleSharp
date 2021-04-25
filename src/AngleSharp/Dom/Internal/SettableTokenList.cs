@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
 
@@ -9,7 +9,7 @@
     {
         #region ctor
 
-        internal SettableTokenList(String value)
+        internal SettableTokenList(String? value)
             : base(value)
         {
         }

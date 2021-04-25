@@ -11,8 +11,8 @@ namespace AngleSharp.Dom
         #region Fields
 
         private readonly String _localName;
-        private readonly String _prefix;
-        private readonly String _namespace;
+        private readonly String? _prefix;
+        private readonly String? _namespace;
         private String _value;
 
         #endregion
@@ -46,7 +46,7 @@ namespace AngleSharp.Dom
         /// <param name="localName">The local name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
         /// <param name="namespaceUri">The namespace of the attribute.</param>
-        public Attr(String prefix, String localName, String value, String namespaceUri)
+        public Attr(String? prefix, String localName, String value, String? namespaceUri)
         {
             _prefix = prefix;
             _localName = localName;
@@ -58,7 +58,7 @@ namespace AngleSharp.Dom
 
         #region Internal Properties
 
-        internal NamedNodeMap Container
+        internal NamedNodeMap? Container
         {
             get;
             set;
@@ -71,12 +71,12 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the attribute's prefix.
         /// </summary>
-        public String Prefix => _prefix;
+        public String? Prefix => _prefix;
 
         /// <summary>
         /// Gets if the attribute is an id attribute.
         /// </summary>
-        public Boolean IsId => _prefix == null && _localName.Isi(AttributeNames.Id);
+        public Boolean IsId => _prefix is null && _localName.Isi(AttributeNames.Id);
 
         /// <summary>
         /// Gets if the value is given or not.
@@ -86,7 +86,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the attribute's fully qualified name.
         /// </summary>
-        public String Name => _prefix == null ? _localName : String.Concat(_prefix, ":", _localName);
+        public String Name => _prefix is null ? _localName : String.Concat(_prefix, ":", _localName);
 
         /// <summary>
         /// Gets the attribute's value.
@@ -110,7 +110,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the attribute's namespace.
         /// </summary>
-        public String NamespaceUri => _namespace;
+        public String? NamespaceUri => _namespace;
 
         #endregion
 

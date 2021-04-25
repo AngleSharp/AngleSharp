@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlLegendElement(Document owner, String prefix = null)
+        public HtmlLegendElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Legend, prefix)
         {
         }
@@ -22,7 +22,7 @@
         /// <summary>
         /// Gets the associated form.
         /// </summary>
-        public IHtmlFormElement Form
+        public IHtmlFormElement? Form
         {
             get 
             {

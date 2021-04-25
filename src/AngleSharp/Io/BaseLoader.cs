@@ -30,7 +30,7 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="context">The context to use.</param>
         /// <param name="filter">The optional request filter to use.</param>
-        public BaseLoader(IBrowsingContext context, Predicate<Request> filter)
+        public BaseLoader(IBrowsingContext context, Predicate<Request>? filter)
         {
             _context = context;
             _filter = filter ?? (_ => true);
@@ -101,14 +101,14 @@ namespace AngleSharp.Io
         /// <param name="request">The request data.</param>
         /// <param name="originator">The request's originator.</param>
         /// <returns>The active download.</returns>
-        protected virtual IDownload DownloadAsync(Request request, INode originator)
+        protected virtual IDownload DownloadAsync(Request request, INode? originator)
         {
             var cancel = new CancellationTokenSource();
 
             if (_filter.Invoke(request))
             {
                 var task = LoadAsync(request, cancel.Token);
-                var download = new Download(task, cancel, request.Address, originator);
+                var download = new Download(task, cancel, request.Address!, originator);
                 Add(download);
                 task.ContinueWith(m => Remove(download));
                 return download;
@@ -116,7 +116,7 @@ namespace AngleSharp.Io
             else
             {
                 var result = Task.FromResult(default(IResponse));
-                return new Download(result, cancel, request.Address, originator);
+                return new Download(result!, cancel, request.Address!, originator);
             }
         }
 
@@ -170,7 +170,7 @@ namespace AngleSharp.Io
             }
             while (response != null && response.StatusCode.IsRedirected() && redirectCount < MaxRedirects);
 
-            return response;
+            return response!;
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace AngleSharp.Io
 
         private void AppendCookieTo(Request request)
         {
-            var cookie = GetCookie(request.Address);
+            var cookie = GetCookie(request.Address!);
 
             if (cookie != null)
             {

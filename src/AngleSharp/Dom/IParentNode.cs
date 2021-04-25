@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -21,13 +21,13 @@
         /// Gets the first child element of this element.
         /// </summary>
         [DomName("firstElementChild")]
-        IElement FirstElementChild { get; }
+        IElement? FirstElementChild { get; }
 
         /// <summary>
         /// Gets the last child element of this element.
         /// </summary>
         [DomName("lastElementChild")]
-        IElement LastElementChild { get; }
+        IElement? LastElementChild { get; }
 
         /// <summary>
         /// Gets the number of child elements.
@@ -57,7 +57,7 @@
         /// <param name="selectors">The group of selectors to use.</param>
         /// <returns>The found element.</returns>
         [DomName("querySelector")]
-        IElement QuerySelector(String selectors);
+        IElement? QuerySelector(String selectors);
 
         /// <summary>
         /// Returns a list of the elements within the document (using

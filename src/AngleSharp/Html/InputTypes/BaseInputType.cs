@@ -87,7 +87,7 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// Tries to convert the given string to a number.
         /// </summary>
-        public virtual Double? ConvertToNumber(String value)
+        public virtual Double? ConvertToNumber(String? value)
         {
             return null;
         }
@@ -121,7 +121,7 @@ namespace AngleSharp.Html.InputTypes
         /// </summary>
         public virtual void ConstructDataSet(FormDataSet dataSet)
         {
-            dataSet.Append(_input.Name, _input.Value, _input.Type);
+            dataSet.Append(_input.Name!, _input.Value, _input.Type);
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// Checks if the string does not follow the pattern.
         /// </summary>
-        protected static Boolean IsInvalidPattern(String pattern, String value)
+        protected static Boolean IsInvalidPattern(String? pattern, String? value)
         {
             if (!String.IsNullOrEmpty(pattern) && !String.IsNullOrEmpty(value))
             {
@@ -321,7 +321,7 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// Tries to convert the value to a number using the default expression.
         /// </summary>
-        protected static Double? ToNumber(String value)
+        protected static Double? ToNumber(String? value)
         {
             if (!String.IsNullOrEmpty(value) && Number.IsMatch(value))
             {

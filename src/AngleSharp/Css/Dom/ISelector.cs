@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
@@ -17,7 +17,7 @@
         /// <returns>
         /// True if the selector matches the given element, otherwise false.
         /// </returns>
-        Boolean Match(IElement element, IElement scope);
+        Boolean Match(IElement element, IElement? scope);
 
         /// <summary>
         /// Gets the string representation of the selector.
