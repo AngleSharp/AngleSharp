@@ -322,7 +322,7 @@ namespace AngleSharp.Css.Parser
 
         private void OnAttributeEnd(CssSelectorToken token)
         {
-            if (!_attrInsensitive && token.Type == CssTokenType.Ident && token.Data == "i")
+            if (!_attrInsensitive && token.Type == CssTokenType.Ident && token.Data is "i")
             {
                 _attrInsensitive = true;
             }
@@ -1071,13 +1071,12 @@ namespace AngleSharp.Css.Parser
                 }
                 else if (token.Type == CssTokenType.Delim && token.Data.IsOneOf("+", "-"))
                 {
-                    _sign = token.Data == "-" ? -1 : +1;
+                    _sign = token.Data is "-" ? -1 : +1;
                     _state = ParseState.AfterInitialSign;
                     return false;
                 }
 
                 return OnAfterInitialSign(token);
-
             }
 
             private enum ParseState : byte
