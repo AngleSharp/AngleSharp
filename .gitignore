@@ -192,3 +192,6 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+/src/AngleSharp.Benchmarks/BenchmarkDotNet.Artifacts*
+/src/AngleSharp.Benchmarks/temp
