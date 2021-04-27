@@ -1,33 +1,38 @@
-﻿namespace AngleSharp.Performance
+﻿using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace AngleSharp.Benchmarks
 {
-    using System;
-    using System.IO;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-
-    sealed class UrlTest : ITest
+    public sealed class UrlTest
     {
-        static readonly HttpClient http = new HttpClient();
+        private static readonly HttpClient http = new();
 
-        private UrlTest(String name, String source)
+        private UrlTest(string name, string source)
         {
             Name = name;
             Source = source;
         }
 
-        internal static async Task<UrlTest> For(String url, String extension, Boolean withBuffer)
+        internal static async Task<UrlTest> For(string url, string extension, bool withBuffer)
         {
             try
             {
-                var source = String.Empty;
+                var source = string.Empty;
                 var uri = new Uri(url);
                 var name = uri.Host.Replace("www.", "").Replace(".com", "").Replace(".de", "").Replace(".org", "");
-                var fileName = name + extension;
+                if (!Directory.Exists("temp"))
+                {
+                    Directory.CreateDirectory("temp");
+                }
+                var fileName = Path.Combine("temp", name + extension);
 
                 if (!withBuffer || !File.Exists(fileName))
                 {
                     http.DefaultRequestHeaders.UserAgent.Clear();
-                    http.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.27 Safari/537.36 OPR/26.0.1656.8 (Edition beta)");
+                    http.DefaultRequestHeaders.UserAgent.ParseAdd(
+                        "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.27 Safari/537.36 OPR/26.0.1656.8 (Edition beta)");
                     var content = await http.GetAsync(uri);
                     source = await content.Content.ReadAsStringAsync();
 
@@ -50,16 +55,13 @@
             }
         }
 
-        public String Name
-        {
-            get;
-            private set;
-        }
+        public string Name { get; }
 
-        public String Source
+        public string Source { get; }
+
+        public override string ToString()
         {
-            get;
-            private set;
+            return Name;
         }
     }
 }
