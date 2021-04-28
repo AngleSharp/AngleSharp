@@ -529,7 +529,7 @@ namespace AngleSharp
 
             if (loader is null)
             {
-                return Enumerable.Empty<Task>();
+                return Array.Empty<Task>();
             }
 
             return loader.GetDownloads().Where(m => m.Source is T).Select(m => m.Task);

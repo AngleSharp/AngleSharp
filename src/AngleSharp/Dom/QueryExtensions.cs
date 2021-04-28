@@ -55,7 +55,7 @@ namespace AngleSharp.Dom
                 return sg.MatchAll(nodes.OfType<IElement>(), scope);
             }
 
-            return new HtmlCollection<IElement>(Enumerable.Empty<IElement>());
+            return new HtmlCollection<IElement>(Array.Empty<IElement>());
         }
 
         /// <summary>

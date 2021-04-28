@@ -689,7 +689,7 @@ namespace AngleSharp.Css.Parser
 
                         if (elements is null)
                         {
-                            elements = Enumerable.Empty<IElement>();
+                            elements = Array.Empty<IElement>();
                         }
 
                         return sel.MatchAny(elements, el) != null;

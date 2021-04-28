@@ -3,7 +3,6 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents an HTML slot element.
@@ -57,7 +56,7 @@ namespace AngleSharp.Html.Dom
                 return list;
             }
 
-            return Enumerable.Empty<INode>();
+            return Array.Empty<INode>();
         }
 
         #endregion
