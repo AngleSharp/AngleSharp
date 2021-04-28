@@ -149,7 +149,7 @@ namespace AngleSharp
         /// <param name="context">The browsing context to use.</param>
         /// <param name="url">The URL to navigate to.</param>
         /// <returns>The found navigation handler, if any.</returns>
-        public static INavigationHandler GetNavigationHandler(this IBrowsingContext context, Url url) =>
+        public static INavigationHandler? GetNavigationHandler(this IBrowsingContext context, Url url) =>
             context.GetServices<INavigationHandler>().FirstOrDefault(m => m.SupportsProtocol(url.Scheme));
 
         #endregion

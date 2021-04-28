@@ -108,7 +108,7 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="key">The parameter's key.</param>
         /// <returns>The value of the parameter or null.</returns>
-        public String GetParameter(String key) => _params.Split(';').Where(m => m.StartsWith(key + "="))
+        public String? GetParameter(String key) => _params.Split(';').Where(m => m.StartsWith(key + "="))
             .Select(m => m.Substring(m.IndexOf('=') + 1))
             .FirstOrDefault();
 

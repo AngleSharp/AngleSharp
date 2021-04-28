@@ -35,7 +35,7 @@ namespace AngleSharp.Dom
 
         #region Properties
 
-        public IElement ActiveElement => this.GetDescendants().OfType<Element>().Where(m => m.IsFocused).FirstOrDefault();
+        public IElement? ActiveElement => this.GetDescendants().OfType<Element>().Where(m => m.IsFocused).FirstOrDefault();
 
         public IElement Host => _host;
 

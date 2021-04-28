@@ -672,7 +672,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IElement ActiveElement => All.Where(m => m.IsFocused).FirstOrDefault();
+        public IElement? ActiveElement => All.Where(m => m.IsFocused).FirstOrDefault();
 
         /// <inheritdoc />
         public String CompatMode => _quirksMode.GetCompatiblity();
