@@ -33,10 +33,10 @@ namespace AngleSharp.Dom
                 var child = root.FirstChild;
                 root.RemoveChild(child);
 
-                if (child is Node)
+                if (child is Node childNode)
                 {
                     Owner.AdoptNode(child);
-                    InsertBefore((Node)child, null, false);
+                    InsertBefore(childNode, null, false);
                 }
             }
         }
