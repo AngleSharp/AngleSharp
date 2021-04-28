@@ -947,19 +947,14 @@ namespace AngleSharp.Css.Parser
 
             protected override Boolean OnToken(CssSelectorToken token)
             {
-                switch (_state)
+                return _state switch
                 {
-                    case ParseState.Initial:
-                        return OnInitial(token);
-                    case ParseState.AfterInitialSign:
-                        return OnAfterInitialSign(token);
-                    case ParseState.Offset:
-                        return OnOffset(token);
-                    case ParseState.BeforeOf:
-                        return OnBeforeOf(token);
-                    default:
-                        return OnAfter(token);
-                }
+                    ParseState.Initial          => OnInitial(token),
+                    ParseState.AfterInitialSign => OnAfterInitialSign(token),
+                    ParseState.Offset           => OnOffset(token),
+                    ParseState.BeforeOf         => OnBeforeOf(token),
+                    _                           => OnAfter(token)
+                };
             }
 
             private Boolean OnAfterInitialSign(CssSelectorToken token)

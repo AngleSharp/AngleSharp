@@ -89,23 +89,22 @@ namespace AngleSharp.Dom
         /// <returns>True if the node is accepted, otherwise false.</returns>
         public static Boolean Accepts(this FilterSettings filter, INode node)
         {
-            switch (node.NodeType)
+            return node.NodeType switch
             {
-                case NodeType.Attribute:             return (filter & FilterSettings.Attribute) == FilterSettings.Attribute;
-                case NodeType.CharacterData:         return (filter & FilterSettings.CharacterData) == FilterSettings.CharacterData;
-                case NodeType.Comment:               return (filter & FilterSettings.Comment) == FilterSettings.Comment;
-                case NodeType.Document:              return (filter & FilterSettings.Document) == FilterSettings.Document;
-                case NodeType.DocumentFragment:      return (filter & FilterSettings.DocumentFragment) == FilterSettings.DocumentFragment;
-                case NodeType.DocumentType:          return (filter & FilterSettings.DocumentType) == FilterSettings.DocumentType;
-                case NodeType.Element:               return (filter & FilterSettings.Element) == FilterSettings.Element;
-                case NodeType.Entity:                return (filter & FilterSettings.Entity) == FilterSettings.Entity;
-                case NodeType.EntityReference:       return (filter & FilterSettings.EntityReference) == FilterSettings.EntityReference;
-                case NodeType.ProcessingInstruction: return (filter & FilterSettings.ProcessingInstruction) == FilterSettings.ProcessingInstruction;
-                case NodeType.Notation:              return (filter & FilterSettings.Notation) == FilterSettings.Notation;
-                case NodeType.Text:                  return (filter & FilterSettings.Text) == FilterSettings.Text;
-            }
-
-            return filter == FilterSettings.All;
+                NodeType.Attribute              => (filter & FilterSettings.Attribute) == FilterSettings.Attribute,
+                NodeType.CharacterData          => (filter & FilterSettings.CharacterData) == FilterSettings.CharacterData,
+                NodeType.Comment                => (filter & FilterSettings.Comment) == FilterSettings.Comment,
+                NodeType.Document               => (filter & FilterSettings.Document) == FilterSettings.Document,
+                NodeType.DocumentFragment       => (filter & FilterSettings.DocumentFragment) == FilterSettings.DocumentFragment,
+                NodeType.DocumentType           => (filter & FilterSettings.DocumentType) == FilterSettings.DocumentType,
+                NodeType.Element                => (filter & FilterSettings.Element) == FilterSettings.Element,
+                NodeType.Entity                 => (filter & FilterSettings.Entity) == FilterSettings.Entity,
+                NodeType.EntityReference        => (filter & FilterSettings.EntityReference) == FilterSettings.EntityReference,
+                NodeType.ProcessingInstruction  => (filter & FilterSettings.ProcessingInstruction) == FilterSettings.ProcessingInstruction,
+                NodeType.Notation               => (filter & FilterSettings.Notation) == FilterSettings.Notation,
+                NodeType.Text                   => (filter & FilterSettings.Text) == FilterSettings.Text,
+                _                               => filter == FilterSettings.All
+            };
         }
 
         /// <summary>
