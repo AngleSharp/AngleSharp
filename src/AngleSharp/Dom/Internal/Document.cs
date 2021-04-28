@@ -1486,13 +1486,13 @@ namespace AngleSharp.Dom
             {
                 var url = new Url(e.CurrentLocation);
                 var request = DocumentRequest.Get(url, source: this, referer: DocumentUri);
-                await _context.OpenAsync(request, CancellationToken.None);
+                await _context.OpenAsync(request, CancellationToken.None).ConfigureAwait(false);
             }
             else
             {
                 var url = _location.Original;
                 var request = DocumentRequest.Get(url, source: this, referer: Referrer);
-                await _context.OpenAsync(request, CancellationToken.None);
+                await _context.OpenAsync(request, CancellationToken.None).ConfigureAwait(false);
             }
         }
 

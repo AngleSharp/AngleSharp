@@ -20,6 +20,9 @@ namespace AngleSharp.Browser.Dom.Events
             Error = error;
         }
 
+        /// <summary>
+        /// Error to be transported.
+        /// </summary>
         public Exception Error { get; }
     }
 }

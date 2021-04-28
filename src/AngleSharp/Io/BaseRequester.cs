@@ -41,7 +41,7 @@
         {
             var ev = new RequestEvent(request, null);
             InvokeEventListener(ev);
-            var response = await PerformRequestAsync(request, cancel);
+            var response = await PerformRequestAsync(request, cancel).ConfigureAwait(false);
             ev = new RequestEvent(request, response);
             InvokeEventListener(ev);
             return response;
