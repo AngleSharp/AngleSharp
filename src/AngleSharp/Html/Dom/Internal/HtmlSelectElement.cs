@@ -51,7 +51,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.Required, value);
         }
 
-        public IHtmlCollection<IHtmlOptionElement> SelectedOptions => _selected ?? (_selected = new HtmlCollection<IHtmlOptionElement>(Options.Where(m => m.IsSelected)));
+        public IHtmlCollection<IHtmlOptionElement> SelectedOptions => _selected ??= new HtmlCollection<IHtmlOptionElement>(Options.Where(m => m.IsSelected));
 
         public Int32 SelectedIndex => Options.SelectedIndex;
 
@@ -82,7 +82,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.Multiple, value);
         }
 
-        public IHtmlOptionsCollection Options => _options ?? (_options = new OptionsCollection(this));
+        public IHtmlOptionsCollection Options => _options ??= new OptionsCollection(this);
 
         public String Type => IsMultiple ? InputTypeNames.SelectMultiple : InputTypeNames.SelectOne;
 

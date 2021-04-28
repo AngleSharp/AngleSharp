@@ -25,7 +25,7 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IHtmlCollection<IHtmlOptionElement> Options => _options ?? (_options = new HtmlCollection<IHtmlOptionElement>(this));
+        public IHtmlCollection<IHtmlOptionElement> Options => _options ??= new HtmlCollection<IHtmlOptionElement>(this);
 
         #endregion
     }

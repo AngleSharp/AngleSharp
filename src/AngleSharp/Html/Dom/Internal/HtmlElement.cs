@@ -537,7 +537,7 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        public IStringMap Dataset => _dataset ?? (_dataset = new StringMap("data-", this));
+        public IStringMap Dataset => _dataset ??= new StringMap("data-", this);
 
         /// <inheritdoc />
         public String? ContentEditable

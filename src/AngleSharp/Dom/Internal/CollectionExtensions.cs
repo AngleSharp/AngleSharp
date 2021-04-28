@@ -25,7 +25,7 @@ namespace AngleSharp.Dom
         public static IEnumerable<T> GetNodes<T>(this INode parent, Boolean deep = true, Func<T, Boolean>? predicate = null)
             where T : class, INode
         {
-            predicate = predicate ?? (m => true);
+            predicate ??= (m => true);
             return deep ? parent.GetAllNodes(predicate) : parent.GetDescendendElements(predicate);
         }
 

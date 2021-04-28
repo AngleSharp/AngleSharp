@@ -44,7 +44,7 @@ namespace AngleSharp
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel = default)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));
-            context = context ?? BrowsingContext.New();
+            context ??= BrowsingContext.New();
             var encoding = context.GetDefaultEncoding();
             var factory = context.GetFactory<IDocumentFactory>();
             var options = new CreateDocumentOptions(response, encoding);
@@ -62,7 +62,7 @@ namespace AngleSharp
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default)
         {
             request = request ?? throw new ArgumentNullException(nameof(request));
-            context = context ?? BrowsingContext.New();
+            context ??= BrowsingContext.New();
             return context.NavigateToAsync(request, cancel);
         }
 

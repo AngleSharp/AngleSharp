@@ -49,7 +49,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the user-agent information.
         /// </summary>
-        public INavigator? Navigator => _navigator ?? (_navigator = _document.Context.GetService<INavigator>());
+        public INavigator? Navigator => _navigator ??= _document.Context.GetService<INavigator>();
 
         /// <summary>
         /// Gets a reference to the document that the window contains.

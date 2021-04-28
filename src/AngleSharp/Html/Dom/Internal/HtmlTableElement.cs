@@ -41,7 +41,7 @@ namespace AngleSharp.Html.Dom
             set { DeleteHead(); AppendChild(value); }
         }
 
-        public IHtmlCollection<IHtmlTableSectionElement> Bodies => _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName.Is(TagNames.Tbody)));
+        public IHtmlCollection<IHtmlTableSectionElement> Bodies => _bodies ??= new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName.Is(TagNames.Tbody));
 
         public IHtmlTableSectionElement Foot
         {
@@ -92,7 +92,7 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        public IHtmlCollection<IHtmlTableRowElement> Rows => _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(AllRows));
+        public IHtmlCollection<IHtmlTableRowElement> Rows => _rows ??= new HtmlCollection<IHtmlTableRowElement>(AllRows);
 
         public HorizontalAlignment Align
         {
