@@ -29,7 +29,7 @@ namespace AngleSharp.Html.LinkRels
             if (Url != null)
             {
                 var request = Link.CreateRequestFor(Url);
-                await Processor?.ProcessAsync(request)!;
+                await Processor.ProcessAsync(request).ConfigureAwait(false)!;
             }
         }
 
