@@ -2,7 +2,6 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
-    using System.IO;
     using System.Linq;
 
     /// <summary>

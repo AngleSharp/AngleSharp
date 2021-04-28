@@ -8,7 +8,6 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
 
     /// <summary>
     /// Class for construction for CSS selectors as specified in
