@@ -555,9 +555,7 @@ namespace AngleSharp.Html.Dom
 
                 if (value != ContentEditableMode.True)
                 {
-                    var parent = ParentElement as IHtmlElement;
-
-                    if (value == ContentEditableMode.Inherited && parent != null)
+                    if (value == ContentEditableMode.Inherited && ParentElement is IHtmlElement parent)
                     {
                         return parent.IsContentEditable;
                     }

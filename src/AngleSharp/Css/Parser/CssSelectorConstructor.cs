@@ -769,7 +769,7 @@ namespace AngleSharp.Css.Parser
                 if (_valid && _value != null)
                 {
                     var code = PseudoClassNames.Dir.CssFunction(_value);
-                    return new PseudoClassSelector(el => el is IHtmlElement && _value.Isi(((IHtmlElement)el).Direction), code);
+                    return new PseudoClassSelector(el => el is IHtmlElement htmlEl && _value.Isi(htmlEl.Direction), code);
                 }
 
                 return null;
@@ -810,7 +810,7 @@ namespace AngleSharp.Css.Parser
                 if (valid && value != null)
                 {
                     var code = PseudoClassNames.Lang.CssFunction(value);
-                    return new PseudoClassSelector(el => el is IHtmlElement && ((IHtmlElement)el).Language!.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
+                    return new PseudoClassSelector(el => el is IHtmlElement htmlEl && htmlEl.Language!.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
                 }
 
                 return null;

@@ -65,9 +65,9 @@ namespace AngleSharp.Dom
         {
             _actions.Add((element, actualName, value) =>
             {
-                if (element is TElement && actualName.Is(expectedName))
+                if (element is TElement tEl && actualName.Is(expectedName))
                 {
-                    callback.Invoke((TElement)element, value);
+                    callback.Invoke(tEl, value);
                 }
             });
         }

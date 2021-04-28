@@ -66,21 +66,19 @@ namespace AngleSharp.Html.Dom
 
                 foreach (var child in ChildNodes)
                 {
-                    if (child is IHtmlTableSectionElement)
+                    if (child is IHtmlTableSectionElement sectionEl)
                     {
-                        var body = (IHtmlTableSectionElement)child;
-
-                        if (body.LocalName.Is(TagNames.Tbody))
+                        if (sectionEl.LocalName.Is(TagNames.Tbody))
                         {
-                            foreach (var row in body.Rows)
+                            foreach (var row in sectionEl.Rows)
                             {
                                 yield return row;
                             }
                         }
                     }
-                    else if (child is IHtmlTableRowElement)
+                    else if (child is IHtmlTableRowElement rowEl)
                     {
-                        yield return (IHtmlTableRowElement)child;
+                        yield return rowEl;
                     }
                 }
 
