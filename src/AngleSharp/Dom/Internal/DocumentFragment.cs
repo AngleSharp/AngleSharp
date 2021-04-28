@@ -2,7 +2,6 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
-    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -33,10 +32,10 @@ namespace AngleSharp.Dom
                 var child = root.FirstChild;
                 root.RemoveChild(child);
 
-                if (child is Node)
+                if (child is Node childNode)
                 {
                     Owner.AdoptNode(child);
-                    InsertBefore((Node)child, null, false);
+                    InsertBefore(childNode, null, false);
                 }
             }
         }
@@ -47,7 +46,7 @@ namespace AngleSharp.Dom
 
         public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 
-        public IHtmlCollection<IElement> Children => _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false));
+        public IHtmlCollection<IElement> Children => _elements ??= new HtmlCollection<IElement>(this, deep: false);
 
         public IElement? FirstElementChild
         {

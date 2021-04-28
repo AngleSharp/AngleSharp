@@ -26,7 +26,7 @@ namespace AngleSharp.Html
         /// </summary>
         public IEnumerable<String> PreservedTags
         {
-            get => _preservedTags ?? Enumerable.Empty<String>();
+            get => _preservedTags ?? Array.Empty<String>();
             set => _preservedTags = value;
         }
 

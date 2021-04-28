@@ -44,7 +44,7 @@ namespace AngleSharp
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel = default)
         {
             response = response ?? throw new ArgumentNullException(nameof(response));
-            context = context ?? BrowsingContext.New();
+            context ??= BrowsingContext.New();
             var encoding = context.GetDefaultEncoding();
             var factory = context.GetFactory<IDocumentFactory>();
             var options = new CreateDocumentOptions(response, encoding);
@@ -62,7 +62,7 @@ namespace AngleSharp
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel = default)
         {
             request = request ?? throw new ArgumentNullException(nameof(request));
-            context = context ?? BrowsingContext.New();
+            context ??= BrowsingContext.New();
             return context.NavigateToAsync(request, cancel);
         }
 
@@ -149,7 +149,7 @@ namespace AngleSharp
         /// <param name="context">The browsing context to use.</param>
         /// <param name="url">The URL to navigate to.</param>
         /// <returns>The found navigation handler, if any.</returns>
-        public static INavigationHandler GetNavigationHandler(this IBrowsingContext context, Url url) =>
+        public static INavigationHandler? GetNavigationHandler(this IBrowsingContext context, Url url) =>
             context.GetServices<INavigationHandler>().FirstOrDefault(m => m.SupportsProtocol(url.Scheme));
 
         #endregion
@@ -529,7 +529,7 @@ namespace AngleSharp
 
             if (loader is null)
             {
-                return Enumerable.Empty<Task>();
+                return Array.Empty<Task>();
             }
 
             return loader.GetDownloads().Where(m => m.Source is T).Select(m => m.Task);

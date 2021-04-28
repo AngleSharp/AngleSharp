@@ -534,16 +534,16 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IHtmlAllCollection All => _all ?? (_all = new HtmlAllCollection(this));
+        public IHtmlAllCollection All => _all ??= new HtmlAllCollection(this);
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlAnchorElement> Anchors => _anchors ?? (_anchors = new HtmlCollection<IHtmlAnchorElement>(this, predicate: IsAnchor));
+        public IHtmlCollection<IHtmlAnchorElement> Anchors => _anchors ??= new HtmlCollection<IHtmlAnchorElement>(this, predicate: IsAnchor);
 
         /// <inheritdoc />
         public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Children => _children ?? (_children = new HtmlCollection<IElement>(ChildNodes.OfType<Element>()));
+        public IHtmlCollection<IElement> Children => _children ??= new HtmlCollection<IElement>(ChildNodes.OfType<Element>());
 
         /// <inheritdoc />
         public IElement? FirstElementChild
@@ -591,7 +591,7 @@ namespace AngleSharp.Dom
         public IHtmlScriptElement? CurrentScript => _loadingScripts.Count > 0 ? _loadingScripts.Peek() : null;
 
         /// <inheritdoc />
-        public IImplementation Implementation => _implementation ?? (_implementation = new DomImplementation(this));
+        public IImplementation Implementation => _implementation ??= new DomImplementation(this);
 
         /// <inheritdoc />
         public String? LastModified
@@ -622,10 +622,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IStyleSheetList StyleSheets => _styleSheets ?? (_styleSheets = this.CreateStyleSheets());
+        public IStyleSheetList StyleSheets => _styleSheets ??= this.CreateStyleSheets();
 
         /// <inheritdoc />
-        public IStringList StyleSheetSets => _styleSheetSets ?? (_styleSheetSets = this.CreateStyleSheetSets());
+        public IStringList StyleSheetSets => _styleSheetSets ??= this.CreateStyleSheetSets();
 
         /// <inheritdoc />
         public String Referrer
@@ -672,7 +672,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IElement ActiveElement => All.Where(m => m.IsFocused).FirstOrDefault();
+        public IElement? ActiveElement => All.Where(m => m.IsFocused).FirstOrDefault();
 
         /// <inheritdoc />
         public String CompatMode => _quirksMode.GetCompatiblity();
@@ -684,19 +684,19 @@ namespace AngleSharp.Dom
         public IHtmlCollection<IHtmlFormElement> Forms => new HtmlCollection<IHtmlFormElement>(this);
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlImageElement> Images => _images ?? (_images = new HtmlCollection<IHtmlImageElement>(this));
+        public IHtmlCollection<IHtmlImageElement> Images => _images ??= new HtmlCollection<IHtmlImageElement>(this);
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlScriptElement> Scripts => _scripts ?? (_scripts = new HtmlCollection<IHtmlScriptElement>(this));
+        public IHtmlCollection<IHtmlScriptElement> Scripts => _scripts ??= new HtmlCollection<IHtmlScriptElement>(this);
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlEmbedElement> Plugins => _plugins ?? (_plugins = new HtmlCollection<IHtmlEmbedElement>(this));
+        public IHtmlCollection<IHtmlEmbedElement> Plugins => _plugins ??= new HtmlCollection<IHtmlEmbedElement>(this);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Commands => _commands ?? (_commands = new HtmlCollection<IElement>(this, predicate: IsCommand));
+        public IHtmlCollection<IElement> Commands => _commands ??= new HtmlCollection<IElement>(this, predicate: IsCommand);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Links => _links ?? (_links = new HtmlCollection<IElement>(this, predicate: IsLink));
+        public IHtmlCollection<IElement> Links => _links ??= new HtmlCollection<IElement>(this, predicate: IsLink);
 
         /// <inheritdoc />
         public String? Title

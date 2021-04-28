@@ -8,7 +8,6 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
 
     /// <summary>
     /// Class for construction for CSS selectors as specified in
@@ -689,7 +688,7 @@ namespace AngleSharp.Css.Parser
 
                         if (elements is null)
                         {
-                            elements = Enumerable.Empty<IElement>();
+                            elements = Array.Empty<IElement>();
                         }
 
                         return sel.MatchAny(elements, el) != null;
@@ -769,7 +768,7 @@ namespace AngleSharp.Css.Parser
                 if (_valid && _value != null)
                 {
                     var code = PseudoClassNames.Dir.CssFunction(_value);
-                    return new PseudoClassSelector(el => el is IHtmlElement && _value.Isi(((IHtmlElement)el).Direction), code);
+                    return new PseudoClassSelector(el => el is IHtmlElement htmlEl && _value.Isi(htmlEl.Direction), code);
                 }
 
                 return null;
@@ -810,7 +809,7 @@ namespace AngleSharp.Css.Parser
                 if (valid && value != null)
                 {
                     var code = PseudoClassNames.Lang.CssFunction(value);
-                    return new PseudoClassSelector(el => el is IHtmlElement && ((IHtmlElement)el).Language!.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
+                    return new PseudoClassSelector(el => el is IHtmlElement htmlEl && htmlEl.Language!.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
                 }
 
                 return null;
@@ -947,19 +946,14 @@ namespace AngleSharp.Css.Parser
 
             protected override Boolean OnToken(CssSelectorToken token)
             {
-                switch (_state)
+                return _state switch
                 {
-                    case ParseState.Initial:
-                        return OnInitial(token);
-                    case ParseState.AfterInitialSign:
-                        return OnAfterInitialSign(token);
-                    case ParseState.Offset:
-                        return OnOffset(token);
-                    case ParseState.BeforeOf:
-                        return OnBeforeOf(token);
-                    default:
-                        return OnAfter(token);
-                }
+                    ParseState.Initial          => OnInitial(token),
+                    ParseState.AfterInitialSign => OnAfterInitialSign(token),
+                    ParseState.Offset           => OnOffset(token),
+                    ParseState.BeforeOf         => OnBeforeOf(token),
+                    _                           => OnAfter(token)
+                };
             }
 
             private Boolean OnAfterInitialSign(CssSelectorToken token)

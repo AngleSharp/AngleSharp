@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -13,7 +13,7 @@
         /// Gets the currently focused element in the shadow tree, if any.
         /// </summary>
         [DomName("activeElement")]
-        IElement ActiveElement { get; }
+        IElement? ActiveElement { get; }
 
         /// <summary>
         /// Gets the host element, which contains this shadow root.

@@ -35,7 +35,7 @@ namespace AngleSharp.Dom
 
         #region Properties
 
-        public IElement ActiveElement => this.GetDescendants().OfType<Element>().Where(m => m.IsFocused).FirstOrDefault();
+        public IElement? ActiveElement => this.GetDescendants().OfType<Element>().Where(m => m.IsFocused).FirstOrDefault();
 
         public IElement Host => _host;
 
@@ -49,7 +49,7 @@ namespace AngleSharp.Dom
 
         public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 
-        public IHtmlCollection<IElement> Children => _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false));
+        public IHtmlCollection<IElement> Children => _elements ??= new HtmlCollection<IElement>(this, deep: false);
 
         public IElement? FirstElementChild
         {

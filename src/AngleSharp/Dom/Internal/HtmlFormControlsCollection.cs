@@ -34,7 +34,7 @@ namespace AngleSharp.Dom
                 if (Object.ReferenceEquals(m.Form, form))
                 {
 
-                    if (!(m is IHtmlInputElement input) || !input.Type.Is(InputTypeNames.Image))
+                    if (m is not IHtmlInputElement input || !input.Type.Is(InputTypeNames.Image))
                     {
                         return true;
                     }

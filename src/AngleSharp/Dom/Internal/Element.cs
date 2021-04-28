@@ -178,9 +178,9 @@ namespace AngleSharp.Dom
                         {
                             found = true;
                         }
-                        else if (found && parent.ChildNodes[i] is IElement)
+                        else if (found && parent.ChildNodes[i] is IElement childEl)
                         {
-                            return (IElement)parent.ChildNodes[i];
+                            return childEl;
                         }
                     }
                 }
@@ -211,7 +211,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Children => _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false));
+        public IHtmlCollection<IElement> Children => _elements ??= new HtmlCollection<IElement>(this, deep: false);
 
         /// <inheritdoc />
         public IElement? FirstElementChild

@@ -537,7 +537,7 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        public IStringMap Dataset => _dataset ?? (_dataset = new StringMap("data-", this));
+        public IStringMap Dataset => _dataset ??= new StringMap("data-", this);
 
         /// <inheritdoc />
         public String? ContentEditable
@@ -555,9 +555,7 @@ namespace AngleSharp.Html.Dom
 
                 if (value != ContentEditableMode.True)
                 {
-                    var parent = ParentElement as IHtmlElement;
-
-                    if (value == ContentEditableMode.Inherited && parent != null)
+                    if (value == ContentEditableMode.Inherited && ParentElement is IHtmlElement parent)
                     {
                         return parent.IsContentEditable;
                     }

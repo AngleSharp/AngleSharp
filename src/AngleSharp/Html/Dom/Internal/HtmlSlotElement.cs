@@ -3,7 +3,6 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents an HTML slot element.
@@ -57,7 +56,7 @@ namespace AngleSharp.Html.Dom
                 return list;
             }
 
-            return Enumerable.Empty<INode>();
+            return Array.Empty<INode>();
         }
 
         #endregion
@@ -66,15 +65,12 @@ namespace AngleSharp.Html.Dom
 
         private static IElement? GetAssignedSlot(INode node)
         {
-            switch (node.NodeType)
+            return node.NodeType switch
             {
-                case NodeType.Text:
-                    return ((IText)node).AssignedSlot;
-                case NodeType.Element:
-                    return ((IElement)node).AssignedSlot;
-                default:
-                    return default(IElement);
-            }
+                NodeType.Text    => ((IText)node).AssignedSlot,
+                NodeType.Element => ((IElement)node).AssignedSlot,
+                _                => default(IElement)
+            };
         }
 
         #endregion

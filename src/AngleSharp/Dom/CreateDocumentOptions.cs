@@ -35,7 +35,7 @@ namespace AngleSharp.Dom
             var defaultEncoding = encoding ?? Encoding.UTF8;
             var source = new TextSource(response.Content, defaultEncoding);
 
-            if (!String.IsNullOrEmpty(charset) && TextEncoding.IsSupported(charset))
+            if (charset is { Length: > 0 } && TextEncoding.IsSupported(charset))
             {
                 source.CurrentEncoding = TextEncoding.Resolve(charset);
             }
