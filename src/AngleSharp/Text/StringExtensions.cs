@@ -151,7 +151,7 @@ namespace AngleSharp.Text
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted enum value.</returns>
         public static T ToEnum<T>(this String? value, T defaultValue)
-            where T : struct, IComparable
+            where T : struct, Enum
         {
             if (!String.IsNullOrEmpty(value) && Enum.TryParse(value, true, out T converted))
             {
