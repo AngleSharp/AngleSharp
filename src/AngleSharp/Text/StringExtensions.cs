@@ -151,7 +151,7 @@ namespace AngleSharp.Text
         /// <param name="defaultValue">The default value to consider (optional).</param>
         /// <returns>The converted enum value.</returns>
         public static T ToEnum<T>(this String? value, T defaultValue)
-            where T : struct, IComparable
+            where T : struct, Enum
         {
             if (!String.IsNullOrEmpty(value) && Enum.TryParse(value, true, out T converted))
             {
@@ -287,7 +287,8 @@ namespace AngleSharp.Text
         /// <returns>The modified string with collapsed spaces.</returns>
         public static String Collapse(this String str)
         {
-            var chars = new List<Char>();
+            var sb = StringBuilderPool.Obtain();
+
             var hasSpace = false;
 
             for (var i = 0; i < str.Length; i++)
@@ -296,18 +297,18 @@ namespace AngleSharp.Text
                 {
                     if (!hasSpace)
                     {
-                        chars.Add(Symbols.Space);
+                        sb.Append(Symbols.Space);
                         hasSpace = true;
                     }
                 }
                 else
                 {
                     hasSpace = false;
-                    chars.Add(str[i]);
+                    sb.Append(str[i]);
                 }
             }
 
-            return new String(chars.ToArray());
+            return StringBuilderPool.ToPool(sb);
         }
 
         /// <summary>

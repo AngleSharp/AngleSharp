@@ -2,6 +2,7 @@ namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Media;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     abstract class ResourceRequestProcessor<TResource> : BaseRequestProcessor
@@ -27,7 +28,8 @@ namespace AngleSharp.Io.Processors
 
         public String Source => Resource?.Source.Href ?? String.Empty;
 
-        public Boolean IsReady => Resource != null;
+        [MemberNotNullWhen(true, nameof(Resource))]
+        public Boolean IsReady => Resource is not null;
 
         public TResource? Resource
         {

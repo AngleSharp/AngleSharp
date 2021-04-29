@@ -57,7 +57,7 @@ namespace AngleSharp.Dom
             {
                 if (childIndex < parent.ChildNodes.Length)
                 {
-                    _frameStack.Push(new EnumerationFrame { Parent = parent, ChildIndex = childIndex });
+                    _frameStack.Push(new EnumerationFrame(parent, childIndex));
                 }
             }
 
@@ -70,10 +70,16 @@ namespace AngleSharp.Dom
                 throw new NotSupportedException();
             }
 
-            private struct EnumerationFrame
+            private readonly struct EnumerationFrame
             {
-                public INode Parent;
-                public Int32 ChildIndex;
+                public EnumerationFrame(INode parent, Int32 childIndex)
+                {
+                    Parent = parent;
+                    ChildIndex = childIndex;
+                }
+
+                public readonly INode Parent;
+                public readonly Int32 ChildIndex;
             }
         }
     }

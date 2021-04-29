@@ -22,9 +22,9 @@ namespace AngleSharp.Io.Processors
 
         #region Properties
 
-        public Int32 Width => IsReady ? Resource!.Width : 0;
+        public Int32 Width => IsReady ? Resource.Width : 0;
 
-        public Int32 Height => IsReady ? Resource!.Height : 0;
+        public Int32 Height => IsReady ? Resource.Height : 0;
 
         #endregion
 

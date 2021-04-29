@@ -19,7 +19,7 @@ namespace AngleSharp.Dom
 
         #region Properties
 
-        private List<RegisteredEventListener> Listeners => _listeners ?? (_listeners = new List<RegisteredEventListener>());
+        private List<RegisteredEventListener> Listeners => _listeners ??= new List<RegisteredEventListener>();
 
         #endregion
 
@@ -47,12 +47,7 @@ namespace AngleSharp.Dom
         {
             if (callback != null)
             {
-                Listeners.Add(new RegisteredEventListener
-                {
-                    Type = type,
-                    Callback = callback,
-                    IsCaptured = capture
-                });
+                Listeners.Add(new RegisteredEventListener(type, callback, capture));
             }
         }
 
@@ -74,12 +69,7 @@ namespace AngleSharp.Dom
         {
             if (callback != null)
             {
-                _listeners?.Remove(new RegisteredEventListener
-                {
-                    Type = type,
-                    Callback = callback,
-                    IsCaptured = capture
-                });
+                _listeners?.Remove(new RegisteredEventListener(type, callback, capture));
             }
         }
 
@@ -171,11 +161,18 @@ namespace AngleSharp.Dom
 
         #region Event Listener Structure
 
-        private struct RegisteredEventListener
+        private readonly struct RegisteredEventListener
         {
-            public String Type;
-            public DomEventHandler Callback;
-            public Boolean IsCaptured;
+            public RegisteredEventListener(String type, DomEventHandler callback, Boolean isCaptured)
+            {
+                Type = type;
+                Callback = callback;
+                IsCaptured = isCaptured;
+            }
+
+            public readonly String Type;
+            public readonly DomEventHandler Callback;
+            public readonly Boolean IsCaptured;
         }
 
         #endregion

@@ -5,7 +5,7 @@ namespace AngleSharp.Text
     /// <summary>
     /// The position in the source code.
     /// </summary>
-    public struct TextPosition : IEquatable<TextPosition>, IComparable<TextPosition>
+    public readonly struct TextPosition : IEquatable<TextPosition>, IComparable<TextPosition>
     {
         #region Fields
 

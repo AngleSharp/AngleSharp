@@ -7,7 +7,7 @@ namespace AngleSharp.Css
     /// A priority object for comparing priorities.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct Priority : IEquatable<Priority>, IComparable<Priority>
+    public readonly struct Priority : IEquatable<Priority>, IComparable<Priority>
     {
         #region Fields
 

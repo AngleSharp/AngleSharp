@@ -127,7 +127,7 @@ Therefore we created a backing model via [Bountysource](https://salt.bountysourc
 
 ## Development
 
-AngleSharp is written in C# 7.1 and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2017+ is recommended on Windows. Alternatively, VSCode (with OmniSharp or another suitable Language Server Protocol implementation) should be the tool of choice on other platforms.
+AngleSharp is written in C# 9 and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2019+ is recommended on Windows. Alternatively, VSCode (with OmniSharp or another suitable Language Server Protocol implementation) should be the tool of choice on other platforms.
 
 The code tries to be as clean as possible. Notably the following rules are used:
 
@@ -149,7 +149,7 @@ This project is supported by the [.NET Foundation](https://dotnetfoundation.org)
 
 The MIT License (MIT)
 
-Copyright (c) 2013 - 2020 AngleSharp
+Copyright (c) 2013 - 2021 AngleSharp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

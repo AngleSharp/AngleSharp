@@ -3,7 +3,6 @@ namespace AngleSharp.Io
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents an Internet media type.
@@ -91,13 +90,25 @@ namespace AngleSharp.Io
         /// </summary>
         public String Suffix => _suffix;
 
+        private static readonly char[] s_semicolon = { ';' };
+
         /// <summary>
         /// Gets an iterator over all integrated keys.
         /// </summary>
-        public IEnumerable<String> Keys => _params
-            .Split(';')
-            .Where(m => !String.IsNullOrEmpty(m))
-            .Select(m => m.IndexOf('=') >= 0 ? m.Substring(0, m.IndexOf('=')) : m);
+        public IEnumerable<String> Keys
+        {
+            get
+            {
+                foreach (var p in _params.Split(s_semicolon))
+                {
+                    if (p.Length == 0) continue;
+
+                    int equalIndex = p.IndexOf('=');
+
+                    yield return equalIndex >= 0 ? p.Substring(0, equalIndex) : p;
+                }
+            }
+         }
 
         #endregion
 
@@ -108,10 +119,19 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="key">The parameter's key.</param>
         /// <returns>The value of the parameter or null.</returns>
-        public String? GetParameter(String key) => _params.Split(';').Where(m => m.StartsWith(key + "="))
-            .Select(m => m.Substring(m.IndexOf('=') + 1))
-            .FirstOrDefault();
+        public String? GetParameter(String key)
+        {
+            foreach (var p in _params.Split(s_semicolon))
+            {
+                if (p.StartsWith(key, StringComparison.Ordinal) && p.Length > key.Length && p[key.Length] == '=')
+                {
+                    return p.Substring(key.Length + 1);
+                }
+            }
 
+            return null;
+        }
+     
         /// <summary>
         /// Returns the string representation of the MIME type.
         /// </summary>
