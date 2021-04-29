@@ -5,7 +5,7 @@ namespace AngleSharp.Css.Parser
     /// <summary>
     /// The CSS selector token.
     /// </summary>
-    struct CssSelectorToken
+    readonly struct CssSelectorToken
     {
         #region Fields
 

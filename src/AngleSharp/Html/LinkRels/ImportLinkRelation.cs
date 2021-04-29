@@ -46,11 +46,7 @@ namespace AngleSharp.Html.LinkRels
             var list = ImportLists.GetOrCreateValue(document!);
             var location = Url;
             var processor = Processor;
-            var item = new ImportEntry
-            {
-                Relation = this,
-                IsCycle = location != null && CheckCycle(document!, location)
-            };
+            var item = new ImportEntry(this, isCycle: location != null && CheckCycle(document!, location));
             list.Add(item);
 
             if (location != null && !item.IsCycle)
@@ -116,10 +112,16 @@ namespace AngleSharp.Html.LinkRels
             public void Remove(ImportEntry item) => _list.Remove(item);
         }
 
-        private struct ImportEntry
+        private readonly struct ImportEntry
         {
-            public ImportLinkRelation Relation;
-            public Boolean IsCycle;
+            public ImportEntry(ImportLinkRelation relation, Boolean isCycle)
+            {
+                Relation = relation;
+                IsCycle = isCycle;
+            }
+
+            public readonly ImportLinkRelation Relation;
+            public readonly Boolean IsCycle;
         }
 
         #endregion

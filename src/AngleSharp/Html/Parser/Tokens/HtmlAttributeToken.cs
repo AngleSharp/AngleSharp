@@ -6,7 +6,7 @@ namespace AngleSharp.Html.Parser.Tokens
     /// <summary>
     /// The token representation of an HTML tag attribute.
     /// </summary>
-    public struct HtmlAttributeToken
+    public readonly struct HtmlAttributeToken
     {
         /// <summary>
         /// Creates a new attribute token using the provided information.

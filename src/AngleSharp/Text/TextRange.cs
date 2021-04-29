@@ -7,7 +7,7 @@ namespace AngleSharp.Text
     /// The positional range in the source code.
     /// </summary>
     [DebuggerStepThrough]
-    public struct TextRange : IEquatable<TextRange>, IComparable<TextRange>
+    public readonly struct TextRange : IEquatable<TextRange>, IComparable<TextRange>
     {
         #region Fields
 
@@ -81,8 +81,7 @@ namespace AngleSharp.Text
         /// </returns>
         public override Boolean Equals(Object obj)
         {
-            var other = obj as TextRange?;
-            return other.HasValue ? Equals(other.Value) : false;
+            return obj is TextRange other && Equals(other);
         }
 
         /// <summary>
