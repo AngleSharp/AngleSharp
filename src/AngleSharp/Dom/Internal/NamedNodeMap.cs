@@ -55,7 +55,7 @@ namespace AngleSharp.Dom
 
         internal void RaiseChangedEvent(Attr attr, String? newValue, String? oldValue)
         {
-            if (_owner.TryGetTarget(out Element? element))
+            if (_owner.TryGetTarget(out var element))
             {
                 element.AttributeChanged(attr.LocalName, attr.NamespaceUri, oldValue, newValue);
             }
