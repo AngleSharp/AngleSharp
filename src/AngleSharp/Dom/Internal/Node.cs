@@ -381,7 +381,7 @@ namespace AngleSharp.Dom
             NodeIsRemoved(node, oldPreviousSibling);
         }
 
-        internal INode ReplaceChild(Node node, Node child, Boolean suppressObservers)
+        internal Node ReplaceChild(Node node, Node child, Boolean suppressObservers)
         {
             if (this.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(this))
                 throw new DomException(DomError.HierarchyRequest);
@@ -735,7 +735,7 @@ namespace AngleSharp.Dom
 
         #region Helpers
 
-        private static Boolean IsChangeForbidden(Node node, IDocument parent, INode child)
+        private static Boolean IsChangeForbidden(Node node, IDocument parent, Node child)
         {
             switch (node._type)
             {
