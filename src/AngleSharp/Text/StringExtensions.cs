@@ -442,7 +442,7 @@ namespace AngleSharp.Text
         /// <summary>
         /// Strips all leading and trailing space characters from the given char array.
         /// </summary>
-        /// <param name="str">The array of characters to examine.</param>
+        /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static String StripLeadingTrailingSpaces(this string str)
