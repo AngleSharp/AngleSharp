@@ -399,7 +399,7 @@ namespace AngleSharp.Dom
             {
                 var type = inputElement.Type;
 
-                if (type == InputTypeNames.Submit || type == InputTypeNames.Image)
+                if (type.IsOneOf(InputTypeNames.Submit, InputTypeNames.Image))
                 {
                     var form = inputElement.Form;
 
