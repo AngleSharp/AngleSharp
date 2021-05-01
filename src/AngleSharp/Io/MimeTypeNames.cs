@@ -65,6 +65,8 @@ namespace AngleSharp.Io
             { ".asx", "application/x-mplayer2" },
             { ".au", "audio/basic" },
             { ".avi", "video/avi" },
+            { ".avif", "image/avif" },
+            { ".avifs", "image/avif-sequence" },
             { ".avs", "video/avs-video" },
             { ".bcpio", "application/x-bcpio" },
             { ".bin", "application/octet-stream" },
