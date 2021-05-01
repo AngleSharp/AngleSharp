@@ -1138,7 +1138,6 @@ namespace AngleSharp
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.5
             // domain to ASCII
             string domainToAscii;
-            var buffer = StringBuilderPool.Obtain();
 
             try
             {
@@ -1149,6 +1148,8 @@ namespace AngleSharp
                 sanatizedHostName = hostName.Substring(start, length);
                 return false;
             }
+
+            var buffer = StringBuilderPool.Obtain();
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.7
             // forbidden host code point check
