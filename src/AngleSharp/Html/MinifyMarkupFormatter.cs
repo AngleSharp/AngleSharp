@@ -106,6 +106,8 @@ namespace AngleSharp.Html
                         return sb.ToPool();
                     }
 
+                    _= sb.ToPool();
+
                     return String.Empty;
                 }
 
