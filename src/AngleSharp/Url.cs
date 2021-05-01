@@ -717,7 +717,7 @@ namespace AngleSharp
                 index++;
             }
 
-            buffer.ToPool();
+            buffer.ReturnToPool();
             return ParseHostName(input, start, length);
         }
 
@@ -973,7 +973,7 @@ namespace AngleSharp
                 index++;
             }
 
-            buffer.ToPool();
+            buffer.ReturnToPool();
             _path = String.Join("/", paths);
 
             if (index < length)
@@ -1172,7 +1172,7 @@ namespace AngleSharp
                     case Symbols.SquareBracketOpen:
                     case Symbols.SquareBracketClose:
                     case Symbols.ReverseSolidus:
-                        buffer.ToPool();
+                        buffer.ReturnToPool();
                         sanatizedHostName = hostName.Substring(start, length);
                         return false;
                     default:

@@ -316,7 +316,7 @@ namespace AngleSharp.Text
                 }
             }
 
-            return StringBuilderPool.ToPool(sb);
+            return sb.ToPool();
         }
 
         /// <summary>
