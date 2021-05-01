@@ -223,8 +223,8 @@ namespace AngleSharp.Io
                 if (_serverString is null)
                 {
                     var methods = typeof(Cookie).GetMethods();
-                    var func = methods.FirstOrDefault(m => m.Name.Equals("ToServerString"));
-                    _serverString = func ?? methods.FirstOrDefault(m => m.Name.Equals("ToString"));
+                    var func = methods.FirstOrDefault(m => m.Name.Is("ToServerString"));
+                    _serverString = func ?? methods.FirstOrDefault(m => m.Name.Is("ToString"));
                 }
 
                 return _serverString.Invoke(cookie, null).ToString();
