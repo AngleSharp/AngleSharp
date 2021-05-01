@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// A DOM range to gather DOM tree information.
@@ -621,20 +622,25 @@ namespace AngleSharp.Dom
 
         public override String ToString()
         {
-            var s = StringBuilderPool.Obtain();
+            var sb = default(StringBuilder);
             var offset = Start;
             var dest = End;
-            var startText = Head as IText;
-            var endText = Tail as IText;
 
-            if (startText != null && Head == Tail)
+            if (Head is IText startText)
             {
-                return startText.Substring(offset, dest - offset);
+                if (Head == Tail)
+                {
+                    return startText.Substring(offset, dest - offset);
+                }
+                else
+                {
+                    sb ??= StringBuilderPool.Obtain();
+
+                    sb.Append(startText.Substring(offset, startText.Length - offset));
+                }
             }
-            else if (startText != null)
-            {
-                s.Append(startText.Substring(offset, startText.Length - offset));
-            }
+
+            sb ??= StringBuilderPool.Obtain();
 
             var nodes = CommonAncestor.Descendents<IText>();
 
@@ -642,16 +648,16 @@ namespace AngleSharp.Dom
             {
                 if (IsStartBefore(node, 0) && IsEndAfter(node, node.Length))
                 {
-                    s.Append(node.Text);
+                    sb.Append(node.Text);
                 }
             }
 
-            if (endText != null)
+            if (Tail is IText endText)
             {
-                s.Append(endText.Substring(0, dest));
+                sb.Append(endText.Substring(0, dest));
             }
 
-            return s.ToPool();
+            return sb.ToPool();
         }
 
         #endregion
