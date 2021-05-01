@@ -648,7 +648,11 @@ namespace AngleSharp.Text
                     var character = value[i];
 
                     if (character == Symbols.Null)
+                    {
+                        builder.ReturnToPool();
+
                         throw new DomException(DomError.InvalidCharacter);
+                    }
 
                     if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
                     {
