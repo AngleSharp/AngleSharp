@@ -45,7 +45,7 @@ namespace AngleSharp.Html.Dom
 
         public Boolean IsChecked
         {
-            get => _checked.HasValue ? _checked.Value : IsDefaultChecked;
+            get => _checked ?? IsDefaultChecked;
             set => _checked = value;
         }
 
