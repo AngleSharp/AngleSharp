@@ -613,7 +613,7 @@ namespace AngleSharp
                         {
                             var c = input[++index];
 
-                            if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus))
+                            if (c is Symbols.Solidus or Symbols.ReverseSolidus)
                             {
                                 if (_scheme.Is(ProtocolNames.File))
                                 {
@@ -635,8 +635,8 @@ namespace AngleSharp
                 }
 
                 if (input[index].IsLetter() && _scheme.Is(ProtocolNames.File) && index + 1 < length &&
-                   (input[index + 1].IsOneOf(Symbols.Colon, Symbols.Solidus)) &&
-                   (index + 2 == length || input[index + 2].IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark)))
+                   (input[index + 1] is Symbols.Colon or Symbols.Solidus) &&
+                   (index + 2 == length || input[index + 2] is Symbols.Solidus or Symbols.ReverseSolidus or Symbols.Num or Symbols.QuestionMark))
                 {
                     _host = String.Empty;
                     _path = String.Empty;
@@ -653,7 +653,7 @@ namespace AngleSharp
         {
             while (index < length)
             {
-                if (!input[index].IsOneOf(Symbols.ReverseSolidus, Symbols.Solidus))
+                if (!(input[index] is Symbols.ReverseSolidus or Symbols.Solidus))
                 {
                     return ParseAuthority(input, index, length);
                 }
@@ -701,7 +701,7 @@ namespace AngleSharp
                 {
                     buffer.Append(input[index++]).Append(input[index++]).Append(input[index]);
                 }
-                else if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark))
+                else if (c is Symbols.Solidus or Symbols.ReverseSolidus or Symbols.Num or Symbols.QuestionMark)
                 {
                     break;
                 }
@@ -730,7 +730,7 @@ namespace AngleSharp
             {
                 var c = input[index];
 
-                if (c == Symbols.Solidus || c == Symbols.ReverseSolidus || c == Symbols.Num || c == Symbols.QuestionMark)
+                if (c is Symbols.Solidus or Symbols.ReverseSolidus or Symbols.Num or Symbols.QuestionMark)
                 {
                     break;
                 }
@@ -740,7 +740,7 @@ namespace AngleSharp
 
             var span = index - start;
 
-            if (span == 2 && input[start].IsLetter() && input[start + 1].IsOneOf(Symbols.Pipe, Symbols.Colon))
+            if (span == 2 && input[start].IsLetter() && input[start + 1] is Symbols.Pipe or Symbols.Colon)
             {
                 return ParsePath(input, index - 2, length);
             }

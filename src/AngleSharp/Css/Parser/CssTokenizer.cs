@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Parser
+namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Common;
     using AngleSharp.Text;
@@ -622,7 +622,7 @@
         {
             while (true)
             {
-                if (current.IsOneOf(Symbols.Plus, Symbols.Minus))
+                if (current is Symbols.Plus or Symbols.Minus)
                 {
                     var buffer = StringBuilderPool.Obtain();
                     buffer.Append(current);
@@ -921,12 +921,12 @@
                 {
                     return UrlEnd();
                 }
-                else if (current.IsOneOf(Symbols.RoundBracketClose, Symbols.EndOfFile))
+                else if (current is Symbols.RoundBracketClose or Symbols.EndOfFile)
                 {
                     _source.Next();
                     return NewInvalid();
                 }
-                else if (current.IsOneOf(Symbols.DoubleQuote, Symbols.SingleQuote, Symbols.RoundBracketOpen) || current.IsNonPrintable())
+                else if (current is Symbols.DoubleQuote or Symbols.SingleQuote or Symbols.RoundBracketOpen || current.IsNonPrintable())
                 {
                     return UrlBad();
                 }
