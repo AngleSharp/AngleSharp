@@ -9,6 +9,7 @@ namespace AngleSharp.Core.Tests.Io
         [Test]
         public void CommonMimeTypesAreCorrectlyDefined()
         {
+            Assert.AreEqual("image/apng", MimeTypeNames.FromExtension(".apng"));
             Assert.AreEqual("image/avif", MimeTypeNames.FromExtension(".avif"));
             Assert.AreEqual("image/gif", MimeTypeNames.FromExtension(".gif"));
             Assert.AreEqual("image/jpeg", MimeTypeNames.FromExtension(".jpeg"));

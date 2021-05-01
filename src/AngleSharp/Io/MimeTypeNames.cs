@@ -55,6 +55,7 @@ namespace AngleSharp.Io
             { ".aip", "text/x-audiosoft-intra" },
             { ".ani", "application/x-navi-animation" },
             { ".aos", "application/x-nokia-9000-communicator-add-on-software" },
+            { ".apng", "image/apng" },
             { ".aps", "application/mime" },
             { ".arc", "application/octet-stream" },
             { ".arj", "application/arj" },
