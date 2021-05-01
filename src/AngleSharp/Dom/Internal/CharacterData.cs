@@ -1,7 +1,6 @@
 namespace AngleSharp.Dom
 {
     using System;
-    using System.IO;
 
     /// <summary>
     /// The base class for all characterdata implementations.
@@ -47,9 +46,9 @@ namespace AngleSharp.Dom
                         {
                             found = true;
                         }
-                        else if (found && parent.ChildNodes[i] is IElement)
+                        else if (found && parent.ChildNodes[i] is IElement childEl)
                         {
-                            return (IElement)parent.ChildNodes[i];
+                            return childEl;
                         }
                     }
                 }
