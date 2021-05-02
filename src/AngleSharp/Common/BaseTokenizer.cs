@@ -115,7 +115,7 @@ namespace AngleSharp.Common
             {
                 var disposable = _source as IDisposable;
                 disposable?.Dispose();
-                StringBuffer!.Clear().ToPool();
+                StringBuffer!.Clear().ReturnToPool();
                 _buffer = null!;
             }
         }

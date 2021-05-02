@@ -3,6 +3,8 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Dom;
     using AngleSharp.Io;
     using AngleSharp.Io.Processors;
+    using AngleSharp.Text;
+
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -164,8 +166,8 @@ namespace AngleSharp.Html.Dom
                     eventAttr = eventAttr.Substring(0, eventAttr.Length - 2);
                 }
 
-                var isWindow = forAttr.Equals(AttributeNames.Window, StringComparison.OrdinalIgnoreCase);
-                var isLoadEvent = eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase);
+                var isWindow = forAttr.Isi(AttributeNames.Window);
+                var isLoadEvent = eventAttr.Isi("onload");
 
                 if (!isWindow || !isLoadEvent)
                 {

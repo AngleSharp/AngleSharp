@@ -36,7 +36,7 @@ namespace AngleSharp.Io
 
         #region Map File extensions to Mime types
 
-        private static Dictionary<String, String> Extensions = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, String> Extensions = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
         {
             { ".3dm", "x-world/x-3dmf" },
             { ".3dmf", "x-world/x-3dmf" },
@@ -55,6 +55,7 @@ namespace AngleSharp.Io
             { ".aip", "text/x-audiosoft-intra" },
             { ".ani", "application/x-navi-animation" },
             { ".aos", "application/x-nokia-9000-communicator-add-on-software" },
+            { ".apng", "image/apng" },
             { ".aps", "application/mime" },
             { ".arc", "application/octet-stream" },
             { ".arj", "application/arj" },
@@ -65,6 +66,8 @@ namespace AngleSharp.Io
             { ".asx", "application/x-mplayer2" },
             { ".au", "audio/basic" },
             { ".avi", "video/avi" },
+            { ".avif", "image/avif" },
+            { ".avifs", "image/avif-sequence" },
             { ".avs", "video/avs-video" },
             { ".bcpio", "application/x-bcpio" },
             { ".bin", "application/octet-stream" },
@@ -378,6 +381,7 @@ namespace AngleSharp.Io
             { ".sv4cpio", "application/x-sv4cpio" },
             { ".sv4crc", "application/x-sv4crc" },
             { ".svf", "image/vnd.dwg" },
+            { ".svg", "image/svg+xml" },
             { ".swf", "application/x-shockwave-flash" },
             { ".t", "application/x-troff" },
             { ".talk", "text/x-speech" },
@@ -434,6 +438,7 @@ namespace AngleSharp.Io
             { ".wb1", "application/x-qpro" },
             { ".wbmp", "image/vnd.wap.wbmp" },
             { ".web", "application/vnd.xara" },
+            { ".webp", "image/webp" },
             { ".wiz", "application/msword" },
             { ".wk1", "application/x-123" },
             { ".wmf", "windows/metafile" },

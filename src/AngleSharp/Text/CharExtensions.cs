@@ -288,6 +288,7 @@ namespace AngleSharp.Text
         /// <param name="a">The first option.</param>
         /// <param name="b">The second option.</param>
         /// <returns>The result of the test.</returns>
+        [Obsolete("Use pattern matching instead. This will be removed from a future release.")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this Char c, Char a, Char b)
         {
@@ -302,6 +303,7 @@ namespace AngleSharp.Text
         /// <param name="o2">The second option.</param>
         /// <param name="o3">The third option.</param>
         /// <returns>The result of the test.</returns>
+        [Obsolete("Use pattern matching instead. This will be removed from a future release.")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this Char c, Char o1, Char o2, Char o3)
         {
@@ -317,6 +319,7 @@ namespace AngleSharp.Text
         /// <param name="o3">The third option.</param>
         /// <param name="o4">The fourth option.</param>
         /// <returns>The result of the test.</returns>
+        [Obsolete("Use pattern matching instead. This will be removed from a future release.")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this Char c, Char o1, Char o2, Char o3, Char o4)
         {

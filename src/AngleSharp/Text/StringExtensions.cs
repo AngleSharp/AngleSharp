@@ -6,6 +6,7 @@ namespace AngleSharp.Text
     using AngleSharp.Html;
     using AngleSharp.Io;
     using System;
+    using System.Buffers;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
@@ -251,7 +252,10 @@ namespace AngleSharp.Text
         /// <returns>The modified string with collapsed and stripped spaces.</returns>
         public static String CollapseAndStrip(this String str)
         {
-            var chars = new Char[str.Length];
+            if (str.Length == 0) return str;
+
+            var buffer = ArrayPool<Char>.Shared.Rent(str.Length);
+
             var hasSpace = true;
             var index = 0;
 
@@ -262,13 +266,13 @@ namespace AngleSharp.Text
                     if (!hasSpace)
                     {
                         hasSpace = true;
-                        chars[index++] = Symbols.Space;
+                        buffer[index++] = Symbols.Space;
                     }
                 }
                 else
                 {
                     hasSpace = false;
-                    chars[index++] = str[i];
+                    buffer[index++] = str[i];
                 }
             }
 
@@ -277,7 +281,11 @@ namespace AngleSharp.Text
                 index--;
             }
 
-            return new String(chars, 0, index);
+            var result = new String(buffer, 0, index);
+
+            ArrayPool<char>.Shared.Return(buffer);
+
+            return result;
         }
 
         /// <summary>
@@ -308,7 +316,7 @@ namespace AngleSharp.Text
                 }
             }
 
-            return StringBuilderPool.ToPool(sb);
+            return sb.ToPool();
         }
 
         /// <summary>
@@ -432,75 +440,56 @@ namespace AngleSharp.Text
         }
 
         /// <summary>
-        /// Strips all leading and trailing space characters from the given string.
+        /// Strips all leading and trailing space characters from the given char array.
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String StripLeadingTrailingSpaces(this String str) =>
-            StripLeadingTrailingSpaces(str.ToCharArray());
-
-        /// <summary>
-        /// Strips all leading and trailing space characters from the given char array.
-        /// </summary>
-        /// <param name="array">The array of characters to examine.</param>
-        /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String StripLeadingTrailingSpaces(this Char[] array)
+        public static String StripLeadingTrailingSpaces(this string str)
         {
             var start = 0;
-            var end = array.Length - 1;
+            var end = str.Length - 1;
 
-            while (start < array.Length && array[start].IsSpaceCharacter())
+            while (start < str.Length && str[start].IsSpaceCharacter())
             {
                 start++;
             }
 
-            while (end > start && array[end].IsSpaceCharacter())
+            while (end > start && str[end].IsSpaceCharacter())
             {
                 end--;
             }
 
-            return new String(array, start, 1 + end - start);
+            return str.Substring(start, 1 + end - start);
         }
-
-        /// <summary>
-        /// Splits the string with the given char delimiter.
-        /// </summary>
-        /// <param name="str">The string to examine.</param>
-        /// <param name="c">The delimiter character.</param>
-        /// <returns>The list of tokens.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String[] SplitWithoutTrimming(this String str, Char c) =>
-            SplitWithoutTrimming(str.ToCharArray(), c);
 
         /// <summary>
         /// Splits the char array with the given char delimiter.
         /// </summary>
-        /// <param name="chars">The char array to examine.</param>
+        /// <param name="str">The string to examine.</param>
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
-        public static String[] SplitWithoutTrimming(this Char[] chars, Char c)
+        public static String[] SplitWithoutTrimming(this string str, Char c)
         {
             var list = new List<String>();
             var index = 0;
 
-            for (var i = 0; i < chars.Length; i++)
+            for (var i = 0; i < str.Length; i++)
             {
-                if (chars[i] == c)
+                if (str[i] == c)
                 {
                     if (i > index)
                     {
-                        list.Add(new String(chars, index, i - index));
+                        list.Add(str.Substring(index, i - index));
                     }
 
                     index = i + 1;
                 }
             }
 
-            if (chars.Length > index)
+            if (str.Length > index)
             {
-                list.Add(new String(chars, index, chars.Length - index));
+                list.Add(str.Substring(index, str.Length - index));
             }
 
             return list.ToArray();
@@ -536,30 +525,34 @@ namespace AngleSharp.Text
         public static String[] SplitSpaces(this String str)
         {
             var list = new List<String>();
-            var buffer = new List<Char>();
-            var chars = str.ToCharArray();
+            var buffer = ArrayPool<Char>.Shared.Rent(str.Length);
+            int c = 0;
 
-            for (var i = 0; i <= chars.Length; i++)
+            for (var i = 0; i <= str.Length; i++)
             {
-                if (i == chars.Length || chars[i].IsSpaceCharacter())
+                if (i == str.Length || str[i].IsSpaceCharacter())
                 {
-                    if (buffer.Count > 0)
+                    if (c > 0)
                     {
-                        var token = buffer.ToArray().StripLeadingTrailingSpaces();
+                        var token = new String(buffer, 0, c).StripLeadingTrailingSpaces();
 
                         if (token.Length != 0)
                         {
                             list.Add(token);
                         }
 
-                        buffer.Clear();
+                        c = 0;
                     }
                 }
                 else
                 {
-                    buffer.Add(chars[i]);
+                    buffer[c] = str[i];
+
+                    c++;
                 }
             }
+
+            ArrayPool<char>.Shared.Return(buffer);
 
             return list.ToArray();
         }
@@ -568,35 +561,39 @@ namespace AngleSharp.Text
         /// Splits the string with the given char delimiter and trims the leading and tailing spaces.
         /// </summary>
         /// <param name="str">The string to examine.</param>
-        /// <param name="c">The delimiter character.</param>
+        /// <param name="ch">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
-        public static String[] SplitWithTrimming(this String str, Char c)
+        public static String[] SplitWithTrimming(this String str, Char ch)
         {
             var list = new List<String>();
-            var buffer = new List<Char>();
-            var chars = str.ToCharArray();
+            var buffer = ArrayPool<Char>.Shared.Rent(str.Length);
+            int c = 0;
 
-            for (var i = 0; i <= chars.Length; i++)
+            for (var i = 0; i <= str.Length; i++)
             {
-                if (i == chars.Length || chars[i] == c)
+                if (i == str.Length || str[i] == ch)
                 {
-                    if (buffer.Count > 0)
+                    if (c > 0)
                     {
-                        var token = buffer.ToArray().StripLeadingTrailingSpaces();
+                        var token = new String(buffer, 0, c).StripLeadingTrailingSpaces();
 
                         if (token.Length != 0)
                         {
                             list.Add(token);
                         }
 
-                        buffer.Clear();
+                        c = 0;                        
                     }
                 }
                 else
                 {
-                    buffer.Add(chars[i]);
+                    buffer[c] = str[i];
+
+                    c++;
                 }
             }
+
+            ArrayPool<char>.Shared.Return(buffer);
 
             return list.ToArray();
         }
@@ -651,7 +648,11 @@ namespace AngleSharp.Text
                     var character = value[i];
 
                     if (character == Symbols.Null)
+                    {
+                        builder.ReturnToPool();
+
                         throw new DomException(DomError.InvalidCharacter);
+                    }
 
                     if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
                     {

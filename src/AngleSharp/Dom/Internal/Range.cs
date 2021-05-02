@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// A DOM range to gather DOM tree information.
@@ -21,8 +22,8 @@ namespace AngleSharp.Dom
 
         public Range(IDocument document)
         {
-            _start = new Boundary { Offset = 0, Node = document };
-            _end = new Boundary { Offset = 0, Node = document };
+            _start = new Boundary(document, 0);
+            _end = new Boundary(document, 0);
         }
 
         private Range(Boundary start, Boundary end)
@@ -79,7 +80,7 @@ namespace AngleSharp.Dom
             if (offset > refNode.ChildNodes.Length)
                 throw new DomException(DomError.IndexSizeError);
 
-            var bp = new Boundary { Node = refNode, Offset = offset };
+            var bp = new Boundary(refNode, offset);
 
             if (bp > _end || Root != refNode.GetRoot())
             {
@@ -98,7 +99,7 @@ namespace AngleSharp.Dom
             if (offset > refNode.ChildNodes.Length)
                 throw new DomException(DomError.IndexSizeError);
 
-            var bp = new Boundary { Node = refNode, Offset = offset };
+            var bp = new Boundary(refNode, offset);
 
             if (bp < _start || Root != refNode.GetRoot())
             {
@@ -116,7 +117,7 @@ namespace AngleSharp.Dom
             if (parent is null)
                 throw new DomException(DomError.InvalidNodeType);
 
-            _start = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) };
+            _start = new Boundary(parent, parent.ChildNodes.Index(refNode));
         }
 
         public void EndBefore(INode refNode)
@@ -129,7 +130,7 @@ namespace AngleSharp.Dom
             if (parent is null)
                 throw new DomException(DomError.InvalidNodeType);
 
-            _end = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) };
+            _end = new Boundary(parent, parent.ChildNodes.Index(refNode));
         }
 
         public void StartAfter(INode refNode)
@@ -142,7 +143,7 @@ namespace AngleSharp.Dom
             if (parent is null)
                 throw new DomException(DomError.InvalidNodeType);
 
-            _start = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) + 1 };
+            _start = new Boundary(parent, parent.ChildNodes.Index(refNode) + 1);
         }
 
         public void EndAfter(INode refNode)
@@ -155,7 +156,7 @@ namespace AngleSharp.Dom
             if (parent is null)
                 throw new DomException(DomError.InvalidNodeType);
 
-            _end = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) + 1 };
+            _end = new Boundary(parent, parent.ChildNodes.Index(refNode) + 1);
         }
 
         public void Collapse(Boolean toStart)
@@ -181,8 +182,8 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
 
             var index = parent.ChildNodes.Index(refNode);
-            _start = new Boundary { Node = parent, Offset = index };
-            _end = new Boundary { Node = parent, Offset = index + 1 };
+            _start = new Boundary(parent, index);
+            _end = new Boundary(parent, index + 1);
         }
 
         public void SelectContent(INode refNode)
@@ -194,8 +195,8 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
 
             var length = refNode.ChildNodes.Length;
-            _start = new Boundary { Node = refNode, Offset = 0 };
-            _end = new Boundary { Node = refNode, Offset = length };
+            _start = new Boundary(refNode, 0);
+            _end = new Boundary(refNode, length);
         }
 
         public void ClearContent()
@@ -226,7 +227,7 @@ namespace AngleSharp.Dom
                             referenceNode = referenceNode.Parent;
                         }
 
-                        newBoundary = new Boundary { Node = referenceNode.Parent!, Offset = referenceNode.Parent!.ChildNodes.Index(referenceNode) + 1 };
+                        newBoundary = new Boundary(referenceNode.Parent!, referenceNode.Parent!.ChildNodes.Index(referenceNode) + 1);
                     }
                     else
                     {
@@ -307,7 +308,7 @@ namespace AngleSharp.Dom
                             referenceNode = referenceNode.Parent;
                         }
 
-                        newBoundary = new Boundary { Node = referenceNode, Offset = referenceNode.Parent!.ChildNodes.Index(referenceNode) + 1 };
+                        newBoundary = new Boundary(referenceNode, referenceNode.Parent!.ChildNodes.Index(referenceNode) + 1);
                     }
 
                     if (firstPartiallyContainedChild is ICharacterData)
@@ -324,7 +325,7 @@ namespace AngleSharp.Dom
                     {
                         var clone = firstPartiallyContainedChild.Clone();
                         fragment.AppendChild(clone);
-                        var subrange = new Range(originalStart, new Boundary { Node = firstPartiallyContainedChild, Offset = firstPartiallyContainedChild.ChildNodes.Length });
+                        var subrange = new Range(originalStart, new Boundary(firstPartiallyContainedChild, firstPartiallyContainedChild.ChildNodes.Length));
                         var subfragment = subrange.ExtractContent();
                         fragment.AppendChild(subfragment);
                     }
@@ -346,7 +347,7 @@ namespace AngleSharp.Dom
                     {
                         var clone = lastPartiallyContainedchild.Clone();
                         fragment.AppendChild(clone);
-                        var subrange = new Range(new Boundary { Node = lastPartiallyContainedchild, Offset = 0 }, originalEnd);
+                        var subrange = new Range(new Boundary(lastPartiallyContainedchild, 0), originalEnd);
                         var subfragment = subrange.ExtractContent();
                         fragment.AppendChild(subfragment);
                     }
@@ -409,7 +410,7 @@ namespace AngleSharp.Dom
                     {
                         var clone = firstPartiallyContainedChild.Clone();
                         fragment.AppendChild(clone);
-                        var subrange = new Range(originalStart, new Boundary { Node = firstPartiallyContainedChild, Offset = firstPartiallyContainedChild.ChildNodes.Length });
+                        var subrange = new Range(originalStart, new Boundary(firstPartiallyContainedChild, firstPartiallyContainedChild.ChildNodes.Length));
                         var subfragment = subrange.CopyContent();
                         fragment.AppendChild(subfragment);
                     }
@@ -430,7 +431,7 @@ namespace AngleSharp.Dom
                     {
                         var clone = lastPartiallyContainedchild.Clone();
                         fragment.AppendChild(clone);
-                        var subrange = new Range(new Boundary { Node = lastPartiallyContainedchild, Offset = 0 }, originalEnd);
+                        var subrange = new Range(new Boundary(lastPartiallyContainedchild, 0), originalEnd);
                         var subfragment = subrange.CopyContent();
                         fragment.AppendChild(subfragment);
                     }
@@ -474,7 +475,7 @@ namespace AngleSharp.Dom
 
             if (_start.Equals(_end))
             {
-                _end = new Boundary { Node = parent, Offset = newOffset };
+                _end = new Boundary(parent, newOffset);
             }
         }
 
@@ -547,22 +548,22 @@ namespace AngleSharp.Dom
             {
                 case RangeType.StartToStart:
                     thisPoint = _start;
-                    otherPoint = new Boundary { Node = sourceRange.Head, Offset = sourceRange.Start };
+                    otherPoint = new Boundary(sourceRange.Head, sourceRange.Start);
                     break;
 
                 case RangeType.StartToEnd:
                     thisPoint = _end;
-                    otherPoint = new Boundary { Node = sourceRange.Head, Offset = sourceRange.Start };
+                    otherPoint = new Boundary(sourceRange.Head, sourceRange.Start);
                     break;
 
                 case RangeType.EndToEnd:
                     thisPoint = _start;
-                    otherPoint = new Boundary { Node = sourceRange.Tail, Offset = sourceRange.End };
+                    otherPoint = new Boundary(sourceRange.Tail, sourceRange.End);
                     break;
 
                 case RangeType.EndToStart:
                     thisPoint = _end;
-                    otherPoint = new Boundary { Node = sourceRange.Tail, Offset = sourceRange.End };
+                    otherPoint = new Boundary(sourceRange.Tail, sourceRange.End);
                     break;
 
                 default:
@@ -621,20 +622,25 @@ namespace AngleSharp.Dom
 
         public override String ToString()
         {
-            var s = StringBuilderPool.Obtain();
+            var sb = default(StringBuilder);
             var offset = Start;
             var dest = End;
-            var startText = Head as IText;
-            var endText = Tail as IText;
 
-            if (startText != null && Head == Tail)
+            if (Head is IText startText)
             {
-                return startText.Substring(offset, dest - offset);
+                if (Head == Tail)
+                {
+                    return startText.Substring(offset, dest - offset);
+                }
+                else
+                {
+                    sb ??= StringBuilderPool.Obtain();
+
+                    sb.Append(startText.Substring(offset, startText.Length - offset));
+                }
             }
-            else if (startText != null)
-            {
-                s.Append(startText.Substring(offset, startText.Length - offset));
-            }
+
+            sb ??= StringBuilderPool.Obtain();
 
             var nodes = CommonAncestor.Descendents<IText>();
 
@@ -642,16 +648,16 @@ namespace AngleSharp.Dom
             {
                 if (IsStartBefore(node, 0) && IsEndAfter(node, node.Length))
                 {
-                    s.Append(node.Text);
+                    sb.Append(node.Text);
                 }
             }
 
-            if (endText != null)
+            if (Tail is IText endText)
             {
-                s.Append(endText.Substring(0, dest));
+                sb.Append(endText.Substring(0, dest));
             }
 
-            return s.ToPool();
+            return sb.ToPool();
         }
 
         #endregion
@@ -660,22 +666,22 @@ namespace AngleSharp.Dom
 
         private Boolean IsStartBefore(INode node, Int32 offset)
         {
-            return _start < new Boundary { Node = node, Offset = offset };
+            return _start < new Boundary(node, offset);
         }
 
         private Boolean IsStartAfter(INode node, Int32 offset)
         {
-            return _start > new Boundary { Node = node, Offset = offset };
+            return _start > new Boundary(node, offset);
         }
 
         private Boolean IsEndBefore(INode node, Int32 offset)
         {
-            return _end < new Boundary { Node = node, Offset = offset };
+            return _end < new Boundary(node, offset);
         }
 
         private Boolean IsEndAfter(INode node, Int32 offset)
         {
-            return _end > new Boundary { Node = node, Offset = offset };
+            return _end > new Boundary(node, offset);
         }
 
         private Boolean IsPartiallyContained(INode node)
@@ -690,10 +696,16 @@ namespace AngleSharp.Dom
 
         #region Boundary
 
-        private struct Boundary : IEquatable<Boundary>
+        private readonly struct Boundary : IEquatable<Boundary>
         {
-            public INode Node;
-            public Int32 Offset;
+            public Boundary(INode node, Int32 offset)
+            {
+                Node = node;
+                Offset = offset;
+            }
+
+            public readonly INode Node;
+            public readonly Int32 Offset;
 
             public static Boolean operator >(Boundary a, Boundary b)
             {

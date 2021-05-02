@@ -84,7 +84,7 @@ namespace AngleSharp.Html.Dom
 
         public Boolean IsSelected
         {
-            get => _selected.HasValue ? _selected.Value : IsDefaultSelected;
+            get => _selected ?? IsDefaultSelected;
             set => _selected = value;
         }
 

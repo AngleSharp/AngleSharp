@@ -613,7 +613,7 @@ namespace AngleSharp
                         {
                             var c = input[++index];
 
-                            if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus))
+                            if (c is Symbols.Solidus or Symbols.ReverseSolidus)
                             {
                                 if (_scheme.Is(ProtocolNames.File))
                                 {
@@ -635,8 +635,8 @@ namespace AngleSharp
                 }
 
                 if (input[index].IsLetter() && _scheme.Is(ProtocolNames.File) && index + 1 < length &&
-                   (input[index + 1].IsOneOf(Symbols.Colon, Symbols.Solidus)) &&
-                   (index + 2 == length || input[index + 2].IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark)))
+                   (input[index + 1] is Symbols.Colon or Symbols.Solidus) &&
+                   (index + 2 == length || input[index + 2] is Symbols.Solidus or Symbols.ReverseSolidus or Symbols.Num or Symbols.QuestionMark))
                 {
                     _host = String.Empty;
                     _path = String.Empty;
@@ -653,7 +653,7 @@ namespace AngleSharp
         {
             while (index < length)
             {
-                if (!input[index].IsOneOf(Symbols.ReverseSolidus, Symbols.Solidus))
+                if (!(input[index] is Symbols.ReverseSolidus or Symbols.Solidus))
                 {
                     return ParseAuthority(input, index, length);
                 }
@@ -701,7 +701,7 @@ namespace AngleSharp
                 {
                     buffer.Append(input[index++]).Append(input[index++]).Append(input[index]);
                 }
-                else if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark))
+                else if (c is Symbols.Solidus or Symbols.ReverseSolidus or Symbols.Num or Symbols.QuestionMark)
                 {
                     break;
                 }
@@ -717,7 +717,7 @@ namespace AngleSharp
                 index++;
             }
 
-            buffer.ToPool();
+            buffer.ReturnToPool();
             return ParseHostName(input, start, length);
         }
 
@@ -730,7 +730,7 @@ namespace AngleSharp
             {
                 var c = input[index];
 
-                if (c == Symbols.Solidus || c == Symbols.ReverseSolidus || c == Symbols.Num || c == Symbols.QuestionMark)
+                if (c is Symbols.Solidus or Symbols.ReverseSolidus or Symbols.Num or Symbols.QuestionMark)
                 {
                     break;
                 }
@@ -740,7 +740,7 @@ namespace AngleSharp
 
             var span = index - start;
 
-            if (span == 2 && input[start].IsLetter() && input[start + 1].IsOneOf(Symbols.Pipe, Symbols.Colon))
+            if (span == 2 && input[start].IsLetter() && input[start + 1] is Symbols.Pipe or Symbols.Colon)
             {
                 return ParsePath(input, index - 2, length);
             }
@@ -973,7 +973,7 @@ namespace AngleSharp
                 index++;
             }
 
-            buffer.ToPool();
+            buffer.ReturnToPool();
             _path = String.Join("/", paths);
 
             if (index < length)
@@ -1138,7 +1138,6 @@ namespace AngleSharp
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.5
             // domain to ASCII
             string domainToAscii;
-            var buffer = StringBuilderPool.Obtain();
 
             try
             {
@@ -1149,6 +1148,8 @@ namespace AngleSharp
                 sanatizedHostName = hostName.Substring(start, length);
                 return false;
             }
+
+            var buffer = StringBuilderPool.Obtain();
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.7
             // forbidden host code point check
@@ -1171,7 +1172,7 @@ namespace AngleSharp
                     case Symbols.SquareBracketOpen:
                     case Symbols.SquareBracketClose:
                     case Symbols.ReverseSolidus:
-                        buffer.ToPool();
+                        buffer.ReturnToPool();
                         sanatizedHostName = hostName.Substring(start, length);
                         return false;
                     default:

@@ -180,7 +180,7 @@ namespace AngleSharp.Text
             if (!isDisposed)
             {
                 _raw.Dispose();
-                _content!.Clear().ToPool();
+                _content!.Clear().ReturnToPool();
                 _content = null;
             }
         }

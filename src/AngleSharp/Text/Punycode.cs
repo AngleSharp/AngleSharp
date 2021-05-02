@@ -170,7 +170,7 @@ namespace AngleSharp.Text
                 else
                 {
                     // If it has some non-basic code points the input cannot start with xn--
-                    if (text.Length - iAfterLastDot >= acePrefix.Length && text.Substring(iAfterLastDot, acePrefix.Length).Equals(acePrefix, StringComparison.OrdinalIgnoreCase))
+                    if (text.Length - iAfterLastDot >= acePrefix.Length && text.Substring(iAfterLastDot, acePrefix.Length).Isi(acePrefix))
                     {
                         break;
                     }

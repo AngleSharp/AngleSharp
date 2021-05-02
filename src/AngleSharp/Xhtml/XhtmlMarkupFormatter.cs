@@ -61,7 +61,7 @@ namespace AngleSharp.Xhtml
 
             foreach (var attribute in element.Attributes)
             {
-                temp.Append(" ").Append(Attribute(attribute));
+                temp.Append(' ').Append(Attribute(attribute));
             }
 
             if (selfClosing || !element.HasChildNodes)
@@ -170,7 +170,7 @@ namespace AngleSharp.Xhtml
         /// </summary>
         /// <param name="name">The name to be properly represented.</param>
         /// <returns>The string representation.</returns>
-        public static String XmlNamespaceLocalName(String name) => name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":") : name;
+        public static String XmlNamespaceLocalName(String name) => !name.Is(NamespaceNames.XmlNsPrefix) ? String.Concat(NamespaceNames.XmlNsPrefix, ":") : name;
 
         #endregion
     }
