@@ -25,7 +25,7 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// Simple regular expression for floating point numbers.
         /// </summary>
-        protected static readonly Regex Number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
+        protected static readonly Regex Number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$", RegexOptions.Compiled);
 
         private readonly IHtmlInputElement _input;
         private readonly Boolean _validate;
@@ -306,7 +306,7 @@ namespace AngleSharp.Html.InputTypes
             {
                 try
                 {
-                    var regex = new Regex(pattern, RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+                    var regex = new Regex(pattern, RegexOptions.ECMAScript | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
                     return !regex.IsMatch(value);
                 }
                 catch (Exception ex)
