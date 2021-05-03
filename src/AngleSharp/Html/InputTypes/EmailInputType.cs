@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Html.Dom;
     using System;
@@ -8,7 +8,7 @@
     {
         #region Fields
 
-        static readonly Regex email = new Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$");
+        static readonly Regex emailPattern = new Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", RegexOptions.Compiled);
 
         #endregion
 
@@ -49,7 +49,7 @@
 
                 foreach (var mail in mails)
                 {
-                    if (!email.IsMatch(mail.Trim()))
+                    if (!emailPattern.IsMatch(mail.Trim()))
                     {
                         return true;
                     }
@@ -58,7 +58,7 @@
                 return false;
             }
 
-            return !email.IsMatch(value.Trim());
+            return !emailPattern.IsMatch(value.Trim());
         }
 
         #endregion
