@@ -60,7 +60,6 @@ namespace AngleSharp.Html.Parser
         /// </param>
         public HtmlDomBuilder(HtmlDocument document)
         {
-            var context = document.Context;
             _tokenizer = new HtmlTokenizer(document.Source, document.Entities);
             _document = document;
             _openElements = new List<Element>();
