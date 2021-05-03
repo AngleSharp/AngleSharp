@@ -184,7 +184,7 @@ namespace AngleSharp.Dom
         /// <returns>True if the namespace is matched, else false.</returns>
         public static Boolean MatchesCssNamespace(this IElement el, String prefix)
         {
-            if (!prefix.Is("*"))
+            if (prefix is not "*")
             {
                 var nsUri = el.GetAttribute(NamespaceNames.XmlNsPrefix) ?? el.NamespaceUri;
 

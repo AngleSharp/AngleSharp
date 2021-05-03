@@ -178,7 +178,7 @@ namespace AngleSharp.Html
             {
                 var entry = _entries[i];
 
-                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Is("_charset_") && entry.Type.Isi(InputTypeNames.Hidden))
+                if (!String.IsNullOrEmpty(entry.Name) && entry.Name is "_charset_" && entry.Type.Isi(InputTypeNames.Hidden))
                 {
                     _entries[i] = new TextDataSetEntry(entry.Name, encoding.WebName, entry.Type);
                 }

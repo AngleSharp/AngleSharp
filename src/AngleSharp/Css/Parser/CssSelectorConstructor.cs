@@ -259,7 +259,7 @@ namespace AngleSharp.Css.Parser
                     _state = State.Attribute;
                     _attrNs = String.Empty;
                 }
-                else if (token.Type == CssTokenType.Delim && token.Data.Is("*"))
+                else if (token.Type == CssTokenType.Delim && token.Data is "*")
                 {
                     _state = State.AttributeOperator;
                     _attrName = "*";

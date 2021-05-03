@@ -86,7 +86,7 @@ namespace AngleSharp.Dom
         public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String tagName)
         {
             var result = new List<IElement>();
-            elements.GetElementsByTagName(tagName.Is("*") ? null : tagName, result);
+            elements.GetElementsByTagName(tagName is "*" ? null : tagName, result);
             return new HtmlCollection<IElement>(result);
         }
 
@@ -101,7 +101,7 @@ namespace AngleSharp.Dom
         public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String namespaceUri, String localName)
         {
             var result = new List<IElement>();
-            elements.GetElementsByTagName(namespaceUri, localName.Is("*") ? null : localName, result);
+            elements.GetElementsByTagName(namespaceUri, localName is "*" ? null : localName, result);
             return new HtmlCollection<IElement>(result);
         }
 

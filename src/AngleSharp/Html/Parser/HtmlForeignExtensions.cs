@@ -228,7 +228,7 @@ namespace AngleSharp.Html.Parser
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustToMathAttribute(this String attributeName)
         {
-            if (attributeName.Is("definitionurl"))
+            if (attributeName is "definitionurl")
             {
                 return "definitionURL";
             }
@@ -256,7 +256,7 @@ namespace AngleSharp.Html.Parser
         #region Helpers
 
         private static Boolean IsXmlNamespaceAttribute(String name) =>
-            name.Length > 4 && (name.Is(NamespaceNames.XmlNsPrefix) || name.Is("xmlns:xlink"));
+            name.Length > 4 && (name.Is(NamespaceNames.XmlNsPrefix) || name is "xmlns:xlink");
 
         private static Boolean IsXmlAttribute(String name) =>
             (name.Length > 7 && "xml:".EqualsSubset(name, 0, 4)) &&
