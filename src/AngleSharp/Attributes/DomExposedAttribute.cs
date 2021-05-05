@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Attributes
+namespace AngleSharp.Attributes
 {
     using System;
 
@@ -24,10 +24,6 @@
         /// <summary>
         /// Gets the official name of the target interface.
         /// </summary>
-        public String Target
-        {
-            get;
-            private set;
-        }
+        public String Target { get; }
     }
 }

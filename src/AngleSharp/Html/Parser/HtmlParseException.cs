@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Text;
     using System;
@@ -32,20 +32,12 @@
         /// <summary>
         /// Gets the position of the error.
         /// </summary>
-        public TextPosition Position
-        {
-            get;
-            private set;
-        }
+        public TextPosition Position { get; }
 
         /// <summary>
         /// Gets the provided error code.
         /// </summary>
-        public Int32 Code
-        {
-            get;
-            private set;
-        }
+        public Int32 Code { get; }
 
         #endregion
     }

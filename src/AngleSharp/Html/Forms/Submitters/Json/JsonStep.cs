@@ -185,7 +185,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
                 Key = key;
             }
 
-            public String Key { get; private set; }
+            public String Key { get; }
 
             protected override JsonElement GetValue(JsonElement context) => context[Key];
 
@@ -222,7 +222,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
                 Key = key;
             }
 
-            public Int32 Key { get; private set; }
+            public Int32 Key { get; }
 
             protected override JsonElement GetValue(JsonElement context)
             {

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Attributes
+namespace AngleSharp.Attributes
 {
     using System;
 
@@ -28,10 +28,6 @@
         /// <summary>
         /// Gets the official name of the given class, method or property.
         /// </summary>
-        public String OfficialName
-        {
-            get;
-            private set;
-        }
+        public String OfficialName { get; }
     }
 }

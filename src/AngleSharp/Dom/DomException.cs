@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
     using System;
@@ -38,20 +38,12 @@
         /// <summary>
         /// Gets the name of the error.
         /// </summary>
-        public String Name
-        {
-            get;
-            private set;
-        }
+        public String Name { get; }
 
         /// <summary>
         /// Gets the error code for this exception.
         /// </summary>
-        public Int32 Code
-        {
-            get;
-            private set;
-        }
+        public Int32 Code { get; }
 
         #endregion
     }
