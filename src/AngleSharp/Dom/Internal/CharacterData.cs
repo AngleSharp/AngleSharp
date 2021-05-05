@@ -74,9 +74,9 @@ namespace AngleSharp.Dom
                         {
                             found = true;
                         }
-                        else if (found && parent.ChildNodes[i] is IElement)
+                        else if (found && parent.ChildNodes[i] is IElement childEl)
                         {
-                            return (IElement)parent.ChildNodes[i];
+                            return childEl;
                         }
                     }
                 }

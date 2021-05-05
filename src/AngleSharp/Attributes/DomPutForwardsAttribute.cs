@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Attributes
+namespace AngleSharp.Attributes
 {
     using System;
 
@@ -24,10 +24,6 @@
         /// <summary>
         /// Gets the official name of the property to forward assignments to.
         /// </summary>
-        public String PropertyName
-        {
-            get;
-            private set;
-        }
+        public String PropertyName { get; }
     }
 }

@@ -478,7 +478,7 @@ namespace AngleSharp
         {
             var security = Sandboxes.None;
 
-            if (target.Is("_blank"))
+            if (target is "_blank")
             {
                 target = null;
             }
@@ -496,15 +496,15 @@ namespace AngleSharp
         /// </returns>
         public static IBrowsingContext? FindChildFor(this IBrowsingContext context, String target)
         {
-            if (String.IsNullOrEmpty(target) || target.Is("_self"))
+            if (String.IsNullOrEmpty(target) || target is "_self")
             {
                 return context;
             }
-            else if (target.Is("_parent"))
+            else if (target is "_parent")
             {
                 return context.Parent ?? context;
             }
-            else if (target.Is("_top"))
+            else if (target is  "_top")
             {
                 return context;
             }

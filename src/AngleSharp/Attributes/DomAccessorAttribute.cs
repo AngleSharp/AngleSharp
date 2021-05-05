@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Attributes
+namespace AngleSharp.Attributes
 {
     using System;
 
@@ -25,10 +25,6 @@
         /// <summary>
         /// Gets the accessor types for the given property or method.
         /// </summary>
-        public Accessors Type
-        {
-            get;
-            private set;
-        }
+        public Accessors Type { get; }
     }
 }

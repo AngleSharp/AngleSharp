@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Dom
             _name = name;
             _prefix = prefix;
 
-            if (!String.IsNullOrEmpty(prefix) && !prefix.Is("*"))
+            if (!String.IsNullOrEmpty(prefix) && prefix is not "*")
             {
                 _attr = String.Concat(prefix, ":", name);
             }

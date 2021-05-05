@@ -913,7 +913,7 @@ namespace AngleSharp.Dom
 
                     if (!shallReplace && history != null)
                     {
-                        shallReplace = history.Length == 1 && history[0].Url.Is("about:blank");
+                        shallReplace = history.Length == 1 && history[0].Url is "about:blank";
                     }
 
                     _salvageable = false;

@@ -20,9 +20,9 @@ namespace AngleSharp.Html
 
             try
             {
-                return new Regex(regexString, RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+                return new Regex(regexString, RegexOptions.ECMAScript | RegexOptions.CultureInvariant | RegexOptions.Compiled);
             }
-            catch
+            catch // TypeInitializationException from Mono
             {
                 // See issue #256
                 return new Regex(regexString, RegexOptions.ECMAScript);

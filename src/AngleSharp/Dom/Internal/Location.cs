@@ -253,23 +253,11 @@ namespace AngleSharp.Dom
 
             public Boolean IsReloaded => PreviousLocation.Is(CurrentLocation);
 
-            public Boolean IsHashChanged
-            {
-                get;
-                private set;
-            }
+            public Boolean IsHashChanged { get; }
 
-            public String PreviousLocation
-            {
-                get;
-                private set;
-            }
+            public String PreviousLocation { get; }
 
-            public String CurrentLocation
-            {
-                get;
-                private set;
-            }
+            public String CurrentLocation { get; }
         }
 
         #endregion

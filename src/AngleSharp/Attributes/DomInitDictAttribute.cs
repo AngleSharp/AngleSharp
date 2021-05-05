@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Attributes
+namespace AngleSharp.Attributes
 {
     using System;
 
@@ -25,20 +25,12 @@
         /// Gets the offset of the passed arguments. Arguments before the offset
         /// will be skipped and are not part of the dictionary.
         /// </summary>
-        public Int32 Offset
-        {
-            get;
-            private set;
-        }
+        public Int32 Offset { get; }
 
         /// <summary>
         /// Gets if the dictionary is completely optional and does not have to
         /// be present.
         /// </summary>
-        public Boolean IsOptional
-        {
-            get;
-            private set;
-        }
+        public Boolean IsOptional { get; }
     }
 }

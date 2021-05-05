@@ -50,10 +50,6 @@ namespace AngleSharp.Browser.Dom.Events
         /// <summary>
         /// Gets the transported data.
         /// </summary>
-        public T Data
-        {
-            get;
-            private set;
-        }
+        public T Data { get; }
     }
 }

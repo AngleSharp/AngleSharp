@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Attributes
+namespace AngleSharp.Attributes
 {
     using System;
 
@@ -20,10 +20,6 @@
         /// <summary>
         /// Gets the name of the variable.
         /// </summary>
-        public String Name
-        {
-            get;
-            private set;
-        }
+        public String Name { get; }
     }
 }

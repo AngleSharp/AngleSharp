@@ -22,19 +22,11 @@ namespace AngleSharp.Dom.Events
         /// <summary>
         /// Gets the transmitted request.
         /// </summary>
-        public Request Request
-        {
-            get;
-            private set;
-        }
+        public Request Request { get; }
 
         /// <summary>
         /// Gets the received response.
         /// </summary>
-        public IResponse? Response
-        {
-            get;
-            private set;
-        }
+        public IResponse? Response { get; }
     }
 }

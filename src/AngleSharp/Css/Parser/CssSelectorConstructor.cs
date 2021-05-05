@@ -259,7 +259,7 @@ namespace AngleSharp.Css.Parser
                     _state = State.Attribute;
                     _attrNs = String.Empty;
                 }
-                else if (token.Type == CssTokenType.Delim && token.Data.Is("*"))
+                else if (token.Type == CssTokenType.Delim && token.Data is "*")
                 {
                     _state = State.AttributeOperator;
                     _attrName = "*";
@@ -918,8 +918,8 @@ namespace AngleSharp.Css.Parser
             private Int32 _sign;
             private ParseState _state;
             private CssSelectorConstructor? _nested;
-            private Boolean _allowOf;
-            private Func<Int32, Int32, ISelector, ISelector> _creator;
+            private readonly Boolean _allowOf;
+            private readonly Func<Int32, Int32, ISelector, ISelector> _creator;
 
             public ChildFunctionState(Func<Int32, Int32, ISelector, ISelector> creator, CssSelectorConstructor parent, Boolean withOptionalSelector = true)
             {

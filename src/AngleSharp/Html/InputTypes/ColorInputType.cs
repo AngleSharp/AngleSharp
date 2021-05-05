@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.InputTypes
+namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Html.Dom;
     using System;
@@ -8,7 +8,7 @@
     {
         #region Fields
 
-        static readonly Regex color = new Regex("^\\#[0-9A-Fa-f]{6}$");
+        static readonly Regex hexColorPattern = new Regex("^\\#[0-9A-Fa-f]{6}$", RegexOptions.Compiled);
 
         #endregion
 
@@ -27,7 +27,7 @@
         {
             var result = GetErrorsFrom(current);
 
-            if (!color.IsMatch(Input.Value ?? String.Empty))
+            if (!hexColorPattern.IsMatch(Input.Value ?? String.Empty))
             {
                 result ^= ValidationErrors.BadInput;
 
