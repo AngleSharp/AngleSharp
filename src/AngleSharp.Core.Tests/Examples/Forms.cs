@@ -10,6 +10,7 @@ namespace AngleSharp.Core.Tests.Examples
     public class FormsTests
     {
         [Test]
+        [Ignore("Google may show an altered version - we should not depend on externals for such tests")]
         public async Task SubmittingToGoogleWithCookiesShouldWork()
         {
             var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader().WithDefaultCookies());

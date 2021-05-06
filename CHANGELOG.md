@@ -3,6 +3,7 @@
 Released on ?
 
 - Remove usage of CWT and introduce context info bag (#918)
+- Fixed recursion depth of `FindDescendant` with configurable limit (#936)
 
 # 0.15.0
 

@@ -20,7 +20,7 @@ namespace AngleSharp.Dom
         /// <returns>The root node.</returns>
         public static INode GetRoot(this INode node)
         {
-            while (node.Parent != null)
+            while (node.Parent is not null)
             {
                 node = node.Parent;
             }
@@ -76,7 +76,7 @@ namespace AngleSharp.Dom
         /// </returns>
         public static Boolean IsDescendantOf(this INode node, INode parent)
         {
-            while (node.Parent != null)
+            while (node.Parent is not null)
             {
                 if (Object.ReferenceEquals(node.Parent, parent))
                 {
@@ -112,6 +112,7 @@ namespace AngleSharp.Dom
                 yield return next;
 
                 var length = next.ChildNodes.Length;
+
                 while (length > 0)
                 {
                     stack.Push(next.ChildNodes[--length]);
@@ -147,7 +148,7 @@ namespace AngleSharp.Dom
         /// <returns>An iterator over all ancestors.</returns>
         public static IEnumerable<INode> GetAncestors(this INode node)
         {
-            while ((node = node.Parent!) != null)
+            while ((node = node!.Parent!) is not null)
             {
                 yield return node;
             }
@@ -167,7 +168,7 @@ namespace AngleSharp.Dom
             {
                 yield return node;
             }
-            while ((node = node.Parent!) != null);
+            while ((node = node!.Parent!) is not null);
         }
 
         /// <summary>
@@ -189,15 +190,15 @@ namespace AngleSharp.Dom
         public static T? GetAncestor<T>(this INode node)
             where T : INode
         {
-            while ((node = node.Parent!) != null)
+            while ((node = node!.Parent!) is not null)
             {
-                if (node is T)
+                if (node is T t)
                 {
-                    return (T)node;
+                    return t;
                 }
             }
 
-            return default(T);
+            return default;
         }
 
         /// <summary>
@@ -242,7 +243,7 @@ namespace AngleSharp.Dom
         {
             var i = 0;
 
-            if (parent != null)
+            if (parent is not null)
             {
                 foreach (var child in parent.ChildNodes)
                 {
@@ -346,7 +347,7 @@ namespace AngleSharp.Dom
             {
                 var host = node.GetRoot().GetAssociatedHost();
 
-                if (host != null)
+                if (host is not null)
                 {
                     return parent.IsInclusiveAncestorOf(host);
                 }
@@ -367,13 +368,19 @@ namespace AngleSharp.Dom
         public static void EnsurePreInsertionValidity(this INode parent, INode node, INode? child)
         {
             if (parent.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(parent))
+            {
                 throw new DomException(DomError.HierarchyRequest);
+            }
 
-            if (child != null && child.Parent != parent)
+            if (child is not null && child.Parent != parent)
+            {
                 throw new DomException(DomError.NotFound);
+            }
 
             if (node is IElement == false && node is ICharacterData == false && node is IDocumentType == false && node is IDocumentFragment == false)
+            {
                 throw new DomException(DomError.HierarchyRequest);
+            }
 
             if (parent is IDocument document)
             {
@@ -382,14 +389,14 @@ namespace AngleSharp.Dom
                 switch (node.NodeType)
                 {
                     case NodeType.Element:
-                        forbidden = document.DocumentElement != null || child is IDocumentType || child.IsFollowedByDoctype();
+                        forbidden = document.DocumentElement is not null || child is IDocumentType || child.IsFollowedByDoctype();
                         break;
                     case NodeType.DocumentFragment:
                         var elements = node.GetElementCount();
-                        forbidden = elements > 1 || node.HasTextNodes() || (elements == 1 && document.DocumentElement != null) || child is IDocumentType || child.IsFollowedByDoctype();
+                        forbidden = elements > 1 || node.HasTextNodes() || (elements == 1 && document.DocumentElement is not null) || child is IDocumentType || child.IsFollowedByDoctype();
                         break;
                     case NodeType.DocumentType:
-                        forbidden = document.Doctype != null || (child != null && child.IsPrecededByElement()) || (child is null && document.DocumentElement != null);
+                        forbidden = document.Doctype is not null || (child is not null && child.IsPrecededByElement()) || (child is null && document.DocumentElement is not null);
                         break;
                     case NodeType.Text:
                         forbidden = true;
@@ -397,7 +404,9 @@ namespace AngleSharp.Dom
                 }
 
                 if (forbidden)
+                {
                     throw new DomException(DomError.HierarchyRequest);
+                }
             }
             else if (node is IDocumentType)
             {
@@ -446,7 +455,9 @@ namespace AngleSharp.Dom
             if (parent is Node parentNode)
             {
                 if (child is null || child.Parent != parent)
+                {
                     throw new DomException(DomError.NotFound);
+                }
 
                 parentNode.RemoveChild((Node)child, false);
                 return child;
@@ -473,7 +484,7 @@ namespace AngleSharp.Dom
         /// </returns>
         public static Boolean IsFollowedByDoctype(this INode? child)
         {
-            if (child != null)
+            if (child is not null)
             {
                 var before = true;
 
@@ -546,7 +557,7 @@ namespace AngleSharp.Dom
         public static TNode? FindChild<TNode>(this INode parent)
             where TNode : class, INode
         {
-            if (parent != null)
+            if (parent is not null)
             {
                 for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
@@ -566,18 +577,19 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <typeparam name="TNode">The node type to find.</typeparam>
         /// <param name="parent">The parent that contains the elements.</param>
+        /// <param name="maxDepth">The maximum depth to allow for searching. A value of 0 is equivalent to FindChild.</param>
         /// <returns>The instance or null.</returns>
-        public static TNode? FindDescendant<TNode>(this INode parent)
+        public static TNode? FindDescendant<TNode>(this INode parent, Int32 maxDepth = 1024)
             where TNode : class, INode
         {
-            if (parent != null)
+            if (parent is not null && maxDepth > -1)
             {
                 for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
                     var node = parent.ChildNodes[i];
-                    var child = node as TNode ?? node.FindDescendant<TNode>();
+                    var child = node as TNode ?? node.FindDescendant<TNode>(maxDepth - 1);
 
-                    if (child != null)
+                    if (child is not null)
                     {
                         return child;
                     }
@@ -603,7 +615,9 @@ namespace AngleSharp.Dom
         public static String Text(this INode node)
         {
             if (node is null)
+            {
                 throw new ArgumentNullException(nameof(node));
+            }
 
             return node.TextContent;
         }
@@ -619,7 +633,9 @@ namespace AngleSharp.Dom
             where T : IEnumerable<INode>
         {
             if (nodes is null)
+            {
                 throw new ArgumentNullException(nameof(nodes));
+            }
 
             foreach (var element in nodes)
             {
@@ -638,9 +654,11 @@ namespace AngleSharp.Dom
         public static Int32 Index(this IEnumerable<INode> nodes, INode item)
         {
             if (nodes is null)
+            {
                 throw new ArgumentNullException(nameof(nodes));
+            }
 
-            if (item != null)
+            if (item is not null)
             {
                 var i = 0;
 

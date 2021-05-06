@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace AngleSharp.Core.Tests
 {
+    using System;
+    using System.IO;
+    using System.Text;
+
     internal static class Assets
     {
         private static readonly Encoding Windows1252 = Encoding.GetEncoding("ISO-8859-1");
@@ -14,6 +11,8 @@ namespace AngleSharp.Core.Tests
         public static string nbc => GetManifestResourceString("Pages.nbc.html", Encoding.UTF8);
 
         public static string selectors { get; } = GetManifestResourceString("Pages.selectors.html", Windows1252);
+
+        public static string gbk => GetManifestResourceString("Pages.GBK.html", Encoding.UTF8);
 
         public static string books => GetManifestResourceString("Pages.books.xml", Windows1252);
 

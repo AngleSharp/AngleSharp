@@ -2,6 +2,7 @@ namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
+    using System;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -3376,6 +3377,21 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual(0, ((Element)dochtml0body1button1).Attributes.Length);
             Assert.AreEqual("button", dochtml0body1button1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1button1.NodeType);
+        }
+
+        [Test]
+        public void InvalidHtmlStructureShouldNotBeCyclic_Issue936()
+        {
+            try
+            {
+                var doc = (Assets.gbk).ToHtmlDocument();
+                Assert.IsNotNull(doc);
+                Assert.AreEqual("", doc.Title);
+            }
+            catch (StackOverflowException)
+            {
+                Assert.Fail("The parsing resulted in a stackoverflow.");
+            }
         }
     }
 }
