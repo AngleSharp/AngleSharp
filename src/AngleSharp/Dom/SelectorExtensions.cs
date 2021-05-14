@@ -20,8 +20,8 @@ namespace AngleSharp.Dom
         /// <param name="elements">The collection.</param>
         /// <param name="index">The index of the element.</param>
         /// <returns>The element, or its default value.</returns>
-        public static T Eq<T>(this IEnumerable<T> elements, Int32 index)
-            where T : IElement
+        public static T? Eq<T>(this IEnumerable<T> elements, Int32 index)
+            where T : notnull, IElement
         {
             if (elements is null)
                 throw new ArgumentNullException(nameof(elements));
