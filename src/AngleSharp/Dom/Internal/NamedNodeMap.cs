@@ -44,6 +44,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public Int32 Length => _items.Count;
 
+        public Element? Owner => _owner.TryGetTarget(out var element) ? element : null;
+
         #endregion
 
         #region Internal Methods
