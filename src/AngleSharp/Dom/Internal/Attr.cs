@@ -124,34 +124,43 @@ namespace AngleSharp.Dom
         /// </summary>
         public String? NamespaceUri => _namespace;
 
-        string INode.BaseUri => throw new NotImplementedException();
+        string INode.BaseUri => OwnerElement!.BaseUri;
 
-        Url? INode.BaseUrl => throw new NotImplementedException();
+        Url? INode.BaseUrl => OwnerElement?.BaseUrl;
 
-        string INode.NodeName => throw new NotImplementedException();
+        string INode.NodeName => Name;
 
-        INodeList INode.ChildNodes => throw new NotImplementedException();
+        INodeList INode.ChildNodes => NodeList.Empty;
 
-        IDocument? INode.Owner => throw new NotImplementedException();
+        IDocument? INode.Owner => OwnerElement?.Owner;
 
-        IElement? INode.ParentElement => throw new NotImplementedException();
+        IElement? INode.ParentElement => null;
 
-        INode? INode.Parent => throw new NotImplementedException();
+        INode? INode.Parent => null;
 
-        INode? INode.FirstChild => throw new NotImplementedException();
+        INode? INode.FirstChild => null;
 
-        INode? INode.LastChild => throw new NotImplementedException();
+        INode? INode.LastChild => null;
 
-        INode? INode.NextSibling => throw new NotImplementedException();
+        INode? INode.NextSibling => null;
 
-        INode? INode.PreviousSibling => throw new NotImplementedException();
+        INode? INode.PreviousSibling => null;
 
-        NodeType INode.NodeType => throw new NotImplementedException();
+        NodeType INode.NodeType => NodeType.Attribute;
 
-        string INode.NodeValue { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        string INode.TextContent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string INode.NodeValue
+        {
+            get => Value;
+            set => Value = value;
+        }
 
-        bool INode.HasChildNodes => throw new NotImplementedException();
+        string INode.TextContent
+        {
+            get => Value;
+            set => Value = value;
+        }
+
+        bool INode.HasChildNodes => false;
 
         NodeFlags INode.Flags => throw new NotImplementedException();
 
