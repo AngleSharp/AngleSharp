@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.Collections;
@@ -17,7 +17,7 @@
         /// <summary>
         /// Gets an empty node-list. Shouldn't be modified.
         /// </summary>
-        internal static readonly NodeList Empty = new NodeList();
+        internal static readonly NodeList Empty = new ();
 
         #endregion
 

@@ -28,7 +28,7 @@ namespace AngleSharp
         // > UseSTD3ASCIIRules set to beStrict
         // But if UseStd3AsciiRules it set to true, _ (underscore) will be considered invalid in host name
         // Set to false here to do loose validation
-        private static readonly IdnMapping DefaultIdnMapping = new IdnMapping() { AllowUnassigned = false, UseStd3AsciiRules = false };
+        private static readonly IdnMapping DefaultIdnMapping = new () { AllowUnassigned = false, UseStd3AsciiRules = false };
 
         private String? _fragment;
         private String? _query;

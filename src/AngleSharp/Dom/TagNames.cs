@@ -780,172 +780,172 @@ namespace AngleSharp.Dom
 
         #region Combinations
 
-        internal static readonly HashSet<String> AllForeignExceptions = new HashSet<String>
+        internal static readonly HashSet<String> AllForeignExceptions = new()
         {
             B, Big, BlockQuote, Body, Br, Center, Code, Dd, Div, Dl, Dt, Em, Embed, Head, 
             Hr, I, Img, Li, Ul, H3, H2, H4, H1, H6, H5, Listing, Menu, Meta, NoBr, Ol, P, 
             Pre, Ruby, S, Small, Span, Strike, Strong, Sub, Sup, Table, Tt, U, Var
         };
 
-        internal static readonly HashSet<String> AllBeforeHead = new HashSet<String>
+        internal static readonly HashSet<String> AllBeforeHead = new ()
         {
             Html, Body, Br, Head
         };
 
-        internal static readonly HashSet<String> AllNoShadowRoot = new HashSet<String>
+        internal static readonly HashSet<String> AllNoShadowRoot = new ()
         {
             Button, Details, Input, Marquee, Meter, Progress, Select, Textarea, Keygen
         };
 
-        internal static readonly HashSet<String> AllHead = new HashSet<String>
+        internal static readonly HashSet<String> AllHead = new ()
         {
             Style, Link, Meta, Title, NoFrames, Template, Base, BaseFont, Bgsound
         };
 
-        internal static readonly HashSet<String> AllHeadNoTemplate = new HashSet<String>
+        internal static readonly HashSet<String> AllHeadNoTemplate = new ()
         {
             Link, Meta, Script, Style, Title, Base, BaseFont, Bgsound, NoFrames
         };
 
-        internal static readonly HashSet<String> AllHeadBase = new HashSet<String>
+        internal static readonly HashSet<String> AllHeadBase = new ()
         {
             Link, Base, BaseFont, Bgsound
         };
 
-        internal static readonly HashSet<String> AllBodyBreakrow = new HashSet<String>
+        internal static readonly HashSet<String> AllBodyBreakrow = new ()
         {
             Br, Area, Embed, Keygen, Wbr
         };
 
-        internal static readonly HashSet<String> AllBodyClosed = new HashSet<String>
+        internal static readonly HashSet<String> AllBodyClosed = new ()
         {
             MenuItem, Param, Source, Track
         };
 
-        internal static readonly HashSet<String> AllNoScript = new HashSet<String>
+        internal static readonly HashSet<String> AllNoScript = new ()
         {
             Style, Link, BaseFont, Meta, NoFrames, Bgsound
         };
 
-        internal static readonly HashSet<String> AllHeadings = new HashSet<String>
+        internal static readonly HashSet<String> AllHeadings = new ()
         {
             H3, H2, H4, H1, H6, H5
         };
 
-        internal static readonly HashSet<String> AllBlocks = new HashSet<String>
+        internal static readonly HashSet<String> AllBlocks = new ()
         {
             Ol, Ul, Dl, Fieldset, Button, Figcaption, Figure, Article, Aside, BlockQuote, 
             Center, Address, Dialog, Dir, Summary, Details, Listing, Footer, Header, Nav, 
             Section, Menu, Hgroup, Main, Pre
         };
 
-        internal static readonly HashSet<String> AllBody = new HashSet<String>
+        internal static readonly HashSet<String> AllBody = new ()
         {
             Ol, Dl, Fieldset, Figcaption, Figure, Article, Aside, BlockQuote, Center, Address, 
             Dialog, Dir, Summary, Details, Main, Footer, Header, Nav, Section, Menu, Hgroup
         };
 
-        internal static readonly HashSet<String> AllBodyObsolete = new HashSet<String>
+        internal static readonly HashSet<String> AllBodyObsolete = new ()
         {
             Applet, Marquee, Object
         };
 
-        internal static readonly HashSet<String> AllInput = new HashSet<String>
+        internal static readonly HashSet<String> AllInput = new ()
         {
             Input, Keygen, Textarea
         };
 
-        internal static readonly HashSet<String> AllBasicBlocks = new HashSet<String>
+        internal static readonly HashSet<String> AllBasicBlocks = new ()
         {
             Address, Div, P
         };
 
-        internal static readonly HashSet<String> AllSemanticFormatting = new HashSet<String>
+        internal static readonly HashSet<String> AllSemanticFormatting = new ()
         {
             B, Strong, Code, Em, U, I
         };
 
-        internal static readonly HashSet<String> AllClassicFormatting = new HashSet<String> 
+        internal static readonly HashSet<String> AllClassicFormatting = new ()
         {
             Font, S, Small, Strike, Big, Tt
         };
 
-        internal static readonly HashSet<String> AllFormatting = new HashSet<String> 
+        internal static readonly HashSet<String> AllFormatting = new ()
         {
             B, Strong, Code, Em, U, I, NoBr, Font, S, Small, Strike, Big, Tt
         };
 
-        internal static readonly HashSet<String> AllNested = new HashSet<String>
+        internal static readonly HashSet<String> AllNested = new ()
         {
             Tbody, Td, Tfoot, Th, Thead, Tr, Caption, Col, Colgroup, Frame, Head
         };
 
-        internal static readonly HashSet<String> AllCaptionEnd = new HashSet<String>
+        internal static readonly HashSet<String> AllCaptionEnd = new()
         {
             Tbody, Col, Tfoot, Td, Thead, Caption, Th, Colgroup, Tr
         };
 
-        internal static readonly HashSet<String> AllCaptionStart = new HashSet<String>
+        internal static readonly HashSet<String> AllCaptionStart = new ()
         {
             Tbody, Col, Tfoot, Td, Thead, Tr, Body, Th, Colgroup, Html
         };
 
-        internal static readonly HashSet<String> AllTable = new HashSet<String>
+        internal static readonly HashSet<String> AllTable = new ()
         {
             Tbody, Col, Tfoot, Td, Thead, Tr
         };
 
-        internal static readonly HashSet<String> AllTableRoot = new HashSet<String>
+        internal static readonly HashSet<String> AllTableRoot = new ()
         {
             Caption, Colgroup, Tbody, Tfoot, Thead
         };
 
-        internal static readonly HashSet<String> AllTableGeneral = new HashSet<String>
+        internal static readonly HashSet<String> AllTableGeneral = new ()
         {
             Caption, Colgroup, Col, Tbody, Tfoot, Thead
         };
 
-        internal static readonly HashSet<String> AllTableSections = new HashSet<String>
+        internal static readonly HashSet<String> AllTableSections = new ()
         {
             Tbody, Tfoot, Thead
         };
 
-        internal static readonly HashSet<String> AllTableMajor = new HashSet<String>
+        internal static readonly HashSet<String> AllTableMajor = new ()
         {
             Tbody, Tfoot, Thead, Table, Tr
         };
 
-        internal static readonly HashSet<String> AllTableSpecial = new HashSet<String>
+        internal static readonly HashSet<String> AllTableSpecial = new ()
         {
             Td, Th,  Body, Caption, Col, Colgroup, Html
         };
 
-        internal static readonly HashSet<String> AllTableCore = new HashSet<String>
+        internal static readonly HashSet<String> AllTableCore = new ()
         {
             Tr, Table, Tbody, Tfoot, Thead
         };
 
-        internal static readonly HashSet<String> AllTableInner = new HashSet<String>
+        internal static readonly HashSet<String> AllTableInner = new ()
         {
             Tbody, Tr, Thead, Th, Tfoot, Td
         };
 
-        internal static readonly HashSet<String> AllTableSelects = new HashSet<String>
+        internal static readonly HashSet<String> AllTableSelects = new ()
         {
             Tr, Table, Tbody, Tfoot, Thead, Td, Th, Caption
         };
 
-        internal static readonly HashSet<String> AllTableCells = new HashSet<String>
+        internal static readonly HashSet<String> AllTableCells = new ()
         {
             Td, Th
         };
 
-        internal static readonly HashSet<String> AllTableCellsRows = new HashSet<String>
+        internal static readonly HashSet<String> AllTableCellsRows = new ()
         {
             Tr, Td, Th
         };
 
-        internal static readonly HashSet<String> AllTableHead = new HashSet<String>
+        internal static readonly HashSet<String> AllTableHead = new ()
         {
             Script, Style, Template
         };
