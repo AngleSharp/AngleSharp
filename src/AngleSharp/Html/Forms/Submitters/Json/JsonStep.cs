@@ -151,8 +151,8 @@ namespace AngleSharp.Html.Forms.Submitters.Json
             {
                 if (Append)
                 {
-                    var arr = new JsonArray();
-                    arr.Push(value);
+                    var arr = new JsonArray(1) { value };
+
                     value = arr;
                 }
 
@@ -169,9 +169,8 @@ namespace AngleSharp.Html.Forms.Submitters.Json
             }
             else
             {
-                var arr = new JsonArray();
-                arr.Push(currentValue);
-                arr.Push(value);
+                var arr = new JsonArray(2) { currentValue, value };
+
                 SetValue(context, arr);
             }
 
