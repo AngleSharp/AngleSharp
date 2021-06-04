@@ -38,7 +38,7 @@ namespace AngleSharp.Io.Processors
             private set;
         }
 
-        public IStylingService? Engine => _engine ?? (_engine = _context?.GetStyling(LinkType));
+        public IStylingService? Engine => _engine ??= _context?.GetStyling(LinkType);
 
         public String LinkType => _link.Type ?? MimeTypeNames.Css;
 

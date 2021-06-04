@@ -64,7 +64,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.FrameBorder, value);
         }
 
-        public IBrowsingContext NestedContext => _context ?? (_context = NewChildContext());
+        public IBrowsingContext NestedContext => _context ??= NewChildContext();
 
         #endregion
 
