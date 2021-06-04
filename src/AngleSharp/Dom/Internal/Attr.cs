@@ -1,7 +1,9 @@
 namespace AngleSharp.Dom
 {
+    using AngleSharp.Dom.Events;
     using AngleSharp.Text;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents a generic node attribute.
@@ -69,6 +71,16 @@ namespace AngleSharp.Dom
         #region Properties
 
         /// <summary>
+        /// Gets always true.
+        /// </summary>
+        public Boolean IsSpecified => true;
+
+        /// <summary>
+        /// Gets the owner of the attribute, if any.
+        /// </summary>
+        public IElement? OwnerElement => Container?.Owner;
+
+        /// <summary>
         /// Gets the attribute's prefix.
         /// </summary>
         public String? Prefix => _prefix;
@@ -112,6 +124,46 @@ namespace AngleSharp.Dom
         /// </summary>
         public String? NamespaceUri => _namespace;
 
+        string INode.BaseUri => OwnerElement!.BaseUri;
+
+        Url? INode.BaseUrl => OwnerElement?.BaseUrl;
+
+        string INode.NodeName => Name;
+
+        INodeList INode.ChildNodes => NodeList.Empty;
+
+        IDocument? INode.Owner => OwnerElement?.Owner;
+
+        IElement? INode.ParentElement => null;
+
+        INode? INode.Parent => null;
+
+        INode? INode.FirstChild => null;
+
+        INode? INode.LastChild => null;
+
+        INode? INode.NextSibling => null;
+
+        INode? INode.PreviousSibling => null;
+
+        NodeType INode.NodeType => NodeType.Attribute;
+
+        string INode.NodeValue
+        {
+            get => Value;
+            set => Value = value;
+        }
+
+        string INode.TextContent
+        {
+            get => Value;
+            set => Value = value;
+        }
+
+        bool INode.HasChildNodes => false;
+
+        NodeFlags INode.Flags => throw new NotImplementedException();
+
         #endregion
 
         #region Methods
@@ -121,10 +173,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="other">The other attribute.</param>
         /// <returns>True if both are equivalent, otherwise false.</returns>
-        public Boolean Equals(IAttr other)
-        {
-            return Prefix.Is(other.Prefix) && NamespaceUri.Is(other.NamespaceUri) && Value.Is(other.Value);
-        }
+        public Boolean Equals(IAttr other) => Prefix.Is(other.Prefix) && NamespaceUri.Is(other.NamespaceUri) && Value.Is(other.Value);
 
         /// <summary>
         /// Computes the hash code of the attribute.
@@ -142,6 +191,44 @@ namespace AngleSharp.Dom
 
             return result;
         }
+
+        #endregion
+
+        #region INode Implementation
+
+        INode INode.Clone(Boolean deep) => new Attr(_prefix, _localName, _value, _namespace);
+
+        Boolean INode.Equals(INode otherNode) => otherNode is IAttr attr && Equals(attr);
+
+        DocumentPositions INode.CompareDocumentPosition(INode otherNode) => OwnerElement?.CompareDocumentPosition(otherNode) ?? DocumentPositions.Disconnected;
+
+        void INode.Normalize() {}
+
+        Boolean INode.Contains(INode otherNode) => false;
+
+        Boolean INode.IsDefaultNamespace(String namespaceUri) => OwnerElement?.IsDefaultNamespace(namespaceUri) ?? false;
+
+        String? INode.LookupNamespaceUri(String prefix) => OwnerElement?.LookupNamespaceUri(prefix);
+
+        String? INode.LookupPrefix(String namespaceUri) => OwnerElement?.LookupPrefix(namespaceUri);
+
+        INode INode.AppendChild(INode child) => throw new DomException(DomError.NotSupported);
+
+        INode INode.InsertBefore(INode newElement, INode? referenceElement) => throw new DomException(DomError.NotSupported);
+
+        INode INode.RemoveChild(INode child) => throw new DomException(DomError.NotSupported);
+
+        INode INode.ReplaceChild(INode newChild, INode oldChild) => throw new DomException(DomError.NotSupported);
+
+        void IEventTarget.AddEventListener(String type, DomEventHandler? callback, Boolean capture) => throw new DomException(DomError.NotSupported);
+
+        void IEventTarget.RemoveEventListener(string type, DomEventHandler? callback, bool capture) => throw new DomException(DomError.NotSupported);
+
+        void IEventTarget.InvokeEventListener(Event ev) => throw new DomException(DomError.NotSupported);
+
+        Boolean IEventTarget.Dispatch(Event ev) => throw new DomException(DomError.NotSupported);
+
+        void IMarkupFormattable.ToHtml(TextWriter writer, IMarkupFormatter formatter) {}
 
         #endregion
     }

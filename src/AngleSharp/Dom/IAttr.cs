@@ -7,7 +7,7 @@ namespace AngleSharp.Dom
     /// This type represents a DOM element's attribute as an object. 
     /// </summary>
     [DomName("Attr")]
-    public interface IAttr : IEquatable<IAttr>
+    public interface IAttr : INode, IEquatable<IAttr>
     {
         /// <summary>
         /// Gets the local name of the attribute.
@@ -38,5 +38,17 @@ namespace AngleSharp.Dom
         /// </summary>
         [DomName("prefix")]
         String? Prefix { get; }
+
+        /// <summary>
+        /// Gets the owning element, if any.
+        /// </summary>
+        [DomName("ownerElement")]
+        IElement? OwnerElement { get; }
+
+        /// <summary>
+        /// Gets always true.
+        /// </summary>
+        [DomName("specified")]
+        Boolean IsSpecified { get; }
     }
 }
