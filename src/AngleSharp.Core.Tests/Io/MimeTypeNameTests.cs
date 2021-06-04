@@ -14,6 +14,7 @@ namespace AngleSharp.Core.Tests.Io
             Assert.AreEqual("image/gif", MimeTypeNames.FromExtension(".gif"));
             Assert.AreEqual("image/jpeg", MimeTypeNames.FromExtension(".jpeg"));
             Assert.AreEqual("image/jpeg", MimeTypeNames.FromExtension(".jpg"));
+            Assert.AreEqual("image/jxl", MimeTypeNames.FromExtension(".jxl"));
             Assert.AreEqual("image/png", MimeTypeNames.FromExtension(".png"));
             Assert.AreEqual("image/svg+xml", MimeTypeNames.FromExtension(".svg"));
             Assert.AreEqual("image/webp", MimeTypeNames.FromExtension(".webp"));

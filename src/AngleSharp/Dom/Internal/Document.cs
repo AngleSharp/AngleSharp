@@ -1445,11 +1445,11 @@ namespace AngleSharp.Dom
             }
         }
 
-        private static Boolean IsCommand(IElement element) => element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement;
+        private static Boolean IsCommand(IElement element) => element is IHtmlMenuItemElement or IHtmlButtonElement or IHtmlAnchorElement;
 
         private static Boolean IsLink(IElement element)
         {
-            var isLinkElement = element is IHtmlAnchorElement || element is IHtmlAreaElement;
+            var isLinkElement = element is IHtmlAnchorElement or IHtmlAreaElement;
             return isLinkElement && element.Attributes.Any(m => m.Name.Is(AttributeNames.Href));
         }
 

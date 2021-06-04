@@ -12,7 +12,7 @@ namespace AngleSharp.Html.LinkRels
     {
         #region Fields
 
-        private static readonly ConditionalWeakTable<IDocument, ImportList> ImportLists = new ConditionalWeakTable<IDocument, ImportList>();
+        private static readonly ConditionalWeakTable<IDocument, ImportList> ImportLists = new ();
         private Boolean _async;
 
         #endregion

@@ -193,6 +193,7 @@ namespace AngleSharp.Io
             { ".jpg", "image/jpeg" },
             { ".jps", "image/x-jps" },
             { ".js", "application/javascript" },
+            { ".jxl", "image/jxl" },
             { ".jut", "image/jutvision" },
             { ".kar", "audio/midi" },
             { ".ksh", "application/x-ksh" },

@@ -8,11 +8,26 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
     sealed class JsonArray : JsonElement, IEnumerable<JsonElement>
     {
-        private readonly List<JsonElement> _elements = new List<JsonElement>();
+        private readonly List<JsonElement> _elements;
 
         public Int32 Length => _elements.Count;
 
+        public JsonArray()
+        {
+            _elements = new List<JsonElement>(); 
+        }
+
+        public JsonArray(int capacity)
+        {
+            _elements = new List<JsonElement>(capacity);
+        }
+
         public void Push(JsonElement element)
+        {
+            _elements.Add(element);
+        }
+
+        public void Add(JsonElement element)
         {
             _elements.Add(element);
         }

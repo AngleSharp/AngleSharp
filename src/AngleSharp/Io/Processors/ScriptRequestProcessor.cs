@@ -5,7 +5,6 @@ namespace AngleSharp.Io.Processors
     using AngleSharp.Scripting;
     using AngleSharp.Text;
     using System;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -42,7 +41,7 @@ namespace AngleSharp.Io.Processors
             private set;
         }
 
-        public IScriptingService? Engine => _engine ?? (_engine = _context.GetScripting(ScriptLanguage));
+        public IScriptingService? Engine => _engine ??= _context.GetScripting(ScriptLanguage);
 
         public String? AlternativeLanguage
         {

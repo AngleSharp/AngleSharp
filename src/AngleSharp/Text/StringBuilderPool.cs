@@ -9,7 +9,7 @@ namespace AngleSharp.Text
     /// </summary>
     public static class StringBuilderPool
     {
-        private static readonly Stack<StringBuilder> _builder = new Stack<StringBuilder>();
+        private static readonly Stack<StringBuilder> _builder = new ();
         private static readonly Object _lock = new Object();
         private static Int32 _count = 4;
         private static Int32 _limit = 85000;
