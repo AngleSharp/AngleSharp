@@ -201,9 +201,9 @@ namespace AngleSharp.Html.Parser
 
             do
             {
-                if (context is HtmlFormElement)
+                if (context is HtmlFormElement formEl)
                 {
-                    _currentFormElement = (HtmlFormElement)context;
+                    _currentFormElement = formEl;
                     break;
                 }
 

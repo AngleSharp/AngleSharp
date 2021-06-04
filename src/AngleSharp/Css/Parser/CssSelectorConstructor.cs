@@ -431,7 +431,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (_combinators.Count == 0)
                 {
-                    if (!(_temp is CompoundSelector compound))
+                    if (_temp is not CompoundSelector compound)
                     {
                         compound = new CompoundSelector { _temp };
                     }

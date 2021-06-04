@@ -158,9 +158,9 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
                 SetValue(context, value);
             }
-            else if (currentValue is JsonArray)
+            else if (currentValue is JsonArray jsonArray)
             {
-                ((JsonArray)currentValue).Push(value);
+                jsonArray.Push(value);
             }
             else if (currentValue is JsonObject && !file)
             {
