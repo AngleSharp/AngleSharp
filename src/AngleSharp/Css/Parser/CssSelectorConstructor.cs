@@ -306,7 +306,7 @@ namespace AngleSharp.Css.Parser
         {
             if (token.Type != CssTokenType.Whitespace)
             {
-                if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String || token.Type == CssTokenType.Number)
+                if (token.Type is CssTokenType.Ident or CssTokenType.String or CssTokenType.Number)
                 {
                     _state = State.AttributeEnd;
                     _attrValue = token.Data;

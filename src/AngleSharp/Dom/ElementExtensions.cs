@@ -308,7 +308,7 @@ namespace AngleSharp.Dom
         /// <returns>True if the element is currently enabled, otherwise false.</returns>
         public static Boolean IsEnabled(this IElement element)
         {
-            if (element is HtmlAnchorElement || element is HtmlAreaElement || element is HtmlLinkElement)
+            if (element is HtmlAnchorElement or HtmlAreaElement or HtmlLinkElement)
             {
                 var href = element.GetAttribute(null, AttributeNames.Href);
                 return !String.IsNullOrEmpty(href);
@@ -333,7 +333,7 @@ namespace AngleSharp.Dom
             {
                 return !optionElement.IsDisabled;
             }
-            else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
+            else if (element is HtmlOptionsGroupElement or HtmlMenuItemElement or HtmlFieldSetElement)
             {
                 var isDisabled = element.GetAttribute(null, AttributeNames.Disabled);
                 return String.IsNullOrEmpty(isDisabled);
@@ -369,7 +369,7 @@ namespace AngleSharp.Dom
             {
                 return optionElement.IsDisabled;
             }
-            else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
+            else if (element is HtmlOptionsGroupElement or HtmlMenuItemElement or HtmlFieldSetElement)
             {
                 var isDisabled = element.GetAttribute(null, AttributeNames.Disabled);
                 return !String.IsNullOrEmpty(isDisabled);
