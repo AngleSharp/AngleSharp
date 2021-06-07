@@ -665,7 +665,7 @@ namespace AngleSharp.Html.Dom
 
         private String? GetDefaultLanguage() => ParentElement is IHtmlElement parent ? parent.Language : Context!.GetLanguage();
 
-        private static String Combine(String? prefix, String localName) => (prefix != null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant();
+        private static String Combine(String? prefix, String localName) => (prefix is not null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant();
 
         #endregion
     }

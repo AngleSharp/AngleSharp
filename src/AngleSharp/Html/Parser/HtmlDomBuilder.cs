@@ -36,6 +36,8 @@ namespace AngleSharp.Html.Parser
         private Boolean _foster;
         private Boolean _frameset;
         private Task? _waiting;
+        private String? _stopAt;
+        private Boolean _ended;
 
         #endregion
 
@@ -58,7 +60,10 @@ namespace AngleSharp.Html.Parser
         /// <param name="document">
         /// The document instance to be constructed.
         /// </param>
-        public HtmlDomBuilder(HtmlDocument document)
+        /// <param name="stopAt">
+        /// The name of the element where the parsing should be stopped.
+        /// </param>
+        public HtmlDomBuilder(HtmlDocument document, String? stopAt = null)
         {
             _tokenizer = new HtmlTokenizer(document.Source, document.Entities);
             _document = document;
@@ -67,6 +72,8 @@ namespace AngleSharp.Html.Parser
             _formattingElements = new List<Element>();
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
+            _stopAt = stopAt;
+            _ended = false;
         }
 
         #endregion
@@ -120,7 +127,7 @@ namespace AngleSharp.Html.Parser
                     _waiting = null;
                 }
             }
-            while (token.Type != HtmlTokenType.EndOfFile);
+            while (!_ended && token.Type != HtmlTokenType.EndOfFile);
 
             return _document;
         }
@@ -141,7 +148,7 @@ namespace AngleSharp.Html.Parser
                 _waiting?.Wait();
                 _waiting = null;
             }
-            while (token.Type != HtmlTokenType.EndOfFile);
+            while (!_ended && token.Type != HtmlTokenType.EndOfFile);
 
             return _document;
         }
@@ -222,6 +229,7 @@ namespace AngleSharp.Html.Parser
             _currentMode = HtmlTreeMode.Initial;
             _tokenizer.State = HtmlParseMode.PCData;
             _document.Clear();
+            _ended = false;
             _frameset = true;
             _openElements.Clear();
             _formattingElements.Clear();
@@ -3807,18 +3815,34 @@ namespace AngleSharp.Html.Parser
             _document.ApplyManifest();
         }
 
+        private void CheckEnded(Element element)
+        {
+            if (_stopAt is not null && element.Prefix is null && _stopAt == element.LocalName)
+            {
+                _ended = true;
+            }
+        }
+
+        private void CloseNodeAt(Int32 index)
+        {
+            var openElement = _openElements[index];
+            openElement.SetupElement();
+            _openElements.RemoveAt(index);
+            CheckEnded(openElement);
+        }
+
         private void CloseNode(Element element)
         {
             element.SetupElement();
             _openElements.Remove(element);
+            CheckEnded(element);
         }
 
         private void CloseNodesFrom(Int32 index)
         {
             for (var i = _openElements.Count - 1; i > index; i--)
             {
-                _openElements[i].SetupElement();
-                _openElements.RemoveAt(i);
+                CloseNodeAt(i);
             }
 
             CloseCurrentNode();
@@ -3831,11 +3855,9 @@ namespace AngleSharp.Html.Parser
         {
             if (_openElements.Count > 0)
             {
-                var index = _openElements.Count - 1;
-                _openElements[index].SetupElement();
-                _openElements.RemoveAt(index);
+                CloseNodeAt(_openElements.Count - 1);
                 var node = AdjustedCurrentNode;
-                _tokenizer.IsAcceptingCharacterData = node != null && ((node.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember);
+                _tokenizer.IsAcceptingCharacterData = node is not null && ((node.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember);
             }
         }
 

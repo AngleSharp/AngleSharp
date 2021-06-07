@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -15,25 +15,26 @@
         /// <summary>
         /// Parses the string asynchronously.
         /// </summary>
-        public static Task<IHtmlDocument> ParseDocumentAsync(this IHtmlParser parser, String source)
-        {
-            return parser.ParseDocumentAsync(source, CancellationToken.None);
-        }
+        public static Task<IHtmlDocument> ParseDocumentAsync(this IHtmlParser parser, String source) => parser.ParseDocumentAsync(source, CancellationToken.None);
 
         /// <summary>
         /// Parses the stream asynchronously.
         /// </summary>
-        public static Task<IHtmlDocument> ParseDocumentAsync(this IHtmlParser parser, Stream source)
-        {
-            return parser.ParseDocumentAsync(source, CancellationToken.None);
-        }
+        public static Task<IHtmlDocument> ParseDocumentAsync(this IHtmlParser parser, Stream source) => parser.ParseDocumentAsync(source, CancellationToken.None);
+
+        /// <summary>
+        /// Parses the string asynchronously.
+        /// </summary>
+        public static Task<IHtmlHeadElement?> ParseHeadAsync(this IHtmlParser parser, String source) => parser.ParseHeadAsync(source, CancellationToken.None);
+
+        /// <summary>
+        /// Parses the stream asynchronously.
+        /// </summary>
+        public static Task<IHtmlHeadElement?> ParseHeadAsync(this IHtmlParser parser, Stream source) => parser.ParseHeadAsync(source, CancellationToken.None);
 
         /// <summary>
         /// Populates the given document asynchronously.
         /// </summary>
-        public static Task<IDocument> ParseDocumentAsync(this IHtmlParser parser, IDocument document)
-        {
-            return parser.ParseDocumentAsync(document, CancellationToken.None);
-        }
+        public static Task<IDocument> ParseDocumentAsync(this IHtmlParser parser, IDocument document) => parser.ParseDocumentAsync(document, CancellationToken.None);
     }
 }

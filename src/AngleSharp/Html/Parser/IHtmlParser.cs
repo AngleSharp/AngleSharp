@@ -34,6 +34,16 @@ namespace AngleSharp.Html.Parser
         INodeList ParseFragment(Stream source, IElement contextElement);
 
         /// <summary>
+        /// Parses the string and returns the head.
+        /// </summary>
+        IHtmlHeadElement? ParseHead(String source);
+
+        /// <summary>
+        /// Parses the stream and returns the head.
+        /// </summary>
+        IHtmlHeadElement? ParseHead(Stream source);
+
+        /// <summary>
         /// Parses the string asynchronously.
         /// </summary>
         Task<IHtmlDocument> ParseDocumentAsync(String source, CancellationToken cancel);
@@ -42,6 +52,16 @@ namespace AngleSharp.Html.Parser
         /// Parses the stream asynchronously.
         /// </summary>
         Task<IHtmlDocument> ParseDocumentAsync(Stream source, CancellationToken cancel);
+
+        /// <summary>
+        /// Parses the string asynchronously.
+        /// </summary>
+        Task<IHtmlHeadElement?> ParseHeadAsync(String source, CancellationToken cancel);
+
+        /// <summary>
+        /// Parses the stream asynchronously.
+        /// </summary>
+        Task<IHtmlHeadElement?> ParseHeadAsync(Stream source, CancellationToken cancel);
 
         /// <summary>
         /// Populates the given HTML document asynchronously.

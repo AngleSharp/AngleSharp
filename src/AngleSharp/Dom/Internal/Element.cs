@@ -1,6 +1,5 @@
 namespace AngleSharp.Dom
 {
-    using AngleSharp.Common;
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom.Events;
     using AngleSharp.Text;

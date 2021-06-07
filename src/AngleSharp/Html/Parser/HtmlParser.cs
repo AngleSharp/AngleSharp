@@ -117,6 +117,15 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses the string and returns the head.
+        /// </summary>
+        public IHtmlHeadElement? ParseHead(String source)
+        {
+            var document = CreateDocument(source);
+            return Parse(document, TagNames.Head).Head;
+        }
+
+        /// <summary>
         /// Parses the stream and returns the result.
         /// </summary>
         public INodeList ParseFragment(Stream source, IElement contextElement)
@@ -144,6 +153,15 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses the stream and returns the head.
+        /// </summary>
+        public IHtmlHeadElement? ParseHead(Stream source)
+        {
+            var document = CreateDocument(source);
+            return Parse(document, TagNames.Head).Head;
+        }
+
+        /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
         public Task<IHtmlDocument> ParseDocumentAsync(String source, CancellationToken cancel)
@@ -159,6 +177,26 @@ namespace AngleSharp.Html.Parser
         {
             var document = CreateDocument(source);
             return ParseAsync(document, cancel);
+        }
+
+        /// <summary>
+        /// Parses the string asynchronously with option to cancel.
+        /// </summary>
+        public async Task<IHtmlHeadElement?> ParseHeadAsync(String source, CancellationToken cancel)
+        {
+            var document = CreateDocument(source);
+            var result = await ParseAsync(document, cancel, TagNames.Head).ConfigureAwait(false);
+            return result.Head;
+        }
+
+        /// <summary>
+        /// Parses the stream asynchronously with option to cancel.
+        /// </summary>
+        public async Task<IHtmlHeadElement?> ParseHeadAsync(Stream source, CancellationToken cancel)
+        {
+            var document = CreateDocument(source);
+            var result = await ParseAsync(document, cancel, TagNames.Head).ConfigureAwait(false);
+            return result.Head;
         }
 
         async Task<IDocument> IHtmlParser.ParseDocumentAsync(IDocument document, CancellationToken cancel)
@@ -190,9 +228,9 @@ namespace AngleSharp.Html.Parser
             return document;
         }
 
-        private HtmlDomBuilder CreateBuilder(HtmlDocument document)
+        private HtmlDomBuilder CreateBuilder(HtmlDocument document, String? stopAt)
         {
-            var parser = new HtmlDomBuilder(document);
+            var parser = new HtmlDomBuilder(document, stopAt);
 
             if (HasEventListener(EventNames.Error))
             {
@@ -202,18 +240,18 @@ namespace AngleSharp.Html.Parser
             return parser;
         }
 
-        private IHtmlDocument Parse(HtmlDocument document)
+        private IHtmlDocument Parse(HtmlDocument document, String? stopAt = null)
         {
-            var parser = CreateBuilder(document);
+            var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
             parser.Parse(_options);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
 
-        private async Task<IHtmlDocument> ParseAsync(HtmlDocument document, CancellationToken cancel)
+        private async Task<IHtmlDocument> ParseAsync(HtmlDocument document, CancellationToken cancel, String? stopAt = null)
         {
-            var parser = CreateBuilder(document);
+            var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
             await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
             InvokeHtmlParseEvent(document, completed: true);

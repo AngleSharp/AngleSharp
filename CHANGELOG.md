@@ -4,7 +4,8 @@ Released on ?
 
 - Remove usage of CWT and introduce context info bag (#918)
 - Fixed recursion depth of `FindDescendant` with configurable limit (#936)
-- `IAttr` inherits from `INode`
+- Fixed `IAttr` to actually inherit from `INode`
+- Added ability to parse only the head from a stream (#966)
 
 # 0.15.0
 
