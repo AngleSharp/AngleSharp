@@ -2,6 +2,7 @@ namespace AngleSharp
 {
     using AngleSharp.Browser;
     using AngleSharp.Common;
+    using AngleSharp.Dom;
     using AngleSharp.Io;
     using System;
     using System.Collections.Generic;

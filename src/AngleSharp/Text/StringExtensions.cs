@@ -42,6 +42,7 @@ namespace AngleSharp.Text
         /// <returns>The compatibility string.</returns>
         internal static String GetCompatiblity(this QuirksMode mode)
         {
+
             var field = typeof(QuirksMode).GetField(mode.ToString());
             var description = field.GetCustomAttribute<DomDescriptionAttribute>()?.Description;
             return description ?? "CSS1Compat";

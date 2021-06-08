@@ -1,5 +1,6 @@
 namespace AngleSharp.Browser
 {
+    using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
@@ -60,9 +61,6 @@ namespace AngleSharp.Browser
             }
         }
 
-        private static Boolean AlwaysRefresh(Url url)
-        {
-            return true;
-        }
+        private static Boolean AlwaysRefresh(Url url) => true;
     }
 }

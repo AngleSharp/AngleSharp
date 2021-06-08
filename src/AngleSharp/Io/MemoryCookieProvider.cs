@@ -1,5 +1,6 @@
 namespace AngleSharp.Io
 {
+    using AngleSharp.Dom;
     using System;
     using System.Diagnostics;
     using System.Globalization;

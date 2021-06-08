@@ -1,5 +1,7 @@
-﻿namespace AngleSharp.Media
+namespace AngleSharp.Media
 {
+    using AngleSharp.Dom;
+
     /// <summary>
     /// Specifies general resource information.
     /// </summary>

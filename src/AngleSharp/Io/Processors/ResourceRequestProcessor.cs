@@ -1,5 +1,6 @@
 namespace AngleSharp.Io.Processors
 {
+    using AngleSharp.Dom;
     using AngleSharp.Media;
     using System;
     using System.Diagnostics.CodeAnalysis;

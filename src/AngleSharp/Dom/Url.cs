@@ -1,5 +1,6 @@
-namespace AngleSharp
+namespace AngleSharp.Dom
 {
+    using AngleSharp.Attributes;
     using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
@@ -11,7 +12,11 @@ namespace AngleSharp
     /// <summary>
     /// Represents an Url class according to RFC3986. This is the base for all
     /// internal Url manipulation.
+    /// Specification for the API used from https://url.spec.whatwg.org/#api.
     /// </summary>
+    [DomName("URL")]
+    [DomExposed("Window")]
+    [DomExposed("Worker")]
     public sealed class Url : IEquatable<Url>
     {
         #region Fields
@@ -40,6 +45,7 @@ namespace AngleSharp
         private String? _password;
         private Boolean _relative;
         private String _schemeData;
+        private UrlSearchParams? _params;
         private Boolean _error;
 
         #endregion
@@ -57,6 +63,25 @@ namespace AngleSharp
         }
 
 #nullable disable
+
+        /// <summary>
+        /// Creates a new Url from the given string.
+        /// </summary>
+        /// <param name="url">The address to represent.</param>
+        /// <param name="baseAddress">The base address, if any.</param>
+        [DomConstructor]
+        public Url(String url, String baseAddress = null)
+        {
+            if (baseAddress is not null)
+            {
+                var baseUrl = new Url(baseAddress);
+                _error = ParseUrl(url, baseUrl);
+            }
+            else
+            {
+                _error = ParseUrl(url);
+            }
+        }
 
         /// <summary>
         /// Creates a new Url from the given string.
@@ -131,6 +156,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets the origin of the stored url.
         /// </summary>
+        [DomName("origin")]
         public String? Origin
         {
             get
@@ -188,18 +214,20 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the username for authorization.
         /// </summary>
+        [DomName("username")]
         public String? UserName
         {
-            get => _username;
+            get => _username ?? String.Empty;
             set => _username = value;
         }
 
         /// <summary>
         /// Gets or sets the password for authorization.
         /// </summary>
+        [DomName("password")]
         public String? Password
         {
-            get => _password;
+            get => _password ?? String.Empty;
             set => _password = value;
         }
 
@@ -210,7 +238,7 @@ namespace AngleSharp
         public String Data => _schemeData;
 
         /// <summary>
-        /// Gets or sets the fragment.
+        /// Gets or sets the fragment, e.g., "first-section".
         /// </summary>
         public String? Fragment
         {
@@ -229,8 +257,19 @@ namespace AngleSharp
         }
 
         /// <summary>
+        /// Gets or sets the hash, e.g., "#first-section".
+        /// </summary>
+        [DomName("hash")]
+        public String Hash
+        {
+            get => String.IsNullOrEmpty(_fragment) ? String.Empty : $"#{_fragment}";
+            set => Fragment = value;
+        }
+
+        /// <summary>
         /// Gets or sets the host, e.g. "localhost:8800" or "www.w3.org".
         /// </summary>
+        [DomName("host")]
         public String Host
         {
             get => HostName + (String.IsNullOrEmpty(_port) ? String.Empty : ":" + _port);
@@ -244,6 +283,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets or sets the host name, e.g. "localhost" or "www.w3.org".
         /// </summary>
+        [DomName("hostname")]
         public String HostName
         {
             get => _host;
@@ -255,8 +295,9 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Gets or sets the hyper reference, i.e. the full path.
+        /// Gets or sets the hyper reference, i.e. the full URL.
         /// </summary>
+        [DomName("href")]
         public String Href
         {
             get => Serialize();
@@ -264,7 +305,7 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Gets or sets the pathname, e.g. "mypath".
+        /// Gets or sets the path, e.g. "mypath".
         /// </summary>
         public String Path
         {
@@ -277,8 +318,19 @@ namespace AngleSharp
         }
 
         /// <summary>
+        /// Gets or sets the pathname, e.g. "/mypath".
+        /// </summary>
+        [DomName("pathname")]
+        public String PathName
+        {
+            get => $"/{_path}";
+            set => Path = value;
+        }
+
+        /// <summary>
         /// Gets or sets the port, e.g. "8800".
         /// </summary>
+        [DomName("port")]
         public String Port
         {
             get => _port;
@@ -290,7 +342,7 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Gets or sets the protocol, e.g. "http".
+        /// Gets or sets the scheme, e.g. "http".
         /// </summary>
         public String Scheme
         {
@@ -303,7 +355,17 @@ namespace AngleSharp
         }
 
         /// <summary>
-        /// Gets or sets the query.
+        /// Gets or sets the protocol, e.g. "http:".
+        /// </summary>
+        [DomName("protocol")]
+        public String Protocol
+        {
+            get => $"{_scheme}:";
+            set => Scheme = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the query part, e.g., "foo=bar".
         /// </summary>
         public String? Query
         {
@@ -314,6 +376,22 @@ namespace AngleSharp
                 ParseQuery(input, 0, input.Length, true);
             }
         }
+
+        /// <summary>
+        /// Gets or sets the search part, e.g., "?foo=bar".
+        /// </summary>
+        [DomName("search")]
+        public String Search
+        {
+            get => String.IsNullOrEmpty(_query) ? String.Empty : $"?{_query}";
+            set => Query = value;
+        }
+
+        /// <summary>
+        /// Obtains an advanced view on the provided query parameter.
+        /// </summary>
+        [DomName("searchParams")]
+        public UrlSearchParams SearchParams => _params ??= new UrlSearchParams(this);
 
         #endregion
 
@@ -393,13 +471,17 @@ namespace AngleSharp
         #region Serialization
 
         /// <summary>
+        /// Serializes the URL string to a JSON compatible string representation.
+        /// </summary>
+        /// <returns>The currently stored url.</returns>
+        [DomName("toJSON")]
+        public String ToJson() => Serialize();
+
+        /// <summary>
         /// Returns a string that represents the current url.
         /// </summary>
         /// <returns>The currently stored url.</returns>
-        public override String ToString()
-        {
-            return Serialize();
-        }
+        public override String ToString() => Serialize();
 
         /// <summary>
         /// Returns the string representation of the current location.
@@ -824,6 +906,7 @@ namespace AngleSharp
                 _port = String.Empty;
                 _query = null;
                 _fragment = null;
+                _params?.Reset();
             }
 
             return true;
@@ -1017,6 +1100,7 @@ namespace AngleSharp
             }
 
             _query = buffer.ToPool();
+            _params?.ChangeTo(_query);
             return fragment ? ParseFragment(input, index + 1, length) : true;
         }
 
@@ -1049,7 +1133,7 @@ namespace AngleSharp
 
         #region Helpers
 
-        private static string NormalizeInput(string input)
+        private static String NormalizeInput(String input)
         {
             var trimmedInput = input.Trim(C0ControlAndSpace);
             var buffer = StringBuilderPool.Obtain();
@@ -1070,7 +1154,7 @@ namespace AngleSharp
             return buffer.ToPool();
         }
 
-        private static string Utf8PercentDecode(String source)
+        private static String Utf8PercentDecode(String source)
         {
             // https://anglesharp.github.io/Specification-Url/#string-percent-decode
             // 1. Let bytes be the UTF-8 encoding of input.
@@ -1116,7 +1200,7 @@ namespace AngleSharp
             return length - 1;
         }
 
-        private static bool TrySanatizeHost(String hostName, Int32 start, Int32 length, out String sanatizedHostName)
+        private static Boolean TrySanatizeHost(String hostName, Int32 start, Int32 length, out String sanatizedHostName)
         {
             if (length == 0)
             {

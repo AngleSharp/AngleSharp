@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Core.Tests.Mocks
+namespace AngleSharp.Core.Tests.Mocks
 {
+    using AngleSharp.Dom;
     using AngleSharp.Media;
     using System;
 

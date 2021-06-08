@@ -1,11 +1,14 @@
-# 1.0.0
+# 0.16.0
 
-Released on ?
+Released on Tuesday, June 8 2021.
 
+- Moved `Url` from `AngleSharp` to `AngleSharp.Dom`
 - Remove usage of CWT and introduce context info bag (#918)
 - Fixed recursion depth of `FindDescendant` with configurable limit (#936)
 - Fixed `IAttr` to actually inherit from `INode`
 - Added ability to parse only the head from a stream (#966)
+- Added new `UrlSearchParams` class (#970)
+- Exposed `Url` class to `URL` DOM API (#970)
 
 # 0.15.0
 

@@ -1,8 +1,8 @@
 namespace AngleSharp.Html.LinkRels
 {
+    using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Io.Processors;
-    using System;
     using System.Threading.Tasks;
 
     /// <summary>

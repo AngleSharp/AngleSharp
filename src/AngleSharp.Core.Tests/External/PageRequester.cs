@@ -1,13 +1,13 @@
-﻿namespace AngleSharp.Core.Tests.External
+namespace AngleSharp.Core.Tests.External
 {
+    using AngleSharp.Dom;
     using AngleSharp.Io;
     using System;
     using System.IO;
     using System.Net;
-    using System.Reflection;
+    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Runtime.CompilerServices;
 
     sealed class PageRequester : BaseRequester
     {

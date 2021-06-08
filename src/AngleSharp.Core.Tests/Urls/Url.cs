@@ -1,5 +1,6 @@
 namespace AngleSharp.Core.Tests.Urls
 {
+    using AngleSharp.Dom;
     using NUnit.Framework;
     using System;
 

@@ -1,6 +1,7 @@
 namespace AngleSharp.Io
 {
     using AngleSharp.Common;
+    using AngleSharp.Dom;
     using System;
 
     /// <summary>

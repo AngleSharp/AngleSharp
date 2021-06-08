@@ -2,6 +2,7 @@ namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
     using AngleSharp.Io;
     using NUnit.Framework;
     using System.Collections.Generic;

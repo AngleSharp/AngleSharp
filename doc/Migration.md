@@ -1,5 +1,23 @@
 # Migration Guide
 
+## 0.15 to 0.16
+
+The `Url` class has been moved from `AngleSharp` to `AngleSharp.Dom`. Potentially, you'll need to adjust your `using` statements or use of fully qualified names.
+
+## 0.14 to 0.15
+
+Dropped support for .NET Standard 1.3. AngleSharp now works exclusively on .NET 4.5 or newer / .NET Standard 2.0. If you use an older framework you'll either need to fork AngleSharp or remain on an older version of AngleSharp.
+
+## 0.13 to 0.14
+
+If you implemented `IBrowsingContext` then you'll also need to implement `IDisposable`. Most users should not be affected by this.
+
+## 0.12 to 0.13
+
+Renamed the configuration method `WithCookies` to `WithDefaultCookies`. Our recommendation is to use `WithCookies` from `AngleSharp.Io`.
+
+Removed the `TaskEventLoop`. Usually, since this is a low level construct, it should not have any impact on your code.
+
 ## 0.11 to 0.12
 
 For this change we do not expect any migration work unless a custom implementation of `IElement` has been done (unlikely).
