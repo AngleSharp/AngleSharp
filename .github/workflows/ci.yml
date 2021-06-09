@@ -29,6 +29,7 @@ jobs:
       with:
         feed: 'anglesharp'
         base-dir: ./src/AngleSharp.Core.Docs
+        bundler: parcel
         api-key: ${{ secrets.PIRAL_FEED_KEY }}
 
   linux:

@@ -23,8 +23,8 @@
     "react-router-dom": "5.2.0",
     "tslib": "2.2.0",
     "path-to-regexp": "1.8.0",
-    "piral-cli": "^0.13.2",
-    "piral-cli-webpack5": "^0.13.2"
+    "piral-cli": "^0.13.3-pre.2480",
+    "piral-cli-parcel": "^0.13.3-pre.2480"
   },
   "peerDependencies": {
     "@dbeining/react-atom": "*",
