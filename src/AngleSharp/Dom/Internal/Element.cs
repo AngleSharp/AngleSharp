@@ -453,7 +453,7 @@ namespace AngleSharp.Dom
             if (value != null)
             {
                 GetPrefixAndLocalName(name, ref namespaceUri, out var prefix, out var localName);
-                _attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri));
+                _attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri, this));
             }
             else
             {
@@ -630,7 +630,7 @@ namespace AngleSharp.Dom
 
             foreach (var attribute in _attributes)
             {
-                var attr = new Attr(attribute.Prefix, attribute.LocalName, attribute.Value, attribute.NamespaceUri);
+                var attr = new Attr(attribute.Prefix, attribute.LocalName, attribute.Value, attribute.NamespaceUri, this);
                 element._attributes.FastAddItem(attr);
             }
 

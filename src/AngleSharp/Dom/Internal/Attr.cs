@@ -15,6 +15,7 @@ namespace AngleSharp.Dom
         private readonly String _localName;
         private readonly String? _prefix;
         private readonly String? _namespace;
+        private readonly IElement? _ownerElement;
         private String _value;
 
         #endregion
@@ -25,8 +26,9 @@ namespace AngleSharp.Dom
         /// Creates a new attribute with the given local name.
         /// </summary>
         /// <param name="localName">The local name of the attribute.</param>
-        public Attr(String localName)
-            : this(localName, String.Empty)
+        /// <param name="ownerElement">The owner of the attribute.</param>
+        public Attr(String localName, IElement? ownerElement)
+            : this(localName, String.Empty, ownerElement)
         {
         }
 
@@ -35,10 +37,12 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="localName">The local name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        public Attr(String localName, String value)
+        /// <param name="ownerElement">The owner of the attribute.</param>
+        public Attr(String localName, String value, IElement? ownerElement)
         {
             _localName = localName;
             _value = value;
+            _ownerElement = ownerElement;
         }
 
         /// <summary>
@@ -48,12 +52,14 @@ namespace AngleSharp.Dom
         /// <param name="localName">The local name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
         /// <param name="namespaceUri">The namespace of the attribute.</param>
-        public Attr(String? prefix, String localName, String value, String? namespaceUri)
+        /// <param name="ownerElement">The owner of the attribute.</param>
+        public Attr(String? prefix, String localName, String value, String? namespaceUri, IElement? ownerElement)
         {
             _prefix = prefix;
             _localName = localName;
             _value = value;
             _namespace = namespaceUri;
+            _ownerElement = ownerElement;
         }
 
         #endregion
@@ -78,7 +84,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the owner of the attribute, if any.
         /// </summary>
-        public IElement? OwnerElement => Container?.Owner;
+        public IElement? OwnerElement => _ownerElement;
 
         /// <summary>
         /// Gets the attribute's prefix.
@@ -196,7 +202,7 @@ namespace AngleSharp.Dom
 
         #region INode Implementation
 
-        INode INode.Clone(Boolean deep) => new Attr(_prefix, _localName, _value, _namespace);
+        INode INode.Clone(Boolean deep) => new Attr(_prefix, _localName, _value, _namespace, _ownerElement);
 
         Boolean INode.Equals(INode otherNode) => otherNode is IAttr attr && Equals(attr);
 

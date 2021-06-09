@@ -19,7 +19,7 @@ namespace AngleSharp.Html.Parser
             for (var i = 0; i < attributes.Count; i++)
             {
                 var attribute = attributes[i];
-                var item = new Attr(attribute.Name, attribute.Value);
+                var item = new Attr(attribute.Name, attribute.Value, element);
                 container.FastAddItem(item);
             }
         }

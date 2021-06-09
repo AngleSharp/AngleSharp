@@ -1145,14 +1145,14 @@ namespace AngleSharp.Dom
             if (!localName.IsXmlName())
                 throw new DomException(DomError.InvalidCharacter);
 
-            return new Attr(localName);
+            return new Attr(localName, (IElement?)null);
         }
 
         /// <inheritdoc />
         public IAttr CreateAttribute(String? namespaceUri, String qualifiedName)
         {
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out var prefix, out var localName);
-            return new Attr(prefix, localName, String.Empty, namespaceUri);
+            return new Attr(prefix, localName, String.Empty, namespaceUri, (IElement?)null);
         }
 
         /// <summary>
