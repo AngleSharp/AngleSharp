@@ -14,6 +14,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: "14.x"
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Install Dependencies
+      run: |
+        cd ./src/AngleSharp.Core.Docs
+        npm install
+
     - uses: smapiot/publish-pilet-action@v2
       with:
         feed: 'anglesharp'
