@@ -1,3 +1,7 @@
+---
+title: "Forms"
+section: "AngleSharp.Core"
+---
 # Form Submission by Example
 
 ## Standard Forms

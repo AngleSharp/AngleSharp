@@ -1,0 +1,57 @@
+{
+  "name": "@anglesharp/core",
+  "version": "0.15.0",
+  "description": "The doclet for the AngleSharp.Core documentation.",
+  "keywords": [
+    "pilet"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@anglesharp/website": "1.0.0",
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.5",
+    "@types/react-router": "latest",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/node": "^15.3.0",
+    "typescript": "^4.2.4",
+    "@dbeining/react-atom": "4.1.19",
+    "@libre/atom": "1.3.3",
+    "history": "4.10.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-router": "5.2.0",
+    "react-router-dom": "5.2.0",
+    "tslib": "2.2.0",
+    "path-to-regexp": "1.8.0",
+    "piral-cli": "^0.13.2",
+    "piral-cli-webpack5": "^0.13.2"
+  },
+  "peerDependencies": {
+    "@dbeining/react-atom": "*",
+    "@libre/atom": "*",
+    "history": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-router": "*",
+    "react-router-dom": "*",
+    "tslib": "*",
+    "path-to-regexp": "*",
+    "@anglesharp/website": "*"
+  },
+  "scripts": {
+    "start": "pilet debug",
+    "build": "pilet build",
+    "upgrade": "pilet upgrade"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "piral": {
+    "comment": "Keep this section to use the Piral CLI.",
+    "name": "@anglesharp/website"
+  },
+  "peerModules": [
+    "piral-docs-tools/components"
+  ]
+}

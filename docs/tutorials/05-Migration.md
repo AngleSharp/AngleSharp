@@ -1,3 +1,7 @@
+---
+title: "Upgrading"
+section: "AngleSharp.Core"
+---
 # Migration Guide
 
 ## 0.15 to 0.16

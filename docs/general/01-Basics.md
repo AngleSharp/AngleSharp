@@ -1,3 +1,7 @@
+---
+title: "Getting Started"
+section: "AngleSharp.Core"
+---
 # Getting Started
 
 ## Requirements

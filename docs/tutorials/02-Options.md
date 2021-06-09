@@ -1,3 +1,7 @@
+---
+title: "Configuration"
+section: "AngleSharp.Core"
+---
 # HTML Parser Options
 
 The HTML parser comes with some options, which may be helpful to cover specific scenarios.

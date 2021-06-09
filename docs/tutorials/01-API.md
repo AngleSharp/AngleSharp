@@ -1,3 +1,7 @@
+---
+title: "API Documentation"
+section: "AngleSharp.Core"
+---
 # API Documentation
 
 ## Core API

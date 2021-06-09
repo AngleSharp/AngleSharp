@@ -1,3 +1,7 @@
+---
+title: "Performance"
+section: "AngleSharp.Core"
+---
 # Performance Evaluations
 
 ## General Considerations

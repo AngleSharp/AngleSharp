@@ -1,3 +1,7 @@
+---
+title: "Questions"
+section: "AngleSharp.Core"
+---
 # Frequently Asked Questions
 
 ## How to download a picture?

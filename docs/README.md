@@ -2,16 +2,16 @@
 
 We have more detailed information regarding the following subjects:
 
-- [Getting Started](Basics.md)
-- [API Documentation](API.md)
-- [Parser Options](Options.md)
-- [More Examples](Examples.md)
-- [Form Submission by Example](Forms.md)
-- [Performance Comparisons](Performance.md)
-- [Feature Status](Features.md)
-- [Frequently Asked Questions](Questions.md)
-- [Migration Information](Migration.md)
-- [Major Releases](Releases.md)
+- [Getting Started](general/01-Basics.md)
+- [Current Features](general/02-Features.md)
+- [Upcoming Features](general/03-Upcoming.md)
+- [Performance Comparisons](general/04-Performance.md)
+- [API Documentation](tutorials/01-API.md)
+- [Parser Options](tutorials/02-Options.md)
+- [More Examples](tutorials/03-Examples.md)
+- [Form Submission by Example](tutorials/04-Forms.md)
+- [Migration Information](tutorials/05-Migration.md)
+- [Frequently Asked Questions](tutorials/06-Questions.md)
 
 ## Why AngleSharp?
 

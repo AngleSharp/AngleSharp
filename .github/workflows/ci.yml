@@ -7,6 +7,19 @@ env:
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
 jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/devel'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: smapiot/publish-pilet-action@v2
+      with:
+        feed: 'anglesharp'
+        base-dir: ./src/AngleSharp.Core.Docs
+        api-key: ${{ secrets.PIRAL_FEED_KEY }}
+
   linux:
     runs-on: ubuntu-latest
 
