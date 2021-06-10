@@ -76,6 +76,7 @@ artifacts/
 ![Tt]ools/packages.config
 TestResults/
 node_modules
+package-lock.json
 *.nuget.targets
 *.nuget.props
 *.nupkg

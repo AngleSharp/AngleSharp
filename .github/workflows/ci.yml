@@ -25,12 +25,10 @@ jobs:
         cd ./src/AngleSharp.Core.Docs
         npm install
 
-    - uses: smapiot/publish-pilet-action@v2
-      with:
-        feed: 'anglesharp'
-        base-dir: ./src/AngleSharp.Core.Docs
-        bundler: parcel
-        api-key: ${{ secrets.PIRAL_FEED_KEY }}
+    - name: Deploy Doclet
+      run: |
+        cd ./src/AngleSharp.Core.Docs
+        npx pilet publish --fresh --url https://feed.piral.cloud/api/v1/pilet/anglesharp --api-key ${{ secrets.PIRAL_FEED_KEY }}
 
   linux:
     runs-on: ubuntu-latest
