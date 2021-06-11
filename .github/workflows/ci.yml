@@ -5,11 +5,13 @@ on: [push, pull_request]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+  DOCS_PATH: ${{ secrets.DOCS_PATH }}
+  DOCS_BRANCH: ${{ secrets.DOCS_BRANCH }}
 
 jobs:
   documentation:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/devel'
+    if: ${{ github.ref == env.DOCS_BRANCH && env.DOCS_PATH != null }}
 
     steps:
     - uses: actions/checkout@v2
@@ -22,12 +24,12 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        cd ./src/AngleSharp.Core.Docs
+        cd $DOCS_PATH
         npm install
 
     - name: Deploy Doclet
       run: |
-        cd ./src/AngleSharp.Core.Docs
+        cd $DOCS_PATH
         npx pilet publish --fresh --url https://feed.piral.cloud/api/v1/pilet/anglesharp --api-key ${{ secrets.PIRAL_FEED_KEY }}
 
   linux:
@@ -47,7 +49,7 @@ jobs:
 
     - name: Build
       run: |
-        if ($env:GITHUB_REF -eq "refs/heads/master") {
+        if ($env:GITHUB_REF -eq "refs/heads/main") {
           .\build.ps1 -Target Publish
         } elseif ($env:GITHUB_REF -eq "refs/heads/devel") {
           .\build.ps1 -Target PrePublish

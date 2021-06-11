@@ -61,6 +61,8 @@ class MyClass {
 
 Of course one could go further and perform a lot more DOM manipulations.
 
+### The Browsing Context
+
 `IBrowsingContext` represents a browsing context where document evaluations take place. This is a required construct for parsing any HTML page. It also allows submitting forms, following links, downloading resources, and more. We can think of it like a tab in a standard browser.
 
 Alternatively, we could have used the following code in the beginning:
@@ -72,11 +74,15 @@ var source = "<h1>Some example source</h1><p>This is a paragraph element";
 var document = parser.ParseDocument(source);
 ```
 
+### Parsers
+
 So what is the `IHtmlParser`? This is a class that represents the HTML5 parser front-end. It has methods to create an instance of `IHtmlDocument`, which carries the parsed DOM. Since HTML is quite relaxed about possible errors, there is nothing like exceptions. We only might get some error messages. These messages can be received via a special interface and should be treated like warnings.
 
-## The DOM
+## Exploring the Web
 
 The idea behind AngleSharp is to provide state-of-the-art parsers (for CSS, HTML and related objects, such as URLs), which generate the same DOM as a modern browser would do. The same DOM means that the same API is used as known from JavaScript / from current browsers. This API is standardized and well-known among web developers. Also the liveliness of DOM interaction is then not only restricted to JavaScript, or browser hosting scenarios. AngleSharp will make it possible to basically bring the core of a modern browser to your code.
+
+### The DOM
 
 The whole DOM has been transported to a logical class structure. A part of this structure could be resolved as the following picture shows. Note that the picture shows an older DOM model. The current version of AngleSharp implements the latest DOM model, which is slightly different. Nevertheless, the picture is still useful to get the right idea.
 
@@ -112,7 +118,7 @@ var paragraph = document.CreateElement<IHtmlParagraphElement>();
 
 This works and directly returns an object of type `IHtmlParagraphElement`. No cast needed and one (dubious) string allocation saved. This particular extension method is placed in the namespace `AngleSharp.Dom`.
 
-## Beyond the DOM
+### Beyond the DOM
 
 AngleSharp provides several properties and methods that are not accessible via the standardized DOM properties and methods. To distinguish between standardized and extended a simple attribute class called `DomNameAttribute` has been added. The attribute is applied in those cases, where the decorated class / event / method or property is also specified in the official W3C standard. Additionally the official name is set, since AngleSharp follows the PascalCase convention, while the DOM follows the camelCase convention.
 

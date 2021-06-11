@@ -58,3 +58,23 @@ So in summary:
 The option has an impact on the parsing of & characters. In `false` (default) we start consuming character references, which is the spec but may "eat" information you want to digest later. In `true` we never consume & characters, but emit them to the DOM (like if `&amp;` would have been seen in spec. compliant mode).
 
 For serialization (e.g., `InnerHtml` use, or more explicit via `ToHtml`), however, we interpret any seen `&` as `&amp;` (this way its round-trip usable, plus compliant with the serialization spec). So in the example above we use a custom formatter to use the character node data literally.
+
+## `IsKeepingSourceReferences`
+
+(tbd)
+
+## `IsSupportingProcessingInstructions`
+
+(tbd)
+
+## `OnCreated`
+
+(tbd)
+
+## `IsStrictMode`
+
+(tbd)
+
+## `IsEmbedded`, `IsNotSupportingFrames`, and `IsScripting`
+
+(tbd)

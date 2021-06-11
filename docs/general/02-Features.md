@@ -233,3 +233,14 @@ There are no tricky algorithms, touch implementation or OS specific bindings to 
 More information can be found at:
 
 * [W3C Touch events Recommendation](http://www.w3.org/TR/touch-events/)
+
+## Possibility of XPath Parsing
+
+Right now CSS selectors is the way of querying the document from an official perspective. Nevertheless, there are people who are quite dissatisfied with this solution. Most of those people are not web developers, and are familiar with even more powerful queries in the form of XPath. Unfortunately XPath is currently not support on a standard level.
+
+*Status*: Available in the `AngleSharp.XPath` library.
+
+More information can be found at:
+
+* [W3C XPathEvaluator IDL](http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator)
+* [W3C XPath Specification](http://www.w3.org/TR/xpath/)

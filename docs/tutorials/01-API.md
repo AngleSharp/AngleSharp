@@ -6,18 +6,7 @@ section: "AngleSharp.Core"
 
 ## Core API
 
-AngleSharp has been created with a useful, yet standard compliant API. If you just care about parsing a single document or stylesheet, then you can always just use the various parsers, such as the `HtmlParser` or the `CssParser`. In most cases (parsing and using webpages) we recommend the `BrowsingContext` located in the `AngleSharp` namespace. This namespace also contains some types with extension methods and a `Url` class that strictly follows the algorithms described in the WHATWG specification.
-
-The `AngleSharp.Attributes` namespace also features the attributes being used to decorate the interfaces (and enumerations and delegates). Here we have:
-
-* `DomAccessorAttribute` for defining special accessors such as getters, setters or deleters
-* `DomHistoricalAttribute` to indicate an obsolete status
-* `DomDescriptionAttribute` to store a description string for a DOM part
-* `DomNoInterfaceObjectAttribute` to declare a type being interfaced only, i.e. no object realization available
-* `DomPutForwardsAttribute` to set the name of the method of the related object, where input should be forwarded
-* `DomNameAttribute` to represent the original API name
-
-The API of the interfaces / DOM objects has been changed in such a way, that it is still the original DOM API (nothing is missing), but with naming and types being .NET conform and (hopefully) easier to work with.
+AngleSharp has been created with a useful, yet standard compliant API. If you just care about parsing a single document or stylesheet, then you can always just use the various parsers, such as the `HtmlParser` or the `CssParser`. In most cases (parsing and using webpages) we recommend the `BrowsingContext` located in the `AngleSharp` namespace. This namespace also contains some types with extension methods.
 
 ### Configuration
 
@@ -114,3 +103,20 @@ There are two big advantages in this architecture:
 2. It is easy to turn off resource loading (even for particular elements) without affecting document loading / form submission at all.
 
 There is also a base implementation called `BaseLoader`.
+
+## Advanced Concepts
+
+Beyond the standard usage of AngleSharp some other 
+
+### Attributes
+
+The `AngleSharp.Attributes` namespace also features the attributes being used to decorate the interfaces (and enumerations and delegates). Here we have:
+
+* `DomAccessorAttribute` for defining special accessors such as getters, setters or deleters
+* `DomHistoricalAttribute` to indicate an obsolete status
+* `DomDescriptionAttribute` to store a description string for a DOM part
+* `DomNoInterfaceObjectAttribute` to declare a type being interfaced only, i.e. no object realization available
+* `DomPutForwardsAttribute` to set the name of the method of the related object, where input should be forwarded
+* `DomNameAttribute` to represent the original API name
+
+The API of the interfaces / DOM objects has been changed in such a way, that it is still the original DOM API (nothing is missing), but with naming and types being .NET conform and (hopefully) easier to work with.

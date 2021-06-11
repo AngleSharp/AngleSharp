@@ -6,7 +6,7 @@ section: "AngleSharp.Core"
 
 The GitHub project management features are definitely nice, but they do not provide enough space for discussion and an in-depth presentation of the upcoming features. This list is not ordered in any way (importance, time-to-release, ...) and should only be regarded as a collection of ideas and reminders.
 
-### CSSOM View Module
+## CSSOM View Module
 
 Rendering might be one of the most interesting aspects of AngleSharp. AngleSharp won't cover rendering directly. Instead, it will be easy to hook up a custom rendering engine. A (sample) library will probably be provided, like with the AngleSharp.Scripting one, which serves as an example for including a JavaScript engine. One of the cornerstones of rendering is including the CSSOM view module, which specifies a lot of methods, interfaces and more. This will be crucial when connecting to a real device, such as a screen. Also fake devices, which might be used for analysis (see `Window`), profit from the CSSOM view module.
 
@@ -18,7 +18,7 @@ More information can be found at:
 
 * [W3C CSSOM](http://dev.w3.org/csswg/cssom-view/)
 
-### Rendering
+## Rendering
 
 Okay, so here it is. There will be rendering, however, not directly within AngleSharp. However, to see what is (still) definitely required from a core perspective, a reference implementation has to be provided. This implementation should follow the official standard described in the CSS 2.1 specification and modules that arrived later.
 
@@ -30,7 +30,7 @@ More information can be found at:
 * [HTML Renderer project](https://github.com/ArthurHub/HTML-Renderer)
 * [MDN Visual Formatting](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Visual_formatting_model)
 
-### Define UI Handling
+## Define UI Handling
 
 Most of this section is an extension to `IWindow`. We require a few points:
 
@@ -44,7 +44,7 @@ The core source should be a browsing context. This, however, is a point on its o
 
 *Status*: Completely missing.
 
-### Finish Style Resolution
+## Finish Style Resolution
 
 On a simple level the style resolution is already finished. However, with pseudo elements still missing, the `IWindow` being unfinished and other open questions, it is not possible to consider style resolution being solved.
 
@@ -60,7 +60,7 @@ More information can be found at:
 * [W3C CSSOM getComputedStyle](http://dev.w3.org/csswg/cssom/#dom-window-getcomputedstyle)
 * [W3C CSSOM resolved values](http://dev.w3.org/csswg/cssom/#resolved-values)
 
-### Provide Further Extension Points
+## Provide Further Extension Points
 
 For instance an automatic file system buffer, which (obviously) requires access to the file system. Additionally storage might require access to the file system, but maybe in a different form. Also media types such as video, audio or image will require access to video and audio streaming / playing, as well as image displaying.
 
@@ -84,20 +84,7 @@ The ultimate goal is to have a multitude of extension points, which can then be 
 
 *Status*: Available, more ideas needed.
 
-### Possibility of (Simple?) XPath Parsing
-
-Right now CSS selectors is the way of querying the document. Nevertheless, there are people who are quite dissatisfied with this solution. Most of those people are not web developers, and are familiar with even more powerful queries in the form of XPath. Unfortunately XPath is currently not support on a standard level.
-
-It must be evaluated how much effort / code a XPath query engine (simple is enough, but it is has to be standard conform) requires. If it could be implemented with limited time efforts, then it should be included. Otherwise the possibility of including other / arbitrary query engines must be evaluated. In general this could be a very interesting path.
-
-*Status*: Completely missing from core, some (external?) library such as `AngleSharp.XPath` makes sense.
-
-More information can be found at:
-
-* [W3C XPathEvaluator IDL](http://www.w3.org/TR/DOM-Level-3-XPath/xpath.html#XPathEvaluator)
-* [W3C XPath Specification](http://www.w3.org/TR/xpath/)
-
-### MathML
+## MathML
 
 MathML is a markup language that should allow writing equations like LaTeX. Therefore MathML has special tags, which carry a semantic meaning, such as being an operator, an identifier, a symbol, space, raw text and much more. HTML5 allows embedding of MathML by specification.
 
@@ -113,7 +100,7 @@ More information can be found at:
 
 * [W3C MathML 3.0 TR](http://www.w3.org/TR/MathML3/)
 
-### SVG
+## SVG
 
 SVG is an XML based vector file format. HTML5 allows embedding SVG images in the document by specification. Some older browsers may require SVG images to be referenced (externally). AngleSharp supports HTML5 and therefore allows SVG to be included directly in the document.
 
@@ -127,7 +114,7 @@ More information can be found at:
 
 * [W3C SVG 1.1 TR](http://www.w3.org/TR/SVG11/)
 
-### Slimming AngleSharp
+## Slimming AngleSharp
 
 AngleSharp is not really giant, but it is continuously growing. While the project will never drop its core consisting of
 
