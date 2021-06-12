@@ -1,7 +1,10 @@
-import { PiletApi } from 'piral-docs-tools';
+import { PiletApi } from "piral-docs-tools";
 
-const createDoclet = require('piral-docs-tools/doclet');
+const createDoclet = require("piral-docs-tools/doclet");
 
 export function setup(api: PiletApi) {
   createDoclet(api);
+  api.setDocDetails({
+    version: require("./version.codegen"),
+  });
 }

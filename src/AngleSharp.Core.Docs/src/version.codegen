@@ -1,0 +1,9 @@
+const { readFileSync } = require('fs');
+const { resolve } = require('path');
+
+module.exports = function() {
+  const p = resolve(__dirname, '..', '..', 'Directory.Build.props');
+  const c = readFileSync(p, 'utf8');
+  const [_, version] = /<Version>(.*)<\/Version>/.exec(c);
+  return `module.exports = ${JSON.stringify(version)};`;
+};
