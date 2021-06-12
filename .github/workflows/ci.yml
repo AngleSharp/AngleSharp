@@ -6,12 +6,11 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
   DOCS_PATH: ${{ secrets.DOCS_PATH }}
-  DOCS_BRANCH: ${{ secrets.DOCS_BRANCH }}
 
 jobs:
   documentation:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == env.DOCS_BRANCH && env.DOCS_PATH != null }}
+    if: ${{ github.ref == secrets.DOCS_BRANCH && secrets.DOCS_PATH != null }}
 
     steps:
     - uses: actions/checkout@v2
