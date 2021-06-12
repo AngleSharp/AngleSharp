@@ -5,8 +5,45 @@ on: [push, pull_request]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+  DOCS_PATH: ${{ secrets.DOCS_PATH }}
+  DOCS_BRANCH: ${{ secrets.DOCS_BRANCH }}
 
 jobs:
+  can_document:
+    runs-on: ubuntu-latest
+    outputs:
+      value: ${{ steps.check_job.outputs.value }}
+    steps:
+      - name: Checks whether documentation can be built
+        id: check_job
+        run: |
+            echo "value: ${{ env.DOCS_PATH != null && github.ref == env.DOCS_BRANCH }}"
+            echo "::set-output name=value::${{ env.DOCS_PATH != null && github.ref == env.DOCS_BRANCH }}"
+
+  documentation:
+    needs: [can_document]
+    runs-on: ubuntu-latest
+    if: needs.can_document.outputs.value == 'true'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: "14.x"
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Install Dependencies
+      run: |
+        cd $DOCS_PATH
+        npm install
+
+    - name: Deploy Doclet
+      run: |
+        cd $DOCS_PATH
+        npx pilet publish --fresh --url https://feed.piral.cloud/api/v1/pilet/anglesharp --api-key ${{ secrets.PIRAL_FEED_KEY }}
+
   linux:
     runs-on: ubuntu-latest
 
@@ -24,7 +61,7 @@ jobs:
 
     - name: Build
       run: |
-        if ($env:GITHUB_REF -eq "refs/heads/master") {
+        if ($env:GITHUB_REF -eq "refs/heads/main") {
           .\build.ps1 -Target Publish
         } elseif ($env:GITHUB_REF -eq "refs/heads/devel") {
           .\build.ps1 -Target PrePublish
