@@ -349,7 +349,7 @@ namespace AngleSharp.Dom
         public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => ChildNodes.GetElementsByTagName(tagName);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
+        public IHtmlCollection<IElement> GetElementsByTagNameNS(String? namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
         /// <inheritdoc />
         public Boolean Matches(String selectorText)

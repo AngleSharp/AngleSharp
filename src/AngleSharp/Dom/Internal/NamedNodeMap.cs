@@ -231,7 +231,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IAttr RemoveNamedItem(String namespaceUri, String localName)
+        public IAttr RemoveNamedItem(String? namespaceUri, String localName)
         {
             var result = RemoveNamedItemOrDefault(namespaceUri, localName);
 
