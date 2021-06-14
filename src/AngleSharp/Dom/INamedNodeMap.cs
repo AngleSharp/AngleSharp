@@ -85,6 +85,6 @@ namespace AngleSharp.Dom
         /// <param name="localName">The local name of the item.</param>
         /// <returns>The removed attribute.</returns>
         [DomName("removeNamedItemNS")]
-        IAttr RemoveNamedItem(String namespaceUri, String localName);
+        IAttr RemoveNamedItem(String? namespaceUri, String localName);
     }
 }

@@ -131,7 +131,7 @@ namespace AngleSharp.Dom
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         [DomName("setAttributeNS")]
-        void SetAttribute(String namespaceUri, String name, String value);
+        void SetAttribute(String? namespaceUri, String name, String value);
 
         /// <summary>
         /// Removes an attribute from the specified element.
@@ -154,7 +154,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns>True if an attribute was removed, otherwise false.</returns>
         [DomName("removeAttributeNS")]
-        Boolean RemoveAttribute(String namespaceUri, String localName);
+        Boolean RemoveAttribute(String? namespaceUri, String localName);
 
         /// <summary>
         /// Returns a set of elements which have all the given class names.
@@ -197,7 +197,7 @@ namespace AngleSharp.Dom
         /// A collection of elements in the order they appear in the tree.
         /// </returns>
         [DomName("getElementsByTagNameNS")]
-        IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceUri, String tagName);
+        IHtmlCollection<IElement> GetElementsByTagNameNS(String? namespaceUri, String tagName);
 
         /// <summary>
         /// Checks if the element is matched by the given selector.

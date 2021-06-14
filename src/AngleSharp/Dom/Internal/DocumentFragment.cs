@@ -121,7 +121,7 @@ namespace AngleSharp.Dom
 
         public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => ChildNodes.GetElementsByTagName(tagName);
 
-        public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
+        public IHtmlCollection<IElement> GetElementsByTagNameNS(String? namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
         public IElement? GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
 

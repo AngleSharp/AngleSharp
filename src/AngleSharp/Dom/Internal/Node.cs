@@ -690,14 +690,14 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public String? LookupPrefix(String namespaceUri)
+        public String? LookupPrefix(String? namespaceUri)
         {
             if (String.IsNullOrEmpty(namespaceUri))
             {
                 return null;
             }
 
-            return LocatePrefix(namespaceUri);
+            return LocatePrefix(namespaceUri!);
         }
 
         /// <inheritdoc />

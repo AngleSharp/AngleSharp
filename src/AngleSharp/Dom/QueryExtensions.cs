@@ -98,7 +98,7 @@ namespace AngleSharp.Dom
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String namespaceUri, String localName)
+        public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String? namespaceUri, String localName)
         {
             var result = new List<IElement>();
             elements.GetElementsByTagName(namespaceUri, localName is "*" ? null : localName, result);

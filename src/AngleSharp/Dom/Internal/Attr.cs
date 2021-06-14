@@ -210,7 +210,7 @@ namespace AngleSharp.Dom
 
         String? INode.LookupNamespaceUri(String prefix) => OwnerElement?.LookupNamespaceUri(prefix);
 
-        String? INode.LookupPrefix(String namespaceUri) => OwnerElement?.LookupPrefix(namespaceUri);
+        String? INode.LookupPrefix(String? namespaceUri) => OwnerElement?.LookupPrefix(namespaceUri);
 
         INode INode.AppendChild(INode child) => throw new DomException(DomError.NotSupported);
 

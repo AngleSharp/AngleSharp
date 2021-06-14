@@ -181,7 +181,7 @@ namespace AngleSharp.Dom
         /// A collection of elements in the order they appear in the tree.
         /// </returns>
         [DomName("getElementsByTagNameNS")]
-        IHtmlCollection<IElement> GetElementsByTagName(String namespaceUri, String tagName);
+        IHtmlCollection<IElement> GetElementsByTagName(String? namespaceUri, String tagName);
 
         /// <summary>
         /// Creates an event of the type specified. 
@@ -239,7 +239,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns>The created element.</returns>
         [DomName("createElementNS")]
-        IElement CreateElement(String namespaceUri, String name);
+        IElement CreateElement(String? namespaceUri, String name);
 
         /// <summary>
         /// Creates an Attr of the given name.
@@ -266,7 +266,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <returns>A new Attr object.</returns>
         [DomName("createAttributeNS")]
-        IAttr CreateAttribute(String namespaceUri, String name);
+        IAttr CreateAttribute(String? namespaceUri, String name);
 
         /// <summary>
         /// Creates a ProcessingInstruction node given the specified name and

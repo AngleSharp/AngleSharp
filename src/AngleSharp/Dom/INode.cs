@@ -172,7 +172,7 @@ namespace AngleSharp.Dom
         /// <param name="namespaceUri">The URI.</param>
         /// <returns>The namespace prefix associated with the URI.</returns>
         [DomName("lookupPrefix")]
-        String? LookupPrefix(String namespaceUri);
+        String? LookupPrefix(String? namespaceUri);
 
         /// <summary>
         /// Gets an unsigned short representing the type of the node. 

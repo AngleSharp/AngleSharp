@@ -1,3 +1,7 @@
+# 0.16.1
+
+- Fixed `namespaceUri` parameters to allow nullable values when possible (#975)
+
 # 0.16.0
 
 Released on Tuesday, June 8 2021.
