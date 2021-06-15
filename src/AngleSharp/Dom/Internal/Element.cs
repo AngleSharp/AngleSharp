@@ -632,6 +632,7 @@ namespace AngleSharp.Dom
             foreach (var attribute in _attributes)
             {
                 var attr = new Attr(attribute.Prefix, attribute.LocalName, attribute.Value, attribute.NamespaceUri);
+                attr.Container = element._attributes;
                 element._attributes.FastAddItem(attr);
             }
 
