@@ -744,6 +744,7 @@ namespace AngleSharp.Core.Tests.Html
             var attr = div.Attributes["class"];
 
             Assert.NotNull(attr.OwnerElement);
+            Assert.AreSame(div, attr.OwnerElement);
         }
     }
 }
