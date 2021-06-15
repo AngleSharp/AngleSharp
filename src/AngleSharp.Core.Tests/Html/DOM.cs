@@ -515,7 +515,7 @@ namespace AngleSharp.Core.Tests.Html
             Assert.IsNotNull(docType);
             Assert.AreEqual(NodeType.DocumentType, docType.NodeType);
             Assert.AreEqual(@"html", docType.Name);
-            
+
             var html = doc.DocumentElement;
             Assert.AreEqual(2, html.ChildNodes.Length);
             Assert.AreEqual(2, html.Attributes.Count());
@@ -734,6 +734,17 @@ namespace AngleSharp.Core.Tests.Html
             var img = p.Images.Select(m => m).ToList();
             var html = p.ToHtml();
             Assert.AreEqual(1, img.Count);
+        }
+
+        [Test]
+        public void OwnerElement_ShouldNotBeNull()
+        {
+            var document = "<body><div class='one'></div></body>".ToHtmlDocument();
+            var div = document.QuerySelector("div");
+            var attr = div.Attributes["class"];
+
+            Assert.NotNull(attr.OwnerElement);
+            Assert.AreSame(div, attr.OwnerElement);
         }
     }
 }

@@ -466,6 +466,7 @@ namespace AngleSharp.Dom
         /// <param name="attr">The attribute to add.</param>
         public void AddAttribute(Attr attr)
         {
+            attr.Container = _attributes;
             _attributes.FastAddItem(attr);
         }
 
@@ -630,6 +631,7 @@ namespace AngleSharp.Dom
             foreach (var attribute in _attributes)
             {
                 var attr = new Attr(attribute.Prefix, attribute.LocalName, attribute.Value, attribute.NamespaceUri);
+                attr.Container = element._attributes;
                 element._attributes.FastAddItem(attr);
             }
 
