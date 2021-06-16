@@ -1,6 +1,7 @@
 # 0.16.1
 
 - Fixed `namespaceUri` parameters to allow nullable values when possible (#975)
+- Add missing `IHtmlPictureElement` to picture element (#978)
 
 # 0.16.0
 
