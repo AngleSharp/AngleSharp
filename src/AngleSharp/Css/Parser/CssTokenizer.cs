@@ -448,15 +448,15 @@ namespace AngleSharp.Css.Parser
 
             if (current.IsNameStart() || current == Symbols.Minus)
             {
-                var buffer = StringBuilderPool.Obtain();
-                buffer.Append(current);
-                return HashRest(buffer);
+                var sb = new ValueStringBuilder(64);
+                sb.Append(current);
+                return HashRest(ref sb);
             }
             else if (_source.IsValidEscape())
             {
-                var buffer = StringBuilderPool.Obtain();
-                buffer.Append(_source.ConsumeEscape());
-                return HashRest(buffer);
+                var sb = new ValueStringBuilder(64);
+                sb.Append(_source.ConsumeEscape());
+                return HashRest(ref sb);
             }
             else
             {
@@ -467,7 +467,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// 4.4.5. Hash-rest state
         /// </summary>
-        private CssSelectorToken HashRest(StringBuilder buffer)
+        private CssSelectorToken HashRest(ref ValueStringBuilder sb)
         {
             while (true)
             {
@@ -475,15 +475,15 @@ namespace AngleSharp.Css.Parser
 
                 if (current.IsName())
                 {
-                    buffer.Append(current);
+                    sb.Append(current);
                 }
                 else if (_source.IsValidEscape())
                 {
-                    buffer.Append(_source.ConsumeEscape());
+                    sb.Append(_source.ConsumeEscape());
                 }
                 else
                 {
-                    return new CssSelectorToken(CssTokenType.Hash, buffer.ToPool());
+                    return new CssSelectorToken(CssTokenType.Hash, sb.ToString());
                 }
             }
         }
@@ -550,30 +550,33 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private CssSelectorToken IdentStart(Char current)
         {
+            const int estimatedIdentLength = 20;
+
             if (current == Symbols.Minus)
             {
                 current = _source.Next();
 
                 if (current.IsNameStart() || _source.IsValidEscape())
                 {
-                    var buffer = StringBuilderPool.Obtain();
-                    buffer.Append(Symbols.Minus);
-                    return IdentRest(current, buffer);
+                    var sb = new ValueStringBuilder(stackalloc char[estimatedIdentLength]);
+
+                    sb.Append(Symbols.Minus);
+                    return IdentRest(current, ref sb);
                 }
                 
                 return NewDelimiter(Symbols.Minus);
             }
             else if (current.IsNameStart())
             {
-                var buffer = StringBuilderPool.Obtain();
-                buffer.Append(current);
-                return IdentRest(_source.Next(), buffer);
+                var sb = new ValueStringBuilder(stackalloc char[estimatedIdentLength]);
+                sb.Append(current);
+                return IdentRest(_source.Next(), ref sb);
             }
             else if (current == Symbols.ReverseSolidus && _source.IsValidEscape())
             {
-                var buffer = StringBuilderPool.Obtain();
-                buffer.Append(_source.ConsumeEscape());
-                return IdentRest(_source.Next(), buffer);
+                var sb = new ValueStringBuilder(stackalloc char[estimatedIdentLength]);
+                sb.Append(_source.ConsumeEscape());
+                return IdentRest(_source.Next(), ref sb);
             }
 
             return Data(current);
@@ -582,21 +585,21 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// 4.4.10. Ident-rest state
         /// </summary>
-        private CssSelectorToken IdentRest(Char current, StringBuilder buffer)
+        private CssSelectorToken IdentRest(Char current, ref ValueStringBuilder sb)
         {
             while (true)
             {
                 if (current.IsName())
                 {
-                    buffer.Append(current);
+                    sb.Append(current);
                 }
                 else if (_source.IsValidEscape())
                 {
-                    buffer.Append(_source.ConsumeEscape());
+                    sb.Append(_source.ConsumeEscape());
                 }
                 else if (current == Symbols.RoundBracketOpen)
                 {
-                    var name = buffer.ToPool();
+                    var name = sb.ToString();
 
                     if (name.Isi(Keywords.Url))
                     {
@@ -608,7 +611,7 @@ namespace AngleSharp.Css.Parser
                 }
                 else
                 {
-                    return new CssSelectorToken(CssTokenType.Ident, buffer.ToPool());
+                    return new CssSelectorToken(CssTokenType.Ident, sb.ToString());
                 }
 
                 current = _source.Next();
@@ -620,34 +623,39 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private CssSelectorToken NumberStart(Char current)
         {
+            const int estimatedNumberLength = 16;
+
             while (true)
             {
                 if (current is Symbols.Plus or Symbols.Minus)
                 {
-                    var buffer = StringBuilderPool.Obtain();
-                    buffer.Append(current);
+                    var sb = new ValueStringBuilder(stackalloc char[estimatedNumberLength]);
+
+                    sb.Append(current);
                     current = _source.Next();
 
                     if (current == Symbols.Dot)
                     {
-                        buffer.Append(current).Append(_source.Next());
-                        return NumberFraction(buffer);
+                        sb.Append(current);
+                        sb.Append(_source.Next());
+                        return NumberFraction(ref sb);
                     }
 
-                    buffer.Append(current);
-                    return NumberRest(buffer);
+                    sb.Append(current);
+                    return NumberRest(ref sb);
                 }
                 else if (current == Symbols.Dot)
                 {
-                    var buffer = StringBuilderPool.Obtain();
-                    buffer.Append(current).Append(_source.Next());
-                    return NumberFraction(buffer);
+                    var sb = new ValueStringBuilder(stackalloc char[estimatedNumberLength]);
+                    sb.Append(current);
+                    sb.Append(_source.Next());
+                    return NumberFraction(ref sb);
                 }
                 else if (current.IsDigit())
                 {
-                    var buffer = StringBuilderPool.Obtain();
-                    buffer.Append(current);
-                    return NumberRest(buffer);
+                    var sb = new ValueStringBuilder(stackalloc char[estimatedNumberLength]);
+                    sb.Append(current);
+                    return NumberRest(ref sb);
                 }
 
                 current = _source.Next();
@@ -657,7 +665,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// 4.4.13. Number-rest state
         /// </summary>
-        private CssSelectorToken NumberRest(StringBuilder buffer)
+        private CssSelectorToken NumberRest(ref ValueStringBuilder sb)
         {
             var current = _source.Next();
 
@@ -665,17 +673,17 @@ namespace AngleSharp.Css.Parser
             {
                 if (current.IsDigit())
                 {
-                    buffer.Append(current);
+                    sb.Append(current);
                 }
                 else if (current.IsNameStart())
                 {
-                    buffer.Append(current);
-                    return Dimension(buffer);
+                    sb.Append(current);
+                    return Dimension(ref sb);
                 }
                 else if (_source.IsValidEscape())
                 {
-                    buffer.Append(_source.ConsumeEscape());
-                    return Dimension(buffer);
+                    sb.Append(_source.ConsumeEscape());
+                    return Dimension(ref sb);
                 }
                 else
                 {
@@ -692,32 +700,34 @@ namespace AngleSharp.Css.Parser
 
                     if (current.IsDigit())
                     {
-                        buffer.Append(Symbols.Dot).Append(current);
-                        return NumberFraction(buffer);
+                        sb.Append(Symbols.Dot);
+                        sb.Append(current);
+                        return NumberFraction(ref sb);
                     }
 
-                    return NewNumber(buffer.ToPool());
+                    return NewNumber(sb.ToString());
 
                 case '%':
                     _source.Next();
-                    return NewDimension(buffer.Append('%').ToPool());
+                    sb.Append('%');
+                    return NewDimension(sb.ToString());
 
                 case 'e':
                 case 'E':
-                    return NumberExponential(current, buffer);
+                    return NumberExponential(current, ref sb);
 
                 case Symbols.Minus:
-                    return NumberDash(buffer);
+                    return NumberDash(ref sb);
 
                 default:
-                    return NewNumber(buffer.ToPool());
+                    return NewNumber(sb.ToString());
             }
         }
 
         /// <summary>
         /// 4.4.14. Number-fraction state
         /// </summary>
-        private CssSelectorToken NumberFraction(StringBuilder buffer)
+        private CssSelectorToken NumberFraction(ref ValueStringBuilder sb)
         {
             var current = _source.Next();
 
@@ -725,17 +735,17 @@ namespace AngleSharp.Css.Parser
             {
                 if (current.IsDigit())
                 {
-                    buffer.Append(current);
+                    sb.Append(current);
                 }
                 else if (current.IsNameStart())
                 {
-                    buffer.Append(current);
-                    return Dimension(buffer);
+                    sb.Append(current);
+                    return Dimension(ref sb);
                 }
                 else if (_source.IsValidEscape())
                 {
-                    buffer.Append(_source.ConsumeEscape());
-                    return Dimension(buffer);
+                    sb.Append(_source.ConsumeEscape());
+                    return Dimension(ref sb);
                 }
                 else
                 {
@@ -749,24 +759,25 @@ namespace AngleSharp.Css.Parser
             {
                 case 'e':
                 case 'E':
-                    return NumberExponential(current, buffer);
+                    return NumberExponential(current, ref sb);
 
                 case '%':
                     _source.Next();
-                    return NewDimension(buffer.Append('%').ToPool());
+                    sb.Append('%');
+                    return NewDimension(sb.ToString());
 
                 case Symbols.Minus:
-                    return NumberDash(buffer);
+                    return NumberDash(ref sb);
 
                 default:
-                    return NewNumber(buffer.ToPool());
+                    return NewNumber(sb.ToString());
             }
         }
 
         /// <summary>
         /// 4.4.15. Dimension state
         /// </summary>
-        private CssSelectorToken Dimension(StringBuilder buffer)
+        private CssSelectorToken Dimension(ref ValueStringBuilder sb)
         {
             while (true)
             {
@@ -774,15 +785,15 @@ namespace AngleSharp.Css.Parser
 
                 if (current.IsLetter())
                 {
-                    buffer.Append(current);
+                    sb.Append(current);
                 }
                 else if (_source.IsValidEscape())
                 {
-                    buffer.Append(_source.ConsumeEscape());
+                    sb.Append(_source.ConsumeEscape());
                 }
                 else
                 {
-                    return NewDimension(buffer.ToPool());
+                    return NewDimension(sb.ToString());
                 }
             }
         }
@@ -790,7 +801,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// 4.4.16. SciNotation state
         /// </summary>
-        private CssSelectorToken SciNotation(StringBuilder buffer)
+        private CssSelectorToken SciNotation(ref ValueStringBuilder sb)
         {
             while (true)
             {
@@ -798,11 +809,11 @@ namespace AngleSharp.Css.Parser
 
                 if (current.IsDigit())
                 {
-                    buffer.Append(current);
+                    sb.Append(current);
                 }
                 else
                 {
-                    return NewNumber(buffer.ToPool());
+                    return NewNumber(sb.ToString());
                 }
             }
         }
@@ -1105,14 +1116,15 @@ namespace AngleSharp.Css.Parser
 
         #region Helpers
 
-        private CssSelectorToken NumberExponential(Char letter, StringBuilder buffer)
+        private CssSelectorToken NumberExponential(Char letter, ref ValueStringBuilder sb)
         {
             var current = _source.Next();
 
             if (current.IsDigit())
             {
-                buffer.Append(letter).Append(current);
-                return SciNotation(buffer);
+                sb.Append(letter);
+                sb.Append(current);
+                return SciNotation(ref sb);
             }
             else if (current == Symbols.Plus || current == Symbols.Minus)
             {
@@ -1121,36 +1133,40 @@ namespace AngleSharp.Css.Parser
 
                 if (current.IsDigit())
                 {
-                    buffer.Append(letter).Append(op).Append(current);
-                    return SciNotation(buffer);
+                    sb.Append(letter);
+                    sb.Append(op);
+                    sb.Append(current);
+                    return SciNotation(ref sb);
                 }
 
                 _source.Back();
             }
 
-            buffer.Append(letter);
+            sb.Append(letter);
             _source.Back();
-            return Dimension(buffer);
+            return Dimension(ref sb);
         }
 
-        private CssSelectorToken NumberDash(StringBuilder buffer)
+        private CssSelectorToken NumberDash(ref ValueStringBuilder sb)
         {
             var current = _source.Next();
 
             if (current.IsNameStart())
             {
-                buffer.Append(Symbols.Minus).Append(current);
-                return Dimension(buffer);
+                sb.Append(Symbols.Minus);
+                sb.Append(current);
+                return Dimension(ref sb);
             }
             else if (_source.IsValidEscape())
             {
-                buffer.Append(Symbols.Minus).Append(_source.ConsumeEscape());
-                return Dimension(buffer);
+                sb.Append(Symbols.Minus);
+                sb.Append(_source.ConsumeEscape());
+                return Dimension(ref sb);
             }
             else
             {
                 _source.Back();
-                return NewNumber(buffer.ToPool());
+                return NewNumber(sb.ToString());
             }
         }
 
