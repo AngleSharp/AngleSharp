@@ -348,7 +348,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private CssSelectorToken StringDQ()
         {
-            var buffer = StringBuilderPool.Obtain();
+            using var buffer = new ValueStringBuilder(100);
 
             while (true)
             {
@@ -359,18 +359,18 @@ namespace AngleSharp.Css.Parser
                     case Symbols.DoubleQuote:
                     case Symbols.EndOfFile:
                         _source.Next();
-                        return NewString(buffer.ToPool());
+                        return NewString(buffer.ToString());
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        return NewString(buffer.ToPool());
+                        return NewString(buffer.ToString());
 
                     case Symbols.ReverseSolidus:
                         current = _source.Next();
 
                         if (current.IsLineBreak())
                         {
-                            buffer.AppendLine();
+                            buffer.Append(Environment.NewLine);
                         }
                         else if (current != Symbols.EndOfFile)
                         {
@@ -379,7 +379,7 @@ namespace AngleSharp.Css.Parser
                         }
                         else
                         {
-                            return NewString(buffer.ToPool());
+                            return NewString(buffer.ToString());
                         }
 
                         break;
@@ -396,7 +396,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private CssSelectorToken StringSQ()
         {
-            var buffer = StringBuilderPool.Obtain();
+            using var buffer = new ValueStringBuilder(100);
 
             while (true)
             {
@@ -407,18 +407,18 @@ namespace AngleSharp.Css.Parser
                     case Symbols.SingleQuote:
                     case Symbols.EndOfFile:
                         _source.Next();
-                        return NewString(buffer.ToPool());
+                        return NewString(buffer.ToString());
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        return NewString(buffer.ToPool());
+                        return NewString(buffer.ToString());
 
                     case Symbols.ReverseSolidus:
                         current = _source.Next();
 
                         if (current.IsLineBreak())
                         {
-                            buffer.AppendLine();
+                            buffer.Append(Environment.NewLine);
                         }
                         else if (current != Symbols.EndOfFile)
                         {
@@ -427,7 +427,7 @@ namespace AngleSharp.Css.Parser
                         }
                         else
                         {
-                            return NewString(buffer.ToPool());
+                            return NewString(buffer.ToString());
                         }
 
                         break;

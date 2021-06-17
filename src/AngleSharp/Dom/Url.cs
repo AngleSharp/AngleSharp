@@ -172,24 +172,28 @@ namespace AngleSharp.Dom
                 }
                 else if (ProtocolNames.IsOriginable(_scheme))
                 {
-                    var output = StringBuilderPool.Obtain();
+                    var output = new ValueStringBuilder(100);
 
                     if (!String.IsNullOrEmpty(_host))
                     {
                         if (!String.IsNullOrEmpty(_scheme))
                         {
-                            output.Append(_scheme).Append(Symbols.Colon);
+                            output.Append(_scheme);
+                            output.Append(Symbols.Colon);
                         }
 
-                        output.Append(Symbols.Solidus).Append(Symbols.Solidus).Append(_host);
+                        output.Append(Symbols.Solidus);
+                        output.Append(Symbols.Solidus);
+                        output.Append(_host);
 
                         if (!String.IsNullOrEmpty(_port))
                         {
-                            output.Append(Symbols.Colon).Append(_port);
+                            output.Append(Symbols.Colon);
+                            output.Append(_port);
                         }
                     }
 
-                    return output.ToPool();
+                    return output.ToString();
                 }
 
                 return null;
@@ -489,69 +493,75 @@ namespace AngleSharp.Dom
         /// <returns>The string that equals the hyper reference.</returns>
         private String Serialize()
         {
-            var output = StringBuilderPool.Obtain();
+            var sb = new ValueStringBuilder(200);
 
             if (!String.IsNullOrEmpty(_scheme))
             {
-                output.Append(_scheme).Append(Symbols.Colon);
+                sb.Append(_scheme);
+                sb.Append(Symbols.Colon);
             }
 
             if (_relative)
             {
                 if (!String.IsNullOrEmpty(_host) || !String.IsNullOrEmpty(_scheme))
                 {
-                    output.Append(Symbols.Solidus).Append(Symbols.Solidus);
+                    sb.Append(Symbols.Solidus);
+                    sb.Append(Symbols.Solidus);
 
                     if (!String.IsNullOrEmpty(_username) || _password != null)
                     {
-                        output.Append(_username);
+                        sb.Append(_username);
 
                         if (_password != null)
                         {
-                            output.Append(Symbols.Colon).Append(_password);
+                            sb.Append(Symbols.Colon);
+                            sb.Append(_password);
                         }
 
-                        output.Append(Symbols.At);
+                        sb.Append(Symbols.At);
                     }
 
-                    output.Append(_host);
+                    sb.Append(_host);
 
                     if (!String.IsNullOrEmpty(_port))
                     {
-                        output.Append(Symbols.Colon).Append(_port);
+                        sb.Append(Symbols.Colon);
+                        sb.Append(_port);
                     }
 
-                    output.Append(Symbols.Solidus);
+                    sb.Append(Symbols.Solidus);
                 }
 
-                output.Append(_path);
+                sb.Append(_path);
             }
             else
             {
-                output.Append(_schemeData);
+                sb.Append(_schemeData);
             }
 
             if (_query != null)
             {
-                output.Append(Symbols.QuestionMark).Append(_query);
+                sb.Append(Symbols.QuestionMark);
+                sb.Append(_query);
             }
 
             if (_fragment != null)
             {
-                output.Append(Symbols.Num).Append(_fragment);
+                sb.Append(Symbols.Num);
+                sb.Append(_fragment);
             }
 
-            return output.ToPool();
+            return sb.ToString();
         }
 
         #endregion
 
         #region Parsing
 
-        private Boolean ParseUrl(String input, Url? baseUrl = null)
+        private Boolean ParseUrl(string input, Url? baseUrl = null)
         {
             Reset(baseUrl ?? DefaultBase);
-            var normalizedInput = NormalizeInput(input);
+            var normalizedInput = NormalizeInput(input.AsSpan());
             var length = normalizedInput.Length;
             return !ParseScheme(normalizedInput, length);
         }
@@ -641,7 +651,7 @@ namespace AngleSharp.Dom
 
         private Boolean ParseSchemeData(String input, Int32 index, Int32 length)
         {
-            var buffer = StringBuilderPool.Obtain();
+            var buffer = new ValueStringBuilder(stackalloc char[10]);
 
             while (index < length)
             {
@@ -649,12 +659,12 @@ namespace AngleSharp.Dom
 
                 if (c == Symbols.QuestionMark)
                 {
-                    _schemeData = buffer.ToPool();
+                    _schemeData = buffer.ToString();
                     return ParseQuery(input, index + 1, length);
                 }
                 else if (c == Symbols.Num)
                 {
-                    _schemeData = buffer.ToPool();
+                    _schemeData = buffer.ToString();
                     return ParseFragment(input, index + 1, length);
                 }
                 else if (c == Symbols.Percent && index + 2 < length && input[index + 1].IsHex() && input[index + 2].IsHex())
@@ -671,7 +681,7 @@ namespace AngleSharp.Dom
                 index++;
             }
 
-            _schemeData = buffer.ToPool();
+            _schemeData = buffer.ToString();
             return true;
         }
 
@@ -781,7 +791,9 @@ namespace AngleSharp.Dom
                 }
                 else if (c == Symbols.Percent && index + 2 < length && input[index + 1].IsHex() && input[index + 2].IsHex())
                 {
-                    buffer.Append(input[index++]).Append(input[index++]).Append(input[index]);
+                    buffer.Append(input[index++]);
+                    buffer.Append(input[index++]);
+                    buffer.Append(input[index]);
                 }
                 else if (c is Symbols.Solidus or Symbols.ReverseSolidus or Symbols.Num or Symbols.QuestionMark)
                 {
@@ -1106,7 +1118,7 @@ namespace AngleSharp.Dom
 
         private Boolean ParseFragment(String input, Int32 index, Int32 length)
         {
-            var buffer = StringBuilderPool.Obtain();
+            var buffer = new ValueStringBuilder(input.Length);
 
             while (index < length)
             {
@@ -1125,7 +1137,7 @@ namespace AngleSharp.Dom
                 index++;
             }
 
-            _fragment = buffer.ToPool();
+            _fragment = buffer.ToString();
             return true;
         }
 
@@ -1133,10 +1145,10 @@ namespace AngleSharp.Dom
 
         #region Helpers
 
-        private static String NormalizeInput(String input)
+        private static String NormalizeInput(ReadOnlySpan<char> input)
         {
             var trimmedInput = input.Trim(C0ControlAndSpace);
-            var buffer = StringBuilderPool.Obtain();
+            var buffer = new ValueStringBuilder(input.Length);
             foreach (Char c in trimmedInput)
             {
                 switch (c)
@@ -1151,7 +1163,7 @@ namespace AngleSharp.Dom
                         break;
                 }
             }
-            return buffer.ToPool();
+            return buffer.ToString();
         }
 
         private static String Utf8PercentDecode(String source)
@@ -1233,7 +1245,7 @@ namespace AngleSharp.Dom
                 return false;
             }
 
-            var buffer = StringBuilderPool.Obtain();
+            using var buffer = new ValueStringBuilder(100);
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.7
             // forbidden host code point check
@@ -1256,7 +1268,6 @@ namespace AngleSharp.Dom
                     case Symbols.SquareBracketOpen:
                     case Symbols.SquareBracketClose:
                     case Symbols.ReverseSolidus:
-                        buffer.ReturnToPool();
                         sanatizedHostName = hostName.Substring(start, length);
                         return false;
                     default:
@@ -1265,7 +1276,7 @@ namespace AngleSharp.Dom
                 }
             }
 
-            sanatizedHostName = buffer.ToPool();
+            sanatizedHostName = buffer.ToString();
 
             // TODO: IPv4 parsing
             return true;
