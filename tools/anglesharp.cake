@@ -41,7 +41,7 @@ Setup(_ =>
     Information($"Building version {version} of {projectName}.");
     Information("For the publish target the following environment variables need to be set:");
     Information("- NUGET_API_KEY");
-    Information("- GITHUB_API_TOKEN");
+    Information("- GITHUB_TOKEN");
 });
 
 // Tasks
@@ -102,6 +102,7 @@ Task("Copy-Files")
             CopyFiles(new FilePath[]
             {
                 buildDir + Directory(item.Value) + File($"{projectName}.dll"),
+                buildDir + Directory(item.Value) + File($"{projectName}.pdb"),
                 buildDir + Directory(item.Value) + File($"{projectName}.xml"),
             }, targetDir);
         }
@@ -125,7 +126,8 @@ Task("Create-Package")
         {
             Version = version,
             OutputDirectory = nugetRoot,
-            Symbols = false,
+            Symbols = true,
+            ArgumentCustomization = args => args.Append("-SymbolPackageFormat snupkg"),
             Properties = new Dictionary<String, String>
             {
                 { "Configuration", configuration },
