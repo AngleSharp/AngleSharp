@@ -70,7 +70,9 @@ Task("Build")
         ReplaceRegexInFiles("./src/Directory.Build.props", "(?<=<Version>)(.+?)(?=</Version>)", version);
         DotNetCoreBuild($"./src/{solutionName}.sln", new DotNetCoreBuildSettings
         {
-           Configuration = configuration,
+            Configuration = configuration,
+            MSBuildSettings = new DotNetCoreMSBuildSettings()
+                .WithProperty("ContinuousIntegrationBuild", BuildSystem.IsLocalBuild ? "false" : "true")
         });
     });
 
