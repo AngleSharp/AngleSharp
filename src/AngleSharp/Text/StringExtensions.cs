@@ -296,7 +296,9 @@ namespace AngleSharp.Text
         /// <returns>The modified string with collapsed spaces.</returns>
         public static String Collapse(this String str)
         {
-            var sb = StringBuilderPool.Obtain();
+            var sb = str.Length < 48
+                ? new ValueStringBuilder(stackalloc char[48])
+                : new ValueStringBuilder(str.Length);
 
             var hasSpace = false;
 
@@ -317,7 +319,7 @@ namespace AngleSharp.Text
                 }
             }
 
-            return sb.ToPool();
+            return sb.ToString();
         }
 
         /// <summary>
@@ -639,8 +641,8 @@ namespace AngleSharp.Text
         /// <returns>The CSS string representation.</returns>
         public static String CssString(this String value)
         {
-            var builder = StringBuilderPool.Obtain();
-            builder.Append(Symbols.DoubleQuote);
+            var sb = new ValueStringBuilder(value.Length + 10);
+            sb.Append(Symbols.DoubleQuote);
 
             if (!String.IsNullOrEmpty(value))
             {
@@ -650,28 +652,31 @@ namespace AngleSharp.Text
 
                     if (character == Symbols.Null)
                     {
-                        builder.ReturnToPool();
+                        sb.Dispose();
 
                         throw new DomException(DomError.InvalidCharacter);
                     }
 
-                    if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
+                    if (character is Symbols.DoubleQuote or Symbols.ReverseSolidus)
                     {
-                        builder.Append(Symbols.ReverseSolidus).Append(character);
+                        sb.Append(Symbols.ReverseSolidus);
+                        sb.Append(character);
                     }
                     else if (character.IsInRange(0x1, 0x1f) || character == (Char)0x7b)
                     {
-                        builder.Append(Symbols.ReverseSolidus).Append(character.ToHex()).Append(i + 1 != value.Length ? " " : "");
+                        sb.Append(Symbols.ReverseSolidus);
+                        sb.Append(character.ToHex());
+                        sb.Append(i + 1 != value.Length ? " " : "");
                     }
                     else
                     {
-                        builder.Append(character);
+                        sb.Append(character);
                     }
                 }
             }
 
-            builder.Append(Symbols.DoubleQuote);
-            return builder.ToPool();
+            sb.Append(Symbols.DoubleQuote);
+            return sb.ToString();
         }
 
         /// <summary>
@@ -696,7 +701,7 @@ namespace AngleSharp.Text
         /// <returns>The encoded value.</returns>
         public static String UrlEncode(this Byte[] content)
         {
-            var builder = StringBuilderPool.Obtain();
+            var builder = new ValueStringBuilder(content.Length * 2);
 
             for (var i = 0; i < content.Length; i++)
             {
@@ -712,11 +717,12 @@ namespace AngleSharp.Text
                 }
                 else
                 {
-                    builder.Append(Symbols.Percent).Append(content[i].ToString("X2"));
+                    builder.Append(Symbols.Percent);
+                    builder.Append(content[i].ToString("X2"));
                 }
             }
 
-            return builder.ToPool();
+            return builder.ToString();
         }
 
         /// <summary>
@@ -770,7 +776,8 @@ namespace AngleSharp.Text
         {
             if (!String.IsNullOrEmpty(value))
             {
-                var builder = StringBuilderPool.Obtain();
+                var builder = new ValueStringBuilder(value.Length);
+
                 var isCR = false;
 
                 for (var i = 0; i < value.Length; i++)
@@ -796,7 +803,7 @@ namespace AngleSharp.Text
                     builder.Append(Symbols.LineFeed);
                 }
 
-                return builder.ToPool();
+                return builder.ToString();
             }
 
             return value;

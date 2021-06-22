@@ -1,5 +1,5 @@
-using AngleSharp.Text;
 using System;
+using System.Text;
 
 namespace AngleSharp.Css
 {
@@ -19,7 +19,7 @@ namespace AngleSharp.Css
             {
                 var length = text.Length;
                 var index = -1;
-                var result = StringBuilderPool.Obtain();
+                var result = new ValueStringBuilder(100);
                 var firstCodeUnit = (Int32)text[0];
 
                 while (++index < length)
@@ -52,14 +52,17 @@ namespace AngleSharp.Css
                     )
                     {
                         // https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
-                        result.Append('\\').Append(codeUnit.ToString("X")).Append(' ');
+                        result.Append('\\');
+                        result.Append(codeUnit.ToString("X"));
+                        result.Append(' ');
                         continue;
                     }
 
                     // If the character is the first character and is a `-` (U+002D), and there is no second character, […]
                     if (index == 0 && length == 1 && codeUnit == 0x002D)
                     {
-                        result.Append('\\').Append(text[index]);
+                        result.Append('\\');
+                        result.Append(text[index]);
                         continue;
                     }
 
@@ -83,10 +86,11 @@ namespace AngleSharp.Css
 
                     // Otherwise, the escaped character.
                     // https://drafts.csswg.org/cssom/#escape-a-character
-                    result.Append('\\').Append(Char.ConvertFromUtf32(text[index]));
+                    result.Append('\\');
+                    result.Append(Char.ConvertFromUtf32(text[index]));
                 }
 
-                return result.ToPool();
+                return result.ToString();
             }
 
             return text;

@@ -51,23 +51,26 @@ namespace AngleSharp.Html
         /// <inheritdoc />
         public virtual String OpenTag(IElement element, Boolean selfClosing)
         {
-            var temp = StringBuilderPool.Obtain();
+            var temp = new ValueStringBuilder(100);
+
             temp.Append(Symbols.LessThan);
 
             if (!String.IsNullOrEmpty(element.Prefix))
             {
-                temp.Append(element.Prefix).Append(Symbols.Colon);
+                temp.Append(element.Prefix);
+                temp.Append(Symbols.Colon);
             }
 
             temp.Append(element.LocalName);
 
             foreach (var attribute in element.Attributes)
             {
-                temp.Append(' ').Append(Attribute(attribute));
+                temp.Append(' ');
+                temp.Append(Attribute(attribute));
             }
 
             temp.Append(Symbols.GreaterThan);
-            return temp.ToPool();
+            return temp.ToString();
         }
 
         /// <inheritdoc />
@@ -86,48 +89,53 @@ namespace AngleSharp.Html
         /// <returns>The string representation.</returns>
         protected virtual String Attribute(IAttr attr)
         {
-            var temp = StringBuilderPool.Obtain();
+            var sb = new ValueStringBuilder(100);
 
-            WriteAttributeName(attr, temp);
+            WriteAttributeName(attr, ref sb);
 
             if (attr.Value != null)
             {
-                temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
-                WriteAttributeValue(attr, temp);
-                return temp.Append(Symbols.DoubleQuote).ToPool();
+                sb.Append(Symbols.Equality);
+                sb.Append(Symbols.DoubleQuote);
+                WriteAttributeValue(attr, ref sb);
+                sb.Append(Symbols.DoubleQuote);
             }
 
-            return temp.ToPool();
+            return sb.ToString();
         }
 
-        internal static void WriteAttributeName(IAttr attr, StringBuilder stringBuilder)
+        internal static void WriteAttributeName(IAttr attr, ref ValueStringBuilder sb)
         {
             var namespaceUri = attr.NamespaceUri;
             var localName = attr.LocalName;
 
             if (String.IsNullOrEmpty(namespaceUri))
             {
-                stringBuilder.Append(localName);
+                sb.Append(localName);
             }
             else if (namespaceUri.Is(NamespaceNames.XmlUri))
             {
-                stringBuilder.Append(NamespaceNames.XmlPrefix).Append(Symbols.Colon).Append(localName);
+                sb.Append(NamespaceNames.XmlPrefix);
+                sb.Append(Symbols.Colon);
+                sb.Append(localName);
             }
             else if (namespaceUri.Is(NamespaceNames.XLinkUri))
             {
-                stringBuilder.Append(NamespaceNames.XLinkPrefix).Append(Symbols.Colon).Append(localName);
+                sb.Append(NamespaceNames.XLinkPrefix);
+                sb.Append(Symbols.Colon);
+                sb.Append(localName);
             }
             else if (namespaceUri.Is(NamespaceNames.XmlNsUri))
             {
-                stringBuilder.Append(XmlNamespaceLocalName(localName));
+                sb.Append(XmlNamespaceLocalName(localName));
             }
             else
             {
-                stringBuilder.Append(attr.Name);
+                sb.Append(attr.Name);
             }
         }
 
-        internal static void WriteAttributeValue(IAttr attr, StringBuilder stringBuilder)
+        internal static void WriteAttributeValue(IAttr attr, ref ValueStringBuilder sb)
         {
             var value = attr.Value ?? String.Empty;
 
@@ -135,10 +143,10 @@ namespace AngleSharp.Html
             {
                 switch (value[i])
                 {
-                    case Symbols.Ampersand: stringBuilder.Append("&amp;"); break;
-                    case Symbols.NoBreakSpace: stringBuilder.Append("&nbsp;"); break;
-                    case Symbols.DoubleQuote: stringBuilder.Append("&quot;"); break;
-                    default: stringBuilder.Append(value[i]); break;
+                    case Symbols.Ampersand: sb.Append("&amp;"); break;
+                    case Symbols.NoBreakSpace: sb.Append("&nbsp;"); break;
+                    case Symbols.DoubleQuote: sb.Append("&quot;"); break;
+                    default: sb.Append(value[i]); break;
                 }
             }
         }
@@ -155,7 +163,7 @@ namespace AngleSharp.Html
         /// <returns>The altered string.</returns>
         public static String EscapeText(String content)
         {
-            var temp = StringBuilderPool.Obtain();
+            var temp = new ValueStringBuilder(content.Length + 20);
 
             for (var i = 0; i < content.Length; i++)
             {
@@ -169,7 +177,7 @@ namespace AngleSharp.Html
                 }
             }
 
-            return temp.ToPool();
+            return temp.ToString();
         }
 
         /// <summary>

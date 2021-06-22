@@ -1,12 +1,12 @@
 namespace AngleSharp.Html.Forms.Submitters.Json
 {
-    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Text;
 
     sealed class JsonObject : JsonElement
     {
-        private readonly Dictionary<String, JsonElement> _properties = new Dictionary<String, JsonElement>();
+        private readonly Dictionary<String, JsonElement> _properties = new ();
 
         public override JsonElement this[String key]
         {
@@ -20,22 +20,31 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
         public override String ToString()
         {
-            var sb = StringBuilderPool.Obtain().Append(Symbols.CurlyBracketOpen);
+            var sb = new ValueStringBuilder(_properties.Count * 20);
+
             var needsComma = false;
+
+            sb.Append('{');
 
             foreach (var property in _properties)
             {
                 if (needsComma)
                 {
-                    sb.Append(Symbols.Comma);
+                    sb.Append(',');
                 }
 
-                sb.Append(Symbols.DoubleQuote).Append(property.Key).Append(Symbols.DoubleQuote);
-                sb.Append(Symbols.Colon).Append(property.Value.ToString());
+                sb.Append('"');
+                sb.Append(property.Key);
+                sb.Append('"');
+
+                sb.Append(':');
+                sb.Append(property.Value.ToString());
                 needsComma = true;
             }
 
-            return sb.Append(Symbols.CurlyBracketClose).ToPool();
+            sb.Append('}');
+
+            return sb.ToString();
         }
     }
 }

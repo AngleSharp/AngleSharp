@@ -5,6 +5,7 @@ namespace AngleSharp.Dom
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Represents a list of query parameters.
@@ -164,7 +165,7 @@ namespace AngleSharp.Dom
 
         private static String Encode(String value)
         {
-            var sb = StringBuilderPool.Obtain();
+            var sb = new ValueStringBuilder(value.Length + 10);
 
             foreach (var chr in value)
             {
@@ -179,12 +180,14 @@ namespace AngleSharp.Dom
                 }
             }
 
-            return sb.ToPool();
+            return sb.ToString();
         }
 
         private static String Decode(String value)
         {
-            var sb = StringBuilderPool.Obtain();
+            var sb = value.Length < 24
+                ? new ValueStringBuilder(stackalloc char[24])
+                : new ValueStringBuilder(value.Length);
 
             for (var i = 0; i < value.Length; i++)
             {
@@ -202,7 +205,7 @@ namespace AngleSharp.Dom
                 }
             }
 
-            return sb.ToPool();
+            return sb.ToString();
         }
 
         private void RaiseChanged() => Changed?.Invoke(ToString());

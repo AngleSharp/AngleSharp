@@ -3,6 +3,7 @@ namespace AngleSharp.Xhtml
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Text;
 
     /// <summary>
     /// Represents the standard XHTML markup formatter.
@@ -49,28 +50,30 @@ namespace AngleSharp.Xhtml
         public virtual String OpenTag(IElement element, Boolean selfClosing)
         {
             var prefix = element.Prefix;
-            var temp = StringBuilderPool.Obtain();
-            temp.Append(Symbols.LessThan);
+            var sb = new ValueStringBuilder(100);
+            sb.Append(Symbols.LessThan);
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                temp.Append(prefix).Append(Symbols.Colon);
+                sb.Append(prefix);
+                sb.Append(Symbols.Colon);
             }
 
-            temp.Append(element.LocalName);
+            sb.Append(element.LocalName);
 
             foreach (var attribute in element.Attributes)
             {
-                temp.Append(' ').Append(Attribute(attribute));
+                sb.Append(' ');
+                sb.Append(Attribute(attribute));
             }
 
             if (selfClosing || !element.HasChildNodes)
             {
-                temp.Append(" /");
+                sb.Append(" /");
             }
 
-            temp.Append(Symbols.GreaterThan);
-            return temp.ToPool();
+            sb.Append(Symbols.GreaterThan);
+            return sb.ToString();
         }
 
         /// <inheritdoc />
@@ -96,44 +99,51 @@ namespace AngleSharp.Xhtml
             var namespaceUri = attribute.NamespaceUri;
             var localName = attribute.LocalName;
             var value = attribute.Value;
-            var temp = StringBuilderPool.Obtain();
+            var sb = new ValueStringBuilder(100);
 
             if (String.IsNullOrEmpty(namespaceUri))
             {
-                temp.Append(localName);
+                sb.Append(localName);
             }
             else if (namespaceUri.Is(NamespaceNames.XmlUri))
             {
-                temp.Append(NamespaceNames.XmlPrefix).Append(Symbols.Colon).Append(localName);
+                sb.Append(NamespaceNames.XmlPrefix);
+                sb.Append(Symbols.Colon);
+                sb.Append(localName);
             }
             else if (namespaceUri.Is(NamespaceNames.XLinkUri))
             {
-                temp.Append(NamespaceNames.XLinkPrefix).Append(Symbols.Colon).Append(localName);
+                sb.Append(NamespaceNames.XLinkPrefix);
+                sb.Append(Symbols.Colon);
+                sb.Append(localName);
             }
             else if (namespaceUri.Is(NamespaceNames.XmlNsUri))
             {
-                temp.Append(XmlNamespaceLocalName(localName));
+                sb.Append(XmlNamespaceLocalName(localName));
             }
             else
             {
-                temp.Append(attribute.Name);
+                sb.Append(attribute.Name);
             }
 
-            temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
+            sb.Append(Symbols.Equality);
+            sb.Append(Symbols.DoubleQuote);
 
             for (var i = 0; i < value.Length; i++)
             {
                 switch (value[i])
                 {
-                    case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.NoBreakSpace: temp.Append("&#160;"); break;
-                    case Symbols.LessThan: temp.Append("&lt;"); break;
-                    case Symbols.DoubleQuote: temp.Append("&quot;"); break;
-                    default: temp.Append(value[i]); break;
+                    case Symbols.Ampersand: sb.Append("&amp;"); break;
+                    case Symbols.NoBreakSpace: sb.Append("&#160;"); break;
+                    case Symbols.LessThan: sb.Append("&lt;"); break;
+                    case Symbols.DoubleQuote: sb.Append("&quot;"); break;
+                    default: sb.Append(value[i]); break;
                 }
             }
 
-            return temp.Append(Symbols.DoubleQuote).ToPool();
+            sb.Append(Symbols.DoubleQuote);
+
+            return sb.ToString();
         }
 
         #endregion
@@ -148,21 +158,21 @@ namespace AngleSharp.Xhtml
         /// <returns>The altered string.</returns>
         public static String EscapeText(String content)
         {
-            var temp = StringBuilderPool.Obtain();
+            var sb = new ValueStringBuilder(content.Length + 10);
 
             for (var i = 0; i < content.Length; i++)
             {
                 switch (content[i])
                 {
-                    case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.NoBreakSpace: temp.Append("&#160;"); break;
-                    case Symbols.GreaterThan: temp.Append("&gt;"); break;
-                    case Symbols.LessThan: temp.Append("&lt;"); break;
-                    default: temp.Append(content[i]); break;
+                    case Symbols.Ampersand: sb.Append("&amp;"); break;
+                    case Symbols.NoBreakSpace: sb.Append("&#160;"); break;
+                    case Symbols.GreaterThan: sb.Append("&gt;"); break;
+                    case Symbols.LessThan: sb.Append("&lt;"); break;
+                    default : sb.Append(content[i]); break;
                 }
             }
 
-            return temp.ToPool();
+            return sb.ToString();
         }
 
         /// <summary>

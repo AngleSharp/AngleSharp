@@ -7,6 +7,7 @@ namespace AngleSharp.Html
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Represents the an HTML5 markup formatter with a normalization scheme.
@@ -120,12 +121,14 @@ namespace AngleSharp.Html
         {
             if (!CanBeRemoved(element))
             {
-                var temp = StringBuilderPool.Obtain();
+                var temp = new ValueStringBuilder(100);
+
                 temp.Append(Symbols.LessThan);
 
                 if (!String.IsNullOrEmpty(element.Prefix))
                 {
-                    temp.Append(element.Prefix).Append(Symbols.Colon);
+                    temp.Append(element.Prefix);
+                    temp.Append(Symbols.Colon);
                 }
 
                 temp.Append(element.LocalName);
@@ -140,12 +143,14 @@ namespace AngleSharp.Html
 
                             if (!String.IsNullOrEmpty(value))
                             {
-                                temp.Append(' ').Append(value);
+                                temp.Append(' ');
+                                temp.Append(value);
                             }
                         }
                         else
                         {
-                            temp.Append(' ').Append(attribute.Name);
+                            temp.Append(' ');
+                            temp.Append(attribute.Name);
                         }
                     }
                 }
@@ -157,7 +162,7 @@ namespace AngleSharp.Html
                 }
 
                 temp.Append(Symbols.GreaterThan);
-                return temp.ToPool();
+                return temp.ToString();
             }
 
             return String.Empty;
@@ -181,29 +186,29 @@ namespace AngleSharp.Html
 
             if (ShouldKeepEmptyAttributes || !String.IsNullOrEmpty(value))
             {
-                var temp = StringBuilderPool.Obtain();
+                var sb = new ValueStringBuilder(100);
 
-                WriteAttributeName(attr, temp);
+                WriteAttributeName(attr, ref sb);
 
                 if (value != null)
                 {
-                    temp.Append(Symbols.Equality);
+                    sb.Append(Symbols.Equality);
                     var needQuotes = ShouldKeepAttributeQuotes || value.Any(MustBeQuotedAttributeValue);
 
                     if (needQuotes)
                     {
-                        temp.Append(Symbols.DoubleQuote);
+                        sb.Append(Symbols.DoubleQuote);
                     }
 
-                    WriteAttributeValue(attr, temp);
+                    WriteAttributeValue(attr, ref sb);
 
                     if (needQuotes)
                     {
-                        temp.Append(Symbols.DoubleQuote);
+                        sb.Append(Symbols.DoubleQuote);
                     }
                 }
 
-                return temp.ToPool();
+                return sb.ToString();
             }
 
             return String.Empty;

@@ -2,6 +2,7 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
+    using System.Text;
 
     /// <summary>
     /// Represents a text node.
@@ -46,7 +47,7 @@ namespace AngleSharp.Dom
             {
                 var previous = PreviousSibling;
                 var start = this;
-                var sb = StringBuilderPool.Obtain();
+                using var sb = new ValueStringBuilder(1_024);
 
                 while (previous is TextNode)
                 {
@@ -61,7 +62,7 @@ namespace AngleSharp.Dom
                 }
                 while (start != null);
 
-                return sb.ToPool();
+                return sb.ToString();
             }
         }
 

@@ -5,6 +5,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     sealed class JsonArray : JsonElement, IEnumerable<JsonElement>
     {
@@ -48,7 +49,9 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
         public override String ToString()
         {
-            var sb = StringBuilderPool.Obtain().Append(Symbols.SquareBracketOpen);
+            var sb = new ValueStringBuilder(100);
+
+            sb.Append(Symbols.SquareBracketOpen);
             var needsComma = false;
 
             foreach (var element in _elements)
@@ -60,7 +63,9 @@ namespace AngleSharp.Html.Forms.Submitters.Json
                 needsComma = true;
             }
 
-            return sb.Append(Symbols.SquareBracketClose).ToPool();
+            sb.Append(Symbols.SquareBracketClose);
+
+            return sb.ToString();
         }
 
         public IEnumerator<JsonElement> GetEnumerator()
