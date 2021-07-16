@@ -12,7 +12,7 @@ namespace AngleSharp.Html.LinkRels
     {
         #region Fields
 
-        private static readonly ConditionalWeakTable<IDocument, ImportList> ImportLists = new ();
+        private  readonly ConditionalWeakTable<IDocument, HashSet<Uri>> ImportLists = new ();
         private Boolean _async;
 
         #endregion
@@ -43,16 +43,15 @@ namespace AngleSharp.Html.LinkRels
         {
             var link = Link;
             var document = link.Owner;
-            var list = ImportLists.GetOrCreateValue(document!);
+            //var list = ImportLists.GetOrCreateValue(document!);
             var location = Url;
             var processor = Processor;
-            var item = new ImportEntry(this, isCycle: location != null && CheckCycle(document!, location));
-            list.Add(item);
+            //var isCycle = location != null && CheckCycle(document!, location);
 
-            if (location != null && !item.IsCycle)
+            if (document != null && location != null && document.AddImportUrl(location))
             {
                 var request = link.CreateRequestFor(location);
-                _async = link.HasAttribute(AttributeNames.Async);
+                _async      = link.HasAttribute(AttributeNames.Async);
                 return processor?.ProcessAsync(request)!;
             }
 
@@ -63,9 +62,9 @@ namespace AngleSharp.Html.LinkRels
 
         #region Helpers
 
-        private static Boolean CheckCycle(IDocument document, Url location)
+        private Boolean CheckCycle(IDocument document, Url location)
         {
-            var ancestor = document.ImportAncestor;
+            var ancestor = document;
 
             while (ancestor != null && ImportLists.TryGetValue(ancestor, out var list))
             {
@@ -78,50 +77,6 @@ namespace AngleSharp.Html.LinkRels
             }
 
             return false;
-        }
-
-        #endregion
-
-        #region Import List
-
-        private sealed class ImportList
-        {
-            private readonly List<ImportEntry> _list;
-
-            public ImportList()
-            {
-                _list = new List<ImportEntry>();
-            }
-
-            public Boolean Contains(Url location)
-            {
-                for (var i = 0; i < _list.Count; i++)
-                {
-                    Url relationUrl = _list[i].Relation.Url!;
-                    if (relationUrl != null && relationUrl.Equals(location))
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-
-            public void Add(ImportEntry item) => _list.Add(item);
-
-            public void Remove(ImportEntry item) => _list.Remove(item);
-        }
-
-        private readonly struct ImportEntry
-        {
-            public ImportEntry(ImportLinkRelation relation, Boolean isCycle)
-            {
-                Relation = relation;
-                IsCycle = isCycle;
-            }
-
-            public readonly ImportLinkRelation Relation;
-            public readonly Boolean IsCycle;
         }
 
         #endregion
