@@ -32,6 +32,7 @@ namespace AngleSharp.Dom
         private readonly IResourceLoader? _loader;
         private readonly Location _location;
         private readonly TextSource _source;
+        private readonly object _importedUrisLock = new object();
 
         private QuirksMode _quirksMode;
         private Sandboxes _sandbox;
@@ -54,6 +55,9 @@ namespace AngleSharp.Dom
         private HtmlCollection<IElement>? _links;
         private IStyleSheetList? _styleSheets;
         private HttpStatusCode _statusCode;
+
+        private HashSet<Uri>? _importedUris;
+
 
         #endregion
 
@@ -1527,6 +1531,39 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         protected abstract void SetTitle(String? value);
 
+        /// <inheritdoc />
+        public bool AddImportUrl(Uri uri)
+        {
+            if (uri is null)
+                return false;
+
+            IDocument? ancestor = this;
+
+            // see if it has already been imported
+            while (ancestor != null)
+            {
+                if (ancestor.HasImported(uri))
+                {
+                    return false;
+                }
+
+                ancestor = ancestor.ImportAncestor;
+            }
+
+            if (_importedUris is null)
+                lock(_importedUrisLock)
+                {
+                    _importedUris = _importedUris ?? new HashSet<Uri>();
+                }
+
+            return _importedUris.Add(uri);
+        }
+
+        /// <inheritdoc />
+        public bool HasImported(Uri uri)
+        {
+            return _importedUris?.Contains(uri) ?? false;
+        }
         #endregion
     }
 }

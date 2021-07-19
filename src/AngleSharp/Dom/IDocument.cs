@@ -569,6 +569,20 @@ namespace AngleSharp.Dom
         IDocument? ImportAncestor { get; }
 
         /// <summary>
+        /// Adds a Uri to the list of imported Uris.
+        /// </summary>
+        /// <param name="uri">The Uri to add.</param>
+        /// <returns>True if uri is not null or previously added, false otherwise.</returns>
+        Boolean AddImportUrl(Uri uri);
+
+        /// <summary>
+        /// Checks if a document has already imported a Uri.
+        /// </summary>
+        /// <param name="uri">The Uri to check.</param>
+        /// <returns>True if already imported.</returns>
+        bool HasImported(Uri uri);
+
+        /// <summary>
         /// Gets the underlying source.
         /// </summary>
         TextSource Source { get; }
@@ -582,5 +596,6 @@ namespace AngleSharp.Dom
         /// Gets the associated entity provider.
         /// </summary>
         IEntityProvider Entities { get; }
+
     }
 }
