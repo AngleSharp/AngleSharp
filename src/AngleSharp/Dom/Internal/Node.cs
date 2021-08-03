@@ -508,6 +508,10 @@ namespace AngleSharp.Dom
                 {
                     writer.Write(formatter.Comment(comment));
                 }
+                else if (node is IProcessingInstruction processingInstruction)
+                {
+                    writer.Write(formatter.Processing(processingInstruction));
+                }
                 else if (node is ICharacterData characterData)
                 {
                     if (characterData.Parent?.Flags.HasFlag(NodeFlags.LiteralText) ?? false)
@@ -522,10 +526,6 @@ namespace AngleSharp.Dom
                 else if (node is IDocumentType docType)
                 {
                     writer.Write(formatter.Doctype(docType));
-                }
-                else if (node is IProcessingInstruction processingInstruction)
-                {
-                    writer.Write(formatter.Processing(processingInstruction));
                 }
                 else if (node is IElement element)
                 {
