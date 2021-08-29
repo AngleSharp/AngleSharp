@@ -129,7 +129,7 @@ Task("Create-Package")
             Version = version,
             OutputDirectory = nugetRoot,
             Symbols = true,
-            ArgumentCustomization = args => args.Append("-SymbolPackageFormat snupkg"),
+            SymbolPackageFormat = "snupkg",
             Properties = new Dictionary<String, String>
             {
                 { "Configuration", configuration },
