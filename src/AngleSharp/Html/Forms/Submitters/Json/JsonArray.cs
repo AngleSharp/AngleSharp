@@ -49,7 +49,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
         public override String ToString()
         {
-            var sb = new ValueStringBuilder(100);
+            var sb = new ValueStringBuilder(128);
 
             sb.Append(Symbols.SquareBracketOpen);
             var needsComma = false;

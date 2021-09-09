@@ -172,7 +172,7 @@ namespace AngleSharp.Dom
                 }
                 else if (ProtocolNames.IsOriginable(_scheme))
                 {
-                    var output = new ValueStringBuilder(100);
+                    var output = new ValueStringBuilder(128);
 
                     if (!String.IsNullOrEmpty(_host))
                     {
@@ -493,7 +493,7 @@ namespace AngleSharp.Dom
         /// <returns>The string that equals the hyper reference.</returns>
         private String Serialize()
         {
-            var sb = new ValueStringBuilder(200);
+            var sb = new ValueStringBuilder(256);
 
             if (!String.IsNullOrEmpty(_scheme))
             {
@@ -1245,7 +1245,7 @@ namespace AngleSharp.Dom
                 return false;
             }
 
-            using var buffer = new ValueStringBuilder(100);
+            using var buffer = new ValueStringBuilder(128);
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.7
             // forbidden host code point check

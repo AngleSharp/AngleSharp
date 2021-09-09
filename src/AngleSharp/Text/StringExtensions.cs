@@ -296,8 +296,8 @@ namespace AngleSharp.Text
         /// <returns>The modified string with collapsed spaces.</returns>
         public static String Collapse(this String str)
         {
-            var sb = str.Length < 48
-                ? new ValueStringBuilder(stackalloc char[48])
+            var sb = str.Length < 32
+                ? new ValueStringBuilder(stackalloc char[32])
                 : new ValueStringBuilder(str.Length);
 
             var hasSpace = false;

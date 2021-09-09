@@ -51,7 +51,7 @@ namespace AngleSharp.Html
         /// <inheritdoc />
         public virtual String OpenTag(IElement element, Boolean selfClosing)
         {
-            var temp = new ValueStringBuilder(100);
+            var temp = new ValueStringBuilder(128);
 
             temp.Append(Symbols.LessThan);
 
@@ -89,7 +89,7 @@ namespace AngleSharp.Html
         /// <returns>The string representation.</returns>
         protected virtual String Attribute(IAttr attr)
         {
-            var sb = new ValueStringBuilder(100);
+            var sb = new ValueStringBuilder(128);
 
             WriteAttributeName(attr, ref sb);
 

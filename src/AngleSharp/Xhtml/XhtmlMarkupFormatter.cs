@@ -49,11 +49,10 @@ namespace AngleSharp.Xhtml
         /// <inheritdoc />
         public virtual String OpenTag(IElement element, Boolean selfClosing)
         {
-            var prefix = element.Prefix;
-            var sb = new ValueStringBuilder(100);
+            var sb = new ValueStringBuilder(64);
             sb.Append(Symbols.LessThan);
 
-            if (!String.IsNullOrEmpty(prefix))
+            if (element.Prefix is { Length: > 0 } prefix)
             {
                 sb.Append(prefix);
                 sb.Append(Symbols.Colon);
@@ -99,7 +98,7 @@ namespace AngleSharp.Xhtml
             var namespaceUri = attribute.NamespaceUri;
             var localName = attribute.LocalName;
             var value = attribute.Value;
-            var sb = new ValueStringBuilder(100);
+            var sb = new ValueStringBuilder(128);
 
             if (String.IsNullOrEmpty(namespaceUri))
             {

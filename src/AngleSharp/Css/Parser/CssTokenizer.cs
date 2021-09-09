@@ -348,7 +348,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private CssSelectorToken StringDQ()
         {
-            using var buffer = new ValueStringBuilder(100);
+            using var buffer = new ValueStringBuilder(128);
 
             while (true)
             {
@@ -396,7 +396,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private CssSelectorToken StringSQ()
         {
-            using var buffer = new ValueStringBuilder(100);
+            using var buffer = new ValueStringBuilder(128);
 
             while (true)
             {
@@ -550,15 +550,13 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         private CssSelectorToken IdentStart(Char current)
         {
-            const int estimatedIdentLength = 20;
-
             if (current == Symbols.Minus)
             {
                 current = _source.Next();
 
                 if (current.IsNameStart() || _source.IsValidEscape())
                 {
-                    var sb = new ValueStringBuilder(stackalloc char[estimatedIdentLength]);
+                    var sb = new ValueStringBuilder(32);
 
                     sb.Append(Symbols.Minus);
                     return IdentRest(current, ref sb);
@@ -568,13 +566,13 @@ namespace AngleSharp.Css.Parser
             }
             else if (current.IsNameStart())
             {
-                var sb = new ValueStringBuilder(stackalloc char[estimatedIdentLength]);
+                var sb = new ValueStringBuilder(32);
                 sb.Append(current);
                 return IdentRest(_source.Next(), ref sb);
             }
             else if (current == Symbols.ReverseSolidus && _source.IsValidEscape())
             {
-                var sb = new ValueStringBuilder(stackalloc char[estimatedIdentLength]);
+                var sb = new ValueStringBuilder(32);
                 sb.Append(_source.ConsumeEscape());
                 return IdentRest(_source.Next(), ref sb);
             }

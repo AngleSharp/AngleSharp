@@ -19,7 +19,7 @@ namespace AngleSharp.Css
             {
                 var length = text.Length;
                 var index = -1;
-                var result = new ValueStringBuilder(100);
+                var result = new ValueStringBuilder(128);
                 var firstCodeUnit = (Int32)text[0];
 
                 while (++index < length)
