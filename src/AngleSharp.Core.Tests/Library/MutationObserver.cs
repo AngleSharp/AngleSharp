@@ -60,7 +60,7 @@ namespace AngleSharp.Core.Tests.Library
 
             var document = Html("");
 
-            observer.Connect(document, childList: true);
+            observer.Connect(document, childList: true, subtree: true);
             document.Body.AppendChild(document.CreateElement("span"));
             Assert.IsTrue(called);
         }
@@ -105,7 +105,7 @@ namespace AngleSharp.Core.Tests.Library
 
             var document = Html("");
 
-            observer.Connect(document, attributes: true);
+            observer.Connect(document, attributes: true, subtree: true);
 
             document.Body.SetAttribute(attrName, attrValue);
             Assert.IsTrue(called);

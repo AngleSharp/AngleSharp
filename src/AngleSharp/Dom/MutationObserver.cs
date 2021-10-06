@@ -218,9 +218,9 @@ namespace AngleSharp.Dom
                 if (options.IsInvalid)
                     throw new DomException(DomError.Syntax);
 
-                if (node is Document document) {
-                    node = document.DocumentElement;
-                    target = node;
+                if (node is Document document && document.DocumentElement is Node documentElement) {
+                    node = documentElement;
+                    target = documentElement;
                 }
 
                 if (node.Owner is null)
