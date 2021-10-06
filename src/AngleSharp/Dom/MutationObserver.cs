@@ -218,7 +218,8 @@ namespace AngleSharp.Dom
                 if (options.IsInvalid)
                     throw new DomException(DomError.Syntax);
 
-                node.Owner.Mutations.Register(this);
+                (node is Document document ? document : node.Owner)?.Mutations.Register(this);
+
                 var existing = this[target];
 
                 if (existing != null)
