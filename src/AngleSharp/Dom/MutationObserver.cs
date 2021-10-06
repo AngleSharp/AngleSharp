@@ -219,7 +219,7 @@ namespace AngleSharp.Dom
                     throw new DomException(DomError.Syntax);
 
                 if (node is Document document) {
-                    node = node.DocumentElement;
+                    node = document.DocumentElement;
                     target = node;
                 }
 
