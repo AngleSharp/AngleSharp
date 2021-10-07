@@ -1,6 +1,9 @@
 # 0.16.1
 
+Released on Wednesday, October 6 2021.
+
 - Fixed `namespaceUri` parameters to allow nullable values when possible (#975)
+- Fixed mutation observer not connecting to document (#1001)
 - Add missing `IHtmlPictureElement` to picture element (#978)
 
 # 0.16.0

@@ -218,7 +218,16 @@ namespace AngleSharp.Dom
                 if (options.IsInvalid)
                     throw new DomException(DomError.Syntax);
 
+                if (node is Document document && document.DocumentElement is Node documentElement) {
+                    node = documentElement;
+                    target = documentElement;
+                }
+
+                if (node.Owner is null)
+                    throw new DomException(DomError.HierarchyRequest);
+
                 node.Owner.Mutations.Register(this);
+
                 var existing = this[target];
 
                 if (existing != null)

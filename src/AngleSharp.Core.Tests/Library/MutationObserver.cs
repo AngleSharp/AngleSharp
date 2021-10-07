@@ -45,6 +45,27 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void ConnectMutationObserverChildNodesTriggerManuallyFromDocument()
+        {
+            var called = false;
+
+            var observer = new MutationObserver((mut, obs) =>
+            {
+                called = true;
+                Assert.AreEqual(1, mut.Length);
+                var record = mut[0];
+                Assert.IsNotNull(record.Added);
+                Assert.AreEqual(1, record.Added.Length);
+            });
+
+            var document = Html("");
+
+            observer.Connect(document, childList: true, subtree: true);
+            document.Body.AppendChild(document.CreateElement("span"));
+            Assert.IsTrue(called);
+        }
+
+        [Test]
         public void ConnectMutationObserverAttributesTriggerManually()
         {
             var called = false;
@@ -62,6 +83,29 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("");
 
             observer.Connect(document.Body, attributes: true);
+
+            document.Body.SetAttribute(attrName, attrValue);
+            Assert.IsTrue(called);
+        }
+
+        [Test]
+        public void ConnectMutationObserverAttributesTriggerManuallyFromDocument()
+        {
+            var called = false;
+            var attrName = "something";
+            var attrValue = "test";
+
+            var observer = new MutationObserver((mut, obs) =>
+            {
+                called = true;
+                Assert.AreEqual(1, mut.Length);
+                Assert.AreEqual(attrName, mut[0].AttributeName);
+                Assert.IsNull(mut[0].PreviousValue);
+            });
+
+            var document = Html("");
+
+            observer.Connect(document, attributes: true, subtree: true);
 
             document.Body.SetAttribute(attrName, attrValue);
             Assert.IsTrue(called);
