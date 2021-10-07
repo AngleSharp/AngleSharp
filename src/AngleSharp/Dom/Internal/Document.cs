@@ -645,7 +645,7 @@ namespace AngleSharp.Dom
         public String DocumentUri
         {
             get => _location.Href;
-            protected set
+            set
             {
                 _location.Changed -= LocationChanged;
                 _location.Href = value;

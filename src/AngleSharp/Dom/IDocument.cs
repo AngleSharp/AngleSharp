@@ -48,7 +48,7 @@ namespace AngleSharp.Dom
         /// Gets the URI of the current document.
         /// </summary>
         [DomName("documentURI")]
-        String DocumentUri { get; }
+        String DocumentUri { get; set; }
 
         /// <summary>
         /// Gets the character encoding of the current document.
