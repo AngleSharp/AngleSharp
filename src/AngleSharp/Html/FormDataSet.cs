@@ -52,11 +52,13 @@ namespace AngleSharp.Html
         /// Applies the multipart/form-data algorithm.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#multipart/form-data-encoding-algorithm
         /// </summary>
+        /// <param name="htmlEncoder">HTML encoder.</param>
         /// <param name="encoding">(Optional) Explicit encoding.</param>
         /// <returns>A stream containing the body.</returns>
-        public Stream AsMultipart(Encoding? encoding = null)
+        public Stream AsMultipart(IHtmlEncoder htmlEncoder, Encoding? encoding = null)
         {
-            return BuildRequestContent(encoding, stream => Connect(new MultipartFormDataSetVisitor(stream.Encoding, _boundary), stream));
+            return BuildRequestContent(encoding,
+                stream => Connect(new MultipartFormDataSetVisitor(htmlEncoder, stream.Encoding, _boundary), stream));
         }
 
         /// <summary>

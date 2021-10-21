@@ -1,5 +1,6 @@
 namespace AngleSharp.Html.Forms
 {
+    using AngleSharp.Html.Forms.Submitters;
     using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
@@ -8,13 +9,13 @@ namespace AngleSharp.Html.Forms
 
     static class FormDataSetExtensions
     {
-        public static Stream CreateBody(this FormDataSet formDataSet, String enctype, String? charset)
+        public static Stream CreateBody(this FormDataSet formDataSet, String enctype, String? charset, IHtmlEncoder htmlEncoder)
         {
             var encoding = TextEncoding.Resolve(charset);
-            return formDataSet.CreateBody(enctype, encoding);
+            return formDataSet.CreateBody(enctype, encoding, htmlEncoder);
         }
 
-        public static Stream CreateBody(this FormDataSet formDataSet, String enctype, Encoding encoding)
+        public static Stream CreateBody(this FormDataSet formDataSet, String enctype, Encoding encoding, IHtmlEncoder htmlEncoder)
         {
             if (enctype.Isi(MimeTypeNames.UrlencodedForm))
             {
@@ -22,7 +23,7 @@ namespace AngleSharp.Html.Forms
             }
             else if (enctype.Isi(MimeTypeNames.MultipartForm))
             {
-                return formDataSet.AsMultipart(encoding);
+                return formDataSet.AsMultipart(htmlEncoder, encoding);
             }
             else if (enctype.Isi(MimeTypeNames.Plain))
             {

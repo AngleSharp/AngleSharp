@@ -13,6 +13,7 @@ namespace AngleSharp.Html.Forms.Submitters
 
         private static readonly String DashDash = "--";
 
+        private readonly IHtmlEncoder _htmlEncoder;
         private readonly Encoding _encoding;
         private readonly List<Action<StreamWriter>> _writers;
         private readonly String _boundary;
@@ -21,8 +22,9 @@ namespace AngleSharp.Html.Forms.Submitters
 
         #region ctor
 
-        public MultipartFormDataSetVisitor(Encoding encoding, String boundary)
+        public MultipartFormDataSetVisitor(IHtmlEncoder htmlEncoder, Encoding encoding, String boundary)
         {
+            _htmlEncoder = htmlEncoder;
             _encoding = encoding;
             _writers = new List<Action<StreamWriter>>();
             _boundary = boundary;
@@ -38,9 +40,9 @@ namespace AngleSharp.Html.Forms.Submitters
             {
                 _writers.Add(stream =>
                 {
-                    stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"", entry.Name.HtmlEncode(_encoding));
+                    stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"", _htmlEncoder.Encode(entry.Name, _encoding));
                     stream.WriteLine();
-                    stream.WriteLine(value.HtmlEncode(_encoding));
+                    stream.WriteLine(_htmlEncoder.Encode(value, _encoding));
                 });
             }
         }
@@ -54,7 +56,7 @@ namespace AngleSharp.Html.Forms.Submitters
                     var hasContent = content != null && content?.Name != null && content.Type != null && content.Body != null;
 
                     stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
-                        entry.Name.HtmlEncode(_encoding), fileName.HtmlEncode(_encoding));
+                        _htmlEncoder.Encode(entry.Name, _encoding), _htmlEncoder.Encode(fileName, _encoding));
                     stream.WriteLine("Content-Type: {0}", contentType);
                     stream.WriteLine();
 

@@ -7,6 +7,7 @@ namespace AngleSharp
     using AngleSharp.Dom.Events;
     using AngleSharp.Html;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Forms.Submitters;
     using AngleSharp.Html.Parser;
     using AngleSharp.Mathml;
     using AngleSharp.Mathml.Dom;
@@ -55,6 +56,7 @@ namespace AngleSharp
                 Instance<IDocumentFactory>(new DefaultDocumentFactory()),
                 Instance<IAttributeObserver>(new DefaultAttributeObserver()),
                 Instance<IMetaHandler>(new EncodingMetaHandler()),
+                Instance<IHtmlEncoder>(new DefaultHtmlEncoder()),
                 Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
                 Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
                 Creator<INavigationHandler>(ctx => new DefaultNavigationHandler(ctx)),
