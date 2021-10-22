@@ -9,10 +9,10 @@ namespace AngleSharp.Html.Forms
 
     static class FormDataSetExtensions
     {
-        public static Stream CreateBody(this FormDataSet formDataSet, String enctype, String? charset, IHtmlEncoder htmlEncoder)
+        public static Stream CreateBody(this FormDataSet formDataSet, String enctype, String? charset, IHtmlEncoder? htmlEncoder)
         {
             var encoding = TextEncoding.Resolve(charset);
-            return formDataSet.CreateBody(enctype, encoding, htmlEncoder);
+            return formDataSet.CreateBody(enctype, encoding, htmlEncoder ?? new DefaultHtmlEncoder());
         }
 
         public static Stream CreateBody(this FormDataSet formDataSet, String enctype, Encoding encoding, IHtmlEncoder htmlEncoder)
