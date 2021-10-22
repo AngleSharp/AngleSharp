@@ -4,6 +4,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Dom;
     using AngleSharp.Html;
     using AngleSharp.Html.Forms;
+    using AngleSharp.Html.Forms.Submitters;
     using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
@@ -268,8 +269,9 @@ namespace AngleSharp.Html.Dom
             var charset = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
+            var htmlEncoder = Owner.Context.GetService<IHtmlEncoder>()!;
             var result = String.Empty;
-            var stream = formDataSet.CreateBody(enctype, charset);
+            var stream = formDataSet.CreateBody(enctype, charset, htmlEncoder);
 
             using (var sr = new StreamReader(stream))
             {
@@ -318,7 +320,8 @@ namespace AngleSharp.Html.Dom
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
             var encoding = TextEncoding.UsAscii;
-            var stream = formDataSet.CreateBody(enctype, encoding);
+            var htmlEncoder = Owner.Context.GetService<IHtmlEncoder>()!;
+            var stream = formDataSet.CreateBody(enctype, encoding, htmlEncoder);
             var body = String.Empty;
 
             using (var sr = new StreamReader(stream))
@@ -345,7 +348,8 @@ namespace AngleSharp.Html.Dom
             var charset = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
-            var body = formDataSet.CreateBody(enctype, charset);
+            var htmlEncoder = Owner.Context.GetService<IHtmlEncoder>()!;
+            var body = formDataSet.CreateBody(enctype, charset, htmlEncoder);
 
             if (enctype.Isi(MimeTypeNames.MultipartForm))
             {
