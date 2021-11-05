@@ -205,7 +205,7 @@ Using JavaScript with AngleSharp is no problem. In the current state we can also
 The following example code performs DOM queries, creates new elements and removes existing ones.
 
 ```C#
-static void ExtendedScriptingSample()
+static async void ExtendedScriptingSample()
 {
     //We require a custom configuration with JavaScript and CSS
     var config = Configuration.Default.WithJs().WithCss();
@@ -267,7 +267,7 @@ The sample document of this example consists of a single script, that calls the 
 The listener is called once the document is fully loaded. This happens after executing the provided JavaScript, hence we should see this event at the end. We also registered another event listener, which will be invoked once the custom event **hello** is dispatched.
 
 ```C#
-public static void EventScriptingExample()
+public static async void EventScriptingExample()
 {
     //We require a custom configuration
     var config = Configuration.Default.WithJs();
