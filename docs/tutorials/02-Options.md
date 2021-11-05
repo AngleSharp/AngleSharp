@@ -30,7 +30,6 @@ where we use a custom formatter such as
 ```cs
 class MyFormatter : IMarkupFormatter
 {
-    public string Attribute(IAttr attribute) => HtmlMarkupFormatter.Instance.Attribute(attribute);
     public string CloseTag(IElement element, bool selfClosing) => HtmlMarkupFormatter.Instance.CloseTag(element, selfClosing);
     public string Comment(IComment comment) => HtmlMarkupFormatter.Instance.Comment(comment);
     public string Doctype(IDocumentType doctype) => HtmlMarkupFormatter.Instance.Doctype(doctype);
