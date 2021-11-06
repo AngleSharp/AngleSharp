@@ -36,7 +36,7 @@ class MyFormatter : IMarkupFormatter
     public string LiteralText(ICharacterData text) => HtmlMarkupFormatter.Instance.LiteralText(text);
     public string OpenTag(IElement element, bool selfClosing) => HtmlMarkupFormatter.Instance.OpenTag(element, selfClosing);
     public string Processing(IProcessingInstruction processing) => HtmlMarkupFormatter.Instance.Processing(processing);
-    public string Text(ICharacterData text) => text.Data;
+    public string Text(ICharacterData text) => HtmlMarkupFormatter.Instance.LiteralText(text);
 }
 ```
 
