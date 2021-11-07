@@ -60,7 +60,7 @@ For serialization (e.g., `InnerHtml` use, or more explicit via `ToHtml`), howeve
 
 ## `IsKeepingSourceReferences`
 
-`IsKeepingSourceReferences` options decides whether or not to keep positional information or reference on a text source tob be serialized.
+`IsKeepingSourceReferences` option decides whether or not to keep positional information or reference on a text source to be serialized.
 For serialization, we would have no way or response of source reference of any selected element of a document.
 
 Example of this option be:
@@ -90,6 +90,7 @@ And we would get `Ln 4, Col 3, Pos 33`
 (tbd)
 
 ## `IsSupportingProcessingInstructions`
+`IsSupportingProcessingInstructions` option
 
 (tbd)
 
