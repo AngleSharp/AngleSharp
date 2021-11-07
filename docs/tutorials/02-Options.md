@@ -66,10 +66,9 @@ For serialization, we would have no way or response of source reference of any s
 Example of this option be:
 
 ```cs
-var formatter = new MyFormatter();
 var parser = new HtmlParser(new HtmlParserOptions
 {
-    IsKeepingSourceReferences = false,
+    IsKeepingSourceReferences = false
 });
 var html = "<html><head></head><body><p>foo</p></body></html>";
 var document = parser.ParseDocument(html);
@@ -90,7 +89,23 @@ And we would get `Ln 4, Col 3, Pos 33`
 (tbd)
 
 ## `IsSupportingProcessingInstructions`
-`IsSupportingProcessingInstructions` option
+`IsSupportingProcessingInstructions` option causes the parset to emit ProcessingInstruction nodes whenever `<? ... >` tokens are encountered, those are an SGML and XML node types intended to carry instructions to the application.
+
+SGML PI is enclosed within `<?` and `>`, while XML PI is enclosed within `<?` and `?>`.
+
+Take the following case for example:
+```cs
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    IsSupportingProcessingInstructions = true
+});
+var html = "<html><head></head><body><p><?xml version=\"1.0\" encoding=\"UTF - 8\" ?></p></body></html>";
+var document = parser.ParseDocument(html);
+Console.WriteLine(document.DocumentElement.ToHtml());
+```
+
+this gives the `<html><head></head><body><p><??xml version=\"1.0\" encoding=\"UTF - 8\" ?></p></body></html>` response as we have enabled the PI support option.
+Otherwise we would get a comment node enclosing the issued PI node: `"<html><head></head><body><p><!--<?xml version=\"1.0\" encoding=\"UTF - 8\" ?>--></p></body></html>"`
 
 (tbd)
 
