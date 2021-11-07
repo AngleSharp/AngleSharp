@@ -60,6 +60,33 @@ For serialization (e.g., `InnerHtml` use, or more explicit via `ToHtml`), howeve
 
 ## `IsKeepingSourceReferences`
 
+`IsKeepingSourceReferences` options decides whether or not to keep positional information or reference on a text source tob be serialized.
+For serialization, we would have no way or response of source reference of any selected element of a document.
+
+Example of this option be:
+
+```cs
+var formatter = new MyFormatter();
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    IsKeepingSourceReferences = false,
+});
+var html = "<html><head></head><body><p>foo</p></body></html>";
+var document = parser.ParseDocument(html);
+Console.WriteLine(document.QuerySelector("a").SourceReference?.Position.ToString());
+```
+
+The outcome would be none, `SourceReference` would be null as given by the parser.
+Turning the option to `true` would give us the position as expected:
+
+`Ln 1, Col 26, Pos 26`
+
+We could also format the html to be pretty and get a prettier result, appending the code:
+
+```cs
+document = parser.ParseDocument(document.Prettify());
+```
+And we would get `Ln 4, Col 3, Pos 33`
 (tbd)
 
 ## `IsSupportingProcessingInstructions`
