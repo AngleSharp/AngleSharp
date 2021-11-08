@@ -86,7 +86,6 @@ We could also format the html to be pretty and get a prettier result, appending 
 document = parser.ParseDocument(document.Prettify());
 ```
 And we would get `Ln 4, Col 3, Pos 33`
-(tbd)
 
 ## `IsSupportingProcessingInstructions`
 `IsSupportingProcessingInstructions` option causes the parset to emit ProcessingInstruction nodes whenever `<? ... >` tokens are encountered, those are an SGML and XML node types intended to carry instructions to the application.
@@ -107,15 +106,47 @@ Console.WriteLine(document.DocumentElement.ToHtml());
 this gives the `<html><head></head><body><p><??xml version=\"1.0\" encoding=\"UTF - 8\" ?></p></body></html>` response as we have enabled the PI support option.
 Otherwise we would get a comment node enclosing the issued PI node: `"<html><head></head><body><p><!--<?xml version=\"1.0\" encoding=\"UTF - 8\" ?>--></p></body></html>"`
 
-(tbd)
-
 ## `OnCreated`
 
-(tbd)
+`OnCreated` feature performs an action based on a new element being created and position within the document which gets parsed by the formatter accordingly.
+In detail, it is possible to reposition and change element's attributes and perform other actions on it as it is created with the formatter.
+
+For example, we could perform the following:
+```cs
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    OnCreated = (element, position) =>
+    {
+        if (25 <= position.Index && position.Index < 35)
+            element.TextContent += " bar";
+    }
+});
+var html = "<html><head></head><body><p>foo</p></body></html>";
+var document = parser.ParseDocument(html);
+Console.WriteLine(document.DocumentElement.ToHtml());
+```
+
+Which would give us a reformatted html string based on position range \[25, 35\) and element `<p>` within that range being formatted `<html><head></head><body><p>foo bar</p></body></html>`
+
+In general it would not be expected to pass this option in one parsing for a big enough text as it would take more time to process it.
 
 ## `IsStrictMode`
+"strict mode" directive from JavaScript's ES5 is represented by `IsStrictMode` option in this case.
+Simply put, setting this option as true in $HtmlParserOptions$ informs the parser that any JS code that it will include will have a "strict mode" applied in it.
 
-(tbd)
+The following code will give us an HtmlParseException
+```cs
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    IsStrictMode = true
+});
+var html = "<html><head></head><body><script>x = 0;</script><p>foo</p></body></html>";
+var document = parser.ParseDocument(html);
+Console.WriteLine(document.DocumentElement.ToHtml());
+```
+In this case we had strict mode on so we had to declare `x` as `let x` instead for example.
+
+By default strict mode is false and we would get the response as expected.
 
 ## `IsEmbedded`, `IsNotSupportingFrames`, and `IsScripting`
 
