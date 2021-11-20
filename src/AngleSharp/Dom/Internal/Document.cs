@@ -1476,8 +1476,11 @@ namespace AngleSharp.Dom
             await _context.InteractAsync(EventNames.Print, new { Document = this }).ConfigureAwait(false);
             await this.QueueTaskAsync(_ => this.FireSimpleEvent(EventNames.AfterPrint)).ConfigureAwait(false);
         }
-
+#if NET5_0_OR_GREATER
+        private async void LocationChanged(Object? sender, Location.ChangedEventArgs e)
+#else
         private async void LocationChanged(Object sender, Location.ChangedEventArgs e)
+#endif
         {
             if (e.IsHashChanged)
             {
@@ -1564,6 +1567,6 @@ namespace AngleSharp.Dom
         {
             return _importedUris?.Contains(uri) ?? false;
         }
-        #endregion
+#endregion
     }
 }

@@ -79,10 +79,17 @@ namespace AngleSharp.Text
         /// True if the given object is a text position with the same values,
         /// otherwise false.
         /// </returns>
-        public override Boolean Equals(Object obj)
+#if NET5_0_OR_GREATER
+        public override Boolean Equals(Object? obj)
         {
             return obj is TextRange other && Equals(other);
         }
+#else
+           public override Boolean Equals(Object obj)
+        {
+            return obj is TextRange other && Equals(other);
+        }
+#endif
 
         /// <summary>
         /// Indicates whether the current range is equal to the given range.

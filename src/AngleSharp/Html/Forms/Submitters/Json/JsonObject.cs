@@ -6,9 +6,9 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
     sealed class JsonObject : JsonElement
     {
-        private readonly Dictionary<String, JsonElement> _properties = new Dictionary<String, JsonElement>();
+        private readonly Dictionary<String, JsonElement?> _properties = new Dictionary<String, JsonElement?>();
 
-        public override JsonElement this[String key]
+        public override JsonElement? this[String key]
         {
             get
             {
@@ -31,7 +31,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
                 }
 
                 sb.Append(Symbols.DoubleQuote).Append(property.Key).Append(Symbols.DoubleQuote);
-                sb.Append(Symbols.Colon).Append(property.Value.ToString());
+                sb.Append(Symbols.Colon).Append(property.Value!.ToString());
                 needsComma = true;
             }
 

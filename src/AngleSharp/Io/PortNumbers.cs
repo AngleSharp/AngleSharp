@@ -30,7 +30,7 @@ namespace AngleSharp.Io
         /// The string representing the default port, or null, if the protocol
         /// is not known.
         /// </returns>
-        public static String GetDefaultPort(String protocol)
+        public static String? GetDefaultPort(String protocol)
         {
             Ports.TryGetValue(protocol, out var value);
             return value;

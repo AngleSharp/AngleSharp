@@ -29,24 +29,38 @@ namespace AngleSharp.Html.Dom
 
         #region Properties
 
-        public IHtmlTableCaptionElement Caption
+        public IHtmlTableCaptionElement? Caption
         {
             get => ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Caption));
-            set { DeleteCaption(); InsertChild(0, value); }
+            set
+            {
+                DeleteCaption();
+
+                if (value != null) InsertChild(0, value);
+            }
         }
 
-        public IHtmlTableSectionElement Head
+        public IHtmlTableSectionElement? Head
         {
             get => ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Thead));
-            set { DeleteHead(); AppendChild(value); }
+            set
+            {
+                DeleteHead();
+
+                if (value != null) AppendChild(value);
+            }
         }
 
         public IHtmlCollection<IHtmlTableSectionElement> Bodies => _bodies ??= new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName.Is(TagNames.Tbody));
 
-        public IHtmlTableSectionElement Foot
+        public IHtmlTableSectionElement? Foot
         {
             get => ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Tfoot));
-            set { DeleteFoot(); AppendChild(value); }
+            set
+            {
+                DeleteFoot();
+                if (value != null) AppendChild(value);
+            }
         }
 
         public IEnumerable<IHtmlTableRowElement> AllRows

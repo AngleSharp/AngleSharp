@@ -27,7 +27,7 @@ namespace AngleSharp.Common
                 foreach (var property in properties)
                 {
                     var value = property.GetValue(values, null) ?? String.Empty;
-                    symbols.Add(property.Name, value.ToString());
+                    symbols.Add(property.Name, value.ToString() ?? String.Empty);
                 }
             }
 
@@ -121,7 +121,7 @@ namespace AngleSharp.Common
         /// <param name="values">The dictionary for the lookup.</param>
         /// <param name="key">The key to look for.</param>
         /// <returns>An object instance or null.</returns>
-        public static Object TryGet(this IDictionary<String, Object> values, String key)
+        public static Object? TryGet(this IDictionary<String, Object> values, String key)
         {
             values.TryGetValue(key, out var value);
             return value;
@@ -165,9 +165,23 @@ namespace AngleSharp.Common
         public static String GetMessage<T>(this T code)
             where T : struct
         {
-            var field = typeof(T).GetField(code.ToString());
-            var description = field.GetCustomAttribute<DomDescriptionAttribute>()?.Description;
-            return description ?? "An unknown error occurred.";
+            var description = "An unknown error occurred.";
+
+            var fieldName = code.ToString();
+
+            if (fieldName != null)
+            {
+                var field = typeof(T).GetField(fieldName);
+
+                if (field != null)
+                {
+                    var domDescriptionAttribute = field.GetCustomAttribute<DomDescriptionAttribute>();
+
+                    if (domDescriptionAttribute != null) description = domDescriptionAttribute.Description;
+                }
+            }
+
+            return description;
         }
     }
 }

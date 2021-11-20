@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Dom
+namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
@@ -14,7 +14,7 @@
         /// Gets or sets the assigned caption element.
         /// </summary>
         [DomName("caption")]
-        IHtmlTableCaptionElement Caption { get; set; }
+        IHtmlTableCaptionElement? Caption { get; set; }
 
         /// <summary>
         /// Creates a new table caption object or returns the existing one.
@@ -33,7 +33,7 @@
         /// Gets or sets the assigned head section.
         /// </summary>
         [DomName("tHead")]
-        IHtmlTableSectionElement Head { get; set; }
+        IHtmlTableSectionElement? Head { get; set; }
 
         /// <summary>
         /// Creates a new table header section or returns the existing one.
@@ -52,7 +52,7 @@
         /// Gets or sets the assigned foot section.
         /// </summary>
         [DomName("tFoot")]
-        IHtmlTableSectionElement Foot { get; set; }
+        IHtmlTableSectionElement? Foot { get; set; }
 
         /// <summary>
         /// Creates a table footer section or returns an existing one.
