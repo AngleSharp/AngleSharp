@@ -712,7 +712,26 @@ namespace AngleSharp.Dom
             return namespaceUri.Is(defaultNamespace);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
+#if NET5_0_OR_GREATER
+        public virtual Boolean Equals(INode? otherNode)
+        {
+            if (BaseUri.Is(otherNode?.BaseUri) && NodeName.Is(otherNode?.NodeName) && ChildNodes.Length == otherNode?.ChildNodes.Length)
+            {
+                for (var i = 0; i < _children.Length; i++)
+                {
+                    if (!_children[i].Equals(otherNode.ChildNodes[i]))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+#else
         public virtual Boolean Equals(INode otherNode)
         {
             if (BaseUri.Is(otherNode.BaseUri) && NodeName.Is(otherNode.NodeName) && ChildNodes.Length == otherNode.ChildNodes.Length)
@@ -730,6 +749,7 @@ namespace AngleSharp.Dom
 
             return false;
         }
+#endif
 
         #endregion
 

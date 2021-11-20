@@ -40,7 +40,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="rel">The relation value.</param>
         /// <returns>The registered creator, if any.</returns>
-        public Creator Unregister(String rel)
+        public Creator? Unregister(String rel)
         {
             if (_creators.TryGetValue(rel, out var creator))
             {

@@ -46,7 +46,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="contentType">The content-type value.</param>
         /// <returns>The registered creator, if any.</returns>
-        public virtual Creator Unregister(String contentType)
+        public virtual Creator? Unregister(String contentType)
         {
             if (_creators.TryGetValue(contentType, out var creator))
             {

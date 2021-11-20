@@ -61,7 +61,7 @@ namespace AngleSharp.Html
         /// </summary>
         /// <param name="type">The input type value.</param>
         /// <returns>The registered creator, if any.</returns>
-        public Creator Unregister(String type)
+        public Creator? Unregister(String type)
         {
             if (_creators.TryGetValue(type, out var creator))
             {

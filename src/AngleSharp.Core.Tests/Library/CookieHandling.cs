@@ -431,7 +431,7 @@ namespace AngleSharp.Core.Tests.Library
             var mcp = new MemoryCookieProvider();
             var config = Configuration.Default.With(mcp).With(requester).WithDefaultLoader();
             var context = BrowsingContext.New(config);
-            var receivedCookieHeader = "THECOOKIE=value1";
+            var receivedCookieHeader = "THECOOKIE=value1; Path=/path1";
             var url = new Url("http://example.com/path1");
             //request 1: /path1, set a cookie THECOOKIE=value1
             requester.BuildResponse(req => VirtualResponse.Create(r => r
@@ -441,11 +441,13 @@ namespace AngleSharp.Core.Tests.Library
             context.OpenAsync("http://example.com/path1");
             //request 2: /path1/somefile.jsp redirects to /path2/file2.jsp
             requester.BuildResponses(new Func<Request, IResponse>[] {
-                req => VirtualResponse.Create(r => r
+                req => {
+                    return VirtualResponse.Create(r => r
                     .Address("http://example.com/path1/somefile.jsp")
                     .Content("")
                     .Status(System.Net.HttpStatusCode.Redirect)
-                    .Header(HeaderNames.Location, "http://example.com/path2/file2.jsp")),
+                    .Header(HeaderNames.Location, "http://example.com/path2/file2.jsp"));
+                },
                 req => {
                     receivedCookieHeader = req.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
                     return VirtualResponse.Create(r => r

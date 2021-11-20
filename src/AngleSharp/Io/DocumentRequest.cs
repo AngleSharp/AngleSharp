@@ -180,7 +180,7 @@ namespace AngleSharp.Io
 
         private void SetHeader(String name, String value) => Headers[name] = value;
 
-        private String GetHeader(String name)
+        private String? GetHeader(String name)
         {
             Headers.TryGetValue(name, out var value);
             return value;

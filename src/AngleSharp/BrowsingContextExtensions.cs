@@ -226,7 +226,7 @@ namespace AngleSharp
         /// <typeparam name="TProvider">The type of the provider service.</typeparam>
         /// <param name="context">The current context.</param>
         /// <returns>The provider instance or null.</returns>
-        public static TProvider GetProvider<TProvider>(this IBrowsingContext context)
+        public static TProvider? GetProvider<TProvider>(this IBrowsingContext context)
             where TProvider : class => context.GetServices<TProvider>().SingleOrDefault();
 
         /// <summary>

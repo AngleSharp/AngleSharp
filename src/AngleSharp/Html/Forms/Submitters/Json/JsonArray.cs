@@ -6,20 +6,20 @@ namespace AngleSharp.Html.Forms.Submitters.Json
     using System.Collections.Generic;
     using System.Linq;
 
-    sealed class JsonArray : JsonElement, IEnumerable<JsonElement>
+    sealed class JsonArray : JsonElement, IEnumerable<JsonElement?>
     {
-        private readonly List<JsonElement> _elements;
+        private readonly List<JsonElement?> _elements;
 
         public Int32 Length => _elements.Count;
 
         public JsonArray()
         {
-            _elements = new List<JsonElement>(); 
+            _elements = new List<JsonElement?>(); 
         }
 
         public JsonArray(int capacity)
         {
-            _elements = new List<JsonElement>(capacity);
+            _elements = new List<JsonElement?>(capacity);
         }
 
         public void Push(JsonElement element)
@@ -32,7 +32,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
             _elements.Add(element);
         }
 
-        public JsonElement this[Int32 key]
+        public JsonElement? this[Int32 key]
         {
             get => _elements.ElementAtOrDefault(key);
             set

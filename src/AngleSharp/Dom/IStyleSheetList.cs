@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -19,7 +19,7 @@
         /// <returns>The stylesheet.</returns>
         [DomName("item")]
         [DomAccessor(Accessors.Getter)]
-        IStyleSheet this[Int32 index] { get; }
+        IStyleSheet? this[Int32 index] { get; }
         
         /// <summary>
         /// Gets the number of elements in the list of stylesheets.

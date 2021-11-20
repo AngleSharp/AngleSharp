@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
@@ -37,7 +37,7 @@
         /// <returns>
         /// The task that will eventually give the response data.
         /// </returns>
-        public async Task<IResponse> RequestAsync(Request request, CancellationToken cancel)
+        public async Task<IResponse?> RequestAsync(Request request, CancellationToken cancel)
         {
             var ev = new RequestEvent(request, null);
             InvokeEventListener(ev);
@@ -64,6 +64,6 @@
         /// <param name="request">The options to consider.</param>
         /// <param name="cancel">The token for cancelling the task.</param>
         /// <returns>The task resulting in the response.</returns>
-        protected abstract Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancel);
+        protected abstract Task<IResponse?> PerformRequestAsync(Request request, CancellationToken cancel);
     }
 }

@@ -39,7 +39,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The name of the CSS pseudo element.</param>
         /// <returns>The registered selector, if any.</returns>
-        public ISelector Unregister(String name)
+        public ISelector? Unregister(String name)
         {
             if (_selectors.TryGetValue(name, out var selector))
             {

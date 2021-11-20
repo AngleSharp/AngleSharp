@@ -96,7 +96,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="combinator">The used CSS combinator.</param>
         /// <returns>The registered creator, if any.</returns>
-        public Creator Unregister(String combinator)
+        public Creator? Unregister(String combinator)
         {
             if (_creators.TryGetValue(combinator, out var creator))
             {

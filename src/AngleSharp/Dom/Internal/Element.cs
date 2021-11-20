@@ -505,6 +505,19 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
+#if NET5_0_OR_GREATER
+        public override Boolean Equals(INode? otherNode)
+        {
+            if (otherNode is IElement otherElement)
+            {
+                return NamespaceUri.Is(otherElement.NamespaceUri) &&
+                    _attributes.SameAs(otherElement.Attributes) &&
+                    base.Equals(otherNode);
+            }
+
+            return false;
+        }
+#else
         public override Boolean Equals(INode otherNode)
         {
             if (otherNode is IElement otherElement)
@@ -516,6 +529,7 @@ namespace AngleSharp.Dom
 
             return false;
         }
+#endif
 
         /// <inheritdoc />
         public void Before(params INode[] nodes) => this.InsertBefore(nodes);

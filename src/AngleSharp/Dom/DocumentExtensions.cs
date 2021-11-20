@@ -39,7 +39,7 @@ namespace AngleSharp.Dom
                 foreach (var ctor in ctors)
                 {
                     var parameters = ctor.GetParameters();
-                    var arguments = new Object[parameters.Length];
+                    var arguments = new Object?[parameters.Length];
 
                     for (var i = 0; i < parameters.Length; i++)
                     {

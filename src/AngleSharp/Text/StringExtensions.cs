@@ -42,10 +42,23 @@ namespace AngleSharp.Text
         /// <returns>The compatibility string.</returns>
         internal static String GetCompatiblity(this QuirksMode mode)
         {
+            var description = "CSS1Compat";
 
-            var field = typeof(QuirksMode).GetField(mode.ToString());
-            var description = field.GetCustomAttribute<DomDescriptionAttribute>()?.Description;
-            return description ?? "CSS1Compat";
+            var fieldName = mode.ToString();
+
+            if (fieldName != null)
+            {
+                var field = typeof(QuirksMode).GetField(fieldName);
+
+                if (field != null)
+                {
+                    var domDescriptionAttribute = field.GetCustomAttribute<DomDescriptionAttribute>();
+
+                    if (domDescriptionAttribute != null) description = domDescriptionAttribute.Description;
+                }
+            }
+
+            return description;
         }
 
         /// <summary>
