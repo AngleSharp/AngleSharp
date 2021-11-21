@@ -161,22 +161,15 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="other">The type to compare to.</param>
         /// <returns>True if both types are equal, otherwise false.</returns>
-#if NET5_0_OR_GREATER
         public Boolean Equals(MimeType? other) => _general.Isi(other?._general) &&
                                                   _media.Isi(other?._media) &&
                                                   _suffix.Isi(other?._suffix);
-#else
-        public Boolean Equals(MimeType other) => _general.Isi(other._general) &&
-                                                 _media.Isi(other._media) &&
-                                                 _suffix.Isi(other._suffix);
-#endif
 
         /// <summary>
         /// Compares to the other object. It has to be a MIME type.
         /// </summary>
         /// <param name="obj">The object to compare to.</param>
         /// <returns>True if both objects are equal, otherwise false.</returns>
-#if NET5_0_OR_GREATER
         public override Boolean Equals(Object? obj)
         {
             if (!Object.ReferenceEquals(this, obj))
@@ -186,17 +179,6 @@ namespace AngleSharp.Io
 
             return true;
         }
-#else
-        public override Boolean Equals(Object obj)
-        {
-            if (!Object.ReferenceEquals(this, obj))
-            {
-                return obj is MimeType other && Equals(other);
-            }
-
-            return true;
-        }
-#endif
 
         /// <summary>
         /// Computes the hash code for the MIME type.

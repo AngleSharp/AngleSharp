@@ -181,11 +181,7 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="obj">The object to test with.</param>
         /// <returns>True if the two objects are equal, otherwise false.</returns>
-#if NET5_0_OR_GREATER
         public override Boolean Equals(Object? obj) => obj is Priority other && Equals(other);
-#else
-        public override Boolean Equals(Object obj) => obj is Priority other && Equals(other);
-#endif
 
         /// <summary>
         /// Returns a hash code that defines the current priority.

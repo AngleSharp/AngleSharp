@@ -173,11 +173,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="other">The other attribute.</param>
         /// <returns>True if both are equivalent, otherwise false.</returns>
-#if NET5_0_OR_GREATER
         public Boolean Equals(IAttr? other) =>  Prefix.Is(other?.Prefix) && NamespaceUri.Is(other?.NamespaceUri) && Value.Is(other?.Value);
-#else
-        public Boolean Equals(IAttr other) => Prefix.Is(other.Prefix) && NamespaceUri.Is(other.NamespaceUri) && Value.Is(other.Value);
-#endif
 
         /// <summary>
         /// Computes the hash code of the attribute.
