@@ -1,6 +1,5 @@
 #if !NET5_0_OR_GREATER
 
-// ReSharper disable once CheckNamespace
 namespace System.Diagnostics.CodeAnalysis
 {
     internal sealed class AllowNullAttribute : Attribute { }

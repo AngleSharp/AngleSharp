@@ -56,7 +56,9 @@ namespace AngleSharp.Html.Dom
         public override void DoFocus()
         {
             if (this.HasOwnAttribute(AttributeNames.Href))
+            {
                 IsFocused = true;
+            }
         }
 
         #endregion

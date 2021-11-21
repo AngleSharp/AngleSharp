@@ -119,13 +119,19 @@ namespace AngleSharp.Html.Dom
         public void SetContext(IRenderingContext context)
         {
             if (_mode != ContextMode.None && _mode != ContextMode.Indirect)
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             if (context.IsFixed)
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             if (context.Host != this)
+            {
                 throw new DomException(DomError.InUse);
+            }
 
             _current = context;
             _mode = ContextMode.Indirect;

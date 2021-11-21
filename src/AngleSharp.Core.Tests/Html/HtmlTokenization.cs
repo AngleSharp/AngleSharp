@@ -234,7 +234,9 @@ namespace AngleSharp.Core.Tests.Html
                 token = t.Get();
 
                 if (token.Type == HtmlTokenType.Character)
+                {
                     str += token.Data;
+                }
             }
             while (token.Type != HtmlTokenType.EndOfFile);
 
@@ -255,7 +257,9 @@ namespace AngleSharp.Core.Tests.Html
                 token = t.Get();
 
                 if (token.Type == HtmlTokenType.Character)
+                {
                     str += token.Data;
+                }
             }
             while (token.Type != HtmlTokenType.EndOfFile);
 
@@ -304,7 +308,9 @@ namespace AngleSharp.Core.Tests.Html
                 token = t.Get();
 
                 if (token.Type == HtmlTokenType.Character)
+                {
                     sb.Append(token.Data);
+                }
             }
             while (token.Type != HtmlTokenType.EndOfFile);
 

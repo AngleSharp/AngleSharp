@@ -873,7 +873,9 @@ namespace AngleSharp.Dom
 
                     case Symbols.Colon:
                         if (inBracket)
+                        {
                             break;
+                        }
 
                         if (!TrySanatizeHost(input, start, index - start, out _host))
                         {

@@ -195,13 +195,19 @@
             };
 
             foreach (var id in ids)
+            {
                 Assert.AreEqual(id, rows[id].Id);
+            }
 
             while (table.FirstChild != null)
+            {
                 table.RemoveChild(table.FirstChild);
+            }
 
             foreach (var id in ids)
+            {
                 Assert.IsNull(rows[id]);
+            }
         }
 
         [Test]

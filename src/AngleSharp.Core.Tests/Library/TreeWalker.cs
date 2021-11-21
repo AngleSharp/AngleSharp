@@ -34,7 +34,9 @@
             var results = new List<INode>();
 
             while (walker.ToNext() != null)
+            {
                 results.Add(walker.Current);
+            }
 
             Assert.AreEqual(3, results.Count);
             Assert.IsInstanceOf<HtmlParagraphElement>(results[0]);
@@ -64,7 +66,9 @@
             var paratext = walker.Current.TextContent;
 
             while (walker.ToNextSibling() != null)
+            {
                 paratext += walker.Current.TextContent;
+            }
 
             Assert.AreEqual("George loves JavaScript!", paratext);
         }
@@ -87,7 +91,9 @@
             {
 
                 if (node is IHtmlListItemElement element && element.ClassList.Contains("item"))
+                {
                     return FilterResult.Accept;
+                }
 
                 return FilterResult.Reject;
             });
@@ -98,7 +104,9 @@
             var results = new List<INode>();
 
             while (walker.ToNext() != null)
+            {
                 results.Add(walker.Current);
+            }
 
             Assert.AreEqual(7, rootnode.ChildNodes.Length);
             Assert.AreEqual(3, rootnode.Children.Length);

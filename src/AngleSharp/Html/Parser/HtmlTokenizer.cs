@@ -1110,7 +1110,9 @@ namespace AngleSharp.Html.Parser
         private HtmlToken DoctypeNameBefore(Char c)
         {
             while (c.IsSpaceCharacter())
+            {
                 c = GetNext();
+            }
 
             if (c.IsUppercaseAscii())
             {

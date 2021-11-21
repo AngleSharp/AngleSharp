@@ -75,10 +75,14 @@ namespace AngleSharp.Dom
             where TEventTarget : IEventTarget
         {
             if (node is null)
+            {
                 throw new ArgumentNullException(nameof(node));
+            }
 
             if (eventName is null)
+            {
                 throw new ArgumentNullException(nameof(eventName));
+            }
 
             var completion = new TaskCompletionSource<Event>();
             void handler(Object s, Event ev) => completion.TrySetResult(ev);

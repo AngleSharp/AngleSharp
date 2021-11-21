@@ -24,7 +24,9 @@ namespace AngleSharp.Dom
             where T : notnull, IElement
         {
             if (elements is null)
+            {
                 throw new ArgumentNullException(nameof(elements));
+            }
 
             return elements.Skip(index).FirstOrDefault();
         }
@@ -40,7 +42,9 @@ namespace AngleSharp.Dom
             where T : IElement
         {
             if (elements is null)
+            {
                 throw new ArgumentNullException(nameof(elements));
+            }
 
             return elements.Skip(index + 1);
         }
@@ -56,7 +60,9 @@ namespace AngleSharp.Dom
             where T : IElement
         {
             if (elements is null)
+            {
                 throw new ArgumentNullException(nameof(elements));
+            }
 
             return elements.Take(index);
         }
@@ -71,7 +77,9 @@ namespace AngleSharp.Dom
             where T : IElement
         {
             if (elements is null)
+            {
                 throw new ArgumentNullException(nameof(elements));
+            }
 
             var even = true;
 
@@ -96,7 +104,9 @@ namespace AngleSharp.Dom
             where T : IElement
         {
             if (elements is null)
+            {
                 throw new ArgumentNullException(nameof(elements));
+            }
 
             var odd = false;
 

@@ -225,7 +225,9 @@ namespace AngleSharp.Dom
             var result = RemoveNamedItemOrDefault(name);
 
             if (result is null)
+            {
                 throw new DomException(DomError.NotFound);
+            }
 
             return result;
         }
@@ -236,7 +238,9 @@ namespace AngleSharp.Dom
             var result = RemoveNamedItemOrDefault(namespaceUri, localName);
 
             if (result is null)
+            {
                 throw new DomException(DomError.NotFound);
+            }
 
             return result;
         }
@@ -268,7 +272,9 @@ namespace AngleSharp.Dom
                 }
 
                 if (attr.Container != null)
+                {
                     throw new DomException(DomError.InUse);
+                }
 
                 attr.Container = this;
             }

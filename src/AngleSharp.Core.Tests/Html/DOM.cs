@@ -76,7 +76,9 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual(18, attributes.Length);
 
             for (int i = 0; i < attributes.Length; i++)
+            {
                 Assert.AreEqual(expected[i], attributes[i].Name);
+            }
         }
 
         [Test]

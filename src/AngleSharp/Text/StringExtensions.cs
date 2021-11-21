@@ -54,7 +54,10 @@ namespace AngleSharp.Text
                 {
                     var domDescriptionAttribute = field.GetCustomAttribute<DomDescriptionAttribute>();
 
-                    if (domDescriptionAttribute != null) description = domDescriptionAttribute.Description;
+                    if (domDescriptionAttribute != null)
+                    {
+                        description = domDescriptionAttribute.Description;
+                    }
                 }
             }
 
@@ -266,7 +269,10 @@ namespace AngleSharp.Text
         /// <returns>The modified string with collapsed and stripped spaces.</returns>
         public static String CollapseAndStrip(this String str)
         {
-            if (str.Length == 0) return str;
+            if (str.Length == 0)
+            {
+                return str;
+            }
 
             var buffer = ArrayPool<Char>.Shared.Rent(str.Length);
 
@@ -754,7 +760,9 @@ namespace AngleSharp.Text
                 else if (chr == Symbols.Percent)
                 {
                     if (i + 2 >= value.Length)
+                    {
                         throw new FormatException();
+                    }
 
                     var code = 16 * value[++i].FromHex() + value[++i].FromHex();
                     var b = (Byte)code;

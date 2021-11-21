@@ -36,7 +36,10 @@ namespace AngleSharp.Html.Dom
             {
                 DeleteCaption();
 
-                if (value != null) InsertChild(0, value);
+                if (value != null)
+                {
+                    InsertChild(0, value);
+                }
             }
         }
 
@@ -47,7 +50,10 @@ namespace AngleSharp.Html.Dom
             {
                 DeleteHead();
 
-                if (value != null) AppendChild(value);
+                if (value != null)
+                {
+                    AppendChild(value);
+                }
             }
         }
 
@@ -59,7 +65,11 @@ namespace AngleSharp.Html.Dom
             set
             {
                 DeleteFoot();
-                if (value != null) AppendChild(value);
+
+                if (value != null)
+                {
+                    AppendChild(value);
+                }
             }
         }
 

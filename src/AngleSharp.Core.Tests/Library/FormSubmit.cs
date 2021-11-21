@@ -29,7 +29,9 @@
             return PostDocumentAsync((document, form) =>
             {
                 if (encType != null)
+                {
                     form.Enctype = encType;
+                }
 
                 foreach (var field in fields)
                 {
@@ -45,7 +47,9 @@
             return PostDocumentAsync((document, form) =>
             {
                 if (encType != null)
+                {
                     form.Enctype = encType;
+                }
 
                 form.InnerHtml = content;
             }, fromButton);
@@ -269,7 +273,9 @@
                 isactive.IsChecked = true;
 
                 for (int i = 0; i < 5; i++)
+                {
                     (files.Files as FileList).Add(GenerateFile(i));
+                }
 
                 var response = await form.SubmitAsync();
                 Assert.IsNotNull(response);
@@ -363,10 +369,14 @@
                 var valueLines = new[] { 4, 8, 12 };
 
                 foreach (var emptyLine in emptyLines)
+                {
                     Assert.AreEqual(String.Empty, lines[emptyLine]);
+                }
 
                 for (int i = 1; i < sameLines.Length; i++)
+                {
                     Assert.AreEqual(lines[sameLines[0]], lines[sameLines[i]]);
+                }
 
                 Assert.AreEqual(lines[sameLines[0]] + "--", lines[lines.Length - 2]);
 
@@ -593,7 +603,9 @@
                 var emptyLines = new[] { 0, 4, 5, 7 };
 
                 foreach (var emptyLine in emptyLines)
+                {
                     Assert.AreEqual(String.Empty, lines[emptyLine]);
+                }
 
                 Assert.AreEqual(lines[1] + "--", lines[lines.Length - 2]);
                 Assert.AreEqual("Content-Disposition: form-data; name=\"image\"; filename=\"\"", lines[2]);
@@ -627,7 +639,9 @@
                 var emptyLines = new[] { 0, 4, 7 };
 
                 foreach (var emptyLine in emptyLines)
+                {
                     Assert.AreEqual(String.Empty, lines[emptyLine]);
+                }
 
                 Assert.AreEqual(lines[1] + "--", lines[lines.Length - 2]);
                 Assert.AreEqual("Content-Disposition: form-data; name=\"image\"; filename=\"test.txt\"", lines[2]);
@@ -661,7 +675,9 @@
                 var emptyLines = new[] { 0, 2 };
 
                 foreach (var emptyLine in emptyLines)
+                {
                     Assert.AreEqual(String.Empty, lines[emptyLine]);
+                }
             }
         }
 

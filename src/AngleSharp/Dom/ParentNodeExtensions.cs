@@ -138,7 +138,9 @@ namespace AngleSharp.Dom
             where TElement : class, IElement
         {
             if (parent is null)
+            {
                 throw new ArgumentNullException(nameof(parent));
+            }
 
             return (TElement)parent.AppendChild(element);
         }
@@ -157,7 +159,9 @@ namespace AngleSharp.Dom
             where TElement : class, IElement
         {
             if (parent is null)
+            {
                 throw new ArgumentNullException(nameof(parent));
+            }
 
             return (TElement)parent.InsertBefore(newElement, referenceElement);
         }
@@ -174,7 +178,9 @@ namespace AngleSharp.Dom
             where TElement : class, IElement
         {
             if (parent is null)
+            {
                 throw new ArgumentNullException(nameof(parent));
+            }
 
             return (TElement)parent.RemoveChild(element);
         }
@@ -191,10 +197,14 @@ namespace AngleSharp.Dom
             where TElement : class, IElement
         {
             if (parent is null)
+            {
                 throw new ArgumentNullException(nameof(parent));
+            }
 
             if (selectors is null)
+            {
                 throw new ArgumentNullException(nameof(selectors));
+            }
 
             return parent.QuerySelector(selectors) as TElement;
         }
@@ -211,10 +221,14 @@ namespace AngleSharp.Dom
             where TElement : IElement
         {
             if (parent is null)
+            {
                 throw new ArgumentNullException(nameof(parent));
+            }
 
             if (selectors is null)
+            {
                 throw new ArgumentNullException(nameof(selectors));
+            }
 
             return parent.QuerySelectorAll(selectors).OfType<TElement>();
         }
@@ -238,7 +252,9 @@ namespace AngleSharp.Dom
         public static IEnumerable<INode> Descendents(this INode parent)
         {
             if (parent is null)
+            {
                 throw new ArgumentNullException(nameof(parent));
+            }
 
             return parent.GetDescendants();
         }
@@ -262,7 +278,9 @@ namespace AngleSharp.Dom
         public static IEnumerable<INode> DescendentsAndSelf(this INode parent)
         {
             if (parent is null)
+            {
                 throw new ArgumentNullException(nameof(parent));
+            }
 
             return parent.GetDescendantsAndSelf();
         }
@@ -286,7 +304,9 @@ namespace AngleSharp.Dom
         public static IEnumerable<INode> Ancestors(this INode child)
         {
             if (child is null)
+            {
                 throw new ArgumentNullException(nameof(child));
+            }
 
             return child.GetAncestors();
         }

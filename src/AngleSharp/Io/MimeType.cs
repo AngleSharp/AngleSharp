@@ -101,7 +101,10 @@ namespace AngleSharp.Io
             {
                 foreach (var p in _params.Split(s_semicolon))
                 {
-                    if (p.Length == 0) continue;
+                    if (p.Length == 0)
+                    {
+                        continue;
+                    }
 
                     int equalIndex = p.IndexOf('=');
 

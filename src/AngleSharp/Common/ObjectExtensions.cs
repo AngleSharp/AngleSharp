@@ -177,7 +177,10 @@ namespace AngleSharp.Common
                 {
                     var domDescriptionAttribute = field.GetCustomAttribute<DomDescriptionAttribute>();
 
-                    if (domDescriptionAttribute != null) description = domDescriptionAttribute.Description;
+                    if (domDescriptionAttribute != null)
+                    {
+                        description = domDescriptionAttribute.Description;
+                    }
                 }
             }
 

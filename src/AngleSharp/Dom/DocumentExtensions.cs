@@ -25,7 +25,9 @@ namespace AngleSharp.Dom
             where TElement : IElement
         {
             if (document is null)
+            {
                 throw new ArgumentNullException(nameof(document));
+            }
 
             var type = typeof(BrowsingContext).Assembly.GetTypes()
                 .Where(m => !m.IsAbstract && m.GetInterfaces().Contains(typeof(TElement)))
@@ -282,7 +284,9 @@ namespace AngleSharp.Dom
         public static IEnumerable<IDownload> GetDownloads(this IDocument document)
         {
             if (document is null)
+            {
                 throw new ArgumentNullException(nameof(document));
+            }
 
             foreach (var element in document.All)
             {

@@ -1384,10 +1384,14 @@ namespace AngleSharp.Core.Tests.Library
             foreach (var record in records)
             {
                 if (record.Added != null)
+                {
                     added.AddRange((NodeList)record.Added);
+                }
 
                 if (record.Removed != null)
+                {
                     removed.AddRange((NodeList)record.Removed);
+                }
             }
 
             return Tuple.Create(added, removed);
@@ -1398,7 +1402,9 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(expected.Length, actual.Length);
 
             for (int i = 0; i < expected.Length; i++)
+            {
                 Assert.AreSame(expected[i], actual[i]);
+            }
         }
 
         private static void AssertAll(IMutationRecord[] actualRecords, TestMutationRecord expected)
@@ -1426,7 +1432,9 @@ namespace AngleSharp.Core.Tests.Library
             var list = new NodeList();
 
             foreach (var node in nodes)
+            {
                 list.Add((Node)node);
+            }
 
             return list;
         }

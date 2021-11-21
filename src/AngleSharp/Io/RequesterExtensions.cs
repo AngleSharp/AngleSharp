@@ -109,7 +109,9 @@ namespace AngleSharp.Io
         private static IDownload FetchWithoutCorsAsync(this IResourceLoader loader, ResourceRequest request, OriginBehavior behavior)
         {
             if (behavior == OriginBehavior.Fail)
+            {
                 throw new DomException(DomError.Network);
+            }
 
             return loader.FetchAsync(request);
         }

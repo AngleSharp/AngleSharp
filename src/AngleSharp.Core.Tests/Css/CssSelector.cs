@@ -704,7 +704,9 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.AreEqual(expected.Length, actual.Length);
 
             for (int i = 0; i < 6; i++)
+            {
                 Assert.AreSame(expected[i], actual[i]);
+            }
         }
 
         [Test]

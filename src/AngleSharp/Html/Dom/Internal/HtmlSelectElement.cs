@@ -158,7 +158,9 @@ namespace AngleSharp.Html.Dom
                 var option = options.GetOptionAt(i);
 
                 if (!option.IsDisabled)
+                {
                     return option;
+                }
             }
 
             return null;

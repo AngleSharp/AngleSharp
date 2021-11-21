@@ -54,7 +54,9 @@ namespace AngleSharp.Html.Forms.Submitters.Json
             foreach (var element in _elements)
             {
                 if (needsComma)
+                {
                     sb.Append(Symbols.Comma);
+                }
 
                 sb.Append(element?.ToString() ?? "null");
                 needsComma = true;

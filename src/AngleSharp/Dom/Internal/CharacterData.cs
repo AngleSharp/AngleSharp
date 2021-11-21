@@ -135,7 +135,9 @@ namespace AngleSharp.Dom
             var length = _content.Length;
 
             if (offset > length)
+            {
                 throw new DomException(DomError.IndexSizeError);
+            }
 
             if (offset + count > length)
             {
@@ -157,7 +159,9 @@ namespace AngleSharp.Dom
             var length = _content.Length;
 
             if (offset > length)
+            {
                 throw new DomException(DomError.IndexSizeError);
+            }
 
             if (offset + count > length)
             {
