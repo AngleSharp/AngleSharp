@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// This attribute appears on an interfaces, which must not be available 
+    /// This attribute appears on interfaces, which must not be available 
     /// in the ECMAScript binding.
     /// </summary>
     [AttributeUsage(
