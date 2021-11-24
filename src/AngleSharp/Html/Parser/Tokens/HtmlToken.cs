@@ -132,7 +132,7 @@ namespace AngleSharp.Html.Parser.Tokens
         }
 
         /// <summary>
-        /// Removes the a new line in the beginning, if any.
+        /// Removes the new line in the beginning, if any.
         /// </summary>
         public void RemoveNewLine()
         {
