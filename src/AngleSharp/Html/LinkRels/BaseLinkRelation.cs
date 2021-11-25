@@ -54,7 +54,6 @@ namespace AngleSharp.Html.LinkRels
         /// <summary>
         /// Starts loading the associated resource(s) asynchronously.
         /// </summary>
-        /// <returns></returns>
         public abstract Task LoadAsync();
 
         #endregion
