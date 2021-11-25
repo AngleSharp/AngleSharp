@@ -14,7 +14,7 @@
         /// </summary>
         RCData,
         /// <summary>
-        /// Optional state: Just plain text data (chracters will be parsed matching the given ones).
+        /// Optional state: Just plain text data (characters will be parsed matching the given ones).
         /// </summary>
         Plaintext,
         /// <summary>
