@@ -11,7 +11,7 @@ namespace AngleSharp
         /// <summary>
         /// Formats the given text.
         /// </summary>
-        /// <param name="text">The text to sanatize.</param>
+        /// <param name="text">The text to sanitize.</param>
         /// <returns>The formatted text.</returns>
         String Text(ICharacterData text);
 

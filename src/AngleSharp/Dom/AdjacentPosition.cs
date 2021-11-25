@@ -3,7 +3,7 @@
     using AngleSharp.Attributes;
 
     /// <summary>
-    /// Enumeration with possible values for the adjacent position insertation.
+    /// Enumeration with possible values for the adjacent position insertion.
     /// </summary>
     public enum AdjacentPosition : byte
     {

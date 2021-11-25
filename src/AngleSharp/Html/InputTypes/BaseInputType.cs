@@ -10,7 +10,7 @@ namespace AngleSharp.Html.InputTypes
     using System.Text.RegularExpressions;
 
     /// <summary>
-    /// Base type for the all input field types. Primarely from:
+    /// Base type for the all input field types. Primarily from:
     /// http://www.w3.org/TR/html5/forms.html#range-state-(type=range)
     /// </summary>
     public abstract class BaseInputType

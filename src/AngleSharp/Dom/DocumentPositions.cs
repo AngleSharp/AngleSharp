@@ -30,7 +30,7 @@
         [DomName("DOCUMENT_POSITION_FOLLOWING")]
         Following = 0x04,
         /// <summary>
-        /// The node is contains the other element.
+        /// The node contains the other element.
         /// </summary>
         [DomName("DOCUMENT_POSITION_CONTAINS")]
         Contains = 0x08,

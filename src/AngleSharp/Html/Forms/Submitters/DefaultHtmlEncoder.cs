@@ -13,9 +13,9 @@ namespace AngleSharp.Html.Forms.Submitters
         /// Replaces characters in names and values that cannot be expressed by using the given
         /// encoding with &amp;#...; base-10 unicode point.
         /// </summary>
-        /// <param name="value">The value to sanatize.</param>
+        /// <param name="value">The value to sanitize.</param>
         /// <param name="encoding">The encoding to consider.</param>
-        /// <returns>The sanatized value.</returns>
+        /// <returns>The sanitized value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public string Encode(string value, Encoding encoding)
         {
