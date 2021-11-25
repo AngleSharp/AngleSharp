@@ -81,7 +81,7 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
-        /// Determines if the current filter settings includes the provided
+        /// Determines if the current filter settings include the provided
         /// node.
         /// </summary>
         /// <param name="filter">The filter settings to use.</param>
