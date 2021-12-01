@@ -207,16 +207,24 @@ namespace AngleSharp.Dom
                 };
 
                 if (options.IsExaminingOldAttributeValue && !options.IsObservingAttributes)
+                {
                     throw new DomException(DomError.TypeMismatch);
+                }
 
                 if (options.AttributeFilters != null && !options.IsObservingAttributes)
+                {
                     throw new DomException(DomError.TypeMismatch);
+                }
 
                 if (options.IsExaminingOldCharacterData && !options.IsObservingCharacterData)
+                {
                     throw new DomException(DomError.TypeMismatch);
+                }
 
                 if (options.IsInvalid)
+                {
                     throw new DomException(DomError.Syntax);
+                }
 
                 if (node is Document document && document.DocumentElement is Node documentElement) {
                     node = documentElement;
@@ -224,7 +232,9 @@ namespace AngleSharp.Dom
                 }
 
                 if (node.Owner is null)
+                {
                     throw new DomException(DomError.HierarchyRequest);
+                }
 
                 node.Owner.Mutations.Register(this);
 

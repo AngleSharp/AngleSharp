@@ -70,7 +70,6 @@ namespace AngleSharp.Text
         /// <param name="encoding">
         /// The initial encoding. Otherwise UTF-8.
         /// </param>
-        [MemberNotNull("_content")]
         public TextSource(Stream baseStream, Encoding encoding = null)
             : this(encoding, allocateBuffers: baseStream != null)
         {
@@ -86,6 +85,7 @@ namespace AngleSharp.Text
         /// <summary>
         /// Gets the full text buffer.
         /// </summary>
+        [MemberNotNull("_content")]
         public String Text => _content.ToString();
 
         /// <summary>

@@ -60,7 +60,9 @@ namespace AngleSharp.Html.Dom
                     foreach (var child in group.ChildNodes)
                     {
                         if (Object.ReferenceEquals(child, this))
+                        {
                             return i;
+                        }
 
                         i++;
                     }

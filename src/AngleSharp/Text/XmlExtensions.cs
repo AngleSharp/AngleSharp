@@ -83,7 +83,9 @@
             var colon = str.IndexOf(Symbols.Colon);
 
             if (colon == -1)
+            {
                 return str.IsXmlName();
+            }
 
             if (colon > 0 && str[0].IsXmlNameStart())
             {

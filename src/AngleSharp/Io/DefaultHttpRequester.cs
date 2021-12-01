@@ -23,7 +23,7 @@ namespace AngleSharp.Io
 
         private const Int32 BufferSize = 4096;
 
-        private static readonly String Version = typeof(DefaultHttpRequester).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+        private static readonly String? Version = typeof(DefaultHttpRequester).Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
         private static readonly String AgentName = "AngleSharp/" + Version;
 
         #endregion
@@ -99,7 +99,7 @@ namespace AngleSharp.Io
         /// <returns>
         /// The task that will eventually give the response data.
         /// </returns>
-        protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancellationToken)
+        protected override async Task<IResponse?> PerformRequestAsync(Request request, CancellationToken cancellationToken)
         {
             var cts = new CancellationTokenSource(_timeOut);
             var cache = new RequestState(request, _headers, _setup);
@@ -139,7 +139,7 @@ namespace AngleSharp.Io
                 setup.Invoke(_http);
             }
 
-            public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
+            public async Task<IResponse?> RequestAsync(CancellationToken cancellationToken)
             {
                 cancellationToken.Register(_http.Abort);
 
@@ -149,7 +149,7 @@ namespace AngleSharp.Io
                     SendRequest(target);
                 }
 
-                var response = default(WebResponse);
+                WebResponse? response;
 
                 try
                 {
@@ -161,7 +161,7 @@ namespace AngleSharp.Io
                 }
 
                 RaiseConnectionLimit(_http);
-                return GetResponse((HttpWebResponse)response);
+                return GetResponse(response as HttpWebResponse);
             }
 
             private void SendRequest(Stream target)
@@ -182,7 +182,7 @@ namespace AngleSharp.Io
             }
 
             [return: NotNullIfNotNull("response")]
-            private DefaultResponse? GetResponse(HttpWebResponse response)
+            private DefaultResponse? GetResponse(HttpWebResponse? response)
             {
                 if (response != null)
                 {
@@ -225,10 +225,10 @@ namespace AngleSharp.Io
                 {
                     var methods = typeof(Cookie).GetMethods();
                     var func = methods.FirstOrDefault(m => m.Name is "ToServerString");
-                    _serverString = func ?? methods.FirstOrDefault(m => m.Name is "ToString");
+                    _serverString = func ?? methods.First(m => m.Name is "ToString");
                 }
 
-                return _serverString.Invoke(cookie, null).ToString();
+                return _serverString.Invoke(cookie, null)!.ToString()!;
             }
 
             /// <summary>

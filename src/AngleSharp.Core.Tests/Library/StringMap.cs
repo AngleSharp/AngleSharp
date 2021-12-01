@@ -38,7 +38,9 @@
         public void GetEnumeratorTest()
         {
             foreach (var str in stringMap)
+            {
                 Assert.AreEqual(a.GetAttribute("data-" + str.Key), str.Value);
+            }
         }
     }
 }

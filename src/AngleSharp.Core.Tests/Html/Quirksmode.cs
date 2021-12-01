@@ -36,7 +36,9 @@
             var testEl = document.GetElementById("test");
 
             for (var i = testEl.ChildNodes.Length - 1; i >= 0; i--)
+            {
                 testEl.RemoveChild(testEl.ChildNodes[i]);
+            }
 
             Assert.AreEqual(0, testEl.Children.Length);
             testEl.AppendChild(test as TextNode);

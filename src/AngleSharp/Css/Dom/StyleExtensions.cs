@@ -143,7 +143,7 @@ namespace AngleSharp.Css.Dom
 
             for (var i = 0; i < length && uri is null; i++)
             {
-                uri = sheets[i].LocateNamespace(prefix);
+                uri = sheets[i]?.LocateNamespace(prefix);
             }
 
             return uri;

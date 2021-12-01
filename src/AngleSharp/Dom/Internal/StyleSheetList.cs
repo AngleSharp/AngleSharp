@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using System;
     using System.Collections;
@@ -38,7 +38,7 @@
         /// </summary>
         /// <param name="index">The index of the element.</param>
         /// <returns>The stylesheet.</returns>
-        public IStyleSheet this[Int32 index] => _sheets.Skip(index).FirstOrDefault();
+        public IStyleSheet? this[Int32 index] => _sheets.Skip(index).FirstOrDefault();
 
         #endregion
 

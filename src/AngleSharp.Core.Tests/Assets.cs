@@ -60,7 +60,11 @@ namespace AngleSharp.Core.Tests
             var fullName = typeof(Assets).Namespace + "." + name;
             using (var stream = typeof(Assets).Assembly.GetManifestResourceStream(fullName))
             {
-                if (stream == null) throw new ArgumentException($"Unable to load Resource {fullName}. Check test project", nameof(name));
+                if (stream == null)
+                {
+                    throw new ArgumentException($"Unable to load Resource {fullName}. Check test project", nameof(name));
+                }
+
                 using (var reader = new StreamReader(stream, encoding))
                 {
                     return reader.ReadToEnd();
@@ -73,7 +77,11 @@ namespace AngleSharp.Core.Tests
             var fullName = typeof(Assets).Namespace + "." + name;
             using (var stream = typeof(Assets).Assembly.GetManifestResourceStream(fullName))
             {
-                if (stream == null) throw new ArgumentException($"Unable to load Resource {fullName}. Check test project", nameof(name));
+                if (stream == null)
+                {
+                    throw new ArgumentException($"Unable to load Resource {fullName}. Check test project", nameof(name));
+                }
+
                 using (var memStream = new MemoryStream())
                 {
                     stream.CopyTo(memStream);

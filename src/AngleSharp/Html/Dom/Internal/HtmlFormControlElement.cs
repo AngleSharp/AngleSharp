@@ -96,7 +96,7 @@ namespace AngleSharp.Html.Dom
                 if (fieldSet.IsDisabled)
                 {
                     var firstLegend = fieldSet.ChildNodes.FirstOrDefault(m => m is IHtmlLegendElement);
-                    return !this.IsDescendantOf(firstLegend);
+                    return firstLegend == null || !this.IsDescendantOf(firstLegend);
                 }
             }
 

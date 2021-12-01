@@ -90,7 +90,9 @@
             {
 
                 if (node is IHtmlListItemElement element && element.ClassList.Contains("item"))
+                {
                     return FilterResult.Accept;
+                }
 
                 return FilterResult.Reject;
             });
@@ -101,7 +103,9 @@
             var results = new List<INode>();
 
             while (iterator.Next() != null)
+            {
                 results.Add(iterator.Reference);
+            }
 
             Assert.AreEqual(7, rootnode.ChildNodes.Length);
             Assert.AreEqual(3, rootnode.Children.Length);

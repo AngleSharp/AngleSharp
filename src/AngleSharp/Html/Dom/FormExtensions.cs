@@ -29,10 +29,14 @@ namespace AngleSharp.Html.Dom
         public static IHtmlFormElement SetValues(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createMissing = false)
         {
             if (form is null)
+            {
                 throw new ArgumentNullException(nameof(form));
+            }
 
             if (fields is null)
+            {
                 throw new ArgumentNullException(nameof(fields));
+            }
 
             var inputs = form.Elements.OfType<HtmlFormControlElement>();
 

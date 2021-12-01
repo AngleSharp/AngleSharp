@@ -56,7 +56,7 @@ namespace AngleSharp.Dom.Events
         /// </summary>
         /// <param name="name">The name of the event.</param>
         /// <returns>The registered creator, if any.</returns>
-        public Creator Unregister(String name)
+        public Creator? Unregister(String name)
         {
             if (_creators.TryGetValue(name, out var creator))
             {

@@ -1,3 +1,5 @@
+#if !NET5_0_OR_GREATER
+
 namespace System.Diagnostics.CodeAnalysis
 {
     internal sealed class AllowNullAttribute : Attribute { }
@@ -44,3 +46,5 @@ namespace System.Diagnostics.CodeAnalysis
         public string ParameterName { get; }
     }
 }
+
+#endif

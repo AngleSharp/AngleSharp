@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Io
+namespace AngleSharp.Io
 {
     using AngleSharp.Dom;
     using System;
@@ -29,7 +29,7 @@
         /// <returns>
         /// The task that will eventually give the response data.
         /// </returns>
-        Task<IResponse> RequestAsync(Request request, CancellationToken cancel);
+        Task<IResponse?> RequestAsync(Request request, CancellationToken cancel);
 
         /// <summary>
         /// Fired when a request is starting.

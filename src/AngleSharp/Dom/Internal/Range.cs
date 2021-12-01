@@ -72,13 +72,19 @@ namespace AngleSharp.Dom
         public void StartWith(INode refNode, Int32 offset)
         {
             if (refNode is null)
+            {
                 throw new ArgumentNullException(nameof(refNode));
+            }
 
             if (refNode.NodeType == NodeType.DocumentType)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             if (offset > refNode.ChildNodes.Length)
+            {
                 throw new DomException(DomError.IndexSizeError);
+            }
 
             var bp = new Boundary(refNode, offset);
 
@@ -91,13 +97,19 @@ namespace AngleSharp.Dom
         public void EndWith(INode refNode, Int32 offset)
         {
             if (refNode is null)
+            {
                 throw new ArgumentNullException(nameof(refNode));
+            }
 
             if (refNode.NodeType == NodeType.DocumentType)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             if (offset > refNode.ChildNodes.Length)
+            {
                 throw new DomException(DomError.IndexSizeError);
+            }
 
             var bp = new Boundary(refNode, offset);
 
@@ -110,12 +122,16 @@ namespace AngleSharp.Dom
         public void StartBefore(INode refNode)
         {
             if (refNode is null)
+            {
                 throw new ArgumentNullException(nameof(refNode));
+            }
 
             var parent = refNode.Parent;
 
             if (parent is null)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             _start = new Boundary(parent, parent.ChildNodes.Index(refNode));
         }
@@ -123,12 +139,16 @@ namespace AngleSharp.Dom
         public void EndBefore(INode refNode)
         {
             if (refNode is null)
+            {
                 throw new ArgumentNullException(nameof(refNode));
+            }
 
             var parent = refNode.Parent;
 
             if (parent is null)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             _end = new Boundary(parent, parent.ChildNodes.Index(refNode));
         }
@@ -136,12 +156,16 @@ namespace AngleSharp.Dom
         public void StartAfter(INode refNode)
         {
             if (refNode is null)
+            {
                 throw new ArgumentNullException(nameof(refNode));
+            }
 
             var parent = refNode.Parent;
 
             if (parent is null)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             _start = new Boundary(parent, parent.ChildNodes.Index(refNode) + 1);
         }
@@ -149,12 +173,16 @@ namespace AngleSharp.Dom
         public void EndAfter(INode refNode)
         {
             if (refNode is null)
+            {
                 throw new ArgumentNullException(nameof(refNode));
+            }
 
             var parent = refNode.Parent;
 
             if (parent is null)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             _end = new Boundary(parent, parent.ChildNodes.Index(refNode) + 1);
         }
@@ -174,12 +202,16 @@ namespace AngleSharp.Dom
         public void Select(INode refNode)
         {
             if (refNode is null)
+            {
                 throw new ArgumentNullException(nameof(refNode));
+            }
 
             var parent = refNode.Parent;
 
             if (parent is null)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             var index = parent.ChildNodes.Index(refNode);
             _start = new Boundary(parent, index);
@@ -189,10 +221,14 @@ namespace AngleSharp.Dom
         public void SelectContent(INode refNode)
         {
             if (refNode is null)
+            {
                 throw new ArgumentNullException(nameof(refNode));
+            }
 
             if (refNode.NodeType == NodeType.DocumentType)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             var length = refNode.ChildNodes.Length;
             _start = new Boundary(refNode, 0);
@@ -297,7 +333,9 @@ namespace AngleSharp.Dom
                     var containedChildren = commonAncestor.GetNodes<INode>(predicate: Intersects).ToList();
 
                     if (containedChildren.OfType<IDocumentType>().Any())
+                    {
                         throw new DomException(DomError.HierarchyRequest);
+                    }
 
                     if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
                     {
@@ -395,7 +433,9 @@ namespace AngleSharp.Dom
                     var containedChildren = commonAncestor.GetNodes<INode>(predicate: Intersects).ToList();
 
                     if (containedChildren.OfType<IDocumentType>().Any())
+                    {
                         throw new DomException(DomError.HierarchyRequest);
+                    }
 
                     if (firstPartiallyContainedChild is ICharacterData)
                     {
@@ -444,14 +484,18 @@ namespace AngleSharp.Dom
         public void Insert(INode node)
         {
             if (node is null)
+            {
                 throw new ArgumentNullException(nameof(node));
+            }
 
             var snode = _start.Node;
             var type = snode.NodeType;
             var istext = type == NodeType.Text;
 
             if (type == NodeType.ProcessingInstruction || type == NodeType.Comment || (istext && snode.Parent is null))
+            {
                 throw new DomException(DomError.HierarchyRequest);
+            }
 
             var referenceNode = istext ? snode : _start.ChildAtOffset;
             var parent = referenceNode is null ? snode : referenceNode.Parent;
@@ -482,15 +526,21 @@ namespace AngleSharp.Dom
         public void Surround(INode newParent)
         {
             if (newParent is null)
+            {
                 throw new ArgumentNullException(nameof(newParent));
+            }
 
             if (Nodes.Any(m => m.NodeType != NodeType.Text && IsPartiallyContained(m)))
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             var type = newParent.NodeType;
 
             if (type == NodeType.Document || type == NodeType.DocumentType || type == NodeType.DocumentFragment)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             var fragment = ExtractContent();
 
@@ -517,15 +567,21 @@ namespace AngleSharp.Dom
         public Boolean Contains(INode node, Int32 offset)
         {
             if (node is null)
+            {
                 throw new ArgumentNullException(nameof(node));
+            }
 
             if (node.GetRoot() == Root)
             {
                 if (node.NodeType == NodeType.DocumentType)
+                {
                     throw new DomException(DomError.InvalidNodeType);
+                }
 
                 if (offset > node.ChildNodes.Length)
+                {
                     throw new DomException(DomError.IndexSizeError);
+                }
 
                 return !IsStartAfter(node, offset) && !IsEndBefore(node, offset);
             }
@@ -536,10 +592,14 @@ namespace AngleSharp.Dom
         public RangePosition CompareBoundaryTo(RangeType how, IRange sourceRange)
         {
             if (sourceRange is null)
+            {
                 throw new ArgumentNullException(nameof(sourceRange));
+            }
 
             if (Root != sourceRange.Head.GetRoot())
+            {
                 throw new DomException(DomError.WrongDocument);
+            }
 
             var thisPoint = default(Boundary);
             var otherPoint = default(Boundary);
@@ -576,16 +636,24 @@ namespace AngleSharp.Dom
         public RangePosition CompareTo(INode node, Int32 offset)
         {
             if (node is null)
+            {
                 throw new ArgumentNullException(nameof(node));
+            }
 
             if (Root != _start.Node.GetRoot())
+            {
                 throw new DomException(DomError.WrongDocument);
+            }
 
             if (node.NodeType == NodeType.DocumentType)
+            {
                 throw new DomException(DomError.InvalidNodeType);
+            }
 
             if (offset > node.ChildNodes.Length)
+            {
                 throw new DomException(DomError.IndexSizeError);
+            }
 
             if (IsStartAfter(node, offset))
             {
@@ -602,7 +670,9 @@ namespace AngleSharp.Dom
         public Boolean Intersects(INode node)
         {
             if (node is null)
+            {
                 throw new ArgumentNullException(nameof(node));
+            }
 
             if (Root == node.GetRoot())
             {

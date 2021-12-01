@@ -147,7 +147,7 @@ namespace AngleSharp.Text
         /// True if the given object is a text position with the same values,
         /// otherwise false.
         /// </returns>
-        public override Boolean Equals(Object obj) => obj is TextPosition other ? Equals(other) : false;
+        public override Boolean Equals(Object? obj) => obj is TextPosition other && Equals(other);
 
         /// <summary>
         /// Indicates whether the current position is equal to the given

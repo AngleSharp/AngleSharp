@@ -151,7 +151,9 @@ namespace AngleSharp.Dom
         public Boolean Dispatch(Event ev)
         {
             if (ev is null || ((ev.Flags & EventFlags.Dispatch) == EventFlags.Dispatch) || ((ev.Flags & EventFlags.Initialized) != EventFlags.Initialized))
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             ev.IsTrusted = false;
             return ev.Dispatch(this);

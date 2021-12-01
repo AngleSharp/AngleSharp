@@ -1005,7 +1005,9 @@ namespace AngleSharp.Html.Parser
                     AddElement(_currentFormElement, tag);
                 }
                 else
+                {
                     RaiseErrorOccurred(HtmlParseError.FormAlreadyOpen, tag);
+                }
             }
             else if (TagNames.AllBody.Contains(tagName))
             {
@@ -1809,7 +1811,9 @@ namespace AngleSharp.Html.Parser
                     AddCharacters(str);
 
                     if (token.IsEmpty)
+                    {
                         return;
+                    }
 
                     break;
                 }
@@ -1976,7 +1980,9 @@ namespace AngleSharp.Html.Parser
                     else if (tagName.Is(TagNames.Tr) || TagNames.AllTableGeneral.Contains(tagName))
                     {
                         if (InRowEndTagTablerow(token))
+                        {
                             InTableBody(token);
+                        }
                     }
                     else
                     {
@@ -2993,7 +2999,9 @@ namespace AngleSharp.Html.Parser
                 }
 
                 if (openIndex != _openElements.Count - 1)
+                {
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong, tag);
+                }
 
                 bookmark = index;
 
@@ -4118,13 +4126,17 @@ namespace AngleSharp.Html.Parser
         private void ReconstructFormatting()
         {
             if (_formattingElements.Count == 0)
+            {
                 return;
+            }
 
             var index = _formattingElements.Count - 1;
             var entry = _formattingElements[index];
 
             if (entry is null || _openElements.Contains(entry))
+            {
                 return;
+            }
 
             while (index > 0)
             {

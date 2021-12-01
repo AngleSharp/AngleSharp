@@ -36,7 +36,7 @@ namespace AngleSharp.Html.Forms
                     {
                         var line = sr.ReadLine();
 
-                        if (line.Contains(boundary))
+                        if (line != null && line.Contains(boundary))
                         {
                             result = true;
                             break;

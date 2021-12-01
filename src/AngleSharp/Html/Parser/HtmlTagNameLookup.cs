@@ -558,7 +558,9 @@ namespace AngleSharp.Html.Parser
             for ( int i = 0; i < tagName.Length; i++ )
             {
                 if ( tagName[ i ] != builder[ i ] )
+                {
                     return false;
+                }
             }
 
             return true;

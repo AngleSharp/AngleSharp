@@ -26,7 +26,9 @@ namespace AngleSharp.Dom
                         found = elA.GetHashCode() == elB.GetHashCode();
 
                         if (found)
+                        {
                             break;
+                        }
                     }
 
                     if (!found)
@@ -49,7 +51,9 @@ namespace AngleSharp.Dom
         public static INamedNodeMap Clear(this INamedNodeMap attributes)
         {
             if (attributes is null)
+            {
                 throw new ArgumentNullException(nameof(attributes));
+            }
 
             while (attributes.Length > 0)
             {

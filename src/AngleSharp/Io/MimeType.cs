@@ -101,7 +101,10 @@ namespace AngleSharp.Io
             {
                 foreach (var p in _params.Split(s_semicolon))
                 {
-                    if (p.Length == 0) continue;
+                    if (p.Length == 0)
+                    {
+                        continue;
+                    }
 
                     int equalIndex = p.IndexOf('=');
 
@@ -158,16 +161,16 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="other">The type to compare to.</param>
         /// <returns>True if both types are equal, otherwise false.</returns>
-        public Boolean Equals(MimeType other) => _general.Isi(other._general) &&
-            _media.Isi(other._media) &&
-            _suffix.Isi(other._suffix);
+        public Boolean Equals(MimeType? other) => _general.Isi(other?._general) &&
+                                                  _media.Isi(other?._media) &&
+                                                  _suffix.Isi(other?._suffix);
 
         /// <summary>
         /// Compares to the other object. It has to be a MIME type.
         /// </summary>
         /// <param name="obj">The object to compare to.</param>
         /// <returns>True if both objects are equal, otherwise false.</returns>
-        public override Boolean Equals(Object obj)
+        public override Boolean Equals(Object? obj)
         {
             if (!Object.ReferenceEquals(this, obj))
             {

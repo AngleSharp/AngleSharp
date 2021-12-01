@@ -428,7 +428,7 @@ namespace AngleSharp.Dom
         /// <returns>
         /// True if the object is equal to the current object, otherwise false.
         /// </returns>
-        public override Boolean Equals(Object obj)
+        public override Boolean Equals(Object? obj)
         {
             return ReferenceEquals(this, obj) || obj is Url other && Equals(other);
         }
@@ -443,13 +443,13 @@ namespace AngleSharp.Dom
         /// <returns>
         /// True if the given url is equal to the current url, otherwise false.
         /// </returns>
-        public Boolean Equals(Url other)
+        public Boolean Equals(Url? other)
         {
             return other != null && _fragment.Is(other._fragment) && _query.Is(other._query) &&
-                _path.Is(other._path) && _scheme.Isi(other._scheme) &&
-                _port.Is(other._port) && _host.Isi(other._host) &&
-                _username.Is(other._username) && _password.Is(other._password) &&
-                _schemeData.Is(other._schemeData);
+                   _path.Is(other._path) && _scheme.Isi(other._scheme) &&
+                   _port.Is(other._port) && _host.Isi(other._host) &&
+                   _username.Is(other._username) && _password.Is(other._password) &&
+                   _schemeData.Is(other._schemeData);
         }
 
         #endregion
@@ -858,7 +858,9 @@ namespace AngleSharp.Dom
 
                     case Symbols.Colon:
                         if (inBracket)
+                        {
                             break;
+                        }
 
                         if (!TrySanatizeHost(input, start, index - start, out _host))
                         {

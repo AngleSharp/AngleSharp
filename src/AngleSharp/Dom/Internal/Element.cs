@@ -327,10 +327,14 @@ namespace AngleSharp.Dom
         public IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open)
         {
             if (TagNames.AllNoShadowRoot.Contains(_localName))
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             if (ShadowRoot != null)
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             _shadowRoot = new ShadowRoot(this, mode);
             return _shadowRoot;
@@ -431,7 +435,9 @@ namespace AngleSharp.Dom
             if (value != null)
             {
                 if (!name.IsXmlName())
+                {
                     throw new DomException(DomError.InvalidCharacter);
+                }
 
                 if (_namespace.Is(NamespaceNames.HtmlUri))
                 {
@@ -505,7 +511,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public override Boolean Equals(INode otherNode)
+        public override Boolean Equals(INode? otherNode)
         {
             if (otherNode is IElement otherElement)
             {

@@ -284,7 +284,9 @@ namespace AngleSharp.Dom
             }
 
             if (newElement.NodeType == NodeType.Document || newElement.Contains(this))
+            {
                 throw new DomException(DomError.HierarchyRequest);
+            }
 
             var addedNodes = new NodeList();
             var n = _children.Index(referenceElement!);
@@ -384,10 +386,14 @@ namespace AngleSharp.Dom
         internal Node ReplaceChild(Node node, Node child, Boolean suppressObservers)
         {
             if (this.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(this))
+            {
                 throw new DomException(DomError.HierarchyRequest);
+            }
 
             if (child.Parent != this)
+            {
                 throw new DomException(DomError.NotFound);
+            }
 
             if (node.IsInsertable())
             {
@@ -397,7 +403,9 @@ namespace AngleSharp.Dom
                 var removedNodes = new NodeList();
 
                 if (this is IDocument parent && IsChangeForbidden(node, parent, child))
+                {
                     throw new DomException(DomError.HierarchyRequest);
+                }
 
                 if (Object.ReferenceEquals(referenceChild, node))
                 {
@@ -712,10 +720,10 @@ namespace AngleSharp.Dom
             return namespaceUri.Is(defaultNamespace);
         }
 
-        /// <inheritdoc />
-        public virtual Boolean Equals(INode otherNode)
+        /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
+        public virtual Boolean Equals(INode? otherNode)
         {
-            if (BaseUri.Is(otherNode.BaseUri) && NodeName.Is(otherNode.NodeName) && ChildNodes.Length == otherNode.ChildNodes.Length)
+            if (BaseUri.Is(otherNode?.BaseUri) && NodeName.Is(otherNode?.NodeName) && ChildNodes.Length == otherNode?.ChildNodes.Length)
             {
                 for (var i = 0; i < _children.Length; i++)
                 {
@@ -761,10 +769,14 @@ namespace AngleSharp.Dom
         protected static void GetPrefixAndLocalName(String qualifiedName, ref String? namespaceUri, out String? prefix, out String localName)
         {
             if (!qualifiedName.IsXmlName())
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
             if (!qualifiedName.IsQualifiedName())
+            {
                 throw new DomException(DomError.Namespace);
+            }
 
             if (String.IsNullOrEmpty(namespaceUri))
             {
@@ -785,7 +797,9 @@ namespace AngleSharp.Dom
             }
 
             if (IsNamespaceError(prefix, namespaceUri, qualifiedName))
+            {
                 throw new DomException(DomError.Namespace);
+            }
         }
 
         /// <inheritdoc />

@@ -52,13 +52,19 @@ namespace AngleSharp.Dom
         public IDocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
             if (qualifiedName is null)
+            {
                 throw new ArgumentNullException(nameof(qualifiedName));
+            }
 
             if (!qualifiedName.IsXmlName())
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
             if (!qualifiedName.IsQualifiedName())
+            {
                 throw new DomException(DomError.Namespace);
+            }
 
             return new DocumentType(_owner, qualifiedName) 
             { 
@@ -89,7 +95,9 @@ namespace AngleSharp.Dom
         public Boolean HasFeature(String feature, String? version = null)
         {
             if (feature is null)
+            {
                 throw new ArgumentNullException(nameof(feature));
+            }
 
             if (features.TryGetValue(feature, out var versions))
             {

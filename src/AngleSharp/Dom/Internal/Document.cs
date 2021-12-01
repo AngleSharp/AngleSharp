@@ -742,7 +742,9 @@ namespace AngleSharp.Dom
             set
             {
                 if (value is IHtmlBodyElement == false && value is HtmlFrameSetElement == false)
+                {
                     throw new DomException(DomError.HierarchyRequest);
+                }
 
                 var body = Body;
 
@@ -753,7 +755,9 @@ namespace AngleSharp.Dom
                         var root = DocumentElement;
 
                         if (root is null)
+                        {
                             throw new DomException(DomError.HierarchyRequest);
+                        }
 
                         root.AppendChild(value);
                     }
@@ -786,7 +790,7 @@ namespace AngleSharp.Dom
         public String Domain
         {
             get => String.IsNullOrEmpty(DocumentUri) ? String.Empty : new Uri(DocumentUri).Host;
-            set { if (_location is null) return; _location.Host = value; }
+            set { if (_location is null) { return; } _location.Host = value; }
         }
 
         /// <inheritdoc />
@@ -900,14 +904,18 @@ namespace AngleSharp.Dom
         public IDocument Open(String type = "text/html", String? replace = null)
         {
             if (!ContentType.Is(MimeTypeNames.Html))
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             if (!IsInBrowsingContext || Object.ReferenceEquals(_context.Active, this))
             {
                 var responsibleDocument = _context?.Parent!.Active;
 
                 if (responsibleDocument != null && !responsibleDocument.Origin.Is(Origin))
+                {
                     throw new DomException(DomError.Security);
+                }
 
                 if (!_firedUnload && _loadingScripts.Count == 0)
                 {
@@ -1013,7 +1021,9 @@ namespace AngleSharp.Dom
         public INode Import(INode externalNode, Boolean deep = true)
         {
             if (externalNode.NodeType == NodeType.Document)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             return externalNode.Clone(deep);
         }
@@ -1022,7 +1032,9 @@ namespace AngleSharp.Dom
         public INode Adopt(INode externalNode)
         {
             if (externalNode.NodeType == NodeType.Document)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             this.AdoptNode(externalNode);
             return externalNode;
@@ -1114,7 +1126,9 @@ namespace AngleSharp.Dom
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             if (!target.IsXmlName() || data.Contains("?>"))
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
             return new ProcessingInstruction(this, target) { Data = data };
         }
@@ -1147,7 +1161,9 @@ namespace AngleSharp.Dom
         public IAttr CreateAttribute(String localName)
         {
             if (!localName.IsXmlName())
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
             return new Attr(localName);
         }
@@ -1477,7 +1493,7 @@ namespace AngleSharp.Dom
             await this.QueueTaskAsync(_ => this.FireSimpleEvent(EventNames.AfterPrint)).ConfigureAwait(false);
         }
 
-        private async void LocationChanged(Object sender, Location.ChangedEventArgs e)
+        private async void LocationChanged(Object? sender, Location.ChangedEventArgs e)
         {
             if (e.IsHashChanged)
             {
@@ -1535,7 +1551,9 @@ namespace AngleSharp.Dom
         public bool AddImportUrl(Uri uri)
         {
             if (uri is null)
+            {
                 return false;
+            }
 
             IDocument? ancestor = this;
 
@@ -1551,10 +1569,12 @@ namespace AngleSharp.Dom
             }
 
             if (_importedUris is null)
-                lock(_importedUrisLock)
+            {
+                lock (_importedUrisLock)
                 {
                     _importedUris = _importedUris ?? new HashSet<Uri>();
                 }
+            }
 
             return _importedUris.Add(uri);
         }
@@ -1564,6 +1584,6 @@ namespace AngleSharp.Dom
         {
             return _importedUris?.Contains(uri) ?? false;
         }
-        #endregion
+#endregion
     }
 }

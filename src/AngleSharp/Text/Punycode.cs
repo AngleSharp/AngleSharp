@@ -261,7 +261,9 @@ namespace AngleSharp.Text
 
                 // Make sure its not too big
                 if (output.Length - iOutputAfterLastDot > LabelLimit)
+                {
                     throw new ArgumentException();
+                }
 
                 // Done with this segment, add dot if necessary
                 if (iNextDot != text.Length)
