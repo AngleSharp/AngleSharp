@@ -163,28 +163,13 @@ namespace AngleSharp.Common
         /// <param name="code">A specific error code.</param>
         /// <returns>The description of the error.</returns>
         public static String GetMessage<T>(this T code)
-            where T : struct
+            where T : Enum
         {
-            var description = "An unknown error occurred.";
+            var field = typeof(T).GetField(code.ToString());
 
-            var fieldName = code.ToString();
+            var description = field?.GetCustomAttribute<DomDescriptionAttribute>()?.Description;
 
-            if (fieldName != null)
-            {
-                var field = typeof(T).GetField(fieldName);
-
-                if (field != null)
-                {
-                    var domDescriptionAttribute = field.GetCustomAttribute<DomDescriptionAttribute>();
-
-                    if (domDescriptionAttribute != null)
-                    {
-                        description = domDescriptionAttribute.Description;
-                    }
-                }
-            }
-
-            return description;
+            return description ?? "An unknown error occurred.";
         }
     }
 }
