@@ -60,6 +60,11 @@ namespace AngleSharp.Dom
             {
                 Reset();
 
+                if (query is "")
+                {
+                    return;
+                }
+
                 foreach (var pair in query.Split('&'))
                 {
                     var kvp = pair.Split('=');
