@@ -372,8 +372,15 @@ namespace AngleSharp.Dom
             get => _query;
             set
             {
-                var input = value ?? String.Empty;
-                ParseQuery(input, 0, input.Length, true);
+                if(value == null)
+                {
+                    _query = null;
+                    _params?.Reset();
+                }
+                else
+                {
+                    ParseQuery(value, 0, value.Length, true);
+                }
             }
         }
 
