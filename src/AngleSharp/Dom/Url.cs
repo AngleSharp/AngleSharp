@@ -393,7 +393,7 @@ namespace AngleSharp.Dom
                 }
                 else
                 {
-                    ParseQuery(value, 0, value.Length, true);
+                    ParseQuery(value, 0, value.Length, true, false);
                 }
             }
         }
@@ -1109,7 +1109,7 @@ namespace AngleSharp.Dom
             return true;
         }
 
-        private Boolean ParseQuery(String input, Int32 index, Int32 length, Boolean onlyQuery = false)
+        internal Boolean ParseQuery(String input, Int32 index, Int32 length, Boolean onlyQuery = false, Boolean fromParams = false)
         {
             var buffer = StringBuilderPool.Obtain();
             var fragment = false;
@@ -1137,7 +1137,12 @@ namespace AngleSharp.Dom
             }
 
             _query = buffer.ToPool();
-            _params?.ChangeTo(_query);
+
+            if (!fromParams)
+            {
+                _params?.ChangeTo(_query, true);
+            }
+
             return fragment ? ParseFragment(input, index + 1, length) : true;
         }
 
