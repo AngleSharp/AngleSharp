@@ -41,6 +41,39 @@ namespace AngleSharp.Core.Tests.Urls
         }
 
         [Test]
+        public void UrlHashAssigningStringWithHash()
+        {
+            var url = new Url("https://florian-rappl.de/foo/bar#baz");
+            Assert.AreEqual("#baz", url.Hash);
+            Assert.AreEqual("baz", url.Fragment);
+            url.Hash = "#foobar";
+            Assert.AreEqual("#foobar", url.Hash);
+            Assert.AreEqual("foobar", url.Fragment);
+        }
+
+        [Test]
+        public void UrlHashAssigningStringWithoutHash()
+        {
+            var url = new Url("https://florian-rappl.de/foo/bar#baz");
+            Assert.AreEqual("#baz", url.Hash);
+            Assert.AreEqual("baz", url.Fragment);
+            url.Hash = "foobar";
+            Assert.AreEqual("#foobar", url.Hash);
+            Assert.AreEqual("foobar", url.Fragment);
+        }
+
+        [Test]
+        public void UrlHashAssigningEmpty()
+        {
+            var url = new Url("https://florian-rappl.de/foo/bar#baz");
+            Assert.AreEqual("#baz", url.Hash);
+            Assert.AreEqual("baz", url.Fragment);
+            url.Hash = "";
+            Assert.AreEqual("", url.Hash);
+            Assert.AreEqual(null, url.Fragment);
+        }
+
+        [Test]
         public void UrlPathnameIncludesSlash()
         {
             var url = new Url("https://florian-rappl.de/foo/bar");
@@ -112,6 +145,48 @@ namespace AngleSharp.Core.Tests.Urls
             Assert.AreEqual(false, url.SearchParams.Has("qxz"));
             Assert.AreEqual("bar", url.SearchParams.Get("foo"));
             Assert.AreEqual("foo=bar", url.Query);
+        }
+
+        [Test]
+        public void UrlSearchAssigningStringWithoutQuestion()
+        {
+            var url = new Url("https://florian-rappl.de?qxz=bar");
+            Assert.AreEqual("bar", url.SearchParams.Get("qxz"));
+            Assert.AreEqual(true, url.SearchParams.Has("qxz"));
+            Assert.AreEqual(null, url.SearchParams.Get("foo"));
+            url.Search = "foo=bar";
+            Assert.AreEqual(null, url.SearchParams.Get("qxz"));
+            Assert.AreEqual(false, url.SearchParams.Has("qxz"));
+            Assert.AreEqual("bar", url.SearchParams.Get("foo"));
+            Assert.AreEqual("foo=bar", url.Query);
+        }
+
+        [Test]
+        public void UrlSearchAssigningStringWithQuestion()
+        {
+            var url = new Url("https://florian-rappl.de?qxz=bar");
+            Assert.AreEqual("bar", url.SearchParams.Get("qxz"));
+            Assert.AreEqual(true, url.SearchParams.Has("qxz"));
+            Assert.AreEqual(null, url.SearchParams.Get("foo"));
+            url.Search = "?foo=bar";
+            Assert.AreEqual(null, url.SearchParams.Get("qxz"));
+            Assert.AreEqual(false, url.SearchParams.Has("qxz"));
+            Assert.AreEqual("bar", url.SearchParams.Get("foo"));
+            Assert.AreEqual("foo=bar", url.Query);
+        }
+
+        [Test]
+        public void UrlSearchAssigningEmpty()
+        {
+            var url = new Url("https://florian-rappl.de?qxz=bar");
+            Assert.AreEqual("bar", url.SearchParams.Get("qxz"));
+            Assert.AreEqual(true, url.SearchParams.Has("qxz"));
+            Assert.AreEqual(null, url.SearchParams.Get("foo"));
+            url.Search = "";
+            Assert.AreEqual(null, url.SearchParams.Get("qxz"));
+            Assert.AreEqual(false, url.SearchParams.Has("qxz"));
+            Assert.AreEqual(null, url.SearchParams.Get("foo"));
+            Assert.AreEqual(null, url.Query);
         }
 
         [Test]
