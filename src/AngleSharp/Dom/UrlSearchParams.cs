@@ -17,14 +17,7 @@ namespace AngleSharp.Dom
         #region Fields
 
         private readonly List<KeyValuePair<String, String>> _values;
-        private Boolean _reflow;
-
-        #endregion
-
-        #region Events
-
-        internal event Action<String>? Changed;
-
+        private readonly Url? _parent;
         #endregion
 
         #region Constructors
@@ -35,18 +28,16 @@ namespace AngleSharp.Dom
         [DomConstructor]
         public UrlSearchParams() => _values = new();
 
-        internal UrlSearchParams(Url parent) : this(parent.Query ?? String.Empty) => Changed += qs =>
+        internal UrlSearchParams(Url parent) : this(parent.Query ?? String.Empty)
         {
-            _reflow = true;
-            parent.Query = qs;
-            _reflow = false;
-        };
+            _parent = parent;
+        }
 
         /// <summary>
         /// Creates a new instance filled from the provided string.
         /// </summary>
         [DomConstructor]
-        public UrlSearchParams(String init) : this() => ChangeTo(init);
+        public UrlSearchParams(String init) : this() => ChangeTo(init, false);
 
         #endregion
 
@@ -54,31 +45,30 @@ namespace AngleSharp.Dom
 
         internal void Reset() => _values.Clear();
 
-        internal void ChangeTo(String query)
+        internal void ChangeTo(String query, Boolean fromParent)
         {
-            if (!_reflow)
+            Reset();
+
+            if (query is "")
             {
-                Reset();
+                return;
+            }
 
-                if (query is "")
+            foreach (var pair in query.Split('&'))
+            {
+                var kvp = pair.Split('=');
+
+                if (kvp.Length > 1)
                 {
-                    return;
+                    AppendCore(Decode(kvp[0]), Decode(kvp[1]));
                 }
-
-                foreach (var pair in query.Split('&'))
+                else
                 {
-                    var kvp = pair.Split('=');
-
-                    if (kvp.Length > 1)
-                    {
-                        Append(Decode(kvp[0]), Decode(kvp[1]));
-                    }
-                    else
-                    {
-                        Append(Decode(pair), String.Empty);
-                    }
+                    AppendCore(Decode(pair), String.Empty);
                 }
             }
+
+            RaiseChanged(fromParent);
         }
 
         /// <summary>
@@ -89,8 +79,13 @@ namespace AngleSharp.Dom
         [DomName("append")]
         public void Append(String name, String value)
         {
+            AppendCore(name, value);
+            RaiseChanged(false);
+        }
+
+        private void AppendCore(String name, String value)
+        {
             _values.Add(new KeyValuePair<String, String>(name, value));
-            RaiseChanged();
         }
 
         /// <summary>
@@ -100,8 +95,13 @@ namespace AngleSharp.Dom
         [DomName("delete")]
         public void Delete(String name)
         {
+            DeleteCore(name);
+            RaiseChanged(false);
+        }
+
+        private void DeleteCore(String name)
+        {
             _values.RemoveAll(p => p.Key == name);
-            RaiseChanged();
         }
 
         /// <summary>
@@ -139,15 +139,15 @@ namespace AngleSharp.Dom
             if (Has(name))
             {
                 var index = _values.FindIndex(p => p.Key == name);
-                Delete(name);
+                DeleteCore(name);
                 _values.Insert(index, new KeyValuePair<String, String>(name, value));
             }
             else
             {
-                Append(name, value);
+                AppendCore(name, value);
             }
 
-            RaiseChanged();
+            RaiseChanged(false);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace AngleSharp.Dom
         public void Sort()
         {
             _values.Sort((a, b) => a.Key.CompareTo(b.Key));
-            RaiseChanged();
+            RaiseChanged(false);
         }
 
         /// <inheritdoc />
@@ -210,7 +210,14 @@ namespace AngleSharp.Dom
             return sb.ToPool();
         }
 
-        private void RaiseChanged() => Changed?.Invoke(ToString());
+        private void RaiseChanged(Boolean fromParent)
+        {
+            if (!fromParent)
+            {
+                var qs = ToString();
+                _parent?.ParseQuery(qs, 0, qs.Length, true, true);
+            }
+        }
 
         #endregion
     }

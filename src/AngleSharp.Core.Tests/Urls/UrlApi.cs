@@ -148,6 +148,20 @@ namespace AngleSharp.Core.Tests.Urls
         }
 
         [Test]
+        public void UrlQueryDoesNotDependOnParams()
+        {
+            var url = new Url("https://florian-rappl.de?qxz=bar");
+            Assert.AreEqual("bar", url.SearchParams.Get("qxz"));
+            Assert.AreEqual(true, url.SearchParams.Has("qxz"));
+            Assert.AreEqual(null, url.SearchParams.Get("foo"));
+            url.Query = "foo";
+            Assert.AreEqual(null, url.SearchParams.Get("qxz"));
+            Assert.AreEqual(false, url.SearchParams.Has("qxz"));
+            Assert.AreEqual("", url.SearchParams.Get("foo"));
+            Assert.AreEqual("foo", url.Query);
+        }
+
+        [Test]
         public void UrlSearchAssigningStringWithoutQuestion()
         {
             var url = new Url("https://florian-rappl.de?qxz=bar");
