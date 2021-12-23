@@ -33,7 +33,7 @@ namespace AngleSharp.Xhtml
         /// </summary>
         /// <param name="emptyTagsToSelfClosing">Specify if empty elements like &lt;div&gt;&lt;/div&gt;
         /// should be converted to self-closing ones like &lt;div/&gt;</param>
-        public XhtmlMarkupFormatter(bool emptyTagsToSelfClosing)
+        public XhtmlMarkupFormatter(Boolean emptyTagsToSelfClosing)
         {
             _emptyTagsToSelfClosing = emptyTagsToSelfClosing;
         }
@@ -42,7 +42,7 @@ namespace AngleSharp.Xhtml
 
         #region Private fields
 
-        private readonly bool _emptyTagsToSelfClosing;
+        private readonly Boolean _emptyTagsToSelfClosing;
 
         #endregion
 
