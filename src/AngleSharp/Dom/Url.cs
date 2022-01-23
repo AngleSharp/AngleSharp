@@ -598,6 +598,10 @@ namespace AngleSharp.Dom
             _host = baseUrl._host;
             _path = baseUrl._path;
             _port = baseUrl._port;
+            _username = baseUrl._username;
+            _password = baseUrl._password;
+            _query = baseUrl._query;
+            _fragment = baseUrl._fragment;
             _relative = ProtocolNames.IsRelative(_scheme);
         }
 

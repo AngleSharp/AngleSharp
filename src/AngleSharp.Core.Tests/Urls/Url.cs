@@ -185,6 +185,15 @@ namespace AngleSharp.Core.Tests.Urls
         }
 
         [Test]
+        public void FragmentWithBaseUrlDoesIncludeUsernamePasswordQuery()
+        {
+            var baseUrl = new Url("http://username:password@localhost:12345/account/login?name=value#fragment");
+            var relative = "#newfragment";
+            var url = new Url(baseUrl, relative);
+            Assert.AreEqual("http://username:password@localhost:12345/account/login?name=value#newfragment", url.ToString());
+        }
+
+        [Test]
         public void NoIndexOutOfRangeExceptionParseSchemeIssue711()
         {
             var baseUrl = new Url("http://some.domain.com");
