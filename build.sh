@@ -9,7 +9,7 @@ SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TOOLS_DIR=$SCRIPT_DIR/tools
 NUGET_EXE=$TOOLS_DIR/nuget.exe
 NUGET_OLD_EXE=$TOOLS_DIR/nuget_old.exe
-CAKE_EXE=$TOOLS_DIR/Cake/Cake.exe
+CAKE_DLL=$TOOLS_DIR/Cake.Tool/tools/net6.0/any/Cake.dll
 
 # Define default arguments.
 SCRIPT="build.cake"
@@ -80,14 +80,14 @@ fi
 popd >/dev/null
 
 # Make sure that Cake has been installed.
-if [ ! -f $CAKE_EXE ]; then
-    echo "Could not find Cake.exe at '$CAKE_EXE'."
+if [ ! -f $CAKE_DLL ]; then
+    echo "Could not find Cake.dll at '$CAKE_DLL'."
     exit 1
 fi
 
 # Start Cake
 if $SHOW_VERSION; then
-    exec mono $CAKE_EXE --version
+    exec dotnet $CAKE_DLL --version
 else
-    exec mono $CAKE_EXE $SCRIPT --verbosity=$VERBOSITY --configuration=$CONFIGURATION --target=$TARGET $DRYRUN "${SCRIPT_ARGUMENTS[@]}"
+    exec dotnet $CAKE_DLL $SCRIPT --verbosity=$VERBOSITY --configuration=$CONFIGURATION --target=$TARGET $DRYRUN "${SCRIPT_ARGUMENTS[@]}"
 fi

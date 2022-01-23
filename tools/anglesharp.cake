@@ -1,5 +1,5 @@
-#addin "Cake.FileHelpers"
-#addin "Octokit"
+#addin nuget:?package=Cake.FileHelpers&version=5.0.0
+#addin nuget:?package=Octokit&version=0.50.0
 using Octokit;
 
 var configuration = Argument("configuration", "Release");

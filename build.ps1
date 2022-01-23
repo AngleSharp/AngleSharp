@@ -19,7 +19,7 @@ $UseMono = "";
 $TOOLS_DIR = Join-Path $PSScriptRoot "tools"
 $NUGET_EXE = Join-Path $TOOLS_DIR "nuget.exe"
 $NUGET_OLD_EXE = Join-Path $TOOLS_DIR "nuget_old.exe"
-$CAKE_EXE = Join-Path $TOOLS_DIR "Cake/Cake.exe"
+$CAKE_DLL = Join-Path $TOOLS_DIR "Cake.Tool/tools/net6.0/any/Cake.dll"
 $NUGET_URL = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
 $NUGET_OLD_URL = "https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe"
 
@@ -72,10 +72,10 @@ if (-Not $SkipToolPackageRestore.IsPresent)
 }
 
 # Make sure that Cake has been installed.
-if (!(Test-Path $CAKE_EXE)) {
+if (!(Test-Path $CAKE_DLL)) {
     Throw "Could not find Cake.exe"
 }
 
 # Start Cake
-Invoke-Expression "$CAKE_EXE `"$Script`" --target=`"$Target`" --configuration=`"$Configuration`" --verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
+Invoke-Expression "dotnet $CAKE_DLL `"$Script`" --target=`"$Target`" --configuration=`"$Configuration`" --verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
 exit $LASTEXITCODE
