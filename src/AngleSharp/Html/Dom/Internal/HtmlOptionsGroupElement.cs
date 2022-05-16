@@ -11,7 +11,7 @@ namespace AngleSharp.Html.Dom
         #region ctor
 
         public HtmlOptionsGroupElement(Document owner, String? prefix = null)
-            : base(owner, TagNames.Optgroup, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
+            : base(owner, TagNames.Optgroup, prefix, NodeFlags.ImplicitlyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }
 

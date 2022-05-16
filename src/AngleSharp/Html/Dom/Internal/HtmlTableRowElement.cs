@@ -18,7 +18,7 @@ namespace AngleSharp.Html.Dom
         #region ctor
 
         public HtmlTableRowElement(Document owner, String? prefix = null)
-            : base(owner, TagNames.Tr, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
+            : base(owner, TagNames.Tr, prefix, NodeFlags.Special | NodeFlags.ImplicitlyClosed)
         {
         }
 

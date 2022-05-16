@@ -12,7 +12,7 @@
         #region ctor
 
         public HtmlParagraphElement(Document owner, String? prefix = null)
-            : base(owner, TagNames.P, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+            : base(owner, TagNames.P, prefix, NodeFlags.Special | NodeFlags.ImplicitlyClosed | NodeFlags.ImpliedEnd)
         {
         }
 
