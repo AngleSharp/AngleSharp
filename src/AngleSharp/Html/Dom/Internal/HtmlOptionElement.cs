@@ -19,7 +19,7 @@ namespace AngleSharp.Html.Dom
         #region ctor
 
         public HtmlOptionElement(Document owner, String? prefix = null)
-            : base(owner, TagNames.Option, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
+            : base(owner, TagNames.Option, prefix, NodeFlags.ImplicitlyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }
 

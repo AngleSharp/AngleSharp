@@ -11,7 +11,7 @@ namespace AngleSharp.Html.Dom
         #region ctor
 
         public HtmlHtmlElement(Document owner, String? prefix = null)
-            : base(owner, TagNames.Html, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
+            : base(owner, TagNames.Html, prefix, NodeFlags.Special | NodeFlags.ImplicitlyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
         }
 

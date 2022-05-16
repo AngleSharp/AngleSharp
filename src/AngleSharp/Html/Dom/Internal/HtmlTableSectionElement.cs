@@ -18,7 +18,7 @@ namespace AngleSharp.Html.Dom
         #region ctor
 
         public HtmlTableSectionElement(Document owner, String? name = null, String? prefix = null)
-            : base(owner, name ?? TagNames.Tbody, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.HtmlTableSectionScoped)
+            : base(owner, name ?? TagNames.Tbody, prefix, NodeFlags.Special | NodeFlags.ImplicitlyClosed | NodeFlags.HtmlTableSectionScoped)
         {
         }
 

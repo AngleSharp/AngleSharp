@@ -3748,7 +3748,7 @@ namespace AngleSharp.Html.Parser
         {
             for (var i = 0; i < _openElements.Count; i++)
             {
-                if ((_openElements[i].Flags & NodeFlags.ImplicitelyClosed) != NodeFlags.ImplicitelyClosed)
+                if ((_openElements[i].Flags & NodeFlags.ImplicitlyClosed) != NodeFlags.ImplicitlyClosed)
                 {
                     RaiseErrorOccurred(HtmlParseError.BodyClosedWrong, token);
                     break;

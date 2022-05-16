@@ -87,7 +87,7 @@ namespace AngleSharp.Html.Dom
         #region ctor
 
         public HtmlBodyElement(Document owner, String? prefix = null)
-            : base(owner, TagNames.Body, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
+            : base(owner, TagNames.Body, prefix, NodeFlags.Special | NodeFlags.ImplicitlyClosed)
         {
         }
 

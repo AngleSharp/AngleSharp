@@ -37,7 +37,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// The element is implicitely closed.
         /// </summary>
-        ImplicitelyClosed = 0x10,
+        ImplicitlyClosed = 0x10,
         /// <summary>
         /// The end of the element is implied.
         /// </summary>
