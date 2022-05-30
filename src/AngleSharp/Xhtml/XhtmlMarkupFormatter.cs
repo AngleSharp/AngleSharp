@@ -18,6 +18,34 @@ namespace AngleSharp.Xhtml
 
         #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor for <see cref="XhtmlMarkupFormatter"/>
+        /// </summary>
+        public XhtmlMarkupFormatter() : this(true)
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor for <see cref="XhtmlMarkupFormatter"/>
+        /// </summary>
+        /// <param name="emptyTagsToSelfClosing">Specify if empty elements like &lt;div&gt;&lt;/div&gt;
+        /// should be converted to self-closing ones like &lt;div/&gt;</param>
+        public XhtmlMarkupFormatter(Boolean emptyTagsToSelfClosing)
+        {
+            _emptyTagsToSelfClosing = emptyTagsToSelfClosing;
+        }
+
+        #endregion
+
+        #region Private fields
+
+        private readonly Boolean _emptyTagsToSelfClosing;
+
+        #endregion
+
         #region Methods
 
         /// <inheritdoc />
@@ -26,7 +54,7 @@ namespace AngleSharp.Xhtml
             var prefix = element.Prefix;
             var name = element.LocalName;
             var tag = !String.IsNullOrEmpty(prefix) ? prefix + ":" + name : name;
-            return (selfClosing || !element.HasChildNodes) ? String.Empty : String.Concat("</", tag, ">");
+            return (selfClosing || _emptyTagsToSelfClosing && !element.HasChildNodes) ? String.Empty : String.Concat("</", tag, ">");
         }
 
         /// <inheritdoc />
@@ -64,7 +92,7 @@ namespace AngleSharp.Xhtml
                 temp.Append(' ').Append(Attribute(attribute));
             }
 
-            if (selfClosing || !element.HasChildNodes)
+            if (selfClosing || _emptyTagsToSelfClosing && !element.HasChildNodes)
             {
                 temp.Append(" /");
             }
