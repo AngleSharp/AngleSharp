@@ -9,6 +9,7 @@ Released on ??? (tbd)
 - Fixed `Query` dependence on `SearchParams` (#1024) @kzrnm
 - Fixed `Hash` and `Search` in `Url` (#1021) @kzrnm
 - Fixed behavior of `Url` with empty query (#1016) @kzrnm
+- Added option to prevent self-closing in `XhtmlMarkupFormatter` (#1031) @Aizeren
 
 # 0.16.1
 
