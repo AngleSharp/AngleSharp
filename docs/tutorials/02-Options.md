@@ -152,7 +152,13 @@ By default strict mode is false and we would get the response as expected.
 
 ## `IsEmbedded`, `IsNotSupportingFrames`, and `IsScripting`
 
-(tbd)
+The `IsEmbedded` option allows you to use the HTML parser with the content being assumed to be embedded in a valid HTML document already. This is used to determine if a doctype is needed. In embedded mode the doctype can be missing without entering the quirks mode.
+
+Likewise, the `IsNotSupportingFrames` option can be used to act as if frames are not allowed. When actual `frameset` or similar tags are hit, then tags such as `noframes` are interpreted differently (i.e., as if they would not exist). As of today, most browsers still support frames - even though they should not be used any more. Note that frames do not include `<iframe>`, which is not impacted by this flag.
+
+The `IsScripting` option emulates the behavior of the browser when parsing the `innerHTML`. Without scripting the `noscript` and `script` tag change places. Here, the `noscript` tag will be evaluated (instead of being ignored). Additionally, the content of the `script` tag will be ignored. Enable `IsScripting` to - from a parsing perspective - see the page as JavaScript-enabled browser would do.
+
+**Remark**: Turning on the `IsScripting` option and having a JavaScript engine integrated (e.g., from *AngleSharp.Js*) is not the same. AngleSharp will actually turn on the `IsScripting` automatically when it finds that a JavaScript engine has been included.
 
 ## `IsAcceptingCustomElementsEverywhere`
 
@@ -193,3 +199,33 @@ Console.WriteLine(document.DocumentElement.ToHtml());
 ```
 
 This will keep the `my-element` in the head. Just remember that the content, i.e., children, of the custom element need to follow the rules of the outer context.
+
+## `IsPreservingAttributeNames`
+
+This option allows you to keep the original attribute names. Usually, attribute names are normalized such that they only use lowercase characters.
+
+Take the following non-valid HTML from an Angular template:
+
+```html
+<div *ngIf="condition">Content to render when condition is true.</div>
+```
+
+Without this option the HTML DOM would look as if the original source has been:
+
+```html
+<div *ngif="condition">Content to render when condition is true.</div>
+```
+
+In contrast, you can use this option like:
+
+```cs
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    IsPreservingAttributeNames = true
+});
+var html = @"<div *ngIf=""condition"">Content to render when condition is true.</div>";
+IDocument document = parser.ParseDocument(html);
+Console.WriteLine(document.DocumentElement.ToHtml());
+```
+
+This will keep the attribute as-is, i.e., like `*ngIf` instead of `*ngif`.

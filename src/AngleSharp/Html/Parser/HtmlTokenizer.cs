@@ -64,6 +64,15 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Gets or sets if attribute names should be taken as is.
+        /// </summary>
+        public Boolean IsPreservingAttributeNames
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets if character references should be avoided.
         /// </summary>
         public Boolean IsNotConsumingCharacterReferences
@@ -1750,7 +1759,7 @@ namespace AngleSharp.Html.Parser
                         {
                             return EmitTag(tag);
                         }
-                        else if (c.IsUppercaseAscii())
+                        else if (c.IsUppercaseAscii() && !IsPreservingAttributeNames)
                         {
                             StringBuffer.Append(Char.ToLowerInvariant(c));
                             pos = GetCurrentPosition();
@@ -1808,7 +1817,7 @@ namespace AngleSharp.Html.Parser
                             tag.AddAttribute(FlushBuffer(), pos);
                             state = AttributeState.SelfClose;
                         }
-                        else if (c.IsUppercaseAscii())
+                        else if (c.IsUppercaseAscii() && !IsPreservingAttributeNames)
                         {
                             StringBuffer.Append(Char.ToLowerInvariant(c));
                         }
@@ -1850,7 +1859,7 @@ namespace AngleSharp.Html.Parser
                         {
                             state = AttributeState.SelfClose;
                         }
-                        else if (c.IsUppercaseAscii())
+                        else if (c.IsUppercaseAscii() && !IsPreservingAttributeNames)
                         {
                             StringBuffer.Append(Char.ToLowerInvariant(c));
                             pos = GetCurrentPosition();

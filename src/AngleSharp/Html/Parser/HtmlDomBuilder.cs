@@ -289,6 +289,7 @@ namespace AngleSharp.Html.Parser
             _tokenizer.IsStrictMode = options.IsStrictMode;
             _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
             _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
+            _tokenizer.IsPreservingAttributeNames = options.IsPreservingAttributeNames;
             _options = options;
         }
 

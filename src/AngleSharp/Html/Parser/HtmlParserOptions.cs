@@ -30,6 +30,17 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Gets or sets if attribute names should not be normalized.
+        /// Usually, attribute names will be only seen lower-cased. When this
+        /// option is activated, the names will be taken as-is.
+        /// </summary>
+        public Boolean IsPreservingAttributeNames
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets if frames should not be supported. Once
         /// set this will ignore frame elements and respect
         /// noframes elements.

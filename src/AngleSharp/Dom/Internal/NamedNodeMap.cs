@@ -50,10 +50,7 @@ namespace AngleSharp.Dom
 
         #region Internal Methods
 
-        internal void FastAddItem(Attr attr)
-        {
-            _items.Add(attr);
-        }
+        internal void FastAddItem(Attr attr) => _items.Add(attr);
 
         internal void RaiseChangedEvent(Attr attr, String? newValue, String? oldValue)
         {
@@ -85,10 +82,7 @@ namespace AngleSharp.Dom
             return null;
         }
 
-        internal IAttr? RemoveNamedItemOrDefault(String name)
-        {
-            return RemoveNamedItemOrDefault(name, false);
-        }
+        internal IAttr? RemoveNamedItemOrDefault(String name) => RemoveNamedItemOrDefault(name, false);
 
         internal IAttr? RemoveNamedItemOrDefault(String? namespaceUri, String localName, Boolean suppressMutationObservers)
         {
@@ -112,10 +106,7 @@ namespace AngleSharp.Dom
             return null;
         }
 
-        internal IAttr? RemoveNamedItemOrDefault(String? namespaceUri, String localName)
-        {
-            return RemoveNamedItemOrDefault(namespaceUri, localName, false);
-        }
+        internal IAttr? RemoveNamedItemOrDefault(String? namespaceUri, String localName) => RemoveNamedItemOrDefault(namespaceUri, localName, false);
 
         #endregion
 
@@ -214,10 +205,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IAttr? SetNamedItemWithNamespaceUri(IAttr item)
-        {
-            return SetNamedItemWithNamespaceUri(item, false);
-        }
+        public IAttr? SetNamedItemWithNamespaceUri(IAttr item) => SetNamedItemWithNamespaceUri(item, false);
 
         /// <inheritdoc />
         public IAttr RemoveNamedItem(String name)
@@ -246,15 +234,9 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IEnumerator<IAttr> GetEnumerator()
-        {
-            return _items.GetEnumerator();
-        }
+        public IEnumerator<IAttr> GetEnumerator() => _items.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _items.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
         
         #endregion
 
