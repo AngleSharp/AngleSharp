@@ -149,6 +149,21 @@ namespace AngleSharp.Text
         public static Boolean IsName(this Char c) => c.IsNonAscii() || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || c.IsDigit();
 
         /// <summary>
+        /// Gets if the character is actually a character that can be used for building a custom element name.
+        /// See https://html.spec.whatwg.org/#valid-custom-element-name
+        /// </summary>
+        /// <param name="c">The character to examine.</param>
+        /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean IsCustomElementName(this Char c)
+        {
+            return c == Symbols.Underscore || c == Symbols.Minus || c == Symbols.Dot || c.IsDigit() || c.IsLowercaseAscii() || c == 0xb7 ||
+                c.IsInRange(0xc0, 0xd6) || c.IsInRange(0xd8, 0xf6) || c.IsInRange(0xf8, 0x37d) || c.IsInRange(0x37f, 0x1fff) ||
+                c.IsInRange(0x200c, 0x200d) || c.IsInRange(0x203f, 0x2040) || c.IsInRange(0x2070, 0x218f) || c.IsInRange(0x2c00, 0x2fef) ||
+                c.IsInRange(0x3001, 0xd7ff) || c.IsInRange(0xf900, 0xfdcf) || c.IsInRange(0xfdf0, 0xfffd) || c.IsInRange(0x10000, 0x1effff);
+        }
+
+        /// <summary>
         /// Determines if the given character is a valid character for starting
         /// an identifier.
         /// </summary>

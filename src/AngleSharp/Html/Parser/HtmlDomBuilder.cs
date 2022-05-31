@@ -682,11 +682,12 @@ namespace AngleSharp.Html.Parser
                     }
                     else if (tagName.Is(TagNames.Template))
                     {
-                        AddElement(new HtmlTemplateElement(_document), token.AsTag());
-                        _formattingElements.AddScopeMarker();
-                        _frameset = false;
-                        _currentMode = HtmlTreeMode.InTemplate;
-                        _templateModes.Push(HtmlTreeMode.InTemplate);
+                        AddTemplateElement(token.AsTag());
+                        return;
+                    }
+                    else if (IsCustomElementEverywhere(tagName))
+                    {
+                        AddElement(token.AsTag());
                         return;
                     }
 
@@ -722,6 +723,12 @@ namespace AngleSharp.Html.Parser
                             RaiseErrorOccurred(HtmlParseError.TagInappropriate, token);
                         }
 
+                        return;
+                    }
+                    else if (IsCustomElementEverywhere(tagName))
+                    {
+                        GenerateImpliedEndTags();
+                        CloseCurrentNode();
                         return;
                     }
                     else if (!tagName.IsOneOf(TagNames.Html, TagNames.Body, TagNames.Br))
@@ -1666,6 +1673,10 @@ namespace AngleSharp.Html.Parser
                     {
                         InHead(token);
                     }
+                    else if (IsCustomElementEverywhere(tagName))
+                    {
+                        InHead(token);
+                    }
                     else
                     {
                         RaiseErrorOccurred(HtmlParseError.IllegalElementInTableDetected, token);
@@ -1689,6 +1700,10 @@ namespace AngleSharp.Html.Parser
                     else if (TagNames.AllTableSpecial.Contains(tagName) || TagNames.AllTableInner.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
+                    }
+                    else if (IsCustomElementEverywhere(tagName))
+                    {
+                        InHead(token);
                     }
                     else
                     {
@@ -1765,6 +1780,10 @@ namespace AngleSharp.Html.Parser
                             InTable(token);
                         }
                     }
+                    else if (IsCustomElementEverywhere(tagName))
+                    {
+                        InHead(token);
+                    }
                     else
                     {
                         break;
@@ -1784,6 +1803,10 @@ namespace AngleSharp.Html.Parser
                         {
                             InTable(token);
                         }
+                    }
+                    else if (IsCustomElementEverywhere(tagName))
+                    {
+                        InHead(token);
                     }
                     else
                     {
@@ -1840,7 +1863,7 @@ namespace AngleSharp.Html.Parser
                         AddElement(new HtmlTableColElement(_document), token.AsTag(), acknowledgeSelfClosing: true);
                         CloseCurrentNode();
                     }
-                    else if (tagName.Is(TagNames.Template))
+                    else if (tagName.Is(TagNames.Template) || IsCustomElementEverywhere(tagName))
                     {
                         InHead(token);
                     }
@@ -1863,7 +1886,7 @@ namespace AngleSharp.Html.Parser
                     {
                         RaiseErrorOccurred(HtmlParseError.TagClosedWrong, token);
                     }
-                    else if (tagName.Is(TagNames.Template))
+                    else if (tagName.Is(TagNames.Template) || IsCustomElementEverywhere(tagName))
                     {
                         InHead(token);
                     }
@@ -2168,7 +2191,7 @@ namespace AngleSharp.Html.Parser
                             Home(token);
                         }
                     }
-                    else if (tagName.IsOneOf(TagNames.Template, TagNames.Script))
+                    else if (tagName.IsOneOf(TagNames.Template, TagNames.Script) || IsCustomElementEverywhere(tagName))
                     {
                         InHead(token);
                     }
@@ -2183,7 +2206,7 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (tagName.Is(TagNames.Template))
+                    if (tagName.Is(TagNames.Template) || IsCustomElementEverywhere(tagName))
                     {
                         InHead(token);
                     }
@@ -2734,6 +2757,14 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
+            CloseTemplateMode();
+        }
+
+        /// <summary>
+        /// Finished the template mode.
+        /// </summary>
+        private void CloseTemplateMode()
+        {
             _formattingElements.ClearFormatting();
             _templateModes.Pop();
             Reset();
@@ -3700,6 +3731,11 @@ namespace AngleSharp.Html.Parser
         #region Helpers
 
         /// <summary>
+        /// Checks if the given tag name should be considered as a "custom element everywhere".
+        /// </summary>
+        private Boolean IsCustomElementEverywhere(String tagName) => _options.IsAcceptingCustomElementsEverywhere && tagName.IsCustomElement();
+
+        /// <summary>
         /// Runs a script given by the current node.
         /// </summary>
         private void HandleScript(HtmlScriptElement? script)
@@ -3900,6 +3936,19 @@ namespace AngleSharp.Html.Parser
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
             return element;
+        }
+
+        /// <summary>
+        /// Appends a template element.
+        /// </summary>
+        /// <param name="tag">The associated tag token.</param>
+        private void AddTemplateElement(HtmlTagToken tag)
+        {
+            AddElement(new HtmlTemplateElement(_document), tag);
+            _formattingElements.AddScopeMarker();
+            _frameset = false;
+            _currentMode = HtmlTreeMode.InTemplate;
+            _templateModes.Push(HtmlTreeMode.InTemplate);
         }
 
         /// <summary>

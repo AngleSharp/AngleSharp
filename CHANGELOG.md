@@ -10,6 +10,7 @@ Released on ??? (tbd)
 - Fixed `Hash` and `Search` in `Url` (#1021) @kzrnm
 - Fixed behavior of `Url` with empty query (#1016) @kzrnm
 - Added option to prevent self-closing in `XhtmlMarkupFormatter` (#1031) @Aizeren
+- Added option to parse custom elements in `head` (#1035)
 
 # 0.16.1
 

@@ -19,6 +19,17 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Gets or sets if custom elements can be used everywhere. Otherwise,
+        /// custom elements can only be used in locations specified by the
+        /// official W3C spec (e.g., in the body).
+        /// </summary>
+        public Boolean IsAcceptingCustomElementsEverywhere
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets if frames should not be supported. Once
         /// set this will ignore frame elements and respect
         /// noframes elements.

@@ -950,6 +950,18 @@ namespace AngleSharp.Dom
             Script, Style, Template
         };
 
+        internal static readonly HashSet<String> DisallowedCustomElementNames = new ()
+        {
+            "annotation-xml",
+            "color-profile",
+            "font-face",
+            "font-face-src",
+            "font-face-uri",
+            "font-face-format",
+            "font-face-name",
+            "missing-glyph"
+        };
+
         #endregion
     }
 }

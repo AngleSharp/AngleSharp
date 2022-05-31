@@ -278,8 +278,9 @@ namespace AngleSharp.Text
 
             var hasSpace = true;
             var index = 0;
+            var l = str.Length;
 
-            for (var i = 0; i < str.Length; i++)
+            for (var i = 0; i < l; i++)
             {
                 if (str[i].IsSpaceCharacter())
                 {
@@ -318,8 +319,9 @@ namespace AngleSharp.Text
             var sb = StringBuilderPool.Obtain();
 
             var hasSpace = false;
+            var l = str.Length;
 
-            for (var i = 0; i < str.Length; i++)
+            for (var i = 0; i < l; i++)
             {
                 if (str[i].IsSpaceCharacter())
                 {
@@ -348,12 +350,39 @@ namespace AngleSharp.Text
         /// <returns>The status of the check.</returns>
         public static Boolean Contains(this String[] list, String element, StringComparison comparison = StringComparison.Ordinal)
         {
-            for (var i = 0; i < list.Length; i++)
+            var l = list.Length;
+
+            for (var i = 0; i < l; i++)
             {
                 if (list[i].Equals(element, comparison))
                 {
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the given string satisfies the rules for a custom element name.
+        /// </summary>
+        /// <param name="tag">The current tag name.</param>
+        /// <returns>True if the string matches a custom element name.</returns>
+        public static Boolean IsCustomElement(this String tag)
+        {
+            if (tag.IndexOf('-') != -1 && !TagNames.DisallowedCustomElementNames.Contains(tag))
+            {
+                var l = tag.Length;
+
+                for (var i = 0; i < l; i++)
+                {
+                    if (!tag[i].IsCustomElementName())
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             return false;
@@ -493,8 +522,9 @@ namespace AngleSharp.Text
         {
             var list = new List<String>();
             var index = 0;
+            var l = str.Length;
 
-            for (var i = 0; i < str.Length; i++)
+            for (var i = 0; i < l; i++)
             {
                 if (str[i] == c)
                 {
@@ -507,9 +537,9 @@ namespace AngleSharp.Text
                 }
             }
 
-            if (str.Length > index)
+            if (l > index)
             {
-                list.Add(str.Substring(index, str.Length - index));
+                list.Add(str.Substring(index, l - index));
             }
 
             return list.ToArray();
@@ -663,7 +693,9 @@ namespace AngleSharp.Text
 
             if (!String.IsNullOrEmpty(value))
             {
-                for (var i = 0; i < value.Length; i++)
+                var l = value.Length;
+
+                for (var i = 0; i < l; i++)
                 {
                     var character = value[i];
 
@@ -680,7 +712,7 @@ namespace AngleSharp.Text
                     }
                     else if (character.IsInRange(0x1, 0x1f) || character == (Char)0x7b)
                     {
-                        builder.Append(Symbols.ReverseSolidus).Append(character.ToHex()).Append(i + 1 != value.Length ? " " : "");
+                        builder.Append(Symbols.ReverseSolidus).Append(character.ToHex()).Append(i + 1 != l ? " " : "");
                     }
                     else
                     {
@@ -716,8 +748,9 @@ namespace AngleSharp.Text
         public static String UrlEncode(this Byte[] content)
         {
             var builder = StringBuilderPool.Obtain();
+            var l = content.Length;
 
-            for (var i = 0; i < content.Length; i++)
+            for (var i = 0; i < l; i++)
             {
                 var chr = (Char)content[i];
 
@@ -747,8 +780,9 @@ namespace AngleSharp.Text
         public static Byte[] UrlDecode(this String value)
         {
             var ms = new MemoryStream();
+            var l = value.Length;
 
-            for (var i = 0; i < value.Length; i++)
+            for (var i = 0; i < l; i++)
             {
                 var chr = value[i];
 
@@ -759,7 +793,7 @@ namespace AngleSharp.Text
                 }
                 else if (chr == Symbols.Percent)
                 {
-                    if (i + 2 >= value.Length)
+                    if (i + 2 >= l)
                     {
                         throw new FormatException();
                     }
@@ -793,8 +827,9 @@ namespace AngleSharp.Text
             {
                 var builder = StringBuilderPool.Obtain();
                 var isCR = false;
+                var l = value.Length;
 
-                for (var i = 0; i < value.Length; i++)
+                for (var i = 0; i < l; i++)
                 {
                     var current = value[i];
                     var isLF = current == Symbols.LineFeed;
