@@ -4,6 +4,7 @@ Released on ??? (tbd)
 
 - Dropped .NET Framework 4.6 (#960)
 - Updated GitHub actions logger (#1044) @Tyrrrz
+- Updated editorconfig to include code conventions (#1025) @kzrnm
 - Updated to use RFC1123Pattern format (#1018) @kzrnm
 - Fixed some typos (#1043) @mavaddat
 - Fixed inheritence of query parameters for fragment-only URLs (#1037)
