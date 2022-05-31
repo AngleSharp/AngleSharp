@@ -48,8 +48,10 @@ using (var response = await download.Task)
 This assumes a configuration / context such as
 
 ```cs
-var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).WithCookies();
-var context = BrowsingContext.New(config);
+IConfiguration config = Configuration.Default
+    .WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true })
+    .WithCookies();
+IBrowsingContext context = BrowsingContext.New(config);
 ```
 
 ## Is it possible to get the HTML after JavaScript and Blazor run?
@@ -78,12 +80,12 @@ Another very common scenario is standard network credentials. These can also be 
 ```cs
 var credentials = new NetworkCredential("user", "pass", "domain");
 var handler = new HttpClientHandler { Credentials = credentials };
-var config = Configuration.Default
+IConfiguration config = Configuration.Default
     .WithRequesters(handler)
     .WithCookies()
     .WithDefaultLoader();
-var context = BrowsingContext.New(config);
-var document = await context.OpenAsync(url);
+IBrowsingContext context = BrowsingContext.New(config);
+IDocument document = await context.OpenAsync(url);
 ```
 
 ## How to use a proxy with AngleSharp?
@@ -169,8 +171,7 @@ So theoretically, only `DocumentUri` is guaranteed to always return a value.
 Let's say the URLs can always be found in standard anchor links (`a`). One possible way is to use
 
 ```cs
-var links = document
-    .Links
+IEnumerable<IHtmlAnchorElement> links = document.Links
     .OfType<IHtmlAnchorElement>()
     .Select(e => e.Href)
     .Where(h => h.Contains(keyword));
@@ -270,11 +271,11 @@ Text is modeled as a `TextNode`, it is a type of node beside element, comment no
 You can get text nodes located directly within product div by traversing through the div's `ChildNodes` and then filter by `NodeType`, for example:
 
 ```cs
-var products = document.QuerySelectorAll("div.product");
+IHtmlCollection<IElement> products = document.QuerySelectorAll("div.product");
 
 foreach (var product in products)
 {
-    var productTitle = product.ChildNodes
+    INode productTitle = product.ChildNodes
         .First(o => o.NodeType == NodeType.Text && o.TextContent.Trim() != "");
     Console.WriteLine(productTitle.TextContent.Trim());
 }
@@ -287,10 +288,10 @@ Notice that newlines between elements are also text nodes, so we need to filter 
 Given the following usage scenario:
 
 ```cs
-var context = BrowsingContext.New();
-var document = await context.OpenNewAsync();
+IBrowsingContext context = BrowsingContext.New();
+IDocument document = await context.OpenNewAsync();
 
-var tag = document.CreateElement("customTag");
+IElement tag = document.CreateElement("customTag");
 tag.SetAttribute("attr", "x");
 tag.AsSelfClosing();
 
@@ -388,11 +389,11 @@ This is possible using a document fragment.
 There are multiple possibilities how to use a document fragment, one way would be to use fragment parsing for generating a node list in the right (element) context:
 
 ```cs
-var context = BrowsingContext.New(Configuration.Default);
-var document = await context.OpenAsync(r => r.Content("<div id=app><div>Some already available content...</div></div>"));
-var app = document.QuerySelector("#app");
-var parser = context.GetService<IHtmlParser>();
-var nodes = parser.ParseFragment("<div id='div1'>hi<p>world</p></div>", app);
+IBrowsingContext context = BrowsingContext.New(Configuration.Default);
+IDocument document = await context.OpenAsync(r => r.Content("<div id=app><div>Some already available content...</div></div>"));
+IElement app = document.QuerySelector("#app");
+IHtmlParser parser = context.GetService<IHtmlParser>();
+INodeList nodes = parser.ParseFragment("<div id='div1'>hi<p>world</p></div>", app);
 app.Append(nodes.ToArray());
 ```
 
@@ -421,7 +422,7 @@ var parser = new HtmlParser(new HtmlParserOptions
         }
     },
 });
-var document = parser.ParseDocument("<!doctype html><body>");
+IDocument document = parser.ParseDocument("<!doctype html><body>");
 ```
 
 The code for option 2 looks as follows:
@@ -431,8 +432,8 @@ var parser = new HtmlParser(new HtmlParserOptions
 {
     IsKeepingSourceReferences = true,
 });
-var document = parser.ParseDocument("<!doctype html><body>");
-var bodyPos = document.Body.SourceReference.Position;
+IDocument document = parser.ParseDocument("<!doctype html><body>");
+TextPosition bodyPos = document.Body.SourceReference.Position;
 ```
 
 In both cases the position we care about will be stored in `bodyPos`.
@@ -440,5 +441,5 @@ In both cases the position we care about will be stored in `bodyPos`.
 **Remark**: As `SourceReference` may be empty (e.g., when we omit the provided option or if we select an element that came in *after* parsing) we advise of using `SourceReference?.Position`, where we would end up with a `Nullable<TextPosition>`. Ideally, we then just use `TextPosition.Empty` as the fallback, e.g., in the code above:
 
 ```cs
-var bodyPos = document.Body.SourceReference?.Position ?? TextPosition.Empty;
+TextPosition bodyPos = document.Body.SourceReference?.Position ?? TextPosition.Empty;
 ```

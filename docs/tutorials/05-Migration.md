@@ -86,13 +86,13 @@ config.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true })
 The unified parser interface has been changed. It is no longer possible to call `Parse`, instead this is now `ParseDocument`. Hence some old code like
 
 ```cs
-var htmlDocument = parser.Parse("");
+IDocument htmlDocument = parser.Parse("");
 ```
 
 is now
 
 ```cs
-var htmlDocument = parser.ParseDocument("");
+IDocument htmlDocument = parser.ParseDocument("");
 ```
 
 Note: Same applies to the `Async` parsing (which is still recommended). Here we now have `ParseDocumentAsync`.
@@ -108,14 +108,14 @@ var parser = new HtmlParser(Configuration.Default);
 is therefore to be replaced with
 
 ```cs
-var context = BrowsingContext.New(Configuration.Default);
+IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 var parser = new HtmlParser(context);
 ```
 
 but would be much better expressed as
 
 ```cs
-var context = BrowsingContext.New(Configuration.Default);
+IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 var parser = context.GetService<IHtmlParser>();
 ```
 
@@ -148,7 +148,7 @@ In previous versions the `IWindow` also contained CSS methods for style computat
 In AngleSharp v0.9 we can construct an `ISelector` directly like:
 
 ```cs
-CssParser parser = new CssParser();
+var parser = new CssParser();
 ISelector selector = parser.ParseSelector("p > a");
 ```
 
@@ -157,16 +157,16 @@ Starting with AngleSharp v0.10 such direct access should be avoided. The `CssPar
 The current way for accessing this functionality is via the service collection.
 
 ```cs
-var config = Configuration.Default;
+IConfiguration config = Configuration.Default;
 
 // use the consuming (or a new) context
-var context = BrowsingContext.New(config);
+IBrowsingContext context = BrowsingContext.New(config);
 
 // get the registered parser instance
-var parser = context.GetService<ICssSelectorParser>();
+ICssSelectorParser parser = context.GetService<ICssSelectorParser>();
 
 // use as before
-var selector = parser.ParseSelector("foo");
+ISelector selector = parser.ParseSelector("foo");
 ```
 
 Normally, a `BrowsingContext` instance already exists thus making the access much simpler.

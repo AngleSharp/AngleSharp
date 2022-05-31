@@ -6,9 +6,9 @@ section: "AngleSharp.Core"
 
 ## Requirements
 
-AngleSharp comes currently in two flavors: on Windows for .NET 4.6 and in general targetting .NET Standard 2.0 platforms.
+AngleSharp comes currently in two flavors: on Windows for .NET 4.6.1 or newer and in general targetting .NET Standard 2.0 platforms.
 
-Most of the features of the library do not require .NET 4.6, which means you could create your own fork and modify it to work with previous versions of the .NET-Framework.
+Most of the features of the library do not require .NET 4.6.1, which means you could create your own fork and modify it to work with previous versions of the .NET-Framework.
 
 ## Getting AngleSharp over NuGet
 
@@ -32,22 +32,22 @@ using AngleSharp.Html.Parser;
 class MyClass {
     static async Task Main() {
         //Use the default configuration for AngleSharp
-        var config = Configuration.Default;
+        IConfiguration config = Configuration.Default;
 
         //Create a new context for evaluating webpages with the given config
-        var context = BrowsingContext.New(config);
+        IBrowsingContext context = BrowsingContext.New(config);
 
         //Source to be parsed
         var source = "<h1>Some example source</h1><p>This is a paragraph element";
 
         //Create a virtual request to specify the document to load (here from our fixed string)
-        var document = await context.OpenAsync(req => req.Content(source));
+        IDocument document = await context.OpenAsync(req => req.Content(source));
 
         //Do something with document like the following
         Console.WriteLine("Serializing the (original) document:");
         Console.WriteLine(document.DocumentElement.OuterHtml);
 
-        var p = document.CreateElement("p");
+        IElement p = document.CreateElement("p");
         p.TextContent = "This is another paragraph.";
 
         Console.WriteLine("Inserting another element in the body ...");
@@ -68,10 +68,10 @@ Of course one could go further and perform a lot more DOM manipulations.
 Alternatively, we could have used the following code in the beginning:
 
 ```c#
-var context = BrowsingContext.New(config);
-var parser = context.GetService<IHtmlParser>();
+IBrowsingContext context = BrowsingContext.New(config);
+IHtmlParser parser = context.GetService<IHtmlParser>();
 var source = "<h1>Some example source</h1><p>This is a paragraph element";
-var document = parser.ParseDocument(source);
+IDocument document = parser.ParseDocument(source);
 ```
 
 ### Parsers
@@ -103,7 +103,7 @@ var paragraph = new HTMLParagraphElement();
 as this is also not possible in e.g. JavaScript. What one requires is an instance of the `IDocument` interface. If we assume that this instance is called `document` we can now write
 
 ```c#
-var paragraph = document.CreateElement("p");
+IElement paragraph = document.CreateElement("p");
 ```
 
 which creates the paragraph (&lt;p&gt;) element and assigns the given document as the owner of the node. As in the JavaScript / DOM world, we did not append the paragraph anywhere in the document. When an element is not being appended it has no parent and thus does not appear in the DOM tree. As a consequence it would not be serialized again, and some special actions would be without meaning. Furthermore, queries on the DOM tree would not show the given elements.
@@ -113,7 +113,7 @@ On the other side those restrictions result in all constructors being marked as 
 The advantage of scripting languages such as JavaScript is that even though `CreateElement` only returns an `IElement`, one is able to access even specialized properties and methods of, e.g., `IHtmlElement`, if available. In static typed languages (such as C#) we require casts. One way out would be to use `dynamic`, or handy extension methods such as
 
 ```c#
-var paragraph = document.CreateElement<IHtmlParagraphElement>();
+IHtmlParagraphElement paragraph = document.CreateElement<IHtmlParagraphElement>();
 ```
 
 This works and directly returns an object of type `IHtmlParagraphElement`. No cast needed and one (dubious) string allocation saved. This particular extension method is placed in the namespace `AngleSharp.Dom`.
@@ -136,11 +136,13 @@ Finally AngleSharp also brings some very helpful extension methods that try to b
 // using AngleSharp;
 
 //Create a new browsing context for hosting the document
-var context = Browsing.New(Configuration.Default);
+IBrowsingContext context = Browsing.New(Configuration.Default);
+
 //Generate HTML DOM for the following source code
-var document = await context.OpenAsync(req => req.Content("<ul><li>First element<li>Second element<li>third<li class=bla>Last"));
+IDocument document = await context.OpenAsync(req => req.Content("<ul><li>First element<li>Second element<li>third<li class=bla>Last"));
+
 //Get all li elements and set the test attribute to the value test; elements still contains all li elements
-var elements = document.QuerySelectorAll("li").Attr("test", "test");
+IHtmlCollection<IElement> elements = document.QuerySelectorAll("li").Attr("test", "test");
 ```
 
 It should be noted that applying `Text` or `Html` will have consequences for the DOM. For example if we apply it to a list of several elements, where some elements of the list contain other elements of the same list, the resulting list will still contain all those elements, however, the document will not.

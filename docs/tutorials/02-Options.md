@@ -21,7 +21,7 @@ var parser = new HtmlParser(new HtmlParserOptions
     IsNotConsumingCharacterReferences = true,
 });
 var html = "<html><head></head><body><p>&amp;foo</p></body></html>";
-var document = parser.ParseDocument(html);
+IDocument document = parser.ParseDocument(html);
 Console.WriteLine(document.DocumentElement.ToHtml(formatter));
 ```
 
@@ -71,7 +71,7 @@ var parser = new HtmlParser(new HtmlParserOptions
     IsKeepingSourceReferences = false
 });
 var html = "<html><head></head><body><p>foo</p></body></html>";
-var document = parser.ParseDocument(html);
+IDocument document = parser.ParseDocument(html);
 Console.WriteLine(document.QuerySelector("a").SourceReference?.Position.ToString());
 ```
 
@@ -99,7 +99,7 @@ var parser = new HtmlParser(new HtmlParserOptions
     IsSupportingProcessingInstructions = true
 });
 var html = "<html><head></head><body><p><?xml version=\"1.0\" encoding=\"UTF - 8\" ?></p></body></html>";
-var document = parser.ParseDocument(html);
+IDocument document = parser.ParseDocument(html);
 Console.WriteLine(document.DocumentElement.ToHtml());
 ```
 
@@ -122,28 +122,30 @@ var parser = new HtmlParser(new HtmlParserOptions
     }
 });
 var html = "<html><head></head><body><p>foo</p></body></html>";
-var document = parser.ParseDocument(html);
+IDocument document = parser.ParseDocument(html);
 Console.WriteLine(document.DocumentElement.ToHtml());
 ```
 
 Which would give us a reformatted html string based on position range \[25, 35\) and element `<p>` within that range being formatted `<html><head></head><body><p>foo bar</p></body></html>`
 
-In general it would not be expected to pass this option in one parsing for a big enough text as it would take more time to process it.
+In general, it would not be expected to pass this option in one parsing for a big enough text as it would take more time to process it.
 
 ## `IsStrictMode`
-"strict mode" directive from JavaScript's ES5 is represented by `IsStrictMode` option in this case.
-Simply put, setting this option as true in $HtmlParserOptions$ informs the parser that any JS code that it will include will have a "strict mode" applied in it.
 
-The following code will give us an HtmlParseException
+"strict mode" directive from JavaScript's ES5 is represented by `IsStrictMode` option in this case. Simply put, setting this option as true in $HtmlParserOptions$ informs the parser that any JS code that it will include will have a "strict mode" applied in it.
+
+The following code will give us an `HtmlParseException`
+
 ```cs
 var parser = new HtmlParser(new HtmlParserOptions
 {
     IsStrictMode = true
 });
 var html = "<html><head></head><body><script>x = 0;</script><p>foo</p></body></html>";
-var document = parser.ParseDocument(html);
+IDocument document = parser.ParseDocument(html);
 Console.WriteLine(document.DocumentElement.ToHtml());
 ```
+
 In this case we had strict mode on so we had to declare `x` as `let x` instead for example.
 
 By default strict mode is false and we would get the response as expected.
@@ -151,3 +153,43 @@ By default strict mode is false and we would get the response as expected.
 ## `IsEmbedded`, `IsNotSupportingFrames`, and `IsScripting`
 
 (tbd)
+
+## `IsAcceptingCustomElementsEverywhere`
+
+The `IsAcceptingCustomElementsEverywhere` option allows custom elements such as `my-element` to be used in locations where they are usually forbidden.
+
+Take the following HTML:
+
+```html
+<html>
+    <head>
+        <my-element foo="bar"></my-element>
+    </head>
+</html>
+```
+
+The DOM will actually have the `my-element` node in the `body`. It looks like the original HTML has been:
+
+```html
+<html>
+    <head>
+    </head>
+    <body>
+        <my-element foo="bar"></my-element>
+    </body>
+</html>
+```
+
+In case you want to allow custom elements everywhere you can just provide the flag:
+
+```cs
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    IsAcceptingCustomElementsEverywhere = true
+});
+var html = @"<html><head><my-element foo=""bar""></my-element></head></html>";
+IDocument document = parser.ParseDocument(html);
+Console.WriteLine(document.DocumentElement.ToHtml());
+```
+
+This will keep the `my-element` in the head. Just remember that the content, i.e., children, of the custom element need to follow the rules of the outer context.

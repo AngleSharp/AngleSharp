@@ -9,10 +9,10 @@ section: "AngleSharp.Core"
 One of the most needed functionalities of a dynamic DOM is the possibility to submit forms. Submitting a form with AngleSharp can be as simple as:
 
 ```cs
-var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
-var queryDocument = await context.OpenAsync("https://google.com");
-var form = queryDocument.QuerySelector<IHtmlFormElement>("form");
-var resultDocument = await form.SubmitAsync(new { q = "anglesharp" });
+IBrowsingContext context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
+IDocument queryDocument = await context.OpenAsync("https://google.com");
+IHtmlFormElement form = queryDocument.QuerySelector<IHtmlFormElement>("form");
+IDocument resultDocument = await form.SubmitAsync(new { q = "anglesharp" });
 // e.g., resultDocument.QuerySelectorAll<IHtmlAnchorElement>("#ires .g h3.r a").Select(m => m.Href).Dump();
 ```
 
@@ -35,10 +35,10 @@ An important aspect of submitting forms is that we require at least a default lo
 The code for using a cookie container looks almost identical:
 
 ```cs
-var config = Configuration.Default
+Iconfiguration config = Configuration.Default
     .WithDefaultLoader()
     .WithCookies();
-var context = BrowsingContext.New(config);
+IBrowsingContext context = BrowsingContext.New(config);
 // ...
 ```
 

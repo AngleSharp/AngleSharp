@@ -44,6 +44,18 @@ var cells = document.QuerySelectorAll(cellSelector);
 var titles = cells.Select(m => m.TextContent);
 ```
 
+Or the same with explicit types:
+
+```cs
+IConfiguration config = Configuration.Default.WithDefaultLoader();
+string address = "https://en.wikipedia.org/wiki/List_of_The_Big_Bang_Theory_episodes";
+IBrowsingContext context = BrowsingContext.New(config);
+IDocument document = await context.OpenAsync(address);
+string cellSelector = "tr.vevent td:nth-child(3)";
+IHtmlCollection<IElement> cells = document.QuerySelectorAll(cellSelector);
+IEnumerable<string> titles = cells.Select(m => m.TextContent);
+```
+
 In the example we see:
 
 * How to setup the configuration for supporting document loading
