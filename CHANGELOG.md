@@ -6,6 +6,7 @@ Released on ??? (tbd)
 - Updated GitHub actions logger (#1044) @Tyrrrz
 - Updated to use RFC1123Pattern format (#1018) @kzrnm
 - Fixed some typos (#1043) @mavaddat
+- Fixed inheritence of query parameters for fragment-only URLs (#1037)
 - Fixed `Query` dependence on `SearchParams` (#1024) @kzrnm
 - Fixed `Hash` and `Search` in `Url` (#1021) @kzrnm
 - Fixed behavior of `Url` with empty query (#1016) @kzrnm

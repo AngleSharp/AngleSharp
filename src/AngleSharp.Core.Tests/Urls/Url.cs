@@ -235,5 +235,41 @@ namespace AngleSharp.Core.Tests.Urls
             var url2 = new Url(url);
             Assert.AreEqual(url1.GetHashCode(), url2.GetHashCode());
         }
+
+        [Test]
+        public void ExtendFragmentUrlWithBaseQueryParameters_Issue1037()
+        {
+            var baseAddress = new Url("https://localhost:8080/?foo=bar");
+            var newAddress = "#section1";
+            var result = new Url(baseAddress, newAddress);
+            Assert.AreEqual("https://localhost:8080/?foo=bar#section1", result.Href);
+        }
+
+        [Test]
+        public void NotExtendQueryUrlWithBaseQueryParameters_Issue1037()
+        {
+            var baseAddress = new Url("https://localhost:8080/?foo=bar");
+            var newAddress = "?section=2";
+            var result = new Url(baseAddress, newAddress);
+            Assert.AreEqual("https://localhost:8080/?section=2", result.Href);
+        }
+
+        [Test]
+        public void NotExtendRelativePathUrlWithBaseQueryParameters_Issue1037()
+        {
+            var baseAddress = new Url("https://localhost:8080/?foo=bar");
+            var newAddress = "section/3";
+            var result = new Url(baseAddress, newAddress);
+            Assert.AreEqual("https://localhost:8080/section/3", result.Href);
+        }
+
+        [Test]
+        public void NotExtendAbsolutePathUrlWithBaseQueryParameters_Issue1037()
+        {
+            var baseAddress = new Url("https://localhost:8080/?foo=bar");
+            var newAddress = "/section/4";
+            var result = new Url(baseAddress, newAddress);
+            Assert.AreEqual("https://localhost:8080/section/4", result.Href);
+        }
     }
 }

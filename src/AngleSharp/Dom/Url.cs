@@ -597,13 +597,13 @@ namespace AngleSharp.Dom
             _scheme = baseUrl._scheme;
             _host = baseUrl._host;
             _path = baseUrl._path;
+            _query = baseUrl._query;
             _port = baseUrl._port;
             _relative = ProtocolNames.IsRelative(_scheme);
         }
 
         private Boolean ParseScheme(String input, Int32 length, Boolean onlyScheme = false)
         {
-
             if (length > 0 && input[0].IsLetter())
             {
                 var index = 1;
@@ -629,6 +629,7 @@ namespace AngleSharp.Dom
                             {
                                 _host = String.Empty;
                                 _port = String.Empty;
+                                _query = null;
                                 return RelativeState(input, index + 1, length);
                             }
                             else if (!_relative)
@@ -636,6 +637,7 @@ namespace AngleSharp.Dom
                                 _host = String.Empty;
                                 _port = String.Empty;
                                 _path = String.Empty;
+                                _query = null;
                                 return ParseSchemeData(input, index + 1, length);
                             }
                             else if (_scheme.Is(originalScheme))
@@ -1095,6 +1097,7 @@ namespace AngleSharp.Dom
 
             buffer.ReturnToPool();
             _path = String.Join("/", paths);
+            _query = null;
 
             if (index < length)
             {
