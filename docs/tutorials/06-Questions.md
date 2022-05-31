@@ -443,3 +443,19 @@ In both cases the position we care about will be stored in `bodyPos`.
 ```cs
 TextPosition bodyPos = document.Body.SourceReference?.Position ?? TextPosition.Empty;
 ```
+
+## How can I specify encoding for loading a document?
+
+When you have the document available as a stream you may want to give AngleSharp a specific encoding - just like a webserver would do.
+
+Actually, AngleSharp's virtual request API makes that (and other use cases to emulate HTTP-features) quite easy:
+
+```cs
+IBrowsingContext context = BrowsingContext.New();
+
+IDocument document = await context.OpenAsync(req => req.Content(myStream).Header("content-type", "text/html; charset=UTF-8"));
+```
+
+The encoding decision in AngleSharp follows the same priority list as a browser does. Essentially, that means that the byte-order mark (BOM) always is considered the highest standard for it, but a header has higher precedence than a meta tag found in the source.
+
+In any case, there is also the complication of a "guess" vs a "confident" pick. So the BOM would still be checked as its standardized per W3C.
