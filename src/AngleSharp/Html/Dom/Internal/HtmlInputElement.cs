@@ -321,12 +321,6 @@ namespace AngleSharp.Html.Dom
 
         #endregion
 
-        #region Internal Properties
-
-        internal Boolean IsMutable => !IsDisabled && !IsReadOnly;
-
-        #endregion
-
         #region Internal Methods
 
         internal override void SetupElement()

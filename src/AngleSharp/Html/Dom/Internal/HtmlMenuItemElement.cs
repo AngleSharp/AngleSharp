@@ -20,28 +20,6 @@ namespace AngleSharp.Html.Dom
 
         #endregion
 
-        #region Design properties
-
-        /// <summary>
-        /// Gets or sets if the link has been visited.
-        /// </summary>
-        internal Boolean IsVisited
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets if the link is currently active.
-        /// </summary>
-        internal Boolean IsActive
-        {
-            get;
-            set;
-        }
-
-        #endregion
-
         #region Properties
 
         /// <summary>

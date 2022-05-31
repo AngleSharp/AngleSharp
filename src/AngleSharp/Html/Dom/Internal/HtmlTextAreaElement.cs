@@ -74,12 +74,6 @@ namespace AngleSharp.Html.Dom
 
         #endregion
 
-        #region Internal properties
-
-        internal Boolean IsMutable => !IsDisabled && !IsReadOnly;
-
-        #endregion
-
         #region Helpers
 
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)

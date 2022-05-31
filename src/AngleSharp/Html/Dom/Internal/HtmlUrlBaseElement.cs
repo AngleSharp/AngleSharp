@@ -154,22 +154,6 @@ namespace AngleSharp.Html.Dom
 
         #endregion
 
-        #region Design properties
-
-        internal Boolean IsVisited
-        {
-            get;
-            set;
-        }
-
-        internal Boolean IsActive
-        {
-            get;
-            set;
-        }
-
-        #endregion
-
         #region Methods
 
         public override async void DoClick()
