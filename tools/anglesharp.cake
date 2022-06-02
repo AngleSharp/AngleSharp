@@ -28,7 +28,6 @@ if (isRunningOnGitHubActions)
 
 if (!isRunningOnWindows)
 {
-    frameworks.Remove("net46");
     frameworks.Remove("net461");
     frameworks.Remove("net472");
 }

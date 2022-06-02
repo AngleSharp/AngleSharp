@@ -1,6 +1,12 @@
+# 0.17.1
+
+Released on Thursday, June 2 2022
+
+- Fixed wrong reference to `System.Text.Encoding.CodePages` (#1046) @linkdotnet
+
 # 0.17.0
 
-Released on ??? (tbd)
+Released on Tuesday, May 31 2022
 
 - Dropped .NET Framework 4.6 (#960)
 - Updated GitHub actions logger (#1044) @Tyrrrz

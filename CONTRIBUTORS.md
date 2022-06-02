@@ -33,6 +33,11 @@ AngleSharp contains code written by (in order of first pull request / commit):
 * [Alexander Ubillus](https://github.com/alexanderuv)
 * [Max Katz](https://github.com/Tirraon)
 * [Jason Nelson](https://github.com/iamcarbon)
+* [kzrnm](https://github.com/kzrnm)
+* [Avatar Mavaddat Javid](https://github.com/mavaddat)
+* [Steven Giesel](https://github.com/linkdotnet)
+* [Bainova Ekaterina](https://github.com/Aizeren)
+* [Oleksii Holub](https://github.com/Tyrrrz)
 
 Without these awesome people AngleSharp could not exist. Thanks to everyone for your contributions! :beers:
 
