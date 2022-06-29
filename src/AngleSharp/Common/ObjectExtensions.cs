@@ -1,10 +1,10 @@
 namespace AngleSharp.Common
 {
-    using AngleSharp.Attributes;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
+    using AngleSharp.Attributes;
 
     /// <summary>
     /// Some methods for working with bare objects.
@@ -44,6 +44,11 @@ namespace AngleSharp.Common
         /// <returns>The item at the specified index.</returns>
         public static T GetItemByIndex<T>(this IEnumerable<T> items, Int32 index)
         {
+            if (items is IReadOnlyList<T> list)
+            {
+                return list[index];
+            }
+
             if (index >= 0)
             {
                 var i = 0;
@@ -139,8 +144,8 @@ namespace AngleSharp.Common
         /// <returns>The value or the provided fallback.</returns>
         [return: NotNullIfNotNull("defaultValue")]
         public static U? GetOrDefault<T, U>(this IDictionary<T, U> values, T key, U? defaultValue)
-            where T: notnull
-            where U: notnull
+            where T : notnull
+            where U : notnull
         {
             return values.TryGetValue(key, out var value) ? value : defaultValue;
         }
