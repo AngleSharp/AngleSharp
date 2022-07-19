@@ -119,7 +119,7 @@ namespace AngleSharp.Dom
         /// <param name="value">The desired new value of the attribute.</param>
         /// <returns>The current element.</returns>
         [DomName("setAttribute")]
-        void SetAttribute(String name, String value);
+        void SetAttribute(String name, String? value);
 
         /// <summary>
         /// Adds a new attribute or changes the value of an existing attribute
@@ -131,7 +131,7 @@ namespace AngleSharp.Dom
         /// <param name="name">The name of the attribute as a string.</param>
         /// <param name="value">The desired new value of the attribute.</param>
         [DomName("setAttributeNS")]
-        void SetAttribute(String? namespaceUri, String name, String value);
+        void SetAttribute(String? namespaceUri, String name, String? value);
 
         /// <summary>
         /// Removes an attribute from the specified element.
