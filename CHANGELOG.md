@@ -1,3 +1,9 @@
+# 0.17.2
+
+Released on Thursday, July 19 2022
+
+- Fixed nullability in `IElement.SetAttribute` and related impl @jodydonetti
+
 # 0.17.1
 
 Released on Thursday, June 2 2022
