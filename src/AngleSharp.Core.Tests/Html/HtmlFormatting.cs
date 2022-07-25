@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Html
+namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
@@ -1428,8 +1428,48 @@
             var dochtml0body1cite0i1i0div0Text1 = dochtml0body1cite0i1i0div0.ChildNodes[1];
             Assert.AreEqual(NodeType.Text, dochtml0body1cite0i1i0div0Text1.NodeType);
             Assert.AreEqual("TEST", dochtml0body1cite0i1i0div0Text1.TextContent);
- 
+        }
 
+
+        [Test]
+        public void TagClosedWrongWithNestedEqualFormattingElements_Issue1052()
+        {
+            var errors = 0;
+            var document = @"<!doctype html>
+
+<head></head>
+
+<body>
+    <div class=""jive-rendered-content"">
+        <p style=""margin: 0;"">
+            <strong style=""color: rgba(0, 0, 0, 1); font-size: 14pt; font-family: Calibri;""> <strong
+                    style=""color: rgba(0, 0, 0, 1); font-size: 14pt; font-family: Calibri;"">
+                    <strong style=""color: rgba(0, 0, 0, 1); font-size: 14pt; font-family: Calibri;"">
+                        <strong style=""color: rgba(0, 0, 0, 1); font-size: 14pt;"">
+                            <strong style=""color: rgba(0, 0, 0, 1); font-size: 14pt; font-family: Calibri;"">
+                                <strong style=""color: rgba(255, 0, 0, 1); font-size: 14pt; font-family: Calibri;"">
+                                    <strong style=""color: rgba(0, 0, 0, 1); font-size: 14pt; font-family: Calibri;"">
+                                        <strong style=""color: rgba(0, 0, 0, 1); font-size: 14pt; font-family: Calibri;"">
+                                            <strong
+                                                style=""color: rgba(0, 0, 0, 1); font-size: 14pt; font-family: Calibri;"">
+                                                ONLY ONE AC TKT IN A PNR </strong>
+                                        </strong>
+                                    </strong>
+                                </strong>
+                            </strong>
+                        </strong>
+                    </strong>
+                </strong>
+            </strong>
+        </p>
+    </div>
+</body>
+
+</html>".ToHtmlDocument(onError: (s, e) =>
+            {
+                errors++;
+            });
+            Assert.AreEqual(0, errors);
         }
     }
 }
