@@ -74,6 +74,8 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public String? NamespaceUri => _namespace ?? this.GetNamespaceUri();
+        /// <inheritdoc />
+        public String? NamespaceUriDirect => _namespace;
 
         /// <inheritdoc />
         public override String TextContent

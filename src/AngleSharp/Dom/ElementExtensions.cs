@@ -53,7 +53,7 @@ namespace AngleSharp.Dom
         /// <returns>The url of the namespace or null, if the prefix could not be found.</returns>
         public static String? LocateNamespaceFor(this IElement element, String prefix)
         {
-            var ns = element.NamespaceUri;
+            var ns = element.NamespaceUriDirect;
             var px = element.Prefix;
 
             if (String.IsNullOrEmpty(ns) || !px.Is(prefix))

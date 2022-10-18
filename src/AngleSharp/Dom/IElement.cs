@@ -26,6 +26,11 @@ namespace AngleSharp.Dom
         /// </summary>
         [DomName("namespaceURI")]
         String? NamespaceUri { get; }
+        /// <summary>
+        /// Gets the namespace URI of this element without searching parents.
+        /// </summary>
+        [DomName("namespaceURIDirect")]
+        String? NamespaceUriDirect { get; }
 
         /// <summary>
         /// Gets the sequence of associated attributes.
