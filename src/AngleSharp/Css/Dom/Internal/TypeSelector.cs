@@ -15,7 +15,7 @@ namespace AngleSharp.Css.Dom
 
         public Priority Specificity => Priority.OneTag;
 
-        public String Text => _type;
+        public String Text => CssUtilities.Escape(_type);
 
         public void Accept(ISelectorVisitor visitor) => visitor.Type(_type);
 

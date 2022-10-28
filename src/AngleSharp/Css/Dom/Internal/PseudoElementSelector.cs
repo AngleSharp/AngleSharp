@@ -16,7 +16,7 @@ namespace AngleSharp.Css.Dom
 
         public Priority Specificity => Priority.OneTag;
 
-        public String Text => PseudoElementNames.Separator + _pseudoElement;
+        public String Text => PseudoElementNames.Separator + CssUtilities.Escape(_pseudoElement);
 
         public void Accept(ISelectorVisitor visitor) => visitor.PseudoElement(_pseudoElement);
 

@@ -4,6 +4,7 @@ namespace AngleSharp.Css
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
 
     /// <summary>
     /// Represents the standard CSS3 style formatter.
@@ -39,7 +40,7 @@ namespace AngleSharp.Css
                     sb.Remove(sb.Length - sep.Length, sep.Length);
                 }
             }
-            
+
             return sb.ToPool();
         }
 
@@ -85,7 +86,7 @@ namespace AngleSharp.Css
 
         String IStyleFormatter.Rule(String name, String value) => String.Concat(name, " ", value, ";");
 
-        String IStyleFormatter.Rule(String name, String prelude, String rules) => String.Concat(name, " ", String.IsNullOrEmpty(prelude) ? String.Empty : prelude + " ", rules);
+        String IStyleFormatter.Rule(String name, String prelude, String rules) => String.Concat(name.Length > 2 ? String.Concat(name.Substring(0, 2), CssUtilities.Escape(name.Substring(2))) : name, " ", String.IsNullOrEmpty(prelude) ? String.Empty : prelude + " ", rules);
 
         String IStyleFormatter.Comment(String data) => String.Join("/*", data, "*/");
 
