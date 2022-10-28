@@ -187,7 +187,16 @@ namespace AngleSharp.Css.Parser
                 Transform = el => Single(el);
             }
 
-            public override ISelector Change(ISelector selector) => new NamespaceSelector(selector.Text);
+            public override ISelector Change(ISelector selector)
+            {
+                var prefix = selector switch
+                {
+                    TypeSelector typeSelector => typeSelector.TypeName,
+                    _ => selector.Text
+                };
+
+                return new NamespaceSelector(prefix);
+            }
         }
 
         private sealed class ColumnCombinator : CssCombinator

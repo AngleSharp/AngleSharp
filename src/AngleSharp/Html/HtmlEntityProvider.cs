@@ -2589,7 +2589,7 @@ namespace AngleSharp.Html
         /// <param name="code">The code to examine.</param>
         /// <returns>True if the code is in the table, else false.</returns>
         public static Boolean IsInCharacterTable(Int32 code) =>
-            /* 
+            /*
              * If that number is one of the numbers in the first column of the
              * following table, then this is a parse error. Find the row with that
              * number in the first column, and return a character token for the
@@ -2613,7 +2613,7 @@ namespace AngleSharp.Html
         public static String? GetSymbolFromTable(Int32 code)
         {
             switch (code)
-            { 
+            {
                 case 0x00:
                     return Convert(0xfffd);
                 case 0x0D:
@@ -2621,18 +2621,18 @@ namespace AngleSharp.Html
                 case 0x80:
                     return Convert(0x20ac);
                 case 0x81:
-                    return Convert(0x81);;
+                    return Convert(0x81);
                 case 0x82:
                     return Convert(0x201a);
-                case 0x83: 	
+                case 0x83:
                     return Convert(0x192);
-                case 0x84:  
+                case 0x84:
                     return Convert(0x201e);
                 case 0x85:
                     return Convert(0x2026);
-                case 0x86: 	
+                case 0x86:
                     return Convert(0x2020);
-                case 0x87: 
+                case 0x87:
                     return Convert(0x2021);
                 case 0x88:
                     return Convert(0x02C6);
@@ -2648,39 +2648,39 @@ namespace AngleSharp.Html
                     return Convert(0x008D);
                 case 0x8E:
                     return Convert(0x017D);
-                case 0x8F: 	
+                case 0x8F:
                     return Convert(0x008F);
                 case 0x90:
                     return Convert(0x0090);
-                case 0x91: 	
+                case 0x91:
                     return Convert(0x2018);
-                case 0x92: 	
+                case 0x92:
                     return Convert(0x2019);
-                case 0x93: 	
+                case 0x93:
                     return Convert(0x201C);
-                case 0x94: 	
+                case 0x94:
                     return Convert(0x201D);
-                case 0x95: 	
+                case 0x95:
                     return Convert(0x2022);
-                case 0x96: 	
+                case 0x96:
                     return Convert(0x2013);
-                case 0x97: 	
+                case 0x97:
                     return Convert(0x2014);
-                case 0x98: 	
+                case 0x98:
                     return Convert(0x02DC);
-                case 0x99: 	
+                case 0x99:
                     return Convert(0x2122);
-                case 0x9A: 	
+                case 0x9A:
                     return Convert(0x0161);
-                case 0x9B: 	
+                case 0x9B:
                     return Convert(0x203A);
-                case 0x9C: 	
+                case 0x9C:
                     return Convert(0x0153);
                 case 0x9D:
                     return Convert(0x009D);
-                case 0x9E: 	
+                case 0x9E:
                     return Convert(0x017E);
-                case 0x9F: 
+                case 0x9F:
                     return Convert(0x0178);
                 default:
                     return null;

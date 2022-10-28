@@ -13,6 +13,11 @@ namespace AngleSharp.Css.Dom
             _type = type;
         }
 
+        /// <summary>
+        /// Gets the raw type name value
+        /// </summary>
+        internal String TypeName => _type;
+
         public Priority Specificity => Priority.OneTag;
 
         public String Text => CssUtilities.Escape(_type);
