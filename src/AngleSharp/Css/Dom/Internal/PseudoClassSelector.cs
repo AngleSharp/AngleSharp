@@ -16,7 +16,7 @@ namespace AngleSharp.Css.Dom
 
         public Priority Specificity => Priority.OneClass;
 
-        public String Text => PseudoClassNames.Separator + _pseudoClass;
+        public String Text => PseudoClassNames.Separator + CssUtilities.Escape(_pseudoClass);
 
         public void Accept(ISelectorVisitor visitor) => visitor.PseudoClass(_pseudoClass);
 

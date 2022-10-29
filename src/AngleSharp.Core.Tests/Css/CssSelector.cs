@@ -4,6 +4,9 @@ namespace AngleSharp.Core.Tests.Css
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using AngleSharp.Css;
+    using AngleSharp.Css.Dom;
+    using AngleSharp.Css.Parser;
 
     [TestFixture]
     public class CssSelectorTests
@@ -1192,6 +1195,97 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var selector = div?.GetSelector();
 
             Assert.AreEqual("#-\\31 ", selector);
+        }
+
+        [Test]
+        public void SelectorText_EscapeCssSpecialCharacters_ClassSelector()
+        {
+            var selectorText = @".\@\$\!\.\%";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            Assert.IsInstanceOf<ClassSelector>(selector);
+            Assert.NotNull(selector);
+            Assert.AreEqual(selectorText, selector.Text);
+        }
+
+        [Test]
+        public void SelectorText_EscapeCssSpecialCharacters_IdSelector()
+        {
+            var selectorText = @"#\@\$\!\.\%";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            Assert.IsInstanceOf<IdSelector>(selector);
+            Assert.NotNull(selector);
+            Assert.AreEqual(selectorText, selector.Text);
+        }
+
+        [Test]
+        public void SelectorText_EscapeCssSpecialCharacters_AttrAvailableSelector()
+        {
+            var selectorText = @"[\@\$\!\.\%]";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            Assert.IsInstanceOf<AttrAvailableSelector>(selector);
+            Assert.NotNull(selector);
+            Assert.AreEqual(selectorText, selector.Text);
+        }
+
+        [Test]
+        public void SelectorText_EscapeCssSpecialCharacters_AttrMatchSelector()
+        {
+            var selectorText = @"[\@\$\!\.\%=""some text""]";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            Assert.IsInstanceOf<AttrMatchSelector>(selector);
+            Assert.NotNull(selector);
+            Assert.AreEqual(selectorText, selector.Text);
+        }
+
+        [Test]
+        public void SelectorText_EscapeCssSpecialCharacters_AttrContainsSelector()
+        {
+            var selectorText = @"[\@\$\!\.\%*=""some text""]";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            Assert.IsInstanceOf<AttrContainsSelector>(selector);
+            Assert.NotNull(selector);
+            Assert.AreEqual(selectorText, selector.Text);
+        }
+
+        [Test]
+        public void SelectorText_EscapeCssSpecialCharacters_AttrInListSelector()
+        {
+            var selectorText = @"[\@\$\!\.\%~=""some text""]";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            Assert.IsInstanceOf<AttrInListSelector>(selector);
+            Assert.NotNull(selector);
+            Assert.AreEqual(selectorText, selector.Text);
+        }
+
+        [Test]
+        public void SelectorText_EscapeCssSpecialCharacters_NamespaceSelector()
+        {
+            var selectorText = @"\@\$\!\.\%|node";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            Assert.IsInstanceOf<ComplexSelector>(selector);
+            Assert.NotNull(selector);
+            Assert.AreEqual(selectorText, selector.Text);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace AngleSharp.Css.Dom
 
         public Priority Specificity => Priority.OneClass;
 
-        protected String Attribute => !String.IsNullOrEmpty(_prefix) ? String.Concat(_prefix, "|", _name) : _name;
+        protected String Attribute => !String.IsNullOrEmpty(_prefix) ? String.Concat(CssUtilities.Escape(_prefix!), "|", CssUtilities.Escape(_name)) : CssUtilities.Escape(_name);
 
         protected String Name => _attr;
     }
