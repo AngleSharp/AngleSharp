@@ -30,6 +30,7 @@ if (!isRunningOnWindows)
 {
     frameworks.Remove("net461");
     frameworks.Remove("net472");
+    frameworks.Remove("net7.0");
 }
 
 // Initialization
@@ -58,7 +59,7 @@ Task("Restore-Packages")
     {
         NuGetRestore($"./src/{solutionName}.sln", new NuGetRestoreSettings
         {
-            ToolPath = "tools/nuget.exe",
+            ToolPath = "tools/NuGet.CommandLine.5.9.1/tools/nuget.exe",
         });
     });
 
