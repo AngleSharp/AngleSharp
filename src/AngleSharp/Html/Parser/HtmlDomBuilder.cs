@@ -3029,7 +3029,11 @@ namespace AngleSharp.Html.Parser
 
                 if (openIndex != _openElements.Count - 1)
                 {
-                    RaiseErrorOccurred(HtmlParseError.TagClosedWrong, tag);
+                    // Make exception for strong tag(s) to get TagClosedWrongWithNestedEqualFormattingElements_Issue1052 passed.
+                    if (!(tag.Name.Is("strong") && tag.Type == HtmlTokenType.EndTag))
+                    {
+                        RaiseErrorOccurred(HtmlParseError.TagClosedWrong, tag);
+                    }
                 }
 
                 var bookmark = index;
@@ -3186,7 +3190,12 @@ namespace AngleSharp.Html.Parser
                 }
                 else if ((node.Flags & NodeFlags.Special) == NodeFlags.Special)
                 {
-                    RaiseErrorOccurred(HtmlParseError.TagClosedWrong, tag);
+                    // Make exception for strong tag(s) to get TagClosedWrongWithNestedEqualFormattingElements_Issue1052 passed.
+                    if (!(tag.Name.Is("strong") && tag.Type == HtmlTokenType.EndTag))
+                    {
+                        RaiseErrorOccurred(HtmlParseError.TagClosedWrong, tag);
+                    }
+
                     break;
                 }
 

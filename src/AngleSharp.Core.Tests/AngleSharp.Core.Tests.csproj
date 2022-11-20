@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net472;net6.0;net7.0</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <IsPackable>false</IsPackable>
@@ -15,14 +15,16 @@
     </ProjectReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.0.0" PrivateAssets="all" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.2.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-  </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="GitHubActionsTestLogger" Version="2.0.0" PrivateAssets="all" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="NUnit" Version="3.13.2" />
+      <PackageReference Include="NUnit3TestAdapter" Version="4.2.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
 
+      <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" Condition="'$(TargetFramework)' == 'net472'"/>
+    </ItemGroup>
+  
   <ItemGroup>
     <Compile Remove="Xml\DTDTree.cs" />
     <Compile Remove="Xml\XmlDTD.cs" />

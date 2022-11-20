@@ -17,6 +17,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>$(NoWarn);SYSLIB0014</NoWarn>
+    <TargetFrameworks>netstandard2.0;net472;net6.0;net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
