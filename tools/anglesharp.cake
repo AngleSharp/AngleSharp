@@ -57,10 +57,20 @@ Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore($"./src/{solutionName}.sln", new NuGetRestoreSettings
+        if ( isRunningOnWindows ) 
         {
-            ToolPath = "tools/NuGet.CommandLine.5.9.1/tools/nuget.exe",
-        });
+            NuGetRestore($"./src/{solutionName}.sln", new NuGetRestoreSettings
+            {
+                ToolPath = "tools/NuGet.CommandLine.5.9.1/tools/nuget.exe",
+            });
+        }
+        else
+        {
+            NuGetRestore($"./src/{solutionName}.sln", new NuGetRestoreSettings
+            {
+                ToolPath = EnvironmentVariable("NUGET_EXE"),
+            });
+        }
     });
 
 Task("Build")
