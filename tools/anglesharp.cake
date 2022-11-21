@@ -66,7 +66,10 @@ Task("Restore-Packages")
         }
         else
         {
-            NuGetRestore($"./src/{solutionName}.sln");
+            NuGetRestore($"./src/{solutionName}.sln", new NuGetRestoreSettings
+            {
+                ToolPath = EnvironmentVariable("NUGET_EXE"),
+            });
         }
     });
 
