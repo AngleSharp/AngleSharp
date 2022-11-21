@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <LangVersion>latest</LangVersion>
-    <TargetFrameworks>net472</TargetFrameworks>
+    <TargetFrameworks>net472;net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

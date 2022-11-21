@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net6.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net6.0;net7.0</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net461;net472;net6.0;net7.0</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -23,7 +23,7 @@
 
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" Condition="'$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net461'" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Compile Remove="Xml\DTDTree.cs" />
     <Compile Remove="Xml\XmlDTD.cs" />
