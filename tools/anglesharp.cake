@@ -117,8 +117,10 @@ Task("Create-Package")
     .IsDependentOn("Copy-Files")
     .Does(() =>
     {
+        /*
         var nugetExe = GetFiles("./tools/**/nuget.exe").FirstOrDefault()
             ?? throw new InvalidOperationException("Could not find nuget.exe.");
+        */
 
         var nuspec = nugetRoot + File($"{projectName}.nuspec");
 
