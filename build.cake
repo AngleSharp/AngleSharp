@@ -1,8 +1,3 @@
-if ( isRunningOnWindows ) 
-{
-    #tool nuget:?package=NuGet.CommandLine&version=5.9.1
-}
-
 var target = Argument("target", "Default");
 var projectName = "AngleSharp";
 var solutionName = "AngleSharp.Core";
