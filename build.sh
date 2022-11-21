@@ -68,6 +68,7 @@ if [ ! -f $NUGET_EXE ]; then
         echo "An error occured while downloading nuget.exe."
         exit 1
     fi
+    alias nuget="mono $NUGET_EXE"
 fi
 
 # Restore tools from NuGet.
