@@ -30,7 +30,6 @@ if (!isRunningOnWindows)
 {
     frameworks.Remove("net461");
     frameworks.Remove("net472");
-    frameworks.Remove("net7.0");
 }
 
 // Initialization
