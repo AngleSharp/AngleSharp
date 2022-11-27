@@ -1,5 +1,5 @@
-#addin nuget:?package=Cake.FileHelpers&version=3.2.0
-#addin nuget:?package=Octokit&version=0.32.0
+#addin nuget:?package=Cake.FileHelpers&version=5.0.0
+#addin nuget:?package=Octokit&version=4.0.1
 using Octokit;
 
 var configuration = Argument("configuration", "Release");
@@ -56,10 +56,7 @@ Task("Restore-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        NuGetRestore($"./src/{solutionName}.sln", new NuGetRestoreSettings
-        {
-            ToolPath = "tools/nuget.exe",
-        });
+        NuGetRestore($"./src/{solutionName}.sln");
     });
 
 Task("Build")
@@ -67,10 +64,10 @@ Task("Build")
     .Does(() =>
     {
         ReplaceRegexInFiles("./src/Directory.Build.props", "(?<=<Version>)(.+?)(?=</Version>)", version);
-        DotNetCoreBuild($"./src/{solutionName}.sln", new DotNetCoreBuildSettings
+        DotNetBuild($"./src/{solutionName}.sln", new DotNetBuildSettings
         {
             Configuration = configuration,
-            MSBuildSettings = new DotNetCoreMSBuildSettings()
+            MSBuildSettings = new DotNetMSBuildSettings()
                 .WithProperty("ContinuousIntegrationBuild", BuildSystem.IsLocalBuild ? "false" : "true")
         });
     });
@@ -79,7 +76,7 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var settings = new DotNetCoreTestSettings
+        var settings = new DotNetTestSettings
         {
             Configuration = configuration,
         };
@@ -89,7 +86,7 @@ Task("Run-Unit-Tests")
             settings.Loggers.Add("GitHubActions");
         }
 
-        DotNetCoreTest($"./src/{solutionName}.Tests/", settings);
+        DotNetTest($"./src/{solutionName}.Tests/", settings);
     });
 
 Task("Copy-Files")
@@ -118,9 +115,6 @@ Task("Create-Package")
     .IsDependentOn("Copy-Files")
     .Does(() =>
     {
-        var nugetExe = GetFiles("./tools/**/nuget.exe").FirstOrDefault()
-            ?? throw new InvalidOperationException("Could not find nuget.exe.");
-
         var nuspec = nugetRoot + File($"{projectName}.nuspec");
 
         NuGetPack(nuspec, new NuGetPackSettings

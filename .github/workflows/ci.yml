@@ -50,9 +50,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: actions/setup-dotnet@v1
+    - name: Setup .NET 6.0
+      uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+
+    - name: Setup .NET 7.0
+      uses: actions/setup-dotnet@v1
+      with:
+          dotnet-version: 7.0.x
 
     - name: Build
       run: ./build.sh
@@ -65,7 +71,7 @@ jobs:
 
     - uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
 
     - name: Build
       run: |
