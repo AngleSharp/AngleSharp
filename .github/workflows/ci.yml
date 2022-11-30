@@ -50,7 +50,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup dotnet 6.0.x and 7.0.x
+    - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: |
@@ -66,7 +66,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup dotnet 6.0.x and 7.0.x
+    - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: |
