@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+namespace AngleSharp.Css
 {
     using System;
 
@@ -180,6 +180,11 @@
         /// <summary>
         /// The matches pseudo function.
         /// </summary>
+        public static readonly String Is = "is";
+
+        /// <summary>
+        /// The matches pseudo function.
+        /// </summary>
         public static readonly String Matches = "matches";
 
         /// <summary>
@@ -226,6 +231,11 @@
         /// The contains pseudo function.
         /// </summary>
         public static readonly String Contains = "contains";
+
+        /// <summary>
+        /// The contains pseudo function.
+        /// </summary>
+        public static readonly String Where = "where";
 
         /// <summary>
         /// The host-context pseudo function.

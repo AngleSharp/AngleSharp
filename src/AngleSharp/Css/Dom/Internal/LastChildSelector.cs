@@ -13,6 +13,8 @@ namespace AngleSharp.Css.Dom
         {
         }
 
+        protected override Boolean IncludeParameterInSpecificity => true;
+
         public Boolean Match(IElement element, IElement? scope)
         {
             var parent = element.ParentElement;

@@ -655,13 +655,14 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual("first", result[0].Id);
         }
 
-        [Test]
-        public void MatchesWithTwoElements()
+        [TestCase("is")]
+        [TestCase("matches")]
+        public void MatchesWithTwoElements(string variant)
         {
             var source = @"<div><h1></h1></div><main><h1></h1></main><section><h1></h1></section><footer><h1></h1></footer>";
 
             var document = source.ToHtmlDocument();
-            var selector = ":matches(div, section) > h1";
+            var selector = $":{variant}(div, section) > h1";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(2, result.Length);
             Assert.AreEqual("h1", result[0].GetTagName());
@@ -670,13 +671,14 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual("section", result[1].Parent.GetTagName());
         }
 
-        [Test]
-        public void MatchesWithClasses()
+        [TestCase("is")]
+        [TestCase("matches")]
+        public void MatchesWithClasses(string variant)
         {
             var source = @"<span>1</span><span class=italic>2</span><span class=this>3</span><span>4</span><span class=that>5</span><span class=this>6</span>";
 
             var document = source.ToHtmlDocument();
-            var selector = "span:matches(.this, .that)";
+            var selector = $"span:{variant}(.this, .that)";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(3, result.Length);
             Assert.AreEqual("span", result[0].GetTagName());
@@ -690,11 +692,12 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual("6", result[2].TextContent);
         }
 
-        [Test]
-        public void MatchesDoubleElements()
+        [TestCase("is")]
+        [TestCase("matches")]
+        public void MatchesDoubleElements(string variant)
         {
             var source = @"<div><h1></h1></div><article><h2></h2></article><section><h2></h2><article><h3></h3></article></section><aside><h3></h3><h3></h3></aside><nav><div><h4></h4></div></nav>";
-            var selector = @":matches(section, article, aside, nav) :matches(h1, h2, h3, h4, h5, h6)";
+            var selector = $@":{variant}(section, article, aside, nav) :{variant}(h1, h2, h3, h4, h5, h6)";
             var equivalent = @"section h1, section h2, section h3, section h4, section h5, section h6,
 article h1, article h2, article h3, article h4, article h5, article h6,
 aside h1, aside h2, aside h3, aside h4, aside h5, aside h6,
@@ -1286,6 +1289,63 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.IsInstanceOf<ComplexSelector>(selector);
             Assert.NotNull(selector);
             Assert.AreEqual(selectorText, selector.Text);
+        }
+
+        [TestCase("nth-child")]
+        [TestCase("nth-last-child")]
+        public void PseudoClassSpecificityExceptions_NthChild_ContributesSpecificity(String pseudoClass)
+        {
+            var selectorText = $@"foo:{pseudoClass}(even of .bar, #bar)";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            var expected = new Priority(0, 1, 1, 1);
+
+            Assert.AreEqual(expected, selector.Specificity);
+        }
+
+        [TestCase("nth-child")]
+        [TestCase("nth-last-child")]
+        public void PseudoClassSpecificityExceptions_EmptyNthChild_ContributesSingleClassSpecificity(String pseudoClass)
+        {
+            var selectorText = $@"foo:{pseudoClass}(even)";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            var expected = new Priority(0, 0, 1, 1);
+
+            Assert.AreEqual(expected, selector.Specificity);
+        }
+
+        [TestCase("has")]
+        [TestCase("matches")]
+        [TestCase("is")]
+        [TestCase("not")]
+        public void PseudoClassSpecificityExceptions_Matchers_ContributesSpecificity(String pseudoClass)
+        {
+            var selectorText = $@"foo:{pseudoClass}(.bar, #bar)";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            var expected = new Priority(0, 1, 0, 1);
+
+            Assert.AreEqual(expected, selector.Specificity);
+        }
+
+        [Test]
+        public void PseudoClassSpecificityExceptions_Where_DoesNotContributeSpecificity()
+        {
+            var selectorText = $@"foo:where(.bar, #bar)";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            var expected = new Priority(0, 0, 0, 1);
+
+            Assert.AreEqual(expected, selector.Specificity);
         }
     }
 }
