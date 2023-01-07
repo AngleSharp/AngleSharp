@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Dom
 {
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Base class for all nth-child (or related) selectors.
@@ -30,7 +31,24 @@
 
         #region Properties
 
-        public Priority Specificity => Priority.OneClass;
+        public Priority Specificity
+        {
+            get
+            {
+                var specificity = Priority.OneClass;
+
+                if (IncludeParameterInSpecificity)
+                {
+                    specificity += Kind is ListSelector list
+                        ? list.Max(x => x.Specificity)
+                        : Kind.Specificity;
+                }
+
+                return specificity;
+            }
+        }
+
+        protected virtual Boolean IncludeParameterInSpecificity => false;
 
         public String Text
         {
