@@ -2985,14 +2985,25 @@ namespace AngleSharp.Html.Parser
         /// <param name="tag">The actual tag given.</param>
         private void HeisenbergAlgorithm(HtmlTagToken tag)
         {
-            var outer = 0;
+            var currentNode = CurrentNode;
 
-            while (outer < 8)
+            // This check intends to ensure that for properly nested tags, closing tags will match
+            // against the stack instead of the _formattingElements.
+            if (currentNode.NamespaceUri.Is(NamespaceNames.HtmlUri) && currentNode.LocalName.Is(tag.Name) && !_formattingElements.Contains(currentNode))
+            {
+                // If the current element matches the name but isn't on the list of active
+                // formatting elements, then it is possible that the list was mangled by the Noah's Ark
+                // clause. In this case, we want to match the end tag against the stack instead of
+                // proceeding with the AAA algorithm that may match against the list of
+                // active formatting elements (and possibly mangle the tree in unexpected ways).
+                CloseCurrentNode();
+                return;
+            }
+
+            for (var outer = 0; outer < 8; outer++)
             {
                 var formattingElement = default(Element);
                 var furthestBlock = default(Element);
-
-                outer++;
                 var index = 0;
                 var inner = 0;
 

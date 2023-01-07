@@ -1,3 +1,13 @@
+# 1.0.0
+
+Released on Saturday, January 7 2023
+
+- Fixed `TagClosedWrong` error with nested formatting elements (#1052)
+- Fixed performance issue within deeply nested structures (#1066) @heinrich-ulbricht
+- Improved nullability (#1057) @jodydonetti
+- Improved CSS selectors by counting the specificity properly (#1080) @patrikwlund
+- Improved `GetItemByIndex` performance (#1050) @egil
+
 # 0.17.1
 
 Released on Thursday, June 2 2022

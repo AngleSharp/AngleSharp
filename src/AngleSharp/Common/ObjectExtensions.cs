@@ -44,7 +44,11 @@ namespace AngleSharp.Common
         /// <returns>The item at the specified index.</returns>
         public static T GetItemByIndex<T>(this IEnumerable<T> items, Int32 index)
         {
-            if (index >= 0)
+            if (items is IReadOnlyList<T> list)
+            {
+                return list[index];
+            }
+            else if (index >= 0)
             {
                 var i = 0;
 
@@ -139,8 +143,8 @@ namespace AngleSharp.Common
         /// <returns>The value or the provided fallback.</returns>
         [return: NotNullIfNotNull("defaultValue")]
         public static U? GetOrDefault<T, U>(this IDictionary<T, U> values, T key, U? defaultValue)
-            where T: notnull
-            where U: notnull
+            where T : notnull
+            where U : notnull
         {
             return values.TryGetValue(key, out var value) ? value : defaultValue;
         }

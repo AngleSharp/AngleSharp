@@ -53,21 +53,12 @@ namespace AngleSharp.Dom
         /// <returns>The url of the namespace or null, if the prefix could not be found.</returns>
         public static String? LocateNamespaceFor(this IElement element, String prefix)
         {
-            var ns = element.NamespaceUri;
+            var ns = element.GivenNamespaceUri;
             var px = element.Prefix;
 
             if (String.IsNullOrEmpty(ns) || !px.Is(prefix))
             {
-                var success = false;
-
-                if (prefix is null)
-                {
-                    success = element.TryLocateStandardNamespace(out ns);
-                }
-                else
-                {
-                    success = element.TryLocateCustomNamespace(prefix, out ns);
-                }
+                var success = prefix is not null ? element.TryLocateCustomNamespace(prefix, out ns) : element.TryLocateStandardNamespace(out ns);
 
                 if (!success)
                 {
@@ -86,24 +77,13 @@ namespace AngleSharp.Dom
         public static String? GetNamespaceUri(this IElement element)
         {
             var prefix = element.Prefix;
-            var success = false;
-            var ns = String.Empty;
 
-            if (prefix is null)
+            if (prefix is not null ? element.TryLocateCustomNamespace(prefix, out var ns) : element.TryLocateStandardNamespace(out ns))
             {
-                success = element.TryLocateStandardNamespace(out ns);
-            }
-            else
-            {
-                success = element.TryLocateCustomNamespace(prefix, out ns);
+                return ns;
             }
 
-            if (!success)
-            {
-                ns = element.ParentElement?.LocateNamespaceFor(prefix!);
-            }
-
-            return ns;
+            return element.ParentElement?.LocateNamespaceFor(prefix!);
         }
 
         /// <summary>
