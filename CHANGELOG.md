@@ -7,6 +7,7 @@ Released on Saturday, January 7 2023
 - Improved nullability (#1057) @jodydonetti
 - Improved CSS selectors by counting the specificity properly (#1080) @patrikwlund
 - Improved `GetItemByIndex` performance (#1050) @egil
+- Added `GetComposedPath` and `IsComposed` to the `Event` class (#1053)
 
 # 0.17.1
 

@@ -37,6 +37,8 @@ namespace AngleSharp.Dom
 
         public IElement? ActiveElement => this.GetDescendants().OfType<Element>().Where(m => m.IsFocused).FirstOrDefault();
 
+        public ShadowRootMode Mode => _mode;
+
         public IElement Host => _host;
 
         public String InnerHtml
