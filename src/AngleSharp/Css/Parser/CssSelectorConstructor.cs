@@ -8,6 +8,7 @@ namespace AngleSharp.Css.Parser
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
 
     /// <summary>
     /// Class for construction for CSS selectors as specified in
@@ -30,7 +31,9 @@ namespace AngleSharp.Css.Parser
             { PseudoClassNames.Lang, ctx => new LangFunctionState() },
             { PseudoClassNames.Contains, ctx => new ContainsFunctionState() },
             { PseudoClassNames.Has, ctx => new HasFunctionState(ctx) },
+            { PseudoClassNames.Is, ctx => new IsFunctionState(ctx) },
             { PseudoClassNames.Matches, ctx => new MatchesFunctionState(ctx) },
+            { PseudoClassNames.Where, ctx => new WhereFunctionState(ctx) },
             { PseudoClassNames.HostContext, ctx => new HostContextFunctionState(ctx) },
         };
         
@@ -593,6 +596,11 @@ namespace AngleSharp.Css.Parser
             public abstract ISelector? Produce();
 
             protected abstract Boolean OnToken(CssSelectorToken token);
+
+            protected Priority ResolveMostSpecificParameter(ISelector parameter) =>
+                parameter is ListSelector list
+                    ? list.Max(x => x.Specificity)
+                    : parameter.Specificity;
         }
 
         private sealed class NotFunctionState : FunctionState
@@ -624,7 +632,8 @@ namespace AngleSharp.Css.Parser
                 if (valid)
                 {
                     var code = PseudoClassNames.Not.CssFunction(sel!.Text);
-                    return new PseudoClassSelector(el => !sel.Match(el), code);
+                    var specificity = ResolveMostSpecificParameter(sel);
+                    return new PseudoClassSelector(el => !sel.Match(el), code, specificity);
                 }
 
                 return null;
@@ -672,6 +681,7 @@ namespace AngleSharp.Css.Parser
                 if (valid)
                 {
                     var code = PseudoClassNames.Has.CssFunction(selText);
+                    var specificity = ResolveMostSpecificParameter(sel);
 
                     return new PseudoClassSelector(el =>
                     {
@@ -692,18 +702,21 @@ namespace AngleSharp.Css.Parser
                         }
 
                         return sel.MatchAny(elements, el) != null;
-                    }, code);
+                    }, code, specificity);
                 }
 
                 return null;
             }
         }
 
-        private sealed class MatchesFunctionState : FunctionState
+        /// <summary>
+        /// Base implementation for :matches(), :is(), :where().
+        /// </summary>
+        private abstract class BaseMatchingFunctionState : FunctionState
         {
             private readonly CssSelectorConstructor _selector;
 
-            public MatchesFunctionState(CssSelectorConstructor parent)
+            public BaseMatchingFunctionState(CssSelectorConstructor parent)
             {
                 _selector = parent.CreateChild();
             }
@@ -719,6 +732,10 @@ namespace AngleSharp.Css.Parser
                 return true;
             }
 
+            protected abstract String Name { get; }
+
+            protected abstract Priority DecideSpecificity(ISelector innerSelector);
+
             public override ISelector? Produce()
             {
                 var valid = _selector.IsValid;
@@ -726,12 +743,46 @@ namespace AngleSharp.Css.Parser
 
                 if (valid)
                 {
-                    var code = PseudoClassNames.Matches.CssFunction(sel!.Text);
-                    return new PseudoClassSelector(el => sel.Match(el), code);
+                    var code = Name.CssFunction(sel!.Text);
+                    var specificity = DecideSpecificity(sel);
+                    return new PseudoClassSelector(el => sel.Match(el), code, specificity);
                 }
 
                 return null;
             }
+        }
+
+        private sealed class MatchesFunctionState : BaseMatchingFunctionState
+        {
+            public MatchesFunctionState(CssSelectorConstructor parent) : base(parent)
+            {
+            }
+
+            protected override String Name => PseudoClassNames.Matches;
+
+            protected override Priority DecideSpecificity(ISelector innerSelector) => ResolveMostSpecificParameter(innerSelector);
+        }
+
+        private sealed class IsFunctionState : BaseMatchingFunctionState
+        {
+            public IsFunctionState(CssSelectorConstructor parent) : base(parent)
+            {
+            }
+
+            protected override String Name => PseudoClassNames.Is;
+
+            protected override Priority DecideSpecificity(ISelector innerSelector) => ResolveMostSpecificParameter(innerSelector);
+        }
+
+        private sealed class WhereFunctionState : BaseMatchingFunctionState
+        {
+            public WhereFunctionState(CssSelectorConstructor parent) : base(parent)
+            {
+            }
+
+            protected override String Name => PseudoClassNames.Where;
+
+            protected override Priority DecideSpecificity(ISelector innerSelector) => Priority.Zero;
         }
 
         private sealed class DirFunctionState : FunctionState

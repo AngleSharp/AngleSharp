@@ -433,7 +433,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void SetAttribute(String name, String value)
+        public void SetAttribute(String name, String? value)
         {
             if (value != null)
             {
@@ -456,7 +456,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void SetAttribute(String? namespaceUri, String name, String value)
+        public void SetAttribute(String? namespaceUri, String name, String? value)
         {
             if (value != null)
             {
