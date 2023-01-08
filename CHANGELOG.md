@@ -1,6 +1,6 @@
 # 1.0.0
 
-Released on Sunday, January 8 2023
+Released on Monday, January 9 2023
 
 - Updated build system to use NUKE instead of CAKE (#1075) @driekus77
 - Fixed `TagClosedWrong` error with nested formatting elements (#1052)
