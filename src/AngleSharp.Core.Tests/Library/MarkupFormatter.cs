@@ -60,5 +60,14 @@ div.WordSection1 { page: WordSection1 }</style>
             var output = doc.Body.ToHtml(empty);
             Assert.IsEmpty(output);
         }
+
+        [Test]
+        public void EntitiesDecodingInNoScript_Issue1070()
+        {
+            var html = @"<html><body><noscript>&lt;/noscript</body></html>";
+            var dom = html.ToHtmlDocument();
+            var h = dom.Body.ToHtml();
+            Assert.AreEqual("<body><noscript>&lt;/noscript</noscript></body>", h);
+        }
     }
 }
