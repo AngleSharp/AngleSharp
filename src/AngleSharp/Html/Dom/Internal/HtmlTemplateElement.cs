@@ -64,6 +64,8 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
+        protected override void ReplacedAll() => PopulateFragment();
+
         protected override void NodeIsAdopted(Document oldDocument) => _content.Owner = oldDocument;
 
         #endregion

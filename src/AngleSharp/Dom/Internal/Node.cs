@@ -260,6 +260,8 @@ namespace AngleSharp.Dom
                     addedNodes: addedNodes,
                     removedNodes: removedNodes));
             }
+
+            ReplacedAll();
         }
 
         internal INode InsertBefore(Node newElement, Node? referenceElement, Boolean suppressObservers)
@@ -442,6 +444,19 @@ namespace AngleSharp.Dom
             throw new DomException(DomError.HierarchyRequest);
         }
 
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Called when ReplaceAll was run.
+        /// </summary>
+        protected virtual void ReplacedAll() {}
+
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Clones the current node using the new owner.
         /// </summary>
@@ -449,10 +464,6 @@ namespace AngleSharp.Dom
         /// <param name="deep">True if a deep clone is wanted, otherwise false.</param>
         /// <returns>The cloned node.</returns>
         public abstract Node Clone(Document newOwner, Boolean deep);
-
-        #endregion
-
-        #region Public Methods
 
         /// <inheritdoc />
         public void AppendText(String s)

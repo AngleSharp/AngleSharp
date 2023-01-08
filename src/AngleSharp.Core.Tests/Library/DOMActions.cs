@@ -1410,5 +1410,17 @@ namespace AngleSharp.Core.Tests.Library
             var el = doc.GetElementsByTagName("iframe")[0];
             el.RemoveAttribute("src");
         }
+
+        [Test]
+        public async Task SettingTemplateContentUsingInnerHtmlWorks_Issue1072()
+        {
+            var content = "<body>";
+            var parser = new HtmlParser();
+            var doc = await parser.ParseDocumentAsync(content);
+            var template = doc.CreateElement<IHtmlTemplateElement>();
+            template.InnerHtml = "<div></div>";
+            Assert.IsNotNull(template.Content.FirstChild);
+            Assert.AreEqual(0, template.ChildNodes.Length);
+        }
     }
 }
