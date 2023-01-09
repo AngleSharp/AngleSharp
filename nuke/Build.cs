@@ -41,11 +41,13 @@ class Build : NukeBuild
 
     string TargetProjectName => "AngleSharp";
 
+    string TargetLibName => $"{TargetProjectName}.Core";
+
     AbsolutePath SourceDirectory => RootDirectory / "src";
 
-    AbsolutePath BuildDirectory => SourceDirectory / $"{TargetProjectName}/bin" / Configuration;
+    AbsolutePath BuildDirectory => SourceDirectory / TargetProjectName / "bin" / Configuration;
 
-    AbsolutePath ResultDirectory => RootDirectory / "bin"  / Version;
+    AbsolutePath ResultDirectory => RootDirectory / "bin" / Version;
 
     AbsolutePath NugetDirectory => ResultDirectory / "nuget";
 
@@ -85,11 +87,11 @@ class Build : NukeBuild
 
             var buildNumber = GitHubActions.RunNumber;
 
-            if ( Configuration.Equals(Configuration.Release) )
+            if (ScheduledTargets.Contains(Default))
             {
                 Version = $"{Version}-ci-{buildNumber}";
             }
-            else
+            else if (ScheduledTargets.Contains(PrePublish))
             {
                 Version = $"{Version}-alpha-{buildNumber}";
             }
@@ -97,7 +99,7 @@ class Build : NukeBuild
 
         Log.Information("Building version: {Version}", Version);
 
-        TargetProject = Solution.GetProject(SourceDirectory / TargetProjectName / $"{TargetProjectName}.Core.csproj" );
+        TargetProject = Solution.GetProject(SourceDirectory / TargetProjectName / $"{TargetLibName}.csproj" );
         TargetProject.NotNull("TargetProject could not be loaded!");
 
         TargetFrameworks = TargetProject.GetTargetFrameworks();
@@ -172,7 +174,7 @@ class Build : NukeBuild
                 .SetSymbols(true)
                 .SetSymbolPackageFormat("snupkg")
                 .AddProperty("Configuration", Configuration)
-                );
+            );
         });
 
     Target PublishPackage => _ => _
@@ -197,9 +199,44 @@ class Build : NukeBuild
             }
         });
 
+    Target PublishPreRelease => _ => _
+        .DependsOn(PublishPackage)
+        .Executes(() =>
+        {
+            string gitHubToken;
+
+            if (GitHubActions != null)
+            {
+                gitHubToken = GitHubActions.Token;
+            }
+            else
+            {
+                gitHubToken = Environment.GetEnvironmentVariable("GITHUB_TOKEN");
+            }
+
+            if (gitHubToken.IsNullOrEmpty())
+            {
+                throw new BuildAbortedException("Could not resolve GitHub token.");
+            }
+
+            var credentials = new Credentials(gitHubToken);
+
+            GitHubTasks.GitHubClient = new GitHubClient(
+                new ProductHeaderValue(nameof(NukeBuild)),
+                new InMemoryCredentialStore(credentials));
+
+            GitHubTasks.GitHubClient.Repository.Release
+                .Create("AngleSharp", TargetProjectName, new NewRelease(Version)
+                {
+                    Name = Version,
+                    Body = String.Join(Environment.NewLine, LatestReleaseNotes.Notes),
+                    Prerelease = true,
+                    TargetCommitish = "devel",
+                });
+        });
+
     Target PublishRelease => _ => _
         .DependsOn(PublishPackage)
-        .DependsOn(RunUnitTests)
         .Executes(() =>
         {
             string gitHubToken;
@@ -245,6 +282,5 @@ class Build : NukeBuild
         .DependsOn(PublishRelease);
 
     Target PrePublish => _ => _
-        .DependsOn(PublishPackage);
-
+        .DependsOn(PublishPreRelease);
 }
