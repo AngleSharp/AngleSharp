@@ -1,27 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Microsoft.Build.Exceptions;
-using NuGet.Packaging;
 using Nuke.Common;
-using Nuke.Common.ChangeLog;
-using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Execution;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.NuGet;
 using Nuke.Common.Utilities.Collections;
-using static Nuke.Common.EnvironmentInfo;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
 using Octokit;
 using Octokit.Internal;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using static Nuke.Common.IO.FileSystemTasks;
+using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
 using Project = Nuke.Common.ProjectModel.Project;
@@ -42,28 +36,33 @@ class Build : NukeBuild
     [Nuke.Common.Parameter("ReleaseNotesFilePath - To determine the SemanticVersion")]
     readonly AbsolutePath ReleaseNotesFilePath = RootDirectory / "CHANGELOG.md";
 
-    [Solution] readonly Solution Solution;
+    [Solution]
+    readonly Solution Solution;
+
     string TargetProjectName => "AngleSharp";
-    Project TargetProject { get; set; }
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
+
     AbsolutePath BuildDirectory => SourceDirectory / $"{TargetProjectName}/bin" / Configuration;
+
     AbsolutePath ResultDirectory => RootDirectory / "bin"  / Version;
+
     AbsolutePath NugetDirectory => ResultDirectory / "nuget";
 
     GitHubActions GitHubActions => GitHubActions.Instance;
 
+    Project TargetProject { get; set; }
+
     // Note: The ChangeLogTasks from Nuke itself look buggy. So using the Cake source code.
     IReadOnlyList<ReleaseNotes> ChangeLog { get; set; }
+
     ReleaseNotes LatestReleaseNotes { get; set; }
 
     SemVersion SemVersion { get; set; }
+
     string Version { get; set; }
 
-
-
     IReadOnlyCollection<string> TargetFrameworks { get; set; }
-
 
     protected override void OnBuildInitialized()
     {
@@ -85,6 +84,7 @@ class Build : NukeBuild
             Log.Debug("Add Version Postfix if under CI - GithubAction(s)...");
 
             var buildNumber = GitHubActions.RunNumber;
+
             if ( Configuration.Equals(Configuration.Release) )
             {
                 Version = $"{Version}-ci-{buildNumber}";
@@ -147,8 +147,9 @@ class Build : NukeBuild
         {
             foreach (var item in TargetFrameworks)
             {
-                AbsolutePath targetDir = NugetDirectory / "lib" / item;
+                var targetDir = NugetDirectory / "lib" / item;
                 var srcDir = BuildDirectory / item;
+
                 CopyFile(srcDir / $"{TargetProjectName}.dll", targetDir / $"{TargetProjectName}.dll", FileExistsPolicy.OverwriteIfNewer);
                 CopyFile(srcDir / $"{TargetProjectName}.pdb", targetDir / $"{TargetProjectName}.pdb", FileExistsPolicy.OverwriteIfNewer);
                 CopyFile(srcDir / $"{TargetProjectName}.xml", targetDir / $"{TargetProjectName}.xml", FileExistsPolicy.OverwriteIfNewer);
@@ -187,7 +188,7 @@ class Build : NukeBuild
                 throw new BuildAbortedException("Could not resolve the NuGet API key.");
             }
 
-            foreach (var nupkg in GlobFiles(NugetDirectory, new string[] { "/*.nupkg" }))
+            foreach (var nupkg in GlobFiles(NugetDirectory, "*.nupkg"))
             {
                 NuGetPush(s => s
                     .SetTargetPath(nupkg)
@@ -202,6 +203,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             string gitHubToken;
+
             if (GitHubActions != null)
             {
                 gitHubToken = GitHubActions.Token;
@@ -217,6 +219,7 @@ class Build : NukeBuild
             }
 
             var credentials = new Credentials(gitHubToken);
+
             GitHubTasks.GitHubClient = new GitHubClient(
                 new ProductHeaderValue(nameof(NukeBuild)),
                 new InMemoryCredentialStore(credentials));
