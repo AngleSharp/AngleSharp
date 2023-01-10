@@ -28,6 +28,11 @@ namespace AngleSharp.Dom
         String InnerHtml { get; set; }
 
         /// <summary>
+        /// Gets the mode of this shadow root.
+        /// </summary>
+        ShadowRootMode Mode { get; }
+
+        /// <summary>
         /// Gets the shadow root style sheets.
         /// </summary>
         [DomName("styleSheets")]

@@ -195,5 +195,8 @@ pip-log.txt
 # Mac crap
 .DS_Store
 
+# Nuke build tool
+.nuke/temp
+
 /src/AngleSharp.Benchmarks/BenchmarkDotNet.Artifacts*
 /src/AngleSharp.Benchmarks/temp

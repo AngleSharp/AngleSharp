@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text;
 using AngleSharp.Html.Parser;
 using BenchmarkDotNet.Attributes;
@@ -20,7 +20,7 @@ namespace AngleSharp.Benchmarks
             var websites = new UrlTests(
                 ".html",
                 true);
-
+            
             websites.Include(
                 "http://www.amazon.com",
                 "http://www.blogspot.com",

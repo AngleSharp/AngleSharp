@@ -64,10 +64,16 @@ namespace AngleSharp.Core.Tests
             });
         }
 
-        public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)
+        public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null, DomEventHandler onError = null)
         {
             var context = BrowsingContext.New(configuration ?? Configuration.Default);
             var htmlParser = context.GetService<IHtmlParser>();
+
+            if (onError is not null)
+            {
+                htmlParser.Error += onError;
+            }
+
             return htmlParser.ParseDocument(sourceCode);
         }
 

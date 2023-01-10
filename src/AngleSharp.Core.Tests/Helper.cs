@@ -3,7 +3,9 @@ namespace AngleSharp.Core.Tests
     using NUnit.Framework;
     using System;
     using System.IO;
+    using System.Linq;
     using System.Net.NetworkInformation;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Small (but quite useable) code to enable / disable some
@@ -27,6 +29,24 @@ namespace AngleSharp.Core.Tests
             }
 
             Assert.Inconclusive("No network has been detected. Test skipped.");
+            return false;
+        }
+
+        /// <summary>
+        /// Indicates that the current framework is one of the given frameworks.
+        /// </summary>
+        /// <param name="frameworks">The frameworks to check against.</param>
+        /// <returns>True if currently running in a compatible framework, otherwise false.</returns>
+        public static Boolean IsFramework(params string[] frameworks)
+        {
+            var currentFramework = RuntimeInformation.FrameworkDescription;
+
+            if (frameworks.Any(fr => currentFramework.Contains(fr)))
+            {
+                return true;
+            }
+
+            Assert.Inconclusive($"The framework {currentFramework} is not compatible with this test.");
             return false;
         }
 

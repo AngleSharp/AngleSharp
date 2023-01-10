@@ -2985,19 +2985,27 @@ namespace AngleSharp.Html.Parser
         /// <param name="tag">The actual tag given.</param>
         private void HeisenbergAlgorithm(HtmlTagToken tag)
         {
-            var outer = 0;
-            var inner = 0;
-            var bookmark = 0;
-            var index = 0;
+            var currentNode = CurrentNode;
 
-            while (outer < 8)
+            // This check intends to ensure that for properly nested tags, closing tags will match
+            // against the stack instead of the _formattingElements.
+            if (currentNode.NamespaceUri.Is(NamespaceNames.HtmlUri) && currentNode.LocalName.Is(tag.Name) && !_formattingElements.Contains(currentNode))
+            {
+                // If the current element matches the name but isn't on the list of active
+                // formatting elements, then it is possible that the list was mangled by the Noah's Ark
+                // clause. In this case, we want to match the end tag against the stack instead of
+                // proceeding with the AAA algorithm that may match against the list of
+                // active formatting elements (and possibly mangle the tree in unexpected ways).
+                CloseCurrentNode();
+                return;
+            }
+
+            for (var outer = 0; outer < 8; outer++)
             {
                 var formattingElement = default(Element);
                 var furthestBlock = default(Element);
-
-                outer++;
-                index = 0;
-                inner = 0;
+                var index = 0;
+                var inner = 0;
 
                 for (var j = _formattingElements.Count - 1; j >= 0 && _formattingElements[j] != null; j--)
                 {
@@ -3035,7 +3043,7 @@ namespace AngleSharp.Html.Parser
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong, tag);
                 }
 
-                bookmark = index;
+                var bookmark = index;
 
                 for (var j = openIndex + 1; j < _openElements.Count; j++)
                 {
@@ -3061,13 +3069,12 @@ namespace AngleSharp.Html.Parser
                 }
 
                 var commonAncestor = _openElements[openIndex - 1];
-                var node = furthestBlock;
                 var lastNode = furthestBlock;
 
                 while (true)
                 {
                     inner++;
-                    node = _openElements[--index];
+                    var node = _openElements[--index];
 
                     if (node == formattingElement)
                     {

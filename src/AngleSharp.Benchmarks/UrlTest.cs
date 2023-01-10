@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AngleSharp.Benchmarks
@@ -11,6 +12,8 @@ namespace AngleSharp.Benchmarks
 
         private UrlTest(string name, string source)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             Name = name;
             Source = source;
         }

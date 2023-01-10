@@ -12,11 +12,19 @@ namespace AngleSharp.Css.Dom
         {
             _action = action;
             _pseudoClass = pseudoClass;
+            Specificity = Priority.OneClass;
         }
 
-        public Priority Specificity => Priority.OneClass;
+        public PseudoClassSelector(Predicate<IElement> action, String pseudoClass, Priority specificity)
+        {
+            _action = action;
+            _pseudoClass = pseudoClass;
+            Specificity = specificity;
+        }
 
-        public String Text => PseudoClassNames.Separator + _pseudoClass;
+        public Priority Specificity { get; }
+
+        public String Text => PseudoClassNames.Separator + CssUtilities.Escape(_pseudoClass);
 
         public void Accept(ISelectorVisitor visitor) => visitor.PseudoClass(_pseudoClass);
 

@@ -1,3 +1,18 @@
+# 1.0.0
+
+Released on Tuesday, January 10 2023
+
+- Updated build system to use NUKE instead of CAKE (#1075) @driekus77
+- Fixed `TagClosedWrong` error with nested formatting elements (#1052)
+- Fixed performance issue within deeply nested structures (#1066) @heinrich-ulbricht
+- Fixed decoding of entities in `noscript` elements without scripting (#1070)
+- Fixed setting templte content using `InnerHtml` (#1072)
+- Fixed `TreeWalker` throwing `NullReferenceException` (#1073)
+- Improved `GetItemByIndex` performance (#1050) @egil
+- Improved nullability (#1057) @jodydonetti
+- Improved CSS selectors by counting the specificity properly (#1080) @patrikwlund
+- Added `GetComposedPath` and `IsComposed` to the `Event` class (#1053)
+
 # 0.17.1
 
 Released on Thursday, June 2 2022

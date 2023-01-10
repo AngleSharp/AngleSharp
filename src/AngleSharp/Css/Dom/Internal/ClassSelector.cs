@@ -14,7 +14,7 @@ namespace AngleSharp.Css.Dom
 
         public Priority Specificity => Priority.OneClass;
 
-        public String Text => "." + _cls;
+        public String Text => "." + CssUtilities.Escape(_cls);
 
         public void Accept(ISelectorVisitor visitor) => visitor.Class(_cls);
 

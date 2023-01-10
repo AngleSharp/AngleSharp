@@ -38,6 +38,11 @@ AngleSharp contains code written by (in order of first pull request / commit):
 * [Steven Giesel](https://github.com/linkdotnet)
 * [Bainova Ekaterina](https://github.com/Aizeren)
 * [Oleksii Holub](https://github.com/Tyrrrz)
+* [Henry Roeland](https://github.com/driekus77)
+* [Jody Donetti](https://github.com/jodydonetti)
+* [Heinrich Ulbricht](https://github.com/heinrich-ulbricht)
+* [Patrik Westerlund](https://github.com/patrikwlund)
+* [Egil Hansen](https://github.com/egil)
 
 Without these awesome people AngleSharp could not exist. Thanks to everyone for your contributions! :beers:
 

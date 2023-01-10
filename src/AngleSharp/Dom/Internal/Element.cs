@@ -74,6 +74,9 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public String? NamespaceUri => _namespace ?? this.GetNamespaceUri();
+        
+        /// <inheritdoc />
+        public String? GivenNamespaceUri => _namespace;
 
         /// <inheritdoc />
         public override String TextContent
@@ -430,7 +433,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void SetAttribute(String name, String value)
+        public void SetAttribute(String name, String? value)
         {
             if (value != null)
             {
@@ -453,7 +456,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void SetAttribute(String? namespaceUri, String name, String value)
+        public void SetAttribute(String? namespaceUri, String name, String? value)
         {
             if (value != null)
             {

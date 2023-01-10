@@ -10,6 +10,7 @@ namespace AngleSharp.Core.Tests.Library
     using System;
     using System.Globalization;
     using System.Linq;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -418,10 +419,13 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void NoOriginShouldNotDeliverAnyCookie_Issue702()
         {
-            var mcp = new MemoryCookieProvider();
-            var url = new Url("");
-            var cookie = mcp.GetCookie(url);
-            Assert.IsEmpty(cookie);
+            if (Helper.IsFramework(".NET 6.0", ".NET 7.0"))
+            {
+                var mcp = new MemoryCookieProvider();
+                var url = new Url("");
+                var cookie = mcp.GetCookie(url);
+                Assert.IsEmpty(cookie);
+            }
         }
 
         [Test]

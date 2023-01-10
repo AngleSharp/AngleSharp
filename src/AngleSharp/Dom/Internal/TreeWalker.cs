@@ -49,7 +49,7 @@ namespace AngleSharp.Dom
             var node = _current;
             var result = FilterResult.Accept;
 
-            while (node != null)
+            while (node is not null)
             {
                 while (result != FilterResult.Reject && node.HasChildNodes)
                 {
@@ -63,7 +63,7 @@ namespace AngleSharp.Dom
                     }
                 }
 
-                while (node != _root)
+                while (node is not null && node != _root)
                 {
                     var sibling = node!.NextSibling;
 
@@ -76,7 +76,7 @@ namespace AngleSharp.Dom
                     node = node.Parent;
                 }
 
-                if (node == _root)
+                if (node is null || node == _root)
                 {
                     break;
                 }
@@ -97,11 +97,11 @@ namespace AngleSharp.Dom
         {
             var node = _current;
 
-            while (node != null && node != _root)
+            while (node is not null && node != _root)
             {
                 var sibling = node.PreviousSibling;
 
-                while (sibling != null)
+                while (sibling is not null)
                 {
                     node = sibling;
                     var result = Check(node);
@@ -145,11 +145,11 @@ namespace AngleSharp.Dom
         {
             var node = _current;
 
-            while (node != null && node != _root)
+            while (node is not null && node != _root)
             {
                 node = node.Parent;
 
-                if (node != null && Check(node) == FilterResult.Accept)
+                if (node is not null && Check(node) == FilterResult.Accept)
                 {
                     _current = node;
                     return node;
@@ -163,7 +163,7 @@ namespace AngleSharp.Dom
         {
             var node = _current?.FirstChild;
 
-            while (node != null)
+            while (node is not null)
             {
                 var result = Check(node);
 
@@ -176,18 +176,18 @@ namespace AngleSharp.Dom
                 {
                     var child = node.FirstChild;
 
-                    if (child != null)
+                    if (child is not null)
                     {
                         node = child;
                         continue;
                     }
                 }
 
-                while (node != null)
+                while (node is not null)
                 {
                     var sibling = node.NextSibling;
 
-                    if (sibling != null)
+                    if (sibling is not null)
                     {
                         node = sibling;
                         break;
@@ -212,7 +212,7 @@ namespace AngleSharp.Dom
         {
             var node = _current?.LastChild;
 
-            while (node != null)
+            while (node is not null)
             {
                 var result = Check(node);
 
@@ -225,18 +225,18 @@ namespace AngleSharp.Dom
                 {
                     var child = node.LastChild;
 
-                    if (child != null)
+                    if (child is not null)
                     {
                         node = child;
                         continue;
                     }
                 }
 
-                while (node != null)
+                while (node is not null)
                 {
                     var sibling = node.PreviousSibling;
 
-                    if (sibling != null)
+                    if (sibling is not null)
                     {
                         node = sibling;
                         break;
@@ -263,11 +263,11 @@ namespace AngleSharp.Dom
 
             if (node != _root)
             {
-                while (node != null)
+                while (node is not null)
                 {
                     var sibling = node.PreviousSibling;
 
-                    while (sibling != null)
+                    while (sibling is not null)
                     {
                         node = sibling;
                         var result = Check(node);
@@ -304,11 +304,11 @@ namespace AngleSharp.Dom
 
             if (node != _root)
             {
-                while (node != null)
+                while (node is not null)
                 {
                     var sibling = node.NextSibling;
 
-                    while (sibling != null)
+                    while (sibling is not null)
                     {
                         node = sibling;
                         var result = Check(node);

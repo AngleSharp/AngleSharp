@@ -7,6 +7,9 @@ namespace AngleSharp.Css.Dom
     {
         private readonly String _prefix;
 
+        /// <summary>
+        /// </summary>
+        /// <param name="prefix">The escaped prefix text</param>
         public NamespaceSelector(String prefix)
         {
             _prefix = prefix;
@@ -14,7 +17,7 @@ namespace AngleSharp.Css.Dom
 
         public Priority Specificity => Priority.Zero;
 
-        public String Text => _prefix;
+        public String Text => CssUtilities.Escape(_prefix);
 
         public Boolean Match(IElement element, IElement? scope) => element.MatchesCssNamespace(_prefix);
 

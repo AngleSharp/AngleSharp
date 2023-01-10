@@ -15,7 +15,7 @@ namespace AngleSharp.Css.Dom
 
         public Priority Specificity => Priority.OneId;
 
-        public String Text => "#" + _id;
+        public String Text => "#" + CssUtilities.Escape(_id);
 
         public void Accept(ISelectorVisitor visitor) => visitor.Id(_id);
 

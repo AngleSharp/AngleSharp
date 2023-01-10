@@ -1,81 +1,69 @@
+[CmdletBinding()]
 Param(
-    [string]$Script = "build.cake",
-    [string]$Target = "Default",
-    [ValidateSet("Release", "Debug")]
-    [string]$Configuration = "Release",
-    [ValidateSet("Quiet", "Minimal", "Normal", "Verbose", "Diagnostic")]
-    [string]$Verbosity = "Verbose",
-    [switch]$Experimental,
-    [switch]$WhatIf,
-    [switch]$Mono,
-    [switch]$SkipToolPackageRestore,
     [Parameter(Position=0,Mandatory=$false,ValueFromRemainingArguments=$true)]
-    [string[]]$ScriptArgs
+    [string[]]$BuildArguments
 )
 
-$PSScriptRoot = split-path -parent $MyInvocation.MyCommand.Definition;
-$UseDryRun = "";
-$UseMono = "";
-$TOOLS_DIR = Join-Path $PSScriptRoot "tools"
-$NUGET_EXE = Join-Path $TOOLS_DIR "nuget.exe"
-$NUGET_OLD_EXE = Join-Path $TOOLS_DIR "nuget_old.exe"
-$CAKE_EXE = Join-Path $TOOLS_DIR "Cake/Cake.exe"
-$NUGET_URL = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
-$NUGET_OLD_URL = "https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe"
+Write-Output "PowerShell $($PSVersionTable.PSEdition) version $($PSVersionTable.PSVersion)"
 
-# Should we use experimental build of Roslyn?
-$UseExperimental = "";
-if ($Experimental.IsPresent) {
-    $UseExperimental = "--experimental"
+Set-StrictMode -Version 2.0; $ErrorActionPreference = "Stop"; $ConfirmPreference = "None"; trap { Write-Error $_ -ErrorAction Continue; exit 1 }
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+###########################################################################
+# CONFIGURATION
+###########################################################################
+
+$BuildProjectFile = "$PSScriptRoot\nuke\_build.csproj"
+$TempDirectory = "$PSScriptRoot\\.nuke\temp"
+
+$DotNetGlobalFile = "$PSScriptRoot\\global.json"
+$DotNetInstallUrl = "https://dot.net/v1/dotnet-install.ps1"
+$DotNetChannel = "Current"
+
+$env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1
+$env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
+$env:DOTNET_MULTILEVEL_LOOKUP = 0
+
+###########################################################################
+# EXECUTION
+###########################################################################
+
+function ExecSafe([scriptblock] $cmd) {
+    & $cmd
+    if ($LASTEXITCODE) { exit $LASTEXITCODE }
 }
 
-# Is this a dry run?
-if ($WhatIf.IsPresent) {
-    $UseDryRun = "--dryrun"
+# If dotnet CLI is installed globally and it matches requested version, use for execution
+if ($null -ne (Get-Command "dotnet" -ErrorAction SilentlyContinue) -and `
+     $(dotnet --version) -and $LASTEXITCODE -eq 0) {
+    $env:DOTNET_EXE = (Get-Command "dotnet").Path
 }
+else {
+    # Download install script
+    $DotNetInstallFile = "$TempDirectory\dotnet-install.ps1"
+    New-Item -ItemType Directory -Path $TempDirectory -Force | Out-Null
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    (New-Object System.Net.WebClient).DownloadFile($DotNetInstallUrl, $DotNetInstallFile)
 
-# Should we use mono?
-if ($Mono.IsPresent) {
-    $UseMono = "--mono"
-}
-
-# Try download NuGet.exe if do not exist.
-if (!(Test-Path $NUGET_EXE)) {
-    (New-Object System.Net.WebClient).DownloadFile($NUGET_URL, $NUGET_EXE)
-}
-
-# Try download NuGet.exe if do not exist.
-if (!(Test-Path $NUGET_OLD_URL)) {
-    (New-Object System.Net.WebClient).DownloadFile($NUGET_OLD_URL, $NUGET_OLD_EXE)
-}
-
-# Make sure NuGet (latest) exists where we expect it.
-if (!(Test-Path $NUGET_EXE)) {
-    Throw "Could not find nuget.exe"
-}
-
-# Make sure NuGet (v3.5.0) exists where we expect it.
-if (!(Test-Path $NUGET_OLD_EXE)) {
-    Throw "Could not find nuget_old.exe"
-}
-
-# Restore tools from NuGet?
-if (-Not $SkipToolPackageRestore.IsPresent)
-{
-    Push-Location
-    Set-Location $TOOLS_DIR
-    Invoke-Expression "$NUGET_EXE install -ExcludeVersion"
-    Pop-Location
-    if ($LASTEXITCODE -ne 0) {
-        exit $LASTEXITCODE
+    # If global.json exists, load expected version
+    if (Test-Path $DotNetGlobalFile) {
+        $DotNetGlobal = $(Get-Content $DotNetGlobalFile | Out-String | ConvertFrom-Json)
+        if ($DotNetGlobal.PSObject.Properties["sdk"] -and $DotNetGlobal.sdk.PSObject.Properties["version"]) {
+            $DotNetVersion = $DotNetGlobal.sdk.version
+        }
     }
+
+    # Install by channel or version
+    $DotNetDirectory = "$TempDirectory\dotnet-win"
+    if (!(Test-Path variable:DotNetVersion)) {
+        ExecSafe { & powershell $DotNetInstallFile -InstallDir $DotNetDirectory -Channel $DotNetChannel -NoPath }
+    } else {
+        ExecSafe { & powershell $DotNetInstallFile -InstallDir $DotNetDirectory -Version $DotNetVersion -NoPath }
+    }
+    $env:DOTNET_EXE = "$DotNetDirectory\dotnet.exe"
 }
 
-# Make sure that Cake has been installed.
-if (!(Test-Path $CAKE_EXE)) {
-    Throw "Could not find Cake.exe"
-}
+Write-Output "Microsoft (R) .NET SDK version $(& $env:DOTNET_EXE --version)"
 
-# Start Cake
-Invoke-Expression "$CAKE_EXE `"$Script`" --target=`"$Target`" --configuration=`"$Configuration`" --verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
-exit $LASTEXITCODE
+ExecSafe { & $env:DOTNET_EXE build $BuildProjectFile /nodeReuse:false /p:UseSharedCompilation=false -nologo -clp:NoSummary --verbosity quiet }
+ExecSafe { & $env:DOTNET_EXE run --project $BuildProjectFile --no-build -- $BuildArguments }
