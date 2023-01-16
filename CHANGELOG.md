@@ -1,3 +1,11 @@
+# 1.0.1
+
+Released on Monday, January 16 2023
+
+- Fixed entities in `noscript` being double encoded (#1070)
+- Added previous `Event` constructor overload for ABI compatibility
+- Added README to NuGet package
+
 # 1.0.0
 
 Released on Monday, January 9 2023

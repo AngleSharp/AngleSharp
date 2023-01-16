@@ -2,7 +2,7 @@
 
 # AngleSharp
 
-[![Build Status](https://github.com/AngleSharp/AngleSharp/actions/workflows/ci.yml/badge.svg)](https://github.com/AngleSharp/AngleSharp/actions/workflows/ci.yml)
+[![CI](https://github.com/AngleSharp/AngleSharp/actions/workflows/ci.yml/badge.svg)](https://github.com/AngleSharp/AngleSharp/actions/workflows/ci.yml)
 [![GitHub Tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/releases)
 [![NuGet Count](https://img.shields.io/nuget/dt/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
 [![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
@@ -12,7 +12,7 @@
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The included parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code and ensures compatibility with results in evergreen browsers. Also standard DOM features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
-:zap::zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10 or later**? Look at our [migration documentation](docs/tutorials/05-Migration.md). :zap::zap:
+:zap::zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10 or later** (incl. 1.0)? Look at our [migration documentation](docs/tutorials/05-Migration.md). :zap::zap:
 
 ## Key Features
 

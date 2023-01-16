@@ -21,7 +21,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/robots.txt"),
+                    Address = new Url("http://httpbingo.org/robots.txt"),
                     Method = HttpMethod.Get
                 };
 
@@ -46,7 +46,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/status/500"),
+                    Address = new Url("http://httpbingo.org/status/500"),
                     Method = HttpMethod.Get
                 };
 
@@ -68,7 +68,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/status/400"),
+                    Address = new Url("http://httpbingo.org/status/400"),
                     Method = HttpMethod.Get
                 };
 
@@ -90,7 +90,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/status/403"),
+                    Address = new Url("http://httpbingo.org/status/403"),
                     Method = HttpMethod.Get
                 };
 
@@ -112,7 +112,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/status/404"),
+                    Address = new Url("http://httpbingo.org/status/404"),
                     Method = HttpMethod.Get
                 };
 
@@ -134,7 +134,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/post"),
+                    Address = new Url("http://httpbingo.org/post"),
                     Method = HttpMethod.Post,
                     Content = Helper.StreamFromString("Hello world")
                 };
@@ -164,7 +164,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/put"),
+                    Address = new Url("http://httpbingo.org/put"),
                     Method = HttpMethod.Put,
                     Content = Helper.StreamFromString("PUT THIS THING BACK")
                 };
@@ -194,7 +194,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/delete"),
+                    Address = new Url("http://httpbingo.org/delete"),
                     Method = HttpMethod.Delete,
                     Content = Helper.StreamFromString("Should be ignored")
                 };
@@ -217,7 +217,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/get"),
+                    Address = new Url("http://httpbingo.org/get"),
                     Method = HttpMethod.Delete,
                     Content = Helper.StreamFromString("Should be ignored")
                 };
@@ -240,7 +240,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/get"),
+                    Address = new Url("http://httpbingo.org/get"),
                     Method = HttpMethod.Put,
                     Content = Helper.StreamFromString("Should be ignored")
                 };
@@ -264,7 +264,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester(agent);
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/user-agent"),
+                    Address = new Url("http://httpbingo.org/user-agent"),
                     Method = HttpMethod.Get
                 };
 
@@ -293,7 +293,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbin.org/robots.txt"),
+                    Address = new Url("http://httpbingo.org/robots.txt"),
                     Method = HttpMethod.Get
                 };
 

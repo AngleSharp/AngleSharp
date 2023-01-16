@@ -159,6 +159,7 @@ class Build : NukeBuild
 
             CopyFile(SourceDirectory / $"{TargetProjectName}.nuspec", NugetDirectory / $"{TargetProjectName}.nuspec", FileExistsPolicy.OverwriteIfNewer);
             CopyFile(RootDirectory / "logo.png", NugetDirectory / "logo.png", FileExistsPolicy.OverwriteIfNewer);
+            CopyFile(RootDirectory / "README.md", NugetDirectory / "README.md", FileExistsPolicy.OverwriteIfNewer);
         });
 
     Target CreatePackage => _ => _

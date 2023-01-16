@@ -44,6 +44,26 @@ namespace AngleSharp.Dom.Events
         /// Creates a new event and initializes it.
         /// </summary>
         /// <param name="type">The type of the event.</param>
+        public Event(String type)
+            : this(type, false, false)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new event and initializes it.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
+        /// <param name="bubbles">If the event is bubbling.</param>
+        /// <param name="cancelable">If the event is cancelable.</param>
+        public Event(String type, Boolean bubbles = false, Boolean cancelable = false)
+            : this(type, bubbles, cancelable, false)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new event and initializes it.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
         /// <param name="bubbles">If the event is bubbling.</param>
         /// <param name="cancelable">If the event is cancelable.</param>
         /// <param name="composed">If the event is composable.</param>

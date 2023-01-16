@@ -642,9 +642,21 @@ namespace AngleSharp.Html.Parser
                         RawtextAlgorithm(token.AsTag());
                         return;
                     }
-                    else if (_options.IsScripting && tagName.Is(TagNames.NoScript))
+                    else if (tagName.Is(TagNames.NoScript))
                     {
-                        RawtextAlgorithm(token.AsTag());
+                        var scripting = _options.IsScripting;
+                        var element = new HtmlNoScriptElement(_document, null, scripting);
+                        AddElement(element, token.AsTag());
+
+                        if (scripting)
+                        {
+                            SwitchToRawtext();
+                        }
+                        else
+                        {
+                            _currentMode = HtmlTreeMode.InHeadNoScript;
+                        }
+
                         return;
                     }
                     else if (tagName.Is(TagNames.NoFrames))
@@ -659,12 +671,6 @@ namespace AngleSharp.Html.Parser
                             RawtextAlgorithm(token.AsTag());
                         }
 
-                        return;
-                    }
-                    else if (tagName.Is(TagNames.NoScript))
-                    {
-                        AddElement(token.AsTag());
-                        _currentMode = HtmlTreeMode.InHeadNoScript;
                         return;
                     }
                     else if (tagName.Is(TagNames.Script))
@@ -1212,14 +1218,19 @@ namespace AngleSharp.Html.Parser
             }
             else if (tagName.Is(TagNames.NoScript))
             {
-                if (_options.IsScripting)
-                {
-                    RawtextAlgorithm(tag);
-                    return;
-                }
+                var scripting = _options.IsScripting;
+                var element = new HtmlNoScriptElement(_document, null, scripting);
 
-                ReconstructFormatting();
-                AddElement(tag);
+                if (scripting)
+                {
+                    AddElement(element, tag);
+                    SwitchToRawtext();
+                }
+                else
+                {
+                    ReconstructFormatting();
+                    AddElement(element, tag);
+                }
             }
             else if (tagName.Is(TagNames.Math))
             {
@@ -2867,6 +2878,11 @@ namespace AngleSharp.Html.Parser
         private void RawtextAlgorithm(HtmlTagToken tag)
         {
             AddElement(tag);
+            SwitchToRawtext();
+        }
+
+        private void SwitchToRawtext()
+        {
             _previousMode = _currentMode;
             _currentMode = HtmlTreeMode.Text;
             _tokenizer.State = HtmlParseMode.Rawtext;

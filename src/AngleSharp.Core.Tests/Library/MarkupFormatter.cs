@@ -1,4 +1,5 @@
 using AngleSharp.Core.Tests.Mocks;
+using AngleSharp.Html.Parser;
 using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests.Library
@@ -68,6 +69,53 @@ div.WordSection1 { page: WordSection1 }</style>
             var dom = html.ToHtmlDocument();
             var h = dom.Body.ToHtml();
             Assert.AreEqual("<body><noscript>&lt;/noscript</noscript></body>", h);
+        }
+
+        [Test]
+        public void EntitiesDoubleEncodedInNoScriptWithoutScripting_Issue1070()
+        {
+            var html = @"<html><body><noscript>&lt;</noscript></body></html>";
+            var dom = html.ToHtmlDocument();
+            var h = dom.Body.ToHtml();
+            Assert.AreEqual("<body><noscript>&lt;</noscript></body>", h);
+        }
+
+        [Test]
+        public void EntitiesDecodingInNoScriptWithScripting_Issue1070()
+        {
+            var html = @"<html><body><noscript>&lt;/noscript</body></html>";
+            var dom = html.ToHtmlDocument(Configuration.Default.WithScripting());
+            var h = dom.Body.ToHtml();
+            Assert.AreEqual("<body><noscript>&lt;/noscript</body></html></noscript></body>", h);
+        }
+
+        [Test]
+        public void EntitiesDoubleEncodedInNoScriptWithScripting_Issue1070()
+        {
+            var html = @"<html><body><noscript>&lt;</noscript></body></html>";
+            var dom = html.ToHtmlDocument(Configuration.Default.WithScripting());
+            var h = dom.Body.ToHtml();
+            Assert.AreEqual("<body><noscript>&lt;</noscript></body>", h);
+        }
+
+        [Test]
+        public void EntitiesDoubleEncodedInNoScriptWithoutScriptingAlt_Issue1070()
+        {
+            var html = @"<html><body><noscript>&lt;</noscript></body></html>";
+            var parser = new HtmlParser(new HtmlParserOptions { IsScripting = false }, BrowsingContext.New(Configuration.Default));
+            var dom = parser.ParseDocument(html);
+            var h = dom.Body.ToHtml();
+            Assert.AreEqual("<body><noscript>&lt;</noscript></body>", h);
+        }
+
+        [Test]
+        public void EntitiesDoubleEncodedInNoScriptWithScriptingAlt_Issue1070()
+        {
+            var html = @"<html><body><noscript>&lt;</noscript></body></html>";
+            var parser = new HtmlParser(new HtmlParserOptions { IsScripting = true }, BrowsingContext.New(Configuration.Default));
+            var dom = parser.ParseDocument(html);
+            var h = dom.Body.ToHtml();
+            Assert.AreEqual("<body><noscript>&lt;</noscript></body>", h);
         }
     }
 }

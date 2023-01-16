@@ -85,6 +85,7 @@
               "PrePublish",
               "Publish",
               "PublishPackage",
+              "PublishPreRelease",
               "PublishRelease",
               "Restore",
               "RunUnitTests"
@@ -110,6 +111,7 @@
               "PrePublish",
               "Publish",
               "PublishPackage",
+              "PublishPreRelease",
               "PublishRelease",
               "Restore",
               "RunUnitTests"

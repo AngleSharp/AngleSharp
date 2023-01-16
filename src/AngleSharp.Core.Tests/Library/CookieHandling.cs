@@ -193,9 +193,9 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingOneCookiesInOneRequestAppearsInDocument()
         {
-            if (Helper.IsNetworkAvailable())
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
             {
-                var url = "https://httpbin.org/cookies/set?k1=v1";
+                var url = "https://httpbingo.org/cookies/set?k1=v1";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
@@ -207,9 +207,9 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingTwoCookiesInOneRequestAppearsInDocument()
         {
-            if (Helper.IsNetworkAvailable())
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
             {
-                var url = "https://httpbin.org/cookies/set?k2=v2&k1=v1";
+                var url = "https://httpbingo.org/cookies/set?k2=v2&k1=v1";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
@@ -222,9 +222,9 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingThreeCookiesInOneRequestAppearsInDocument()
         {
-            if (Helper.IsNetworkAvailable())
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
             {
-                var url = "https://httpbin.org/cookies/set?test=baz&k2=v2&k1=v1&foo=bar";
+                var url = "https://httpbingo.org/cookies/set?test=baz&k2=v2&k1=v1&foo=bar";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
@@ -237,9 +237,9 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingThreeCookiesInOneRequestAreTransportedToNextRequest()
         {
-            if (Helper.IsNetworkAvailable())
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
             {
-                var baseUrl = "https://httpbin.org/cookies";
+                var baseUrl = "https://httpbingo.org/cookies";
                 var url = baseUrl + "/set?test=baz&k2=v2&k1=v1&foo=bar";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
@@ -247,12 +247,10 @@ namespace AngleSharp.Core.Tests.Library
                 var document = await context.OpenAsync(baseUrl);
 
                 var expected = JObject.Parse(@"{
-  ""cookies"": {
-    ""foo"": ""bar"",
-    ""k1"": ""v1"",
-    ""k2"": ""v2"",
-    ""test"": ""baz""
-  }
+  ""foo"": ""bar"",
+  ""k1"": ""v1"",
+  ""k2"": ""v2"",
+  ""test"": ""baz""
 }
 ");
 
@@ -263,22 +261,19 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingCookieIsPreservedViaRedirect()
         {
-            if (Helper.IsNetworkAvailable())
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
             {
-                var cookieUrl = "https://httpbin.org/cookies/set?test=baz";
-                var redirectUrl = "https://httpbin.org/redirect-to?url=https%3A%2F%2Fhttpbin.org%2Fcookies";
+                var cookieUrl = "https://httpbingo.org/cookies/set?test=baz";
+                var redirectUrl = "https://httpbingo.org/redirect-to?url=https%3A%2F%2Fhttpbingo.org%2Fcookies";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 await context.OpenAsync(cookieUrl);
                 var document = await context.OpenAsync(redirectUrl);
 
-                Assert.Inconclusive("Temp. Disabled: https://github.com/postmanlabs/httpbin/issues/617");
-//                Assert.AreEqual(@"{
-//  ""cookies"": {
-//    ""test"": ""baz""
-//  }
-//}
-//".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
+               Assert.AreEqual(@"{
+  ""test"": ""baz""
+}
+".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
         }
 

@@ -4,6 +4,14 @@ section: "AngleSharp.Core"
 ---
 # Migration Guide
 
+## 0.17 to 1.0
+
+From an API perspective the two versions are compatible, however, the ABI is not compatible as some constructors changed (adding new optional arguments etc.). Therefore, a recompilation is necessary before dynamically using 1.0.
+
+## 0.16 to 0.17
+
+The support for .NET Framework 4.6 has been dropped. AngleSharp now works exclusively on .NET 4.6.1 or newer / .NET Standard 2.0. If you use an older framework you'll either need to fork AngleSharp or remain on an older version of AngleSharp.
+
 ## 0.15 to 0.16
 
 The `Url` class has been moved from `AngleSharp` to `AngleSharp.Dom`. Potentially, you'll need to adjust your `using` statements or use of fully qualified names.
