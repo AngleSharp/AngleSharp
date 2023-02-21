@@ -565,7 +565,7 @@ namespace AngleSharp.Core.Tests.Css
         {
             var results = RunQuery("p[class!='hiclass']");
             Assert.AreEqual(2, results.Length);
-            var value = ((IElement)results[0]).GetAttribute("class");
+            var value = results[0].GetAttribute("class");
             Assert.IsNull(value);
             Assert.AreEqual("eeeee", results[1].TextContent);
         }
