@@ -159,7 +159,7 @@ namespace AngleSharp.Html.Parser
         public static void AddComment(this Element parent, HtmlToken token)
         {
             parent.AddNode(token.IsProcessingInstruction
-                ? (Node)ProcessingInstruction.Create(parent.Owner, token.Data)
+                ? ProcessingInstruction.Create(parent.Owner, token.Data)
                 : new Comment(parent.Owner, token.Data));
         }
 
@@ -167,7 +167,7 @@ namespace AngleSharp.Html.Parser
         public static void AddComment(this Document parent, HtmlToken token)
         {
             parent.AddNode(token.IsProcessingInstruction
-                ? (Node)ProcessingInstruction.Create(parent, token.Data)
+                ? ProcessingInstruction.Create(parent, token.Data)
                 : new Comment(parent, token.Data));
         }
 

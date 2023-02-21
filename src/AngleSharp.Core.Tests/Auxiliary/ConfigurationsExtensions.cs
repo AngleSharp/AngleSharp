@@ -12,7 +12,7 @@ namespace AngleSharp.Core.Tests.Auxiliary
         public void WithoutTServiceRemovesItems()
         {
             var config = new Configuration(new object[0])
-                .With((IRequester)new DefaultHttpRequester())
+                .With(new DefaultHttpRequester())
                 .Without<IRequester>();
 
             Assert.AreEqual(0, config.Services.Count());
