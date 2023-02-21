@@ -25,10 +25,6 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'net472' ">
-    <PackageReference Include="System.Buffers" Version="4.5.1" />
-  </ItemGroup>
-
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
     <DelaySign>false</DelaySign>
   </PropertyGroup>
