@@ -29,9 +29,9 @@ namespace AngleSharp.Dom
                 throw new ArgumentNullException(nameof(document));
             }
 
-            var type = typeof(BrowsingContext).Assembly.GetTypes()
-                .Where(m => !m.IsAbstract && m.GetInterfaces().Contains(typeof(TElement)))
-                .FirstOrDefault();
+            var type = typeof(BrowsingContext).Assembly
+                .GetTypes()
+                .FirstOrDefault(m => !m.IsAbstract && m.GetInterfaces().Contains(typeof(TElement)));
 
             if (type != null)
             {

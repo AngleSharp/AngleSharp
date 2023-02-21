@@ -634,7 +634,7 @@ namespace AngleSharp.Dom
         private void Clear(Int32 handle)
         {
             var tasks = _document.GetAttachedReferences<CancellationTokenSource>();
-            var task = tasks.Where(m => m.GetHashCode() == handle).FirstOrDefault();
+            var task = tasks.FirstOrDefault(m => m.GetHashCode() == handle);
 
             if (task != null && !task.IsCancellationRequested)
             {
