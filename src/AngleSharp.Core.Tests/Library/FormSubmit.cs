@@ -44,7 +44,7 @@
 
         private static Task<IDocument> PostDocumentAsync(String content, String encType = null, Boolean fromButton = false)
         {
-            return PostDocumentAsync((document, form) =>
+            return PostDocumentAsync((_, form) =>
             {
                 if (encType != null)
                 {

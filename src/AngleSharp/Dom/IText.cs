@@ -1,7 +1,7 @@
 namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
-	using System;
+    using System;
 
     /// <summary>
     /// The Text interface represents the textual content of Element or Attr.
@@ -10,9 +10,9 @@ namespace AngleSharp.Dom
     /// element contains markup, it is parsed into information items and Text
     /// nodes that form its children.
     /// </summary>
-	[DomName("Text")]
-	public interface IText : ICharacterData
-	{
+    [DomName("Text")]
+    public interface IText : ICharacterData
+    {
         /// <summary>
         /// Breaks the node into two nodes at a specified offset.
         /// </summary>
@@ -22,14 +22,14 @@ namespace AngleSharp.Dom
         /// <returns>
         /// The freshly created Text element with the rest of the content.
         /// </returns>
-		[DomName("splitText")]
-		IText Split(Int32 offset);
+        [DomName("splitText")]
+        IText Split(Int32 offset);
 
         /// <summary>
         /// Gets a string containing the text of all Text nodes logically
         /// adjacent to this Node, concatenated in document order.
         /// </summary>
-		[DomName("wholeText")]
+        [DomName("wholeText")]
         String Text { get; }
 
         /// <summary>
@@ -37,5 +37,5 @@ namespace AngleSharp.Dom
         /// </summary>
         [DomName("assignedSlot")]
         IElement? AssignedSlot { get; }
-	}
+    }
 }

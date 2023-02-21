@@ -26,7 +26,7 @@ namespace AngleSharp.Dom
         {
             _root = root;
             _settings = settings;
-            _filter = filter ?? (m => FilterResult.Accept);
+            _filter = filter ?? (_ => FilterResult.Accept);
             _beforeNode = true;
             _iterator = GetNodes(root);
             _reference = root;

@@ -29,9 +29,9 @@ namespace AngleSharp.Dom
                 throw new ArgumentNullException(nameof(document));
             }
 
-            var type = typeof(BrowsingContext).Assembly.GetTypes()
-                .Where(m => !m.IsAbstract && m.GetInterfaces().Contains(typeof(TElement)))
-                .FirstOrDefault();
+            var type = typeof(BrowsingContext).Assembly
+                .GetTypes()
+                .FirstOrDefault(m => !m.IsAbstract && m.GetInterfaces().Contains(typeof(TElement)));
 
             if (type != null)
             {
@@ -202,7 +202,7 @@ namespace AngleSharp.Dom
                     //TODO
                     // Replace by algorithm to resolve the value of that attribute
                     // to an absolute URL, relative to the newly created element.
-                    var CanResolve = new Predicate<String>(str => false);
+                    var CanResolve = new Predicate<String>(_ => false);
 
                     if (manifest is { Length: > 0 } && CanResolve(manifest))
                     {

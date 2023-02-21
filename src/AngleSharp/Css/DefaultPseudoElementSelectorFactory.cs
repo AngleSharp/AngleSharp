@@ -17,12 +17,12 @@ namespace AngleSharp.Css
             //- some implementations are dubious (first-line, first-letter, ...)
             { PseudoElementNames.Before, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.Before), PseudoElementNames.Before) },
             { PseudoElementNames.After, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.After), PseudoElementNames.After) },
-            { PseudoElementNames.Selection, new PseudoElementSelector(el => false, PseudoElementNames.Selection) },
-            { PseudoElementNames.FootnoteCall, new PseudoElementSelector(el => false, PseudoElementNames.FootnoteCall) },
-            { PseudoElementNames.FootnoteMarker, new PseudoElementSelector(el => false, PseudoElementNames.FootnoteMarker) },
+            { PseudoElementNames.Selection, new PseudoElementSelector(_ => false, PseudoElementNames.Selection) },
+            { PseudoElementNames.FootnoteCall, new PseudoElementSelector(_ => false, PseudoElementNames.FootnoteCall) },
+            { PseudoElementNames.FootnoteMarker, new PseudoElementSelector(_ => false, PseudoElementNames.FootnoteMarker) },
             { PseudoElementNames.FirstLine, new PseudoElementSelector(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text, PseudoElementNames.FirstLine) },
             { PseudoElementNames.FirstLetter, new PseudoElementSelector(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text && el.ChildNodes[0].TextContent.Length > 0, PseudoElementNames.FirstLetter) },
-            { PseudoElementNames.Content, new PseudoElementSelector(el => false, PseudoElementNames.Content) },
+            { PseudoElementNames.Content, new PseudoElementSelector(_ => false, PseudoElementNames.Content) },
         };
 
         /// <summary>

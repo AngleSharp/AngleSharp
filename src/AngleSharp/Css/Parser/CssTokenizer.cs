@@ -10,7 +10,7 @@ namespace AngleSharp.Css.Parser
     /// See http://dev.w3.org/csswg/css-syntax/#tokenization for more details.
     /// </summary>
     sealed class CssTokenizer
-	{
+    {
         #region Fields
 
         private readonly StringSource _source;
@@ -104,7 +104,7 @@ namespace AngleSharp.Css.Parser
                             _source.Next();
                             return new CssSelectorToken(CssTokenType.Deep, ">>>");
                         }
-                        
+
                         return new CssSelectorToken(CssTokenType.Descendent, ">>");
                     }
 
@@ -560,7 +560,7 @@ namespace AngleSharp.Css.Parser
                     buffer.Append(Symbols.Minus);
                     return IdentRest(current, buffer);
                 }
-                
+
                 return NewDelimiter(Symbols.Minus);
             }
             else if (current.IsNameStart())
@@ -1032,7 +1032,7 @@ namespace AngleSharp.Css.Parser
                         current = _source.Back();
                         break;
                     }
-                    
+
                     current = _source.Next();
                 }
 
@@ -1051,10 +1051,10 @@ namespace AngleSharp.Css.Parser
                             current = _source.Back();
                             break;
                         }
-                        
+
                         current = _source.Next();
                     }
-                    
+
                     return new CssSelectorToken(CssTokenType.Invalid, String.Empty);
                 }
                 else
