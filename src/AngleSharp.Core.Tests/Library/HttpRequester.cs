@@ -25,16 +25,14 @@ namespace AngleSharp.Core.Tests.Library
                     Method = HttpMethod.Get
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(200, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(200, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
 
-                    var content = new StreamReader(response.Content);
-                    Assert.AreEqual("User-agent: *\nDisallow: /deny\n", content.ReadToEnd());
-                }
+                var content = new StreamReader(response.Content);
+                Assert.AreEqual("User-agent: *\nDisallow: /deny\n", content.ReadToEnd());
             }
         }
 
@@ -50,13 +48,11 @@ namespace AngleSharp.Core.Tests.Library
                     Method = HttpMethod.Get
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(500, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
-                }
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(500, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
             }
         }
 
@@ -72,13 +68,11 @@ namespace AngleSharp.Core.Tests.Library
                     Method = HttpMethod.Get
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(400, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
-                }
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(400, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
             }
         }
 
@@ -94,13 +88,11 @@ namespace AngleSharp.Core.Tests.Library
                     Method = HttpMethod.Get
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(403, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
-                }
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(403, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
             }
         }
 
@@ -116,13 +108,11 @@ namespace AngleSharp.Core.Tests.Library
                     Method = HttpMethod.Get
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(404, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
-                }
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(404, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
             }
         }
 
@@ -139,20 +129,18 @@ namespace AngleSharp.Core.Tests.Library
                     Content = Helper.StreamFromString("Hello world")
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(200, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(200, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
 
-                    var stream = new StreamReader(response.Content);
-                    Assert.IsNotNull(stream);
+                var stream = new StreamReader(response.Content);
+                Assert.IsNotNull(stream);
 
-                    var content = stream.ReadToEnd();
-                    Assert.IsTrue(content.Length > 0);
-                    Assert.IsTrue(content.Contains("\"data\": \"Hello world\""));
-                }
+                var content = stream.ReadToEnd();
+                Assert.IsTrue(content.Length > 0);
+                Assert.IsTrue(content.Contains("\"data\": \"Hello world\""));
             }
         }
 
@@ -169,20 +157,18 @@ namespace AngleSharp.Core.Tests.Library
                     Content = Helper.StreamFromString("PUT THIS THING BACK")
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(200, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(200, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
 
-                    var stream = new StreamReader(response.Content);
-                    Assert.IsNotNull(stream);
+                var stream = new StreamReader(response.Content);
+                Assert.IsNotNull(stream);
 
-                    var content = stream.ReadToEnd();
-                    Assert.IsTrue(content.Length > 0);
-                    Assert.IsTrue(content.Contains("\"data\": \"PUT THIS THING BACK\""));
-                }
+                var content = stream.ReadToEnd();
+                Assert.IsTrue(content.Length > 0);
+                Assert.IsTrue(content.Contains("\"data\": \"PUT THIS THING BACK\""));
             }
         }
 
@@ -199,13 +185,11 @@ namespace AngleSharp.Core.Tests.Library
                     Content = Helper.StreamFromString("Should be ignored")
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(200, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
-                }
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(200, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
             }
         }
 
@@ -222,13 +206,11 @@ namespace AngleSharp.Core.Tests.Library
                     Content = Helper.StreamFromString("Should be ignored")
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(405, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
-                }
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(405, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
             }
         }
 
@@ -245,13 +227,11 @@ namespace AngleSharp.Core.Tests.Library
                     Content = Helper.StreamFromString("Should be ignored")
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(405, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
-                }
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(405, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
             }
         }
 
@@ -268,20 +248,18 @@ namespace AngleSharp.Core.Tests.Library
                     Method = HttpMethod.Get
                 };
 
-                using (var response = await http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.AreEqual(200, (int)response.StatusCode);
-                    Assert.IsTrue(response.Content.CanRead);
-                    Assert.IsTrue(response.Headers.Count > 0);
+                using var response = await http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.AreEqual(200, (int)response.StatusCode);
+                Assert.IsTrue(response.Content.CanRead);
+                Assert.IsTrue(response.Headers.Count > 0);
 
-                    var stream = new StreamReader(response.Content);
-                    Assert.IsNotNull(stream);
+                var stream = new StreamReader(response.Content);
+                Assert.IsNotNull(stream);
 
-                    var content = stream.ReadToEnd();
-                    Assert.IsTrue(content.Length > 0);
-                    Assert.AreEqual("{\n  \"user-agent\": \"" + agent + "\"\n}\n", content);
-                }
+                var content = stream.ReadToEnd();
+                Assert.IsTrue(content.Length > 0);
+                Assert.AreEqual("{\n  \"user-agent\": \"" + agent + "\"\n}\n", content);
             }
         }
 
@@ -297,20 +275,18 @@ namespace AngleSharp.Core.Tests.Library
                     Method = HttpMethod.Get
                 };
 
-                using (var response = http.RequestAsync(request, CancellationToken.None))
-                {
-                    Assert.IsNotNull(response);
-                    Assert.IsFalse(response.IsCompleted);
+                using var response = http.RequestAsync(request, CancellationToken.None);
+                Assert.IsNotNull(response);
+                Assert.IsFalse(response.IsCompleted);
 
-                    var result = await response;
+                var result = await response;
 
-                    Assert.IsTrue(response.IsCompleted);
-                    Assert.IsTrue(result.Content.CanRead);
-                    Assert.IsTrue(result.Headers.Count > 0);
+                Assert.IsTrue(response.IsCompleted);
+                Assert.IsTrue(result.Content.CanRead);
+                Assert.IsTrue(result.Headers.Count > 0);
 
-                    var content = new StreamReader(result.Content);
-                    Assert.AreEqual("User-agent: *\nDisallow: /deny\n", content.ReadToEnd());
-                }
+                var content = new StreamReader(result.Content);
+                Assert.AreEqual("User-agent: *\nDisallow: /deny\n", content.ReadToEnd());
             }
         }
 

@@ -29,12 +29,10 @@
         {
             var builder = new StringBuilder();
 
-            using (var writer = new StringWriter(builder))
-            {
-                var document = ("<!DOCTYPE html><html><head></head><body></body></html>").ToHtmlDocument();
-                document.ToHtml(writer);
-                Assert.AreEqual("<!DOCTYPE html><html><head></head><body></body></html>", builder.ToString());
-            }
+            using var writer = new StringWriter(builder);
+            var document = ("<!DOCTYPE html><html><head></head><body></body></html>").ToHtmlDocument();
+            document.ToHtml(writer);
+            Assert.AreEqual("<!DOCTYPE html><html><head></head><body></body></html>", builder.ToString());
         }
     }
 }
