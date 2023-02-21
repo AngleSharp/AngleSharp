@@ -107,8 +107,21 @@ namespace AngleSharp.Css.Dom
         /// <returns>The enumeration over all stylesheets.</returns>
         public static IEnumerable<IStyleSheet> GetStyleSheets(this INode parent)
         {
-            foreach (var child in parent.ChildNodes)
+            if (parent.ChildNodes.Length == 0)
             {
+                yield break;
+            }
+
+            var st = new Stack<INode>();
+            for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
+            {
+                st.Push(parent.ChildNodes[i]);
+            }
+
+            while (st.Count > 0)
+            {
+                var child = st.Pop();
+
                 if (child.NodeType == NodeType.Element)
                 {
                     if (child is ILinkStyle linkStyle)
@@ -120,13 +133,11 @@ namespace AngleSharp.Css.Dom
                             yield return sheet;
                         }
                     }
-                    else
-                    {
-                        foreach (var sheet in child.GetStyleSheets())
-                        {
-                            yield return sheet;
-                        }
-                    }
+                }
+
+                for (var i = child.ChildNodes.Length - 1; i >= 0; i--)
+                {
+                    st.Push(child.ChildNodes[i]);
                 }
             }
         }
