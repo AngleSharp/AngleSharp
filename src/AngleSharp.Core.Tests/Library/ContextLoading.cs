@@ -125,7 +125,7 @@ namespace AngleSharp.Core.Tests.Library
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
                 var anchors = document.QuerySelectorAll<IHtmlAnchorElement>("ul a");
-                var anchor = anchors.Where(m => m.TextContent == "Header").FirstOrDefault();
+                var anchor = anchors.FirstOrDefault(m => m.TextContent == "Header");
                 var result = await context.OpenAsync(Url.Create(anchor.Href));
 
                 Assert.IsNotNull(result);
@@ -145,7 +145,7 @@ namespace AngleSharp.Core.Tests.Library
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
                 var anchors = document.QuerySelectorAll<IHtmlAnchorElement>("ul a");
-                var anchor = anchors.Where(m => m.TextContent == title).FirstOrDefault();
+                var anchor = anchors.FirstOrDefault(m => m.TextContent == title);
                 var result = await anchor.NavigateAsync();
 
                 Assert.IsNotNull(result);
