@@ -1,3 +1,10 @@
+# 1.0.2
+
+Released on Tuesday, Feburary 21 2023
+
+- Improved codebase (#1091, #1090, #1089, #1088, #1087, #1086) @SimonCropp
+- Fixed potential stack overflow in `GetStyleSheets` (#1084) @bjornri
+
 # 1.0.1
 
 Released on Monday, January 16 2023
