@@ -1051,7 +1051,7 @@ namespace AngleSharp.Core.Tests.Urls
             var url = "http://example.com/foo";
             var location = new Location(url);
             var changed = false;
-            location.Changed += (s, e) => changed = true;
+            location.Changed += (_, _) => changed = true;
             location.Assign("http://example.com/bar");
             Assert.IsTrue(changed);
             Assert.AreEqual("http://example.com/bar", location.Href);
@@ -1063,7 +1063,7 @@ namespace AngleSharp.Core.Tests.Urls
             var url = "http://example.com/foo";
             var location = new Location(url);
             var changed = false;
-            location.Changed += (s, e) => changed = true;
+            location.Changed += (_, _) => changed = true;
             location.Assign("http://example.com/foo");
             Assert.IsFalse(changed);
             Assert.AreEqual("http://example.com/foo", location.Href);
@@ -1075,7 +1075,7 @@ namespace AngleSharp.Core.Tests.Urls
             var url = "http://example.com/foo";
             var location = new Location(url);
             var changed = false;
-            location.Changed += (s, e) => changed = true;
+            location.Changed += (_, _) => changed = true;
             location.Href = "http://example.com/baz";
             Assert.IsTrue(changed);
             Assert.AreEqual("http://example.com/baz", location.Href);
@@ -1087,7 +1087,7 @@ namespace AngleSharp.Core.Tests.Urls
             var url = "http://example.com/foo";
             var location = new Location(url);
             var changed = false;
-            location.Changed += (s, e) => changed = true;
+            location.Changed += (_, _) => changed = true;
             location.Href = "http://example.com/foo";
             Assert.IsFalse(changed);
             Assert.AreEqual("http://example.com/foo", location.Href);
@@ -1099,7 +1099,7 @@ namespace AngleSharp.Core.Tests.Urls
             var url = "http://example.com/foo";
             var location = new Location(url);
             var changed = false;
-            location.Changed += (s, e) => changed = true;
+            location.Changed += (_, _) => changed = true;
             location.Replace("http://example.com/bar");
             Assert.IsTrue(changed);
             Assert.AreEqual("http://example.com/bar", location.Href);
@@ -1111,7 +1111,7 @@ namespace AngleSharp.Core.Tests.Urls
             var url = "http://example.com/foo";
             var location = new Location(url);
             var changed = false;
-            location.Changed += (s, e) => changed = true;
+            location.Changed += (_, _) => changed = true;
             location.Replace("http://example.com/foo");
             Assert.IsFalse(changed);
             Assert.AreEqual("http://example.com/foo", location.Href);
@@ -1123,7 +1123,7 @@ namespace AngleSharp.Core.Tests.Urls
             var url = "http://example.com/foo";
             var location = new Location(url);
             var reloaded = false;
-            location.Changed += (s, e) => reloaded = e.IsReloaded;
+            location.Changed += (_, e) => reloaded = e.IsReloaded;
             location.Reload();
             Assert.IsTrue(reloaded);
         }

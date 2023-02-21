@@ -1465,7 +1465,7 @@ namespace AngleSharp.Core.Tests.Html
     </div>
 </body>
 
-</html>".ToHtmlDocument(onError: (s, e) =>
+</html>".ToHtmlDocument(onError: (_, _) =>
             {
                 errors++;
             });

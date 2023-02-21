@@ -19,7 +19,7 @@ namespace AngleSharp.Browser
         {
             if (loop != null)
             {
-                loop.Enqueue(c => action.Invoke(), priority);
+                loop.Enqueue(_ => action.Invoke(), priority);
             }
             else
             {

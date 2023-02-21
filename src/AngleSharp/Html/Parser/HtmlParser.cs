@@ -234,7 +234,7 @@ namespace AngleSharp.Html.Parser
 
             if (HasEventListener(EventNames.Error))
             {
-                parser.Error += (s, ev) => InvokeEventListener(ev);
+                parser.Error += (_, ev) => InvokeEventListener(ev);
             }
 
             return parser;

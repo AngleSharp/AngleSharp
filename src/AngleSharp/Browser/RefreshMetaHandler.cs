@@ -56,7 +56,7 @@ namespace AngleSharp.Browser
                     var delayTime = TimeSpan.FromSeconds(delaySeconds);
 
                     Task.Delay(delayTime)
-                        .ContinueWith(task => document.Location.Assign(redirectUrl.Href));
+                        .ContinueWith(_ => document.Location.Assign(redirectUrl.Href));
                 }
             }
         }
