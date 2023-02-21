@@ -167,7 +167,7 @@ namespace AngleSharp.Html.Dom
 
         private Byte[] GetImageData(String? type)
         {
-            return _current?.ToImage(type ?? MimeTypeNames.Plain) ?? new Byte[0];
+            return _current?.ToImage(type ?? MimeTypeNames.Plain) ?? Array.Empty<byte>();
         }
 
         private static ContextMode GetModeFrom(String contextId)

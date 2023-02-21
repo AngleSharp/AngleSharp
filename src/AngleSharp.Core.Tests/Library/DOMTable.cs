@@ -468,11 +468,11 @@
             var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var head = table.AppendChild(document.CreateElement("thead"));
-            CollectionAssert.AreEqual(new INode[0], table.Rows.ToArray());
+            CollectionAssert.AreEqual(Array.Empty<INode>(), table.Rows.ToArray());
             var row = table.InsertRowAt(-1);
             var body = row.Parent;
             CollectionAssert.AreEqual(new INode[] { head, body }, table.ChildNodes.ToArray());
-            CollectionAssert.AreEqual(new INode[0], head.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(Array.Empty<INode>(), head.ChildNodes.ToArray());
             CollectionAssert.AreEqual(new INode[] { row }, body.ChildNodes.ToArray());
             CollectionAssert.AreEqual(new INode[] { row }, table.Rows.ToArray());
         }
@@ -483,11 +483,11 @@
             var document = Html("");
             var table = document.CreateElement("table") as IHtmlTableElement;
             var foot = table.AppendChild(document.CreateElement("tfoot"));
-            CollectionAssert.AreEqual(new INode[0], table.Rows.ToArray());
+            CollectionAssert.AreEqual(Array.Empty<INode>(), table.Rows.ToArray());
             var row = table.InsertRowAt(-1);
             var body = row.Parent;
             CollectionAssert.AreEqual(new INode[] { foot, body }, table.ChildNodes.ToArray());
-            CollectionAssert.AreEqual(new INode[0], foot.ChildNodes.ToArray());
+            CollectionAssert.AreEqual(Array.Empty<INode>(), foot.ChildNodes.ToArray());
             CollectionAssert.AreEqual(new INode[] { row }, body.ChildNodes.ToArray());
             CollectionAssert.AreEqual(new INode[] { row }, table.Rows.ToArray());
         }
