@@ -11,7 +11,7 @@ namespace AngleSharp.Core.Tests.Auxiliary
         [Test]
         public void WithoutTServiceRemovesItems()
         {
-            var config = new Configuration(new object[0])
+            var config = new Configuration(Array.Empty<object>())
                 .With((IRequester)new DefaultHttpRequester())
                 .Without<IRequester>();
 
