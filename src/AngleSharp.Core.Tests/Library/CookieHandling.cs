@@ -164,7 +164,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingNewCookieInSubsequentRequestDoesNotExpirePreviousCookies()
         {
-            var config = Configuration.Default.WithDefaultCookies().WithVirtualRequester(req => VirtualResponse.Create(
+            var config = Configuration.Default.WithDefaultCookies().WithVirtualRequester(_ => VirtualResponse.Create(
                 res => res.Address("http://localhost/mockpage.html").Content("<div></div>")
                     .Cookie("Auth=Bar; Path=/")));
             var context = BrowsingContext.New(config);
@@ -179,7 +179,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingNoCookieInSubsequentRequestLeavesCookieSituationUnchanged()
         {
-            var config = Configuration.Default.WithDefaultCookies().WithVirtualRequester(req => VirtualResponse.Create(
+            var config = Configuration.Default.WithDefaultCookies().WithVirtualRequester(_ => VirtualResponse.Create(
                 res => res.Address("http://localhost/mockpage.html").Content("<div></div>")));
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res =>
@@ -433,14 +433,14 @@ namespace AngleSharp.Core.Tests.Library
             var receivedCookieHeader = "THECOOKIE=value1; Path=/path1";
             var url = new Url("http://example.com/path1");
             //request 1: /path1, set a cookie THECOOKIE=value1
-            requester.BuildResponse(req => VirtualResponse.Create(r => r
+            requester.BuildResponse(_ => VirtualResponse.Create(r => r
                 .Address("http://example.com/path1")
                 .Content("")
                 .Header(HeaderNames.SetCookie, receivedCookieHeader)));
             context.OpenAsync("http://example.com/path1");
             //request 2: /path1/somefile.jsp redirects to /path2/file2.jsp
             requester.BuildResponses(new Func<Request, IResponse>[] {
-                req => {
+                _ => {
                     return VirtualResponse.Create(r => r
                     .Address("http://example.com/path1/somefile.jsp")
                     .Content("")

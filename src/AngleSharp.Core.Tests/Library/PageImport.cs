@@ -35,8 +35,8 @@ namespace AngleSharp.Core.Tests.Library
             var content = "<!doctype html><link rel=import href=http://example.com/test.html>";
             var requester = new MockRequester();
             var requestCount = 0;
-            requester.OnRequest = request => requestCount++;
-            requester.BuildResponse(request => content);
+            requester.OnRequest = _ => requestCount++;
+            requester.BuildResponse(_ => content);
             var config = Configuration.Default.With(requester).WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(content));
             var link = document.QuerySelector<IHtmlLinkElement>("link");
@@ -58,8 +58,8 @@ namespace AngleSharp.Core.Tests.Library
             });
             var requester = new MockRequester();
             var requestCount = 0;
-            requester.OnRequest = request => requestCount++;
-            requester.BuildResponse(request => nested.Dequeue());
+            requester.OnRequest = _ => requestCount++;
+            requester.BuildResponse(_ => nested.Dequeue());
             var config = Configuration.Default.With(requester).WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(content));
             var link = document.QuerySelector<IHtmlLinkElement>("link");

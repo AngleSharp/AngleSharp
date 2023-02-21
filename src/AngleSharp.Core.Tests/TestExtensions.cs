@@ -25,7 +25,7 @@ namespace AngleSharp.Core.Tests
 
         public static IConfiguration WithScripting(this IConfiguration config)
         {
-            var service = new CallbackScriptEngine(options => { }, MimeTypeNames.DefaultJavaScript);
+            var service = new CallbackScriptEngine(_ => { }, MimeTypeNames.DefaultJavaScript);
             return config.With(service);
         }
 

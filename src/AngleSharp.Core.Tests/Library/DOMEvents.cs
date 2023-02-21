@@ -34,7 +34,7 @@ namespace AngleSharp.Core.Tests.Library
             var args = document.CreateEvent("event");
             args.Init(evName, true, true);
             var count = 0;
-            DomEventHandler listener1 = (s, ev) => count++;
+            DomEventHandler listener1 = (_, _) => count++;
             element.AddEventListener(evName, listener1);
             element.Dispatch(args);
             Assert.AreEqual(1, count);
@@ -65,7 +65,7 @@ namespace AngleSharp.Core.Tests.Library
             var args = document.CreateEvent("event");
             args.Init(evName, true, true);
             var count = 0;
-            DomEventHandler listener1 = (s, ev) => count++;
+            DomEventHandler listener1 = (_, _) => count++;
             element.AddEventListener(evName, listener1);
             element.RemoveEventListener(evName, listener1);
             element.Dispatch(args);
@@ -82,7 +82,7 @@ namespace AngleSharp.Core.Tests.Library
             var args = document.CreateEvent("event");
             var beforeOther = true;
             args.Init(evName, true, true);
-            DomEventHandler listener1 = (s, ev) =>
+            DomEventHandler listener1 = (_, ev) =>
             {
                 Assert.AreEqual(evName, ev.Type);
                 Assert.AreEqual(EventPhase.AtTarget, ev.Phase);
@@ -90,7 +90,7 @@ namespace AngleSharp.Core.Tests.Library
                 Assert.AreEqual(element, ev.OriginalTarget);
                 Assert.IsFalse(beforeOther);
             };
-            DomEventHandler listener2 = (s, ev) =>
+            DomEventHandler listener2 = (_, ev) =>
             {
                 Assert.AreEqual(evName, ev.Type);
                 Assert.AreEqual(EventPhase.Capturing, ev.Phase);
@@ -143,7 +143,7 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsNotNull(args);
             var mydetails = new object();
             args.Init(evName, true, true, mydetails);
-            DomEventHandler listener = (s, ev) =>
+            DomEventHandler listener = (_, ev) =>
             {
                 Assert.AreEqual(args, ev);
                 Assert.AreEqual(evName, ev.Type);
@@ -164,7 +164,7 @@ namespace AngleSharp.Core.Tests.Library
             var args = new CustomEvent();
             var mydetails = new object();
             args.Init(evName, true, true, mydetails);
-            DomEventHandler listener = (s, ev) =>
+            DomEventHandler listener = (_, ev) =>
             {
                 Assert.AreEqual(args, ev);
                 Assert.AreEqual(evName, ev.Type);
@@ -199,12 +199,12 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void EventsDocumentFinished()
         {
-            document.ReadyStateChanged += (s, ev) =>
+            document.ReadyStateChanged += (_, _) =>
             {
                 Assert.AreEqual(DocumentReadyState.Complete, document.ReadyState);
             };
 
-            document.Loaded += (s, ev) =>
+            document.Loaded += (_, _) =>
             {
                 Assert.AreNotEqual(DocumentReadyState.Complete, document.ReadyState);
             };
