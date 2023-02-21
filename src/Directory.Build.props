@@ -4,5 +4,8 @@
     <Product>AngleSharp</Product>
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
+    <SignAssembly>true</SignAssembly>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>
