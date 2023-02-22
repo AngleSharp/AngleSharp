@@ -9,9 +9,6 @@ namespace AngleSharp.Css.Parser
     {
         #region Fields
 
-        private readonly CssTokenType _type;
-        private readonly String _data;
-
         public static readonly CssSelectorToken Whitespace = new CssSelectorToken(CssTokenType.Whitespace, " ");
 
         #endregion
@@ -20,17 +17,17 @@ namespace AngleSharp.Css.Parser
 
         public CssSelectorToken(CssTokenType type, String data)
         {
-            _type = type;
-            _data = data;
+            Type = type;
+            Data = data;
         }
 
         #endregion
 
         #region Properties
 
-        public CssTokenType Type => _type;
+        public CssTokenType Type { get; }
 
-        public String Data => _data;
+        public String Data { get; }
 
         #endregion
     }

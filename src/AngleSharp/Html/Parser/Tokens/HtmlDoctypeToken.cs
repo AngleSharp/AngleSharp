@@ -10,7 +10,6 @@ namespace AngleSharp.Html.Parser.Tokens
     {
         #region Fields
 
-        private Boolean _quirks;
         private String? _publicIdentifier;
         private String? _systemIdentifier;
 
@@ -28,7 +27,7 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             _publicIdentifier = null;
             _systemIdentifier = null;
-            _quirks = quirksForced;
+            IsQuirksForced = quirksForced;
         }
 
         #endregion
@@ -38,11 +37,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets or sets the state of the force-quirks flag.
         /// </summary>
-        public Boolean IsQuirksForced
-        {
-            get => _quirks;
-            set => _quirks = value;
-        }
+        public Boolean IsQuirksForced { get; set; }
 
         /// <summary>
         /// Gets the state of the public identifier.

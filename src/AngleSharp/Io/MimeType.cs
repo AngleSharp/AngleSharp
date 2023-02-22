@@ -11,9 +11,6 @@ namespace AngleSharp.Io
     {
         #region Fields
 
-        private readonly String _general;
-        private readonly String _media;
-        private readonly String _suffix;
         private readonly String _params;
 
         #endregion
@@ -47,9 +44,9 @@ namespace AngleSharp.Io
                 semicolon++;
             }
 
-            _general = value.Substring(0, slash);
-            _media = slash < value.Length ? value.Substring(slash + 1, Math.Min(plus, semicolon) - slash - 1) : String.Empty;
-            _suffix = plus < value.Length ? value.Substring(plus + 1, semicolon - plus - 1) : String.Empty;
+            GeneralType = value.Substring(0, slash);
+            MediaType = slash < value.Length ? value.Substring(slash + 1, Math.Min(plus, semicolon) - slash - 1) : String.Empty;
+            Suffix = plus < value.Length ? value.Substring(plus + 1, semicolon - plus - 1) : String.Empty;
             _params = semicolon < value.Length ? value.Substring(semicolon + 1).StripLeadingTrailingSpaces() : String.Empty;
         }
 
@@ -64,31 +61,31 @@ namespace AngleSharp.Io
         {
             get
             {
-                if (_media.Length != 0 || _suffix.Length != 0)
+                if (MediaType.Length != 0 || Suffix.Length != 0)
                 {
-                    var front = String.Concat(_general, "/", _media);
-                    var back = _suffix.Length > 0 ? "+" + _suffix : String.Empty;
+                    var front = String.Concat(GeneralType, "/", MediaType);
+                    var back = Suffix.Length > 0 ? "+" + Suffix : String.Empty;
                     return String.Concat(front, back);
                 }
 
-                return _general;
+                return GeneralType;
             }
         }
 
         /// <summary>
         /// Gets the general type.
         /// </summary>
-        public String GeneralType => _general;
+        public String GeneralType { get; }
 
         /// <summary>
         /// Gets the media type, if specified.
         /// </summary>
-        public String MediaType => _media;
+        public String MediaType { get; }
 
         /// <summary>
         /// Gets the suffix, if any.
         /// </summary>
-        public String Suffix => _suffix;
+        public String Suffix { get; }
 
         private static readonly char[] s_semicolon = { ';' };
 
@@ -141,15 +138,15 @@ namespace AngleSharp.Io
         /// <returns>The currently stored MIME type.</returns>
         public override String ToString()
         {
-            if (_media.Length != 0 || _suffix.Length != 0 || _params.Length != 0)
+            if (MediaType.Length != 0 || Suffix.Length != 0 || _params.Length != 0)
             {
-                var front = String.Concat(_general, "/", _media);
-                var back = _suffix.Length > 0 ? "+" + _suffix : String.Empty;
+                var front = String.Concat(GeneralType, "/", MediaType);
+                var back = Suffix.Length > 0 ? "+" + Suffix : String.Empty;
                 var opt = _params.Length > 0 ? ";" + _params : String.Empty;
                 return String.Concat(front, back, opt);
             }
 
-            return _general;
+            return GeneralType;
         }
 
         #endregion
@@ -161,9 +158,9 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="other">The type to compare to.</param>
         /// <returns>True if both types are equal, otherwise false.</returns>
-        public Boolean Equals(MimeType? other) => _general.Isi(other?._general) &&
-                                                  _media.Isi(other?._media) &&
-                                                  _suffix.Isi(other?._suffix);
+        public Boolean Equals(MimeType? other) => GeneralType.Isi(other?.GeneralType) &&
+                                                  MediaType.Isi(other?.MediaType) &&
+                                                  Suffix.Isi(other?.Suffix);
 
         /// <summary>
         /// Compares to the other object. It has to be a MIME type.
@@ -184,9 +181,9 @@ namespace AngleSharp.Io
         /// Computes the hash code for the MIME type.
         /// </summary>
         /// <returns>The computed hash code.</returns>
-        public override Int32 GetHashCode() => (_general.GetHashCode() << 2) ^
-            (_media.GetHashCode() << 1) ^
-            (_suffix.GetHashCode());
+        public override Int32 GetHashCode() => (GeneralType.GetHashCode() << 2) ^
+            (MediaType.GetHashCode() << 1) ^
+            (Suffix.GetHashCode());
 
         /// <summary>
         /// Runs the Equals method from a with b.

@@ -13,7 +13,6 @@ namespace AngleSharp.Html.LinkRels
         #region Fields
 
         private  readonly ConditionalWeakTable<IDocument, HashSet<Uri>> ImportLists = new ();
-        private Boolean _async;
 
         #endregion
 
@@ -30,7 +29,7 @@ namespace AngleSharp.Html.LinkRels
 
         public IDocument? Import => (Processor as DocumentRequestProcessor)?.ChildDocument;
 
-        public Boolean IsAsync => _async;
+        public Boolean IsAsync { get; private set; }
 
         #endregion
 
@@ -51,7 +50,7 @@ namespace AngleSharp.Html.LinkRels
             if (document != null && location != null && document.AddImportUrl(location))
             {
                 var request = link.CreateRequestFor(location);
-                _async      = link.HasAttribute(AttributeNames.Async);
+                IsAsync      = link.HasAttribute(AttributeNames.Async);
                 return processor?.ProcessAsync(request)!;
             }
 

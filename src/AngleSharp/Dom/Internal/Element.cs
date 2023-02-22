@@ -13,13 +13,9 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private readonly NamedNodeMap _attributes;
         private readonly String _namespace;
-        private readonly String? _prefix;
-        private readonly String _localName;
         private HtmlCollection<IElement>? _elements;
         private TokenList? _classList;
-        private IShadowRoot? _shadowRoot;
 
         #endregion
 
@@ -35,10 +31,10 @@ namespace AngleSharp.Dom
         public Element(Document owner, String name, String localName, String? prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
             : base(owner, name, NodeType.Element, flags)
         {
-            _localName = localName;
-            _prefix = prefix;
+            LocalName = localName;
+            Prefix = prefix;
             _namespace = namespaceUri;
-            _attributes = new NamedNodeMap(this);
+            Attributes = new NamedNodeMap(this);
         }
 
         #endregion
@@ -47,7 +43,7 @@ namespace AngleSharp.Dom
 
         internal IBrowsingContext Context => Owner?.Context!;
 
-        internal NamedNodeMap Attributes => _attributes;
+        internal NamedNodeMap Attributes { get; }
 
         #endregion
 
@@ -64,13 +60,13 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IShadowRoot? ShadowRoot => _shadowRoot;
+        public IShadowRoot? ShadowRoot { get; private set; }
 
         /// <inheritdoc />
-        public String? Prefix => _prefix;
+        public String? Prefix { get; }
 
         /// <inheritdoc />
-        public String LocalName => _localName;
+        public String LocalName { get; }
 
         /// <inheritdoc />
         public String? NamespaceUri => _namespace ?? this.GetNamespaceUri();
@@ -288,7 +284,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        INamedNodeMap IElement.Attributes => _attributes;
+        INamedNodeMap IElement.Attributes => Attributes;
 
         /// <inheritdoc />
         public Boolean IsFocused
@@ -329,7 +325,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open)
         {
-            if (TagNames.AllNoShadowRoot.Contains(_localName))
+            if (TagNames.AllNoShadowRoot.Contains(LocalName))
             {
                 throw new DomException(DomError.NotSupported);
             }
@@ -339,8 +335,8 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidState);
             }
 
-            _shadowRoot = new ShadowRoot(this, mode);
-            return _shadowRoot;
+            ShadowRoot = new ShadowRoot(this, mode);
+            return ShadowRoot;
         }
 
         /// <inheritdoc />
@@ -396,7 +392,7 @@ namespace AngleSharp.Dom
                 name = name.HtmlLower();
             }
 
-            return _attributes.GetNamedItem(name) != null;
+            return Attributes.GetNamedItem(name) != null;
         }
 
         /// <inheritdoc />
@@ -407,7 +403,7 @@ namespace AngleSharp.Dom
                 namespaceUri = null;
             }
 
-            return _attributes.GetNamedItem(namespaceUri, localName) != null;
+            return Attributes.GetNamedItem(namespaceUri, localName) != null;
         }
 
         /// <inheritdoc />
@@ -418,7 +414,7 @@ namespace AngleSharp.Dom
                 name = name.HtmlLower();
             }
 
-            return _attributes.GetNamedItem(name)?.Value;
+            return Attributes.GetNamedItem(name)?.Value;
         }
 
         /// <inheritdoc />
@@ -429,7 +425,7 @@ namespace AngleSharp.Dom
                 namespaceUri = null;
             }
 
-            return _attributes.GetNamedItem(namespaceUri, localName)?.Value;
+            return Attributes.GetNamedItem(namespaceUri, localName)?.Value;
         }
 
         /// <inheritdoc />
@@ -461,7 +457,7 @@ namespace AngleSharp.Dom
             if (value != null)
             {
                 GetPrefixAndLocalName(name, ref namespaceUri, out var prefix, out var localName);
-                _attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri));
+                Attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri));
             }
             else
             {
@@ -475,8 +471,8 @@ namespace AngleSharp.Dom
         /// <param name="attr">The attribute to add.</param>
         public void AddAttribute(Attr attr)
         {
-            attr.Container = _attributes;
-            _attributes.FastAddItem(attr);
+            attr.Container = Attributes;
+            Attributes.FastAddItem(attr);
         }
 
         /// <inheritdoc />
@@ -487,7 +483,7 @@ namespace AngleSharp.Dom
                 name = name.HtmlLower();
             }
 
-            return _attributes.RemoveNamedItemOrDefault(name) != null;
+            return Attributes.RemoveNamedItemOrDefault(name) != null;
         }
 
         /// <inheritdoc />
@@ -498,7 +494,7 @@ namespace AngleSharp.Dom
                 namespaceUri = null;
             }
 
-            return _attributes.RemoveNamedItemOrDefault(namespaceUri, localName) != null;
+            return Attributes.RemoveNamedItemOrDefault(namespaceUri, localName) != null;
         }
 
         /// <inheritdoc />
@@ -519,7 +515,7 @@ namespace AngleSharp.Dom
             if (otherNode is IElement otherElement)
             {
                 return NamespaceUri.Is(otherElement.NamespaceUri) &&
-                    _attributes.SameAs(otherElement.Attributes) &&
+                    Attributes.SameAs(otherElement.Attributes) &&
                     base.Equals(otherNode);
             }
 
@@ -568,7 +564,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public override Node Clone(Document owner, Boolean deep)
         {
-            var node = new AnyElement(owner, LocalName, _prefix, _namespace, Flags);
+            var node = new AnyElement(owner, LocalName, Prefix, _namespace, Flags);
             CloneElement(node, owner, deep);
             return node;
         }
@@ -579,7 +575,7 @@ namespace AngleSharp.Dom
 
         internal virtual void SetupElement()
         {
-            var attrs = _attributes;
+            var attrs = Attributes;
 
             if (attrs.Length > 0)
             {
@@ -637,11 +633,11 @@ namespace AngleSharp.Dom
         {
             CloneNode(element, owner, deep);
 
-            foreach (var attribute in _attributes)
+            foreach (var attribute in Attributes)
             {
                 var attr = new Attr(attribute.Prefix, attribute.LocalName, attribute.Value, attribute.NamespaceUri);
-                attr.Container = element._attributes;
-                element._attributes.FastAddItem(attr);
+                attr.Container = element.Attributes;
+                element.Attributes.FastAddItem(attr);
             }
 
             element.SetupElement();

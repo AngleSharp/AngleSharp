@@ -10,21 +10,16 @@
     {
         #region Fields
 
-        private readonly String _name;
-        private readonly Int32 _step;
-        private readonly Int32 _offset;
-        private readonly ISelector _kind;
-
         #endregion
 
         #region ctor
 
         public ChildSelector(String name, Int32 step, Int32 offset, ISelector kind)
         {
-            _name = name;
-            _step = step;
-            _offset = offset;
-            _kind = kind;
+            Name = name;
+            Step = step;
+            Offset = offset;
+            Kind = kind;
         }
 
         #endregion
@@ -54,32 +49,32 @@
         {
             get
             {
-                var a = _step.ToString();
+                var a = Step.ToString();
                 var b = String.Empty;
                 var c = String.Empty;
 
-                if (_offset > 0)
+                if (Offset > 0)
                 {
                     b = "+";
-                    c = (+_offset).ToString();
+                    c = (+Offset).ToString();
                 }
-                else if (_offset < 0)
+                else if (Offset < 0)
                 {
                     b = "-";
-                    c = (-_offset).ToString();
+                    c = (-Offset).ToString();
                 }
 
-                return String.Format(":{0}({1}n{2}{3})", _name, a, b, c);
+                return String.Format(":{0}({1}n{2}{3})", Name, a, b, c);
             }
         }
 
-        public String Name => _name;
+        public String Name { get; }
 
-        public Int32 Step => _step;
+        public Int32 Step { get; }
 
-        public Int32 Offset => _offset;
+        public Int32 Offset { get; }
 
-        public ISelector Kind => _kind;
+        public ISelector Kind { get; }
 
         #endregion
 
@@ -87,7 +82,7 @@
 
         public void Accept(ISelectorVisitor visitor)
         {
-            visitor.Child(_name, _step, _offset, _kind);
+            visitor.Child(Name, Step, Offset, Kind);
         }
 
         #endregion

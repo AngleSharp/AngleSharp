@@ -8,8 +8,6 @@
     class EventReceiver<TReceivingEvent>
         where TReceivingEvent : Event
     {
-        private readonly List<TReceivingEvent> _received = new List<TReceivingEvent>();
-
         public EventReceiver(Action<DomEventHandler> addHandler)
         {
             addHandler((_, ev) =>
@@ -22,7 +20,7 @@
             });
         }
 
-        public List<TReceivingEvent> Received => _received;
+        public List<TReceivingEvent> Received { get; } = new List<TReceivingEvent>();
 
         public Action<TReceivingEvent> OnReceived
         {
@@ -34,7 +32,7 @@
         {
             OnReceived?.Invoke(data);
 
-            _received.Add(data);
+            Received.Add(data);
         }
     }
 }

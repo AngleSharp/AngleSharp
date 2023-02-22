@@ -27,10 +27,6 @@ namespace AngleSharp.Html.InputTypes
         /// </summary>
         protected static readonly Regex NumberPattern = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$", RegexOptions.Compiled);
 
-        private readonly IHtmlInputElement _input;
-        private readonly Boolean _validate;
-        private readonly String _name;
-
         #endregion
 
         #region ctor
@@ -40,9 +36,9 @@ namespace AngleSharp.Html.InputTypes
         /// </summary>
         public BaseInputType(IHtmlInputElement input, String name, Boolean validate)
         {
-            _input = input;
-            _validate = validate;
-            _name = name;
+            Input = input;
+            CanBeValidated = validate;
+            Name = name;
         }
 
         #endregion
@@ -52,17 +48,17 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// Gets the name of the input type.
         /// </summary>
-        public String Name => _name;
+        public String Name { get; }
 
         /// <summary>
         /// Gets if the input type can be validated.
         /// </summary>
-        public Boolean CanBeValidated => _validate;
+        public Boolean CanBeValidated { get; }
 
         /// <summary>
         /// Gets the associated input element.
         /// </summary>
-        public IHtmlInputElement Input => _input;
+        public IHtmlInputElement Input { get; }
 
         #endregion
 
@@ -121,7 +117,7 @@ namespace AngleSharp.Html.InputTypes
         /// </summary>
         public virtual void ConstructDataSet(FormDataSet dataSet)
         {
-            dataSet.Append(_input.Name!, _input.Value, _input.Type);
+            dataSet.Append(Input.Name!, Input.Value, Input.Type);
         }
 
         /// <summary>
@@ -142,7 +138,7 @@ namespace AngleSharp.Html.InputTypes
         protected Boolean IsStepMismatch()
         {
             var step = GetStep();
-            var value = ConvertToNumber(_input.Value);
+            var value = ConvertToNumber(Input.Value);
             var offset = GetStepBase();
             return step != 0.0 && (value - offset) % step != 0.0;
         }
@@ -152,7 +148,7 @@ namespace AngleSharp.Html.InputTypes
         /// </summary>
         protected Double GetStep()
         {
-            var step = _input.Step;
+            var step = Input.Step;
 
             if (String.IsNullOrEmpty(step))
             {
@@ -175,14 +171,14 @@ namespace AngleSharp.Html.InputTypes
 
         private Double GetStepBase()
         {
-            var num = ConvertToNumber(_input.Minimum);
+            var num = ConvertToNumber(Input.Minimum);
 
             if (num.HasValue)
             {
                 return num.Value;
             }
 
-            num = ConvertToNumber(_input.DefaultValue);
+            num = ConvertToNumber(Input.DefaultValue);
 
             if (num.HasValue)
             {

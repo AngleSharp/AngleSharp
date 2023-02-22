@@ -283,22 +283,18 @@ namespace AngleSharp.Dom
 
         sealed class MutationObserving
         {
-            private readonly INode _target;
-            private readonly MutationOptions _options;
-            private readonly List<INode> _transientNodes;
-
             public MutationObserving(INode target, MutationOptions options)
             {
-                _target = target;
-                _options = options;
-                _transientNodes = new List<INode>();
+                Target = target;
+                Options = options;
+                TransientNodes = new List<INode>();
             }
 
-            public INode Target => _target;
+            public INode Target { get; }
 
-            public MutationOptions Options => _options;
+            public MutationOptions Options { get; }
 
-            public List<INode> TransientNodes => _transientNodes;
+            public List<INode> TransientNodes { get; }
         }
 
         #endregion

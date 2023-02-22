@@ -16,7 +16,6 @@ namespace AngleSharp.Text
 
         private readonly UInt16 _line;
         private readonly UInt16 _column;
-        private readonly Int32 _position;
 
         #endregion
 
@@ -32,7 +31,7 @@ namespace AngleSharp.Text
         {
             _line = line;
             _column = column;
-            _position = position;
+            Position = position;
         }
 
         #endregion
@@ -55,13 +54,13 @@ namespace AngleSharp.Text
         /// Gets the position within the source.
         /// The position is 1-based, so the first character is at position 1.
         /// </summary>
-        public Int32 Position => _position;
+        public Int32 Position { get; }
 
         /// <summary>
         /// Gets the index within the source.
         /// The index is 0-based, so the first character is at index 0.
         /// </summary>
-        public Int32 Index => _position - 1;
+        public Int32 Index => Position - 1;
 
         #endregion
 
@@ -72,7 +71,7 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="columns">The number of columns to shift.</param>
         /// <returns>The new text position.</returns>
-        public TextPosition Shift(Int32 columns) => new TextPosition(_line, (UInt16)(_column + columns), _position + columns);
+        public TextPosition Shift(Int32 columns) => new TextPosition(_line, (UInt16)(_column + columns), Position + columns);
 
         /// <summary>
         /// Returns a new text position that is after the given character.
@@ -90,7 +89,7 @@ namespace AngleSharp.Text
                 column = 0;
             }
 
-            return new TextPosition(line, ++column, _position + 1);
+            return new TextPosition(line, ++column, Position + 1);
         }
 
         /// <summary>
@@ -114,7 +113,7 @@ namespace AngleSharp.Text
                 ++column;
             }
 
-            return new TextPosition(line, column, _position + str.Length);
+            return new TextPosition(line, column, Position + str.Length);
         }
 
         #endregion
@@ -127,7 +126,7 @@ namespace AngleSharp.Text
         /// <returns>
         /// A string that contains the contained line and column.
         /// </returns>
-        public override String ToString() => $"Ln {_line}, Col {_column}, Pos {_position}";
+        public override String ToString() => $"Ln {_line}, Col {_column}, Pos {Position}";
 
         /// <summary>
         /// Returns the hash code for this instance.
@@ -135,7 +134,7 @@ namespace AngleSharp.Text
         /// <returns>
         /// An integer that is the hash code for this instance.
         /// </returns>
-        public override Int32 GetHashCode() => _position ^ (_line | _column) + _line;
+        public override Int32 GetHashCode() => Position ^ (_line | _column) + _line;
 
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
@@ -157,7 +156,7 @@ namespace AngleSharp.Text
         /// <returns>
         /// True if the given position has the same values, otherwise false.
         /// </returns>
-        public Boolean Equals(TextPosition other) => _position == other._position &&
+        public Boolean Equals(TextPosition other) => Position == other.Position &&
             _column == other._column &&
             _line == other._line;
 
@@ -171,7 +170,7 @@ namespace AngleSharp.Text
         /// True if the position of the first operand is greater than the
         /// second operand.
         /// </returns>
-        public static Boolean operator >(TextPosition a, TextPosition b) => a._position > b._position;
+        public static Boolean operator >(TextPosition a, TextPosition b) => a.Position > b.Position;
 
         /// <summary>
         /// Compares the two positions by their absolute positions in the text
@@ -183,7 +182,7 @@ namespace AngleSharp.Text
         /// True if the position of the first operand is less than the second
         /// operand.
         /// </returns>
-        public static Boolean operator <(TextPosition a, TextPosition b) => a._position < b._position;
+        public static Boolean operator <(TextPosition a, TextPosition b) => a.Position < b.Position;
 
         /// <summary>
         /// Compares the current position with another position.

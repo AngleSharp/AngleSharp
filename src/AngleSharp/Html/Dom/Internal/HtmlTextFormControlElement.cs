@@ -13,7 +13,6 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private Boolean _dirty;
         private String? _value;
         private SelectionType _direction;
         private Int32 _start;
@@ -35,11 +34,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Gets or sets if the value has been modified.
         /// </summary>
-        public Boolean IsDirty
-        {
-            get => _dirty;
-            set => _dirty = value;
-        }
+        public Boolean IsDirty { get; set; }
 
         /// <summary>
         /// Gets or sets the dirname HTML attribute.
@@ -165,7 +160,7 @@ namespace AngleSharp.Html.Dom
         public override Node Clone(Document owner, Boolean deep)
         {
             var node = (HtmlTextFormControlElement)base.Clone(owner, deep);
-            node._dirty = _dirty;
+            node.IsDirty = IsDirty;
             node._value = _value;
             node._direction = _direction;
             node._start = _start;
@@ -229,8 +224,8 @@ namespace AngleSharp.Html.Dom
             var maxlength = MaxLength;
             var minlength = MinLength;
             state.IsValueMissing = IsRequired && length == 0;
-            state.IsTooLong = _dirty && maxlength > -1 && length > maxlength;
-            state.IsTooShort = _dirty && length > 0 && length < minlength;
+            state.IsTooLong = IsDirty && maxlength > -1 && length > maxlength;
+            state.IsTooShort = IsDirty && length > 0 && length < minlength;
             base.Check(state);
         }
 

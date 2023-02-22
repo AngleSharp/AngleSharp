@@ -12,9 +12,6 @@ namespace AngleSharp.Html.LinkRels
     {
         #region Fields
 
-        private readonly IHtmlLinkElement _link;
-        private readonly IRequestProcessor _processor;
-
         #endregion
 
         #region ctor
@@ -24,8 +21,8 @@ namespace AngleSharp.Html.LinkRels
         /// </summary>
         public BaseLinkRelation(IHtmlLinkElement link, IRequestProcessor processor)
         {
-            _link = link;
-            _processor = processor;
+            Link = link;
+            Processor = processor;
         }
 
         #endregion
@@ -35,17 +32,17 @@ namespace AngleSharp.Html.LinkRels
         /// <summary>
         /// Gets the assigned request processor.
         /// </summary>
-        public IRequestProcessor Processor => _processor;
+        public IRequestProcessor Processor { get; }
 
         /// <summary>
         /// Gets the associated link element.
         /// </summary>
-        public IHtmlLinkElement Link => _link;
+        public IHtmlLinkElement Link { get; }
 
         /// <summary>
         /// Gets the currently used URL.
         /// </summary>
-        public Url? Url => _link.Href is { Length: > 0 } ? new Url(_link.Href) : null;
+        public Url? Url => Link.Href is { Length: > 0 } ? new Url(Link.Href) : null;
 
         #endregion
 

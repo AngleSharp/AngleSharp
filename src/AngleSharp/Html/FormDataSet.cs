@@ -20,7 +20,6 @@ namespace AngleSharp.Html
         #region Fields
 
         private readonly List<FormDataSetEntry> _entries;
-        private String _boundary;
 
         #endregion
 
@@ -31,7 +30,7 @@ namespace AngleSharp.Html
         /// </summary>
         public FormDataSet()
         {
-            _boundary = Guid.NewGuid().ToString();
+            Boundary = Guid.NewGuid().ToString();
             _entries = new List<FormDataSetEntry>();
         }
 
@@ -42,7 +41,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the chosen boundary.
         /// </summary>
-        public String Boundary => _boundary;
+        public String Boundary { get; private set; }
 
         #endregion
 
@@ -58,7 +57,7 @@ namespace AngleSharp.Html
         public Stream AsMultipart(IHtmlEncoder htmlEncoder, Encoding? encoding = null)
         {
             return BuildRequestContent(encoding,
-                stream => Connect(new MultipartFormDataSetVisitor(htmlEncoder, stream.Encoding, _boundary), stream));
+                stream => Connect(new MultipartFormDataSetVisitor(htmlEncoder, stream.Encoding, Boundary), stream));
         }
 
         /// <summary>
@@ -195,9 +194,9 @@ namespace AngleSharp.Html
             {
                 for (var i = 0; i < _entries.Count; i++)
                 {
-                    if (found = _entries[i].Contains(_boundary, encoding))
+                    if (found = _entries[i].Contains(Boundary, encoding))
                     {
-                        _boundary = Guid.NewGuid().ToString();
+                        Boundary = Guid.NewGuid().ToString();
                         break;
                     }
                 }

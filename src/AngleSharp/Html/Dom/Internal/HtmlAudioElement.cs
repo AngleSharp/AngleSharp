@@ -12,8 +12,6 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private IAudioTrackList? _audios;
-
         #endregion
 
         #region ctor
@@ -24,14 +22,14 @@ namespace AngleSharp.Html.Dom
         public HtmlAudioElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Audio, prefix)
         {
-            _audios = null;
+            AudioTracks = null;
         }
 
         #endregion
 
         #region Properties
 
-        public override IAudioTrackList? AudioTracks => _audios;
+        public override IAudioTrackList? AudioTracks { get; }
 
         #endregion
     }

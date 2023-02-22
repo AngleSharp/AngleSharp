@@ -19,7 +19,6 @@ namespace AngleSharp.Html.Parser
     {
         #region Fields
 
-        private readonly HtmlParserOptions _options;
         private readonly IBrowsingContext _context;
 
         #endregion
@@ -90,7 +89,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="context">The context to use.</param>
         public HtmlParser(HtmlParserOptions options, IBrowsingContext? context)
         {
-            _options = options;
+            Options = options;
             _context = context ?? BrowsingContext.NewFrom<IHtmlParser>(this);
         }
 
@@ -101,7 +100,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Gets the specified options.
         /// </summary>
-        public HtmlParserOptions Options => _options;
+        public HtmlParserOptions Options { get; }
 
         #endregion
 
@@ -244,7 +243,7 @@ namespace AngleSharp.Html.Parser
         {
             var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
-            parser.Parse(_options);
+            parser.Parse(Options);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
@@ -253,7 +252,7 @@ namespace AngleSharp.Html.Parser
         {
             var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
-            await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            await parser.ParseAsync(Options, cancel).ConfigureAwait(false);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
@@ -274,12 +273,12 @@ namespace AngleSharp.Html.Parser
             if (contextElement is Element element)
             {
                 element = document.CreateElementFrom(element.LocalName, element.Prefix);
-                var fragment = parser.ParseFragment(_options, element).DocumentElement;
+                var fragment = parser.ParseFragment(Options, element).DocumentElement;
                 element.AppendNodes(fragment.ChildNodes.ToArray());
                 return element.ChildNodes;
             }
 
-            return parser.Parse(_options).ChildNodes;
+            return parser.Parse(Options).ChildNodes;
         }
 
         #endregion

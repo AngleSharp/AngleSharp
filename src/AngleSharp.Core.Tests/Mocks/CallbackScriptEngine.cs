@@ -8,19 +8,17 @@
 
     class CallbackScriptEngine : IScriptingService
     {
-        private String _type;
-
         public CallbackScriptEngine(Action<ScriptOptions> callback, String type = null)
         {
             Callback = callback;
-            _type = type ?? "c-sharp";
+            Type = type ?? "c-sharp";
         }
 
-        public String Type => _type;
+        public String Type { get; }
 
         public Boolean SupportsType(String mimeType)
         {
-            return mimeType.Equals(_type, StringComparison.OrdinalIgnoreCase);
+            return mimeType.Equals(Type, StringComparison.OrdinalIgnoreCase);
         }
 
         public Action<ScriptOptions> Callback

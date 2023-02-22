@@ -9,10 +9,7 @@ namespace AngleSharp.Text
     {
         #region Fields
 
-        private readonly String _content;
         private readonly Int32 _last;
-        private Int32 _index;
-        private Char _current;
 
         #endregion
 
@@ -23,10 +20,10 @@ namespace AngleSharp.Text
         /// </summary>
         public StringSource(String content)
         {
-            _content = content ?? String.Empty;
-            _last = _content.Length - 1;
-            _index = 0;
-            _current = _last == -1 ? Symbols.EndOfFile : content![0];
+            Content = content ?? String.Empty;
+            _last = Content.Length - 1;
+            Index = 0;
+            Current = _last == -1 ? Symbols.EndOfFile : content![0];
         }
 
         #endregion
@@ -36,22 +33,22 @@ namespace AngleSharp.Text
         /// <summary>
         /// Gets the current character.
         /// </summary>
-        public Char Current => _current;
+        public Char Current { get; private set; }
 
         /// <summary>
         /// Gets if the content has been fully scanned.
         /// </summary>
-        public Boolean IsDone => _current == Symbols.EndOfFile;
+        public Boolean IsDone => Current == Symbols.EndOfFile;
 
         /// <summary>
         /// Gets the current index.
         /// </summary>
-        public Int32 Index => _index;
+        public Int32 Index { get; private set; }
 
         /// <summary>
         /// Gets the underlying content.
         /// </summary>
-        public String Content => _content;
+        public String Content { get; }
 
         #endregion
 
@@ -63,17 +60,17 @@ namespace AngleSharp.Text
         /// <returns>The next character.</returns>
         public Char Next()
         {
-            if (_index == _last)
+            if (Index == _last)
             {
-                _current = Symbols.EndOfFile;
-                _index = _content.Length;
+                Current = Symbols.EndOfFile;
+                Index = Content.Length;
             }
-            else if (_index < _content.Length)
+            else if (Index < Content.Length)
             {
-                _current = _content[++_index];
+                Current = Content[++Index];
             }
 
-            return _current;
+            return Current;
         }
 
         /// <summary>
@@ -82,12 +79,12 @@ namespace AngleSharp.Text
         /// <returns>The previous character.</returns>
         public Char Back()
         {
-            if (_index > 0)
+            if (Index > 0)
             {
-                _current = _content[--_index];
+                Current = Content[--Index];
             }
 
-            return _current;
+            return Current;
         }
 
         #endregion

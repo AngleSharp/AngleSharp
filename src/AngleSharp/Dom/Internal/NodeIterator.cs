@@ -11,12 +11,7 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private readonly INode _root;
-        private readonly FilterSettings _settings;
-        private readonly NodeFilter _filter;
         private readonly IEnumerable<INode> _iterator;
-        private INode _reference;
-        private Boolean _beforeNode;
 
         #endregion
 
@@ -24,27 +19,27 @@ namespace AngleSharp.Dom
 
         public NodeIterator(INode root, FilterSettings settings, NodeFilter? filter)
         {
-            _root = root;
-            _settings = settings;
-            _filter = filter ?? (_ => FilterResult.Accept);
-            _beforeNode = true;
+            Root = root;
+            Settings = settings;
+            Filter = filter ?? (_ => FilterResult.Accept);
+            IsBeforeReference = true;
             _iterator = GetNodes(root);
-            _reference = root;
+            Reference = root;
         }
 
         #endregion
 
         #region Properties
 
-        public INode Root => _root;
+        public INode Root { get; }
 
-        public FilterSettings Settings => _settings;
+        public FilterSettings Settings { get; }
 
-        public NodeFilter Filter => _filter;
+        public NodeFilter Filter { get; }
 
-        public INode Reference => _reference;
+        public INode Reference { get; private set; }
 
-        public Boolean IsBeforeReference => _beforeNode;
+        public Boolean IsBeforeReference { get; private set; }
 
         #endregion
 
@@ -52,8 +47,8 @@ namespace AngleSharp.Dom
 
         public INode? Next()
         {
-            var node = _reference;
-            var beforeNode = _beforeNode;
+            var node = Reference;
+            var beforeNode = IsBeforeReference;
             
             do
             {
@@ -69,17 +64,17 @@ namespace AngleSharp.Dom
 
                 beforeNode = false;
             }
-            while (!_settings.Accepts(node) || _filter.Invoke(node) != FilterResult.Accept);
+            while (!Settings.Accepts(node) || Filter.Invoke(node) != FilterResult.Accept);
 
-            _beforeNode = false;
-            _reference = node;
+            IsBeforeReference = false;
+            Reference = node;
             return node;
         }
 
         public INode? Previous()
         {
-            var node = _reference;
-            var beforeNode = _beforeNode;
+            var node = Reference;
+            var beforeNode = IsBeforeReference;
 
             do
             {
@@ -95,10 +90,10 @@ namespace AngleSharp.Dom
 
                 beforeNode = true;
             }
-            while (!_settings.Accepts(node) || _filter(node) != FilterResult.Accept);
+            while (!Settings.Accepts(node) || Filter(node) != FilterResult.Accept);
 
-            _beforeNode = true;
-            _reference = node;
+            IsBeforeReference = true;
+            Reference = node;
             return node;
         }
 

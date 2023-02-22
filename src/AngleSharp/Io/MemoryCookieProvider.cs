@@ -11,20 +11,18 @@ namespace AngleSharp.Io
     /// </summary>
     public class MemoryCookieProvider : ICookieProvider
     {
-        private readonly CookieContainer _container;
-
         /// <summary>
         /// Creates a new cookie service for non-persistent cookies.
         /// </summary>
         public MemoryCookieProvider()
         {
-            _container = new CookieContainer();
+            Container = new CookieContainer();
         }
 
         /// <summary>
         /// Gets the associated cookie container.
         /// </summary>
-        public CookieContainer Container => _container;
+        public CookieContainer Container { get; }
 
         /// <summary>
         /// Gets the cookie value of the given address.
@@ -33,7 +31,7 @@ namespace AngleSharp.Io
         /// <returns>The value of the cookie.</returns>
         public String GetCookie(Url url)
         {
-            return _container.GetCookieHeader(url);
+            return Container.GetCookieHeader(url);
         }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace AngleSharp.Io
 
             try
             {
-                _container.SetCookies(url, cookies);
+                Container.SetCookies(url, cookies);
             }
             catch (CookieException ex)
             {

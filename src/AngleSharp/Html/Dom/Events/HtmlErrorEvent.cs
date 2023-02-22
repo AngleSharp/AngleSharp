@@ -15,7 +15,6 @@
         #region Fields
 
         private readonly HtmlParseError _code;
-        private readonly TextPosition _position;
 
         #endregion
 
@@ -31,7 +30,7 @@
             : base(EventNames.Error)
         {
             _code = code;
-            _position = position;
+            Position = position;
         }
 
         #endregion
@@ -41,7 +40,7 @@
         /// <summary>
         /// Gets the position of the error.
         /// </summary>
-        public TextPosition Position => _position;
+        public TextPosition Position { get; }
 
         /// <summary>
         /// Gets the provided error code.

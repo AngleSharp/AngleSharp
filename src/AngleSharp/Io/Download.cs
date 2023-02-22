@@ -13,9 +13,6 @@ namespace AngleSharp.Io
         #region Fields
 
         private readonly CancellationTokenSource _cts;
-        private readonly Task<IResponse> _task;
-        private readonly Url _target;
-        private readonly Object? _source;
 
         #endregion
 
@@ -23,27 +20,27 @@ namespace AngleSharp.Io
 
         public Download(Task<IResponse> task, CancellationTokenSource cts, Url target, Object? source)
         {
-            _task = task;
+            Task = task;
             _cts = cts;
-            _target = target;
-            _source = source;
+            Target = target;
+            Source = source;
         }
 
         #endregion
 
         #region Properties
 
-        public Object? Source => _source;
+        public Object? Source { get; }
 
-        public Url Target => _target;
+        public Url Target { get; }
 
-        public Task<IResponse> Task => _task;
+        public Task<IResponse> Task { get; }
 
-        public Boolean IsRunning => _task.Status == TaskStatus.Running;
+        public Boolean IsRunning => Task.Status == TaskStatus.Running;
 
-        public Boolean IsCompleted => _task.Status == TaskStatus.Faulted ||
-            _task.Status == TaskStatus.RanToCompletion ||
-            _task.Status == TaskStatus.Canceled;
+        public Boolean IsCompleted => Task.Status == TaskStatus.Faulted ||
+            Task.Status == TaskStatus.RanToCompletion ||
+            Task.Status == TaskStatus.Canceled;
 
         #endregion
 

@@ -53,7 +53,6 @@ namespace AngleSharp.Css.Parser
         private String _attrOp;
         private String? _attrNs;
         private Boolean _valid;
-        private Boolean _nested;
         private Boolean _ready;
         private FunctionState? _function;
         private Boolean _invoked;
@@ -83,7 +82,7 @@ namespace AngleSharp.Css.Parser
 
         public Boolean IsValid => _invoked && _valid && _ready;
 
-        public Boolean IsNested => _nested;
+        public Boolean IsNested { get; private set; }
 
         #endregion
 
@@ -391,7 +390,7 @@ namespace AngleSharp.Css.Parser
 
                 if (sel != null)
                 {
-                    _valid = _valid && !_nested;
+                    _valid = _valid && !IsNested;
                     Insert(sel);
                     return;
                 }
@@ -542,7 +541,7 @@ namespace AngleSharp.Css.Parser
             {
                 var sel = _function.Produce();
 
-                if (_nested && _function is NotFunctionState)
+                if (IsNested && _function is NotFunctionState)
                 {
                     sel = null;
                 }
@@ -610,7 +609,7 @@ namespace AngleSharp.Css.Parser
             public NotFunctionState(CssSelectorConstructor parent)
             {
                 _selector = parent.CreateChild();
-                _selector._nested = true;
+                _selector.IsNested = true;
             }
 
             protected override Boolean OnToken(CssSelectorToken token)

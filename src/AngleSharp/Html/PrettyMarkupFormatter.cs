@@ -12,8 +12,6 @@ namespace AngleSharp.Html
     {
         #region Fields
 
-        private String _indentString;
-        private String _newLineString;
         private Int32 _indentCount;
 
         #endregion
@@ -26,8 +24,8 @@ namespace AngleSharp.Html
         public PrettyMarkupFormatter()
         {
             _indentCount = 0;
-            _indentString = "\t";
-            _newLineString = "\n";
+            Indentation = "\t";
+            NewLine = "\n";
         }
 
         #endregion
@@ -37,20 +35,12 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets or sets the indentation string.
         /// </summary>
-        public String Indentation
-        {
-            get => _indentString;
-            set => _indentString = value;
-        }
+        public String Indentation { get; set; }
 
         /// <summary>
         /// Gets or sets the newline string.
         /// </summary>
-        public String NewLine
-        {
-            get => _newLineString;
-            set => _newLineString = value;
-        }
+        public String NewLine { get; set; }
 
         #endregion
 
@@ -138,7 +128,7 @@ namespace AngleSharp.Html
             return content.Length > 0 && content[content.Length - 1].IsSpaceCharacter();
         }
 
-        private String IndentBefore() => _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount));
+        private String IndentBefore() => NewLine + String.Join(String.Empty, Enumerable.Repeat(Indentation, _indentCount));
 
         #endregion
     }

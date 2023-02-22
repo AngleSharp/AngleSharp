@@ -19,13 +19,6 @@ namespace AngleSharp.Dom
 
         private readonly Document _document;
 
-        private String? _name;
-        private Int32 _outerHeight;
-        private Int32 _outerWidth;
-        private Int32 _screenX;
-        private Int32 _screenY;
-        private String? _status;
-        private Boolean _closed;
         private INavigator? _navigator;
 
         #endregion
@@ -59,49 +52,29 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets or sets the name of the window.
         /// </summary>
-        public String? Name
-        {
-            get => _name;
-            set => _name = value;
-        }
+        public String? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the height of the outside of the browser window.
         /// </summary>
-        public Int32 OuterHeight
-        {
-            get => _outerHeight;
-            set => _outerHeight = value;
-        }
+        public Int32 OuterHeight { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the outside of the browser window.
         /// </summary>
-        public Int32 OuterWidth
-        {
-            get => _outerWidth;
-            set => _outerWidth = value;
-        }
+        public Int32 OuterWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the horizontal distance of the left border of the 
         /// user's browser from the left side of the screen.
         /// </summary>
-        public Int32 ScreenX
-        {
-            get => _screenX;
-            set => _screenX = value;
-        }
+        public Int32 ScreenX { get; set; }
 
         /// <summary>
         /// Gets or sets the vertical distance of the top border of the user's
         /// browser from the top side of the screen.
         /// </summary>
-        public Int32 ScreenY
-        {
-            get => _screenY;
-            set => _screenY = value;
-        }
+        public Int32 ScreenY { get; set; }
 
         /// <summary>
         /// Gets the location of the currently contained document.
@@ -111,16 +84,12 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets or sets the status string.
         /// </summary>
-        public String? Status
-        {
-            get => _status;
-            set => _status = value;
-        }
+        public String? Status { get; set; }
 
         /// <summary>
         /// Gets if the window is currently open or already closed.
         /// </summary>
-        public Boolean IsClosed => _closed;
+        public Boolean IsClosed { get; private set; }
 
         #endregion
 
@@ -560,7 +529,7 @@ namespace AngleSharp.Dom
             return new Window(document) { Name = name };
         }
 
-        void IWindow.Close() => _closed = true;
+        void IWindow.Close() => IsClosed = true;
 
         void IWindow.Stop()
         {

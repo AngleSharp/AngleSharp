@@ -14,8 +14,6 @@ namespace AngleSharp.Dom
         #region Fields
 
         private readonly Element _host;
-        private readonly IStyleSheetList _styleSheets;
-        private readonly ShadowRootMode _mode;
 
         HtmlCollection<IElement>? _elements;
 
@@ -27,8 +25,8 @@ namespace AngleSharp.Dom
             : base(host.Owner, "#shadow-root", NodeType.DocumentFragment)
         {
             _host = host;
-            _styleSheets = this.CreateStyleSheets();
-            _mode = mode;
+            StyleSheets = this.CreateStyleSheets();
+            Mode = mode;
         }
 
         #endregion
@@ -37,7 +35,7 @@ namespace AngleSharp.Dom
 
         public IElement? ActiveElement => this.GetDescendants().OfType<Element>().FirstOrDefault(m => m.IsFocused);
 
-        public ShadowRootMode Mode => _mode;
+        public ShadowRootMode Mode { get; }
 
         public IElement Host => _host;
 
@@ -47,7 +45,7 @@ namespace AngleSharp.Dom
             set => ReplaceAll(new DocumentFragment(_host, value), false);
         }
 
-        public IStyleSheetList StyleSheets => _styleSheets;
+        public IStyleSheetList StyleSheets { get; }
 
         public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 
@@ -132,7 +130,7 @@ namespace AngleSharp.Dom
 
         public override Node Clone(Document owner, Boolean deep)
         {
-            var node = new ShadowRoot(_host, _mode);
+            var node = new ShadowRoot(_host, Mode);
             CloneNode(node, owner, deep);
             return node;
         }

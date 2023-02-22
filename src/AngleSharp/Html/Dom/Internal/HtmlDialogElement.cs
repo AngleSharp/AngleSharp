@@ -10,8 +10,6 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private String? _returnValue;
-
         #endregion
 
         #region ctor
@@ -31,11 +29,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.Open, value);
         }
 
-        public String? ReturnValue
-        {
-            get => _returnValue;
-            set => _returnValue = value;
-        }
+        public String? ReturnValue { get; set; }
 
         public void Show(IElement? anchor = null)
         {

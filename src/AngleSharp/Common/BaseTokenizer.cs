@@ -17,9 +17,6 @@ namespace AngleSharp.Common
 
         private UInt16 _column;
         private UInt16 _row;
-        private Char _current;
-        private StringBuilder _buffer;
-        private Boolean _normalized;
 
         #endregion
 
@@ -31,10 +28,10 @@ namespace AngleSharp.Common
         /// <param name="source">The source to tokenize.</param>
         public BaseTokenizer(TextSource source)
         {
-            _buffer = StringBuilderPool.Obtain();
+            StringBuffer = StringBuilderPool.Obtain();
             _columns = new Stack<UInt16>();
             _source = source;
-            _current = Symbols.Null;
+            Current = Symbols.Null;
             _column = 0;
             _row = 1;
         }
@@ -70,22 +67,22 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the current source index.
         /// </summary>
-        public Int32 Position => _source.Index  - (_normalized ? 1 : 0);
+        public Int32 Position => _source.Index  - (IsNormalized ? 1 : 0);
 
         /// <summary>
         /// Gets the current character.
         /// </summary>
-        protected Char Current => _current;
+        protected Char Current { get; private set; }
 
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        protected StringBuilder StringBuffer => _buffer;
+        protected StringBuilder StringBuffer { get; private set; }
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).
         /// </summary>
-        protected Boolean IsNormalized => _normalized;
+        protected Boolean IsNormalized { get; private set; }
 
         #endregion
 
@@ -116,7 +113,7 @@ namespace AngleSharp.Common
                 var disposable = _source as IDisposable;
                 disposable?.Dispose();
                 StringBuffer!.Clear().ReturnToPool();
-                _buffer = null!;
+                StringBuffer = null!;
             }
         }
 
@@ -191,7 +188,7 @@ namespace AngleSharp.Common
         protected Char GetNext()
         {
             Advance();
-            return _current;
+            return Current;
         }
 
         /// <summary>
@@ -201,7 +198,7 @@ namespace AngleSharp.Common
         protected Char GetPrevious()
         {
             Back();
-            return _current;
+            return Current;
         }
 
         /// <summary>
@@ -209,7 +206,7 @@ namespace AngleSharp.Common
         /// </summary>
         protected void Advance()
         {
-            if (_current != Symbols.EndOfFile)
+            if (Current != Symbols.EndOfFile)
             {
                 AdvanceUnsafe();
             }
@@ -221,7 +218,7 @@ namespace AngleSharp.Common
         /// <param name="n">The positive number of characters.</param>
         protected void Advance(Int32 n)
         {
-            while (n-- > 0 && _current != Symbols.EndOfFile)
+            while (n-- > 0 && Current != Symbols.EndOfFile)
             {
                 AdvanceUnsafe();
             }
@@ -256,7 +253,7 @@ namespace AngleSharp.Common
 
         private void AdvanceUnsafe()
         {
-            if (_current == Symbols.LineFeed)
+            if (Current == Symbols.LineFeed)
             {
                 _columns.Push(_column);
                 _column = 1;
@@ -267,7 +264,7 @@ namespace AngleSharp.Common
                 _column++;
             }
 
-            _current = NormalizeForward(_source.ReadCharacter());
+            Current = NormalizeForward(_source.ReadCharacter());
         }
 
         private void BackUnsafe()
@@ -277,7 +274,7 @@ namespace AngleSharp.Common
             if (_source.Index == 0)
             {
                 _column = 0;
-                _current = Symbols.Null;
+                Current = Symbols.Null;
                 return;
             }
 
@@ -287,11 +284,11 @@ namespace AngleSharp.Common
             {
                 _column = _columns.Count != 0 ? _columns.Pop() : (UInt16)1;
                 _row--;
-                _current = c;
+                Current = c;
             }
             else if (c != Symbols.Null)
             {
-                _current = c;
+                Current = c;
                 _column--;
             }
         }
@@ -300,7 +297,7 @@ namespace AngleSharp.Common
         {
             if (p != Symbols.CarriageReturn)
             {
-                _normalized = false;
+                IsNormalized = false;
                 return p;
             }
             else if (_source.ReadCharacter() != Symbols.LineFeed)
@@ -309,7 +306,7 @@ namespace AngleSharp.Common
             }
             else
             {
-                _normalized = true;
+                IsNormalized = true;
             }
             
             return Symbols.LineFeed;
@@ -319,18 +316,18 @@ namespace AngleSharp.Common
         {
             if (p != Symbols.CarriageReturn)
             {
-                _normalized = false;
+                IsNormalized = false;
                 return p;
             }
             else if (_source.Index < _source.Length && _source[_source.Index] == Symbols.LineFeed)
             {
-                _normalized = false;
+                IsNormalized = false;
                 BackUnsafe();
                 return Symbols.Null;
             }
             else
             {
-                _normalized = true;
+                IsNormalized = true;
                 return Symbols.LineFeed;
             }
         }

@@ -10,15 +10,14 @@
     sealed class DelayRequester : BaseRequester
     {
         private readonly Int32 _timeout;
-        private Int32 _count;
 
         public DelayRequester(Int32 timeout)
         {
             _timeout = timeout;
-            _count = 0;
+            RequestCount = 0;
         }
 
-        public Int32 RequestCount => _count;
+        public Int32 RequestCount { get; private set; }
 
         public override Boolean SupportsProtocol(String protocol)
         {
@@ -28,7 +27,7 @@
         protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancel)
         {
             await Task.Delay(_timeout, cancel);
-            _count++;
+            RequestCount++;
             return new DefaultResponse
             {
                 Address  = request.Address,

@@ -11,13 +11,7 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private readonly NodeType _type;
-        private readonly String _name;
-        private readonly NodeFlags _flags;
-
         private Url? _baseUri;
-        private Node? _parent;
-        private NodeList _children;
         private Document? _owner;
 
         #endregion
@@ -28,10 +22,10 @@ namespace AngleSharp.Dom
         public Node(Document? owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
             _owner = owner;
-            _name = name ?? String.Empty;
-            _type = type;
-            _children = this.IsEndPoint() ? NodeList.Empty : new NodeList();
-            _flags = flags;
+            NodeName = name ?? String.Empty;
+            NodeType = type;
+            ChildNodes = this.IsEndPoint() ? NodeList.Empty : new NodeList();
+            Flags = flags;
         }
 
         #endregion
@@ -39,10 +33,10 @@ namespace AngleSharp.Dom
         #region Public Properties
 
         /// <inheritdoc />
-        public NodeFlags Flags => _flags;
+        public NodeFlags Flags { get; }
 
         /// <inheritdoc />
-        public Boolean HasChildNodes => _children.Length != 0;
+        public Boolean HasChildNodes => ChildNodes.Length != 0;
 
         /// <inheritdoc />
         public String BaseUri => BaseUrl?.Href ?? String.Empty;
@@ -56,7 +50,7 @@ namespace AngleSharp.Dom
                 {
                     return _baseUri;
                 }
-                else if (_parent != null)
+                else if (Parent != null)
                 {
                     foreach (var ancestor in this.Ancestors<Node>())
                     {
@@ -73,7 +67,7 @@ namespace AngleSharp.Dom
                 {
                     return document._baseUri ?? document.DocumentUrl;
                 }
-                else if (_type == NodeType.Document)
+                else if (NodeType == NodeType.Document)
                 {
                     document = (Document)this;
                     return document.DocumentUrl;
@@ -85,7 +79,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public NodeType NodeType => _type;
+        public NodeType NodeType { get; }
 
         /// <inheritdoc />
         public virtual String NodeValue
@@ -111,15 +105,15 @@ namespace AngleSharp.Dom
 
         IDocument INode.Owner => Owner;
 
-        INode? INode.Parent => _parent;
+        INode? INode.Parent => Parent;
 
         /// <inheritdoc />
-        public IElement? ParentElement => _parent as IElement;
+        public IElement? ParentElement => Parent as IElement;
 
-        INodeList INode.ChildNodes => _children;
+        INodeList INode.ChildNodes => ChildNodes;
 
         /// <inheritdoc />
-        public String NodeName => _name;
+        public String NodeName { get; }
 
         #endregion
 
@@ -129,15 +123,15 @@ namespace AngleSharp.Dom
         {
             get
             {
-                if (_parent != null)
+                if (Parent != null)
                 {
-                    var n = _parent._children.Length;
+                    var n = Parent.ChildNodes.Length;
 
                     for (var i = 1; i < n; i++)
                     {
-                        if (Object.ReferenceEquals(_parent._children[i], this))
+                        if (Object.ReferenceEquals(Parent.ChildNodes[i], this))
                         {
-                            return _parent._children[i - 1];
+                            return Parent.ChildNodes[i - 1];
                         }
                     }
                 }
@@ -150,15 +144,15 @@ namespace AngleSharp.Dom
         {
             get
             {
-                if (_parent != null)
+                if (Parent != null)
                 {
-                    var n = _parent._children.Length - 1;
+                    var n = Parent.ChildNodes.Length - 1;
 
                     for (var i = 0; i < n; i++)
                     {
-                        if (Object.ReferenceEquals(_parent._children[i], this))
+                        if (Object.ReferenceEquals(Parent.ChildNodes[i], this))
                         {
-                            return _parent._children[i + 1];
+                            return Parent.ChildNodes[i + 1];
                         }
                     }
                 }
@@ -167,27 +161,19 @@ namespace AngleSharp.Dom
             }
         }
 
-        internal Node? FirstChild => _children.Length > 0 ? _children[0] : null;
+        internal Node? FirstChild => ChildNodes.Length > 0 ? ChildNodes[0] : null;
 
-        internal Node? LastChild => _children.Length > 0 ? _children[_children.Length - 1] : null;
+        internal Node? LastChild => ChildNodes.Length > 0 ? ChildNodes[ChildNodes.Length - 1] : null;
 
-        internal NodeList ChildNodes
-        {
-            get => _children;
-            set => _children = value;
-        }
+        internal NodeList ChildNodes { get; set; }
 
-        internal Node? Parent
-        {
-            get => _parent;
-            set => _parent = value;
-        }
+        internal Node? Parent { get; set; }
 
         internal Document Owner
         {
             get
             {
-                if (_type == NodeType.Document)
+                if (NodeType == NodeType.Document)
                 {
                     return default!; // Supress to avoid common case where this is non-null
                 }
@@ -229,13 +215,13 @@ namespace AngleSharp.Dom
             var removedNodes = new NodeList();
             var addedNodes = new NodeList();
 
-            removedNodes.AddRange(_children);
+            removedNodes.AddRange(ChildNodes);
 
             if (node != null)
             {
                 if (node.NodeType == NodeType.DocumentFragment)
                 {
-                    addedNodes.AddRange(node._children);
+                    addedNodes.AddRange(node.ChildNodes);
                 }
                 else
                 {
@@ -291,14 +277,14 @@ namespace AngleSharp.Dom
             }
 
             var addedNodes = new NodeList();
-            var n = _children.Index(referenceElement!);
+            var n = ChildNodes.Index(referenceElement!);
 
             if (n == -1)
             {
-                n = _children.Length;
+                n = ChildNodes.Length;
             }
 
-            if (newElement._type == NodeType.DocumentFragment)
+            if (newElement.NodeType == NodeType.DocumentFragment)
             {
                 var end = n;
                 var start = n;
@@ -313,7 +299,7 @@ namespace AngleSharp.Dom
 
                 while (start < end)
                 {
-                    var child = _children[start];
+                    var child = ChildNodes[start];
                     addedNodes.Add(child);
                     NodeIsInserted(child);
                     start++;
@@ -331,7 +317,7 @@ namespace AngleSharp.Dom
                 document.QueueMutation(MutationRecord.ChildList(
                     target: this,
                     addedNodes: addedNodes,
-                    previousSibling: n > 0 ? _children[n - 1] : null,
+                    previousSibling: n > 0 ? ChildNodes[n - 1] : null,
                     nextSibling: referenceElement));
             }
 
@@ -341,7 +327,7 @@ namespace AngleSharp.Dom
         internal void RemoveChild(Node node, Boolean suppressObservers)
         {
             var document = Owner;
-            var index = _children.Index(node);
+            var index = ChildNodes.Index(node);
 
             if (document != null)
             {
@@ -366,7 +352,7 @@ namespace AngleSharp.Dom
                 }
             }
 
-            var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
+            var oldPreviousSibling = index > 0 ? ChildNodes[index - 1] : null;
 
             if (!suppressObservers && document != null)
             {
@@ -419,9 +405,9 @@ namespace AngleSharp.Dom
                 InsertBefore(node, referenceChild, true);
                 removedNodes.Add(child);
 
-                if (node._type == NodeType.DocumentFragment)
+                if (node.NodeType == NodeType.DocumentFragment)
                 {
-                    addedNodes.AddRange(node._children);
+                    addedNodes.AddRange(node.ChildNodes);
                 }
                 else
                 {
@@ -481,11 +467,11 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public void InsertText(Int32 index, String s)
         {
-            if (index > 0 && index <= _children.Length && _children[index - 1] is IText text1)
+            if (index > 0 && index <= ChildNodes.Length && ChildNodes[index - 1] is IText text1)
             {
                 text1.Append(s);
             }
-            else if (index >= 0 && index < _children.Length && _children[index] is IText text2)
+            else if (index >= 0 && index < ChildNodes.Length && ChildNodes[index] is IText text2)
             {
                 text2.Insert(0, s);
             }
@@ -499,21 +485,21 @@ namespace AngleSharp.Dom
         public void InsertNode(Int32 index, Node node)
         {
             node.Parent = this;
-            _children.Insert(index, node);
+            ChildNodes.Insert(index, node);
         }
 
         /// <inheritdoc />
         public void AddNode(Node node)
         {
             node.Parent = this;
-            _children.Add(node);
+            ChildNodes.Add(node);
         }
 
         /// <inheritdoc />
         public void RemoveNode(Int32 index, Node node)
         {
             node.Parent = null;
-            _children.RemoveAt(index);
+            ChildNodes.RemoveAt(index);
         }
 
         /// <inheritdoc />
@@ -587,7 +573,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public INode InsertChild(Int32 index, INode child)
         {
-            var reference = index < _children.Length ? _children[index] : null;
+            var reference = index < ChildNodes.Length ? ChildNodes[index] : null;
             return this.PreInsert(child, reference);
         }
 
@@ -637,9 +623,9 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public void Normalize()
         {
-            for (var i = 0; i < _children.Length; i++)
+            for (var i = 0; i < ChildNodes.Length; i++)
             {
-                if (_children[i] is TextNode text)
+                if (ChildNodes[i] is TextNode text)
                 {
                     var length = text.Length;
 
@@ -686,13 +672,13 @@ namespace AngleSharp.Dom
 
                         for (var j = end; j > i; j--)
                         {
-                            RemoveChild(_children[j], false);
+                            RemoveChild(ChildNodes[j], false);
                         }
                     }
                 }
-                else if (_children[i].HasChildNodes)
+                else if (ChildNodes[i].HasChildNodes)
                 {
-                    _children[i].Normalize();
+                    ChildNodes[i].Normalize();
                 }
             }
         }
@@ -736,9 +722,9 @@ namespace AngleSharp.Dom
         {
             if (BaseUri.Is(otherNode?.BaseUri) && NodeName.Is(otherNode?.NodeName) && ChildNodes.Length == otherNode?.ChildNodes.Length)
             {
-                for (var i = 0; i < _children.Length; i++)
+                for (var i = 0; i < ChildNodes.Length; i++)
                 {
-                    if (!_children[i].Equals(otherNode.ChildNodes[i]))
+                    if (!ChildNodes[i].Equals(otherNode.ChildNodes[i]))
                     {
                         return false;
                     }
@@ -756,7 +742,7 @@ namespace AngleSharp.Dom
 
         private static Boolean IsChangeForbidden(Node node, IDocument parent, Node child)
         {
-            switch (node._type)
+            switch (node.NodeType)
             {
                 case NodeType.DocumentType:
                     return parent.Doctype != child || child.IsPrecededByElement();
@@ -822,10 +808,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        protected virtual String? LocateNamespace(String prefix) => _parent?.LocateNamespace(prefix);
+        protected virtual String? LocateNamespace(String prefix) => Parent?.LocateNamespace(prefix);
 
         /// <inheritdoc />
-        protected virtual String? LocatePrefix(String namespaceUri) => _parent?.LocatePrefix(namespaceUri);
+        protected virtual String? LocatePrefix(String namespaceUri) => Parent?.LocatePrefix(namespaceUri);
 
         /// <summary>
         /// Run any adopting steps defined for node in other applicable
@@ -858,7 +844,7 @@ namespace AngleSharp.Dom
 
             if (deep)
             {
-                foreach (var child in _children)
+                foreach (var child in ChildNodes)
                 {
 
                     if (child is Node node)

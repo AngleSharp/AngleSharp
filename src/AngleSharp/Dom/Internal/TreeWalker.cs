@@ -7,38 +7,29 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private readonly INode _root;
-        private readonly FilterSettings _settings;
-        private readonly NodeFilter _filter;
-        private INode _current;
-
         #endregion
 
         #region ctor
 
         public TreeWalker(INode root, FilterSettings settings, NodeFilter? filter)
         {
-            _root = root;
-            _settings = settings;
-            _filter = filter ?? (_ => FilterResult.Accept);
-            _current = _root;
+            Root = root;
+            Settings = settings;
+            Filter = filter ?? (_ => FilterResult.Accept);
+            Current = Root;
         }
 
         #endregion
 
         #region Properties
 
-        public INode Root => _root;
+        public INode Root { get; }
 
-        public FilterSettings Settings => _settings;
+        public FilterSettings Settings { get; }
 
-        public NodeFilter Filter => _filter;
+        public NodeFilter Filter { get; }
 
-        public INode Current
-        {
-            get => _current;
-            set => _current = value;
-        }
+        public INode Current { get; set; }
 
         #endregion
 
@@ -46,7 +37,7 @@ namespace AngleSharp.Dom
 
         public INode? ToNext()
         {
-            var node = _current;
+            var node = Current;
             var result = FilterResult.Accept;
 
             while (node is not null)
@@ -58,12 +49,12 @@ namespace AngleSharp.Dom
 
                     if (result == FilterResult.Accept)
                     {
-                        _current = node;
+                        Current = node;
                         return node;
                     }
                 }
 
-                while (node is not null && node != _root)
+                while (node is not null && node != Root)
                 {
                     var sibling = node!.NextSibling;
 
@@ -76,7 +67,7 @@ namespace AngleSharp.Dom
                     node = node.Parent;
                 }
 
-                if (node is null || node == _root)
+                if (node is null || node == Root)
                 {
                     break;
                 }
@@ -85,7 +76,7 @@ namespace AngleSharp.Dom
 
                 if (result == FilterResult.Accept)
                 {
-                    _current = node;
+                    Current = node;
                     return node;
                 }
             }
@@ -95,9 +86,9 @@ namespace AngleSharp.Dom
 
         public INode? ToPrevious()
         {
-            var node = _current;
+            var node = Current;
 
-            while (node is not null && node != _root)
+            while (node is not null && node != Root)
             {
                 var sibling = node.PreviousSibling;
 
@@ -113,13 +104,13 @@ namespace AngleSharp.Dom
 
                         if (result == FilterResult.Accept)
                         {
-                            _current = node;
+                            Current = node;
                             return node;
                         }
                     }
                 }
 
-                if (node == _root)
+                if (node == Root)
                 {
                     break;
                 }
@@ -133,7 +124,7 @@ namespace AngleSharp.Dom
 
                 if (Check(node) == FilterResult.Accept)
                 {
-                    _current = node;
+                    Current = node;
                     return node;
                 }
             }
@@ -143,15 +134,15 @@ namespace AngleSharp.Dom
 
         public INode? ToParent()
         {
-            var node = _current;
+            var node = Current;
 
-            while (node is not null && node != _root)
+            while (node is not null && node != Root)
             {
                 node = node.Parent;
 
                 if (node is not null && Check(node) == FilterResult.Accept)
                 {
-                    _current = node;
+                    Current = node;
                     return node;
                 }
             }
@@ -161,7 +152,7 @@ namespace AngleSharp.Dom
 
         public INode? ToFirst()
         {
-            var node = _current?.FirstChild;
+            var node = Current?.FirstChild;
 
             while (node is not null)
             {
@@ -169,7 +160,7 @@ namespace AngleSharp.Dom
 
                 if (result == FilterResult.Accept)
                 {
-                    _current = node;
+                    Current = node;
                     return node;
                 }
                 else if (result == FilterResult.Skip)
@@ -195,7 +186,7 @@ namespace AngleSharp.Dom
 
                     var parent = node.Parent;
 
-                    if (parent is null || parent == _root || parent == _current)
+                    if (parent is null || parent == Root || parent == Current)
                     {
                         node = null;
                         break;
@@ -210,7 +201,7 @@ namespace AngleSharp.Dom
 
         public INode? ToLast()
         {
-            var node = _current?.LastChild;
+            var node = Current?.LastChild;
 
             while (node is not null)
             {
@@ -218,7 +209,7 @@ namespace AngleSharp.Dom
 
                 if (result == FilterResult.Accept)
                 {
-                    _current = node;
+                    Current = node;
                     return node;
                 }
                 else if (result == FilterResult.Skip)
@@ -244,7 +235,7 @@ namespace AngleSharp.Dom
 
                     var parent = node.Parent;
 
-                    if (parent is null || parent == _root || parent == _current)
+                    if (parent is null || parent == Root || parent == Current)
                     {
                         node = null;
                         break;
@@ -259,9 +250,9 @@ namespace AngleSharp.Dom
 
         public INode? ToPreviousSibling()
         {
-            var node = _current;
+            var node = Current;
 
-            if (node != _root)
+            if (node != Root)
             {
                 while (node is not null)
                 {
@@ -274,7 +265,7 @@ namespace AngleSharp.Dom
 
                         if (result == FilterResult.Accept)
                         {
-                            _current = node;
+                            Current = node;
                             return node;
                         }
 
@@ -288,7 +279,7 @@ namespace AngleSharp.Dom
 
                     node = node.Parent;
 
-                    if (node is null || node == _root || Check(node) == FilterResult.Accept)
+                    if (node is null || node == Root || Check(node) == FilterResult.Accept)
                     {
                         break;
                     }
@@ -300,9 +291,9 @@ namespace AngleSharp.Dom
 
         public INode? ToNextSibling()
         {
-            var node = _current;
+            var node = Current;
 
-            if (node != _root)
+            if (node != Root)
             {
                 while (node is not null)
                 {
@@ -315,7 +306,7 @@ namespace AngleSharp.Dom
 
                         if (result == FilterResult.Accept)
                         {
-                            _current = node;
+                            Current = node;
                             return node;
                         }
 
@@ -329,7 +320,7 @@ namespace AngleSharp.Dom
 
                     node = node.Parent;
 
-                    if (node is null || node == _root || Check(node) == FilterResult.Accept)
+                    if (node is null || node == Root || Check(node) == FilterResult.Accept)
                     {
                         break;
                     }
@@ -345,12 +336,12 @@ namespace AngleSharp.Dom
 
         private FilterResult Check(INode node)
         {
-            if (!_settings.Accepts(node))
+            if (!Settings.Accepts(node))
             {
                 return FilterResult.Skip;
             }
 
-            return _filter(node);
+            return Filter(node);
         }
 
         #endregion

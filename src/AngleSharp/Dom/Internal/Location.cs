@@ -11,8 +11,6 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private readonly Url _url;
-
         #endregion
 
         #region Events
@@ -30,38 +28,38 @@ namespace AngleSharp.Dom
 
         internal Location(Url url)
         {
-            _url = url ?? new Url(String.Empty);
+            Original = url ?? new Url(String.Empty);
         }
 
         #endregion
 
         #region Properties
 
-        public Url Original => _url;
+        public Url Original { get; }
 
-        public String? Origin => _url.Origin;
+        public String? Origin => Original.Origin;
 
-        public Boolean IsRelative => _url.IsRelative;
+        public Boolean IsRelative => Original.IsRelative;
 
         public String? UserName
         {
-            get => _url.UserName;
-            set => _url.UserName = value;
+            get => Original.UserName;
+            set => Original.UserName = value;
         }
 
         public String? Password
         {
-            get => _url.Password;
-            set => _url.Password = value;
+            get => Original.Password;
+            set => Original.Password = value;
         }
 
         [AllowNull]
         public String Hash
         {
-            get => NonEmptyPrefix(_url.Fragment, "#");
+            get => NonEmptyPrefix(Original.Fragment, "#");
             set
             {
-                var old = _url.Href;
+                var old = Original.Href;
 
                 if (value != null)
                 {
@@ -75,9 +73,9 @@ namespace AngleSharp.Dom
                     }
                 }
 
-                if (!value.Is(_url.Fragment))
+                if (!value.Is(Original.Fragment))
                 {
-                    _url.Fragment = value;
+                    Original.Fragment = value;
                     RaiseHashChanged(old);
                 }
             }
@@ -85,14 +83,14 @@ namespace AngleSharp.Dom
 
         public String Host
         {
-            get => _url.Host;
+            get => Original.Host;
             set
             {
-                var old = _url.Href;
+                var old = Original.Href;
 
-                if (!value.Isi(_url.Host))
+                if (!value.Isi(Original.Host))
                 {
-                    _url.Host = value;
+                    Original.Host = value;
                     RaiseLocationChanged(old);
                 }
             }
@@ -100,14 +98,14 @@ namespace AngleSharp.Dom
 
         public String HostName
         {
-            get => _url.HostName;
+            get => Original.HostName;
             set
             {
-                var old = _url.Href;
+                var old = Original.Href;
 
-                if (!value.Isi(_url.HostName))
+                if (!value.Isi(Original.HostName))
                 {
-                    _url.HostName = value;
+                    Original.HostName = value;
                     RaiseLocationChanged(old);
                 }
             }
@@ -115,14 +113,14 @@ namespace AngleSharp.Dom
 
         public String Href
         {
-            get => _url.Href;
+            get => Original.Href;
             set
             {
-                var old = _url.Href;
+                var old = Original.Href;
 
-                if (!value.Is(_url.Href))
+                if (!value.Is(Original.Href))
                 {
-                    _url.Href = value;
+                    Original.Href = value;
                     RaiseLocationChanged(old);
                 }
             }
@@ -132,16 +130,16 @@ namespace AngleSharp.Dom
         {
             get
             {
-                var data = _url.Data;
-                return String.IsNullOrEmpty(data) ? "/" + _url.Path : data;
+                var data = Original.Data;
+                return String.IsNullOrEmpty(data) ? "/" + Original.Path : data;
             }
             set
             {
-                var old = _url.Href;
+                var old = Original.Href;
 
-                if (!value.Is(_url.Path))
+                if (!value.Is(Original.Path))
                 {
-                    _url.Path = value;
+                    Original.Path = value;
                     RaiseLocationChanged(old);
                 }
             }
@@ -149,14 +147,14 @@ namespace AngleSharp.Dom
 
         public String Port
         {
-            get => _url.Port;
+            get => Original.Port;
             set
             {
-                var old = _url.Href;
+                var old = Original.Href;
 
-                if (!value.Isi(_url.Port))
+                if (!value.Isi(Original.Port))
                 {
-                    _url.Port = value;
+                    Original.Port = value;
                     RaiseLocationChanged(old);
                 }
             }
@@ -164,14 +162,14 @@ namespace AngleSharp.Dom
 
         public String Protocol
         {
-            get => NonEmptyPostfix(_url.Scheme, ":");
+            get => NonEmptyPostfix(Original.Scheme, ":");
             set
             {
-                var old = _url.Href;
+                var old = Original.Href;
 
-                if (!value.Isi(_url.Scheme))
+                if (!value.Isi(Original.Scheme))
                 {
-                    _url.Scheme = value;
+                    Original.Scheme = value;
                     RaiseLocationChanged(old);
                 }
             }
@@ -179,14 +177,14 @@ namespace AngleSharp.Dom
 
         public String Search
         {
-            get => NonEmptyPrefix(_url.Query, "?");
+            get => NonEmptyPrefix(Original.Query, "?");
             set
             {
-                var old = _url.Href;
+                var old = Original.Href;
 
-                if (!value.Is(_url.Query))
+                if (!value.Is(Original.Query))
                 {
-                    _url.Query = value;
+                    Original.Query = value;
                     RaiseLocationChanged(old);
                 }
             }
@@ -198,39 +196,39 @@ namespace AngleSharp.Dom
 
         public void Assign(String url)
         {
-            var old = _url.Href;
+            var old = Original.Href;
 
             if (!old.Is(url))
             {
-                _url.Href = url;
+                Original.Href = url;
                 RaiseLocationChanged(old);
             }
         }
 
         public void Replace(String url)
         {
-            var old = _url.Href;
+            var old = Original.Href;
 
             if (!old.Is(url))
             {
-                _url.Href = url;
+                Original.Href = url;
                 RaiseLocationChanged(old);
             }
         }
 
-        public void Reload() => Changed?.Invoke(this, new ChangedEventArgs(false, _url.Href, _url.Href));
+        public void Reload() => Changed?.Invoke(this, new ChangedEventArgs(false, Original.Href, Original.Href));
 
-        public override String ToString() => _url.Href;
+        public override String ToString() => Original.Href;
 
         #endregion
 
         #region Helpers
 
         private void RaiseHashChanged(String oldAddress) =>
-            Changed?.Invoke(this, new ChangedEventArgs(true, oldAddress, _url.Href));
+            Changed?.Invoke(this, new ChangedEventArgs(true, oldAddress, Original.Href));
 
         private void RaiseLocationChanged(String oldAddress) =>
-            Changed?.Invoke(this, new ChangedEventArgs(false, oldAddress, _url.Href));
+            Changed?.Invoke(this, new ChangedEventArgs(false, oldAddress, Original.Href));
 
         private static String NonEmptyPrefix(String? check, String prefix) =>
             String.IsNullOrEmpty(check) ? String.Empty : String.Concat(prefix, check);

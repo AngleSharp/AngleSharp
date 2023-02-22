@@ -12,9 +12,6 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private readonly String _localName;
-        private readonly String? _prefix;
-        private readonly String? _namespace;
         private String _value;
 
         #endregion
@@ -37,7 +34,7 @@ namespace AngleSharp.Dom
         /// <param name="value">The value of the attribute.</param>
         public Attr(String localName, String value)
         {
-            _localName = localName;
+            LocalName = localName;
             _value = value;
         }
 
@@ -50,10 +47,10 @@ namespace AngleSharp.Dom
         /// <param name="namespaceUri">The namespace of the attribute.</param>
         public Attr(String? prefix, String localName, String value, String? namespaceUri)
         {
-            _prefix = prefix;
-            _localName = localName;
+            Prefix = prefix;
+            LocalName = localName;
             _value = value;
-            _namespace = namespaceUri;
+            NamespaceUri = namespaceUri;
         }
 
         #endregion
@@ -83,12 +80,12 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the attribute's prefix.
         /// </summary>
-        public String? Prefix => _prefix;
+        public String? Prefix { get; }
 
         /// <summary>
         /// Gets if the attribute is an id attribute.
         /// </summary>
-        public Boolean IsId => _prefix is null && _localName.Isi(AttributeNames.Id);
+        public Boolean IsId => Prefix is null && LocalName.Isi(AttributeNames.Id);
 
         /// <summary>
         /// Gets if the value is given or not.
@@ -98,7 +95,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the attribute's fully qualified name.
         /// </summary>
-        public String Name => _prefix is null ? _localName : String.Concat(_prefix, ":", _localName);
+        public String Name => Prefix is null ? LocalName : String.Concat(Prefix, ":", LocalName);
 
         /// <summary>
         /// Gets the attribute's value.
@@ -117,12 +114,12 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the attribute's local name.
         /// </summary>
-        public String LocalName => _localName;
+        public String LocalName { get; }
 
         /// <summary>
         /// Gets the attribute's namespace.
         /// </summary>
-        public String? NamespaceUri => _namespace;
+        public String? NamespaceUri { get; }
 
         string INode.BaseUri => OwnerElement!.BaseUri;
 
@@ -184,10 +181,10 @@ namespace AngleSharp.Dom
             const int prime = 31;
             var result = 1;
 
-            result = result * prime + _localName.GetHashCode();
+            result = result * prime + LocalName.GetHashCode();
             result = result * prime + (_value ?? String.Empty).GetHashCode();
-            result = result * prime + (_namespace ?? String.Empty).GetHashCode();
-            result = result * prime + (_prefix ?? String.Empty).GetHashCode();
+            result = result * prime + (NamespaceUri ?? String.Empty).GetHashCode();
+            result = result * prime + (Prefix ?? String.Empty).GetHashCode();
 
             return result;
         }
@@ -196,7 +193,7 @@ namespace AngleSharp.Dom
 
         #region INode Implementation
 
-        INode INode.Clone(Boolean deep) => new Attr(_prefix, _localName, _value, _namespace);
+        INode INode.Clone(Boolean deep) => new Attr(Prefix, LocalName, _value, NamespaceUri);
 
         Boolean INode.Equals(INode otherNode) => otherNode is IAttr attr && Equals(attr);
 

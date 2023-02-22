@@ -44,9 +44,7 @@ namespace AngleSharp.Dom
         private String? _username;
         private String? _password;
         private Boolean _relative;
-        private String _schemeData;
         private UrlSearchParams? _params;
-        private Boolean _error;
 
         #endregion
 
@@ -54,7 +52,7 @@ namespace AngleSharp.Dom
 
         private Url(String scheme, String host, String port)
         {
-            _schemeData = String.Empty;
+            Data = String.Empty;
             _path = String.Empty;
             _scheme = scheme;
             _host = host;
@@ -75,11 +73,11 @@ namespace AngleSharp.Dom
             if (baseAddress is not null)
             {
                 var baseUrl = new Url(baseAddress);
-                _error = ParseUrl(url, baseUrl);
+                IsInvalid = ParseUrl(url, baseUrl);
             }
             else
             {
-                _error = ParseUrl(url);
+                IsInvalid = ParseUrl(url);
             }
         }
 
@@ -89,7 +87,7 @@ namespace AngleSharp.Dom
         /// <param name="address">The address to represent.</param>
         public Url(String address)
         {
-            _error = ParseUrl(address);
+            IsInvalid = ParseUrl(address);
         }
 
         /// <summary>
@@ -102,7 +100,7 @@ namespace AngleSharp.Dom
         /// </param>
         public Url(Url baseAddress, String relativeAddress)
         {
-            _error = ParseUrl(relativeAddress, baseAddress);
+            IsInvalid = ParseUrl(relativeAddress, baseAddress);
         }
 
 #nullable enable
@@ -122,7 +120,7 @@ namespace AngleSharp.Dom
             _username = address._username;
             _password = address._password;
              _relative = address._relative;
-            _schemeData = address._schemeData;;
+            Data = address.Data;;
         }
 
         #endregion
@@ -163,7 +161,7 @@ namespace AngleSharp.Dom
             {
                 if (_scheme.Is(ProtocolNames.Blob))
                 {
-                    var url = new Url(_schemeData);
+                    var url = new Url(Data);
 
                     if (!url.IsInvalid)
                     {
@@ -199,7 +197,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets if the URL parsing resulted in an error.
         /// </summary>
-        public Boolean IsInvalid => _error;
+        public Boolean IsInvalid { get; private set; }
 
         /// <summary>
         /// Gets if the stored url is relative.
@@ -235,7 +233,7 @@ namespace AngleSharp.Dom
         /// Gets the additional stored data of the URL. This is data that could
         /// not be assigned.
         /// </summary>
-        public String Data => _schemeData;
+        public String Data { get; private set; }
 
         /// <summary>
         /// Gets or sets the fragment, e.g., "first-section".
@@ -315,7 +313,7 @@ namespace AngleSharp.Dom
         public String Href
         {
             get => Serialize();
-            set => _error = ParseUrl(value ?? String.Empty, this);
+            set => IsInvalid = ParseUrl(value ?? String.Empty, this);
         }
 
         /// <summary>
@@ -448,7 +446,7 @@ namespace AngleSharp.Dom
                 hashCode = (hashCode * 397) ^ (_host != null ?  StringComparer.OrdinalIgnoreCase.GetHashCode(_host) : 0);
                 hashCode = (hashCode * 397) ^ (_username != null ? StringComparer.Ordinal.GetHashCode(_username) : 0);
                 hashCode = (hashCode * 397) ^ (_password != null ? StringComparer.Ordinal.GetHashCode(_password) : 0);
-                hashCode = (hashCode * 397) ^ (_schemeData != null ? StringComparer.Ordinal.GetHashCode(_schemeData) : 0);
+                hashCode = (hashCode * 397) ^ (Data != null ? StringComparer.Ordinal.GetHashCode(Data) : 0);
                 return hashCode;
             }
         }
@@ -484,7 +482,7 @@ namespace AngleSharp.Dom
                    _path.Is(other._path) && _scheme.Isi(other._scheme) &&
                    _port.Is(other._port) && _host.Isi(other._host) &&
                    _username.Is(other._username) && _password.Is(other._password) &&
-                   _schemeData.Is(other._schemeData);
+                   Data.Is(other.Data);
         }
 
         #endregion
@@ -563,7 +561,7 @@ namespace AngleSharp.Dom
             }
             else
             {
-                output.Append(_schemeData);
+                output.Append(Data);
             }
 
             if (_query != null)
@@ -593,7 +591,7 @@ namespace AngleSharp.Dom
 
         private void Reset(Url baseUrl)
         {
-            _schemeData = String.Empty;
+            Data = String.Empty;
             _scheme = baseUrl._scheme;
             _host = baseUrl._host;
             _path = baseUrl._path;
@@ -686,12 +684,12 @@ namespace AngleSharp.Dom
 
                 if (c == Symbols.QuestionMark)
                 {
-                    _schemeData = buffer.ToPool();
+                    Data = buffer.ToPool();
                     return ParseQuery(input, index + 1, length);
                 }
                 else if (c == Symbols.Num)
                 {
-                    _schemeData = buffer.ToPool();
+                    Data = buffer.ToPool();
                     return ParseFragment(input, index + 1, length);
                 }
                 else if (c == Symbols.Percent && index + 2 < length && input[index + 1].IsHex() && input[index + 2].IsHex())
@@ -708,7 +706,7 @@ namespace AngleSharp.Dom
                 index++;
             }
 
-            _schemeData = buffer.ToPool();
+            Data = buffer.ToPool();
             return true;
         }
 

@@ -9,10 +9,6 @@ namespace AngleSharp.Html
     {
         #region Fields
 
-        private readonly String _name;
-        private readonly String _type;
-        private readonly String? _value;
-
         #endregion
 
         #region ctor
@@ -25,9 +21,9 @@ namespace AngleSharp.Html
         /// <param name="value">The value of the field.</param>
         public FormControlState(String name, String type, String? value)
 	    {
-            _name = name;
-            _type = type;
-            _value = value;
+            Name = name;
+            Type = type;
+            Value = value;
 	    }
 
         #endregion
@@ -37,17 +33,17 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the name of the field.
         /// </summary>
-        public String Name => _name;
+        public String Name { get; }
 
         /// <summary>
         /// Gets the field's value.
         /// </summary>
-        public String? Value => _value;
+        public String? Value { get; }
 
         /// <summary>
         /// Gets the type of the field.
         /// </summary>
-        public String Type => _type;
+        public String Type { get; }
 
         #endregion
     }

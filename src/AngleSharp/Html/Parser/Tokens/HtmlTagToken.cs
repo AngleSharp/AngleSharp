@@ -12,9 +12,6 @@ namespace AngleSharp.Html.Parser.Tokens
     {
         #region Fields
 
-        private readonly List<HtmlAttributeToken> _attributes = new List<HtmlAttributeToken>();
-        private Boolean _selfClosing;
-
         #endregion
 
         #region ctor
@@ -71,16 +68,12 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets or sets the state of the self-closing flag.
         /// </summary>
-        public Boolean IsSelfClosing
-        {
-            get => _selfClosing;
-            set => _selfClosing = value;
-        }
+        public Boolean IsSelfClosing { get; set; }
 
         /// <summary>
         /// Gets the list of attributes.
         /// </summary>
-        public List<HtmlAttributeToken> Attributes => _attributes;
+        public List<HtmlAttributeToken> Attributes { get; } = new List<HtmlAttributeToken>();
 
         #endregion
 
@@ -94,7 +87,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="position">The starting position of the attribute.</param>
         public void AddAttribute(String name, TextPosition position)
         {
-            _attributes.Add(new HtmlAttributeToken(position, name, String.Empty));
+            Attributes.Add(new HtmlAttributeToken(position, name, String.Empty));
         }
 
         /// <summary>
@@ -104,7 +97,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="value">The value of the attribute.</param>
         public void AddAttribute(String name, String value)
         {
-            _attributes.Add(new HtmlAttributeToken(TextPosition.Empty, name, value));
+            Attributes.Add(new HtmlAttributeToken(TextPosition.Empty, name, value));
         }
 
         /// <summary>
@@ -113,9 +106,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="value">The value to set.</param>
         public void SetAttributeValue(String value)
         {
-            var last = _attributes.Count - 1;
-            var attr = _attributes[last];
-            _attributes[last] = new HtmlAttributeToken(attr.Position, attr.Name, value);
+            var last = Attributes.Count - 1;
+            var attr = Attributes[last];
+            Attributes[last] = new HtmlAttributeToken(attr.Position, attr.Name, value);
         }
 
         /// <summary>
@@ -126,9 +119,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <returns>The value of the attribute.</returns>
         public String GetAttribute(String name)
         {
-            for (var i = 0; i != _attributes.Count; i++)
+            for (var i = 0; i != Attributes.Count; i++)
             {
-                var attr = _attributes[i];
+                var attr = Attributes[i];
 
                 if (attr.Name.Is(name))
                 {

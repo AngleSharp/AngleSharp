@@ -11,8 +11,6 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private TrackReadyState _ready;
-
         #endregion
 
         #region ctor
@@ -23,7 +21,7 @@ namespace AngleSharp.Html.Dom
         public HtmlTrackElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Track, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _ready = TrackReadyState.None;
+            ReadyState = TrackReadyState.None;
         }
 
         #endregion
@@ -78,7 +76,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Gets the ready state of the given track.
         /// </summary>
-        public TrackReadyState ReadyState => _ready;
+        public TrackReadyState ReadyState { get; }
 
         public ITextTrack?Track => null;
 

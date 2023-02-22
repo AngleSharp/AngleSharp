@@ -30,7 +30,6 @@ namespace AngleSharp.Io
 
         #region Fields
 
-        private TimeSpan _timeOut;
         private readonly Action<HttpWebRequest> _setup;
         private readonly Dictionary<String, String> _headers;
 
@@ -46,7 +45,7 @@ namespace AngleSharp.Io
         /// <param name="setup">An optional setup function for the HttpWebRequest object.</param>
         public DefaultHttpRequester(String? userAgent = null, Action<HttpWebRequest>? setup = null)
         {
-            _timeOut = new TimeSpan(0, 0, 0, 45);
+            Timeout = new TimeSpan(0, 0, 0, 45);
             _setup = setup ?? ((HttpWebRequest _) => { });
             _headers = new Dictionary<String, String>
             {
@@ -67,11 +66,7 @@ namespace AngleSharp.Io
         /// <summary>
         /// Gets or sets the timeout value.
         /// </summary>
-        public TimeSpan Timeout
-        {
-            get => _timeOut;
-            set => _timeOut = value;
-        }
+        public TimeSpan Timeout { get; set; }
 
         #endregion
 
@@ -101,7 +96,7 @@ namespace AngleSharp.Io
         /// </returns>
         protected override async Task<IResponse?> PerformRequestAsync(Request request, CancellationToken cancellationToken)
         {
-            var cts = new CancellationTokenSource(_timeOut);
+            var cts = new CancellationTokenSource(Timeout);
             var cache = new RequestState(request, _headers, _setup);
 
             using (cancellationToken.Register(cts.Cancel))

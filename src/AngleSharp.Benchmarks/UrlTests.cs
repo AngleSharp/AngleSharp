@@ -6,18 +6,17 @@ namespace AngleSharp.Benchmarks
 {
     public sealed class UrlTests
     {
-        readonly List<UrlTest> _tests;
         readonly Boolean _buffer;
         readonly String _extension;
 
         public UrlTests(String extension, Boolean withBuffer = true)
         {
-            _tests = new List<UrlTest>();
+            Tests = new List<UrlTest>();
             _buffer = withBuffer;
             _extension = extension;
         }
 
-        public List<UrlTest> Tests => _tests;
+        public List<UrlTest> Tests { get; }
 
         public async Task<UrlTests> Include(params String[] urls)
         {
@@ -35,7 +34,7 @@ namespace AngleSharp.Benchmarks
         public async Task<UrlTests> Include(String url)
         {
             var test = await UrlTest.For(url, _extension, _buffer).ConfigureAwait(false);
-            _tests.Add(test);
+            Tests.Add(test);
             return this;
         }
     }

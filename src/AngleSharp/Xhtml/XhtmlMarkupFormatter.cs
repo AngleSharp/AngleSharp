@@ -20,8 +20,6 @@ namespace AngleSharp.Xhtml
 
         #region Private fields
 
-        private readonly Boolean _emptyTagsToSelfClosing;
-
         #endregion
 
         #region Constructors
@@ -42,7 +40,7 @@ namespace AngleSharp.Xhtml
         /// </param>
         public XhtmlMarkupFormatter(Boolean emptyTagsToSelfClosing)
         {
-            _emptyTagsToSelfClosing = emptyTagsToSelfClosing;
+            IsSelfClosingEmptyTags = emptyTagsToSelfClosing;
         }
 
         #endregion
@@ -50,7 +48,7 @@ namespace AngleSharp.Xhtml
         /// <summary>
         /// Gets the status if empty tags will be self-closed or not.
         /// </summary>
-        public Boolean IsSelfClosingEmptyTags => _emptyTagsToSelfClosing;
+        public Boolean IsSelfClosingEmptyTags { get; }
 
         #region Methods
 
@@ -60,7 +58,7 @@ namespace AngleSharp.Xhtml
             var prefix = element.Prefix;
             var name = element.LocalName;
             var tag = !String.IsNullOrEmpty(prefix) ? prefix + ":" + name : name;
-            return (selfClosing || _emptyTagsToSelfClosing && !element.HasChildNodes) ? String.Empty : String.Concat("</", tag, ">");
+            return (selfClosing || IsSelfClosingEmptyTags && !element.HasChildNodes) ? String.Empty : String.Concat("</", tag, ">");
         }
 
         /// <inheritdoc />
@@ -98,7 +96,7 @@ namespace AngleSharp.Xhtml
                 temp.Append(' ').Append(Attribute(attribute));
             }
 
-            if (selfClosing || _emptyTagsToSelfClosing && !element.HasChildNodes)
+            if (selfClosing || IsSelfClosingEmptyTags && !element.HasChildNodes)
             {
                 temp.Append(" /");
             }

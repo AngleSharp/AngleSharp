@@ -28,7 +28,6 @@ namespace AngleSharp.Text
         private Boolean _finished;
         private Encoding _encoding;
         private Decoder _decoder;
-        private Int32 _index;
 
         #endregion
 
@@ -42,7 +41,7 @@ namespace AngleSharp.Text
                 _chars = new Char[BufferSize + 1];
             }
             _raw = new MemoryStream();
-            _index = 0;
+            Index = 0;
             _encoding = encoding ?? TextEncoding.Utf8;
             _decoder = _encoding.GetDecoder();
         }
@@ -137,7 +136,7 @@ namespace AngleSharp.Text
                 var raw_chars = new Char[_encoding.GetMaxCharCount(raw.Length)];
                 var charLength = _decoder.GetChars(raw, 0, raw.Length, raw_chars, 0);
                 var content = new String(raw_chars, 0, charLength);
-                var index = Math.Min(_index, content.Length);
+                var index = Math.Min(Index, content.Length);
 
                 if (content.Substring(0, index).Is(_content!.ToString(0, index)))
                 {
@@ -150,7 +149,7 @@ namespace AngleSharp.Text
                 else
                 {
                     //Otherwise consider restart from beginning ...
-                    _index = 0;
+                    Index = 0;
                     _content.Clear().Append(content);
                     throw new NotSupportedException();
                 }
@@ -160,11 +159,7 @@ namespace AngleSharp.Text
         /// <summary>
         /// Gets or sets the current index of the insertation and read point.
         /// </summary>
-        public Int32 Index
-        {
-            get => _index;
-            set => _index = value;
-        }
+        public Int32 Index { get; set; }
 
         #endregion
 
@@ -196,13 +191,13 @@ namespace AngleSharp.Text
         /// <returns>The next character.</returns>
         public Char ReadCharacter()
         {
-            if (_index < _content.Length)
+            if (Index < _content.Length)
             {
-                return Replace(_content[_index++]);
+                return Replace(_content[Index++]);
             }
 
             ExpandBuffer(BufferSize);
-            var index = _index++;
+            var index = Index++;
             return index < _content.Length ? Replace(_content[index]) : Symbols.EndOfFile;
         }
 
@@ -214,17 +209,17 @@ namespace AngleSharp.Text
         /// <returns>The string with the next characters.</returns>
         public String ReadCharacters(Int32 characters)
         {
-            var start = _index;
+            var start = Index;
             var end = start + characters;
 
             if (end <= _content!.Length)
             {
-                _index += characters;
+                Index += characters;
                 return _content.ToString(start, characters);
             }
 
             ExpandBuffer(Math.Max(BufferSize, characters));
-            _index += characters;
+            Index += characters;
             characters = Math.Min(characters, _content.Length - start);
             return _content.ToString(start, characters);
         }
@@ -263,16 +258,16 @@ namespace AngleSharp.Text
         /// <param name="content">The content to insert.</param>
         public void InsertText(String content)
         {
-            if (_index >= 0 && _index < _content!.Length)
+            if (Index >= 0 && Index < _content!.Length)
             {
-                _content.Insert(_index, content);
+                _content.Insert(Index, content);
             }
             else
             {
                 _content!.Append(content);
             }
 
-            _index += content.Length;
+            Index += content.Length;
         }
 
         #endregion
@@ -336,7 +331,7 @@ namespace AngleSharp.Text
                 await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
             }
 
-            while (!_finished && size + _index > _content!.Length)
+            while (!_finished && size + Index > _content!.Length)
             {
                 await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -355,7 +350,7 @@ namespace AngleSharp.Text
                 DetectByteOrderMarkAsync(CancellationToken.None).Wait();
             }
 
-            while (!_finished && size + _index > _content!.Length)
+            while (!_finished && size + Index > _content!.Length)
             {
                 ReadIntoBuffer();
             }

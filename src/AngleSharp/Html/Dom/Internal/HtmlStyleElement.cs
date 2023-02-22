@@ -14,8 +14,6 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private IStyleSheet? _sheet;
-
         #endregion
 
         #region ctor
@@ -35,7 +33,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.Scoped, value);
         }
 
-        public IStyleSheet? Sheet => _sheet;
+        public IStyleSheet? Sheet { get; private set; }
 
         public Boolean IsDisabled
         {
@@ -44,9 +42,9 @@ namespace AngleSharp.Html.Dom
             {
                 this.SetBoolAttribute(AttributeNames.Disabled, value);
 
-                if (_sheet != null)
+                if (Sheet != null)
                 {
-                    _sheet.IsDisabled = value;
+                    Sheet.IsDisabled = value;
                 }
             }
         }
@@ -75,9 +73,9 @@ namespace AngleSharp.Html.Dom
 
         internal void UpdateMedia(String value)
         {
-            if (_sheet != null)
+            if (Sheet != null)
             {
-                _sheet.Media.MediaText = value;
+                Sheet.Media.MediaText = value;
             }
         }
 
@@ -126,7 +124,7 @@ namespace AngleSharp.Html.Dom
                 IsAlternate = false,
             };
             var task = engine.ParseStylesheetAsync(response, options, cancel);
-            _sheet = await task.ConfigureAwait(false);
+            Sheet = await task.ConfigureAwait(false);
             UpdateMedia(Media!);
         }
 

@@ -12,14 +12,6 @@ namespace AngleSharp.Css
         #region Fields
 
         [FieldOffset(0)]
-        private readonly Byte _tags;
-        [FieldOffset(1)]
-        private readonly Byte _classes;
-        [FieldOffset(2)]
-        private readonly Byte _ids;
-        [FieldOffset(3)]
-        private readonly Byte _inlines;
-        [FieldOffset(0)]
         private readonly UInt32 _priority;
 
         #endregion
@@ -61,7 +53,7 @@ namespace AngleSharp.Css
         /// <param name="priority">The hashcode to use.</param>
         public Priority(UInt32 priority)
         {
-            _inlines = _ids = _classes = _tags = 0;
+            Inlines = Ids = Classes = Tags = 0;
             _priority = priority;
         }
 
@@ -75,10 +67,10 @@ namespace AngleSharp.Css
         public Priority(Byte inlines, Byte ids, Byte classes, Byte tags)
         {
             _priority = 0;
-            _inlines = inlines;
-            _ids = ids;
-            _classes = classes;
-            _tags = tags;
+            Inlines = inlines;
+            Ids = ids;
+            Classes = classes;
+            Tags = tags;
         }
 
         #endregion
@@ -88,22 +80,26 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets the number of tags for this priority.
         /// </summary>
-        public Byte Tags => _tags;
+        [field: FieldOffset(0)]
+        public Byte Tags { get; }
 
         /// <summary>
         /// Gets the number of classes for this priority.
         /// </summary>
-        public Byte Classes => _classes;
+        [field: FieldOffset(1)]
+        public Byte Classes { get; }
 
         /// <summary>
         /// Gets the number of ids for this priority.
         /// </summary>
-        public Byte Ids => _ids;
+        [field: FieldOffset(2)]
+        public Byte Ids { get; }
 
         /// <summary>
         /// Gets the number of inlines for this priority.
         /// </summary>
-        public Byte Inlines => _inlines;
+        [field: FieldOffset(3)]
+        public Byte Inlines { get; }
 
         #endregion
 
@@ -204,7 +200,7 @@ namespace AngleSharp.Css
         /// Returns a string representing the priority.
         /// </summary>
         /// <returns>The string representation.</returns>
-        public override String ToString() => $"({_inlines}, {_ids}, {_classes}, {_tags})";
+        public override String ToString() => $"({Inlines}, {Ids}, {Classes}, {Tags})";
 
         #endregion
     }

@@ -6,24 +6,22 @@ namespace AngleSharp.Css.Dom
 
     sealed class TypeSelector : ISelector
     {
-        private readonly String _type;
-
         public TypeSelector(String type)
         {
-            _type = type;
+            TypeName = type;
         }
 
         /// <summary>
         /// Gets the raw type name value
         /// </summary>
-        internal String TypeName => _type;
+        internal String TypeName { get; }
 
         public Priority Specificity => Priority.OneTag;
 
-        public String Text => CssUtilities.Escape(_type);
+        public String Text => CssUtilities.Escape(TypeName);
 
-        public void Accept(ISelectorVisitor visitor) => visitor.Type(_type);
+        public void Accept(ISelectorVisitor visitor) => visitor.Type(TypeName);
 
-        public Boolean Match(IElement element, IElement? scope) => _type.Isi(element.LocalName);
+        public Boolean Match(IElement element, IElement? scope) => TypeName.Isi(element.LocalName);
     }
 }

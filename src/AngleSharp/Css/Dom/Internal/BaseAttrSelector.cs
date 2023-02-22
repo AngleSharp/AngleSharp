@@ -7,7 +7,6 @@ namespace AngleSharp.Css.Dom
     {
         private readonly String _name;
         private readonly String? _prefix;
-        private readonly String _attr;
 
         public BaseAttrSelector(String name, String? prefix)
         {
@@ -16,11 +15,11 @@ namespace AngleSharp.Css.Dom
 
             if (!String.IsNullOrEmpty(prefix) && prefix is not "*")
             {
-                _attr = String.Concat(prefix, ":", name);
+                Name = String.Concat(prefix, ":", name);
             }
             else
             {
-                _attr = name;
+                Name = name;
             }
         }
 
@@ -28,6 +27,6 @@ namespace AngleSharp.Css.Dom
 
         protected String Attribute => !String.IsNullOrEmpty(_prefix) ? String.Concat(CssUtilities.Escape(_prefix!), "|", CssUtilities.Escape(_name)) : CssUtilities.Escape(_name);
 
-        protected String Name => _attr;
+        protected String Name { get; }
     }
 }

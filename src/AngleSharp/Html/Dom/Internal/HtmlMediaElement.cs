@@ -16,7 +16,6 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private readonly MediaRequestProcessor<TResource> _request;
-        private ITextTrackList? _texts;
 
         #endregion
 
@@ -214,11 +213,7 @@ namespace AngleSharp.Html.Dom
 
         public virtual IVideoTrackList? VideoTracks => null;
 
-        public ITextTrackList? TextTracks
-        {
-            get => _texts;
-            protected set => _texts = value;
-        }
+        public ITextTrackList? TextTracks { get; protected set; }
 
         #endregion
 

@@ -26,8 +26,6 @@ namespace AngleSharp
     {
         #region Fields
 
-        private readonly IEnumerable<Object> _services;
-
         private static T Instance<T>(T instance) => instance;
 
         private static Func<IBrowsingContext, T> Creator<T>(Func<IBrowsingContext, T> creator) => creator;
@@ -42,7 +40,7 @@ namespace AngleSharp
         /// <param name="services">The services to expose.</param>
         public Configuration(IEnumerable<Object>? services = null)
         {
-            _services = services ?? new Object[]
+            Services = services ?? new Object[]
             {
                 Instance<IElementFactory<Document, HtmlElement>>(new HtmlElementFactory()),
                 Instance<IElementFactory<Document, MathElement>>(new MathElementFactory()),
@@ -80,7 +78,7 @@ namespace AngleSharp
         /// <summary>
         /// Gets an enumeration over the registered services.
         /// </summary>
-        public IEnumerable<Object> Services => _services;
+        public IEnumerable<Object> Services { get; }
 
         #endregion
     }

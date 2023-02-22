@@ -11,10 +11,6 @@ namespace AngleSharp.Html.Parser.Tokens
     {
         #region Fields
 
-        private readonly HtmlTokenType _type;
-        private readonly TextPosition _position;
-        private String _name;
-
         #endregion
 
         #region ctor
@@ -27,9 +23,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="name">The optional name of the token, if any.</param>
         public HtmlToken(HtmlTokenType type, TextPosition position, String? name = null)
         {
-            _type = type;
-            _position = position;
-            _name = name!; // null is rare, default to non-null
+            Type = type;
+            Position = position;
+            Name = name!; // null is rare, default to non-null
         }
 
         #endregion
@@ -44,9 +40,9 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             get
             {
-                for (var i = 0; i < _name!.Length; i++)
+                for (var i = 0; i < Name!.Length; i++)
                 {
-                    if (!_name[i].IsSpaceCharacter())
+                    if (!Name[i].IsSpaceCharacter())
                     {
                         return true;
                     }
@@ -59,32 +55,28 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets or sets the name of a tag token.
         /// </summary>
-        public String Name
-        {
-            get => _name;
-            set => _name = value;
-        }
+        public String Name { get; set; }
 
         /// <summary>
         /// Gets if the character data is empty (null or length equal to zero).
         /// </summary>
         /// <returns>True if the character data is actually NULL or empty.</returns>
-        public Boolean IsEmpty => String.IsNullOrEmpty(_name);
+        public Boolean IsEmpty => String.IsNullOrEmpty(Name);
 
         /// <summary>
         /// Gets the data of the comment or character token.
         /// </summary>
-        public String Data => _name;
+        public String Data => Name;
 
         /// <summary>
         /// Gets the position of the token.
         /// </summary>
-        public TextPosition Position => _position;
+        public TextPosition Position { get; }
 
         /// <summary>
         /// Gets if the token can be used with IsHtmlTIP properties.
         /// </summary>
-        public Boolean IsHtmlCompatible => _type == HtmlTokenType.StartTag || _type == HtmlTokenType.Character;
+        public Boolean IsHtmlCompatible => Type == HtmlTokenType.StartTag || Type == HtmlTokenType.Character;
 
         /// <summary>
         /// Gets if the given token is a SVG root start tag.
@@ -94,12 +86,12 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets if the token can be used with IsMathMLTIP properties.
         /// </summary>
-        public Boolean IsMathCompatible => (!IsStartTag("mglyph") && !IsStartTag("malignmark")) || _type == HtmlTokenType.Character;
+        public Boolean IsMathCompatible => (!IsStartTag("mglyph") && !IsStartTag("malignmark")) || Type == HtmlTokenType.Character;
 
         /// <summary>
         /// Gets the type of the token.
         /// </summary>
-        public HtmlTokenType Type => _type;
+        public HtmlTokenType Type { get; }
 
         /// <summary>
         /// Indicates that this comment token is a processing instruction.
@@ -118,16 +110,16 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             var i = 0;
 
-            for (i = 0; i < _name.Length; i++)
+            for (i = 0; i < Name.Length; i++)
             {
-                if (!_name[i].IsSpaceCharacter())
+                if (!Name[i].IsSpaceCharacter())
                 {
                     break;
                 }
             }
 
-            var t = _name.Substring(0, i);
-            _name = _name.Substring(i);
+            var t = Name.Substring(0, i);
+            Name = Name.Substring(i);
             return t;
         }
 
@@ -136,9 +128,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public void RemoveNewLine()
         {
-            if (_name.Has(Symbols.LineFeed))
+            if (Name.Has(Symbols.LineFeed))
             {
-                _name = _name.Substring(1);
+                Name = Name.Substring(1);
             }
         }
 
@@ -158,7 +150,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
         public Boolean IsStartTag(String name)
         {
-            return _type == HtmlTokenType.StartTag && _name.Is(name);
+            return Type == HtmlTokenType.StartTag && Name.Is(name);
         }
 
         #endregion

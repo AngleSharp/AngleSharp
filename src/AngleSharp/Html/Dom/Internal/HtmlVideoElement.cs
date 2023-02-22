@@ -13,8 +13,6 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private IVideoTrackList? _videos;
-
         #endregion
 
         #region ctor
@@ -22,14 +20,14 @@ namespace AngleSharp.Html.Dom
         public HtmlVideoElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Video, prefix)
         {
-            _videos = null;
+            VideoTracks = null;
         }
 
         #endregion
 
         #region Properties
 
-        public override IVideoTrackList? VideoTracks => _videos;
+        public override IVideoTrackList? VideoTracks { get; }
 
         public Int32 DisplayWidth
         {

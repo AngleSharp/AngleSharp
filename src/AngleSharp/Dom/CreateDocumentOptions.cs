@@ -12,11 +12,6 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private readonly IResponse _response;
-        private readonly MimeType _contentType;
-        private readonly TextSource _source;
-        private readonly IDocument? _ancestor;
-
         #endregion
 
         #region ctor
@@ -40,10 +35,10 @@ namespace AngleSharp.Dom
                 source.CurrentEncoding = TextEncoding.Resolve(charset);
             }
 
-            _source = source;
-            _contentType = contentType;
-            _response = response;
-            _ancestor = ancestor;
+            Source = source;
+            ContentType = contentType;
+            Response = response;
+            ImportAncestor = ancestor;
         }
 
         #endregion
@@ -53,22 +48,22 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the response to create the document for.
         /// </summary>
-        public IResponse Response => _response;
+        public IResponse Response { get; }
 
         /// <summary>
         /// Gets the provided content-type.
         /// </summary>
-        public MimeType ContentType => _contentType;
+        public MimeType ContentType { get; }
 
         /// <summary>
         /// Gets the text source that came with the response.
         /// </summary>
-        public TextSource Source => _source;
+        public TextSource Source { get; }
 
         /// <summary>
         /// Gets the import ancestor, if any.
         /// </summary>
-        public IDocument? ImportAncestor => _ancestor;
+        public IDocument? ImportAncestor { get; }
 
         #endregion
     }

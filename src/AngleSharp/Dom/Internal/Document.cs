@@ -25,24 +25,16 @@ namespace AngleSharp.Dom
 
         private readonly List<WeakReference> _attachedReferences;
         private readonly Queue<HtmlScriptElement> _loadingScripts;
-        private readonly MutationHost _mutations;
-        private readonly IBrowsingContext _context;
-        private readonly IEventLoop? _loop;
         private readonly Window _view;
         private readonly IResourceLoader? _loader;
         private readonly Location _location;
-        private readonly TextSource _source;
         private readonly object _importedUrisLock = new object();
 
-        private QuirksMode _quirksMode;
-        private Sandboxes _sandbox;
-        private Boolean _async;
         private Boolean _designMode;
         private Boolean _shown;
         private Boolean _salvageable;
         private Boolean _firedUnload;
         private DocumentReadyState _ready;
-        private IElement? _focus;
         private HtmlAllCollection? _all;
         private HtmlCollection<IHtmlAnchorElement>? _anchors;
         private HtmlCollection<IElement>? _children;
@@ -54,7 +46,6 @@ namespace AngleSharp.Dom
         private HtmlCollection<IElement>? _commands;
         private HtmlCollection<IElement>? _links;
         private IStyleSheetList? _styleSheets;
-        private HttpStatusCode _statusCode;
 
         private HashSet<Uri>? _importedUris;
 
@@ -487,24 +478,24 @@ namespace AngleSharp.Dom
             Referrer = String.Empty;
             ContentType = MimeTypeNames.ApplicationXml;
             _attachedReferences = new List<WeakReference>();
-            _async = true;
+            IsAsync = true;
             _designMode = false;
             _firedUnload = false;
             _salvageable = true;
             _shown = false;
-            _context = context;
-            _source = source;
+            Context = context;
+            Source = source;
             _ready = DocumentReadyState.Loading;
-            _sandbox = Sandboxes.None;
-            _quirksMode = QuirksMode.Off;
+            ActiveSandboxing = Sandboxes.None;
+            QuirksMode = QuirksMode.Off;
             _loadingScripts = new Queue<HtmlScriptElement>();
             _location = new Location("about:blank");
             _location.Changed += LocationChanged;
             _view = new Window(this);
             _loader = context.GetService<IResourceLoader>();
-            _loop = context.GetService<IEventLoop>()!;
-            _mutations = new MutationHost(_loop);
-            _statusCode = HttpStatusCode.OK;
+            Loop = context.GetService<IEventLoop>()!;
+            Mutations = new MutationHost(Loop);
+            StatusCode = HttpStatusCode.OK;
         }
 
         #endregion
@@ -512,7 +503,7 @@ namespace AngleSharp.Dom
         #region Properties
 
         /// <inheritdoc />
-        public TextSource Source => _source;
+        public TextSource Source { get; }
 
         /// <inheritdoc />
         public abstract IEntityProvider Entities
@@ -528,7 +519,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IEventLoop? Loop => _loop;
+        public IEventLoop? Loop { get; }
 
         /// <inheritdoc />
         public String DesignMode
@@ -589,7 +580,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public Boolean IsAsync => _async;
+        public Boolean IsAsync { get; private set; }
 
         /// <inheritdoc />
         public IHtmlScriptElement? CurrentScript => _loadingScripts.Count > 0 ? _loadingScripts.Peek() : null;
@@ -667,7 +658,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public String CharacterSet => _source.CurrentEncoding.WebName;
+        public String CharacterSet => Source.CurrentEncoding.WebName;
 
         /// <inheritdoc />
         public abstract IElement DocumentElement
@@ -679,7 +670,7 @@ namespace AngleSharp.Dom
         public IElement? ActiveElement => All.FirstOrDefault(m => m.IsFocused);
 
         /// <inheritdoc />
-        public String CompatMode => _quirksMode.GetCompatiblity();
+        public String CompatMode => QuirksMode.GetCompatiblity();
 
         /// <inheritdoc />
         public String Url => _location.Href;
@@ -770,20 +761,16 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IBrowsingContext Context => _context;
+        public IBrowsingContext Context { get; }
 
         /// <inheritdoc />
-        public HttpStatusCode StatusCode
-        {
-            get => _statusCode;
-            private set => _statusCode = value;
-        }
+        public HttpStatusCode StatusCode { get; private set; }
 
         /// <inheritdoc />
         public String Cookie
         {
-            get => _context.GetCookie(_location.Original);
-            set => _context.SetCookie(_location.Original, value);
+            get => Context.GetCookie(_location.Original);
+            set => Context.SetCookie(_location.Original, value);
         }
 
         /// <inheritdoc />
@@ -846,30 +833,22 @@ namespace AngleSharp.Dom
 
         #region Internal Properties
 
-        internal MutationHost Mutations => _mutations;
+        internal MutationHost Mutations { get; }
 
-        internal QuirksMode QuirksMode
-        {
-            get => _quirksMode;
-            set => _quirksMode = value;
-        }
+        internal QuirksMode QuirksMode { get; set; }
 
-        internal Sandboxes ActiveSandboxing
-        {
-            get => _sandbox;
-            set => _sandbox = value;
-        }
+        internal Sandboxes ActiveSandboxing { get; set; }
 
         internal void AddScript(HtmlScriptElement script)
         {
             _loadingScripts.Enqueue(script);
         }
 
-        internal Boolean IsInBrowsingContext => _context.Active != null;
+        internal Boolean IsInBrowsingContext => Context.Active != null;
 
         internal Boolean IsToBePrinted => false;
 
-        internal IElement? FocusElement => _focus;
+        internal IElement? FocusElement { get; private set; }
 
         #endregion
 
@@ -885,9 +864,9 @@ namespace AngleSharp.Dom
         {
             //Important to fix #45
             Clear();
-            _loop?.CancelAll();
+            Loop?.CancelAll();
             _loadingScripts.Clear();
-            _source.Dispose();
+            Source.Dispose();
             _view?.Dispose();
         }
 
@@ -908,9 +887,9 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidState);
             }
 
-            if (!IsInBrowsingContext || Object.ReferenceEquals(_context.Active, this))
+            if (!IsInBrowsingContext || Object.ReferenceEquals(Context.Active, this))
             {
-                var responsibleDocument = _context?.Parent!.Active;
+                var responsibleDocument = Context?.Parent!.Active;
 
                 if (responsibleDocument != null && !responsibleDocument.Origin.Is(Origin))
                 {
@@ -920,7 +899,7 @@ namespace AngleSharp.Dom
                 if (!_firedUnload && _loadingScripts.Count == 0)
                 {
                     var shallReplace = replace.Isi(Keywords.Replace);
-                    var history = _context!.SessionHistory;
+                    var history = Context!.SessionHistory;
                     var index = type?.IndexOf(Symbols.Semicolon) ?? -1;
 
                     if (!shallReplace && history != null)
@@ -946,9 +925,9 @@ namespace AngleSharp.Dom
                         element.RemoveEventListeners();
                     }
 
-                    _loop?.CancelAll();
+                    Loop?.CancelAll();
                     ReplaceAll(null, suppressObservers: true);
-                    _source.CurrentEncoding = TextEncoding.Utf8;
+                    Source.CurrentEncoding = TextEncoding.Utf8;
                     _salvageable = true;
                     _ready = DocumentReadyState.Loading;
 
@@ -971,7 +950,7 @@ namespace AngleSharp.Dom
 
                     ContentType = type;
                     _firedUnload = false;
-                    _source.Index = _source.Length;
+                    Source.Index = Source.Length;
                 }
 
                 return this;
@@ -1002,7 +981,7 @@ namespace AngleSharp.Dom
             }
             else
             {
-                _source.InsertText(content);
+                Source.InsertText(content);
             }
         }
 
@@ -1043,7 +1022,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public Event CreateEvent(String type)
         {
-            var factory = _context.GetFactory<IEventFactory>();
+            var factory = Context.GetFactory<IEventFactory>();
             var ev = factory.Create(type) ?? throw new DomException(DomError.NotSupported);
             return ev;
         }
@@ -1073,7 +1052,7 @@ namespace AngleSharp.Dom
         {
             if (localName.IsXmlName())
             {
-                var factory = _context.GetFactory<IElementFactory<Document, HtmlElement>>();
+                var factory = Context.GetFactory<IElementFactory<Document, HtmlElement>>();
                 var element = factory.Create(this, localName);
                 element.SetupElement();
                 return element;
@@ -1089,21 +1068,21 @@ namespace AngleSharp.Dom
 
             if (namespaceUri.Is(NamespaceNames.HtmlUri))
             {
-                var factory = _context.GetFactory<IElementFactory<Document, HtmlElement>>();
+                var factory = Context.GetFactory<IElementFactory<Document, HtmlElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.SvgUri))
             {
-                var factory = _context.GetFactory<IElementFactory<Document, SvgElement>>();
+                var factory = Context.GetFactory<IElementFactory<Document, SvgElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.MathMlUri))
             {
-                var factory = _context.GetFactory<IElementFactory<Document, MathElement>>();
+                var factory = Context.GetFactory<IElementFactory<Document, MathElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
@@ -1155,7 +1134,7 @@ namespace AngleSharp.Dom
         public IHtmlCollection<IElement> GetElementsByTagName(String? namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
 
         /// <inheritdoc />
-        public Boolean HasFocus() => Object.ReferenceEquals(_context.Active, this);
+        public Boolean HasFocus() => Object.ReferenceEquals(Context.Active, this);
 
         /// <inheritdoc />
         public IAttr CreateAttribute(String localName)
@@ -1244,7 +1223,7 @@ namespace AngleSharp.Dom
         /// Sets the focus to the provided element.
         /// </summary>
         /// <param name="element">The element to focus on.</param>
-        internal void SetFocus(IElement? element) => _focus = element;
+        internal void SetFocus(IElement? element) => FocusElement = element;
 
         /// <summary>
         /// Finishes writing to a document.
@@ -1307,7 +1286,7 @@ namespace AngleSharp.Dom
                         Document = this,
                         IsCancelled = true,
                     };
-                    await _context.InteractAsync(EventNames.ConfirmUnload, data).ConfigureAwait(false);
+                    await Context.InteractAsync(EventNames.ConfirmUnload, data).ConfigureAwait(false);
 
                     if (data.IsCancelled)
                     {
@@ -1376,9 +1355,9 @@ namespace AngleSharp.Dom
 
             if (!recycle && !_salvageable)
             {
-                if (_context.Active == this)
+                if (Context.Active == this)
                 {
-                    _context.Active = null;
+                    Context.Active = null;
                 }
             }
         }
@@ -1389,37 +1368,37 @@ namespace AngleSharp.Dom
 
         Boolean IDocument.ExecuteCommand(String commandId, Boolean showUserInterface, String value)
         {
-            var command = _context.GetCommand(commandId);
+            var command = Context.GetCommand(commandId);
             return command?.Execute(this, showUserInterface, value) ?? false;
         }
 
         Boolean IDocument.IsCommandEnabled(String commandId)
         {
-            var command = _context.GetCommand(commandId);
+            var command = Context.GetCommand(commandId);
             return command?.IsEnabled(this) ?? false;
         }
 
         Boolean IDocument.IsCommandIndeterminate(String commandId)
         {
-            var command = _context.GetCommand(commandId);
+            var command = Context.GetCommand(commandId);
             return command?.IsIndeterminate(this) ?? false;
         }
 
         Boolean IDocument.IsCommandExecuted(String commandId)
         {
-            var command = _context.GetCommand(commandId);
+            var command = Context.GetCommand(commandId);
             return command?.IsExecuted(this) ?? false;
         }
 
         Boolean IDocument.IsCommandSupported(String commandId)
         {
-            var command = _context.GetCommand(commandId);
+            var command = Context.GetCommand(commandId);
             return command?.IsSupported(this) ?? false;
         }
 
         String? IDocument.GetCommandValue(String commandId)
         {
-            var command = _context.GetCommand(commandId);
+            var command = Context.GetCommand(commandId);
             return command?.GetValue(this);
         }
 
@@ -1429,7 +1408,7 @@ namespace AngleSharp.Dom
 
         private void Abort(Boolean fromUser = false)
         {
-            if (fromUser && Object.ReferenceEquals(_context.Active, this))
+            if (fromUser && Object.ReferenceEquals(Context.Active, this))
             {
                 this.QueueTaskAsync(_ => _view.FireSimpleEvent(EventNames.Abort));
             }
@@ -1489,7 +1468,7 @@ namespace AngleSharp.Dom
         private async Task PrintAsync()
         {
             await this.QueueTaskAsync(_ => this.FireSimpleEvent(EventNames.BeforePrint)).ConfigureAwait(false);
-            await _context.InteractAsync(EventNames.Print, new { Document = this }).ConfigureAwait(false);
+            await Context.InteractAsync(EventNames.Print, new { Document = this }).ConfigureAwait(false);
             await this.QueueTaskAsync(_ => this.FireSimpleEvent(EventNames.AfterPrint)).ConfigureAwait(false);
         }
 
@@ -1506,13 +1485,13 @@ namespace AngleSharp.Dom
             {
                 var url = new Url(e.CurrentLocation);
                 var request = DocumentRequest.Get(url, source: this, referer: DocumentUri);
-                await _context.OpenAsync(request, CancellationToken.None).ConfigureAwait(false);
+                await Context.OpenAsync(request, CancellationToken.None).ConfigureAwait(false);
             }
             else
             {
                 var url = _location.Original;
                 var request = DocumentRequest.Get(url, source: this, referer: Referrer);
-                await _context.OpenAsync(request, CancellationToken.None).ConfigureAwait(false);
+                await Context.OpenAsync(request, CancellationToken.None).ConfigureAwait(false);
             }
         }
 
@@ -1535,9 +1514,9 @@ namespace AngleSharp.Dom
             document._ready = _ready;
             document.Referrer = Referrer;
             document._location.Href = _location.Href;
-            document._quirksMode = _quirksMode;
-            document._sandbox = _sandbox;
-            document._async = _async;
+            document.QuirksMode = QuirksMode;
+            document.ActiveSandboxing = ActiveSandboxing;
+            document.IsAsync = IsAsync;
             document.ContentType = ContentType;
         }
 

@@ -14,15 +14,7 @@ namespace AngleSharp.Dom.Events
     {
         #region Fields
 
-        private EventFlags _flags;
-        private EventPhase _phase;
-        private IEventTarget? _current;
-        private IEventTarget? _target;
-        private Boolean _bubbles;
-        private Boolean _cancelable;
-        private Boolean _composed;
         private String? _type;
-        private DateTime _time;
         private List<EventPathItem>? _currentPath = null;
 
         #endregion
@@ -34,10 +26,10 @@ namespace AngleSharp.Dom.Events
         /// </summary>
         public Event()
         {
-            _flags = EventFlags.None;
-            _phase = EventPhase.None;
-            _time = DateTime.Now;
-            _composed = false;
+            Flags = EventFlags.None;
+            Phase = EventPhase.None;
+            Time = DateTime.Now;
+            IsComposed = false;
         }
 
         /// <summary>
@@ -73,7 +65,7 @@ namespace AngleSharp.Dom.Events
             : this()
         {
             Init(type, bubbles, cancelable);
-            _composed = composed;
+            IsComposed = composed;
         }
 
         #endregion
@@ -83,7 +75,7 @@ namespace AngleSharp.Dom.Events
         /// <summary>
         /// Gets the associated flags.
         /// </summary>
-        internal EventFlags Flags => _flags;
+        internal EventFlags Flags { get; private set; }
 
         /// <summary>
         /// Gets the type of event.
@@ -95,43 +87,43 @@ namespace AngleSharp.Dom.Events
         /// Gets the original target of the event.
         /// </summary>
         [DomName("target")]
-        public IEventTarget? OriginalTarget => _target;
+        public IEventTarget? OriginalTarget { get; private set; }
 
         /// <summary>
         /// Gets the current target (if bubbled).
         /// </summary>
         [DomName("currentTarget")]
-        public IEventTarget? CurrentTarget => _current;
+        public IEventTarget? CurrentTarget { get; private set; }
 
         /// <summary>
         /// Gets the phase of the event.
         /// </summary>
         [DomName("eventPhase")]
-        public EventPhase Phase => _phase;
+        public EventPhase Phase { get; private set; }
 
         /// <summary>
         /// Gets if the event is propagating across the shadow DOM boundary into the standard DOM.
         /// </summary>
         [DomName("composed")]
-        public Boolean IsComposed => _composed;
+        public Boolean IsComposed { get; }
 
         /// <summary>
         /// Gets if the event is actually bubbling.
         /// </summary>
         [DomName("bubbles")]
-        public Boolean IsBubbling => _bubbles;
+        public Boolean IsBubbling { get; private set; }
 
         /// <summary>
         /// Gets if the event is cancelable.
         /// </summary>
         [DomName("cancelable")]
-        public Boolean IsCancelable => _cancelable;
+        public Boolean IsCancelable { get; private set; }
 
         /// <summary>
         /// Gets if the default behavior has been prevented.
         /// </summary>
         [DomName("defaultPrevented")]
-        public Boolean IsDefaultPrevented => (_flags & EventFlags.Canceled) == EventFlags.Canceled;
+        public Boolean IsDefaultPrevented => (Flags & EventFlags.Canceled) == EventFlags.Canceled;
 
         /// <summary>
         /// Gets if the event is trusted.
@@ -147,7 +139,7 @@ namespace AngleSharp.Dom.Events
         /// Gets the originating timestamp.
         /// </summary>
         [DomName("timeStamp")]
-        public DateTime Time => _time;
+        public DateTime Time { get; }
 
         #endregion
 
@@ -164,7 +156,7 @@ namespace AngleSharp.Dom.Events
 
             if (_currentPath is not null && _currentPath.Count > 0)
             {
-                composedPath.Add(_current!);
+                composedPath.Add(CurrentTarget!);
 
                 var currentTargetIndex = 0;
                 var currentTargetHiddenSubtreeLevel = 0;
@@ -179,7 +171,7 @@ namespace AngleSharp.Dom.Events
                         currentTargetHiddenSubtreeLevel++;
                     }
 
-                    if (c.InvocationTarget == _current)
+                    if (c.InvocationTarget == CurrentTarget)
                     {
                         currentTargetIndex = index;
                         break;
@@ -257,7 +249,7 @@ namespace AngleSharp.Dom.Events
         [DomName("stopPropagation")]
         public void Stop()
         {
-            _flags |= EventFlags.StopPropagation;
+            Flags |= EventFlags.StopPropagation;
         }
 
         /// <summary>
@@ -266,7 +258,7 @@ namespace AngleSharp.Dom.Events
         [DomName("stopImmediatePropagation")]
         public void StopImmediately()
         {
-            _flags |= EventFlags.StopImmediatePropagation;
+            Flags |= EventFlags.StopImmediatePropagation;
         }
 
         /// <summary>
@@ -275,9 +267,9 @@ namespace AngleSharp.Dom.Events
         [DomName("preventDefault")]
         public void Cancel()
         {
-            if (_cancelable)
+            if (IsCancelable)
             {
-                _flags |= EventFlags.Canceled;
+                Flags |= EventFlags.Canceled;
             }
         }
 
@@ -290,16 +282,16 @@ namespace AngleSharp.Dom.Events
         [DomName("initEvent")]
         public void Init(String type, Boolean bubbles, Boolean cancelable)
         {
-            _flags |= EventFlags.Initialized;
+            Flags |= EventFlags.Initialized;
 
-            if ((_flags & EventFlags.Dispatch) != EventFlags.Dispatch)
+            if ((Flags & EventFlags.Dispatch) != EventFlags.Dispatch)
             {
-                _flags &= ~(EventFlags.StopPropagation | EventFlags.StopImmediatePropagation | EventFlags.Canceled);
+                Flags &= ~(EventFlags.StopPropagation | EventFlags.StopImmediatePropagation | EventFlags.Canceled);
                 IsTrusted = false;
-                _target = null;
+                OriginalTarget = null;
                 _type = type;
-                _bubbles = bubbles;
-                _cancelable = cancelable;
+                IsBubbling = bubbles;
+                IsCancelable = cancelable;
             }
         }
 
@@ -311,8 +303,8 @@ namespace AngleSharp.Dom.Events
         /// <returns>A boolean if the event has been cancelled.</returns>
         internal Boolean Dispatch(IEventTarget target)
         {
-            _flags |= EventFlags.Dispatch;
-            _target = target;
+            Flags |= EventFlags.Dispatch;
+            OriginalTarget = target;
 
             var eventPath = new List<EventPathItem>();
 
@@ -352,30 +344,30 @@ namespace AngleSharp.Dom.Events
             }
 
             _currentPath = eventPath;
-            _phase = EventPhase.Capturing;
+            Phase = EventPhase.Capturing;
             DispatchAt(eventPath.Reverse<EventPathItem>());
-            _phase = EventPhase.AtTarget;
+            Phase = EventPhase.AtTarget;
 
-            if ((_flags & EventFlags.StopPropagation) != EventFlags.StopPropagation)
+            if ((Flags & EventFlags.StopPropagation) != EventFlags.StopPropagation)
             {
                 CallListeners(target);
             }
 
-            if (_bubbles)
+            if (IsBubbling)
             {
-                _phase = EventPhase.Bubbling;
+                Phase = EventPhase.Bubbling;
                 DispatchAt(eventPath);
             }
 
-            _flags &= ~EventFlags.Dispatch;
-            _phase = EventPhase.None;
-            _current = null!;
-            return (_flags & EventFlags.Canceled) == EventFlags.Canceled;
+            Flags &= ~EventFlags.Dispatch;
+            Phase = EventPhase.None;
+            CurrentTarget = null!;
+            return (Flags & EventFlags.Canceled) == EventFlags.Canceled;
         }
 
         private void CallListeners(IEventTarget target)
         {
-            _current = target;
+            CurrentTarget = target;
             target.InvokeEventListener(this);
         }
 
@@ -385,7 +377,7 @@ namespace AngleSharp.Dom.Events
             {
                 CallListeners(item.InvocationTarget);
 
-                if ((_flags & EventFlags.StopPropagation) == EventFlags.StopPropagation)
+                if ((Flags & EventFlags.StopPropagation) == EventFlags.StopPropagation)
                 {
                     break;
                 }

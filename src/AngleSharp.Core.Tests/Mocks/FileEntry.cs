@@ -7,48 +7,44 @@
 
     class FileEntry : IFile
     {
-        private readonly String _fileName;
-        private readonly Stream _content;
-        private readonly DateTime _modified;
-
         public FileEntry(String fileName, Stream content)
         {
-            _fileName = fileName;
-            _content = content;
-            _modified = DateTime.Now;
+            Name = fileName;
+            Body = content;
+            LastModified = DateTime.Now;
         }
 
-        public Stream Body => _content;
+        public Stream Body { get; }
 
-        public Boolean IsClosed => _content.CanRead == false;
+        public Boolean IsClosed => Body.CanRead == false;
 
-        public DateTime LastModified => _modified;
+        public DateTime LastModified { get; }
 
-        public Int32 Length => (Int32)_content.Length;
+        public Int32 Length => (Int32)Body.Length;
 
-        public String Name => _fileName;
+        public String Name { get; }
 
-        public String Type => MimeTypeNames.FromExtension(Path.GetExtension(_fileName));
+        public String Type => MimeTypeNames.FromExtension(Path.GetExtension(Name));
 
         public void Close()
         {
-            _content.Close();
+            Body.Close();
         }
 
         public void Dispose()
         {
-            _content.Dispose();
+            Body.Dispose();
         }
 
         public IBlob Slice(Int32 start = 0, Int32 end = Int32.MaxValue, String contentType = null)
         {
             var ms = new MemoryStream();
-            _content.Position = start;
-            var buffer = new Byte[Math.Max(0, Math.Min(end, _content.Length) - start)];
-            _content.Read(buffer, 0, buffer.Length);
+            Body.Position = start;
+            var buffer = new Byte[Math.Max(0, Math.Min(end, Body.Length) - start)];
+            Body.Read(buffer, 0, buffer.Length);
             ms.Write(buffer, 0, buffer.Length);
-            _content.Position = 0;
-            return new FileEntry(_fileName, ms);
+            Body.Position = 0;
+            return new FileEntry(Name, ms);
         }
     }
 }

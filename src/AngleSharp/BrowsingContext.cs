@@ -13,12 +13,7 @@ namespace AngleSharp
     {
         #region Fields
 
-        private readonly IEnumerable<Object> _originalServices;
         private readonly List<Object> _services;
-        private readonly Sandboxes _security;
-        private readonly IBrowsingContext? _parent;
-        private readonly IDocument? _creator;
-        private readonly IHistory? _history;
         private readonly Dictionary<String, WeakReference<IBrowsingContext>> _children;
 
         #endregion
@@ -41,8 +36,8 @@ namespace AngleSharp
         private BrowsingContext(Sandboxes security)
         {
             _services = new List<Object>();
-            _originalServices = _services;
-            _security = security;
+            OriginalServices = _services;
+            Security = security;
             _children = new Dictionary<String, WeakReference<IBrowsingContext>>();
         }
 
@@ -50,15 +45,15 @@ namespace AngleSharp
             : this(security)
         {
             _services.AddRange(services);
-            _originalServices = services;
-            _history = GetService<IHistory>();
+            OriginalServices = services;
+            SessionHistory = GetService<IHistory>();
         }
 
         internal BrowsingContext(IBrowsingContext parent, Sandboxes security)
             : this(parent.OriginalServices, security)
         {
-            _parent = parent;
-            _creator = _parent.Active;
+            Parent = parent;
+            Creator = Parent.Active;
         }
 
         #endregion
@@ -79,12 +74,12 @@ namespace AngleSharp
         /// creator is the active document of the parent at the time of
         /// creation.
         /// </summary>
-        public IDocument? Creator => _creator;
+        public IDocument? Creator { get; }
 
         /// <summary>
         /// Gets the original services for the given browsing context.
         /// </summary>
-        public IEnumerable<Object> OriginalServices => _originalServices;
+        public IEnumerable<Object> OriginalServices { get; }
 
         /// <summary>
         /// Gets the current window proxy.
@@ -96,17 +91,17 @@ namespace AngleSharp
         /// available, then the current context contains only embedded
         /// documents.
         /// </summary>
-        public IBrowsingContext? Parent => _parent;
+        public IBrowsingContext? Parent { get; }
 
         /// <summary>
         /// Gets the session history of the given browsing context, if any.
         /// </summary>
-        public IHistory? SessionHistory => _history;
+        public IHistory? SessionHistory { get; }
 
         /// <summary>
         /// Gets the sandboxing flag of the context.
         /// </summary>
-        public Sandboxes Security => _security;
+        public Sandboxes Security { get; }
 
         #endregion
 
