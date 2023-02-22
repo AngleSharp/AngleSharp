@@ -185,22 +185,19 @@ namespace AngleSharp.Html
 
                 WriteAttributeName(attr, temp);
 
-                if (value != null)
+                temp.Append(Symbols.Equality);
+                var needQuotes = ShouldKeepAttributeQuotes || value.Any(MustBeQuotedAttributeValue);
+
+                if (needQuotes)
                 {
-                    temp.Append(Symbols.Equality);
-                    var needQuotes = ShouldKeepAttributeQuotes || value.Any(MustBeQuotedAttributeValue);
+                    temp.Append(Symbols.DoubleQuote);
+                }
 
-                    if (needQuotes)
-                    {
-                        temp.Append(Symbols.DoubleQuote);
-                    }
+                WriteAttributeValue(attr, temp);
 
-                    WriteAttributeValue(attr, temp);
-
-                    if (needQuotes)
-                    {
-                        temp.Append(Symbols.DoubleQuote);
-                    }
+                if (needQuotes)
+                {
+                    temp.Append(Symbols.DoubleQuote);
                 }
 
                 return temp.ToPool();
