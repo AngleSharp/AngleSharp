@@ -18,7 +18,7 @@
 
         public override Boolean Contains(String boundary, Encoding encoding)
         {
-            return _value != null && _value.Contains(boundary);
+            return _value.Contains(boundary);
         }
 
         public override void Accept(IFormDataSetVisitor visitor)
