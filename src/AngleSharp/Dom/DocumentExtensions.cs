@@ -91,7 +91,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <param name="action">The action that should be invoked.</param>
         internal static void QueueTask(this Document document, Action action) =>
-            document.Loop!.Enqueue(action);
+            document.Loop.Enqueue(action);
 
         /// <summary>
         /// Queues an action in the event loop of the document,
@@ -102,7 +102,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <param name="action">The action that should be invoked.</param>
         internal static Task QueueTaskAsync(this Document document, Action<CancellationToken> action) =>
-            document.Loop!.EnqueueAsync(_ =>
+            document.Loop.EnqueueAsync(_ =>
             {
                 action(_);
                 return true;
@@ -117,7 +117,7 @@ namespace AngleSharp.Dom
         /// </param>
         /// <param name="func">The function that should be invoked.</param>
         internal static Task<T> QueueTaskAsync<T>(this Document document, Func<CancellationToken, T> func) =>
-            document.Loop!.EnqueueAsync(func);
+            document.Loop.EnqueueAsync(func);
 
         /// <summary>
         /// Queues a mutation record for the corresponding observers.
