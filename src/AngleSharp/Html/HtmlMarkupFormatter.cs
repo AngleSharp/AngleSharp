@@ -90,14 +90,9 @@ namespace AngleSharp.Html
 
             WriteAttributeName(attr, temp);
 
-            if (attr.Value != null)
-            {
-                temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
-                WriteAttributeValue(attr, temp);
-                return temp.Append(Symbols.DoubleQuote).ToPool();
-            }
-
-            return temp.ToPool();
+            temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
+            WriteAttributeValue(attr, temp);
+            return temp.Append(Symbols.DoubleQuote).ToPool();
         }
 
         internal static void WriteAttributeName(IAttr attr, StringBuilder stringBuilder)
