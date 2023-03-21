@@ -117,5 +117,13 @@ div.WordSection1 { page: WordSection1 }</style>
             var h = dom.Body.ToHtml();
             Assert.AreEqual("<body><noscript>&lt;</noscript></body>", h);
         }
+
+        [Test]
+        public void SelfClosingElements_Issue1111()
+        {
+            var doc = (@"<input type=""text""/>").ToHtmlDocument();
+            var input = doc.QuerySelector("input");
+            Assert.That(input.ToHtml(), Is.EqualTo(@"<input type=""text""/>"));
+        }
     }
 }

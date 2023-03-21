@@ -66,6 +66,9 @@ namespace AngleSharp.Html
                 temp.Append(' ').Append(Attribute(attribute));
             }
 
+            if (selfClosing)
+                temp.Append(Symbols.Solidus);
+
             temp.Append(Symbols.GreaterThan);
             return temp.ToPool();
         }
