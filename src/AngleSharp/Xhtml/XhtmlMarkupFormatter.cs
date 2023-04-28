@@ -202,9 +202,9 @@ namespace AngleSharp.Xhtml
         /// <summary>
         /// Gets the local name using the XML namespace prefix if required.
         /// </summary>
-        /// <param name="name">The name to be properly represented.</param>
+        /// <param name="localName">The name to be properly represented.</param>
         /// <returns>The string representation.</returns>
-        public static String XmlNamespaceLocalName(String name) => !name.Is(NamespaceNames.XmlNsPrefix) ? String.Concat(NamespaceNames.XmlNsPrefix, ":") : name;
+        public static String XmlNamespaceLocalName(String localName) => !localName.Is(NamespaceNames.XmlNsPrefix) ? String.Concat(NamespaceNames.XmlNsPrefix, Symbols.Colon, localName) : localName;
 
         #endregion
     }

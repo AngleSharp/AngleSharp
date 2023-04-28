@@ -3,6 +3,9 @@ using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests.Library
 {
+    using System;
+    using Dom;
+
     [TestFixture]
     public class XhtmlFormatter
     {
@@ -49,6 +52,54 @@ namespace AngleSharp.Core.Tests.Library
 
             var res = doc.ToHtml(formatter);
 
+            Assert.AreEqual(expected, res);
+        }
+
+        [Test]
+        public void XhtmlMarkupFormatter_KeepsEntireNameOfXmlNamespacedAttributes()
+        {
+            var formatter = new XhtmlMarkupFormatter();
+            var attributeName = String.Concat(NamespaceNames.XmlNsPrefix, ":", "pfx");
+            var inputOnWhichToSetAttribute = "<html>" +
+                                "<head></head>" +
+                                 "<body>" +
+                                    "<div>test</div>" +
+                                "</body>" +
+                            "</html>";
+            var expected = "<html>" +
+                                    "<head />" +
+                                    "<body>" +
+                                       "<div xmlns:pfx=\"http://www.foo.com\">test</div>" +
+                                    "</body>" +
+                                "</html>";
+            var doc = inputOnWhichToSetAttribute.ToHtmlDocument();
+            doc.Body.FirstElementChild.SetAttribute(NamespaceNames.XmlNsUri, attributeName, "http://www.foo.com");
+            var res = doc.ToHtml(formatter);
+            Assert.AreEqual(expected, res);
+        }
+
+
+        [Test]
+        public void XhtmlMarkupFormatter_DoesNotDuplicatePrefixIfUnnecessary()
+        {
+            var formatter = new XhtmlMarkupFormatter();
+            var attributeName = NamespaceNames.XmlNsPrefix;
+            var inputOnWhichToSetAttribute = "<html>" +
+                        "<head></head>" +
+                        "<body>" +
+                        "<div>test</div>" +
+                        "</body>" +
+                        "</html>";
+            var expected = "<html>" +
+                           "<head />" +
+                           "<body>" +
+                           "<div xmlns=\"http://www.foo.com\">test</div>" +
+                           "</body>" +
+                           "</html>";
+            var doc = inputOnWhichToSetAttribute.ToHtmlDocument();
+
+            doc.Body.FirstElementChild.SetAttribute(NamespaceNames.XmlNsUri, attributeName, "http://www.foo.com");
+            var res = doc.ToHtml(formatter);
             Assert.AreEqual(expected, res);
         }
     }
