@@ -1,9 +1,10 @@
 # 1.0.2
 
-Released on Tuesday, Feburary 21 2023
+Released on Tuesday, June 4 2023
 
 - Improved codebase (#1091, #1090, #1089, #1088, #1087, #1086) @SimonCropp
 - Fixed potential stack overflow in `GetStyleSheets` (#1084) @bjornri
+- Added public class `HtmlTokenizer` (#1113)
 
 # 1.0.1
 

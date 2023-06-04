@@ -16,16 +16,14 @@ namespace AngleSharp.Core.Tests.Library
             var source = new DelayedStream(Encoding.UTF8.GetBytes(text));
             var parser = new HtmlParser();
 
-            using (var task = parser.ParseHeadAsync(source))
-            {
-                Assert.IsFalse(task.IsCompleted);
-                var result = await task;
+            using var task = parser.ParseHeadAsync(source);
+            Assert.IsFalse(task.IsCompleted);
+            var result = await task;
 
-                Assert.IsTrue(task.IsCompleted);
-                Assert.AreEqual("head", result.LocalName);
-                Assert.AreEqual(1, result.ChildElementCount);
-                Assert.AreEqual("My test", result.Children[0].TextContent);
-            }
+            Assert.IsTrue(task.IsCompleted);
+            Assert.AreEqual("head", result.LocalName);
+            Assert.AreEqual(1, result.ChildElementCount);
+            Assert.AreEqual("My test", result.Children[0].TextContent);
         }
 
         [Test]
@@ -34,15 +32,13 @@ namespace AngleSharp.Core.Tests.Library
             var source = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
             var parser = new HtmlParser();
 
-            using (var task = parser.ParseHeadAsync(source))
-            {
-                Assert.IsTrue(task.IsCompleted);
-                var result = await task;
+            using var task = parser.ParseHeadAsync(source);
+            Assert.IsTrue(task.IsCompleted);
+            var result = await task;
 
-                Assert.AreEqual("head", result.LocalName);
-                Assert.AreEqual(1, result.ChildElementCount);
-                Assert.AreEqual("My test", result.Children[0].TextContent);
-            }
+            Assert.AreEqual("head", result.LocalName);
+            Assert.AreEqual(1, result.ChildElementCount);
+            Assert.AreEqual("My test", result.Children[0].TextContent);
         }
 
         [Test]

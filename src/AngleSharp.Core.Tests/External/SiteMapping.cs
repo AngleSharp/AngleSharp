@@ -40,10 +40,8 @@ namespace AngleSharp.Core.Tests.External
                 element.InnerText = fileName;
                 _xml.DocumentElement.AppendChild(element);
 
-                using (var writer = File.CreateText(_fileName))
-                {
-                    _xml.Save(writer);
-                }
+                using var writer = File.CreateText(_fileName);
+                _xml.Save(writer);
             }
         }
     }

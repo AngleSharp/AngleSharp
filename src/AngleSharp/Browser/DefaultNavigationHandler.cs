@@ -28,12 +28,10 @@ namespace AngleSharp.Browser
                 var download = loader.FetchAsync(request);
                 cancel.Register(download.Cancel);
 
-                using (var response = await download.Task.ConfigureAwait(false))
+                using var response = await download.Task.ConfigureAwait(false);
+                if (response != null)
                 {
-                    if (response != null)
-                    {
-                        return await context.OpenAsync(response, cancel).ConfigureAwait(false);
-                    }
+                    return await context.OpenAsync(response, cancel).ConfigureAwait(false);
                 }
             }
 

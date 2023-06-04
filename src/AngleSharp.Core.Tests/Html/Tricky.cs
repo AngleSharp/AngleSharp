@@ -908,11 +908,9 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
         {
             var bs = new Byte[5509];
 
-            using (var memoryStream = new MemoryStream(bs, false))
-            {
-                var document = memoryStream.ToHtmlDocument();
-                Assert.IsNotNull(document);
-            }
+            using var memoryStream = new MemoryStream(bs, false);
+            var document = memoryStream.ToHtmlDocument();
+            Assert.IsNotNull(document);
         }
 
         [Test]

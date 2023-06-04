@@ -62,10 +62,8 @@ namespace AngleSharp
         /// <param name="stream">The output stream to use.</param>
         public static async Task ToCssAsync(this IStyleFormattable style, Stream stream)
         {
-            using (var writer = new StreamWriter(stream))
-            {
-                await style.ToCssAsync(writer).ConfigureAwait(false);
-            }
+            using var writer = new StreamWriter(stream);
+            await style.ToCssAsync(writer).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -136,10 +134,8 @@ namespace AngleSharp
         /// <param name="stream">The output stream to use.</param>
         public static async Task ToHtmlAsync(this IMarkupFormattable markup, Stream stream)
         {
-            using (var writer = new StreamWriter(stream))
-            {
-                await markup.ToHtmlAsync(writer).ConfigureAwait(false);
-            }
+            using var writer = new StreamWriter(stream);
+            await markup.ToHtmlAsync(writer).ConfigureAwait(false);
         }
     }
 }

@@ -92,10 +92,8 @@ namespace AngleSharp
         {
             request = request ?? throw new ArgumentNullException(nameof(request));
 
-            using (var response = VirtualResponse.Create(request))
-            {
-                return await context.OpenAsync(response, cancel).ConfigureAwait(false);
-            }
+            using var response = VirtualResponse.Create(request);
+            return await context.OpenAsync(response, cancel).ConfigureAwait(false);
         }
 
         /// <summary>

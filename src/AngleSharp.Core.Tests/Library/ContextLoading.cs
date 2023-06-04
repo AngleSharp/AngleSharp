@@ -426,14 +426,12 @@ namespace AngleSharp.Core.Tests.Library
                 var req = new HttpClient();
                 var message = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, uri);
 
-                using (var response = await req.SendAsync(message))
+                using var response = await req.SendAsync(message);
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        var stream = await response.Content.ReadAsStreamAsync();
-                        var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(stream).Address(uri));
-                        Assert.IsNotNull(document);
-                    }
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(stream).Address(uri));
+                    Assert.IsNotNull(document);
                 }
             }
         }
