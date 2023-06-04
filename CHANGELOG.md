@@ -4,6 +4,7 @@ Released on Tuesday, June 4 2023
 
 - Improved codebase (#1091, #1090, #1089, #1088, #1087, #1086) @SimonCropp
 - Fixed potential stack overflow in `GetStyleSheets` (#1084) @bjornri
+- Fixed serialization of `DocumentReadyState` by providing `DomName` attributes (#1109)
 - Added public class `HtmlTokenizer` (#1113)
 
 # 1.0.1
