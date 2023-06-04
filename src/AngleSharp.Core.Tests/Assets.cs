@@ -58,36 +58,18 @@ namespace AngleSharp.Core.Tests
         {
             encoding = encoding ?? Encoding.UTF8;
             var fullName = typeof(Assets).Namespace + "." + name;
-            using (var stream = typeof(Assets).Assembly.GetManifestResourceStream(fullName))
-            {
-                if (stream == null)
-                {
-                    throw new ArgumentException($"Unable to load Resource {fullName}. Check test project", nameof(name));
-                }
-
-                using (var reader = new StreamReader(stream, encoding))
-                {
-                    return reader.ReadToEnd();
-                }
-            }
+            using var stream = typeof(Assets).Assembly.GetManifestResourceStream(fullName) ?? throw new ArgumentException($"Unable to load Resource {fullName}. Check test project", nameof(name));
+            using var reader = new StreamReader(stream, encoding);
+            return reader.ReadToEnd();
         }
 
         public static byte[] GetManifestResourceBytes(string name)
         {
             var fullName = typeof(Assets).Namespace + "." + name;
-            using (var stream = typeof(Assets).Assembly.GetManifestResourceStream(fullName))
-            {
-                if (stream == null)
-                {
-                    throw new ArgumentException($"Unable to load Resource {fullName}. Check test project", nameof(name));
-                }
-
-                using (var memStream = new MemoryStream())
-                {
-                    stream.CopyTo(memStream);
-                    return memStream.ToArray();
-                }
-            }
+            using var stream = typeof(Assets).Assembly.GetManifestResourceStream(fullName) ?? throw new ArgumentException($"Unable to load Resource {fullName}. Check test project", nameof(name));
+            using var memStream = new MemoryStream();
+            stream.CopyTo(memStream);
+            return memStream.ToArray();
         }
     }
 }

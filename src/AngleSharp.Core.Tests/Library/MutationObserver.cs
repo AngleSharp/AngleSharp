@@ -17,7 +17,7 @@ namespace AngleSharp.Core.Tests.Library
 
             if (defer)
             {
-                config = config.With<IEventLoop>(ctx => new StandingEventLoop());
+                config = config.With<IEventLoop>(_ => new StandingEventLoop());
             }
 
             return code.ToHtmlDocument(config);
@@ -28,7 +28,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             var called = false;
 
-            var observer = new MutationObserver((mut, obs) =>
+            var observer = new MutationObserver((mut, _) =>
             {
                 called = true;
                 Assert.AreEqual(1, mut.Length);
@@ -49,7 +49,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             var called = false;
 
-            var observer = new MutationObserver((mut, obs) =>
+            var observer = new MutationObserver((mut, _) =>
             {
                 called = true;
                 Assert.AreEqual(1, mut.Length);
@@ -72,7 +72,7 @@ namespace AngleSharp.Core.Tests.Library
             var attrName = "something";
             var attrValue = "test";
 
-            var observer = new MutationObserver((mut, obs) =>
+            var observer = new MutationObserver((mut, _) =>
             {
                 called = true;
                 Assert.AreEqual(1, mut.Length);
@@ -95,7 +95,7 @@ namespace AngleSharp.Core.Tests.Library
             var attrName = "something";
             var attrValue = "test";
 
-            var observer = new MutationObserver((mut, obs) =>
+            var observer = new MutationObserver((mut, _) =>
             {
                 called = true;
                 Assert.AreEqual(1, mut.Length);
@@ -122,7 +122,7 @@ namespace AngleSharp.Core.Tests.Library
 
             var document = Html("");
 
-            var observer1 = new MutationObserver((mut, obs) =>
+            var observer1 = new MutationObserver((mut, _) =>
             {
                 called1 = true;
                 Assert.AreEqual(1, mut.Length);
@@ -130,7 +130,7 @@ namespace AngleSharp.Core.Tests.Library
 
             observer1.Connect(document.DocumentElement, attributes: true, subtree: true);
 
-            var observer2 = new MutationObserver((mut, obs) =>
+            var observer2 = new MutationObserver((mut, _) =>
             {
                 called2 = true;
                 Assert.AreEqual(0, mut.Length);
@@ -138,7 +138,7 @@ namespace AngleSharp.Core.Tests.Library
 
             observer2.Connect(document.DocumentElement, attributes: true, subtree: false);
 
-            var observer3 = new MutationObserver((mut, obs) =>
+            var observer3 = new MutationObserver((mut, _) =>
             {
                 called3 = true;
                 Assert.AreEqual(1, mut.Length);
@@ -159,7 +159,7 @@ namespace AngleSharp.Core.Tests.Library
             var text = "something";
             var replaced = "different";
 
-            var observer = new MutationObserver((mut, obs) =>
+            var observer = new MutationObserver((mut, _) =>
             {
                 called = true;
                 Assert.AreEqual(1, mut.Length);
@@ -186,7 +186,7 @@ namespace AngleSharp.Core.Tests.Library
             var text = "something";
             var replaced = "different";
 
-            var observer = new MutationObserver((mut, obs) =>
+            var observer = new MutationObserver((mut, _) =>
             {
                 called = true;
                 Assert.AreEqual(1, mut.Length);
@@ -213,7 +213,7 @@ namespace AngleSharp.Core.Tests.Library
             var text = "something";
             var replaced = "different";
 
-            var observer = new MutationObserver((mut, obs) =>
+            var observer = new MutationObserver((mut, _) =>
             {
                 called = true;
                 Assert.AreEqual(0, mut.Length);
@@ -235,7 +235,7 @@ namespace AngleSharp.Core.Tests.Library
             var called = false;
             var text = "something";
 
-            var observer = new MutationObserver((mut, obs) =>
+            var observer = new MutationObserver((mut, _) =>
             {
                 called = true;
                 Assert.AreEqual(1, mut.Length);
@@ -257,7 +257,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
 
             var div = document.CreateElement("div");
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, attributes: true);
             div.SetAttribute("a", "A");
             div.SetAttribute("a", "B");
@@ -287,7 +287,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
 
             var div = document.CreateElement("div");
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, attributes: true, attributeOldValue: true);
             div.SetAttribute("a", "A");
             div.SetAttribute("a", "B");
@@ -322,7 +322,7 @@ namespace AngleSharp.Core.Tests.Library
             var child = document.CreateElement("div");
             div.AppendChild(child);
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, attributes: true);
             child.SetAttribute("a", "A");
             child.SetAttribute("a", "B");
@@ -340,7 +340,7 @@ namespace AngleSharp.Core.Tests.Library
             var child = document.CreateElement("div");
             div.AppendChild(child);
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, attributes: true, subtree: true);
             child.SetAttribute("a", "A");
             child.SetAttribute("a", "B");
@@ -368,10 +368,10 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var div = document.CreateElement("div");
 
-            var observer1 = new MutationObserver((obs, mut) => { });
+            var observer1 = new MutationObserver((_, _) => { });
             observer1.Connect(div, attributes: true, attributeOldValue: true);
 
-            var observer2 = new MutationObserver((obs, mut) => { });
+            var observer2 = new MutationObserver((_, _) => { });
             observer2.Connect(div, attributes: true, attributeFilter: new []{ "b" });
             div.SetAttribute("a", "A");
             div.SetAttribute("a", "A2");
@@ -419,7 +419,7 @@ namespace AngleSharp.Core.Tests.Library
             var child = document.CreateElement("div");
             div.AppendChild(child);
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(child, attributes: true);
             observer.Connect(div, attributes: true, subtree: true, attributeOldValue: true);
 
@@ -456,7 +456,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             var document = Html("", true);
             var div = document.CreateElement("div");
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, attributes: true, attributeFilter: new[] { "a" });
             observer.Connect(div, attributes: true, attributeFilter: new[] { "b" });
 
@@ -479,7 +479,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             var document = Html("");
             var div = document.CreateElement("div");
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, attributes: true);
 
             div.SetAttribute("a", "A");
@@ -497,9 +497,9 @@ namespace AngleSharp.Core.Tests.Library
         {
             var document = Html("", true);
             var div = document.CreateElement("div");
-            var observer1 = new MutationObserver((obs, mut) => { });
+            var observer1 = new MutationObserver((_, _) => { });
             observer1.Connect(div, attributes: true);
-            var observer2 = new MutationObserver((obs, mut) => { });
+            var observer2 = new MutationObserver((_, _) => { });
             observer2.Connect(div, attributes: true);
 
             div.SetAttribute("a", "A");
@@ -538,7 +538,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var div = document.CreateElement("div");
             var tcs = new TaskCompletionSource<Boolean>();
-            var observer = new MutationObserver((records, obs) =>
+            var observer = new MutationObserver((records, _) =>
             {
                 Assert.AreEqual(records.Count(), 2);
 
@@ -574,7 +574,7 @@ namespace AngleSharp.Core.Tests.Library
             var div = document.CreateElement("div");
             var fresh = true;
             var tcs = new TaskCompletionSource<Boolean>();
-            var observer = new MutationObserver((records, obs) =>
+            var observer = new MutationObserver((records, _) =>
             {
                 Assert.AreEqual(records.Count(), 1);
 
@@ -615,7 +615,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
 
             var text = document.CreateTextNode("abc");
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(text, characterData: true);
             text.TextContent = "def";
             text.TextContent = "ghi";
@@ -641,7 +641,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var text = testDiv.AppendChild(document.CreateTextNode("abc"));
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(text, characterData: true, characterDataOldValue: true);
             text.TextContent = "def";
             text.TextContent = "ghi";
@@ -669,7 +669,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("abc"));
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, characterData: true);
             text.TextContent = "def";
             text.TextContent = "ghi";
@@ -684,7 +684,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("abc"));
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, characterData: true, subtree: true);
             text.TextContent = "def";
             text.TextContent = "ghi";
@@ -709,7 +709,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             var document = Html("", true);
             var div = document.CreateElement("div");
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true);
             var a = document.CreateElement("a");
             var b = document.CreateElement("b");
@@ -747,7 +747,7 @@ namespace AngleSharp.Core.Tests.Library
             var c = document.CreateElement("c");
             div.AppendChild(a);
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true);
 
             div.InsertBefore(b, a);
@@ -784,7 +784,7 @@ namespace AngleSharp.Core.Tests.Library
             var b = div.AppendChild(document.CreateElement("b"));
             var c = div.AppendChild(document.CreateElement("c"));
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true);
 
             div.RemoveChild(b);
@@ -817,7 +817,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true);
             var a = document.CreateElement("a");
             var b = document.CreateElement("b");
@@ -859,7 +859,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateElement("div"));
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(child, childList: true);
             var a = document.CreateTextNode("a");
             var b = document.CreateTextNode("b");
@@ -901,7 +901,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateElement("div"));
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true, subtree: true);
             observer.Connect(child, childList: true);
 
@@ -938,7 +938,7 @@ namespace AngleSharp.Core.Tests.Library
             var div = testDiv.AppendChild(document.CreateElement("div"));
             div.AppendChild(document.CreateTextNode("a"));
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true);
 
             var df = document.CreateDocumentFragment();
@@ -968,7 +968,7 @@ namespace AngleSharp.Core.Tests.Library
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var a = div.AppendChild(document.CreateTextNode("a"));
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true);
 
             var df = document.CreateDocumentFragment();
@@ -1000,7 +1000,7 @@ namespace AngleSharp.Core.Tests.Library
             div.AppendChild(document.CreateTextNode("a"));
             var b = div.AppendChild(document.CreateTextNode("b"));
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true);
 
             var df = document.CreateDocumentFragment();
@@ -1032,7 +1032,7 @@ namespace AngleSharp.Core.Tests.Library
             var b = div.AppendChild(document.CreateTextNode("b"));
             var c = div.AppendChild(document.CreateTextNode("c"));
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true);
 
             div.InnerHtml = "";
@@ -1059,7 +1059,7 @@ namespace AngleSharp.Core.Tests.Library
             var a = div.AppendChild(document.CreateTextNode("a"));
             var b = div.AppendChild(document.CreateTextNode("b"));
 
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true);
 
             div.InnerHtml = "<c></c><d></d>";
@@ -1084,7 +1084,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var div = document.CreateElement("div");
             div.AppendChild(document.CreateTextNode("text"));
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, attributes: true, subtree: true, characterData: true);
 
             div.SetAttribute("a", "A");
@@ -1115,7 +1115,7 @@ namespace AngleSharp.Core.Tests.Library
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = document.CreateElement("div");
             div.AppendChild(child);
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, attributes: true, subtree: true);
             div.RemoveChild(child);
             child.SetAttribute("a", "A");
@@ -1188,7 +1188,7 @@ namespace AngleSharp.Core.Tests.Library
             var child = document.CreateElement("div");
             div.AppendChild(child);
             var i = 0;
-            var observer = new MutationObserver((records, obs) =>
+            var observer = new MutationObserver((records, _) =>
             {
                 Assert.AreNotEqual(2, ++i);
                 Assert.AreEqual(records.Count(), 1);
@@ -1209,7 +1209,7 @@ namespace AngleSharp.Core.Tests.Library
             observer.Trigger();
 
             var div2 = document.CreateElement("div");
-            var observer2 = new MutationObserver((records, obs) =>
+            var observer2 = new MutationObserver((records, _) =>
             {
                 Assert.LessOrEqual(++i, 3);
                 Assert.AreEqual(records.Count(), 1);
@@ -1236,7 +1236,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = Html("", true);
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateTextNode("text"));
-            var observer = new MutationObserver((obs, mut) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, characterData: true, subtree: true);
             div.RemoveChild(child);
             child.TextContent = "changed";
@@ -1298,7 +1298,7 @@ namespace AngleSharp.Core.Tests.Library
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = div.AppendChild(document.CreateElement("div"));
-            var observer = new MutationObserver((mut, obs) => { });
+            var observer = new MutationObserver((_, _) => { });
             observer.Connect(div, childList: true, subtree: true);
             div.RemoveChild(child);
             var grandChild = child.AppendChild(document.CreateElement("span"));

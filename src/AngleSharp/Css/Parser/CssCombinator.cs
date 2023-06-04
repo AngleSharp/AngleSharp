@@ -174,7 +174,7 @@ namespace AngleSharp.Css.Parser
                         return siblings;
                     }
 
-                    return new IElement[0];
+                    return Array.Empty<IElement>();
                 };
             }
         }

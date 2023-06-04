@@ -1,9 +1,9 @@
-﻿namespace AngleSharp.Html.Parser
+namespace AngleSharp.Html.Parser
 {
     /// <summary>
     /// Defines the different tokenization content models.
     /// </summary>
-    enum HtmlParseMode : byte
+    public enum HtmlParseMode : byte
     {
         /// <summary>
         /// Initial state: Parsed Character Data (characters will be parsed).

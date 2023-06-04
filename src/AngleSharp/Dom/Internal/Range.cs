@@ -22,8 +22,8 @@ namespace AngleSharp.Dom
 
         public Range(IDocument document)
         {
-            _start = new Boundary(document, 0);
-            _end = new Boundary(document, 0);
+            _start = new Boundary(document, 0, false);
+            _end = new Boundary(document, 0, false);
         }
 
         private Range(Boundary start, Boundary end)
@@ -56,7 +56,7 @@ namespace AngleSharp.Dom
             {
                 var container = Head;
 
-                while (container != null && !Tail.Contains(container))
+                while (container != null && !container.Contains(Tail))
                 {
                     container = container.Parent;
                 }
@@ -81,14 +81,26 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            if (offset > refNode.ChildNodes.Length)
+            if (offset < 0)
+            {
+                throw new DomException(DomError.IndexSizeError);
+            }
+
+            var length = GetNodeLength(refNode);
+
+            if (offset > length)
             {
                 throw new DomException(DomError.IndexSizeError);
             }
 
             var bp = new Boundary(refNode, offset);
 
-            if (bp > _end || Root != refNode.GetRoot())
+            if (!_end.IsExplicit)
+            {
+                _start = bp;
+                _end = bp;
+            }
+            else if (bp > _end || Root != refNode.GetRoot())
             {
                 _start = bp;
             }
@@ -106,14 +118,26 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            if (offset > refNode.ChildNodes.Length)
+            if (offset < 0)
+            {
+                throw new DomException(DomError.IndexSizeError);
+            }
+
+            var length = GetNodeLength(refNode);
+
+            if (offset >length)
             {
                 throw new DomException(DomError.IndexSizeError);
             }
 
             var bp = new Boundary(refNode, offset);
 
-            if (bp < _start || Root != refNode.GetRoot())
+            if (!_start.IsExplicit)
+            {
+                _start = bp;
+                _end = bp;
+            }
+            else if (bp < _start || Root != refNode.GetRoot())
             {
                 _end = bp;
             }
@@ -134,6 +158,11 @@ namespace AngleSharp.Dom
             }
 
             _start = new Boundary(parent, parent.ChildNodes.Index(refNode));
+
+            if (!_end.IsExplicit)
+            {
+                _end = _start;
+            }
         }
 
         public void EndBefore(INode refNode)
@@ -151,6 +180,11 @@ namespace AngleSharp.Dom
             }
 
             _end = new Boundary(parent, parent.ChildNodes.Index(refNode));
+
+            if (!_start.IsExplicit)
+            {
+                _start = _end;
+            }
         }
 
         public void StartAfter(INode refNode)
@@ -167,7 +201,12 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            _start = new Boundary(parent, parent.ChildNodes.Index(refNode) + 1);
+            _start = new Boundary(parent, parent.ChildNodes.Index(refNode));
+
+            if (!_end.IsExplicit)
+            {
+                _end = _start;
+            }
         }
 
         public void EndAfter(INode refNode)
@@ -184,7 +223,12 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            _end = new Boundary(parent, parent.ChildNodes.Index(refNode) + 1);
+            _end = new Boundary(parent, parent.ChildNodes.Index(refNode));
+
+            if (!_start.IsExplicit)
+            {
+                _start = _end;
+            }
         }
 
         public void Collapse(Boolean toStart)
@@ -734,6 +778,21 @@ namespace AngleSharp.Dom
 
         #region Helpers
 
+        private static Int32 GetNodeLength(INode node)
+        {
+            if (node is IDocumentType || node is IAttr)
+            {
+                return 0;
+            }
+
+            if (node is ICharacterData text)
+            {
+                return text.Data.Length;
+            }
+
+            return node.ChildNodes.Length;
+        }
+
         private Boolean IsStartBefore(INode node, Int32 offset)
         {
             return _start < new Boundary(node, offset);
@@ -768,14 +827,16 @@ namespace AngleSharp.Dom
 
         private readonly struct Boundary : IEquatable<Boundary>
         {
-            public Boundary(INode node, Int32 offset)
+            public Boundary(INode node, Int32 offset, Boolean given = true)
             {
                 Node = node;
                 Offset = offset;
+                IsExplicit = given;
             }
 
             public readonly INode Node;
             public readonly Int32 Offset;
+            public readonly Boolean IsExplicit;
 
             public static Boolean operator >(Boundary a, Boundary b)
             {

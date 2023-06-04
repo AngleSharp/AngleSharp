@@ -42,12 +42,10 @@ namespace AngleSharp.Core.Tests.Library
 
         private static string GetText(Stream body)
         {
-            using (var ms = new MemoryStream())
-            {
-                body.CopyTo(ms);
-                var content = ms.ToArray();
-                return Encoding.UTF8.GetString(content);
-            }
+            using var ms = new MemoryStream();
+            body.CopyTo(ms);
+            var content = ms.ToArray();
+            return Encoding.UTF8.GetString(content);
         }
 
         [Test]

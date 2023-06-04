@@ -16,16 +16,14 @@
             var source = new DelayedStream(Encoding.UTF8.GetBytes(text));
             var parser = new HtmlParser();
 
-            using (var task = parser.ParseDocumentAsync(source))
-            {
-                Assert.IsFalse(task.IsCompleted);
-                var result = await task;
+            using var task = parser.ParseDocumentAsync(source);
+            Assert.IsFalse(task.IsCompleted);
+            var result = await task;
 
-                Assert.IsTrue(task.IsCompleted);
-                Assert.AreEqual("My test", result.Title);
-                Assert.AreEqual(1, result.Body.ChildElementCount);
-                Assert.AreEqual("Some text", result.Body.Children[0].TextContent);
-            }
+            Assert.IsTrue(task.IsCompleted);
+            Assert.AreEqual("My test", result.Title);
+            Assert.AreEqual(1, result.Body.ChildElementCount);
+            Assert.AreEqual("Some text", result.Body.Children[0].TextContent);
         }
 
         [Test]
@@ -34,15 +32,13 @@
             var source = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
             var parser = new HtmlParser();
 
-            using (var task = parser.ParseDocumentAsync(source))
-            {
-                Assert.IsTrue(task.IsCompleted);
-                var result = await task;
+            using var task = parser.ParseDocumentAsync(source);
+            Assert.IsTrue(task.IsCompleted);
+            var result = await task;
 
-                Assert.AreEqual("My test", result.Title);
-                Assert.AreEqual(1, result.Body.ChildElementCount);
-                Assert.AreEqual("Some text", result.Body.Children[0].TextContent);
-            }
+            Assert.AreEqual("My test", result.Title);
+            Assert.AreEqual(1, result.Body.ChildElementCount);
+            Assert.AreEqual("Some text", result.Body.Children[0].TextContent);
         }
     }
 }

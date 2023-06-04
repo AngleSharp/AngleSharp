@@ -12,7 +12,7 @@
 
         public EventReceiver(Action<DomEventHandler> addHandler)
         {
-            addHandler((s, ev) =>
+            addHandler((_, ev) =>
             {
 
                 if (ev is TReceivingEvent data)

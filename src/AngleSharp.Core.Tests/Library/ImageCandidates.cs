@@ -94,7 +94,7 @@
   <source type=""image/webp"" srcset=""logo.webp""> 
   <img src=""logo.png"" alt=""ACME Corp"">
 </picture>";
-            var service = new ResourceService<IImageInfo>("image/webp", resp => null);
+            var service = new ResourceService<IImageInfo>("image/webp", _ => null);
             var config = Configuration.Default.With(service);
             var img = Construct(source, config);
             var candidate = img.GetImageCandidate();

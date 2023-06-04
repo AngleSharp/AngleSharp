@@ -13,7 +13,7 @@ namespace AngleSharp.Html.Parser
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    sealed class HtmlTokenizer : BaseTokenizer
+    public sealed class HtmlTokenizer : BaseTokenizer
     {
         #region Fields
 

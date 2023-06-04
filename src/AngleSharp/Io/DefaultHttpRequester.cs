@@ -47,7 +47,7 @@ namespace AngleSharp.Io
         public DefaultHttpRequester(String? userAgent = null, Action<HttpWebRequest>? setup = null)
         {
             _timeOut = new TimeSpan(0, 0, 0, 45);
-            _setup = setup ?? ((HttpWebRequest r) => { });
+            _setup = setup ?? ((HttpWebRequest _) => { });
             _headers = new Dictionary<String, String>
             {
                 { HeaderNames.UserAgent, userAgent ?? AgentName },

@@ -83,7 +83,7 @@ namespace AngleSharp.Core.Tests.Library
             var errors = new List<HtmlErrorEvent>();
             var options = new HtmlParserOptions { IsStrictMode = false };
             var parser = new HtmlParser(options);
-            parser.Error += (s, ev) => errors.Add((HtmlErrorEvent)ev);
+            parser.Error += (_, ev) => errors.Add((HtmlErrorEvent)ev);
             parser.ParseDocument(html);
             Assert.AreEqual(1, errors.Count);
         }

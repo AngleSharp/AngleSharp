@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests
+namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Io;
     using System;
@@ -15,13 +15,7 @@
         public IResponse Request(Request request)
         {
             var name = request.Address.Path;
-            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("AngleSharp.Core.Tests.Resources." + name);
-
-            if (stream == null)
-            {
-                throw new ArgumentException("The DTD " + name + " could not be found! Check the name and the availability of this DTD.");
-            }
-
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"AngleSharp.Core.Tests.Resources.{name}") ?? throw new ArgumentException($"The DTD {name} could not be found! Check the name and the availability of this DTD.");
             return new DefaultResponse { Content = stream };
         }
 
