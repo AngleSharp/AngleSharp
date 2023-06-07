@@ -1,3 +1,9 @@
+# 1.0.3
+
+Released on Thursday, June 8 2023
+
+- Fixed wrong escaping of CSS selector pseudo class functions (#1069)
+
 # 1.0.2
 
 Released on Tuesday, June 4 2023

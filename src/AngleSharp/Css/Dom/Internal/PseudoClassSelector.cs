@@ -24,7 +24,7 @@ namespace AngleSharp.Css.Dom
 
         public Priority Specificity { get; }
 
-        public String Text => PseudoClassNames.Separator + CssUtilities.Escape(_pseudoClass);
+        public String Text => PseudoClassNames.Separator + _pseudoClass;
 
         public void Accept(ISelectorVisitor visitor) => visitor.PseudoClass(_pseudoClass);
 

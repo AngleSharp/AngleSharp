@@ -1345,6 +1345,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
 
             var expected = new Priority(0, 0, 0, 1);
 
+            Assert.AreEqual("foo:where(.bar, #bar)", selector.Text);
             Assert.AreEqual(expected, selector.Specificity);
         }
     }
