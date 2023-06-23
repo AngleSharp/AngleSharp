@@ -1,3 +1,9 @@
+# 1.0.4
+
+Released on Friday, June 23 2023
+
+- Added more pseudo selectors from Selector L4 spec (#1121)
+
 # 1.0.3
 
 Released on Thursday, June 8 2023

@@ -1348,5 +1348,33 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.AreEqual("foo:where(.bar, #bar)", selector.Text);
             Assert.AreEqual(expected, selector.Specificity);
         }
+
+        [Test]
+        public void PseudoClassFocusVisible_Issue1121()
+        {
+            var selectorText = $@"foo:focus-visible";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            var expected = new Priority(0, 0, 1, 1);
+
+            Assert.AreEqual("foo:focus-visible", selector.Text);
+            Assert.AreEqual(expected, selector.Specificity);
+        }
+
+        [Test]
+        public void PseudoClassFocusWithin_Issue1121()
+        {
+            var selectorText = $@"foo:focus-within";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(selectorText);
+
+            var expected = new Priority(0, 0, 1, 1);
+
+            Assert.AreEqual("foo:focus-within", selector.Text);
+            Assert.AreEqual(expected, selector.Specificity);
+        }
     }
 }

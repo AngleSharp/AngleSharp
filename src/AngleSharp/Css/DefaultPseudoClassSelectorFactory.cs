@@ -5,6 +5,7 @@ namespace AngleSharp.Css
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Provides string to CSS pseudo class selector instance mappings.
@@ -44,6 +45,8 @@ namespace AngleSharp.Css
             { PseudoClassNames.InRange, new PseudoClassSelector(el => el.IsInRange(), PseudoClassNames.InRange) },
             { PseudoClassNames.OutOfRange, new PseudoClassSelector(el => el.IsOutOfRange(), PseudoClassNames.OutOfRange) },
             { PseudoClassNames.Optional, new PseudoClassSelector(el => el.IsOptional(), PseudoClassNames.Optional) },
+            { PseudoClassNames.FocusVisible, new PseudoClassSelector(el => el.IsFocused && el.IsVisible(), PseudoClassNames.FocusVisible) },
+            { PseudoClassNames.FocusWithin, new PseudoClassSelector(el => el.GetDescendantsAndSelf().OfType<IElement>().Any(m => m.IsFocused), PseudoClassNames.FocusWithin) },
             { PseudoClassNames.Shadow, new PseudoClassSelector(el => el.IsShadow(), PseudoClassNames.Shadow) },
             { PseudoElementNames.Before, new PseudoClassSelector(el => el.IsPseudo(PseudoElementNames.Before), PseudoElementNames.Before) },
             { PseudoElementNames.After, new PseudoClassSelector(el => el.IsPseudo(PseudoElementNames.After), PseudoElementNames.After) },

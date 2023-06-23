@@ -641,6 +641,17 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Checks if the element is visible on screen.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if the element is visible, otherwise false.</returns>
+        public static Boolean IsVisible(this IElement element)
+        {
+            //TODO
+            return false;
+        }
+
+        /// <summary>
         /// Checks if the element is required and must be filled out.
         /// </summary>
         /// <param name="element">The element to check.</param>

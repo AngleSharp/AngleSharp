@@ -243,6 +243,16 @@ namespace AngleSharp.Css
         public static readonly String HostContext = "host-context";
 
         /// <summary>
+        /// The focus-visible pseudo class.
+        /// </summary>
+        public static readonly String FocusVisible = "focus-visible";
+
+        /// <summary>
+        /// The focus-within pseudo class.
+        /// </summary>
+        public static readonly String FocusWithin = "focus-within";
+
+        /// <summary>
         /// The separating colon.
         /// </summary>
         public static readonly String Separator = ":";
