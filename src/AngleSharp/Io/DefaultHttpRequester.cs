@@ -184,7 +184,7 @@ namespace AngleSharp.Io
             [return: NotNullIfNotNull("response")]
             private DefaultResponse? GetResponse(HttpWebResponse? response)
             {
-                if (response != null)
+                if (response is not null)
                 {
                     var originalCookies = _cookies.GetCookies(_request.Address!);
                     var newCookies = _cookies.GetCookies(response.ResponseUri);
@@ -200,6 +200,19 @@ namespace AngleSharp.Io
                     foreach (var header in headers)
                     {
                         result.Headers.Add(header.Key, header.Value);
+
+                        if (header.Key.Isi(HeaderNames.ContentEncoding))
+                        {
+                            switch (header.Value)
+                            {
+                                case "":
+                                case "gzip":
+                                case "deflate":
+                                    break;
+                                default:
+                                    throw new InvalidOperationException($"The given server response is invalid. The encoding '{header.Value}' is not supported.");
+                            }
+                        }
                     }
 
                     if (cookies.Length > 0)
