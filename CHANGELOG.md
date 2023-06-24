@@ -1,7 +1,9 @@
 # 1.0.4
 
-Released on Friday, June 23 2023
+Released on Saturday, June 24 2023
 
+- Fixed issue with gzip encoding under certain conditions (#1122)
+- Fixed issue with `li` scope leading to stack overflow (#1123)
 - Added more pseudo selectors from Selector L4 spec (#1121)
 
 # 1.0.3

@@ -182,6 +182,61 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(2746, img.Attributes.Length);
         }
 
+        [Test]
+        public void TemplateElementWithUnclosedContextRunningIntoStackOverflowVar1_Issue1123()
+        {
+            var fishyHtml = @"<li><table><template><td></li></table>";
+            var document = fishyHtml.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            var li = document.QuerySelector("li");
+            Assert.IsNotNull(li);
+            Assert.AreEqual(6, document.All.Length);
+        }
+
+        [Test]
+        public void TemplateElementWithUnclosedContextRunningIntoStackOverflowVar2_Issue1123()
+        {
+            var fishyHtml = @"<li><table><template><th></li></table>";
+            var document = fishyHtml.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            var li = document.QuerySelector("li");
+            Assert.IsNotNull(li);
+            Assert.AreEqual(6, document.All.Length);
+        }
+
+        [Test]
+        public void TemplateElementWithUnclosedContextRunningIntoStackOverflowVar3_Issue1123()
+        {
+            var fishyHtml = @"<table><li><template><td></li></table>";
+            var document = fishyHtml.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            var li = document.QuerySelector("li");
+            Assert.IsNotNull(li);
+            Assert.AreEqual(6, document.All.Length);
+        }
+
+        [Test]
+        public void TemplateElementWithUnclosedContextRunningIntoStackOverflowVar4_Issue1123()
+        {
+            var fishyHtml = @"<li><table><th></th><template><td></li></tr>";
+            var document = fishyHtml.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            var li = document.QuerySelector("li");
+            Assert.IsNotNull(li);
+            Assert.AreEqual(9, document.All.Length);
+        }
+
+        [Test]
+        public void TemplateElementWithUnclosedContextRunningIntoStackOverflowVar5_Issue1123()
+        {
+            var fishyHtml = @"<li><table><th></th><template><th></li></tr>";
+            var document = fishyHtml.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            var li = document.QuerySelector("li");
+            Assert.IsNotNull(li);
+            Assert.AreEqual(9, document.All.Length);
+        }
+
         private static Task<IDocument> GenerateDocument(String content, String contentType)
         {
             var config = Configuration.Default.WithDefaultLoader();

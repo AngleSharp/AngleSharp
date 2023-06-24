@@ -3368,29 +3368,19 @@ namespace AngleSharp.Html.Parser
         /// Act as if an td or th end tag has been found in the InCell state.
         /// </summary>
         /// <param name="token">The actual tag token.</param>
-        /// <returns>True if the token was not ignored, otherwise false.</returns>
-        private Boolean InCellEndTagCell(HtmlToken token)
+        private void InCellEndTagCell(HtmlToken token)
         {
-            if (IsInTableScope(TagNames.AllTableCells))
-            {
-                GenerateImpliedEndTags();
+            GenerateImpliedEndTags();
 
-                if (!TagNames.AllTableCells.Contains(CurrentNode.LocalName))
-                {
-                    RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, token);
-                }
-
-                ClearStackBackTo(TagNames.AllTableCells);
-                CloseCurrentNode();
-                _formattingElements.ClearFormatting();
-                _currentMode = HtmlTreeMode.InRow;
-                return true;
-            }
-            else
+            if (!TagNames.AllTableCells.Contains(CurrentNode.LocalName))
             {
-                RaiseErrorOccurred(HtmlParseError.TableCellNotInScope, token);
-                return false;
+                RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, token);
             }
+
+            ClearStackBackTo(TagNames.AllTableCells);
+            CloseCurrentNode();
+            _formattingElements.ClearFormatting();
+            _currentMode = HtmlTreeMode.InRow;
         }
 
         #endregion
@@ -3647,7 +3637,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.HtmlListScoped) == NodeFlags.HtmlListScoped)
+                else if (node.Flags.HasFlag(NodeFlags.Scoped) || (node.Flags.HasFlag(NodeFlags.HtmlListScoped)))
                 {
                     return false;
                 }

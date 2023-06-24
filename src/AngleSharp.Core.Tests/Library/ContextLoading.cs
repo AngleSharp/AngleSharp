@@ -180,6 +180,24 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public async Task GzipEncoding_Issue1122()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var address = "https://www.powerball.com";
+                var config = Configuration.Default.WithLocaleBasedEncoding().WithPageRequester();
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(address);
+
+                Assert.IsNotNull(document);
+                // Any value goes - it should just be readable and make sense
+                Assert.AreEqual("Home | Powerball", document.Title);
+                // Sure, this can break fast if they change something; but we need an indicator that we can trust
+                Assert.IsNotNull(document.QuerySelector("a.u-text-transform-uppercase.c-skipnav"));
+            }
+        }
+
+        [Test]
         public async Task LoadContextFromStreamLoadedShouldNotFaceBufferTooSmall()
         {
             if (Helper.IsNetworkAvailable())
