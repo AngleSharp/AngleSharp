@@ -182,7 +182,7 @@ namespace AngleSharp.Dom
             {
                 if (elements[i] is IElement element)
                 {
-                    foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
+                    foreach (var descendentAndSelf in element.DescendantsAndSelf<IElement>())
                     {
                         if (selector.Match(descendentAndSelf))
                         {

@@ -941,7 +941,7 @@ namespace AngleSharp.Dom
                     Abort();
                     RemoveEventListeners();
 
-                    foreach (var element in this.Descendents<Element>())
+                    foreach (var element in this.Descendants<Element>())
                     {
                         element.RemoveEventListeners();
                     }

@@ -756,7 +756,7 @@ namespace AngleSharp.Dom
 
             sb ??= StringBuilderPool.Obtain();
 
-            var nodes = CommonAncestor.Descendents<IText>();
+            var nodes = CommonAncestor.Descendants<IText>();
 
             foreach (var node in nodes)
             {

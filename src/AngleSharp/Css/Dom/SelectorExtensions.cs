@@ -21,7 +21,7 @@ namespace AngleSharp.Css.Dom
         {
             foreach (var element in elements)
             {
-                foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
+                foreach (var descendentAndSelf in element.DescendantsAndSelf<IElement>())
                 {
                     if (selector.Match(descendentAndSelf, scope))
                     {
@@ -61,7 +61,7 @@ namespace AngleSharp.Css.Dom
         {
             foreach (var element in elements)
             {
-                foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
+                foreach (var descendentAndSelf in element.DescendantsAndSelf<IElement>())
                 {
                     if (selector.Match(descendentAndSelf, scope))
                     {
