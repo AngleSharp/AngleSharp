@@ -26,17 +26,17 @@ If no `Culture` is specified, the culture from the currently active thread will 
 
 Please note that the `Configuration` is immutable by default and all extension methods will either return the current instance (unmodified) or a new object (modified compared to the originally passed one).
 
-Additionally, we might create our own class that is more convinient and flexible than the immutable implementation. We could either extend the default implementation, or implement the interface. Note, however, that the extension methods should actually make working with the `IConfiguration` pretty easy and straight forward.
+Additionally, we might create our own class that is more convenient and flexible than the immutable implementation. We could either extend the default implementation, or implement the interface. Note, however, that the extension methods should actually make working with the `IConfiguration` pretty easy and straight forward.
 
 Implementing the interface is also possible, but requires of course more work, since every property or methods needs to be re-implemented. However, since the properties of the default implementation are not `virtual`, it might be the only chance for providing the desired setup. In general there should be only few reasons to implement `IConfiguration` ourselves.
 
 ## Extension Points
 
-AngleSharp is supposed to create an universal HTML5 parser that is accessible in the .NET world and written completely in managed code. However, some applications may want to go beyond the parser. The parser alone would require a lot of help from the outside to create the DOM.
+AngleSharp is supposed to create a universal HTML5 parser that is accessible in the .NET world and written completely in managed code. However, some applications may want to go beyond the parser. The parser alone would require a lot of help from the outside to create the DOM.
 
 In order to supply users of AngleSharp with a full DOM implementation, AngleSharp extends the HTML5 parser with a real DOM implementation. Nevertheless, this again brings some additional dependencies. What if, e.g., the `HtmlAudioElement` should play audio from its source? Of course one could just write a wrapper around the element, reading out the `Source` and supervising changes. But then this one wrapper would probably be incompatible (and / or behave differently) than the rest of the DOM.
 
-This inconsistency is avoided by definining such external behavior in form of interfaces. Objects implementing such an interface might be registered to be used within AngleSharp.
+This inconsistency is avoided by defining such external behavior in form of interfaces. Objects implementing such an interface might be registered to be used within AngleSharp.
 
 In this page the various extension points will be listed and explained. Currently missing (but planned) interfaces will be sketched.
 
@@ -46,7 +46,7 @@ If a style (also external stylesheets in a `<link>` tag) or a script block is en
 
 AngleSharp already includes a lightweight CSS parser (used for the CSS selectors). This was one of the design goals of AngleSharp. Additionally, it is required, since the (HTML) DOM is strongly coupled to CSS on some points. One example would be the `querySelector` and `querySelectorAll` methods. These methods require a CSS parser (or at least a CSS selector parser). In the end an object that is able to match certain elements is produced.
 
-Nevertheless, an HTML browser may or may not know other styling possibilities than CSS. Currently CSS is used by default (and without specifying, e.g., `text/css` in the `type` attribute). However, one could register a style parser for a certain (or multiple) such types. Following this way, it is also possible to register a custom CSS parser, overriding the currently provided one.
+Nevertheless, an HTML browser may or may not know other styling possibilities than CSS. Currently, CSS is used by default (and without specifying, e.g., `text/css` in the `type` attribute). However, one could register a style parser for a certain (or multiple) such types. Following this way, it is also possible to register a custom CSS parser, overriding the currently provided one.
 
 An example of this is the official `AngleSharp.Css` library, which implements the full CSSOM.
 
@@ -81,7 +81,7 @@ In case of the `HtmlObjectElement` this leads directly to plugins, such as Adobe
 
 Creates a `INavigator` instance for the given `IWindow` instance. The `INavigator` seems to be quite generic at first, however, it could be really specialized to the underlying `IWindow` instance, especially in terms of accessing media resources (e.g., webcam or microphone).
 
-AngleSharp does not implement the interface in order to leave room for more adequate and specialized implementations. Also the previously described ability to enhance the user-experience with external peripherals seems appealing.
+AngleSharp does not implement the interface in order to leave room for more adequate and specialized implementations. Also, the previously described ability to enhance the user-experience with external peripherals seems appealing.
 
 ### IHistory
 
@@ -91,7 +91,7 @@ The `IHistory` interface is retrieved (usually in form of a creator) from the se
 
 There are multiple DOM elements that could be implemented in a more specialized and useful way. A crucial element is the `IWindow` implementation. It is not directly required, since all DOM interaction involves the `IDocument`, which is not dependent on the `IWindow`. However, especially in scripting environments, the `IWindow` instance fulfills a quite important role.
 
-For more advanced scenarios, like rendering, a custom implementation of the `IWindow` interface seems important. Therefore the given service gives users the ability to register a custom `IWindow` creator. Note, that at the moment such a custom creator would be required to inherit at least from `EventTarget` (which implements `IEventTarget`). In the future this requirement will hopefully be omitted.
+For more advanced scenarios, like rendering, a custom implementation of the `IWindow` interface seems important. Therefore, the given service gives users the ability to register a custom `IWindow` creator. Note, that at the moment such a custom creator would be required to inherit at least from `EventTarget` (which implements `IEventTarget`). In the future this requirement will hopefully be omitted.
 
 ### ILoader
 
@@ -106,7 +106,7 @@ There is also a base implementation called `BaseLoader`.
 
 ## Advanced Concepts
 
-Beyond the standard usage of AngleSharp some other 
+Beyond the standard usage of AngleSharp some other
 
 ### Attributes
 

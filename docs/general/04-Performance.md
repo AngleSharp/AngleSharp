@@ -6,7 +6,7 @@ section: "AngleSharp.Core"
 
 ## General Considerations
 
-The library is not small (its not huge either), which makes preloading or "warming-up" (or using NGen) a candidate for productive usage. The first runs will always be slower than the following. This is a property of C# / the MSIL (or the JIT process in general), which has nothing to do with AngleSharp.
+The library is not small (it's not huge either), which makes preloading or "warming-up" (or using NGen) a candidate for productive usage. The first runs will always be slower than the following. This is a property of C# / the MSIL (or the JIT process in general), which has nothing to do with AngleSharp.
 
 AngleSharp has been written with performance in mind. Actually the priority is:
 
@@ -84,7 +84,7 @@ In general there are areas where AngleSharp is performing better, and other page
 
 ## Comparison with Other Solutions
 
-One could also make comparisons to other projects. In the official **Performance** project (contained in the Visual Studio solution) you will find the *Majestic* (Majestic 13) parser. This one is nearly always faster than any other solution. Is it the right choice for your project? Probably not. The reason is simple: Majestic does not build a DOM, it also does not care about special tags, meanings and the HTML error correction. Basically Majestic is AngleSharp reduced to its tokenizer, with the tokenizer being a little bit simpler.
+One could also make comparisons to other projects. In the official **Performance** project (contained in the Visual Studio solution) you will find the *Majestic* (Majestic 13) parser. This one is nearly always faster than any other solution. Is it the right choice for your project? Probably not. The reason is simple: Majestic does not build a DOM, it also does not care about special tags, meanings and the HTML error correction. Basically Majestic is AngleSharp reduced to its tokenizer, with the tokenizer being a bit simpler.
 
 This is also the reason for excluding Majestic from the performance comparison. However, you are (for your own pleasure) of course allowed to include Majestic again. The code is already checked-in.
 
@@ -102,8 +102,8 @@ AMD Ryzen 7 2700X, 1 CPU, 16 logical and 8 physical cores
   [Host]   : .NET Framework 4.8 (4.8.4341.0), X64 RyuJIT
   ShortRun : .NET Framework 4.8 (4.8.4341.0), X64 RyuJIT
 
-Job=ShortRun  IterationCount=3  LaunchCount=1  
-WarmupCount=3  
+Job=ShortRun  IterationCount=3  LaunchCount=1
+WarmupCount=3
 ```
 
 The results are displayed below.
@@ -315,8 +315,8 @@ AMD Ryzen 7 2700X, 1 CPU, 16 logical and 8 physical cores
   [Host]   : .NET Framework 4.8 (4.8.4341.0), X64 RyuJIT
   ShortRun : .NET Framework 4.8 (4.8.4341.0), X64 RyuJIT
 
-Job=ShortRun  IterationCount=3  LaunchCount=1  
-WarmupCount=3  
+Job=ShortRun  IterationCount=3  LaunchCount=1
+WarmupCount=3
 ```
 
 The results are displayed below.
@@ -448,4 +448,3 @@ The results are displayed below.
 |            |                      |              |             |            |           |         |       |            |
 |    **CsQuery** |   **ul.toc li.tocline2** |   **121.851 μs** |   **2.0593 μs** |  **0.1129 μs** |  **108.8867** |       **-** |     **-** |    **83.7 KB** |
 | AngleSharp |   ul.toc li.tocline2 |   341.464 μs |  45.5889 μs |  2.4989 μs |   24.9023 |       - |     - |   19.38 KB |
-
