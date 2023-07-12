@@ -10,7 +10,7 @@ The GitHub project management features are definitely nice, but they do not prov
 
 Rendering might be one of the most interesting aspects of AngleSharp. AngleSharp won't cover rendering directly. Instead, it will be easy to hook up a custom rendering engine. A (sample) library will probably be provided, like with the AngleSharp.Scripting one, which serves as an example for including a JavaScript engine. One of the cornerstones of rendering is including the CSSOM view module, which specifies a lot of methods, interfaces and more. This will be crucial when connecting to a real device, such as a screen. Also fake devices, which might be used for analysis (see `Window`), profit from the CSSOM view module.
 
-Not all interfaces and methods have to be implemented / provided by the core AngleSharp library. Instead one of the main tasks in this work package is to determine a good hierachy, which provides both, flexibility and information, which can be used for many purposes.
+Not all interfaces and methods have to be implemented / provided by the core AngleSharp library. Instead, one of the main tasks in this work package is to determine a good hierarchy, which provides both, flexibility and information, which can be used for many purposes.
 
 *Status*: Partially included. Most of these things will be determined once rendering (ext. library) is scratched.
 
@@ -46,7 +46,7 @@ The core source should be a browsing context. This, however, is a point on its o
 
 ## Finish Style Resolution
 
-On a simple level the style resolution is already finished. However, with pseudo elements still missing, the `IWindow` being unfinished and other open questions, it is not possible to consider style resolution being solved.
+On a simple level the style resolution is already finished. However, with pseudo-elements still missing, the `IWindow` being unfinished and other open questions, it is not possible to consider style resolution being solved.
 
 In v0.7 there won't be any change (besides bugfixes and some minor feature updates) to the current status. First the CSS object model has to be refined / finished. Once the generated CSS tree is satisfying the style resolution will be on the list.
 
@@ -62,7 +62,7 @@ More information can be found at:
 
 ## Provide Further Extension Points
 
-For instance an automatic file system buffer, which (obviously) requires access to the file system. Additionally storage might require access to the file system, but maybe in a different form. Also media types such as video, audio or image will require access to video and audio streaming / playing, as well as image displaying.
+For instance an automatic file system buffer, which (obviously) requires access to the file system. Additionally, storage might require access to the file system, but maybe in a different form. Also, media types such as video, audio or image will require access to video and audio streaming / playing, as well as image displaying.
 
 It is highly likely that v0.7 will already introduce some media extensions, such as gathering image or audio information (from raw bytes), or accessing the storage for the offline API. This will also introduce the extended configuration pipeline.
 
@@ -86,11 +86,11 @@ The ultimate goal is to have a multitude of extension points, which can then be 
 
 ## MathML
 
-MathML is a markup language that should allow writing equations like LaTeX. Therefore MathML has special tags, which carry a semantic meaning, such as being an operator, an identifier, a symbol, space, raw text and much more. HTML5 allows embedding of MathML by specification.
+MathML is a markup language that should allow writing equations like LaTeX. Therefore, MathML has special tags, which carry a semantic meaning, such as being an operator, an identifier, a symbol, space, raw text and much more. HTML5 allows embedding of MathML by specification.
 
 Right now AngleSharp can handle MathML as foreign elements in HTML. This is the way it should be. There are no plans to support "Math documents" or similar constructs. However, right now AngleSharp is limited to only a few MathML elements. All other elements will be regarded as a general `MathElement` element, with a custom `NodeName`.
 
-There are several reasons to include more information on the MathML (sub) DOM. Therefore it is crucial to include all other specifically defined elements in AngleSharp. In the end the `MathFactory` has to be extended to also support these other elements. That should be sufficient to support MathML.
+There are several reasons to include more information on the MathML (sub) DOM. Therefore, it is crucial to include all other specifically defined elements in AngleSharp. In the end the `MathFactory` has to be extended to also support these other elements. That should be sufficient to support MathML.
 
 It has to be investigated if other properties, such as special entities, need to be included as well. If so, the question is: How to change the entity retrieval mode? There are several options, but the solution has to be robust, easy to extend, and well-performing.
 
@@ -124,7 +124,7 @@ AngleSharp is not really giant, but it is continuously growing. While the projec
 * (Core) DOM implementation,
 * configuration and extensions,
 
-some of the contained abilities should be moved to other (extension) projects. Beginning with the completion of v0.8 a major evaluation will begin, to determine which parts are core / important and which are extensions. The main purpose of this evaluation will be:
+Some contained abilities should be moved to other (extension) projects. Beginning with the completion of v0.8 a major evaluation will begin, to determine which parts are core / important and which are extensions. The main purpose of this evaluation will be:
 
 * The keep AngleSharp small for small tasks
 * To reduce the footprint
@@ -133,6 +133,6 @@ some of the contained abilities should be moved to other (extension) projects. B
 
 So if one includes AngleSharp just to parse a few lines of HTML, or a single HTML document, this task should be possible only with the core library. If one wants to make screenshots of webpages, emulate a full browsing context, or integrate JavaScript fully with AngleSharp (not just on top of a document), then the extensions are here to help.
 
-In the end the idea is to give users only what they need, not more. If they want more, they can opt-in by getting more advanced NuGet packages, which work as extensions for the core library.
+In the end the idea is to give users only what they need, not more. If they want more, they can opt in by getting more advanced NuGet packages, which work as extensions for the core library.
 
 *Status*: CSS already moved out. More to come until v1.0.

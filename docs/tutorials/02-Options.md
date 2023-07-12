@@ -60,7 +60,7 @@ For serialization (e.g., `InnerHtml` use, or more explicit via `ToHtml`), howeve
 
 ## `IsKeepingSourceReferences`
 
-`IsKeepingSourceReferences` option decides whether or not to keep positional information or reference on a text source to be serialized.
+`IsKeepingSourceReferences` option decides whether to keep positional information or reference on a text source to be serialized.
 For serialization, we would have no way or response of source reference of any selected element of a document.
 
 Example of this option be:
@@ -88,7 +88,7 @@ document = parser.ParseDocument(document.Prettify());
 And we would get `Ln 4, Col 3, Pos 33`
 
 ## `IsSupportingProcessingInstructions`
-`IsSupportingProcessingInstructions` option causes the parset to emit ProcessingInstruction nodes whenever `<? ... >` tokens are encountered, those are an SGML and XML node types intended to carry instructions to the application.
+`IsSupportingProcessingInstructions` option causes the parser to emit `ProcessingInstruction` nodes whenever `<? ... >` tokens are encountered, those are an SGML and XML node types intended to carry instructions to the application.
 
 SGML PI is enclosed within `<?` and `>`, while XML PI is enclosed within `<?` and `?>`.
 
@@ -104,7 +104,7 @@ Console.WriteLine(document.DocumentElement.ToHtml());
 ```
 
 this gives the `<html><head></head><body><p><??xml version=\"1.0\" encoding=\"UTF - 8\" ?></p></body></html>` response as we have enabled the PI support option.
-Otherwise we would get a comment node enclosing the issued PI node: `"<html><head></head><body><p><!--<?xml version=\"1.0\" encoding=\"UTF - 8\" ?>--></p></body></html>"`
+Otherwise, we would get a comment node enclosing the issued PI node: `"<html><head></head><body><p><!--<?xml version=\"1.0\" encoding=\"UTF - 8\" ?>--></p></body></html>"`
 
 ## `OnCreated`
 
@@ -146,15 +146,15 @@ IDocument document = parser.ParseDocument(html);
 Console.WriteLine(document.DocumentElement.ToHtml());
 ```
 
-In this case we had strict mode on so we had to declare `x` as `let x` instead for example.
+In this case we had strict mode on, so we had to declare `x` as `let x` instead for example.
 
-By default strict mode is false and we would get the response as expected.
+By default, strict mode is false, and we would get the response as expected.
 
 ## `IsEmbedded`, `IsNotSupportingFrames`, and `IsScripting`
 
 The `IsEmbedded` option allows you to use the HTML parser with the content being assumed to be embedded in a valid HTML document already. This is used to determine if a doctype is needed. In embedded mode the doctype can be missing without entering the quirks mode.
 
-Likewise, the `IsNotSupportingFrames` option can be used to act as if frames are not allowed. When actual `frameset` or similar tags are hit, then tags such as `noframes` are interpreted differently (i.e., as if they would not exist). As of today, most browsers still support frames - even though they should not be used any more. Note that frames do not include `<iframe>`, which is not impacted by this flag.
+Likewise, the `IsNotSupportingFrames` option can be used to act as if frames are not allowed. When actual `frameset` or similar tags are hit, then tags such as `noframes` are interpreted differently (i.e., as if they would not exist). As of today, most browsers still support frames - even though they should not be used anymore. Note that frames do not include `<iframe>`, which is not impacted by this flag.
 
 The `IsScripting` option emulates the behavior of the browser when parsing the `innerHTML`. Without scripting the `noscript` and `script` tag change places. Here, the `noscript` tag will be evaluated (instead of being ignored). Additionally, the content of the `script` tag will be ignored. Enable `IsScripting` to - from a parsing perspective - see the page as JavaScript-enabled browser would do.
 

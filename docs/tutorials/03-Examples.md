@@ -39,7 +39,7 @@ Console.WriteLine(document.DocumentElement.OuterHtml);
 
 So we define some source code, call the `OpenAsync` method of a an `BrowsingContext` instance. The `OpenAsync` method allows us to parse documents from any kind of requests, e.g., from a webserver. The callback style is called a "virtual request", which does not invoke a real request, but stays within our code.
 
-In this case we use the provided source code to determine the content of the request's response. This content of the response is then parsed into an HTML document. Afterwards we serialize the DOM back to a string. Finally we output this string in the console.
+In this case we use the provided source code to determine the content of the request's response. This content of the response is then parsed into an HTML document. Afterwards we serialize the DOM back to a string. Finally, we output this string in the console.
 
 ## Simple Document Manipulation
 
@@ -113,7 +113,7 @@ static async Task UsingLinq()
 }
 ```
 
-Since the `All` property of an `IDocument` returns all `IElement` nodes that are contained in a document, we can use it very efficiently with LINQ. On the other hand the `QuerySelectorAll` also returns (same as `All`) an `IHtmlCollection` object. Hence this can be filtered with LINQ as well! Additionally this list is already filtered.
+Since the `All` property of an `IDocument` returns all `IElement` nodes that are contained in a document, we can use it very efficiently with LINQ. On the other hand the `QuerySelectorAll` also returns (same as `All`) an `IHtmlCollection` object. Hence, this can be filtered with LINQ as well! Additionally, this list is already filtered.
 
 It is also possible to get the same as `All` with a selector - the special asterisk `*` selector:
 
@@ -122,11 +122,11 @@ It is also possible to get the same as `All` with a selector - the special aster
 IEnumerable<IElement> blueListItemsLinq = document.QuerySelectorAll("*").Where(m => m.LocalName == "li" && m.ClassList.Contains("blue"));
 ```
 
-Is this exactly the same? Actually no - `All` returns a so called _live_ DOM list, i.e. if we save the object somewhere we will always have access to the latest DOM changes.
+Is this exactly the same? Actually no - `All` returns a so-called _live_ DOM list, i.e. if we save the object somewhere we will always have access to the latest DOM changes.
 
 ## Getting Single Elements
 
-Additionally we have the `QuerySelector` method. This one is quite close to LINQ statements that use `FirstOrDefault()` for generating results. The tree traversal might be a little bit more efficient using the `QuerySelector` method.
+Additionally, we have the `QuerySelector` method. This one is quite close to LINQ statements that use `FirstOrDefault()` for generating results. The tree traversal might be a bit more efficient using the `QuerySelector` method.
 
 Let's see some sample code:
 
