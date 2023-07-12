@@ -120,7 +120,7 @@ This works and directly returns an object of type `IHtmlParagraphElement`. No ca
 
 ### Beyond the DOM
 
-AngleSharp provides several properties and methods that are not accessible via the standardized DOM properties and methods. To distinguish between standardized and extended a simple attribute class called `DomNameAttribute` has been added. The attribute is applied in those cases, where the decorated class / event / method or property is also specified in the official W3C standard. Additionally, the official name is set, since AngleSharp follows the PascalCase convention, while the DOM follows the camel-case convention.
+AngleSharp provides several properties and methods that are not accessible via the standardized DOM properties and methods. To distinguish between standardized and extended a simple attribute class called `DomNameAttribute` has been added. The attribute is applied in those cases, where the decorated class / event / method or property is also specified in the official W3C standard. Additionally, the official name is set, since AngleSharp follows the PascalCase convention, while the DOM follows the camelCase convention.
 
 AngleSharp also provides objects that are not listed at all in the official W3C specification. Sometimes those classes are specializations of W3C defined objects (e.g. `MathElement` is derived from `Element`, however, while `Element` is also specified in the official specification, `MathElement` is not), or just part of the AngleSharp ecosystem.
 
