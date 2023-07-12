@@ -1,0 +1,69 @@
+name: Bug Report
+description: "Create a report to help us improve"
+labels: ["bug"]
+body:
+    - type: checkboxes
+      id: prerequisites
+      attributes:
+          label: Prerequisites
+          description: For more information, see the [CONTRIBUTING guide](https://github.com/AngleSharp/AngleSharp/blob/devel/.github/CONTRIBUTING.md).
+          options:
+              - label: Can you reproduce the problem in a [MWE](https://en.wikipedia.org/wiki/Minimal_working_example)?
+                required: true
+              - label: Are you running the latest version of AngleSharp?
+                required: true
+              - label: Did you check the FAQs to see if that helps you?
+                required: true
+              - label: Are you reporting to the correct repository? (there are multiple AngleSharp libraries, e.g., `AngleSharp.Css` for CSS support)
+                required: true
+              - label: Did you perform a search in the issues?
+                required: true
+
+    - type: textarea
+      id: description
+      attributes:
+          label: Description
+          description: Share a clear and concise description of the problem.
+          placeholder: Description
+      validations:
+          required: true
+
+    - type: textarea
+      id: reproduction-steps
+      attributes:
+          label: Steps to Reproduce
+          description: |
+              Include minimal steps to reproduce the problem if possible. E.g.: the smallest possible code snippet; or a small project, with steps to run it. Make sure to include logs and exceptions as text rather than screenshots.
+          placeholder: Minimal Reproduction
+      validations:
+          required: true
+
+    - type: textarea
+      id: expected-behavior
+      attributes:
+          label: Expected Behavior
+          description: |
+              Provide a description of the expected behavior.
+          placeholder: Expected Behavior
+      validations:
+          required: true
+
+    - type: textarea
+      id: actual-behavior
+      attributes:
+          label: Actual Behavior
+          description: |
+              Provide a description of the actual behavior observed. If applicable, include the error messages and the exception stacktrace.
+          placeholder: Actual Behavior
+      validations:
+          required: true
+
+    - type: textarea
+      id: known-workarounds
+      attributes:
+          label: Possible Solution / Known Workarounds
+          description: |
+              Provide a description of any possible solution or known workarounds.
+          placeholder: Possible Solution / Known Workarounds
+      validations:
+          required: false
