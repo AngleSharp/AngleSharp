@@ -1,0 +1,20 @@
+name: Feature Idea
+description: "Suggest an idea for this project"
+labels: ["enhancement"]
+body:
+    - type: textarea
+      attributes:
+          label: Description
+          description: What should the new feature do?
+      validations:
+          required: true
+
+    - type: textarea
+      attributes:
+          label: Background
+          description: Provide any additional background for the feature. e.g., user scenarios.
+
+    - type: textarea
+      attributes:
+          label: Specification
+          description: In case of updates that adhere to specification changes, please reference the used specification.
