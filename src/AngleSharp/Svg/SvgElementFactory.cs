@@ -3,24 +3,12 @@ namespace AngleSharp.Svg
     using AngleSharp.Dom;
     using AngleSharp.Svg.Dom;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to SVGElement instance creation mappings.
     /// </summary>
     sealed class SvgElementFactory : IElementFactory<Document, SvgElement>
     {
-        private delegate SvgElement Creator(Document owner, String? prefix);
-
-        private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
-        {
-            { TagNames.Svg, (document, prefix) => new SvgSvgElement(document, prefix) },
-            { TagNames.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },
-            { TagNames.Desc, (document, prefix) => new SvgDescElement(document, prefix) },
-            { TagNames.ForeignObject, (document, prefix) => new SvgForeignObjectElement(document, prefix) },
-            { TagNames.Title, (document, prefix) => new SvgTitleElement(document, prefix) },
-        };
-
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
         /// </summary>
@@ -31,12 +19,16 @@ namespace AngleSharp.Svg
         /// <returns>The specialized SVGElement instance.</returns>
         public SvgElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
-            if (creators.TryGetValue(localName, out var creator))
+            // REVIEW: is ToLowerInvariant() the right approach here? are TagNames always lowercase?
+            return localName.ToLowerInvariant() switch
             {
-                return creator.Invoke(document, prefix);
-            }
-
-            return new SvgElement(document, localName, prefix, flags);
+                TagNames.Svg => new SvgSvgElement(document, prefix),
+                TagNames.Circle => new SvgCircleElement(document, prefix),
+                TagNames.Desc => new SvgDescElement(document, prefix),
+                TagNames.ForeignObject => new SvgForeignObjectElement(document, prefix),
+                TagNames.Title => new SvgTitleElement(document, prefix),
+                _ => new SvgElement(document, localName, prefix, flags)
+            };
         }
     }
 }
