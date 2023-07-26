@@ -25,7 +25,7 @@ namespace AngleSharp.Svg
                 TagNames.Svg => new SvgSvgElement(document, prefix),
                 TagNames.Circle => new SvgCircleElement(document, prefix),
                 TagNames.Desc => new SvgDescElement(document, prefix),
-                TagNames.ForeignObject => new SvgForeignObjectElement(document, prefix),
+                var tagName when tagName.Equals(TagNames.ForeignObject, StringComparison.OrdinalIgnoreCase) => new SvgForeignObjectElement(document, prefix),
                 TagNames.Title => new SvgTitleElement(document, prefix),
                 _ => new SvgElement(document, localName, prefix, flags)
             };
