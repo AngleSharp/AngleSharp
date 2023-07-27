@@ -19,16 +19,32 @@ namespace AngleSharp.Svg
         /// <returns>The specialized SVGElement instance.</returns>
         public SvgElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
-            // REVIEW: is ToLowerInvariant() the right approach here? are TagNames always lowercase?
-            return localName.ToLowerInvariant() switch
+            if (localName.Equals(TagNames.Svg, StringComparison.OrdinalIgnoreCase))
             {
-                TagNames.Svg => new SvgSvgElement(document, prefix),
-                TagNames.Circle => new SvgCircleElement(document, prefix),
-                TagNames.Desc => new SvgDescElement(document, prefix),
-                var tagName when tagName.Equals(TagNames.ForeignObject, StringComparison.OrdinalIgnoreCase) => new SvgForeignObjectElement(document, prefix),
-                TagNames.Title => new SvgTitleElement(document, prefix),
-                _ => new SvgElement(document, localName, prefix, flags)
-            };
+                return new SvgSvgElement(document, prefix);
+            }
+
+            if (localName.Equals(TagNames.Circle, StringComparison.OrdinalIgnoreCase))
+            {
+                return new SvgCircleElement(document, prefix);
+            }
+
+            if (localName.Equals(TagNames.Desc, StringComparison.OrdinalIgnoreCase))
+            {
+                return new SvgDescElement(document, prefix);
+            }
+
+            if (localName.Equals(TagNames.ForeignObject, StringComparison.OrdinalIgnoreCase))
+            {
+                return new SvgForeignObjectElement(document, prefix);
+            }
+
+            if (localName.Equals(TagNames.Title, StringComparison.OrdinalIgnoreCase))
+            {
+                return new SvgTitleElement(document, prefix);
+            }
+
+            return new SvgElement(document, localName, prefix, flags);
         }
     }
 }

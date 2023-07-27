@@ -19,17 +19,37 @@ namespace AngleSharp.Mathml
         /// <returns>The specialized MathMLElement instance.</returns>
         public MathElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
-            // REVIEW: is ToLowerInvariant() the right approach here? are TagNames always lowercase?
-            return localName.ToLowerInvariant() switch
+            if (localName.Equals(TagNames.Mn, StringComparison.OrdinalIgnoreCase))
             {
-                TagNames.Mn => new MathNumberElement(document, prefix),
-                TagNames.Mo => new MathOperatorElement(document, prefix),
-                TagNames.Mi => new MathIdentifierElement(document, prefix),
-                TagNames.Ms => new MathStringElement(document, prefix),
-                TagNames.Mtext => new MathTextElement(document, prefix),
-                TagNames.AnnotationXml => new MathAnnotationXmlElement(document, prefix),
-                _ => new MathElement(document, localName, prefix, flags)
-            };
+                return new MathNumberElement(document, prefix);
+            }
+
+            if (localName.Equals(TagNames.Mo, StringComparison.OrdinalIgnoreCase))
+            {
+                return new MathOperatorElement(document, prefix);
+            }
+
+            if (localName.Equals(TagNames.Mi, StringComparison.OrdinalIgnoreCase))
+            {
+                return new MathIdentifierElement(document, prefix);
+            }
+
+            if (localName.Equals(TagNames.Ms, StringComparison.OrdinalIgnoreCase))
+            {
+                return new MathStringElement(document, prefix);
+            }
+
+            if (localName.Equals(TagNames.Mtext, StringComparison.OrdinalIgnoreCase))
+            {
+                return new MathTextElement(document, prefix);
+            }
+
+            if (localName.Equals(TagNames.AnnotationXml, StringComparison.OrdinalIgnoreCase))
+            {
+                return new MathAnnotationXmlElement(document, prefix);
+            }
+
+            return new MathElement(document, localName, prefix, flags);
         }
     }
 }
