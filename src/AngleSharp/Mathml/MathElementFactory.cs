@@ -19,37 +19,18 @@ namespace AngleSharp.Mathml
         /// <returns>The specialized MathMLElement instance.</returns>
         public MathElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
-            if (localName.Equals(TagNames.Mn, StringComparison.OrdinalIgnoreCase))
+            // NOTE: When adding cases where the constant in TagNames is mixed-case, make sure to add a mixed-case pattern matching case, e.g.:
+            // var tagName when tagName.Equals(TagNames._MixedCaseConstant, StringComparison.OrdinalIgnoreCase) => ...
+            return localName.ToLowerInvariant() switch
             {
-                return new MathNumberElement(document, prefix);
-            }
-
-            if (localName.Equals(TagNames.Mo, StringComparison.OrdinalIgnoreCase))
-            {
-                return new MathOperatorElement(document, prefix);
-            }
-
-            if (localName.Equals(TagNames.Mi, StringComparison.OrdinalIgnoreCase))
-            {
-                return new MathIdentifierElement(document, prefix);
-            }
-
-            if (localName.Equals(TagNames.Ms, StringComparison.OrdinalIgnoreCase))
-            {
-                return new MathStringElement(document, prefix);
-            }
-
-            if (localName.Equals(TagNames.Mtext, StringComparison.OrdinalIgnoreCase))
-            {
-                return new MathTextElement(document, prefix);
-            }
-
-            if (localName.Equals(TagNames.AnnotationXml, StringComparison.OrdinalIgnoreCase))
-            {
-                return new MathAnnotationXmlElement(document, prefix);
-            }
-
-            return new MathElement(document, localName, prefix, flags);
+                TagNames._Mn => new MathNumberElement(document, prefix),
+                TagNames._Mo => new MathOperatorElement(document, prefix),
+                TagNames._Mi => new MathIdentifierElement(document, prefix),
+                TagNames._Ms => new MathStringElement(document, prefix),
+                TagNames._Mtext => new MathTextElement(document, prefix),
+                TagNames._AnnotationXml => new MathAnnotationXmlElement(document, prefix),
+                _ => new MathElement(document, localName, prefix, flags)
+            };
         }
     }
 }

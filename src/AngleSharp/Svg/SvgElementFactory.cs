@@ -19,32 +19,17 @@ namespace AngleSharp.Svg
         /// <returns>The specialized SVGElement instance.</returns>
         public SvgElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
-            if (localName.Equals(TagNames.Svg, StringComparison.OrdinalIgnoreCase))
+            // NOTE: When adding cases where the constant in TagNames is mixed-case, make sure to add a mixed-case pattern matching case, e.g.:
+            // var tagName when tagName.Equals(TagNames._MixedCaseConstant, StringComparison.OrdinalIgnoreCase) => ...
+            return localName.ToLowerInvariant() switch
             {
-                return new SvgSvgElement(document, prefix);
-            }
-
-            if (localName.Equals(TagNames.Circle, StringComparison.OrdinalIgnoreCase))
-            {
-                return new SvgCircleElement(document, prefix);
-            }
-
-            if (localName.Equals(TagNames.Desc, StringComparison.OrdinalIgnoreCase))
-            {
-                return new SvgDescElement(document, prefix);
-            }
-
-            if (localName.Equals(TagNames.ForeignObject, StringComparison.OrdinalIgnoreCase))
-            {
-                return new SvgForeignObjectElement(document, prefix);
-            }
-
-            if (localName.Equals(TagNames.Title, StringComparison.OrdinalIgnoreCase))
-            {
-                return new SvgTitleElement(document, prefix);
-            }
-
-            return new SvgElement(document, localName, prefix, flags);
+                TagNames._Svg => new SvgSvgElement(document, prefix),
+                TagNames._Circle => new SvgCircleElement(document, prefix),
+                TagNames._Desc => new SvgDescElement(document, prefix),
+                TagNames._Title => new SvgTitleElement(document, prefix),
+                var tagName when tagName.Equals(TagNames._ForeignObject, StringComparison.OrdinalIgnoreCase) => new SvgForeignObjectElement(document, prefix),
+                _ => new SvgElement(document, localName, prefix, flags)
+            };
         }
     }
 }
