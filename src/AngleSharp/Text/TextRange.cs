@@ -139,14 +139,12 @@ namespace AngleSharp.Text
             {
                 return 1;
             }
-            else if (other > this)
+
+            if (other > this)
             {
                 return -1;
             }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
 
         #endregion
