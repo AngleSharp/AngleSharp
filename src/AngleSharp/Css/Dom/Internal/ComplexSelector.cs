@@ -133,11 +133,12 @@ namespace AngleSharp.Css.Dom
 
         private Boolean MatchCascade(Int32 pos, IElement element, IElement? scope)
         {
-            var newElements = _combinators[pos].Transform!(element);
+            var combinatorSelector = _combinators[pos];
+            var newElements = combinatorSelector.Transform!(element);
 
             foreach (var newElement in newElements)
             {
-                if (_combinators[pos].Selector.Match(newElement, scope) && (pos == 0 || MatchCascade(pos - 1, newElement, scope)))
+                if (combinatorSelector.Selector.Match(newElement, scope) && (pos == 0 || MatchCascade(pos - 1, newElement, scope)))
                 {
                     return true;
                 }

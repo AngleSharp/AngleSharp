@@ -1,11 +1,14 @@
 using System.Collections.Generic;
-using System.Text;
 using AngleSharp.Html.Parser;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
+
+#if NETFRAMEWORK
 using CsQuery;
 using CsQuery.ExtensionMethods.Internal;
 using CsQuery.HtmlParser;
+#endif
+
 using HtmlAgilityPack;
 
 namespace AngleSharp.Benchmarks
@@ -20,7 +23,7 @@ namespace AngleSharp.Benchmarks
             var websites = new UrlTests(
                 ".html",
                 true);
-            
+
             websites.Include(
                 "http://www.amazon.com",
                 "http://www.blogspot.com",
@@ -78,14 +81,16 @@ namespace AngleSharp.Benchmarks
 
         [ParamsSource(nameof(GetSources))] public UrlTest UrlTest { get; set; }
 
+#if NETFRAMEWORK
         [Benchmark]
         public void CsQuery()
         {
             var factory = new ElementFactory(DomIndexProviders.Simple);
 
             using var stream = UrlTest.Source.ToStream();
-            factory.Parse(stream, Encoding.UTF8);
+            factory.Parse(stream, System.Text.Encoding.UTF8);
         }
+#endif
 
         [Benchmark]
         public void HTMLAgilityPack()
