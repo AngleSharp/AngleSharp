@@ -60,7 +60,13 @@
         /// <summary>
         /// The " " combinator.
         /// </summary>
+        [Obsolete("Use CombinatorSymbols.Descendant")]
         public static readonly String Descendent = " ";
+
+        /// <summary>
+        /// The " " combinator.
+        /// </summary>
+        public static readonly String Descendant = " ";
 
         /// <summary>
         /// The ">>>" combinator.

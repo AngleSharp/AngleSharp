@@ -119,7 +119,7 @@ namespace AngleSharp.Css.Parser
         {
             public DescendantCombinator()
             {
-                Delimiter = CombinatorSymbols.Descendent;
+                Delimiter = CombinatorSymbols.Descendant;
                 Transform = el =>
                 {
                     var parents = new List<IElement>();
