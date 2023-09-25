@@ -289,7 +289,7 @@ namespace AngleSharp.Dom
             {
                 if (elements[i] is IElement element)
                 {
-                    foreach (var descendantAndSelf in element.DescendentsAndSelf<IElement>())
+                    foreach (var descendantAndSelf in element.DescendantsAndSelf<IElement>())
                     {
                         if (selector.Match(descendantAndSelf))
                         {

@@ -196,7 +196,7 @@ namespace AngleSharp.Dom
             }
             set
             {
-                foreach (var descendantAndSelf in this.DescendentsAndSelf<Node>())
+                foreach (var descendantAndSelf in this.DescendantsAndSelf<Node>())
                 {
                     var oldDocument = descendantAndSelf.Owner;
 
