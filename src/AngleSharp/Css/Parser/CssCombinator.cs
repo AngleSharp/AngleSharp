@@ -26,7 +26,7 @@ namespace AngleSharp.Css.Parser
         /// <summary>
         /// The descendant operator (space, or alternatively >>).
         /// </summary>
-        public static readonly CssCombinator Descendent = new DescendantCombinator();
+        public static readonly CssCombinator Descendant = new DescendantCombinator();
 
         /// <summary>
         /// The adjacent sibling combinator +.

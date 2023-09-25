@@ -17,7 +17,7 @@ namespace AngleSharp.Css.Parser
     sealed class CssSelectorConstructor
     {
         #region Fields
-        
+
         private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<CssSelectorConstructor, FunctionState>>(StringComparer.OrdinalIgnoreCase)
         {
             { PseudoClassNames.NthChild, ctx => new ChildFunctionState((step, offset, kind) => new FirstChildSelector(step, offset, kind), ctx, withOptionalSelector: true) },
@@ -36,13 +36,13 @@ namespace AngleSharp.Css.Parser
             { PseudoClassNames.Where, ctx => new WhereFunctionState(ctx) },
             { PseudoClassNames.HostContext, ctx => new HostContextFunctionState(ctx) },
         };
-        
+
         private readonly CssTokenizer _tokenizer;
         private readonly Stack<CssCombinator> _combinators;
         private readonly IAttributeSelectorFactory _attributeSelector;
         private readonly IPseudoElementSelectorFactory _pseudoElementSelector;
         private readonly IPseudoClassSelectorFactory _pseudoClassSelector;
-        
+
         private State _state;
         private ISelector? _temp;
         private ListSelector? _group;
@@ -57,9 +57,9 @@ namespace AngleSharp.Css.Parser
         private Boolean _ready;
         private FunctionState? _function;
         private Boolean _invoked;
-        
+
         #endregion
-        
+
         #region ctor
 
         public CssSelectorConstructor(CssTokenizer tokenizer, IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector, Boolean invoked = false)
@@ -214,7 +214,7 @@ namespace AngleSharp.Css.Parser
 
                 //Whitespace could be significant
                 case CssTokenType.Whitespace:
-                    Insert(CssCombinator.Descendent);
+                    Insert(CssCombinator.Descendant);
                     break;
 
                 //Various
@@ -233,7 +233,7 @@ namespace AngleSharp.Css.Parser
                     break;
 
                 case CssTokenType.Descendent:
-                    Insert(CssCombinator.Descendent);
+                    Insert(CssCombinator.Descendant);
                     _ready = false;
                     break;
 
@@ -464,7 +464,7 @@ namespace AngleSharp.Css.Parser
         private CssCombinator GetCombinator()
         {
             //Remove all trailing whitespaces
-            while (_combinators.Count > 1 && _combinators.Peek() == CssCombinator.Descendent)
+            while (_combinators.Count > 1 && _combinators.Peek() == CssCombinator.Descendant)
             {
                 _combinators.Pop();
             }
@@ -476,7 +476,7 @@ namespace AngleSharp.Css.Parser
                 //Remove all leading whitespaces, invalid if mixed
                 while (_combinators.Count > 0)
                 {
-                    _valid = _combinators.Pop() == CssCombinator.Descendent && _valid;
+                    _valid = _combinators.Pop() == CssCombinator.Descendant && _valid;
                 }
 
                 return last;
@@ -521,7 +521,7 @@ namespace AngleSharp.Css.Parser
                     break;
 
                 case Symbols.Pipe:
-                    if (_combinators.Count > 0 && _combinators.Peek() == CssCombinator.Descendent)
+                    if (_combinators.Count > 0 && _combinators.Peek() == CssCombinator.Descendant)
                     {
                         Insert(new TypeSelector(String.Empty));
                     }
