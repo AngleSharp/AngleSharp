@@ -40,7 +40,7 @@
         /// <summary>
         /// The descendant ( >> ) token.
         /// </summary>
-        Descendent,
+        Descendant,
         /// <summary>
         /// The deep ( >>> ) token.
         /// </summary>

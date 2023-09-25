@@ -232,7 +232,7 @@ namespace AngleSharp.Css.Parser
                     _ready = false;
                     break;
 
-                case CssTokenType.Descendent:
+                case CssTokenType.Descendant:
                     Insert(CssCombinator.Descendant);
                     _ready = false;
                     break;
