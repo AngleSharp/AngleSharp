@@ -112,7 +112,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void ConnectMutationObserverMultipleAttributesDescendentTriggerManually()
+        public void ConnectMutationObserverMultipleAttributesDescendantTriggerManually()
         {
             var called1 = false;
             var called2 = false;
@@ -153,7 +153,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void ConnectMutationObserverTextWithDescendentsAndClearOldValueTriggerManually()
+        public void ConnectMutationObserverTextWithDescendantsAndClearOldValueTriggerManually()
         {
             var called = false;
             var text = "something";
@@ -180,7 +180,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void ConnectMutationObserverTextWithDescendentsAndExaminingOldValueTriggerManually()
+        public void ConnectMutationObserverTextWithDescendantsAndExaminingOldValueTriggerManually()
         {
             var called = false;
             var text = "something";
@@ -207,7 +207,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void ConnectMutationObserverTextNoDescendentsTriggerManually()
+        public void ConnectMutationObserverTextNoDescendantsTriggerManually()
         {
             var called = false;
             var text = "something";
@@ -230,7 +230,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void ConnectMutationObserverTextNoDescendentsButCreatedTriggerManually()
+        public void ConnectMutationObserverTextNoDescendantsButCreatedTriggerManually()
         {
             var called = false;
             var text = "something";

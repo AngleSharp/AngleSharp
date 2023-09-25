@@ -73,9 +73,9 @@ namespace AngleSharp.Css.Dom
                     filter: static (node, state) => node is IElement e && state.Selector.Match(e, state.Scope),
                     state: new SelectorState(selector, scope));
 
-                foreach (var descendentAndSelf in nodes)
+                foreach (var descendantAndSelf in nodes)
                 {
-                    result.Add((IElement) descendentAndSelf);
+                    result.Add((IElement) descendantAndSelf);
                 }
             }
         }

@@ -11,13 +11,13 @@ namespace AngleSharp.Dom
     public static class CollectionExtensions
     {
         /// <summary>
-        /// Gets the descendents from the provided parent that fulfill the
+        /// Gets the descendants from the provided parent that fulfill the
         /// specified predicate, if any.
         /// </summary>
         /// <typeparam name="T">The type of elements to obtain.</typeparam>
-        /// <param name="parent">The parent of the descendents.</param>
+        /// <param name="parent">The parent of the descendants.</param>
         /// <param name="deep">
-        /// True if all descendents, false if only direct descendents should be
+        /// True if all descendants, false if only direct descendants should be
         /// considered.
         /// </param>
         /// <param name="predicate">The filter function, if any.</param>

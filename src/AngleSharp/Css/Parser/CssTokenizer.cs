@@ -105,7 +105,7 @@ namespace AngleSharp.Css.Parser
                             return new CssSelectorToken(CssTokenType.Deep, ">>>");
                         }
 
-                        return new CssSelectorToken(CssTokenType.Descendent, ">>");
+                        return new CssSelectorToken(CssTokenType.Descendant, ">>");
                     }
 
                     return NewDelimiter(Symbols.GreaterThan);

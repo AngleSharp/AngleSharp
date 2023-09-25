@@ -165,7 +165,7 @@ namespace AngleSharp.Dom
         /// Checks if the parent is an ancestor of the given node.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
-        /// <param name="node">The node to check for being descendent.</param>
+        /// <param name="node">The node to check for being descendant.</param>
         /// <returns>
         /// True if the given parent is actually an ancestor of the node.
         /// </returns>
@@ -205,7 +205,7 @@ namespace AngleSharp.Dom
         /// Checks if the parent is an inclusive ancestor of the given node.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
-        /// <param name="node">The node to check for being descendent.</param>
+        /// <param name="node">The node to check for being descendant.</param>
         /// <returns>
         /// True if the given parent is actually an inclusive ancestor of the
         /// provided node.
@@ -366,7 +366,7 @@ namespace AngleSharp.Dom
         /// any) has such a relationship.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
-        /// <param name="node">The node to check for being descendent.</param>
+        /// <param name="node">The node to check for being descendant.</param>
         /// <returns>
         /// True if the given parent is actually an inclusive ancestor
         /// (including the host) of the provided node.

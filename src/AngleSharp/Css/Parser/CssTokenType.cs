@@ -38,9 +38,9 @@
         /// </summary>
         Column,
         /// <summary>
-        /// The descendent ( >> ) token.
+        /// The descendant ( >> ) token.
         /// </summary>
-        Descendent,
+        Descendant,
         /// <summary>
         /// The deep ( >>> ) token.
         /// </summary>
