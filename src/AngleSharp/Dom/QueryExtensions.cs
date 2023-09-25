@@ -289,11 +289,11 @@ namespace AngleSharp.Dom
             {
                 if (elements[i] is IElement element)
                 {
-                    foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
+                    foreach (var descendantAndSelf in element.DescendentsAndSelf<IElement>())
                     {
-                        if (selector.Match(descendentAndSelf))
+                        if (selector.Match(descendantAndSelf))
                         {
-                            result.Add(descendentAndSelf);
+                            result.Add(descendantAndSelf);
                         }
                     }
                 }
