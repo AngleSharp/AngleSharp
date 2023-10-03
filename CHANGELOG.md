@@ -8,6 +8,7 @@
  - Improved query selector all performance (#584, #1134) @lahma
  - Fixed issue with foreign content using end tags
  - Fixed typo `descendants` (#1136) @SimonCropp
+ - Added a way to resolve symbols by their name to `HtmlEntityProvider` (#396)
 
 # 1.0.4
 

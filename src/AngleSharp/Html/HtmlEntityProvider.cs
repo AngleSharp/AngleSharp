@@ -7,7 +7,7 @@ namespace AngleSharp.Html
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
-    public sealed class HtmlEntityProvider : IEntityProvider
+    public sealed class HtmlEntityProvider : IEntityProvider, IReverseEntityProvider
     {
         #region Fields
 
@@ -17,10 +17,17 @@ namespace AngleSharp.Html
 
         #region Instance
 
+        private static readonly HtmlEntityProvider Instance = new ();
+
         /// <summary>
         /// Gets the instance to resolve entities.
         /// </summary>
-        public static readonly IEntityProvider Resolver = new HtmlEntityProvider();
+        public static readonly IEntityProvider Resolver = Instance;
+
+        /// <summary>
+        /// Gets the instance to reverse resolve entities.
+        /// </summary>
+        public static IReverseEntityProvider ReverseResolver => Instance;
 
         #endregion
 
@@ -2540,14 +2547,35 @@ namespace AngleSharp.Html
         /// <returns>The string with the symbol or null.</returns>
         public String? GetSymbol(String name)
         {
-            var symbol = default(String);
-
-            if (!String.IsNullOrEmpty(name) && _entities.TryGetValue(name[0], out var symbols))
+            if (!String.IsNullOrEmpty(name) && _entities.TryGetValue(name[0], out var symbols) && symbols.TryGetValue(name, out var symbol))
             {
-                symbols.TryGetValue(name, out symbol);
+                return symbol;
             }
 
-            return symbol;
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the name of a symbol specified by its value. In case of
+        /// ambiguity the first name (alphabetically ordered) will be
+        /// returned.
+        /// </summary>
+        /// <param name="symbol">The symbol's value.</param>
+        /// <returns>The name of the symbol or null.</returns>
+        public String? GetName(String symbol)
+        {
+            foreach (var entityMap in _entities)
+            {
+                foreach (var entity in entityMap.Value)
+                {
+                    if (entity.Value == symbol)
+                    {
+                        return entity.Key;
+                    }
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
