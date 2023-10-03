@@ -3276,7 +3276,7 @@ namespace AngleSharp.Html.Parser
             else
             {
                 RaiseErrorOccurred(HtmlParseError.ParagraphNotInScope, token);
-                InBody(HtmlTagToken.Open(TagNames.P));
+                Consume(HtmlTagToken.Open(TagNames.P));
                 InBodyEndTagParagraph(token);
                 return false;
             }

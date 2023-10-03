@@ -3393,5 +3393,12 @@ namespace AngleSharp.Core.Tests.Html
                 Assert.Fail("The parsing resulted in a stackoverflow.");
             }
         }
+
+        [Test]
+        public void ClosingElementClosesForeignElement()
+        {
+            var document = "<svg></p>".ToHtmlDocument();
+            Assert.AreEqual("<body><svg></svg><p></p></body>", document.Body.ToHtml());
+        }
     }
 }

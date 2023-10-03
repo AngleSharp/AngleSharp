@@ -748,5 +748,15 @@ namespace AngleSharp.Core.Tests.Html
             Assert.NotNull(attr.OwnerElement);
             Assert.AreSame(div, attr.OwnerElement);
         }
+
+        [Test]
+        public void SettingInnerHtmlOnNoScript_ShouldWork()
+        {
+            var document = "<body><noscript>Hi</noscript></body>".ToHtmlDocument();
+            var ns = document.QuerySelector("noscript");
+            ns.InnerHtml = "Hello World";
+
+            Assert.AreEqual("<body><noscript>Hello World</noscript></body>", document.Body.ToHtml());
+        }
     }
 }
