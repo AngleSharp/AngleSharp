@@ -23,7 +23,7 @@ More information can be found at:
 
 ## Provide Various Uri Implementations
 
-An URI parser has been included within AngleSharp. This parser is nearly finished, but it does not do unicode normalization for the host part. This would be too heavy and should usually be provided by the .NET-Framework, however, for our PCL target it is not.
+A URI parser has been included within AngleSharp. This parser is nearly finished, but it does not do unicode normalization for the host part. This would be too heavy and should usually be provided by the .NET-Framework, however, for our PCL target it is not.
 
 *Status*: Implemented, tests available.
 
@@ -36,9 +36,9 @@ More information can be found at:
 
 ## PseudoElement Integration
 
-CSS provides several extensions to the DOM described in the HTML standard. One of these extensions is the integration of so-called pseudo elements. These elements do not really exist in the DOM, however, they can be queried and they are also part of the visual tree.
+CSS provides several extensions to the DOM described in the HTML standard. One of these extensions is the integration of so-called pseudo-elements. These elements do not really exist in the DOM, however, they can be queried, and they are also part of the visual tree.
 
-A pseudo element is not like a real element, and it only implements a special IDL, which will be called `IPseudoElement` in AngleSharp. Most importantly this interface implies the implementation of the `IGetStyleUtils` interface. So, even though a pseudo element is not a real element, it has the most important properties, which are required for being part of the drawing process.
+A pseudo-element is not like a real element, and it only implements a special IDL, which will be called `IPseudoElement` in AngleSharp. Most importantly, this interface implies the implementation of the `IGetStyleUtils` interface. So, even though a pseudo-element is not a real element, it has the most important properties, which are required for being part of the drawing process.
 
 *Status*: Minimal implementation provided. No tests yet.
 
@@ -73,7 +73,7 @@ Consider the following example:
 public event EventListener Aborted;
 ```
 
-This is an implicit event handler. The C# compiler will create a backing delegate field, which will be initialized to `null`. The add += and remove parts -= will be used when these operators are applied on the `Aborted` field.
+This is an implicit event handler. The C# compiler will create a backing delegate field, which will be initialized to `null`. The `add` (`+=`) and `remove` parts (`-=`) will be used when these operators are applied on the `Aborted` field.
 
 A transformation resulted in the following code:
 
@@ -85,7 +85,7 @@ public event EventListener Aborted
 }
 ```
 
-Here the backing field is no longer generated. We explicitely define the add and remove methods, which will just call the `AddEventListener` / `RemoveEventListener` methods. The name of the event can be found at the MDN event reference. Usually it is the official DOM name, e.g., *onabort*, without the *on*-prefix.
+Here the backing field is no longer generated. We explicitly define the `add` and `remove` methods, which will just call the `AddEventListener` / `RemoveEventListener` methods. The name of the event can be found at the MDN event reference. Usually it is the official DOM name, e.g., *onabort*, without the *on*-prefix.
 
 This will be added to the `EventNames` class as a readonly static field:
 
@@ -104,9 +104,9 @@ More information can be found at:
 
 ## Rework Core DOM Algorithms
 
-The core DOM algorithms have been implemented using MDN and W3C documentation. Nevertheless, it has been obvious, that some of these inner workings do not work as expected in edge cases. Therefore the WHATWG documentation will be considered, as it provides more detailed information with more related information.
+The core DOM algorithms have been implemented using MDN and W3C documentation. Nevertheless, it has been obvious that some of these inner workings do not work as expected in edge cases. Therefore, the WHATWG documentation will be considered, as it provides more detailed information with more related information.
 
-As a side-effect the API will also be adapted partially. In the end this will not only be benifical from a standard compliance perspective, but also for users. Edge cases have to work not only within the HTML5 parser, but also during DOM interaction.
+As a side effect, the API will also be adapted partially. In the end this will not only be beneficial from a standard compliance perspective, but also for users. Edge cases have to work not only within the HTML5 parser, but also during DOM interaction.
 
 *Status*: Implemented, some tests available.
 
@@ -116,11 +116,11 @@ More information can be found at:
 
 ## Browsing Context
 
-Right now AngleSharp tries to be purely focused on doing a great job in parsing HTML (and CSS), however, at a later stage one might want to build more on top of this library. Therefore (and to be fully W3C conform), the ability to register / create / open a real browsing context is required.
+Right now AngleSharp tries to be purely focused on doing a great job in parsing HTML (and CSS), however, at a later stage one might want to build more on top of this library. Therefore, (and to be fully W3C conform), the ability to register / create / open a real browsing context is required.
 
 A browsing context connects various parts. It contains a list with the (previous) documents and knows what document is currently viewed. It provides the `IWindowProxy` implementation, which forwards every call to the `IWindow` object of the currently active document.
 
-Currently the specification is evaluated and a proper interface is planned. AngleSharp provides a very simple default implementation, which basically just holds the configuration to use.
+Currently, the specification is evaluated and a proper interface is planned. AngleSharp provides a straightforward default implementation, which basically just holds the configuration to use.
 
 *Status*: Minimal implementation provided. No tests yet.
 
@@ -133,7 +133,7 @@ More information can be found at:
 
 The HTML API has been completely reworked. Some of these principles have also been applied for CSS. Since there is nothing available in the official specification, it is hard to provide an API that does not conflict with the official one. Nevertheless, to make AngleSharp effective and useful for working with CSS, an object-oriented API is required.
 
-Using just strings is useful in JavaScript, but not in a language like C# (or F#, VB, ...). We require the compiler to check rules, detect errors and help us by telling the IDE what methods and properties are available. Therefore a non-standard object-oriented API has been implemented, which sits directly on top of the CSSOM that is being used.
+Using just strings is useful in JavaScript, but not in a language like C# (or F#, VB, ...). We require the compiler to check rules, detect errors and help us by telling the IDE what methods and properties are available. Therefore, a non-standard object-oriented API has been implemented, which sits directly on top of the CSSOM that is being used.
 
 *Status*: Implemented, tests available.
 
@@ -147,7 +147,7 @@ The Interface Definition Language (IDL) is used for describing the interfaces ac
 
 There are more such attributes, which reveal more sophisticated properties of a member. An example would be if the method should actually be treated like an index getter or setter (or both). Maybe setting a property should be redirected to a property of the property. There are many specified actions, that are described in the official IDL language. Some of these are easy to deduce by using reflection, some might require the help of a custom attribute.
 
-This work package deals with finding important IDL constructs. Then a proper way of dealing with them (e.g., decoration with a custom attribute) has to be found. Finally the existing interfaces need to investigated / extended, depending on what has been decided in the second step.
+This work package deals with finding important IDL constructs. Then a proper way of dealing with them (e.g., decoration with a custom attribute) has to be found. Finally, the existing interfaces need to be investigated / extended, depending on what has been decided in the second step.
 
 *Status*: Most important ones implemented, more to come upon request / requirement.
 
@@ -161,7 +161,7 @@ The central node of a document is certainly the `IDocument` object itself. It is
 
 Right now the `IDocument` interface is nearly complete and even includes some properties / methods that seem exotic at first. While some of these members do not contribute much (at least at the moment), others are certainly more interesting, especially in conjunction with scripting. One example is the `currentScript` property, which represents the currently executed `IHtmlScriptElement`.
 
-Also the command API is implemented and can be connected via an available extension. All in all, the `IDocument` interface and its implemention (`Document`) can be said to be completely finished.
+Also, the command API is implemented and can be connected via an available extension. All in all, the `IDocument` interface and its implementation (`Document`) can be said to be completely finished.
 
 *Status*: Implemented, some tests available.
 
@@ -179,7 +179,7 @@ More information can be found at:
 
 Asynchronous parsing is quite important. Even though standard (even large) processing may only take a few milliseconds, AngleSharp will also be used with sources that are (network) streams. There are two possible strategies: The first is to download everything before (asynchronous, and is an array of bytes), while the second is to continuously download data while processing the document. The latter has the advantage that even though the document may be long and the transfer may be broken at some point, at least parts of the document are already available.
 
-The other advantage of the second approach is the possibility of starting other downloads, while the original one is still is progress. So instead of having one download after another, we have multiple downloads at once, which uses the available bandwidth even better.
+The other advantage of the second approach is the possibility of starting other downloads, while the original one is still in progress. So instead of having one download after another, we have multiple downloads at once, which uses the available bandwidth even better.
 
 AngleSharp will therefore try to implement the second approach. The `TextSource` class can already handle (network) streams well - and does use the "natively" provided asynchronous callback possibilities. Nevertheless, the `ParseAsync` method only relies on the synchronous one, wrapping it in another `Task` (which is just another `Thread` in this scenario).
 
@@ -195,7 +195,7 @@ The picture element is the solution to responsive images and their problems. Ima
 
 However, if we want a more fine-grained solution than provided by the new `img`-attributes, then we should look at the `picture`-element. The element has been implemented in the `HtmlPictureElement` class, however, nothing has yet been included. A solution that might work just fine is to port the polyfill to the element. That solution would be a great start and could then be adjusted, if necessary.
 
-*Status*: Element available, `srcset` attribute and `source` children are taken into account. Currently no device validation possible (part of CSS improvements for v1.0). Hence quasi static.
+*Status*: Element available, `srcset` attribute and `source` children are taken into account. Currently, no device validation possible (part of CSS improvements for v1.0). Hence quasi static.
 
 More information can be found at:
 
@@ -222,7 +222,7 @@ More information can be found at:
 
 ## Include Touch Events
 
-There are several events in the DOM. Even though, some of these events are just plain notifications, others may transport custom data. In this group we find classics such as keyboard or mouse events. The W3C also created special touch events, which carry touch data in form of a list of touch points.
+There are several events in the DOM. Even though, some of these events are just plain notifications; others may transport custom data. In this group we find classics such as keyboard or mouse events. The W3C also created special touch events, which carry touch data in the form of a list of touch points.
 
 The purpose of this task is to supply all required interface, implementations and extension points to allow the creation and handling of touch events. This will extend the `IDocument`, `IElement` and other existing interfaces. This will also create new interfaces such as `ITouchEvent` or `ITouchList`.
 

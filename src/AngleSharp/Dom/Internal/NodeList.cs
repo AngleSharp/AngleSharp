@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a list of Node instances or nodes.
@@ -12,7 +13,7 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private readonly List<Node> _entries;
+        internal readonly List<Node> _entries;
 
         /// <summary>
         /// Gets an empty node-list. Shouldn't be modified.
@@ -34,17 +35,27 @@ namespace AngleSharp.Dom
 
         public Node this[Int32 index]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => _entries[index];
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set => _entries[index] = value;
         }
 
-        INode INodeList.this[Int32 index] => this[index];
+        INode INodeList.this[Int32 index]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this[index];
+        }
 
         #endregion
 
         #region Properties
 
-        public Int32 Length => _entries.Count;
+        public Int32 Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _entries.Count;
+        }
 
         #endregion
 
@@ -85,5 +96,58 @@ namespace AngleSharp.Dom
         IEnumerator IEnumerable.GetEnumerator() => _entries.GetEnumerator();
 
         #endregion
+    }
+
+    /// <summary>
+    /// Helper interface which can remove interface dispatch overhead when used in combination with generic methods.
+    /// </summary>
+    internal interface INodeListAccessor
+    {
+        Int32 Length { get; }
+        INode this[Int32 index] { get; }
+    }
+
+    internal readonly struct ConcreteNodeListAccessor : INodeListAccessor
+    {
+        private readonly List<Node> _nodeList;
+
+        public ConcreteNodeListAccessor(NodeList nodeList)
+        {
+            _nodeList = nodeList._entries;
+        }
+
+        public Int32 Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _nodeList.Count;
+        }
+
+        public INode this[Int32 index]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _nodeList[index];
+        }
+    }
+
+    internal readonly struct InterfaceNodeListAccessor : INodeListAccessor
+    {
+        private readonly INodeList _nodeList;
+
+        public InterfaceNodeListAccessor(INodeList nodeList)
+        {
+            _nodeList = nodeList;
+        }
+
+        public Int32 Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _nodeList.Length;
+        }
+
+        public INode this[Int32 index]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _nodeList[index];
+        }
     }
 }

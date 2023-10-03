@@ -127,7 +127,7 @@ There is, unfortunately, nothing that you can do here - you will need to close t
 
 The only thing you can click with AngleSharp (Core, i.e., non-JS) is everything that has an anchor (the link will be followed), such as `a`, or submit (e.g., `button`) buttons where the form will be submitted. If, e.g., we have a `div` that has a click handler defined in JS nothing would come out.
 
-## How can I perform a click on a div without an UI?
+## How can I perform a click on a div without a UI?
 
 Let's first visit again what can be done with AngleSharp:
 
@@ -140,7 +140,7 @@ Here trivial means: Scripts that do not need any capabilities beyond what AngleS
 
 The problem is that in order to "click" a div on a page a script needs to be run. This script can now fall into the "trivial" category, however, most likely it is not. Now you have 2 options:
 
-- Try it out and maybe it works / great, otherwise ...
+- Try it out, and maybe it works / great, otherwise ...
 - See what the script is doing (obviously some HTTP request eventually ...) and do the same
 
 The latter can of course be re-implemented in C# / AngleSharp. So you can create an HTTP request, get the data and either do something on that data set directly (it may be JSON and already what you want ....) or (if it is serving partial HTML) re-parse it and integrate it on the real page.
@@ -401,7 +401,7 @@ The example shows how nodes can be created in the context of a certain element (
 
 ## Can I retrieve the positions of elements in the source code?
 
-By default AngleSharp will throw away the "tokens" that associate the element with a position in the source code. This is mostly done due to the required memory consumption. The tag tokens transport not only the position, but also some additional fields like the name, flags and other meta information, as well as attributes. These tokens, however, can be preserved.
+By default, AngleSharp will throw away the "tokens" that associate the element with a position in the source code. This is mostly done due to the required memory consumption. The tag tokens transport not only the position, but also some additional fields like the name, flags and other meta information, as well as attributes. These tokens, however, can be preserved.
 
 Currently, there are two ways to do this (both accessible via the `HtmlParserOptions`).
 
@@ -458,4 +458,4 @@ IDocument document = await context.OpenAsync(req => req.Content(myStream).Header
 
 The encoding decision in AngleSharp follows the same priority list as a browser does. Essentially, that means that the byte-order mark (BOM) always is considered the highest standard for it, but a header has higher precedence than a meta tag found in the source.
 
-In any case, there is also the complication of a "guess" vs a "confident" pick. So the BOM would still be checked as its standardized per W3C.
+In any case, there is also the complication of a "guess" vs a "confident" pick. So the BOM would still be checked as it's standardized per W3C.

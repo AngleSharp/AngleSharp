@@ -23,7 +23,18 @@ namespace AngleSharp.Dom
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
         /// <param name="scopeNode">The optional node to take as scope.</param>
         /// <returns>An element object.</returns>
-        public static IElement? QuerySelector(this INodeList nodes, String selectorText, INode? scopeNode = null)
+        public static IElement? QuerySelector(this INodeList nodes, String selectorText, INode? scopeNode = null) => QuerySelector<INodeList>(nodes, selectorText, scopeNode);
+
+        /// <summary>
+        /// Returns the first element within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the specified group of selectors.
+        /// Requires either a non-empty nodelist or a valid scope node.
+        /// </summary>
+        /// <param name="nodes">The nodes to take as source.</param>
+        /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="scopeNode">The optional node to take as scope.</param>
+        /// <returns>An element object.</returns>
+        public static IElement? QuerySelector<T>(this T nodes, String selectorText, INode? scopeNode = null) where T : class, INodeList
         {
             var scope = GetScope(scopeNode);
             var sg = CreateSelector(nodes, scope, selectorText);
@@ -45,7 +56,18 @@ namespace AngleSharp.Dom
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
         /// <param name="scopeNode">The optional node to take as scope.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList nodes, String selectorText, INode? scopeNode = null)
+        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList nodes, String selectorText, INode? scopeNode = null) => QuerySelectorAll<INodeList>(nodes, selectorText, scopeNode);
+
+        /// <summary>
+        /// Returns a list of the elements within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that match the specified group of selectors.
+        /// Requires either a non-empty nodelist or a valid scope node.
+        /// </summary>
+        /// <param name="nodes">The nodes to take as source.</param>
+        /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="scopeNode">The optional node to take as scope.</param>
+        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
+        public static IHtmlCollection<IElement> QuerySelectorAll<T>(this T nodes, String selectorText, INode? scopeNode = null) where T : class, INodeList
         {
             var scope = GetScope(scopeNode);
             var sg = CreateSelector(nodes, scope, selectorText);
@@ -64,7 +86,15 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        public static IHtmlCollection<IElement> GetElementsByClassName(this INodeList elements, String classNames)
+        public static IHtmlCollection<IElement> GetElementsByClassName(this INodeList elements, String classNames) => GetElementsByClassName<INodeList>(elements, classNames);
+
+        /// <summary>
+        /// Returns a set of elements which have all the given class names.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
+        /// <returns>A collection of HTML elements.</returns>
+        public static IHtmlCollection<IElement> GetElementsByClassName<T>(this T elements, String classNames) where T : class, INodeList
         {
             var result = new List<IElement>();
             var names = classNames.SplitSpaces();
@@ -83,7 +113,15 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String tagName)
+        public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String tagName) => GetElementsByTagName<INodeList>(elements, tagName);
+
+        /// <summary>
+        /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
+        /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
+        public static IHtmlCollection<IElement> GetElementsByTagName<T>(this T elements, String tagName) where T : class, INodeList
         {
             var result = new List<IElement>();
             elements.GetElementsByTagName(tagName is "*" ? null : tagName, result);
@@ -98,7 +136,17 @@ namespace AngleSharp.Dom
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String? namespaceUri, String localName)
+        public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String? namespaceUri, String localName) => GetElementsByTagName<INodeList>(elements, namespaceUri, localName);
+
+        /// <summary>
+        /// Returns a list of elements with the given tag name belonging to the given namespace.
+        /// The complete document is searched, including the root node.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
+        /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
+        /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
+        public static IHtmlCollection<IElement> GetElementsByTagName<T>(this T elements, String? namespaceUri, String localName) where T : class, INodeList
         {
             var result = new List<IElement>();
             elements.GetElementsByTagName(namespaceUri, localName is "*" ? null : localName, result);
@@ -116,8 +164,16 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A selector object.</param>
         /// <returns>An element object.</returns>
-        public static T? QuerySelector<T>(this INodeList elements, ISelector selectors)
-            where T : class, IElement
+        public static T? QuerySelector<T>(this INodeList elements, ISelector selectors) where T : class => QuerySelector<INodeList, T>(elements, selectors);
+
+        /// <summary>
+        /// Returns the first element within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the given selector.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="selectors">A selector object.</param>
+        /// <returns>An element object.</returns>
+        public static T? QuerySelector<TNodeList, T>(this TNodeList elements, ISelector selectors) where T : class where TNodeList: class, INodeList
         {
             return elements.QuerySelector(selectors) as T;
         }
@@ -156,13 +212,55 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Returns the first element within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the specified group of selectors.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="selector">A selector object.</param>
+        /// <returns>An element object.</returns>
+        public static IElement? QuerySelector<T>(this T elements, ISelector selector) where T : INodeList
+        {
+            for (var i = 0; i < elements.Length; i++)
+            {
+                if (elements[i] is IElement element)
+                {
+                    if (selector.Match(element))
+                    {
+                        return element;
+                    }
+
+                    if (element.HasChildNodes)
+                    {
+                        element = QuerySelector(element.ChildNodes, selector)!;
+
+                        if (element != null)
+                        {
+                            return element;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Returns a list of the elements within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the selector.
         /// </summary>
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList elements, ISelector selector)
+        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList elements, ISelector selector) => QuerySelectorAll<INodeList>(elements, selector);
+
+        /// <summary>
+        /// Returns a list of the elements within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the selector.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="selector">A selector object.</param>
+        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
+        public static IHtmlCollection<IElement> QuerySelectorAll<T>(this T elements, ISelector selector) where T : class, INodeList
         {
             var result = new List<IElement>();
             elements.QuerySelectorAll(selector, result);
@@ -176,17 +274,26 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void QuerySelectorAll(this INodeList elements, ISelector selector, List<IElement> result)
+        public static void QuerySelectorAll(this INodeList elements, ISelector selector, List<IElement> result) => QuerySelectorAll<INodeList>(elements, selector, result);
+
+        /// <summary>
+        /// Returns a list of the elements within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that match the specified group of selectors.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="selector">A selector object.</param>
+        /// <param name="result">A reference to the list where to store the results.</param>
+        public static void QuerySelectorAll<T>(this T elements, ISelector selector, List<IElement> result) where T : class, INodeList
         {
             for (var i = 0; i < elements.Length; i++)
             {
                 if (elements[i] is IElement element)
                 {
-                    foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
+                    foreach (var descendantAndSelf in element.DescendantsAndSelf<IElement>())
                     {
-                        if (selector.Match(descendentAndSelf))
+                        if (selector.Match(descendantAndSelf))
                         {
-                            result.Add(descendentAndSelf);
+                            result.Add(descendantAndSelf);
                         }
                     }
                 }
@@ -199,7 +306,15 @@ namespace AngleSharp.Dom
         /// <param name="list">The list that is considered.</param>
         /// <param name="tokens">The tokens to consider.</param>
         /// <returns>True if the string contained all tokens, otherwise false.</returns>
-        public static Boolean Contains(this ITokenList list, String[] tokens)
+        public static Boolean Contains(this ITokenList list, String[] tokens) => Contains<ITokenList>(list, tokens);
+
+        /// <summary>
+        /// Returns true if the underlying string contains all of the tokens, otherwise false.
+        /// </summary>
+        /// <param name="list">The list that is considered.</param>
+        /// <param name="tokens">The tokens to consider.</param>
+        /// <returns>True if the string contained all tokens, otherwise false.</returns>
+        public static Boolean Contains<T>(this T list, String[] tokens) where T : class, ITokenList
         {
             for (var i = 0; i < tokens.Length; i++)
             {
@@ -222,7 +337,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="classNames">An array with class names to consider.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        private static void GetElementsByClassName(this INodeList elements, String[] classNames, List<IElement> result)
+        private static void GetElementsByClassName<T>(this T elements, String[] classNames, List<IElement> result) where T : class, INodeList
         {
             for (var i = 0; i < elements.Length; i++)
             {
@@ -248,7 +363,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        private static void GetElementsByTagName(this INodeList elements, String? tagName, List<IElement> result)
+        private static void GetElementsByTagName<T>(this T elements, String? tagName, List<IElement> result) where T : class, INodeList
         {
             for (var i = 0; i < elements.Length; i++)
             {
@@ -275,7 +390,7 @@ namespace AngleSharp.Dom
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        private static void GetElementsByTagName(this INodeList elements, String? namespaceUri, String? localName, List<IElement> result)
+        private static void GetElementsByTagName<T>(this T elements, String? namespaceUri, String? localName, List<IElement> result)  where T : class, INodeList
         {
             for (var i = 0; i < elements.Length; i++)
             {
@@ -299,7 +414,7 @@ namespace AngleSharp.Dom
             (scopeNode as IDocument)?.DocumentElement ??
             (scopeNode as IShadowRoot)?.Host;
 
-        private static ISelector? CreateSelector(INodeList nodes, INode? scope, String selectorText)
+        private static ISelector? CreateSelector<T>(T nodes, INode? scope, String selectorText) where T : class, INodeList
         {
             var node = nodes.Length > 0 ? nodes[0] : scope;
             var sg = default(ISelector);

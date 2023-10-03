@@ -5,7 +5,10 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
+
+#if NETFRAMEWORK
 using CsQuery;
+#endif
 
 namespace AngleSharp.Benchmarks
 {
@@ -14,14 +17,19 @@ namespace AngleSharp.Benchmarks
     {
         private static readonly HtmlParser angleSharpParser = new HtmlParser();
         private IDocument angleSharpDocument;
+
+#if NETFRAMEWORK
         private CQ cqDocument;
+#endif
 
         [GlobalSetup]
         public void GlobalSetup()
         {
             var pageContent = File.ReadAllText("page.html");
             angleSharpDocument = angleSharpParser.ParseDocument(pageContent);
+#if NETFRAMEWORK
             cqDocument = CQ.CreateDocument(pageContent);
+#endif
         }
 
         [ParamsSource(nameof(GetSelectors))]
@@ -73,11 +81,13 @@ namespace AngleSharp.Benchmarks
             "div > p > a"
         };
 
+#if NETFRAMEWORK
         [Benchmark]
         public void CsQuery()
         {
             cqDocument.Select(Selector);
         }
+#endif
 
         [Benchmark]
         public void AngleSharp()

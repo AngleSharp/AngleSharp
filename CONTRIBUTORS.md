@@ -47,6 +47,9 @@ AngleSharp contains code written by (in order of first pull request / commit):
 * [Simon Cropp](https://github.com/SimonCropp)
 * [Bjørn Olav Ringstad ](https://github.com/bjornri)
 * [Martin Welsch](https://github.com/MartinWelsch)
+* [Matthias Koch](https://github.com/matkoch)
+* [Marko Lahma](https://github.com/lahma)
+* [Ivandro Jao](https://github.com/ivandrofly)
 
 Without these awesome people AngleSharp could not exist. Thanks to everyone for your contributions! :beers:
 

@@ -19,14 +19,19 @@ namespace AngleSharp.Css.Dom
         /// <returns>The resulting element or null.</returns>
         public static IElement? MatchAny(this ISelector selector, IEnumerable<IElement> elements, IElement? scope)
         {
+            var stack = new Stack<INode>();
             foreach (var element in elements)
             {
-                foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
+                stack.Clear();
+                var nodes = element.GetDescendantsAndSelf(
+                    stack,
+                    filter: static (node, state) => node is IElement e && state.Selector.Match(e, state.Scope),
+                    state: new SelectorState(selector, scope));
+
+                var enumerator = nodes.GetEnumerator();
+                if (enumerator.MoveNext())
                 {
-                    if (selector.Match(descendentAndSelf, scope))
-                    {
-                        return descendentAndSelf;
-                    }
+                    return (IElement?) enumerator.Current;
                 }
             }
 
@@ -59,15 +64,31 @@ namespace AngleSharp.Css.Dom
 
         private static void MatchAll(this ISelector selector, IEnumerable<IElement> elements, IElement? scope, List<IElement> result)
         {
+            var stack = new Stack<INode>();
             foreach (var element in elements)
             {
-                foreach (var descendentAndSelf in element.DescendentsAndSelf<IElement>())
+                stack.Clear();
+                var nodes = element.GetDescendantsAndSelf(
+                    stack,
+                    filter: static (node, state) => node is IElement e && state.Selector.Match(e, state.Scope),
+                    state: new SelectorState(selector, scope));
+
+                foreach (var descendantAndSelf in nodes)
                 {
-                    if (selector.Match(descendentAndSelf, scope))
-                    {
-                        result.Add(descendentAndSelf);
-                    }
+                    result.Add((IElement) descendantAndSelf);
                 }
+            }
+        }
+
+        private readonly struct SelectorState
+        {
+            public readonly ISelector Selector;
+            public readonly IElement? Scope;
+
+            public SelectorState(ISelector selector, IElement? scope)
+            {
+                Selector = selector;
+                Scope = scope;
             }
         }
     }

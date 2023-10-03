@@ -103,19 +103,49 @@ namespace AngleSharp.Dom
         /// <returns>An iterator over all descendants and itself.</returns>
         public static IEnumerable<INode> GetDescendantsAndSelf(this INode parent)
         {
-            var stack = new Stack<INode>();
+            return GetDescendantsAndSelf<Object?>(parent, new Stack<INode>(), null, null);
+        }
+
+        /// <summary>
+        /// Gets the descendant nodes and itself of the provided parent, in tree order.
+        /// </summary>
+        /// <param name="parent">The parent of the descendants.</param>
+        /// <param name="stack">Stack instance to be used (allows reuse).</param>
+        /// <param name="filter">Optional filter to run against items.</param>
+        /// <param name="state">Optional state to help with filtering.</param>
+        /// <returns>An iterator over all descendants and itself.</returns>
+        internal static IEnumerable<INode> GetDescendantsAndSelf<TState>(this INode parent, Stack<INode> stack, Func<INode, TState?, Boolean>? filter = null, TState? state = default)
+        {
             stack.Push(parent);
 
             while (stack.Count > 0)
             {
                 var next = stack.Pop();
-                yield return next;
 
-                var length = next.ChildNodes.Length;
-
-                while (length > 0)
+                if (filter == null || filter(next, state))
                 {
-                    stack.Push(next.ChildNodes[--length]);
+                    yield return next;
+                }
+
+                var childNodes = next.ChildNodes;
+
+                // we only have one implementation
+                if (childNodes is NodeList nodeList)
+                {
+                    var length = nodeList.Length;
+                    while (length > 0)
+                    {
+                        stack.Push(nodeList[--length]);
+                    }
+                }
+                else
+                {
+                    // unlikely virtual dispatch
+                    var length = childNodes.Length;
+                    while (length > 0)
+                    {
+                        stack.Push(childNodes[--length]);
+                    }
                 }
             }
         }
@@ -135,7 +165,7 @@ namespace AngleSharp.Dom
         /// Checks if the parent is an ancestor of the given node.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
-        /// <param name="node">The node to check for being descendent.</param>
+        /// <param name="node">The node to check for being descendant.</param>
         /// <returns>
         /// True if the given parent is actually an ancestor of the node.
         /// </returns>
@@ -175,7 +205,7 @@ namespace AngleSharp.Dom
         /// Checks if the parent is an inclusive ancestor of the given node.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
-        /// <param name="node">The node to check for being descendent.</param>
+        /// <param name="node">The node to check for being descendant.</param>
         /// <returns>
         /// True if the given parent is actually an inclusive ancestor of the
         /// provided node.
@@ -336,7 +366,7 @@ namespace AngleSharp.Dom
         /// any) has such a relationship.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
-        /// <param name="node">The node to check for being descendent.</param>
+        /// <param name="node">The node to check for being descendant.</param>
         /// <returns>
         /// True if the given parent is actually an inclusive ancestor
         /// (including the host) of the provided node.

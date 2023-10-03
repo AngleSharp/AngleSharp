@@ -20,20 +20,37 @@ namespace AngleSharp.Css.Dom
 
             if (parent != null)
             {
-                var n = Math.Sign(Step);
-                var k = 0;
-
-                for (var i = 0; i < parent.ChildNodes.Length; i++)
+                // remove interface dispatch overhead
+                if (parent.ChildNodes is NodeList nodeList)
                 {
-                    if (parent.ChildNodes[i] is IElement child && child.NodeName.Is(element.NodeName))
-                    {
-                        k += 1;
+                    return DoMatch(new ConcreteNodeListAccessor(nodeList), element);
+                }
 
-                        if (child == element)
-                        {
-                            var diff = k - Offset;
-                            return diff == 0 || (Math.Sign(diff) == n && diff % Step == 0);
-                        }
+                return DoMatch(new InterfaceNodeListAccessor(parent.ChildNodes), element);
+            }
+
+            return false;
+        }
+
+        private Boolean DoMatch<T>(T nodes, IElement element) where T : INodeListAccessor
+        {
+            var k = 0;
+            var step = Step;
+            var n = Math.Sign(step);
+            var offset = Offset;
+            var length = nodes.Length;
+            var nodeName = element.NodeName;
+
+            for (var i = 0; i < length; i++)
+            {
+                if (nodes[i] is IElement child && child.NodeName.Is(nodeName))
+                {
+                    k += 1;
+
+                    if (child == element)
+                    {
+                        var diff = k - offset;
+                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
                     }
                 }
             }

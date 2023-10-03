@@ -38,7 +38,7 @@
         }
 
         [Test]
-        public void HtmlDocumenTypeWithPublicIdentifier()
+        public void HtmlDocumentTypeWithPublicIdentifier()
         {
             var xhtmlType = "<!DOCTYPE html PUBLIC \"-//w3c//dtd xhtml 1.0\">";
 

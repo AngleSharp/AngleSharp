@@ -58,25 +58,7 @@ namespace AngleSharp.Text
         public static String ToPool(this StringBuilder sb)
         {
             var result = sb.ToString();
-
-            lock (_lock)
-            {
-                var current = _builder.Count;
-
-                if (sb.Capacity > _limit)
-                {
-                    // Drop large instances
-                }
-                else if (current == _count)
-                {
-                    DropMinimum(sb);
-                }
-                else if (current < Math.Min(2, _count) || _builder.Peek().Capacity < sb.Capacity)
-                {
-                    _builder.Push(sb);
-                }
-            }
-
+            ReturnToPool(sb);
             return result;
         }
 

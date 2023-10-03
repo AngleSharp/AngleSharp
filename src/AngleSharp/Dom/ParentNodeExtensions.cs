@@ -234,22 +234,45 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
-        /// Gets the descendent nodes of the given parent.
+        /// Gets the descendant nodes of the given parent.
         /// </summary>
         /// <typeparam name="TNode">The type of nodes to obtain.</typeparam>
         /// <param name="parent">The parent of the nodes to gather.</param>
-        /// <returns>The descendent nodes.</returns>
+        /// <returns>The descendant nodes.</returns>
+        [Obsolete("Use Descendants")]
         public static IEnumerable<TNode> Descendents<TNode>(this INode parent)
         {
-            return parent.Descendents().OfType<TNode>();
+            return parent.Descendants<TNode>();
         }
 
         /// <summary>
-        /// Gets the descendent nodes of the given parent.
+        /// Gets the descendant nodes of the given parent.
+        /// </summary>
+        /// <typeparam name="TNode">The type of nodes to obtain.</typeparam>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <returns>The descendant nodes.</returns>
+        public static IEnumerable<TNode> Descendants<TNode>(this INode parent)
+        {
+            return parent.Descendants().OfType<TNode>();
+        }
+
+        /// <summary>
+        /// Gets the descendant nodes of the given parent.
         /// </summary>
         /// <param name="parent">The parent of the nodes to gather.</param>
-        /// <returns>The descendent nodes.</returns>
+        /// <returns>The descendant nodes.</returns>
+        [Obsolete("Use Descendants")]
         public static IEnumerable<INode> Descendents(this INode parent)
+        {
+            return parent.Descendants();
+        }
+
+        /// <summary>
+        /// Gets the descendant nodes of the given parent.
+        /// </summary>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <returns>The descendant nodes.</returns>
+        public static IEnumerable<INode> Descendants(this INode parent)
         {
             if (parent is null)
             {
@@ -260,22 +283,45 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
-        /// Gets the descendent nodes including itself of the given parent.
+        /// Gets the descendant nodes including itself of the given parent.
         /// </summary>
         /// <typeparam name="TNode">The type of nodes to obtain.</typeparam>
         /// <param name="parent">The parent of the nodes to gather.</param>
-        /// <returns>The descendent nodes including itself.</returns>
+        /// <returns>The descendant nodes including itself.</returns>
+        [Obsolete("Use DescendantsAndSelf")]
         public static IEnumerable<TNode> DescendentsAndSelf<TNode>(this INode parent)
         {
-            return parent.DescendentsAndSelf().OfType<TNode>();
+            return parent.DescendantsAndSelf<TNode>();
         }
 
         /// <summary>
-        /// Gets the descendent nodes including itself of the given parent.
+        /// Gets the descendant nodes including itself of the given parent.
+        /// </summary>
+        /// <typeparam name="TNode">The type of nodes to obtain.</typeparam>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <returns>The descendant nodes including itself.</returns>
+        public static IEnumerable<TNode> DescendantsAndSelf<TNode>(this INode parent)
+        {
+            return parent.DescendantsAndSelf().OfType<TNode>();
+        }
+
+        /// <summary>
+        /// Gets the descendant nodes including itself of the given parent.
         /// </summary>
         /// <param name="parent">The parent of the nodes to gather.</param>
-        /// <returns>The descendent nodes including itself.</returns>
+        /// <returns>The descendant nodes including itself.</returns>
+        [Obsolete("Use DescendantsAndSelf")]
         public static IEnumerable<INode> DescendentsAndSelf(this INode parent)
+        {
+            return parent.DescendantsAndSelf();
+        }
+
+        /// <summary>
+        /// Gets the descendant nodes including itself of the given parent.
+        /// </summary>
+        /// <param name="parent">The parent of the nodes to gather.</param>
+        /// <returns>The descendant nodes including itself.</returns>
+        public static IEnumerable<INode> DescendantsAndSelf(this INode parent)
         {
             if (parent is null)
             {

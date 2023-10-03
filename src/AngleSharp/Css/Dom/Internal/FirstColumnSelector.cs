@@ -20,30 +20,46 @@ namespace AngleSharp.Css.Dom
 
             if (parent != null)
             {
-                var n = Math.Sign(Step);
-                var k = 0;
-
-                for (var i = 0; i < parent.ChildNodes.Length; i++)
+                // remove interface dispatch overhead
+                if (parent.ChildNodes is NodeList nodeList)
                 {
-                    if (parent.ChildNodes[i] is IHtmlTableCellElement child)
+                    return DoMatch(new ConcreteNodeListAccessor(nodeList), element);
+                }
+
+                return DoMatch(new InterfaceNodeListAccessor(parent.ChildNodes), element);
+            }
+
+            return false;
+        }
+
+        private Boolean DoMatch<T>(T nodes, IElement element) where T : INodeListAccessor
+        {
+            var step = Step;
+            var n = Math.Sign(step);
+            var k = 0;
+            var offset = Offset;
+            var length = nodes.Length;
+
+            for (var i = 0; i < length; i++)
+            {
+                if (nodes[i] is IHtmlTableCellElement child)
+                {
+                    var span = child.ColumnSpan;
+                    k += span;
+
+                    if (child == element)
                     {
-                        var span = child.ColumnSpan;
-                        k += span;
+                        var diff = k - offset;
 
-                        if (child == element)
+                        for (var index = 0; index < span; index++, diff--)
                         {
-                            var diff = k - Offset;
-
-                            for (var index = 0; index < span; index++, diff--)
+                            if (diff == 0 || (Math.Sign(diff) == n && diff % step == 0))
                             {
-                                if (diff == 0 || (Math.Sign(diff) == n && diff % Step == 0))
-                                {
-                                    return true;
-                                }
+                                return true;
                             }
-
-                            return false;
                         }
+
+                        return false;
                     }
                 }
             }

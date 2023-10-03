@@ -1,6 +1,7 @@
-﻿namespace AngleSharp.Core.Tests.Html
+namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
+    using AngleSharp.Html;
     using NUnit.Framework;
 
      /// <summary>
@@ -1030,6 +1031,16 @@
             Assert.AreEqual("div", dochtml0body1div0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
             Assert.AreEqual("ZZ∏_id=23", dochtml0body1div0.GetAttribute("bar"));
+        }
+
+        [Test]
+        public void ResolveNameBySymbol_Issue396()
+        {
+            var resolver = HtmlEntityProvider.Resolver;
+            var reverseResolver = HtmlEntityProvider.ReverseResolver;
+            var symbol = "copy;";
+            var result = reverseResolver.GetName(resolver.GetSymbol(symbol));
+            Assert.AreEqual(symbol, result);
         }
     }
 }
