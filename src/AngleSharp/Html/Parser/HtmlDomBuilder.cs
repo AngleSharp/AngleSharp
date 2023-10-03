@@ -1422,7 +1422,7 @@ namespace AngleSharp.Html.Parser
             else if (tagName.Is(TagNames.Br))
             {
                 RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, tag);
-                InBodyStartTagBreakrow(HtmlTagToken.Open(TagNames.Br));
+                Consume(HtmlTagToken.Open(TagNames.Br));
             }
             else if (TagNames.AllHeadings.Contains(tagName))
             {

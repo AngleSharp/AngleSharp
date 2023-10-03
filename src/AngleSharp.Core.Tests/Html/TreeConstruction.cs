@@ -3395,10 +3395,17 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
-        public void ClosingElementClosesForeignElement()
+        public void ClosingParagraphClosesForeignElement()
         {
             var document = "<svg></p>".ToHtmlDocument();
             Assert.AreEqual("<body><svg></svg><p></p></body>", document.Body.ToHtml());
+        }
+
+        [Test]
+        public void InvalidBrClosesForeignElement()
+        {
+            var document = "<svg></br>".ToHtmlDocument();
+            Assert.AreEqual("<body><svg></svg><br></body>", document.Body.ToHtml());
         }
     }
 }
