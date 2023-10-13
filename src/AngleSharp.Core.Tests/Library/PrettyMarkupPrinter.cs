@@ -4,6 +4,8 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Html;
     using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class PrettyMarkupPrinter
@@ -160,8 +162,25 @@ namespace AngleSharp.Core.Tests.Library
 	<head></head>
 	<body>To get her.</body>
 </html>";
-
             Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
+        }
+
+        [Test]
+        public void IgnoringFormating_Issue1131()
+        {
+            var document = "<!DOCTYPE html>\r\n<html lang=\"en\"><head><title>Some Title</title></head><body><h1>Test</h1>\r\n<pre><code class=\"language-F#\">let a = \"something\"\r\nlet b = \"something else\"\r\nlet c = \"something completely different\" </code></pre>\r\n</body></html>".ToHtmlDocument();
+            IEnumerable<INode> toIgnore=new List<INode>() { (INode)(document.QuerySelector("code"))};
+
+            var hm = (toIgnore.ElementAt(0)).ChildNodes;
+
+
+            var output = Print(document, toIgnore);
+        }
+
+        private static String Print(IDocument document, IEnumerable<INode> toIgnore)
+        {
+            var formatter = new PrettyMarkupFormatter(toIgnore);
+            return document.ToHtml(formatter);
         }
 
         private static String Print(String html)

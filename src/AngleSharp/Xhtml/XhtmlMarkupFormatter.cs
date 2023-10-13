@@ -120,6 +120,10 @@ namespace AngleSharp.Xhtml
         /// <inheritdoc />
         public virtual String Text(ICharacterData text) => EscapeText(text.Data);
 
+        /// <inheritdoc />
+        public String KeepLines(ICharacterData characterData) => EscapeText(characterData.Data);
+
+
         /// <summary>
         /// Creates the string representation of the attribute.
         /// </summary>

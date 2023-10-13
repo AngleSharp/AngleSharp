@@ -3,6 +3,7 @@ namespace AngleSharp.Html
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -15,6 +16,7 @@ namespace AngleSharp.Html
         private String _indentString;
         private String _newLineString;
         private Int32 _indentCount;
+        private IEnumerable<INode>? toIgnore;
 
         #endregion
 
@@ -28,6 +30,19 @@ namespace AngleSharp.Html
             _indentCount = 0;
             _indentString = "\t";
             _newLineString = "\n";
+        }
+
+        /// <summary>
+        ///  Creates a new instance of the pretty markup formatter
+        ///  along with nodes to be ignored
+        /// </summary>
+        /// <param name="toIgnore"></param>
+        public PrettyMarkupFormatter(IEnumerable<INode> toIgnore)
+        {
+            _indentCount = 0;
+            _indentString = "\t";
+            _newLineString = "\n";
+            this.toIgnore = toIgnore.SelectMany(x => (IEnumerable<INode>)x.ChildNodes).Where(y => y is ICharacterData);
         }
 
         #endregion
@@ -80,6 +95,10 @@ namespace AngleSharp.Html
         /// <inheritdoc />
         public override String Text(ICharacterData text)
         {
+            if (toIgnore?.Contains(text) == true)
+            {
+                return text.Data.TrimEnd('\n').Replace("\n", IndentBeforeCode());
+            }
             var content = text.Data;
             var before = String.Empty;
             var singleLine = content.Replace(Symbols.LineFeed, Symbols.Space);
@@ -139,6 +158,8 @@ namespace AngleSharp.Html
         }
 
         private String IndentBefore() => _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount));
+
+        private String IndentBeforeCode() => _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount-1));
 
         #endregion
     }
