@@ -188,22 +188,19 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
         }
 
-        private static String Print(IDocument document, IEnumerable<INode> toIgnore)
+        private static String Print(IDocument document, IEnumerable<INode> toPreserve)
         {
-            var formatter = new PrettyMarkupFormatter(toIgnore);
-            return document.ToHtml(formatter);
+            return document.ToHtml(new PrettyMarkupFormatter(toPreserve));
         }
 
         private static String Print(String html)
         {
-            var document = html.ToHtmlDocument();
-            return Print(document);
+            return Print(html.ToHtmlDocument());
         }
 
         private static String Print(IDocument document)
         {
-            var formatter = new PrettyMarkupFormatter();
-            return document.ToHtml(formatter);
+            return document.ToHtml(new PrettyMarkupFormatter());
         }
     }
 }
