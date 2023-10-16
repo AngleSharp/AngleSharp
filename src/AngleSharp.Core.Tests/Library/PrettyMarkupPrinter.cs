@@ -166,15 +166,27 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void IgnoringFormating_Issue1131()
+        public void PreservingFormatting_Issue1131()
         {
-            var document = "<!DOCTYPE html>\r\n<html lang=\"en\"><head><title>Some Title</title></head><body><h1>Test</h1>\r\n<pre><code class=\"language-F#\">let a = \"something\"\r\nlet b = \"something else\"\r\nlet c = \"something completely different\" </code></pre>\r\n</body></html>".ToHtmlDocument();
-            IEnumerable<INode> toIgnore=new List<INode>() { (INode)(document.QuerySelector("code"))};
-
-            var hm = (toIgnore.ElementAt(0)).ChildNodes;
-
-
-            var output = Print(document, toIgnore);
+            var document = "<!DOCTYPE html><html lang=\"en\"><head><title>Some Title</title></head><body><h1>Test</h1><pre><code class=\"language-F#\">let a = \"something\"\nlet b = \"something else\"\nlet c = \"something completely different\"\n</code></pre></body></html>".ToHtmlDocument();
+            IEnumerable<INode> toPreserve=new List<INode>() { document.QuerySelector("code")};
+            var output = Print(document, toPreserve);
+            var result = @"<!DOCTYPE html>
+<html lang=""en"">
+	<head>
+		<title>Some Title</title>
+	</head>
+	<body>
+		<h1>Test</h1>
+		<pre>
+			<code class=""language-F#"">let a = ""something""
+			let b = ""something else""
+			let c = ""something completely different""
+			</code>
+		</pre>
+	</body>
+</html>";
+            Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
         }
 
         private static String Print(IDocument document, IEnumerable<INode> toIgnore)

@@ -16,7 +16,7 @@ namespace AngleSharp.Html
         private String _indentString;
         private String _newLineString;
         private Int32 _indentCount;
-        private IEnumerable<INode>? toIgnore;
+        private IEnumerable<INode>? _preserveTextFormatting;
 
         #endregion
 
@@ -33,16 +33,17 @@ namespace AngleSharp.Html
         }
 
         /// <summary>
-        ///  Creates a new instance of the pretty markup formatter
-        ///  along with nodes to be ignored
+        ///  Creates a new instance of the pretty markup formatter,
+        ///  along with nodes where formatting of text shall be ignored
         /// </summary>
-        /// <param name="toIgnore"></param>
-        public PrettyMarkupFormatter(IEnumerable<INode> toIgnore)
+        /// <param name="preserveTextFormatting">Nodes in which the structure of the
+        ///  text content should be preserved</param>
+        public PrettyMarkupFormatter(IEnumerable<INode> preserveTextFormatting)
         {
             _indentCount = 0;
             _indentString = "\t";
             _newLineString = "\n";
-            this.toIgnore = toIgnore.SelectMany(x => (IEnumerable<INode>)x.ChildNodes).Where(y => y is ICharacterData);
+            _preserveTextFormatting = preserveTextFormatting.SelectMany(x => (IEnumerable<INode>)x.ChildNodes).Where(y => y is ICharacterData);
         }
 
         #endregion
@@ -95,9 +96,9 @@ namespace AngleSharp.Html
         /// <inheritdoc />
         public override String Text(ICharacterData text)
         {
-            if (toIgnore?.Contains(text) == true)
+            if (_preserveTextFormatting?.Contains(text) == true)
             {
-                return text.Data.TrimEnd('\n').Replace("\n", IndentBeforeCode());
+                return text.Data.TrimEnd('\n').Replace("\n", IndentBefore(1));
             }
             var content = text.Data;
             var before = String.Empty;
@@ -114,7 +115,7 @@ namespace AngleSharp.Html
                 before = IndentBefore();
             }
 
-            return before + HtmlMarkupFormatter.EscapeText(singleLine);
+            return before + EscapeText(singleLine);
         }
 
         /// <inheritdoc />
@@ -157,9 +158,7 @@ namespace AngleSharp.Html
             return content.Length > 0 && content[content.Length - 1].IsSpaceCharacter();
         }
 
-        private String IndentBefore() => _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount));
-
-        private String IndentBeforeCode() => _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount-1));
+        private String IndentBefore(int i=0) => _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount-i));
 
         #endregion
     }
