@@ -161,6 +161,7 @@ namespace AngleSharp.Core.Tests.Library
 	<head></head>
 	<body>To get her.</body>
 </html>";
+
             Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
         }
 
@@ -185,6 +186,7 @@ namespace AngleSharp.Core.Tests.Library
 		</pre>
 	</body>
 </html>";
+
             Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
         }
 
