@@ -166,7 +166,11 @@ namespace AngleSharp.Common
         /// </summary>
         /// <param name="code">A specific error code.</param>
         /// <returns>The description of the error.</returns>
+#if NET6_0_OR_GREATER
+        public static String GetMessage<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(this T code)
+#else
         public static String GetMessage<T>(this T code)
+#endif
             where T : Enum
         {
             var field = typeof(T).GetField(code.ToString());
