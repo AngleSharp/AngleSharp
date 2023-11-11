@@ -4,6 +4,7 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Html;
     using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class PrettyMarkupPrinter
@@ -164,16 +165,44 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
         }
 
+        [Test]
+        public void PreservingFormatting_Issue1131()
+        {
+            var document = "<!DOCTYPE html><html lang=\"en\"><head><title>Some Title</title></head><body><h1>Test</h1><pre><code class=\"language-F#\">let a = \"something\"\nlet b = \"something else\"\nlet c = \"something completely different\"\n</code></pre></body></html>".ToHtmlDocument();
+            IEnumerable<INode> toPreserve=new List<INode>() { document.QuerySelector("code")};
+            var output = Print(document, toPreserve);
+            var result = @"<!DOCTYPE html>
+<html lang=""en"">
+	<head>
+		<title>Some Title</title>
+	</head>
+	<body>
+		<h1>Test</h1>
+		<pre>
+			<code class=""language-F#"">let a = ""something""
+			let b = ""something else""
+			let c = ""something completely different""
+			</code>
+		</pre>
+	</body>
+</html>";
+
+            Assert.AreEqual(result.Replace(Environment.NewLine, "\n"), output);
+        }
+
+        private static String Print(IDocument document, IEnumerable<INode> toPreserve)
+        {
+            return document.ToHtml(new PrettyMarkupFormatter(toPreserve));
+        }
+
         private static String Print(String html)
         {
-            var document = html.ToHtmlDocument();
-            return Print(document);
+            return Print(html.ToHtmlDocument());
         }
 
         private static String Print(IDocument document)
         {
-            var formatter = new PrettyMarkupFormatter();
-            return document.ToHtml(formatter);
+            return document.ToHtml(new PrettyMarkupFormatter());
         }
     }
 }

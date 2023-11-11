@@ -1,14 +1,24 @@
+# 1.0.6
+
+Released on Saturday, November 11 2023
+
+- Fixed case-sensitiveness in virtual responses
+- Fixed warning for outdated actions in CI/CD workflow (#1145) @martincostello
+- Fixed AoT warning when trimming (#1144) @martincostello
+- Fixed decoding of entities in `InnerHtml` of `<noscript>` (#1139)
+- Updated `PrettyMarkupFormatter` to keep new lines on demand (#1131) @dramlian
+
 # 1.0.5
 
- Released on Tuesday, October 3 2023
+Released on Tuesday, October 3 2023
 
- - Improved codebase (#1128, #1126, #1133) @matkoch @ivandrofly
- - Improved documentation (#1127)
- - Improved child selector performance (#1135) @lahma
- - Improved query selector all performance (#584, #1134) @lahma
- - Fixed issue with foreign content using end tags
- - Fixed typo `descendants` (#1136) @SimonCropp
- - Added a way to resolve symbols by their name to `HtmlEntityProvider` (#396)
+- Improved codebase (#1128, #1126, #1133) @matkoch @ivandrofly
+- Improved documentation (#1127)
+- Improved child selector performance (#1135) @lahma
+- Improved query selector all performance (#584, #1134) @lahma
+- Fixed issue with foreign content using end tags
+- Fixed typo `descendants` (#1136) @SimonCropp
+- Added a way to resolve symbols by their name to `HtmlEntityProvider` (#396)
 
 # 1.0.4
 

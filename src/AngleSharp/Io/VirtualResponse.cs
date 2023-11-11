@@ -31,7 +31,7 @@ namespace AngleSharp.Io
         {
             _address = Url.Create("http://localhost/");
             _status = HttpStatusCode.OK;
-            _headers = new Dictionary<String, String>();
+            _headers = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
             _content = MemoryStream.Null;
             _dispose = false;
         }

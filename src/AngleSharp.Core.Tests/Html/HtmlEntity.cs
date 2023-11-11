@@ -2,6 +2,7 @@ namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
     using AngleSharp.Html;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
 
      /// <summary>
@@ -1041,6 +1042,21 @@ namespace AngleSharp.Core.Tests.Html
             var symbol = "copy;";
             var result = reverseResolver.GetName(resolver.GetSymbol(symbol));
             Assert.AreEqual(symbol, result);
+        }
+
+        [Test]
+        public void EntityDecodingInNoScript_Issue1139()
+        {
+            var html = @"<html></head><body><noscript><div></div></noscript></body></html>";
+            var parser = new HtmlParser(new HtmlParserOptions
+            {
+                IsScripting = true
+            });
+            var dom = parser.ParseDocument(html);
+            var noscript = dom.QuerySelector("noscript");
+            Assert.AreEqual("<div></div>", noscript.InnerHtml);
+            noscript.InnerHtml = noscript.InnerHtml.Replace("<", "&lt;").Replace(">", "&gt;");
+            Assert.AreEqual("&lt;div&gt;&lt;/div&gt;", noscript.InnerHtml);
         }
     }
 }
