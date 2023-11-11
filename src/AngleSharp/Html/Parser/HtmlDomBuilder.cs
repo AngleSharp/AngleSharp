@@ -184,7 +184,7 @@ namespace AngleSharp.Html.Parser
             {
                 _tokenizer.State = HtmlParseMode.Plaintext;
             }
-            else if (tagName.Is(TagNames.NoScript) && options.IsScripting)
+            else if (tagName.Is(TagNames.NoScript) && (options.IsScripting || context.Flags.HasFlag(NodeFlags.LiteralText)))
             {
                 _tokenizer.State = HtmlParseMode.Rawtext;
             }

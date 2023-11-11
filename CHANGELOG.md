@@ -1,8 +1,12 @@
 # 1.0.6
 
-Released on ???
+Released on Saturday, November 11 2023
 
 - Fixed case-sensitiveness in virtual responses
+- Fixed warning for outdated actions in CI/CD workflow (#1145) @martincostello
+- Fixed AoT warning when trimming (#1144) @martincostello
+- Fixed decoding of entities in `InnerHtml` of `<noscript>` (#1139)
+- Updated `PrettyMarkupFormatter` to keep new lines on demand (#1131) @dramlian
 
 # 1.0.5
 
