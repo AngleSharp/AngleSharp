@@ -54,5 +54,23 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(common, range.CommonAncestor);
             Assert.IsFalse(range.IsCollapsed);
         }
+
+        [Test]
+        public void CanSelectRangeSomeRange_Issue1147()
+        {
+            var document = "<body></body>".ToHtmlDocument();
+            var text1 = document.Body.AppendChild(document.CreateTextNode("Text1"));
+            var text2 = document.Body.AppendChild(document.CreateTextNode("TextLonger2"));
+            var range = document.CreateRange();
+            range.StartWith(text1, "Text".Length);
+            range.EndWith(text2, "TextLonger".Length);
+
+            Assert.AreEqual("Text".Length, range.Start);
+            Assert.AreEqual(text1, range.Head);
+            Assert.AreEqual("TextLonger".Length, range.End);
+            Assert.AreEqual(text2, range.Tail);
+            Assert.AreEqual(document.Body, range.CommonAncestor);
+            Assert.IsFalse(range.IsCollapsed);
+        }
     }
 }

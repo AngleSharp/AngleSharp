@@ -100,7 +100,7 @@ namespace AngleSharp.Dom
                 _start = bp;
                 _end = bp;
             }
-            else if (bp > _end || Root != refNode.GetRoot())
+            else if (bp <= _end && Root == refNode.GetRoot())
             {
                 _start = bp;
             }
@@ -137,7 +137,7 @@ namespace AngleSharp.Dom
                 _start = bp;
                 _end = bp;
             }
-            else if (bp < _start || Root != refNode.GetRoot())
+            else if (bp >= _end && Root == refNode.GetRoot())
             {
                 _end = bp;
             }
@@ -840,36 +840,112 @@ namespace AngleSharp.Dom
 
             public static Boolean operator >(Boundary a, Boundary b)
             {
-                return false;
+                return a.CompareTo(b) == RangePosition.After;
             }
-
             public static Boolean operator <(Boundary a, Boundary b)
             {
+                return a.CompareTo(b) == RangePosition.Before;
+            }
+            public static Boolean operator ==(Boundary a, Boundary b)
+            {
+                return a.CompareTo(b) == RangePosition.Equal;
+            }
+            public static Boolean operator !=(Boundary a, Boundary b)
+            {
+                return a.CompareTo(b) != RangePosition.Equal;
+            }
+            public static Boolean operator <=(Boundary a, Boundary b)
+            {
+                switch(a.CompareTo(b))
+                {
+                    case RangePosition.Before:
+                        return true;
+                    case RangePosition.Equal:
+                        return true;
+                }
                 return false;
             }
-
+            public static Boolean operator >=(Boundary a, Boundary b)
+            {
+                switch (a.CompareTo(b))
+                {
+                    case RangePosition.After:
+                        return true;
+                    case RangePosition.Equal:
+                        return true;
+                }
+                return false;
+            }
             public Boolean Equals(Boundary other)
             {
-                return Node == other.Node && Offset == other.Offset;
+                return CompareTo(other) == RangePosition.Equal;
             }
 
             public RangePosition CompareTo(Boundary other)
             {
-                if (this < other)
+                if (Node.GetRoot() != other.Node.GetRoot())
                 {
-                    return RangePosition.Before;
+                    throw new DomException(DomError.InvalidAccess);
                 }
-                else if (this > other)
+                if (Node == other.Node)
                 {
-                    return RangePosition.After;
+                    if (Offset < other.Offset)
+                    {
+                        return RangePosition.Before;
+                    }
+                    else if (Offset == other.Offset)
+                    {
+                        return RangePosition.Equal;
+                    } else if (Offset > other.Offset)
+                    {
+                        return RangePosition.After;
+                    }
                 }
-                else
+                if (Node.IsFollowing(other.Node))
                 {
-                    return RangePosition.Equal;
+                    var position = other.CompareTo(this);
+                    if (position == RangePosition.Before)
+                    {
+                        return RangePosition.After;
+                    } else if (position== RangePosition.After)
+                    {
+                        return RangePosition.Before;
+                    }
                 }
+                if (Node.IsAncestorOf(other.Node))
+                {
+                    var child = other.Node;
+                    while (child != null && child.Parent != Node)
+                    {
+                        child = child.Parent;
+                    }
+                    if (child != null && child.Index() < Offset)
+                    {
+                        return RangePosition.After;
+                    }
+                }
+
+                return RangePosition.Before;
             }
 
             public INode? ChildAtOffset => Node.ChildNodes.Length > Offset ? Node.ChildNodes[Offset] : null;
+
+            public override Boolean Equals(Object? obj)
+            {
+                return obj is Boundary && Equals((Boundary)obj);
+            }
+
+            public override Int32 GetHashCode()
+            {
+                unchecked
+                {
+                    var hash = 17;
+                    hash = hash * 23 + Node.GetHashCode();
+                    hash = hash * 23 + Offset.GetHashCode();
+                    hash = hash * 23 + IsExplicit.GetHashCode();
+                    return hash;
+                }
+            }
         }
 
         #endregion
