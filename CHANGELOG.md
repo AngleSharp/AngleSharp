@@ -1,3 +1,11 @@
+# 1.0.7
+
+Released on Friday, November 17 2023
+
+- Fixed implementation of `IRange` using offsets (#1147) @zukarusan
+- Improved performance in `Node.set_Owner` (#1149) @campersau
+- Added `net8.0` as direct target framework
+
 # 1.0.6
 
 Released on Saturday, November 11 2023
