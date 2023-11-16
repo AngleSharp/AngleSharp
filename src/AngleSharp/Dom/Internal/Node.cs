@@ -196,12 +196,12 @@ namespace AngleSharp.Dom
             }
             set
             {
-                foreach (var descendantAndSelf in this.DescendantsAndSelf<Node>())
+                if (!Object.ReferenceEquals(Owner, value))
                 {
-                    var oldDocument = descendantAndSelf.Owner;
-
-                    if (!Object.ReferenceEquals(oldDocument, value))
+                    foreach (var descendantAndSelf in this.DescendantsAndSelf<Node>())
                     {
+                        var oldDocument = descendantAndSelf.Owner;
+
                         descendantAndSelf._owner = value;
 
                         if (oldDocument != null)
