@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -206,7 +206,7 @@
         RangePosition CompareTo(INode node, Int32 offset);
 
         /// <summary>
-        /// Checks if the given node is contained in this range.
+        /// Checks if the given node is intersected by this range.
         /// </summary>
         /// <param name="node">The node to check for.</param>
         /// <returns>
