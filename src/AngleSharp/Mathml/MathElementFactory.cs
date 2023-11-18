@@ -3,25 +3,12 @@ namespace AngleSharp.Mathml
     using AngleSharp.Dom;
     using AngleSharp.Mathml.Dom;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to MathElement instance creation mappings.
     /// </summary>
     sealed class MathElementFactory : IElementFactory<Document, MathElement>
     {
-        private delegate MathElement Creator(Document owner, String? prefix);
-
-        private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
-        {
-            { TagNames.Mn, (document, prefix) => new MathNumberElement(document, prefix) },
-            { TagNames.Mo, (document, prefix) => new MathOperatorElement(document, prefix) },
-            { TagNames.Mi, (document, prefix) => new MathIdentifierElement(document, prefix) },
-            { TagNames.Ms, (document, prefix) => new MathStringElement(document, prefix) },
-            { TagNames.Mtext, (document, prefix) => new MathTextElement(document, prefix) },
-            { TagNames.AnnotationXml, (document, prefix) => new MathAnnotationXmlElement(document, prefix) },
-        };
-
         /// <summary>
         /// Returns a specialized MathMLElement instance for the given tag.
         /// </summary>
@@ -32,13 +19,18 @@ namespace AngleSharp.Mathml
         /// <returns>The specialized MathMLElement instance.</returns>
         public MathElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
-            if (creators.TryGetValue(localName, out var creator))
+            // NOTE: When adding cases where the constant in TagNames is mixed-case, make sure to add a mixed-case pattern matching case, e.g.:
+            // var tagName when tagName.Equals(TagNames._MixedCaseConstant, StringComparison.OrdinalIgnoreCase) => ...
+            return localName.ToLowerInvariant() switch
             {
-                return creator.Invoke(document, prefix);
-            }
-
-            return new MathElement(document, localName, prefix, flags);
-
+                TagNames._Mn => new MathNumberElement(document, prefix),
+                TagNames._Mo => new MathOperatorElement(document, prefix),
+                TagNames._Mi => new MathIdentifierElement(document, prefix),
+                TagNames._Ms => new MathStringElement(document, prefix),
+                TagNames._Mtext => new MathTextElement(document, prefix),
+                TagNames._AnnotationXml => new MathAnnotationXmlElement(document, prefix),
+                _ => new MathElement(document, localName, prefix, flags)
+            };
         }
     }
 }

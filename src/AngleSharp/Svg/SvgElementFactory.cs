@@ -3,24 +3,12 @@ namespace AngleSharp.Svg
     using AngleSharp.Dom;
     using AngleSharp.Svg.Dom;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to SVGElement instance creation mappings.
     /// </summary>
     sealed class SvgElementFactory : IElementFactory<Document, SvgElement>
     {
-        private delegate SvgElement Creator(Document owner, String? prefix);
-
-        private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
-        {
-            { TagNames.Svg, (document, prefix) => new SvgSvgElement(document, prefix) },
-            { TagNames.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },
-            { TagNames.Desc, (document, prefix) => new SvgDescElement(document, prefix) },
-            { TagNames.ForeignObject, (document, prefix) => new SvgForeignObjectElement(document, prefix) },
-            { TagNames.Title, (document, prefix) => new SvgTitleElement(document, prefix) },
-        };
-
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
         /// </summary>
@@ -31,12 +19,17 @@ namespace AngleSharp.Svg
         /// <returns>The specialized SVGElement instance.</returns>
         public SvgElement Create(Document document, String localName, String? prefix = null, NodeFlags flags = NodeFlags.None)
         {
-            if (creators.TryGetValue(localName, out var creator))
+            // NOTE: When adding cases where the constant in TagNames is mixed-case, make sure to add a mixed-case pattern matching case, e.g.:
+            // var tagName when tagName.Equals(TagNames._MixedCaseConstant, StringComparison.OrdinalIgnoreCase) => ...
+            return localName.ToLowerInvariant() switch
             {
-                return creator.Invoke(document, prefix);
-            }
-
-            return new SvgElement(document, localName, prefix, flags);
+                TagNames._Svg => new SvgSvgElement(document, prefix),
+                TagNames._Circle => new SvgCircleElement(document, prefix),
+                TagNames._Desc => new SvgDescElement(document, prefix),
+                TagNames._Title => new SvgTitleElement(document, prefix),
+                var tagName when tagName.Equals(TagNames._ForeignObject, StringComparison.OrdinalIgnoreCase) => new SvgForeignObjectElement(document, prefix),
+                _ => new SvgElement(document, localName, prefix, flags)
+            };
         }
     }
 }
