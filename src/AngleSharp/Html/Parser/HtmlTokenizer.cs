@@ -109,6 +109,15 @@ namespace AngleSharp.Html.Parser
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the callback once a new token is read.
+        /// </summary>
+        public Action<HtmlToken, TextRange>? OnToken
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Methods
@@ -121,25 +130,19 @@ namespace AngleSharp.Html.Parser
         {
             var current = GetNext();
             _position = GetCurrentPosition();
-
-            if (current != Symbols.EndOfFile)
-            {
-                switch (State)
-                {
-                    case HtmlParseMode.PCData:
-                        return Data(current);
-                    case HtmlParseMode.RCData:
-                        return RCData(current);
-                    case HtmlParseMode.Plaintext:
-                        return Plaintext(current);
-                    case HtmlParseMode.Rawtext:
-                        return Rawtext(current);
-                    case HtmlParseMode.Script:
-                        return ScriptData(current);
-                }
-            }
-
-            return NewEof(acceptable: true);
+            var token = current == Symbols.EndOfFile ?
+                 NewEof(acceptable: true) :
+                 State switch
+                 {
+                     HtmlParseMode.PCData => Data(current),
+                     HtmlParseMode.RCData => RCData(current),
+                     HtmlParseMode.Plaintext => Plaintext(current),
+                     HtmlParseMode.Rawtext => Rawtext(current),
+                     HtmlParseMode.Script => ScriptData(current),
+                     _ => throw new NotImplementedException(),
+                 };
+            OnToken?.Invoke(token, new TextRange(_position, GetCurrentPosition().After(Current)));
+            return token;
         }
 
         internal void RaiseErrorOccurred(HtmlParseError code, TextPosition position)

@@ -290,6 +290,7 @@ namespace AngleSharp.Html.Parser
             _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
             _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
             _tokenizer.IsPreservingAttributeNames = options.IsPreservingAttributeNames;
+            _tokenizer.OnToken = options.OnToken;
             _options = options;
         }
 
