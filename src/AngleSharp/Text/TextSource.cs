@@ -3,17 +3,21 @@
 namespace AngleSharp.Text
 {
     using System;
+    using System.Buffers;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.IO;
 
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
     public sealed class TextSource : IDisposable
     {
+        private static readonly RecyclableMemoryStreamManager RecyclableMemoryStreamManager = new RecyclableMemoryStreamManager();
+
         #region Fields
 
         private const Int32 BufferSize = 4096;
@@ -34,14 +38,15 @@ namespace AngleSharp.Text
 
         #region ctor
 
-        private TextSource(Encoding encoding, bool allocateBuffers)
+        private TextSource(Encoding encoding, Boolean allocateBuffers)
         {
             if (allocateBuffers)
             {
-                _buffer = new Byte[BufferSize];
-                _chars = new Char[BufferSize + 1];
+                _buffer = ArrayPool<Byte>.Shared.Rent(BufferSize);
+                _chars = ArrayPool<Char>.Shared.Rent(BufferSize + 1);
             }
-            _raw = new MemoryStream();
+
+            _raw = RecyclableMemoryStreamManager.GetStream();
             _index = 0;
             _encoding = encoding ?? TextEncoding.Utf8;
             _decoder = _encoding.GetDecoder();
@@ -182,6 +187,16 @@ namespace AngleSharp.Text
                 _raw.Dispose();
                 _content!.Clear().ReturnToPool();
                 _content = null;
+
+                if (_buffer != null)
+                {
+                    ArrayPool<Byte>.Shared.Return(_buffer);
+                }
+
+                if (_chars != null)
+                {
+                    ArrayPool<Char>.Shared.Return(_chars);
+                }
             }
         }
 
