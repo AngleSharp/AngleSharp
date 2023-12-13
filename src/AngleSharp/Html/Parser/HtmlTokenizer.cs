@@ -11,6 +11,8 @@ namespace AngleSharp.Html.Parser
     using System.Collections.Generic;
     using System.IO;
 
+    using AttributeName = System.String;
+
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// https://www.w3.org/html/wg/drafts/html/master/syntax.html
@@ -41,7 +43,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public HtmlTokenizer(TextSource source, IEntityProvider resolver)
+        public HtmlTokenizer(IReadOnlyTextSource source, IEntityProvider resolver)
             : base(source)
         {
             State = HtmlParseMode.PCData;
@@ -54,7 +56,29 @@ namespace AngleSharp.Html.Parser
 
         #endregion
 
+        private static readonly HtmlToken EmptyCharacterToken = new HtmlToken(HtmlTokenType.Character, new TextPosition(), "");
+
         #region Properties
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipDataText { get; set; } = false;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipScriptText { get; set; } = false;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipRawText { get; set; } = false;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Func<HtmlTagToken, AttributeName, Boolean> ShouldEmitAttribute { get; set; } = (_, _) => true;
 
         /// <summary>
         /// Gets or sets if CDATA sections are accepted.
@@ -172,23 +196,6 @@ namespace AngleSharp.Html.Parser
         {
             return c == Symbols.LessThan ? TagOpen(GetNext()) : DataText(c);
         }
-
-
-        /// <summary>
-        ///
-        /// </summary>
-        public bool SkipDataText { get; set; } = false;
-
-        /// <summary>
-        ///
-        /// </summary>
-        public bool SkipScriptText { get; set; } = true;
-
-        /// <summary>
-        ///
-        /// </summary>
-        public bool SkipRawText { get; set; } = true;
-
 
         private HtmlToken DataText(Char c)
         {
@@ -383,13 +390,11 @@ namespace AngleSharp.Html.Parser
                     case Symbols.LessThan:
                     case Symbols.EndOfFile:
                         Back();
-
                         if (SkipRawText)
                         {
                             StringBuffer.Clear();
                             return EmptyCharacterToken;
                         }
-
                         return NewCharacter();
 
                     case Symbols.Null:
@@ -1767,19 +1772,13 @@ namespace AngleSharp.Html.Parser
             SelfClose
         }
 
-        private Dictionary<string, HashSet<string>> AllowedAttributes = new Dictionary<string, HashSet<string>>
-        {
-            ["div"] = new(new[] { "id" }),
-        };
-
         private HtmlToken ParseAttributes(HtmlTagToken tag)
         {
             var state = AttributeState.BeforeName;
             var quote = Symbols.DoubleQuote;
             var c = Symbols.Null;
             var pos = GetCurrentPosition();
-
-            bool attributeAllowed = false;
+            var attributeAllowed = false;
 
             while (true)
             {
@@ -1839,7 +1838,7 @@ namespace AngleSharp.Html.Parser
                         if (c == Symbols.Equality)
                         {
                             var attributeName = FlushBuffer();
-                            attributeAllowed = AllowedAttributes.TryGetValue(tag.Name, out var allowedAttributes) && allowedAttributes.Contains(attributeName);
+                            attributeAllowed = ShouldEmitAttribute(tag, attributeName);
                             if (attributeAllowed)
                             {
                                 tag.AddAttribute(attributeName, pos);
@@ -1849,7 +1848,7 @@ namespace AngleSharp.Html.Parser
                         else if (c == Symbols.GreaterThan)
                         {
                             var attributeName = FlushBuffer();
-                            attributeAllowed = AllowedAttributes.TryGetValue(tag.Name, out var allowedAttributes) && allowedAttributes.Contains(attributeName);
+                            attributeAllowed = ShouldEmitAttribute(tag, attributeName);
                             if (attributeAllowed)
                             {
                                 tag.AddAttribute(attributeName, pos);
@@ -1860,7 +1859,7 @@ namespace AngleSharp.Html.Parser
                         else if (c.IsSpaceCharacter())
                         {
                             var attributeName = FlushBuffer();
-                            attributeAllowed = AllowedAttributes.TryGetValue(tag.Name, out var allowedAttributes) && allowedAttributes.Contains(attributeName);
+                            attributeAllowed = ShouldEmitAttribute(tag, attributeName);
                             if (attributeAllowed)
                             {
                                 tag.AddAttribute(attributeName, pos);
@@ -1870,7 +1869,7 @@ namespace AngleSharp.Html.Parser
                         else if (c == Symbols.Solidus)
                         {
                             var attributeName = FlushBuffer();
-                            attributeAllowed = AllowedAttributes.TryGetValue(tag.Name, out var allowedAttributes) && allowedAttributes.Contains(attributeName);
+                            attributeAllowed = ShouldEmitAttribute(tag, attributeName);
                             if (attributeAllowed)
                             {
                                 tag.AddAttribute(attributeName, pos);
@@ -2006,8 +2005,6 @@ namespace AngleSharp.Html.Parser
 
                         if (c == quote)
                         {
-                            state = AttributeState.AfterValue;
-
                             if (attributeAllowed)
                             {
                                 tag.SetAttributeValue(FlushBuffer());
@@ -2016,6 +2013,7 @@ namespace AngleSharp.Html.Parser
                             {
                                 StringBuffer.Clear();
                             }
+                            state = AttributeState.AfterValue;
                         }
                         else if (c == Symbols.Ampersand)
                         {
@@ -2165,8 +2163,6 @@ namespace AngleSharp.Html.Parser
             EndDoubleEscape
         }
 
-        private static HtmlToken EmptyCharacterToken = new HtmlToken(HtmlTokenType.Character, new TextPosition(), "");
-
         private HtmlToken ScriptData(Char c)
         {
             var length = _lastStartTag.Length;
@@ -2290,13 +2286,11 @@ namespace AngleSharp.Html.Parser
                                     {
                                         Back(3 + length);
                                         StringBuffer.Remove(offset - 2, length + 2);
-
                                         if (SkipScriptText)
                                         {
                                             StringBuffer.Clear();
                                             return EmptyCharacterToken;
                                         }
-
                                         return NewCharacter();
                                     }
 

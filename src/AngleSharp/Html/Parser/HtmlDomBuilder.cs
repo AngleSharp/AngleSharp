@@ -58,10 +58,10 @@ namespace AngleSharp.Html.Parser
         /// document based on the given source manager.
         /// </summary>
         /// <param name="document">
-        /// The document instance to be constructed.
+        ///     The document instance to be constructed.
         /// </param>
         /// <param name="stopAt">
-        /// The name of the element where the parsing should be stopped.
+        ///     The name of the element where the parsing should be stopped.
         /// </param>
         public HtmlDomBuilder(HtmlDocument document, String? stopAt = null)
         {
@@ -290,6 +290,12 @@ namespace AngleSharp.Html.Parser
             _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
             _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
             _tokenizer.IsPreservingAttributeNames = options.IsPreservingAttributeNames;
+
+            _tokenizer.SkipRawText = options.SkipRawText;
+            _tokenizer.SkipScriptText = options.SkipScriptText;
+            _tokenizer.SkipDataText = options.SkipDataText;
+            _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute ?? (static (_, _) => true);
+
             _options = options;
         }
 

@@ -3,6 +3,71 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+    using Tokens;
+    using AttributeName = System.String;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public struct HtmlTokenizerOptions
+    {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="htmlParserOptions"></param>
+        public HtmlTokenizerOptions(HtmlParserOptions htmlParserOptions)
+        {
+            IsStrictMode = htmlParserOptions.IsStrictMode;
+            IsSupportingProcessingInstructions = htmlParserOptions.IsSupportingProcessingInstructions;
+            IsNotConsumingCharacterReferences = htmlParserOptions.IsNotConsumingCharacterReferences;
+            IsPreservingAttributeNames = htmlParserOptions.IsPreservingAttributeNames;
+
+            SkipRawText = htmlParserOptions.SkipRawText;
+            SkipScriptText = htmlParserOptions.SkipScriptText;
+            SkipDataText = htmlParserOptions.SkipDataText;
+            ShouldEmitAttribute = htmlParserOptions.ShouldEmitAttribute ?? ((_, _) => true);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Func<HtmlTagToken, String, Boolean> ShouldEmitAttribute { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Boolean SkipDataText { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Boolean SkipScriptText { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Boolean SkipRawText { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Boolean IsPreservingAttributeNames { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Boolean IsNotConsumingCharacterReferences { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Boolean IsSupportingProcessingInstructions { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool IsStrictMode { get; set; }
+    }
 
     /// <summary>
     /// Contains a number of options for the HTML parser.
@@ -110,5 +175,25 @@ namespace AngleSharp.Html.Parser
             get;
             set;
         }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipDataText { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipScriptText { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipRawText { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Func<HtmlTagToken, AttributeName, Boolean>? ShouldEmitAttribute { get; set; }
     }
 }

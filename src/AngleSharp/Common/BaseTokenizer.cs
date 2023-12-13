@@ -13,7 +13,7 @@ namespace AngleSharp.Common
         #region Fields
 
         private readonly Stack<UInt16> _columns;
-        private readonly TextSource _source;
+        private readonly IReadOnlyTextSource _source;
 
         private UInt16 _column;
         private UInt16 _row;
@@ -29,7 +29,7 @@ namespace AngleSharp.Common
         /// Creates a new instance of the base tokenizer.
         /// </summary>
         /// <param name="source">The source to tokenize.</param>
-        public BaseTokenizer(TextSource source)
+        public BaseTokenizer(IReadOnlyTextSource source)
         {
             _buffer = StringBuilderPool.Obtain();
             _columns = new Stack<UInt16>();
@@ -267,7 +267,8 @@ namespace AngleSharp.Common
                 _column++;
             }
 
-            _current = NormalizeForward(_source.ReadCharacter());
+            var c = _source.ReadCharacter();
+            _current = NormalizeForward(c);
         }
 
         private void BackUnsafe()
@@ -311,7 +312,7 @@ namespace AngleSharp.Common
             {
                 _normalized = true;
             }
-            
+
             return Symbols.LineFeed;
         }
 

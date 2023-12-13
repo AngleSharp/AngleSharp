@@ -31,7 +31,8 @@ namespace AngleSharp.Dom
         private readonly Window _view;
         private readonly IResourceLoader? _loader;
         private readonly Location _location;
-        private readonly TextSource _source;
+        private readonly IReadOnlyTextSource _source;
+        private readonly ITextSource? _writableSource;
         private readonly object _importedUrisLock = new object();
 
         private QuirksMode _quirksMode;
@@ -481,7 +482,7 @@ namespace AngleSharp.Dom
         #region ctor
 
         /// <inheritdoc />
-        public Document(IBrowsingContext context, TextSource source)
+        public Document(IBrowsingContext context, IReadOnlyTextSource source)
             : base(null, "#document", NodeType.Document)
         {
             Referrer = String.Empty;
@@ -493,7 +494,10 @@ namespace AngleSharp.Dom
             _salvageable = true;
             _shown = false;
             _context = context;
+
             _source = source;
+            _writableSource = source as ITextSource;
+
             _ready = DocumentReadyState.Loading;
             _sandbox = Sandboxes.None;
             _quirksMode = QuirksMode.Off;
@@ -512,7 +516,12 @@ namespace AngleSharp.Dom
         #region Properties
 
         /// <inheritdoc />
-        public TextSource Source => _source;
+        public IReadOnlyTextSource Source => _source;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public ITextSource? WritableSource => _writableSource;
 
         /// <inheritdoc />
         public abstract IEntityProvider Entities
@@ -908,6 +917,9 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidState);
             }
 
+            if (_writableSource == null)
+                throw new InvalidOperationException();
+
             if (!IsInBrowsingContext || Object.ReferenceEquals(_context.Active, this))
             {
                 var responsibleDocument = _context?.Parent!.Active;
@@ -948,7 +960,7 @@ namespace AngleSharp.Dom
 
                     _loop?.CancelAll();
                     ReplaceAll(null, suppressObservers: true);
-                    _source.CurrentEncoding = TextEncoding.Utf8;
+                    _writableSource.CurrentEncoding = TextEncoding.Utf8;
                     _salvageable = true;
                     _ready = DocumentReadyState.Loading;
 
@@ -1002,7 +1014,10 @@ namespace AngleSharp.Dom
             }
             else
             {
-                _source.InsertText(content);
+                if (WritableSource == null)
+                    throw new InvalidOperationException();
+
+                WritableSource.InsertText(content);
             }
         }
 

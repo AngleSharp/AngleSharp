@@ -12,7 +12,7 @@ namespace AngleSharp.Text
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
-    public sealed class TextSource : IDisposable
+    public sealed class TextSource : ITextSource
     {
         #region Fields
 
@@ -75,7 +75,10 @@ namespace AngleSharp.Text
         {
             _baseStream = baseStream;
             _content = StringBuilderPool.Obtain();
-            _confidence = EncodingConfidence.Tentative;
+            if (encoding == null)
+                _confidence = EncodingConfidence.Tentative;
+            else
+                _confidence = EncodingConfidence.Certain;
         }
 
         #endregion
@@ -235,26 +238,14 @@ namespace AngleSharp.Text
         /// <param name="length">The number of bytes to prefetch.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The awaitable task.</returns>
-        public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken) =>
-            ExpandBufferAsync(length, cancellationToken);
+        public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken) => Task.CompletedTask;
 
         /// <summary>
         /// Prefetches the whole stream by expanding the internal buffer.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The awaitable task.</returns>
-        public async Task PrefetchAllAsync(CancellationToken cancellationToken)
-        {
-            if (_baseStream != null && _content!.Length == 0)
-            {
-                await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
-            }
-
-            while (!_finished)
-            {
-                await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
-            }
-        }
+        public Task PrefetchAllAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
         /// <summary>
         /// Inserts the given content at the current insertation mark. Moves the
