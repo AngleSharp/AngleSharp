@@ -2464,16 +2464,16 @@ namespace AngleSharp.Html.Parser
                         c = GetNext();
                         var hasLength = StringBuffer.Length - offset == scriptLength;
 
-                        using var lease = ArrayPool<Char>.Shared.Borrow(scriptLength);
-                        var name = lease.Span;
-                        StringBuffer.CopyTo(offset, name, scriptLength);
-
-                        if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) &&
-                            StringBuffer.ToString(offset, scriptLength).Isi(TagNames.Script))
+                        if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
-                            Back(scriptLength + 3);
-                            StringBuffer.Remove(offset - 2, scriptLength + 2);
-                            return NewCharacter();
+                            using var lease = ArrayPool<Char>.Shared.Borrow(scriptLength);
+                            StringBuffer.CopyTo(offset, lease.Span, scriptLength);
+                            if (lease.Span.Isi(TagNames.Script))
+                            {
+                                Back(scriptLength + 3);
+                                StringBuffer.Remove(offset - 2, scriptLength + 2);
+                                return NewCharacter();
+                            }
                         }
                         else if (!c.IsLetter())
                         {
