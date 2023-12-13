@@ -9,13 +9,11 @@ namespace AngleSharp.Html.Parser
     using System;
     using System.Buffers;
     using System.Collections.Generic;
-    using System.IO;
-
     using AttributeName = System.String;
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
-    /// https://www.w3.org/html/wg/drafts/html/master/syntax.html
+    /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
     public sealed class HtmlTokenizer : BaseTokenizer
     {
@@ -2007,7 +2005,8 @@ namespace AngleSharp.Html.Parser
                         {
                             if (attributeAllowed)
                             {
-                                tag.SetAttributeValue(FlushBuffer());
+                                var value = FlushBuffer();
+                                tag.SetAttributeValue(value);
                             }
                             else
                             {
@@ -2042,7 +2041,8 @@ namespace AngleSharp.Html.Parser
                         {
                             if (attributeAllowed)
                             {
-                                tag.SetAttributeValue(FlushBuffer());
+                                var value = FlushBuffer();
+                                tag.SetAttributeValue(value);
                             }
                             else
                             {
@@ -2054,7 +2054,8 @@ namespace AngleSharp.Html.Parser
                         {
                             if (attributeAllowed)
                             {
-                                tag.SetAttributeValue(FlushBuffer());
+                                var value = FlushBuffer();
+                                tag.SetAttributeValue(value);
                             }
                             else
                             {
@@ -2291,7 +2292,10 @@ namespace AngleSharp.Html.Parser
                                             StringBuffer.Clear();
                                             return EmptyCharacterToken;
                                         }
-                                        return NewCharacter();
+                                        else
+                                        {
+                                            return NewCharacter();
+                                        }
                                     }
 
                                     StringBuffer.Clear();
@@ -2460,26 +2464,16 @@ namespace AngleSharp.Html.Parser
                         c = GetNext();
                         var hasLength = StringBuffer.Length - offset == scriptLength;
 
-                        if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
-                        {
-                            using var lease = ArrayPool<Char>.Shared.Borrow(scriptLength);
-                            var name = lease.Span;
-                            StringBuffer.CopyTo(offset, name, scriptLength);
+                        using var lease = ArrayPool<Char>.Shared.Borrow(scriptLength);
+                        var name = lease.Span;
+                        StringBuffer.CopyTo(offset, name, scriptLength);
 
-                            if (name.Isi(TagNames.Script))
-                            {
-                                Back(scriptLength + 3);
-                                StringBuffer.Remove(offset - 2, scriptLength + 2);
-                                return NewCharacter();
-                            }
-                            else if (!c.IsLetter())
-                            {
-                                state = ScriptState.Escaped;
-                            }
-                            else
-                            {
-                                StringBuffer.Append(c);
-                            }
+                        if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) &&
+                            StringBuffer.ToString(offset, scriptLength).Isi(TagNames.Script))
+                        {
+                            Back(scriptLength + 3);
+                            StringBuffer.Remove(offset - 2, scriptLength + 2);
+                            return NewCharacter();
                         }
                         else if (!c.IsLetter())
                         {
@@ -2681,15 +2675,13 @@ namespace AngleSharp.Html.Parser
         private HtmlToken NewCharacter()
         {
             var content = FlushBuffer();
-            // StringBuffer.Clear();
             return new HtmlToken(HtmlTokenType.Character, _position, content);
         }
 
         private HtmlToken NewProcessingInstruction()
         {
-            // var content = FlushBuffer();
-            StringBuffer.Clear();
-            return new HtmlToken(HtmlTokenType.Comment, _position, "")
+            var content = FlushBuffer();
+            return new HtmlToken(HtmlTokenType.Comment, _position, content)
             {
                 IsProcessingInstruction = true
             };
@@ -2697,9 +2689,8 @@ namespace AngleSharp.Html.Parser
 
         private HtmlToken NewComment()
         {
-            // var content = FlushBuffer();
-            StringBuffer.Clear();
-            return new HtmlToken(HtmlTokenType.Comment, _position, "");
+            var content = FlushBuffer();
+            return new HtmlToken(HtmlTokenType.Comment, _position, content);
         }
 
         private HtmlToken NewEof(Boolean acceptable = false)
@@ -2753,7 +2744,7 @@ namespace AngleSharp.Html.Parser
             {
                 using var lease = ArrayPool<Char>.Shared.Borrow(StringBuffer.Length);
                 StringBuffer.CopyTo(0, lease.Span, StringBuffer.Length);
-                if (StringBuffer.ToString().Is(_lastStartTag))
+                if (lease.Span.Is(_lastStartTag))
                 {
                     var tag = NewTagClose();
                     StringBuffer.Clear();

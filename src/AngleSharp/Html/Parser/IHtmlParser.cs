@@ -69,5 +69,9 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         Task<IDocument> ParseDocumentAsync(IDocument document, CancellationToken cancel);
 
+        /// <summary>
+        /// Parses the stream and returns the result.
+        /// </summary>
+        IHtmlDocument ParseDocument(IReadOnlyTextSource source);
     }
 }

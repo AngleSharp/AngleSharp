@@ -75,10 +75,7 @@ namespace AngleSharp.Text
         {
             _baseStream = baseStream;
             _content = StringBuilderPool.Obtain();
-            if (encoding == null)
-                _confidence = EncodingConfidence.Tentative;
-            else
-                _confidence = EncodingConfidence.Certain;
+            _confidence = EncodingConfidence.Tentative;
         }
 
         #endregion
@@ -238,14 +235,26 @@ namespace AngleSharp.Text
         /// <param name="length">The number of bytes to prefetch.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The awaitable task.</returns>
-        public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken) => Task.CompletedTask;
+        public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken) =>
+            ExpandBufferAsync(length, cancellationToken);
 
         /// <summary>
         /// Prefetches the whole stream by expanding the internal buffer.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The awaitable task.</returns>
-        public Task PrefetchAllAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+        public async Task PrefetchAllAsync(CancellationToken cancellationToken)
+        {
+            if (_baseStream != null && _content!.Length == 0)
+            {
+                await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
+            }
+
+            while (!_finished)
+            {
+                await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
+            }
+        }
 
         /// <summary>
         /// Inserts the given content at the current insertation mark. Moves the

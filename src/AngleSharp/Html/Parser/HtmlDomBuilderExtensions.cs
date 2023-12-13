@@ -104,15 +104,17 @@ namespace AngleSharp.Html.Parser
             return (Int32)code;
         }
 
-        public static void SetUniqueAttributes(this Element element, IReadOnlyList<HtmlAttributeToken> attributes)
+        public static void SetUniqueAttributes(this Element element, HtmlTagToken token)
         {
-            for (var i = attributes.Count - 1; i >= 0; i--)
+            for (var i = token.Attributes.Count - 1; i >= 0; i--)
             {
-                if (!element.HasAttribute(attributes[i].Name))
+                if (element.HasAttribute(token.Attributes[i].Name))
                 {
-                    element.AddAttribute(attributes[i]);
+                    token.RemoveAttributeAt(i);
                 }
             }
+
+            element.SetAttributes(token.Attributes);
         }
 
         public static void AddFormatting(this List<Element> formatting, Element element)

@@ -52,7 +52,11 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// <summary>
     /// Gets or sets the encoding to use.
     /// </summary>
-    public Encoding CurrentEncoding => Encoding.Default;
+    public Encoding CurrentEncoding
+    {
+        get => Encoding.Default;
+        set => throw new NotSupportedException();
+    }
 
     /// <summary>
     /// Gets or sets the current index of the insertation and read point.

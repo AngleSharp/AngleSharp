@@ -88,8 +88,6 @@ namespace AngleSharp.Html.Parser.Tokens
 
         #region Methods
 
-        // private Boolean _lastAttributeIngored = false;
-
         /// <summary>
         /// Adds a new attribute to the list of attributes. The value will
         /// be set to an empty string.
@@ -100,16 +98,6 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             _attributes ??= new List<HtmlAttributeToken>();
             _attributes.Add(new HtmlAttributeToken(position, name, String.Empty));
-        }
-
-        /// <summary>
-        /// Sets the value of the last added attribute.
-        /// </summary>
-        /// <param name="value">The value to set.</param>
-        public void SetAttributeValue(String value)
-        {
-            var attr = _attributes![^1];
-            _attributes[^1] = new HtmlAttributeToken(attr.Position, attr.Name, value);
         }
 
         /// <summary>
@@ -124,6 +112,17 @@ namespace AngleSharp.Html.Parser.Tokens
         }
 
         /// <summary>
+        /// Sets the value of the last added attribute.
+        /// </summary>
+        /// <param name="value">The value to set.</param>
+        public void SetAttributeValue(String value)
+        {
+            var last = _attributes!.Count - 1;
+            var attr = _attributes[last];
+            _attributes[last] = new HtmlAttributeToken(attr.Position, attr.Name, value);
+        }
+
+        /// <summary>
         /// Gets the value of the attribute with the given name or an empty
         /// string if the attribute is not available.
         /// </summary>
@@ -132,9 +131,7 @@ namespace AngleSharp.Html.Parser.Tokens
         public String GetAttribute(String name)
         {
             if (_attributes == null)
-            {
                 return String.Empty;
-            }
 
             for (var i = 0; i != _attributes.Count; i++)
             {
@@ -150,7 +147,7 @@ namespace AngleSharp.Html.Parser.Tokens
         }
 
         /// <summary>
-        /// Removes attribure with index i.
+        /// Removes attribute with index i.
         /// </summary>
         /// <param name="i">idx</param>
         public void RemoveAttributeAt(Int32 i)

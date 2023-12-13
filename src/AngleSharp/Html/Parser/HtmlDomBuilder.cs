@@ -1293,7 +1293,7 @@ namespace AngleSharp.Html.Parser
 
                 if (_templateModes.Count == 0)
                 {
-                    _openElements[0].SetUniqueAttributes(tag.Attributes);
+                    _openElements[0].SetUniqueAttributes(tag);
                 }
             }
             else if (tagName.Is(TagNames.Body))
@@ -1303,7 +1303,7 @@ namespace AngleSharp.Html.Parser
                 if (_templateModes.Count == 0 && _openElements.Count > 1 && _openElements[1].LocalName.Is(TagNames.Body))
                 {
                     _frameset = false;
-                    _openElements[1].SetUniqueAttributes(tag.Attributes);
+                    _openElements[1].SetUniqueAttributes(tag);
                 }
             }
             else if (tagName.Is(TagNames.IsIndex))

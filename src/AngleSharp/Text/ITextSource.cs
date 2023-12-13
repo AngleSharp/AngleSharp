@@ -24,7 +24,7 @@ public interface IReadOnlyTextSource : IDisposable
     /// <summary>
     /// Gets or sets the encoding to use.
     /// </summary>
-    Encoding CurrentEncoding { get;  }
+    Encoding CurrentEncoding { get; set; }
 
     /// <summary>
     /// Gets or sets the current index of the insertation and read point.
@@ -82,8 +82,4 @@ public interface ITextSource : IReadOnlyTextSource
     /// <param name="content">The content to insert.</param>
     void InsertText(String content);
 
-    /// <summary>
-    /// Gets or sets the encoding to use.
-    /// </summary>
-    new Encoding CurrentEncoding { get; set; }
 }

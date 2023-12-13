@@ -3,19 +3,10 @@ using AngleSharp.Html.Parser;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 
-#if NETFRAMEWORK
-using CsQuery;
-using CsQuery.ExtensionMethods.Internal;
-using CsQuery.HtmlParser;
-#endif
-
-using HtmlAgilityPack;
-
 namespace AngleSharp.Benchmarks
 {
     using System;
-    using System.IO;
-    using System.Text;
+    using System.Collections.Frozen;
     using BenchmarkDotNet.Engines;
     using BenchmarkDotNet.Environments;
     using BenchmarkDotNet.Jobs;
@@ -30,13 +21,46 @@ namespace AngleSharp.Benchmarks
         {
             public Config()
             {
-                //AddJob(Job.ShortRun.WithRuntime(ClrRuntime.Net472).WithLaunchCount(1));
-                AddJob(Job.ShortRun.WithRuntime(CoreRuntime.Core80));
-                //AddJob(Job.ShortRun.WithRuntime(CoreRuntime.Core60).WithLaunchCount(1));
+                AddJob(Job.ShortRun
+                    .WithMinIterationCount(1000)
+                    .WithMaxIterationCount(10000)
+                    .WithRuntime(CoreRuntime.Core80)
+                    .WithStrategy(RunStrategy.Monitoring)
+                    .WithLaunchCount(1)
+                );
             }
         }
 
-        private static readonly HtmlParser angleSharpParser = new();
+        public static readonly FrozenDictionary<string, FrozenSet<string>> AllowedAttributes =
+            new Dictionary<String, FrozenSet<String>>
+            {
+                ["div"] = new HashSet<String>(new[] { "id" }).ToFrozenSet(),
+                ["span"] = new HashSet<String>(new[] { "id", "class" }).ToFrozenSet(),
+                // ["meta"] = new HashSet<String>(new [] { "charset" }).ToFrozenSet()
+            }.ToFrozenDictionary();
+
+        public static readonly HtmlParserOptions HtmlParserOptions = new HtmlParserOptions()
+        {
+            IsStrictMode = false,
+            IsScripting = false,
+            IsNotConsumingCharacterReferences = true,
+            IsNotSupportingFrames = true,
+            IsSupportingProcessingInstructions = false,
+            IsEmbedded = false,
+            IsKeepingSourceReferences = false,
+            IsPreservingAttributeNames = false,
+            IsAcceptingCustomElementsEverywhere = false,
+
+            SkipScriptText = true,
+            SkipRawText = false,
+            SkipDataText = true,
+            ShouldEmitAttribute = (token, attributeName) =>
+                AllowedAttributes.TryGetValue(token.Name, out var allowed) && allowed.Contains(attributeName),
+        };
+
+        public static readonly HtmlTokenizerOptions HtmlTokenizerOptions = new HtmlTokenizerOptions(HtmlParserOptions);
+
+        private static readonly HtmlParser angleSharpParser = new HtmlParser(HtmlParserOptions);
 
         public IEnumerable<UrlTest> GetSources()
         {
@@ -59,7 +83,7 @@ namespace AngleSharp.Benchmarks
                 // "http://www.codeproject.com",
                 // "http://www.ebay.com",
                 // "http://www.msn.com",
-                // "http://www.nbc.com",
+                "http://www.nbc.com",
                 // "http://www.qq.com",
                 // "http://www.florian-rappl.de",
                 // "http://www.stackoverflow.com",
@@ -72,7 +96,7 @@ namespace AngleSharp.Benchmarks
                 // "http://www.flickr.com",
                 // "http://www.godaddy.com",
                 // "http://www.reddit.com",
-                // "http://www.nytimes.com",
+                "http://www.nytimes.com",
                 // "http://peacekeeper.futuremark.com",
                 // "http://www.pcmag.com",
                 // "http://www.sitepoint.com",
@@ -101,59 +125,31 @@ namespace AngleSharp.Benchmarks
             return websites.Tests;
         }
 
-        //[ParamsSource(nameof(GetSources))] public UrlTest UrlTest { get; set; }
-
-        // #if NETFRAMEWORK
-        //         [Benchmark]
-        //         public void CsQuery()
-        //         {
-        //             var factory = new ElementFactory(DomIndexProviders.Simple);
-        //
-        //             using var stream = UrlTest.Source.ToStream();
-        //             factory.Parse(stream, System.Text.Encoding.UTF8);
-        //         }
-        // #endif
-        //
-        //         [Benchmark]
-        //         public void HTMLAgilityPack()
-        //         {
-        //             var document = new HtmlDocument();
-        //             document.LoadHtml(UrlTest.Source);
-        //         }
-
-        string html;
-        MemoryStream ms;
-
-        [GlobalSetup]
-        public void Setup()
-        {
-            html = File.ReadAllText("test.html");
-            ms = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html));
-        }
+        [ParamsSource(nameof(GetSources))] public UrlTest UrlTest { get; set; }
 
 
         [Benchmark]
-        public IHtmlDocument AngleSharp()
+        public IHtmlDocument AngleSharpPrefetched()
         {
-            ms.Position = 0;
-
-            var document = angleSharpParser.ParseDocument(ms);
-            // File.WriteAllText(@"C:\Users\Dmitry\source\repos\AngleSharp\src\AngleSharp.Benchmarks\parsed.html", document.ToHtml());
+            var parser = new HtmlParser(HtmlParserOptions);
+            var source = new PrefetchedTextSource(UrlTest.Source.AsMemory());
+            var document = angleSharpParser.ParseDocument(source);
             return document;
         }
 
         [Benchmark]
-        public Int32 AngleSharpTokens()
+        public Int32 AngleSharpTokensPrefetched()
         {
             int line = 0;
-            ms.Position = 0;
+            int count = 0;
 
-            foreach (var VARIABLE in new TextSource(ms, Encoding.UTF8).Tokenize())
+            foreach (var token in new PrefetchedTextSource(UrlTest.Source.AsMemory()).Tokenize(options: HtmlTokenizerOptions))
             {
-                line = VARIABLE.Position.Line;
+                line = token.Position.Line;
+                count++;
             }
 
-            return line;
+            return count + line - line;
         }
 
 
