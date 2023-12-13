@@ -2,8 +2,11 @@ namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
     using System;
+    using System.Collections.Frozen;
     using System.Collections.Generic;
-
+    using System.Linq;
+    using Common;
+    using EntitiesCache = System.Collections.Frozen.FrozenDictionary<char, System.Collections.Frozen.FrozenDictionary<System.ReadOnlyMemory<char>, string>>;
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
@@ -11,7 +14,7 @@ namespace AngleSharp.Html
     {
         #region Fields
 
-        private readonly Dictionary<Char, Dictionary<String, String>> _entities;
+        private readonly EntitiesCache _entities;
 
         #endregion
 
@@ -35,7 +38,7 @@ namespace AngleSharp.Html
 
         private HtmlEntityProvider()
         {
-            _entities = new Dictionary<Char, Dictionary<String, String>>
+            var entities = new Dictionary<Char, Dictionary<String, String>>
             {
                 { 'a', GetSymbolLittleA() },
                 { 'A', GetSymbolBigA() },
@@ -90,6 +93,8 @@ namespace AngleSharp.Html
                 { 'z', GetSymbolLittleZ() },
                 { 'Z', GetSymbolBigZ() },
             };
+
+            _entities = entities.ToFrozenDictionary(k => k.Key, v => v.Value.ToFrozenDictionary(k => k.Key.AsMemory(), v => v.Value, new MemStringEqualityComparer()));
         }
 
         #endregion
@@ -2547,9 +2552,29 @@ namespace AngleSharp.Html
         /// <returns>The string with the symbol or null.</returns>
         public String? GetSymbol(String name)
         {
-            if (!String.IsNullOrEmpty(name) && _entities.TryGetValue(name[0], out var symbols) && symbols.TryGetValue(name, out var symbol))
+            if (!String.IsNullOrEmpty(name) && _entities.TryGetValue(name[0], out var symbols) && symbols.TryGetValue(name.AsMemory(), out var symbol))
             {
                 return symbol;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets a symbol (that ended with a semicolon) specified by its entity
+        /// </summary>
+        /// <param name="name">
+        /// The name of the entity, specified by &amp;NAME; in the Html code.
+        /// </param>
+        /// <returns>The string with the symbol or null.</returns>
+        public String? GetSymbol(ReadOnlyMemory<Char> name)
+        {
+            if (name.Length != 0 && _entities.TryGetValue(name.Span[0], out var symbols))
+            {
+                if (symbols.TryGetValue(name, out var symbol))
+                {
+                    return symbol;
+                }
             }
 
             return null;
@@ -2570,7 +2595,7 @@ namespace AngleSharp.Html
                 {
                     if (entity.Value == symbol)
                     {
-                        return entity.Key;
+                        return entity.Key.ToString();
                     }
                 }
             }
@@ -2771,5 +2796,29 @@ namespace AngleSharp.Html
         }
 
         #endregion
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public class MemStringEqualityComparer : IEqualityComparer<ReadOnlyMemory<char>>
+    {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int GetHashCode( ReadOnlyMemory<char> obj ) => string.GetHashCode( obj.Span );
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool Equals(ReadOnlyMemory<char> x, ReadOnlyMemory<char> y) =>
+            x.Span.SequenceEqual(y.Span);
     }
 }

@@ -12,7 +12,7 @@ namespace AngleSharp.Html.Parser
     /// </summary>
     static class HtmlDomBuilderExtensions
     {
-        public static void SetAttributes(this Element element, List<HtmlAttributeToken> attributes)
+        public static void SetAttributes(this Element element, IReadOnlyList<HtmlAttributeToken> attributes)
         {
             var container = element.Attributes;
 
@@ -23,6 +23,14 @@ namespace AngleSharp.Html.Parser
                 item.Container = container;
                 container.FastAddItem(item);
             }
+        }
+
+        public static void AddAttribute(this Element element, HtmlAttributeToken attribute)
+        {
+            var container = element.Attributes;
+            var item = new Attr(attribute.Name, attribute.Value);
+            item.Container = container;
+            container.FastAddItem(item);
         }
 
         public static HtmlTreeMode? SelectMode(this Element element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
@@ -96,17 +104,15 @@ namespace AngleSharp.Html.Parser
             return (Int32)code;
         }
 
-        public static void SetUniqueAttributes(this Element element, List<HtmlAttributeToken> attributes)
+        public static void SetUniqueAttributes(this Element element, IReadOnlyList<HtmlAttributeToken> attributes)
         {
             for (var i = attributes.Count - 1; i >= 0; i--)
             {
-                if (element.HasAttribute(attributes[i].Name))
+                if (!element.HasAttribute(attributes[i].Name))
                 {
-                    attributes.RemoveAt(i);
+                    element.AddAttribute(attributes[i]);
                 }
             }
-
-            element.SetAttributes(attributes);
         }
 
         public static void AddFormatting(this List<Element> formatting, Element element)

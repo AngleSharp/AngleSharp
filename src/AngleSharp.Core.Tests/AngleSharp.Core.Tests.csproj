@@ -9,14 +9,15 @@
   <ItemGroup>
     <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj" AdditionalProperties="TargetFramework=$(TargetFramework)" />
   </ItemGroup>
-
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net6.0' ">
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="GitHubActionsTestLogger" Version="2.0.1" PrivateAssets="all" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.3.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" Condition="'$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net461'" />
   </ItemGroup>
 

@@ -3,7 +3,6 @@
     <AssemblyName>AngleSharp</AssemblyName>
     <RootNamespace>AngleSharp</RootNamespace>
     <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;net461;net472;net6.0;net7.0;net8.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
     <RepositoryUrl>https://github.com/AngleSharp/AngleSharp</RepositoryUrl>
@@ -13,6 +12,8 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NoWarn>$(NoWarn);SYSLIB0014</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net6.0' ">
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">

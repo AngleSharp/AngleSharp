@@ -16,5 +16,10 @@
         {
             return _resolver.Invoke(name);
         }
+
+        public String GetSymbol(ReadOnlyMemory<Char> name)
+        {
+            return _resolver.Invoke(name.ToString());
+        }
     }
 }

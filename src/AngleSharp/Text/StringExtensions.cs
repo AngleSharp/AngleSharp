@@ -21,6 +21,64 @@ namespace AngleSharp.Text
     public static class StringExtensions
     {
         /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public readonly struct Lease<T> : IDisposable
+        {
+            private readonly ArrayPool<T> owner;
+
+            /// <summary>
+            ///
+            /// </summary>
+            /// <param name="owner"></param>
+            /// <param name="data"></param>
+            /// <param name="requestedLength"></param>
+            public Lease(ArrayPool<T> owner, T[] data, int requestedLength)
+            {
+                this.owner = owner;
+                this.Data = data;
+                this.RequestedLength = requestedLength;
+            }
+
+            /// <summary>
+            ///
+            /// </summary>
+            public T[] Data { get; }
+
+            /// <summary>
+            ///
+            /// </summary>
+            public Span<T> Span => Data.AsSpan(0, RequestedLength);
+
+            /// <summary>
+            ///
+            /// </summary>
+            public int RequestedLength { get; }
+
+            /// <summary>
+            ///
+            /// </summary>
+            public void Dispose()
+            {
+                owner.Return(this.Data);
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="pool"></param>
+        /// <param name="length"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Lease<T> Borrow<T>(this ArrayPool<T> pool, int length)
+        {
+            var arr = ArrayPool<T>.Shared.Rent(length);
+            return new Lease<T>(ArrayPool<T>.Shared, arr, length);
+        }
+
+        /// <summary>
         /// Checks if the given string has a certain character at a specific
         /// index. The index is optional (default is 0).
         /// </summary>
@@ -29,7 +87,7 @@ namespace AngleSharp.Text
         /// <param name="index">The index of the character.</param>
         /// <returns>True if the value has the char, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-       
+
         public static Boolean Has([NotNullWhen(true)] this String? value, Char chr, Int32 index = 0)
         {
             return value != null && value.Length > index && value[index] == chr;
@@ -79,32 +137,49 @@ namespace AngleSharp.Text
 
                 if (c.IsUppercaseAscii())
                 {
-                    var result = new Char[length];
-
-                    for (var j = 0; j < i; j++)
+                    if (length < 128)
                     {
-                        result[j] = value[j];
+                        // safe to stackalloc inside loop because will immediately return
+                        Span<Char> result = stackalloc Char[length];
+                        return Slow(value, i, result);
                     }
-
-                    result[i] = Char.ToLowerInvariant(c);
-
-                    for (var j = i + 1; j < length; j++)
+                    else
                     {
-                        c = value[j];
-
-                        if (c.IsUppercaseAscii())
-                        {
-                            c = Char.ToLowerInvariant(c);
-                        }
-
-                        result[j] = c;
+                        var rent = ArrayPool<Char>.Shared.Rent(length);
+                        Span<Char> result = rent.AsSpan(0, length);
+                        var tmp = Slow(value, i, result);
+                        ArrayPool<Char>.Shared.Return(rent);
+                        return tmp;
                     }
-
-                    return new String(result);
                 }
             }
 
             return value;
+
+            static String Slow(String value, Int32 i, Span<Char> result)
+            {
+                for (var j = 0; j < i; j++)
+                {
+                    result[j] = value[j];
+                }
+
+                var c = value[i];
+                result[i] = Char.ToLowerInvariant(c);
+
+                for (var j = i + 1; j < value.Length; j++)
+                {
+                    c = value[j];
+
+                    if (c.IsUppercaseAscii())
+                    {
+                        c = Char.ToLowerInvariant(c);
+                    }
+
+                    result[j] = c;
+                }
+
+                return result.ToString();
+            }
         }
 
         /// <summary>
@@ -399,6 +474,32 @@ namespace AngleSharp.Text
             String.Equals(current, other, StringComparison.Ordinal);
 
         /// <summary>
+        ///
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Is(this Span<Char> current, String? other)
+        {
+            if (other == null) return false;
+            return current.SequenceEqual(other.AsSpan());
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Is(this ReadOnlySpan<Char> current, String? other)
+        {
+            if (other == null) return false;
+            return current.SequenceEqual(other.AsSpan());
+        }
+
+        /// <summary>
         /// Checks if two strings are equal when viewed case-insensitive.
         /// </summary>
         /// <param name="current">The current string.</param>
@@ -407,6 +508,32 @@ namespace AngleSharp.Text
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean Isi(this String? current, String? other) =>
             String.Equals(current, other, StringComparison.OrdinalIgnoreCase);
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Isi(this Span<Char> current, String? other)
+        {
+            if (other == null) return false;
+            return System.MemoryExtensions.Equals(current, other.AsSpan(), StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Isi(this ReadOnlySpan<Char> current, String? other)
+        {
+            if (other == null) return false;
+            return System.MemoryExtensions.Equals(current, other.AsSpan(), StringComparison.OrdinalIgnoreCase);
+        }
 
         /// <summary>
         /// Examines if the given element is equal to one of the given elements.
@@ -632,7 +759,7 @@ namespace AngleSharp.Text
                             list.Add(token);
                         }
 
-                        c = 0;                        
+                        c = 0;
                     }
                 }
                 else
@@ -739,8 +866,8 @@ namespace AngleSharp.Text
         /// values. Replaces the bytes 0x20 (U+0020 SPACE if interpreted as
         /// ASCII) with a single 0x2B byte ("+" (U+002B) character if
         /// interpreted as ASCII). If a byte is not in the range 0x2A, 0x2D,
-        /// 0x2E, 0x30 to 0x39, 0x41 to 0x5A, 0x5F, 0x61 to 0x7A, it is 
-        /// replaced with its hexadecimal value (zero-padded if necessary), 
+        /// 0x2E, 0x30 to 0x39, 0x41 to 0x5A, 0x5F, 0x61 to 0x7A, it is
+        /// replaced with its hexadecimal value (zero-padded if necessary),
         /// starting with the percent sign.
         /// </summary>
         /// <param name="content">The content to encode.</param>

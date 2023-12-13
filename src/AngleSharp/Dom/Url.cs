@@ -8,6 +8,7 @@ namespace AngleSharp.Dom
     using System.Globalization;
     using System.Linq;
     using System.Text;
+    using Common;
 
     /// <summary>
     /// Represents an Url class according to RFC3986. This is the base for all
@@ -672,7 +673,7 @@ namespace AngleSharp.Dom
                     }
                 }
             }
-            
+
             return !onlyScheme && RelativeState(input, 0, length);
         }
 
@@ -1029,8 +1030,8 @@ namespace AngleSharp.Dom
                     {
                         path = CurrentDirectory;
                     }
-                    else if (path.Isi(UpperDirectoryAlternatives[0]) || 
-                             path.Isi(UpperDirectoryAlternatives[1]) || 
+                    else if (path.Isi(UpperDirectoryAlternatives[0]) ||
+                             path.Isi(UpperDirectoryAlternatives[1]) ||
                              path.Isi(UpperDirectoryAlternatives[2]))
                     {
                         path = UpperDirectory;
@@ -1047,10 +1048,10 @@ namespace AngleSharp.Dom
                     }
                     else if (!path.Is(CurrentDirectory))
                     {
-                        if (_scheme.Is(ProtocolNames.File) && 
-                            paths.Count == originalCount && 
-                            path.Length == 2 && 
-                            path[0].IsLetter() && 
+                        if (_scheme.Is(ProtocolNames.File) &&
+                            paths.Count == originalCount &&
+                            path.Length == 2 &&
+                            path[0].IsLetter() &&
                             path[1] == Symbols.Pipe)
                         {
                             path = path.Replace(Symbols.Pipe, Symbols.Colon);
@@ -1318,7 +1319,7 @@ namespace AngleSharp.Dom
 
         private static String SanatizePort(String port, Int32 start, Int32 length)
         {
-            var chars = new Char[length];
+            Span<Char> chars = stackalloc Char[length];
             var count = 0;
             var n = start + length;
 
@@ -1334,7 +1335,7 @@ namespace AngleSharp.Dom
                 }
             }
 
-            return new String(chars, 0, count);
+            return chars.Slice(0, count).CreateString();
         }
 
 #endregion

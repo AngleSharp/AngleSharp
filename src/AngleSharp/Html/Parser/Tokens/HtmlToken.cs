@@ -12,7 +12,7 @@ namespace AngleSharp.Html.Parser.Tokens
         #region Fields
 
         private readonly HtmlTokenType _type;
-        private readonly TextPosition _position;
+        // private readonly TextPosition _position;
         private String _name;
 
         #endregion
@@ -28,7 +28,7 @@ namespace AngleSharp.Html.Parser.Tokens
         public HtmlToken(HtmlTokenType type, TextPosition position, String? name = null)
         {
             _type = type;
-            _position = position;
+            // _position = position;
             _name = name!; // null is rare, default to non-null
         }
 
@@ -79,7 +79,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets the position of the token.
         /// </summary>
-        public TextPosition Position => _position;
+        public TextPosition Position => default;
 
         /// <summary>
         /// Gets if the token can be used with IsHtmlTIP properties.
