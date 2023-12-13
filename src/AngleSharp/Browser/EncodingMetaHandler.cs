@@ -27,12 +27,17 @@ namespace AngleSharp.Browser
             if (encoding != null)
             {
                 var document = element.Owner!;
-                if (document.WritableSource == null)
+                if (!Equals(document.Source.CurrentEncoding, encoding))
                 {
-                    throw new InvalidOperationException();
+                    if (document.WritableSource != null)
+                    {
+                        document.WritableSource.CurrentEncoding = encoding;
+                    }
+                    else
+                    {
+                        // TODO
+                    }
                 }
-
-                document.WritableSource.CurrentEncoding = encoding;
             }
         }
 
