@@ -2,6 +2,8 @@ namespace AngleSharp.Common;
 
 using System;
 using System.Buffers;
+using System.Collections.Generic;
+using System.Linq;
 
 internal class ArrayPoolBuffer : IBuffer
 {
@@ -148,6 +150,16 @@ internal class ArrayPoolBuffer : IBuffer
         if (_canLog)
             Console.WriteLine($"GetData() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
         return new StringOrMemory(_buffer.AsMemory(_start, Length));
+    }
+
+    public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison)
+    {
+        return MemoryExtensions.Equals(_buffer.AsSpan(_start, Length), test, comparison);
+    }
+
+    public Boolean Has(CheckBuffer test, StringComparison comparison)
+    {
+        return test(_buffer.AsSpan(_start, Length));
     }
 
     public override String ToString()

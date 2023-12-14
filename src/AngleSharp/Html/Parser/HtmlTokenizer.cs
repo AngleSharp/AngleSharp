@@ -9,7 +9,7 @@ namespace AngleSharp.Html.Parser
     using System;
     using System.Buffers;
     using System.Collections.Generic;
-    using AttributeName = System.ReadOnlyMemory<char>;
+    using AttributeName = System.ReadOnlyMemory<System.Char>;
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
@@ -45,9 +45,6 @@ namespace AngleSharp.Html.Parser
             : base(source)
         {
             State = HtmlParseMode.PCData;
-            IsAcceptingCharacterData = false;
-            IsNotConsumingCharacterReferences = false;
-            IsStrictMode = false;
             _lastStartTag = String.Empty;
             _resolver = resolver;
         }
@@ -59,43 +56,43 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         ///
         /// </summary>
-        public bool SkipDataText { get; set; } = false;
+        public Boolean SkipDataText { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipScriptText { get; set; } = false;
+        public Boolean SkipScriptText { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipRawText { get; set; } = false;
+        public Boolean SkipRawText { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipComments { get; set; }
+        public Boolean SkipComments { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipPlaintext { get; set; }
+        public Boolean SkipPlaintext { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipRCDataText { get; set; }
+        public Boolean SkipRCDataText { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipCDATA { get; set; }
+        public Boolean SkipCDATA { get; set; }
 
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipProcessingInstructions { get; set; }
+        public Boolean SkipProcessingInstructions { get; set; }
 
         /// <summary>
         ///
@@ -2318,47 +2315,39 @@ namespace AngleSharp.Html.Parser
                             var isslash = c == Symbols.Solidus;
                             var hasLength = StringBuffer.Length - offset == length;
 
-                            if (hasLength && (isspace || isclosed || isslash))
+                            if (hasLength && (isspace || isclosed || isslash) && StringBuffer.Isi(_lastStartTag))
                             {
-                                using var lease = ArrayPool<Char>.Shared.Borrow(length);
-                                StringBuffer.CopyTo(offset, lease.Span, length);
-
-                                // todo: move check to IBuffer
-
-                                if (lease.Span.Isi(_lastStartTag))
+                                if (offset > 2)
                                 {
-                                    if (offset > 2)
+                                    Back(3 + length);
+                                    StringBuffer.Remove(offset - 2, length + 2);
+                                    if (SkipScriptText)
                                     {
-                                        Back(3 + length);
-                                        StringBuffer.Remove(offset - 2, length + 2);
-                                        if (SkipScriptText)
-                                        {
-                                            StringBuffer.Clear();
-                                            return NewSkippedContent();
-                                        }
-                                        else
-                                        {
-                                            return NewCharacter();
-                                        }
+                                        StringBuffer.Clear();
+                                        return NewSkippedContent();
                                     }
+                                    else
+                                    {
+                                        return NewCharacter();
+                                    }
+                                }
 
-                                    StringBuffer.Clear();
+                                StringBuffer.Clear();
 
-                                    if (isspace)
-                                    {
-                                        tag.Name = _lastStartTag;
-                                        return ParseAttributes(tag);
-                                    }
-                                    else if (isslash)
-                                    {
-                                        tag.Name = _lastStartTag;
-                                        return TagSelfClosing(tag);
-                                    }
-                                    else if (isclosed)
-                                    {
-                                        tag.Name = _lastStartTag;
-                                        return EmitTag(tag);
-                                    }
+                                if (isspace)
+                                {
+                                    tag.Name = _lastStartTag;
+                                    return ParseAttributes(tag);
+                                }
+                                else if (isslash)
+                                {
+                                    tag.Name = _lastStartTag;
+                                    return TagSelfClosing(tag);
+                                }
+                                else if (isclosed)
+                                {
+                                    tag.Name = _lastStartTag;
+                                    return EmitTag(tag);
                                 }
                             }
                         }
@@ -2509,10 +2498,7 @@ namespace AngleSharp.Html.Parser
                         var hasLength = StringBuffer.Length - offset == scriptLength;
                         if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
-                            using var lease = ArrayPool<Char>.Shared.Borrow(scriptLength);
-                            StringBuffer.CopyTo(offset, lease.Span, scriptLength);
-                            // todo: move to buffer
-                            if (lease.Span.Isi(TagNames.Script))
+                            if (StringBuffer.Isi(TagNames.Script))
                             {
                                 Back(scriptLength + 3);
                                 StringBuffer.Remove(offset - 2, scriptLength + 2);
@@ -2539,10 +2525,7 @@ namespace AngleSharp.Html.Parser
 
                         if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
-                            using var lease = ArrayPool<Char>.Shared.Borrow(scriptLength);
-                            StringBuffer.CopyTo(offset, lease.Span, scriptLength);
-                            var isscript = lease.Span.Isi(TagNames.Script);
-
+                            var isscript = StringBuffer.Isi(TagNames.Script);
                             StringBuffer.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.EscapedDouble : ScriptState.Escaped;
@@ -2690,9 +2673,7 @@ namespace AngleSharp.Html.Parser
 
                         if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
                         {
-                            using var lease = ArrayPool<Char>.Shared.Borrow(scriptLength);
-                            StringBuffer.CopyTo(offset, lease.Span, scriptLength);
-                            var isscript = lease.Span.Isi(TagNames.Script);
+                            var isscript = StringBuffer.Isi(TagNames.Script);
                             StringBuffer.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.Escaped : ScriptState.EscapedDouble;
@@ -2802,9 +2783,7 @@ namespace AngleSharp.Html.Parser
 
             if (hasLength && (isspace || isclosed || isslash))
             {
-                using var lease = ArrayPool<Char>.Shared.Borrow(StringBuffer.Length);
-                StringBuffer.CopyTo(0, lease.Span, StringBuffer.Length);
-                if (lease.Span.Is(_lastStartTag))
+                if (StringBuffer.Is(_lastStartTag))
                 {
                     var tag = NewTagClose();
                     StringBuffer.Clear();

@@ -6,12 +6,12 @@ using System.Collections.Generic;
 /// <summary>
 ///
 /// </summary>
-public class MemStringEqualityComparer : IEqualityComparer<ReadOnlyMemory<Char>>
+public class ReadOnlyMemoryComparer : IEqualityComparer<ReadOnlyMemory<Char>>
 {
     /// <summary>
     ///
     /// </summary>
-    public static MemStringEqualityComparer Instance { get; } = new MemStringEqualityComparer();
+    public static ReadOnlyMemoryComparer Instance { get; } = new ReadOnlyMemoryComparer();
 
     /// <summary>
     ///
@@ -21,7 +21,7 @@ public class MemStringEqualityComparer : IEqualityComparer<ReadOnlyMemory<Char>>
     /// </summary>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public Int32 GetHashCode( ReadOnlyMemory<Char> obj ) => String.GetHashCode( obj.Span );
+    public Int32 GetHashCode(ReadOnlyMemory<Char> obj ) => String.GetHashCode(obj.Span);
     /// <summary>
     ///
     /// </summary>

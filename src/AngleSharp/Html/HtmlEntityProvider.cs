@@ -94,7 +94,7 @@ namespace AngleSharp.Html
                 { 'Z', GetSymbolBigZ() },
             };
 
-            _entities = entities.ToFrozenDictionary(k => k.Key, v => v.Value.ToFrozenDictionary(k => k.Key.AsMemory(), v => v.Value, new MemStringEqualityComparer()));
+            _entities = entities.ToFrozenDictionary(k => k.Key, v => v.Value.ToFrozenDictionary(k => k.Key.AsMemory(), v => v.Value, new ReadOnlyMemoryComparer()));
         }
 
         #endregion

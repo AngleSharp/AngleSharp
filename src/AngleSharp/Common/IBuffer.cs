@@ -116,4 +116,53 @@ public interface IBuffer : IDisposable
     /// </summary>
     /// <returns></returns>
     StringOrMemory GetData();
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="test"></param>
+    /// <param name="comparison"></param>
+    /// <returns></returns>
+    public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison);
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="test"></param>
+    /// <param name="comparison"></param>
+    /// <returns></returns>
+    public Boolean Has(CheckBuffer test, StringComparison comparison);
+}
+
+/// <summary>
+///
+/// </summary>
+public delegate Boolean CheckBuffer(ReadOnlySpan<Char> arg);
+
+/// <summary>
+///
+/// </summary>
+public static class StringBufferExtensions
+{
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="buffer"></param>
+    /// <param name="test"></param>
+    /// <returns></returns>
+    public static Boolean Isi(this IBuffer buffer, ReadOnlySpan<Char> test)
+    {
+        return buffer.HasText(test, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="buffer"></param>
+    /// <param name="test"></param>
+    /// <returns></returns>
+    public static Boolean Is(this IBuffer buffer, ReadOnlySpan<Char> test)
+    {
+        return buffer.HasText(test, StringComparison.Ordinal);
+    }
 }

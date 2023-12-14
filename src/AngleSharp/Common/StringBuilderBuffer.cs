@@ -1,6 +1,7 @@
 namespace AngleSharp.Common;
 
 using System;
+using System.Buffers;
 using System.Text;
 using Text;
 
@@ -69,6 +70,20 @@ internal class StringBuilderBuffer : IBuffer
     public StringOrMemory GetData()
     {
         return new StringOrMemory(_sb.ToString());
+    }
+
+    public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison)
+    {
+        using var lease = ArrayPool<Char>.Shared.Borrow(_sb.Length);
+        _sb.CopyTo(0, lease.Span, _sb.Length);
+        return MemoryExtensions.Equals(lease.Span, test, comparison);
+    }
+
+    public Boolean Has(CheckBuffer test, StringComparison comparison)
+    {
+        using var lease = ArrayPool<Char>.Shared.Borrow(_sb.Length);
+        _sb.CopyTo(0, lease.Span, _sb.Length);
+        return test(lease.Span);
     }
 
     public override String ToString()
