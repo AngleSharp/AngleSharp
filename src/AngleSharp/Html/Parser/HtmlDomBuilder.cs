@@ -141,12 +141,9 @@ namespace AngleSharp.Html.Parser
             var token = default(HtmlToken);
             SetOptions(options);
 
-            int i = 0;
             do
             {
-                i++;
                 token = _tokenizer.Get();
-                Console.WriteLine($"{i}: {token.Type} {token.Position} {token.Data}");
                 Consume(token);
                 _waiting?.Wait();
                 _waiting = null;
@@ -297,7 +294,19 @@ namespace AngleSharp.Html.Parser
             _tokenizer.SkipRawText = options.SkipRawText;
             _tokenizer.SkipScriptText = options.SkipScriptText;
             _tokenizer.SkipDataText = options.SkipDataText;
+
+            _tokenizer.SkipDataText = options.SkipDataText;
+            _tokenizer.SkipScriptText = options.SkipScriptText;
+            _tokenizer.SkipRawText = options.SkipRawText;
+            _tokenizer.SkipComments = options.SkipComments;
+            _tokenizer.SkipPlaintext = options.SkipPlaintext;
+            _tokenizer.SkipRCDataText = options.SkipRCDataText;
+            _tokenizer.SkipCDATA = options.SkipCDATA;
+            _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
+
             _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute ?? (static (_, _) => true);
+
+
 
             _options = options;
         }

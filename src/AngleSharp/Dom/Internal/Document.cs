@@ -493,9 +493,7 @@ namespace AngleSharp.Dom
             _salvageable = true;
             _shown = false;
             _context = context;
-
             _source = source;
-
             _ready = DocumentReadyState.Loading;
             _sandbox = Sandboxes.None;
             _quirksMode = QuirksMode.Off;

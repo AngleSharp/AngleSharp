@@ -12,6 +12,9 @@ namespace AngleSharp.Benchmarks
     using Html.Parser;
     using BenchmarkDotNet.Attributes;
     using BenchmarkDotNet.Configs;
+    using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
+    using Html.Dom;
+    using Perfolizer.Horology;
 
     [Config(typeof(Config))]
     [MemoryDiagnoser]
@@ -24,7 +27,7 @@ namespace AngleSharp.Benchmarks
                 AddJob(Job.ShortRun
                     .WithRuntime(CoreRuntime.Core80)
                     .WithStrategy(RunStrategy.Throughput)
-                    .WithLaunchCount(1)
+                    // .WithToolchain(InProcessNoEmitToolchain.Instance)
                 );
             }
         }
@@ -59,6 +62,11 @@ namespace AngleSharp.Benchmarks
             SkipScriptText = true,
             SkipRawText = false,
             SkipDataText = true,
+            SkipComments = true,
+            SkipPlaintext = true,
+            SkipCDATA = true,
+            SkipRCDataText = true,
+            SkipProcessingInstructions = true,
 
             ShouldEmitAttribute = (token, attributeName) =>
                 AllowedAttributes.TryGetValue(token.Name.AsMemory(), out var allowed)
@@ -122,7 +130,6 @@ namespace AngleSharp.Benchmarks
                 "http://www.netflix.com",
                 "http://www.w3.org/TR/html5/single-page.html",
                 "http://en.wikipedia.org/wiki/South_African_labour_law"
-
                 ).GetAwaiter().GetResult();
 
             return websites.Tests;
@@ -130,45 +137,48 @@ namespace AngleSharp.Benchmarks
 
         [ParamsSource(nameof(GetSources))] public UrlTest UrlTest { get; set; }
 
-        // [Benchmark]
-        // public IHtmlDocument AngleSharpPrefetched()
-        // {
-        //     var parser = new HtmlParser(HtmlParserOptions);
-        //     var source = new PrefetchedTextSource(UrlTest.Source);
-        //     var document = parser.ParseDocument(source);
-        //     return document;
-        // }
-
         [Benchmark]
-        public Int32 AngleSharpTokensPrefetched()
+        public IHtmlDocument AngleSharpPrefetched()
         {
-            int line = 0, count = 0;
-
-            using var source = new PrefetchedTextSource(UrlTest.Source.AsMemory());
-
-            foreach (var token in source.Tokenize(options: HtmlTokenizerOptions))
-            {
-                line = token.Position.Line;
-                count++;
-            }
-
-            return count + line;
+            var parser = new HtmlParser(HtmlParserOptions);
+            using var source = new PrefetchedTextSource(UrlTest.Source);
+            using var document = parser.ParseDocument(source);
+            return document;
         }
 
         [Benchmark(Baseline = true)]
-        public Int32 AngleSharpTokensOg()
+        public IHtmlDocument AngleSharpPrefetchedOg()
         {
-            int line = 0, count = 0;
-
+            var parser = new HtmlParser(HtmlParserOptions);
             using var source = new TextSource(UrlTest.Source);
-
-            foreach (var token in source.Tokenize(options: HtmlTokenizerOptions))
-            {
-                line = token.Position.Line;
-                count++;
-            }
-
-            return count + line;
+            using var document = parser.ParseDocument(source);
+            return document;
         }
+
+        // [Benchmark]
+        // public Int32 AngleSharpTokensPrefetched()
+        // {
+        //     int line = 0, count = 0;
+        //     using var source = new PrefetchedTextSource(UrlTest.Source);
+        //     foreach (var token in source.Tokenize(options: HtmlTokenizerOptions))
+        //     {
+        //         line = token.Position.Line;
+        //         count++;
+        //     }
+        //     return count + line;
+        // }
+        //
+        // [Benchmark(Baseline = true)]
+        // public Int32 AngleSharpTokensOg()
+        // {
+        //     int line = 0, count = 0;
+        //     using var source = new TextSource(UrlTest.Source);
+        //     foreach (var token in source.Tokenize(options: HtmlTokenizerOptions))
+        //     {
+        //         line = token.Position.Line;
+        //         count++;
+        //     }
+        //     return count + line;
+        // }
     }
 }

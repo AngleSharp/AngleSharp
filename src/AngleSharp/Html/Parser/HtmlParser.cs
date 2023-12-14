@@ -233,6 +233,7 @@ namespace AngleSharp.Html.Parser
         private HtmlDocument CreateDocument(String source)
         {
             var textSource = new TextSource(source);
+            // var textSource = new PrefetchedTextSource(source);
             return CreateDocument(textSource);
         }
 

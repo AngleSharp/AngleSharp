@@ -54,8 +54,6 @@ namespace AngleSharp.Html.Parser
 
         #endregion
 
-        private static readonly HtmlToken EmptyCharacterToken = new HtmlToken(HtmlTokenType.Character, new TextPosition(), default);
-
         #region Properties
 
         /// <summary>
@@ -72,6 +70,32 @@ namespace AngleSharp.Html.Parser
         ///
         /// </summary>
         public bool SkipRawText { get; set; } = false;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipComments { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipPlaintext { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipRCDataText { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipCDATA { get; set; }
+
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool SkipProcessingInstructions { get; set; }
 
         /// <summary>
         ///
@@ -206,9 +230,9 @@ namespace AngleSharp.Html.Parser
                         Back();
                         if (SkipDataText)
                         {
-                            StringBuffer.Clear();
-                            return EmptyCharacterToken;
+                            return NewSkippedContent();
                         }
+
                         return NewCharacter();
 
                     case Symbols.Ampersand:
@@ -248,6 +272,12 @@ namespace AngleSharp.Html.Parser
 
                     case Symbols.EndOfFile:
                         Back();
+
+                        if (SkipPlaintext)
+                        {
+                            return NewSkippedContent();
+                        }
+
                         return NewCharacter();
 
                     default:
@@ -285,6 +315,11 @@ namespace AngleSharp.Html.Parser
                     case Symbols.LessThan:
                     case Symbols.EndOfFile:
                         Back();
+                        if (SkipRCDataText)
+                        {
+                            return NewSkippedContent();
+                        }
+
                         return NewCharacter();
 
                     case Symbols.Null:
@@ -390,9 +425,9 @@ namespace AngleSharp.Html.Parser
                         Back();
                         if (SkipRawText)
                         {
-                            StringBuffer.Clear();
-                            return EmptyCharacterToken;
+                            return NewSkippedContent();
                         }
+
                         return NewCharacter();
 
                     case Symbols.Null:
@@ -501,6 +536,11 @@ namespace AngleSharp.Html.Parser
                     StringBuffer.Append(c);
                     c = GetNext();
                 }
+            }
+
+            if (SkipCDATA)
+            {
+                return NewSkippedContent();
             }
 
             return NewCharacter();
@@ -893,6 +933,7 @@ namespace AngleSharp.Html.Parser
                 }
 
                 State = HtmlParseMode.PCData;
+
                 return NewProcessingInstruction();
             }
         }
@@ -2281,6 +2322,9 @@ namespace AngleSharp.Html.Parser
                             {
                                 using var lease = ArrayPool<Char>.Shared.Borrow(length);
                                 StringBuffer.CopyTo(offset, lease.Span, length);
+
+                                // todo: move check to IBuffer
+
                                 if (lease.Span.Isi(_lastStartTag))
                                 {
                                     if (offset > 2)
@@ -2290,7 +2334,7 @@ namespace AngleSharp.Html.Parser
                                         if (SkipScriptText)
                                         {
                                             StringBuffer.Clear();
-                                            return EmptyCharacterToken;
+                                            return NewSkippedContent();
                                         }
                                         else
                                         {
@@ -2463,11 +2507,11 @@ namespace AngleSharp.Html.Parser
                     {
                         c = GetNext();
                         var hasLength = StringBuffer.Length - offset == scriptLength;
-
                         if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
                             using var lease = ArrayPool<Char>.Shared.Borrow(scriptLength);
                             StringBuffer.CopyTo(offset, lease.Span, scriptLength);
+                            // todo: move to buffer
                             if (lease.Span.Isi(TagNames.Script))
                             {
                                 Back(scriptLength + 3);
@@ -2672,6 +2716,12 @@ namespace AngleSharp.Html.Parser
 
         #region Tokens
 
+        private HtmlToken NewSkippedContent(HtmlTokenType htmlTokenType = HtmlTokenType.Character)
+        {
+            StringBuffer.Clear();
+            return new HtmlToken(htmlTokenType, _position);
+        }
+
         private HtmlToken NewCharacter()
         {
             var content = FlushBuffer();
@@ -2680,6 +2730,11 @@ namespace AngleSharp.Html.Parser
 
         private HtmlToken NewProcessingInstruction()
         {
+            if (SkipProcessingInstructions)
+            {
+                return NewSkippedContent(HtmlTokenType.Comment);
+            }
+
             var content = FlushBuffer();
             return new HtmlToken(HtmlTokenType.Comment, _position, content)
             {
@@ -2689,6 +2744,11 @@ namespace AngleSharp.Html.Parser
 
         private HtmlToken NewComment()
         {
+            if (SkipComments)
+            {
+                return NewSkippedContent(HtmlTokenType.Comment);
+            }
+
             var content = FlushBuffer();
             return new HtmlToken(HtmlTokenType.Comment, _position, content);
         }

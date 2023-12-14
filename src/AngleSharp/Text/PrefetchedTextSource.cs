@@ -27,6 +27,15 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
         _memory = memory;
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="str"></param>
+    public PrefetchedTextSource(String str)
+    {
+        _memory = str.AsMemory();
+    }
+
     #endregion
 
     #region Properties

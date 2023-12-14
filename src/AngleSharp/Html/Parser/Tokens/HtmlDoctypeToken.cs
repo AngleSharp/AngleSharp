@@ -6,7 +6,7 @@ namespace AngleSharp.Html.Parser.Tokens
     /// <summary>
     /// The DOCTYPE token.
     /// </summary>
-    public sealed class HtmlDoctypeToken : HtmlToken
+    public class HtmlDoctypeToken : HtmlToken
     {
         #region Fields
 

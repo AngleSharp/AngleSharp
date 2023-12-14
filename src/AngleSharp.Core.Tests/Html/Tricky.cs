@@ -418,7 +418,7 @@ Also not bold.").ToHtmlDocument();
         public void HelloWorldWithSomeDivs()
         {
             var doc = (@"<html><body>
-<label><a><div>Hello<div>World</div></a></label>  
+<label><a><div>Hello<div>World</div></a></label>
 </body></html>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
