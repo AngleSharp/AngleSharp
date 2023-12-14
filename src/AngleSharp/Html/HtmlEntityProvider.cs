@@ -2567,11 +2567,11 @@ namespace AngleSharp.Html
         /// The name of the entity, specified by &amp;NAME; in the Html code.
         /// </param>
         /// <returns>The string with the symbol or null.</returns>
-        public String? GetSymbol(ReadOnlyMemory<Char> name)
+        public String? GetSymbol(StringOrMemory name)
         {
-            if (name.Length != 0 && _entities.TryGetValue(name.Span[0], out var symbols))
+            if (name.Memory.Length != 0 && _entities.TryGetValue(name.Memory.Span[0], out var symbols))
             {
-                if (symbols.TryGetValue(name, out var symbol))
+                if (symbols.TryGetValue(name.Memory, out var symbol))
                 {
                     return symbol;
                 }
@@ -2595,7 +2595,7 @@ namespace AngleSharp.Html
                 {
                     if (entity.Value == symbol)
                     {
-                        return entity.Key.ToString();
+                        return entity.Key.CreateString();
                     }
                 }
             }

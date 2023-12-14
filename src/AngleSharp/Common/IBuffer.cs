@@ -8,6 +8,45 @@ using Text;
 /// <summary>
 ///
 /// </summary>
+public struct StringOrMemory
+{
+    private String? _string;
+    private readonly ReadOnlyMemory<Char> _memory;
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="str"></param>
+    public StringOrMemory(String str)
+    {
+        _memory = str.AsMemory();
+        _string = str;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="memory"></param>
+    public StringOrMemory(ReadOnlyMemory<Char> memory)
+    {
+        _memory = memory;
+        _string = null;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public readonly ReadOnlyMemory<Char> Memory => _memory;
+
+    /// <summary>
+    ///
+    /// </summary>
+    public String String => _string ??= _memory.Span.CreateString();
+}
+
+/// <summary>
+///
+/// </summary>
 public interface IBuffer : IDisposable
 {
     /// <summary>
@@ -26,12 +65,12 @@ public interface IBuffer : IDisposable
     /// <summary>
     ///
     /// </summary>
-    int Length { get; }
+    Int32 Length { get; }
 
     /// <summary>
     ///
     /// </summary>
-    int Capacity { get; }
+    Int32 Capacity { get; }
 
     /// <summary>
     ///
@@ -39,7 +78,7 @@ public interface IBuffer : IDisposable
     /// <param name="start"></param>
     /// <param name="length"></param>
     /// <returns></returns>
-    IBuffer Remove(int start, int length);
+    IBuffer Remove(Int32 start, Int32 length);
 
     /// <summary>
     ///
@@ -47,7 +86,7 @@ public interface IBuffer : IDisposable
     /// <param name="offset"></param>
     /// <param name="dest"></param>
     /// <param name="length"></param>
-    void CopyTo(int offset, Span<char> dest, int length);
+    void CopyTo(Int32 offset, Span<Char> dest, Int32 length);
 
     /// <summary>
     ///
@@ -60,14 +99,14 @@ public interface IBuffer : IDisposable
     /// <param name="index"></param>
     /// <param name="c"></param>
     /// <returns></returns>
-    IBuffer Insert(int index, char c);
+    IBuffer Insert(Int32 index, Char c);
 
     /// <summary>
     ///
     /// </summary>
     /// <param name="str"></param>
     /// <returns></returns>
-    IBuffer Append(ReadOnlySpan<char> str);
+    IBuffer Append(ReadOnlySpan<Char> str);
 
     /// <summary>
     /// Gets the character at the specified index.
@@ -79,17 +118,17 @@ public interface IBuffer : IDisposable
     /// Gets the data as a memory.
     /// </summary>
     /// <returns></returns>
-    ReadOnlyMemory<char> GetData();
+    StringOrMemory GetData();
 }
 
 internal class ArrayPoolBuffer : IBuffer
 {
-    private char[] _buffer;
-    private int index = 0;
+    private Char[] _buffer;
+    private Int32 index = 0;
 
-    public ArrayPoolBuffer(int length)
+    public ArrayPoolBuffer(Int32 length)
     {
-        _buffer = ArrayPool<char>.Shared.Rent(length);
+        _buffer = ArrayPool<Char>.Shared.Rent(length);
         Capacity = length;
         Length = 0;
     }
@@ -99,7 +138,7 @@ internal class ArrayPoolBuffer : IBuffer
         ReturnToPool();
     }
 
-    public IBuffer Append(char c)
+    public IBuffer Append(Char c)
     {
         _buffer[index++] = c;
         return this;
@@ -111,11 +150,11 @@ internal class ArrayPoolBuffer : IBuffer
         return this;
     }
 
-    public int Length { get; private set; }
+    public Int32 Length { get; private set; }
 
-    public int Capacity { get; }
+    public Int32 Capacity { get; }
 
-    public IBuffer Remove(int startIndex, int length)
+    public IBuffer Remove(Int32 startIndex, Int32 length)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(length);
         ArgumentOutOfRangeException.ThrowIfNegative(startIndex);
@@ -139,26 +178,26 @@ internal class ArrayPoolBuffer : IBuffer
         return this;
     }
 
-    public void CopyTo(int offset, Span<Char> dest, int length)
+    public void CopyTo(Int32 offset, Span<Char> dest, Int32 length)
     {
         _buffer.AsSpan(offset, length).CopyTo(dest);
     }
 
-    private bool _disposed = false;
+    private Boolean _disposed = false;
 
     public void ReturnToPool()
     {
         if (!_disposed)
         {
-            ArrayPool<char>.Shared.Return(_buffer);
+            ArrayPool<Char>.Shared.Return(_buffer);
             _buffer = null!;
             _disposed = true;
         }
     }
 
-    public IBuffer Insert(int index, char c)
+    public IBuffer Insert(Int32 index, Char c)
     {
-        if ((uint)index > (uint)Length)
+        if ((UInt32)index > (UInt32)Length)
         {
             throw new ArgumentOutOfRangeException(nameof(index)/*, SR.ArgumentOutOfRange_IndexMustBeLessOrEqual*/);
         }
@@ -180,22 +219,22 @@ internal class ArrayPoolBuffer : IBuffer
         return this;
     }
 
-    public char this[int i] => _buffer[i];
+    public Char this[Int32 i] => _buffer[i];
 
-    public ReadOnlyMemory<Char> GetData()
+    public StringOrMemory GetData()
     {
-        return _buffer.AsMemory(0, Length);
+        return new StringOrMemory(_buffer.AsMemory(0, Length));
+    }
+
+    public override String ToString()
+    {
+        return _buffer.AsSpan(0, Length).CreateString();
     }
 }
 
 internal class StringBuilderBuffer : IBuffer
 {
-    private StringBuilder _sb;
-
-    public StringBuilderBuffer(StringBuilder sb)
-    {
-        _sb = sb;
-    }
+    private StringBuilder _sb = StringBuilderPool.Obtain();
 
     public IBuffer Append(Char c)
     {
@@ -209,22 +248,22 @@ internal class StringBuilderBuffer : IBuffer
         return this;
     }
 
-    public int Length => _sb.Length;
+    public Int32 Length => _sb.Length;
 
-    public int Capacity => _sb.Capacity;
+    public Int32 Capacity => _sb.Capacity;
 
-    public IBuffer Remove(int startIndex, int length)
+    public IBuffer Remove(Int32 startIndex, Int32 length)
     {
         _sb.Remove(startIndex, length);
         return this;
     }
 
-    public void CopyTo(int offset, Span<char> dest, int length)
+    public void CopyTo(Int32 offset, Span<Char> dest, Int32 length)
     {
         _sb.CopyTo(offset, dest, length);
     }
 
-    private bool _disposed = false;
+    private Boolean _disposed = false;
 
     public void ReturnToPool()
     {
@@ -241,23 +280,23 @@ internal class StringBuilderBuffer : IBuffer
         ReturnToPool();
     }
 
-    public IBuffer Insert(int index, char c)
+    public IBuffer Insert(Int32 index, Char c)
     {
         _sb.Insert(index, c);
         return this;
     }
 
-    public IBuffer Append(ReadOnlySpan<char> str)
+    public IBuffer Append(ReadOnlySpan<Char> str)
     {
         _sb.Append(str);
         return this;
     }
 
-    public char this[int i] => _sb[i];
+    public Char this[Int32 i] => _sb[i];
 
-    public ReadOnlyMemory<Char> GetData()
+    public StringOrMemory GetData()
     {
-        return _sb.ToString().AsMemory();
+        return new StringOrMemory(_sb.ToString());
     }
 
     public override String ToString()

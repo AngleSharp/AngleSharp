@@ -1,6 +1,7 @@
 namespace AngleSharp.Dom
 {
     using System;
+    using Common;
 
     /// <summary>
     /// Defines methods to create a custom entity service.
@@ -21,6 +22,6 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="name">The name of the entity in the markup.</param>
         /// <returns>The string with the symbol or null.</returns>
-        String? GetSymbol(ReadOnlyMemory<Char> name);
+        String? GetSymbol(StringOrMemory name);
     }
 }

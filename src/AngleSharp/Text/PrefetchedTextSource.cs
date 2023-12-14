@@ -35,7 +35,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// Gets the full text buffer.
     /// </summary>
     [MemberNotNull("_content")]
-    public String Text => new String(_memory.Span);
+    public String Text => _memory.Span.CreateString();
 
     /// <summary>
     /// Gets the character at the given position in the text buffer.

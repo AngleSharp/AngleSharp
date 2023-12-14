@@ -15,7 +15,7 @@ namespace AngleSharp.Core.Tests.Html
     [TestFixture]
     public class HtmlTokenizationTests
     {
-        private static HtmlTokenizer CreateTokenizer(WritableTextSource source)
+        private static HtmlTokenizer CreateTokenizer(TextSource source)
         {
             return new HtmlTokenizer(source, HtmlEntityProvider.Resolver);
         }
@@ -24,7 +24,7 @@ namespace AngleSharp.Core.Tests.Html
         public void TokenizationCarriageReturnPureCharactersIssue_786()
         {
             var ms = new MemoryStream(Encoding.UTF8.GetBytes("\r\nThis is test 1\r\nThis is test 2"));
-            var s = new WritableTextSource(ms);
+            var s = new TextSource(ms);
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
@@ -35,7 +35,7 @@ namespace AngleSharp.Core.Tests.Html
         public void TokenizationCarriageWithTextSourceIssue_786()
         {
             var ms = new MemoryStream(Encoding.UTF8.GetBytes("\r\nThis is test 1\r\nThis is test 2"));
-            var s = new WritableTextSource(ms);
+            var s = new TextSource(ms);
             var t = CreateTokenizer(s);
             var token = t.Get();
             var start = token.Position.Index;
@@ -47,7 +47,7 @@ namespace AngleSharp.Core.Tests.Html
         public void TokenizationCarriageReturnNonLeadingIssue_786()
         {
             var ms = new MemoryStream(Encoding.UTF8.GetBytes("<html><body><p>\r\nThis is test 1<p> \r\nThis is test 2</body></html>"));
-            var s = new WritableTextSource(ms);
+            var s = new TextSource(ms);
             var t = CreateTokenizer(s);
             var tokenHtmlOpen = t.Get();
             var tokenBodyOpen = t.Get();
@@ -74,7 +74,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationFinalEOF()
         {
-            var s = new WritableTextSource("");
+            var s = new TextSource("");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.EndOfFile, token.Type);
@@ -83,7 +83,7 @@ namespace AngleSharp.Core.Tests.Html
         public void TokenizationLongerCharacterReference()
         {
             var content = "&abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTV;";
-            var s = new WritableTextSource(content);
+            var s = new TextSource(content);
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
@@ -93,7 +93,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationStartTagDetection()
         {
-            var s = new WritableTextSource("<p>");
+            var s = new TextSource("<p>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.StartTag, token.Type);
@@ -103,7 +103,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationBogusCommentEmpty()
         {
-            var s = new WritableTextSource("<!>");
+            var s = new TextSource("<!>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
@@ -113,7 +113,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationBogusCommentQuestionMark()
         {
-            var s = new WritableTextSource("<?>");
+            var s = new TextSource("<?>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
@@ -123,7 +123,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationBogusCommentClosingTag()
         {
-            var s = new WritableTextSource("</ >");
+            var s = new TextSource("</ >");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
@@ -133,7 +133,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationTagNameDetection()
         {
-            var s = new WritableTextSource("<span>");
+            var s = new TextSource("<span>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual("span", ((HtmlTagToken)token).Name);
@@ -142,7 +142,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationTagSelfClosingDetected()
         {
-            var s = new WritableTextSource("<img />");
+            var s = new TextSource("<img />");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(true, ((HtmlTagToken)token).IsSelfClosing);
@@ -151,7 +151,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationAttributesDetected()
         {
-            var s = new WritableTextSource("<a target='_blank' href='http://whatever' title='ho'>");
+            var s = new TextSource("<a target='_blank' href='http://whatever' title='ho'>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(3, ((HtmlTagToken)token).Attributes.Count);
@@ -160,7 +160,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationAttributePositionsFoundSameLine()
         {
-            var s = new WritableTextSource("<a target='_blank' href='http://whatever' title='ho'>");
+            var s = new TextSource("<a target='_blank' href='http://whatever' title='ho'>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             var attrs = ((HtmlTagToken)token).Attributes;
@@ -172,7 +172,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationAttributePositionsFoundOtherLine()
         {
-            var s = new WritableTextSource("<a target='_blank'\nhref='http://whatever'\n title='ho'>");
+            var s = new TextSource("<a target='_blank'\nhref='http://whatever'\n title='ho'>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             var attrs = ((HtmlTagToken)token).Attributes;
@@ -184,7 +184,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationAttributePositionsFoundAdditionalSpacesInOtherLine()
         {
-            var s = new WritableTextSource("<a target='_blank'   \n href='http://whatever'\n    title='ho'>");
+            var s = new TextSource("<a target='_blank'   \n href='http://whatever'\n    title='ho'>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             var attrs = ((HtmlTagToken)token).Attributes;
@@ -196,7 +196,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationAttributeNameDetection()
         {
-            var s = new WritableTextSource("<input required>");
+            var s = new TextSource("<input required>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual("required", ((HtmlTagToken)token).Attributes[0].Name);
@@ -205,7 +205,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationTagMixedCaseHandling()
         {
-            var s = new WritableTextSource("<InpUT>");
+            var s = new TextSource("<InpUT>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual("input", ((HtmlTagToken)token).Name);
@@ -214,7 +214,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationTagSpacesBehind()
         {
-            var s = new WritableTextSource("<i   >");
+            var s = new TextSource("<i   >");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual("i", ((HtmlTagToken)token).Name);
@@ -225,7 +225,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var str = string.Empty;
             var src = "I'm &notin; I tell you";
-            var s = new WritableTextSource(src);
+            var s = new TextSource(src);
             var t = CreateTokenizer(s);
             var token = default(HtmlToken);
 
@@ -248,7 +248,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var str = string.Empty;
             var src = "I'm &notit; I tell you";
-            var s = new WritableTextSource(src);
+            var s = new TextSource(src);
             var t = CreateTokenizer(s);
             var token = default(HtmlToken);
 
@@ -269,7 +269,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationDoctypeDetected()
         {
-            var s = new WritableTextSource("<!doctype html>");
+            var s = new TextSource("<!doctype html>");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Doctype, token.Type);
@@ -278,7 +278,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationCommentDetected()
         {
-            var s = new WritableTextSource("<!-- hi my friend -->");
+            var s = new TextSource("<!-- hi my friend -->");
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
@@ -287,7 +287,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationCDataDetected()
         {
-            var s = new WritableTextSource("<![CDATA[hi mum how <!-- are you doing />]]>");
+            var s = new TextSource("<![CDATA[hi mum how <!-- are you doing />]]>");
             var t = CreateTokenizer(s);
             t.IsAcceptingCharacterData = true;
             var token = t.Get();
@@ -298,7 +298,7 @@ namespace AngleSharp.Core.Tests.Html
         public void TokenizationCDataCorrectCharacters()
         {
             StringBuilder sb = new StringBuilder();
-            var s = new WritableTextSource("<![CDATA[hi mum how <!-- are you doing />]]>");
+            var s = new TextSource("<![CDATA[hi mum how <!-- are you doing />]]>");
             var t = CreateTokenizer(s);
             var token = default(HtmlToken);
             t.IsAcceptingCharacterData = true;
@@ -320,7 +320,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationUnusualDoctype()
         {
-            var s = new WritableTextSource("<!DOCTYPE root_element SYSTEM \"DTD_location\">");
+            var s = new TextSource("<!DOCTYPE root_element SYSTEM \"DTD_location\">");
             var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Doctype, e.Type);
@@ -334,7 +334,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationOnlyCarriageReturn()
         {
-            var s = new WritableTextSource("\r");
+            var s = new TextSource("\r");
             var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, e.Type);
@@ -344,7 +344,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationOnlyLineFeed()
         {
-            var s = new WritableTextSource("\n");
+            var s = new TextSource("\n");
             var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, e.Type);
@@ -354,7 +354,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TokenizationCarriageReturnLineFeed()
         {
-            var s = new WritableTextSource("\r\n");
+            var s = new TextSource("\r\n");
             var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, e.Type);
@@ -368,7 +368,7 @@ namespace AngleSharp.Core.Tests.Html
             var content = String.Concat(Enumerable.Repeat(phrase, 53));    // x53 => 4134 bytes
             var encoding = new UTF8Encoding(false);
             using var contentStm = new MemoryStream(encoding.GetBytes(content));
-            var s = new WritableTextSource(contentStm, encoding);
+            var s = new TextSource(contentStm, encoding);
             var t = CreateTokenizer(s);
             // Read 4096 bytes to buffer
             await s.PrefetchAsync(100, CancellationToken.None);
@@ -384,7 +384,7 @@ namespace AngleSharp.Core.Tests.Html
         public void TokenizationLongestLegalCharacterReference()
         {
             var content = "&CounterClockwiseContourIntegral;";
-            var s = new WritableTextSource(content);
+            var s = new TextSource(content);
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
@@ -395,7 +395,7 @@ namespace AngleSharp.Core.Tests.Html
         public void TokenizationLongestIllegalCharacterReference()
         {
             var content = "&CounterClockwiseContourIntegralWithWrongName;";
-            var s = new WritableTextSource(content);
+            var s = new TextSource(content);
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
@@ -406,7 +406,7 @@ namespace AngleSharp.Core.Tests.Html
         public void TokenizationWithReallyLongAttributeShouldNotBreak()
         {
             var content = Assets.GetManifestResourceString("Html.HtmlTokenization.TokenizationWithReallyLongAttributeShouldNotBreak.txt");
-            var s = new WritableTextSource(content);
+            var s = new TextSource(content);
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.IsNotNull(token);
@@ -417,7 +417,7 @@ namespace AngleSharp.Core.Tests.Html
         public void TokenizationWithManyAttributesShouldNotBreak()
         {
             var content = Assets.GetManifestResourceString("Html.HtmlTokenization.TokenizationWithManyAttributesShouldNotBreak.txt");
-            var s = new WritableTextSource(content);
+            var s = new TextSource(content);
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.IsNotNull(token);

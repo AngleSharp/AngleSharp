@@ -9,7 +9,7 @@ namespace AngleSharp.Text
     {
         #region Fields
 
-        private readonly WritableTextSource _source;
+        private readonly TextSource _source;
         private readonly TextRange _range;
 
         #endregion
@@ -19,7 +19,7 @@ namespace AngleSharp.Text
         /// <summary>
         /// Creates a new text view for the given range.
         /// </summary>
-        public TextView(WritableTextSource source, TextRange range)
+        public TextView(TextSource source, TextRange range)
         {
             _source = source;
             _range = range;

@@ -12,7 +12,7 @@ namespace AngleSharp.Text
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
-    public sealed class WritableTextSource : IWritableTextSource
+    public sealed class TextSource : IWritableTextSource
     {
         #region Fields
 
@@ -34,7 +34,7 @@ namespace AngleSharp.Text
 
         #region ctor
 
-        private WritableTextSource(Encoding encoding, bool allocateBuffers)
+        private TextSource(Encoding encoding, bool allocateBuffers)
         {
             if (allocateBuffers)
             {
@@ -52,7 +52,7 @@ namespace AngleSharp.Text
         /// be used.
         /// </summary>
         /// <param name="source">The data source.</param>
-        public WritableTextSource(String source)
+        public TextSource(String source)
             : this(null, TextEncoding.Utf8)
         {
             _finished = true;
@@ -70,7 +70,7 @@ namespace AngleSharp.Text
         /// <param name="encoding">
         /// The initial encoding. Otherwise UTF-8.
         /// </param>
-        public WritableTextSource(Stream baseStream, Encoding encoding = null)
+        public TextSource(Stream baseStream, Encoding encoding = null)
             : this(encoding, allocateBuffers: baseStream != null)
         {
             _baseStream = baseStream;

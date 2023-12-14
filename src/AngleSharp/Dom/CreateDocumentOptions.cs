@@ -14,7 +14,7 @@ namespace AngleSharp.Dom
 
         private readonly IResponse _response;
         private readonly MimeType _contentType;
-        private readonly WritableTextSource _source;
+        private readonly TextSource _source;
         private readonly IDocument? _ancestor;
 
         #endregion
@@ -33,7 +33,7 @@ namespace AngleSharp.Dom
             var contentType = response.GetContentType(MimeTypeNames.Html);
             var charset = contentType.GetParameter(AttributeNames.Charset);
             var defaultEncoding = encoding ?? Encoding.UTF8;
-            var source = new WritableTextSource(response.Content, defaultEncoding);
+            var source = new TextSource(response.Content, defaultEncoding);
 
             if (charset is { Length: > 0 } && TextEncoding.IsSupported(charset))
             {
@@ -63,7 +63,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the text source that came with the response.
         /// </summary>
-        public WritableTextSource Source => _source;
+        public TextSource Source => _source;
 
         /// <summary>
         /// Gets the import ancestor, if any.

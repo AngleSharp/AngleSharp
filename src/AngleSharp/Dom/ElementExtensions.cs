@@ -1590,7 +1590,7 @@ namespace AngleSharp.Dom
         internal static IElement ParseHtmlSubtree(this Element element, String html)
         {
             var context = element.Context;
-            var source = new WritableTextSource(html);
+            var source = new TextSource(html);
             var document = new HtmlDocument(context, source);
             var parser = new HtmlDomBuilder(document);
             var options = new HtmlParserOptions

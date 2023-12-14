@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using AngleSharp.Html.Parser;
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Configs;
-
 namespace AngleSharp.Benchmarks
 {
     using System;
@@ -12,8 +7,11 @@ namespace AngleSharp.Benchmarks
     using BenchmarkDotNet.Environments;
     using BenchmarkDotNet.Jobs;
     using Html;
-    using Html.Dom;
     using Text;
+    using System.Collections.Generic;
+    using Html.Parser;
+    using BenchmarkDotNet.Attributes;
+    using BenchmarkDotNet.Configs;
 
     [Config(typeof(Config))]
     [MemoryDiagnoser]
@@ -25,7 +23,7 @@ namespace AngleSharp.Benchmarks
             {
                 AddJob(Job.ShortRun
                     .WithRuntime(CoreRuntime.Core80)
-                    .WithStrategy(RunStrategy.Monitoring)
+                    .WithStrategy(RunStrategy.Throughput)
                     .WithLaunchCount(1)
                 );
             }
@@ -146,9 +144,24 @@ namespace AngleSharp.Benchmarks
         {
             int line = 0, count = 0;
 
-            var source = new PrefetchedTextSource(UrlTest.Source.AsMemory());
+            using var source = new PrefetchedTextSource(UrlTest.Source.AsMemory());
 
-            Console.WriteLine($"Source length: {UrlTest.Source.Length}");
+            foreach (var token in source.Tokenize(options: HtmlTokenizerOptions))
+            {
+                line = token.Position.Line;
+                count++;
+            }
+
+            return count + line;
+        }
+
+        [Benchmark(Baseline = true)]
+        public Int32 AngleSharpTokensOg()
+        {
+            int line = 0, count = 0;
+
+            using var source = new TextSource(UrlTest.Source);
+
             foreach (var token in source.Tokenize(options: HtmlTokenizerOptions))
             {
                 line = token.Position.Line;

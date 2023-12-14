@@ -232,14 +232,14 @@ namespace AngleSharp.Html.Parser
 
         private HtmlDocument CreateDocument(String source)
         {
-            var textSource = new WritableTextSource(source);
+            var textSource = new TextSource(source);
             return CreateDocument(textSource);
         }
 
         private HtmlDocument CreateDocument(Stream source)
         {
             var encoding = _context.GetDefaultEncoding();
-            var textSource = new WritableTextSource(source, encoding);
+            var textSource = new TextSource(source, encoding);
             return CreateDocument(textSource);
         }
 

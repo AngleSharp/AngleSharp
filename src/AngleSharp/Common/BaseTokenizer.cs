@@ -38,7 +38,7 @@ namespace AngleSharp.Common
             }
             else
             {
-                _buffer = new StringBuilderBuffer(StringBuilderPool.Obtain());
+                _buffer = new StringBuilderBuffer();
             }
 
             _columns = new Stack<UInt16>();
@@ -104,15 +104,15 @@ namespace AngleSharp.Common
         /// Flushes the buffer.
         /// </summary>
         /// <returns>The content of the buffer.</returns>
-        public ReadOnlyMemory<Char> FlushBuffer() => FlushBuffer(null);
+        public StringOrMemory FlushBuffer() => FlushBuffer(null);
 
-        internal ReadOnlyMemory<Char> FlushBuffer(Func<IBuffer, String?>? stringResolver)
+        internal StringOrMemory FlushBuffer(Func<IBuffer, String?>? stringResolver)
         {
             var resolved = stringResolver?.Invoke(StringBuffer);
             if (resolved != null)
             {
                 StringBuffer.Clear();
-                return resolved.AsMemory();
+                return new StringOrMemory(resolved);
             }
 
             var data = StringBuffer.GetData();

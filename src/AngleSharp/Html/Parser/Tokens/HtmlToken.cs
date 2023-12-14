@@ -15,7 +15,7 @@ namespace AngleSharp.Html.Parser.Tokens
         private readonly HtmlTokenType _type;
         private readonly TextPosition _position;
         private String? _name;
-        private ReadOnlyMemory<Char> _data;
+        private StringOrMemory _data;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="type">The exact type of the token.</param>
         /// <param name="position">The token's text position.</param>
         /// <param name="name">The optional name of the token, if any.</param>
-        public HtmlToken(HtmlTokenType type, TextPosition position, ReadOnlyMemory<Char> name = default)
+        public HtmlToken(HtmlTokenType type, TextPosition position, StringOrMemory name = default)
         {
             _type = type;
             _position = position;
@@ -46,9 +46,9 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             get
             {
-                for (var i = 0; i < _data.Length; i++)
+                for (var i = 0; i < _data.Memory.Length; i++)
                 {
-                    if (!_data.Span[i].IsSpaceCharacter())
+                    if (!_data.Memory.Span[i].IsSpaceCharacter())
                     {
                         return true;
                     }
@@ -63,10 +63,10 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public String Name
         {
-            get => _name ??= _data.CreateString();
+            get => _name ??= _data.String;
             set
             {
-                _data = value.AsMemory();
+                _data = new StringOrMemory(value);
                 _name = value;
             }
         }
@@ -75,7 +75,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// Gets if the character data is empty (null or length equal to zero).
         /// </summary>
         /// <returns>True if the character data is actually NULL or empty.</returns>
-        public Boolean IsEmpty => _data.Length == 0;
+        public Boolean IsEmpty => _data.Memory.Length == 0;
 
         /// <summary>
         /// Gets the data of the comment or character token.
@@ -123,16 +123,16 @@ namespace AngleSharp.Html.Parser.Tokens
         public String TrimStart()
         {
             int i;
-            for (i = 0; i < _data.Length; i++)
+            for (i = 0; i < _data.Memory.Length; i++)
             {
-                if (!_data.Span[i].IsSpaceCharacter())
+                if (!_data.Memory.Span[i].IsSpaceCharacter())
                 {
                     break;
                 }
             }
 
-            var t = _data.Slice(0, i);
-            _data = _data.Slice(i);
+            var t = _data.Memory.Slice(0, i);
+            _data = new StringOrMemory(_data.Memory.Slice(i));
             _name = null;
             return t.Span.CreateString();
         }
@@ -152,10 +152,10 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <returns>The trimmed characters.</returns>
         public void CleanStart()
         {
-            var newData = _data.TrimStart(Spaces);
-            if (newData.Length != _data.Length)
+            var newData = _data.Memory.TrimStart(Spaces);
+            if (newData.Length != _data.Memory.Length)
             {
-                _data = newData;
+                _data = new StringOrMemory(newData);
                 _name = null;
             }
         }
@@ -165,9 +165,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public void RemoveNewLine()
         {
-            if (_data.Length > 0 && _data.Span[0] == Symbols.LineFeed)
+            if (_data.Memory.Length > 0 && _data.Memory.Span[0] == Symbols.LineFeed)
             {
-                _data = _data.Slice(1);
+                _data = new StringOrMemory(_data.Memory.Slice(1));
                 _name = null;
             }
         }
@@ -188,7 +188,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
         public Boolean IsStartTag(String name)
         {
-            return _type == HtmlTokenType.StartTag && _data.Span.Is(name);
+            return _type == HtmlTokenType.StartTag && _data.Memory.Span.Is(name);
         }
 
         #endregion
