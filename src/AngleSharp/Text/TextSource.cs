@@ -257,6 +257,17 @@ namespace AngleSharp.Text
         }
 
         /// <summary>
+        ///
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public Boolean TryGetContentLength(out int length)
+        {
+            length = 0;
+            return false;
+        }
+
+        /// <summary>
         /// Inserts the given content at the current insertation mark. Moves the
         /// insertation mark.
         /// </summary>

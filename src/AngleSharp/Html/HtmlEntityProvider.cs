@@ -2797,28 +2797,4 @@ namespace AngleSharp.Html
 
         #endregion
     }
-
-    /// <summary>
-    ///
-    /// </summary>
-    public class MemStringEqualityComparer : IEqualityComparer<ReadOnlyMemory<char>>
-    {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public int GetHashCode( ReadOnlyMemory<char> obj ) => string.GetHashCode( obj.Span );
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public bool Equals(ReadOnlyMemory<char> x, ReadOnlyMemory<char> y) =>
-            x.Span.SequenceEqual(y.Span);
-    }
 }

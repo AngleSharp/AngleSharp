@@ -4,7 +4,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Text;
     using System;
     using Tokens;
-    using AttributeName = System.String;
+    using AttributeName = System.ReadOnlyMemory<char>;
 
     /// <summary>
     ///
@@ -31,7 +31,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         ///
         /// </summary>
-        public Func<HtmlTagToken, String, Boolean> ShouldEmitAttribute { get; set; }
+        public Func<HtmlTagToken, ReadOnlyMemory<Char>, Boolean> ShouldEmitAttribute { get; set; }
 
         /// <summary>
         ///

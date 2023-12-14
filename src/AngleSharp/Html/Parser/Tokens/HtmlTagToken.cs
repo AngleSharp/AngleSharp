@@ -27,7 +27,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="type">The type of the tag token.</param>
         /// <param name="position">The token's position.</param>
         public HtmlTagToken(HtmlTokenType type, TextPosition position)
-            : this(type, position, String.Empty)
+            : this(type, position, default)
         {
         }
 
@@ -37,7 +37,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="type">The type of the tag token.</param>
         /// <param name="position">The token's position.</param>
         /// <param name="name">The name of the tag.</param>
-        public HtmlTagToken(HtmlTokenType type, TextPosition position, String name)
+        public HtmlTagToken(HtmlTokenType type, TextPosition position, ReadOnlyMemory<Char> name)
             : base(type, position, name)
         {
         }
@@ -53,7 +53,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <returns>The new HTML tag token.</returns>
         public static HtmlTagToken Open(String name)
         {
-            return new HtmlTagToken(HtmlTokenType.StartTag, TextPosition.Empty, name);
+            return new HtmlTagToken(HtmlTokenType.StartTag, TextPosition.Empty, name.AsMemory());
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <returns>The new HTML tag token.</returns>
         public static HtmlTagToken Close(String name)
         {
-            return new HtmlTagToken(HtmlTokenType.EndTag, TextPosition.Empty, name);
+            return new HtmlTagToken(HtmlTokenType.EndTag, TextPosition.Empty, name.AsMemory());
         }
 
         #endregion

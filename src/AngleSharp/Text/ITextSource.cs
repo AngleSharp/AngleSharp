@@ -68,6 +68,13 @@ public interface IReadOnlyTextSource : IDisposable
     /// <returns>The awaitable task.</returns>
     Task PrefetchAllAsync(CancellationToken cancellationToken);
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    bool TryGetContentLength(out int length);
+
 }
 
 /// <summary>

@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 /// </summary>
 public sealed class PrefetchedTextSource : IReadOnlyTextSource
 {
-    private const Int32 BufferSize = 4096;
     private readonly ReadOnlyMemory<Char> _memory;
     private Int32 _index;
 
@@ -156,6 +155,17 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     public Task PrefetchAllAsync(CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="length"></param>
+    /// <returns></returns>
+    public Boolean TryGetContentLength(out int length)
+    {
+        length = _memory.Length;
+        return true;
     }
 
     #endregion

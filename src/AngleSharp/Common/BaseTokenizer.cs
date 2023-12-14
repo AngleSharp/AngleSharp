@@ -4,6 +4,7 @@ namespace AngleSharp.Common
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Html.Parser;
 
     /// <summary>
     /// Common methods and variables of all tokenizers.
@@ -18,7 +19,7 @@ namespace AngleSharp.Common
         private UInt16 _column;
         private UInt16 _row;
         private Char _current;
-        private StringBuilder _buffer;
+        private IBuffer _buffer;
         private Boolean _normalized;
 
         #endregion
@@ -31,7 +32,15 @@ namespace AngleSharp.Common
         /// <param name="source">The source to tokenize.</param>
         public BaseTokenizer(IReadOnlyTextSource source)
         {
-            _buffer = StringBuilderPool.Obtain();
+            if (source.TryGetContentLength(out var length))
+            {
+                _buffer = new ArrayPoolBuffer(length);
+            }
+            else
+            {
+                _buffer = new StringBuilderBuffer(StringBuilderPool.Obtain());
+            }
+
             _columns = new Stack<UInt16>();
             _source = source;
             _current = Symbols.Null;
@@ -80,7 +89,7 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        protected StringBuilder StringBuffer => _buffer;
+        public IBuffer StringBuffer => _buffer;
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).
@@ -95,13 +104,20 @@ namespace AngleSharp.Common
         /// Flushes the buffer.
         /// </summary>
         /// <returns>The content of the buffer.</returns>
-        public String FlushBuffer() => FlushBuffer(null);
+        public ReadOnlyMemory<Char> FlushBuffer() => FlushBuffer(null);
 
-        internal String FlushBuffer(Func<StringBuilder, String?>? stringResolver)
+        internal ReadOnlyMemory<Char> FlushBuffer(Func<IBuffer, String?>? stringResolver)
         {
-            var content = stringResolver?.Invoke(StringBuffer) ?? StringBuffer.ToString();
+            var resolved = stringResolver?.Invoke(StringBuffer);
+            if (resolved != null)
+            {
+                StringBuffer.Clear();
+                return resolved.AsMemory();
+            }
+
+            var data = StringBuffer.GetData();
             StringBuffer.Clear();
-            return content;
+            return data;
         }
 
         /// <summary>

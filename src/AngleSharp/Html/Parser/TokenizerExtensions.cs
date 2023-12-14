@@ -27,7 +27,7 @@ namespace AngleSharp.Html.Parser
             HtmlTokenizerOptions? options = null)
         {
             var resolver = provider ?? HtmlEntityProvider.Resolver;
-            var htmlTokenizer = new HtmlTokenizer(source, resolver);
+            using var htmlTokenizer = new HtmlTokenizer(source, resolver);
 
             if (options != null)
             {

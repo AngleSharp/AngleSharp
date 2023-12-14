@@ -13,6 +13,16 @@ namespace AngleSharp.Common
     public static class ObjectExtensions
     {
         /// <summary>
+        ///
+        /// </summary>
+        /// <param name="chars"></param>
+        /// <returns></returns>
+        public static String CreateString(this ReadOnlyMemory<Char> chars)
+        {
+            return new String(chars.Span);
+        }
+
+        /// <summary>
         /// Transforms the values of the object into a dictionary of strings.
         /// </summary>
         /// <param name="values">The object instance to convert.</param>

@@ -9,7 +9,7 @@ namespace AngleSharp.Html.Parser
     using System;
     using System.Buffers;
     using System.Collections.Generic;
-    using AttributeName = System.String;
+    using AttributeName = System.ReadOnlyMemory<char>;
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
@@ -54,7 +54,7 @@ namespace AngleSharp.Html.Parser
 
         #endregion
 
-        private static readonly HtmlToken EmptyCharacterToken = new HtmlToken(HtmlTokenType.Character, new TextPosition(), "");
+        private static readonly HtmlToken EmptyCharacterToken = new HtmlToken(HtmlTokenType.Character, new TextPosition(), default);
 
         #region Properties
 
@@ -775,17 +775,17 @@ namespace AngleSharp.Html.Parser
 
                 if (c == Symbols.GreaterThan)
                 {
-                    tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
+                    tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b)).CreateString();
                     return EmitTag(tag);
                 }
                 else if (c.IsSpaceCharacter())
                 {
-                    tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
+                    tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b)).CreateString();
                     return ParseAttributes(tag);
                 }
                 else if (c == Symbols.Solidus)
                 {
-                    tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
+                    tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b)).CreateString();
                     return TagSelfClosing(tag);
                 }
                 else if (c.IsUppercaseAscii())
@@ -1204,13 +1204,13 @@ namespace AngleSharp.Html.Parser
 
                 if (c.IsSpaceCharacter())
                 {
-                    doctype.Name = FlushBuffer();
+                    doctype.Name = FlushBuffer().CreateString();
                     return DoctypeNameAfter(doctype);
                 }
                 else if (c == Symbols.GreaterThan)
                 {
                     State = HtmlParseMode.PCData;
-                    doctype.Name = FlushBuffer();
+                    doctype.Name = FlushBuffer().CreateString();
                     break;
                 }
                 else if (c.IsUppercaseAscii())
@@ -1226,7 +1226,7 @@ namespace AngleSharp.Html.Parser
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     doctype.IsQuirksForced = true;
-                    doctype.Name = FlushBuffer();
+                    doctype.Name = FlushBuffer().CreateString();
                     break;
                 }
                 else
@@ -1374,7 +1374,7 @@ namespace AngleSharp.Html.Parser
 
                 if (c == Symbols.DoubleQuote)
                 {
-                    doctype.PublicIdentifier = FlushBuffer();
+                    doctype.PublicIdentifier = FlushBuffer().CreateString();
                     return DoctypePublicIdentifierAfter(doctype);
                 }
                 else if (c == Symbols.Null)
@@ -1386,7 +1386,7 @@ namespace AngleSharp.Html.Parser
                     State = HtmlParseMode.PCData;
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     doctype.IsQuirksForced = true;
-                    doctype.PublicIdentifier = FlushBuffer();
+                    doctype.PublicIdentifier = FlushBuffer().CreateString();
                     break;
                 }
                 else if (c == Symbols.EndOfFile)
@@ -1394,7 +1394,7 @@ namespace AngleSharp.Html.Parser
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     doctype.IsQuirksForced = true;
-                    doctype.PublicIdentifier = FlushBuffer();
+                    doctype.PublicIdentifier = FlushBuffer().CreateString();
                     break;
                 }
                 else
@@ -1418,7 +1418,7 @@ namespace AngleSharp.Html.Parser
 
                 if (c == Symbols.SingleQuote)
                 {
-                    doctype.PublicIdentifier = FlushBuffer();
+                    doctype.PublicIdentifier = FlushBuffer().CreateString();
                     return DoctypePublicIdentifierAfter(doctype);
                 }
                 else if (c == Symbols.Null)
@@ -1430,14 +1430,14 @@ namespace AngleSharp.Html.Parser
                     State = HtmlParseMode.PCData;
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     doctype.IsQuirksForced = true;
-                    doctype.PublicIdentifier = FlushBuffer();
+                    doctype.PublicIdentifier = FlushBuffer().CreateString();
                     break;
                 }
                 else if (c == Symbols.EndOfFile)
                 {
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     doctype.IsQuirksForced = true;
-                    doctype.PublicIdentifier = FlushBuffer();
+                    doctype.PublicIdentifier = FlushBuffer().CreateString();
                     Back();
                     break;
                 }
@@ -1560,7 +1560,7 @@ namespace AngleSharp.Html.Parser
             else if (c == Symbols.GreaterThan)
             {
                 RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
-                doctype.SystemIdentifier = FlushBuffer();
+                doctype.SystemIdentifier = FlushBuffer().CreateString();
                 doctype.IsQuirksForced = true;
             }
             else if (c == Symbols.EndOfFile)
@@ -1602,13 +1602,13 @@ namespace AngleSharp.Html.Parser
                 State = HtmlParseMode.PCData;
                 RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 doctype.IsQuirksForced = true;
-                doctype.SystemIdentifier = FlushBuffer();
+                doctype.SystemIdentifier = FlushBuffer().CreateString();
             }
             else if (c == Symbols.EndOfFile)
             {
                 RaiseErrorOccurred(HtmlParseError.EOF);
                 doctype.IsQuirksForced = true;
-                doctype.SystemIdentifier = FlushBuffer();
+                doctype.SystemIdentifier = FlushBuffer().CreateString();
                 Back();
             }
             else
@@ -1633,7 +1633,7 @@ namespace AngleSharp.Html.Parser
 
                 if (c == Symbols.DoubleQuote)
                 {
-                    doctype.SystemIdentifier = FlushBuffer();
+                    doctype.SystemIdentifier = FlushBuffer().CreateString();
                     return DoctypeSystemIdentifierAfter(doctype);
                 }
                 else if (c == Symbols.Null)
@@ -1645,14 +1645,14 @@ namespace AngleSharp.Html.Parser
                     State = HtmlParseMode.PCData;
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     doctype.IsQuirksForced = true;
-                    doctype.SystemIdentifier = FlushBuffer();
+                    doctype.SystemIdentifier = FlushBuffer().CreateString();
                     break;
                 }
                 else if (c == Symbols.EndOfFile)
                 {
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     doctype.IsQuirksForced = true;
-                    doctype.SystemIdentifier = FlushBuffer();
+                    doctype.SystemIdentifier = FlushBuffer().CreateString();
                     Back();
                     break;
                 }
@@ -1678,7 +1678,7 @@ namespace AngleSharp.Html.Parser
                 switch (c)
                 {
                     case Symbols.SingleQuote:
-                        doctype.SystemIdentifier = FlushBuffer();
+                        doctype.SystemIdentifier = FlushBuffer().CreateString();
                         return DoctypeSystemIdentifierAfter(doctype);
                     case Symbols.Null:
                         AppendReplacement();
@@ -1687,12 +1687,12 @@ namespace AngleSharp.Html.Parser
                         State = HtmlParseMode.PCData;
                         RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                         doctype.IsQuirksForced = true;
-                        doctype.SystemIdentifier = FlushBuffer();
+                        doctype.SystemIdentifier = FlushBuffer().CreateString();
                         break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
                         doctype.IsQuirksForced = true;
-                        doctype.SystemIdentifier = FlushBuffer();
+                        doctype.SystemIdentifier = FlushBuffer().CreateString();
                         Back();
                         break;
                     default:
@@ -1839,7 +1839,7 @@ namespace AngleSharp.Html.Parser
                             attributeAllowed = ShouldEmitAttribute(tag, attributeName);
                             if (attributeAllowed)
                             {
-                                tag.AddAttribute(attributeName, pos);
+                                tag.AddAttribute(attributeName.CreateString(), pos);
                             }
                             state = AttributeState.BeforeValue;
                         }
@@ -1849,7 +1849,7 @@ namespace AngleSharp.Html.Parser
                             attributeAllowed = ShouldEmitAttribute(tag, attributeName);
                             if (attributeAllowed)
                             {
-                                tag.AddAttribute(attributeName, pos);
+                                tag.AddAttribute(attributeName.CreateString(), pos);
                             }
 
                             return EmitTag(tag);
@@ -1860,7 +1860,7 @@ namespace AngleSharp.Html.Parser
                             attributeAllowed = ShouldEmitAttribute(tag, attributeName);
                             if (attributeAllowed)
                             {
-                                tag.AddAttribute(attributeName, pos);
+                                tag.AddAttribute(attributeName.CreateString(), pos);
                             }
                             state = AttributeState.AfterName;
                         }
@@ -1870,7 +1870,7 @@ namespace AngleSharp.Html.Parser
                             attributeAllowed = ShouldEmitAttribute(tag, attributeName);
                             if (attributeAllowed)
                             {
-                                tag.AddAttribute(attributeName, pos);
+                                tag.AddAttribute(attributeName.CreateString(), pos);
                             }
                             state = AttributeState.SelfClose;
                         }
@@ -2006,7 +2006,7 @@ namespace AngleSharp.Html.Parser
                             if (attributeAllowed)
                             {
                                 var value = FlushBuffer();
-                                tag.SetAttributeValue(value);
+                                tag.SetAttributeValue(value.CreateString());
                             }
                             else
                             {
@@ -2042,7 +2042,7 @@ namespace AngleSharp.Html.Parser
                             if (attributeAllowed)
                             {
                                 var value = FlushBuffer();
-                                tag.SetAttributeValue(value);
+                                tag.SetAttributeValue(value.CreateString());
                             }
                             else
                             {
@@ -2055,7 +2055,7 @@ namespace AngleSharp.Html.Parser
                             if (attributeAllowed)
                             {
                                 var value = FlushBuffer();
-                                tag.SetAttributeValue(value);
+                                tag.SetAttributeValue(value.CreateString());
                             }
                             else
                             {

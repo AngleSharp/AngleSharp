@@ -141,9 +141,12 @@ namespace AngleSharp.Html.Parser
             var token = default(HtmlToken);
             SetOptions(options);
 
+            int i = 0;
             do
             {
+                i++;
                 token = _tokenizer.Get();
+                Console.WriteLine($"{i}: {token.Type} {token.Position} {token.Data}");
                 Consume(token);
                 _waiting?.Wait();
                 _waiting = null;
@@ -430,7 +433,7 @@ namespace AngleSharp.Html.Parser
                 }
                 case HtmlTokenType.Character:
                 {
-                    token.TrimStart();
+                    token.CleanStart();
 
                     if (!token.IsEmpty)
                     {
@@ -466,7 +469,7 @@ namespace AngleSharp.Html.Parser
             {
                 case HtmlTokenType.Character:
                 {
-                    token.TrimStart();
+                    token.CleanStart();
 
                     if (!token.IsEmpty)
                     {
@@ -522,7 +525,7 @@ namespace AngleSharp.Html.Parser
             {
                 case HtmlTokenType.Character:
                 {
-                    token.TrimStart();
+                    token.CleanStart();
 
                     if (!token.IsEmpty)
                     {

@@ -493,10 +493,21 @@ namespace AngleSharp.Text
         /// <param name="other"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean Is(this ReadOnlySpan<Char> current, String? other)
+        public static Boolean Is(this ReadOnlySpan<Char> current, ReadOnlyMemory<char> other)
         {
-            if (other == null) return false;
-            return current.SequenceEqual(other.AsSpan());
+            return current.SequenceEqual(other.Span);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Is(this ReadOnlySpan<Char> current, ReadOnlySpan<Char> other)
+        {
+            return current.SequenceEqual(other);
         }
 
         /// <summary>
@@ -520,6 +531,31 @@ namespace AngleSharp.Text
         {
             if (other == null) return false;
             return System.MemoryExtensions.Equals(current, other.AsSpan(), StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Isi(this Span<Char> current, ReadOnlySpan<Char> other)
+        {
+            if (other == null) return false;
+            return System.MemoryExtensions.Equals(current, other, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Isi(this Span<Char> current, ReadOnlyMemory<Char> other)
+        {
+            return System.MemoryExtensions.Equals(current, other.Span, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
