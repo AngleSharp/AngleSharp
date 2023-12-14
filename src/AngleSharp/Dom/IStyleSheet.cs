@@ -64,7 +64,7 @@
         /// <summary>
         /// Gets the underlying source.
         /// </summary>
-        TextSource Source { get; }
+        WritableTextSource Source { get; }
 
         /// <summary>
         /// Sets the owner of the sheet.

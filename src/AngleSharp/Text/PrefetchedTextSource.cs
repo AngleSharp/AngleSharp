@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Common;
 
 /// <summary>
 /// A stream abstraction to handle encoding and more.
@@ -54,7 +55,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     public Encoding CurrentEncoding
     {
         get => Encoding.Default;
-        set => throw new NotSupportedException();
+        set { }
     }
 
     /// <summary>
@@ -91,11 +92,11 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     {
         if (_index < _memory.Length)
         {
-            return Replace(_memory.Span[_index++]);
+            return ReplaceEof(_memory.Span[_index++]);
         }
 
         var index = _index++;
-        return index < _memory.Span.Length ? Replace(_memory.Span[index]) : Symbols.EndOfFile;
+        return index < _memory.Span.Length ? ReplaceEof(_memory.Span[index]) : Symbols.EndOfFile;
     }
 
     /// <summary>
@@ -106,34 +107,18 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// <returns>The string with the next characters.</returns>
     public String ReadCharacters(Int32 characters)
     {
-
-        /*
-            var start = _index;
-            var end = start + characters;
-
-            if (end <= _content!.Length)
-            {
-                _index += characters;
-                return _content.ToString(start, characters);
-            }
-
-            ExpandBuffer(Math.Max(BufferSize, characters));
-            _index += characters;
-            characters = Math.Min(characters, _content.Length - start);
-            return _content.ToString(start, characters);*/
-
         var start = _index;
         var end = start + characters;
 
         if (end <= _memory!.Length)
         {
             _index += characters;
-            return new String(_memory.Span.Slice(start, characters));
+            return _memory.Span.Slice(start, characters).CreateString();
         }
 
         _index += characters;
         characters = Math.Min(characters, _memory.Length - start);
-        return new String(_memory.Span.Slice(start, characters));
+        return _memory.Span.Slice(start, characters).CreateString();
     }
 
     /// <summary>
@@ -170,18 +155,6 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
 
     #endregion
 
-    private static Char Replace(Char c) => c == Symbols.EndOfFile ? (Char)0xFFFD : c;
+    private static Char ReplaceEof(Char c) => c == Symbols.EndOfFile ? (Char)0xFFFD : c;
 
-    private void ExpandBuffer(Int64 size)
-    {
-        // if (!_finished && _content!.Length == 0)
-        // {
-        //     DetectByteOrderMarkAsync(CancellationToken.None).Wait();
-        // }
-        //
-        // while (!_finished && size + _index > _content!.Length)
-        // {
-        //     ReadIntoBuffer();
-        // }
-    }
 }

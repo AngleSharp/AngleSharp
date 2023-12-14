@@ -27,17 +27,7 @@ namespace AngleSharp.Browser
             if (encoding != null)
             {
                 var document = element.Owner!;
-                if (!Equals(document.Source.CurrentEncoding, encoding))
-                {
-                    if (document.WritableSource != null)
-                    {
-                        document.WritableSource.CurrentEncoding = encoding;
-                    }
-                    else
-                    {
-                        // TODO
-                    }
-                }
+                document.Source.CurrentEncoding = encoding;
             }
         }
 

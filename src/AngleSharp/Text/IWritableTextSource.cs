@@ -80,7 +80,7 @@ public interface IReadOnlyTextSource : IDisposable
 /// <summary>
 ///
 /// </summary>
-public interface ITextSource : IReadOnlyTextSource
+public interface IWritableTextSource : IReadOnlyTextSource
 {
     /// <summary>
     /// Inserts the given content at the current insertation mark. Moves the

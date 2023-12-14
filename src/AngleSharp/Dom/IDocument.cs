@@ -588,11 +588,6 @@ namespace AngleSharp.Dom
         IReadOnlyTextSource Source { get; }
 
         /// <summary>
-        ///
-        /// </summary>
-        ITextSource? WritableSource { get; }
-
-        /// <summary>
         /// Gets the status code of the server's response, if any.
         /// </summary>
         HttpStatusCode StatusCode { get; }

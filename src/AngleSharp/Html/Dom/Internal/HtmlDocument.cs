@@ -32,7 +32,7 @@ namespace AngleSharp.Html.Dom
         }
 
         internal HtmlDocument(IBrowsingContext? context = null)
-            : this(context, new TextSource(String.Empty))
+            : this(context, new WritableTextSource(String.Empty))
         {
         }
 
@@ -58,7 +58,7 @@ namespace AngleSharp.Html.Dom
 
         public override Node Clone(Document owner, Boolean deep)
         {
-            var source = new TextSource(Source.Text);
+            var source = new WritableTextSource(Source.Text);
             var node = new HtmlDocument(Context, source);
             CloneDocument(node, deep);
             return node;

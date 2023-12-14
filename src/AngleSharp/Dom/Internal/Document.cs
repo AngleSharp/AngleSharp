@@ -32,7 +32,6 @@ namespace AngleSharp.Dom
         private readonly IResourceLoader? _loader;
         private readonly Location _location;
         private readonly IReadOnlyTextSource _source;
-        private readonly ITextSource? _writableSource;
         private readonly object _importedUrisLock = new object();
 
         private QuirksMode _quirksMode;
@@ -496,7 +495,6 @@ namespace AngleSharp.Dom
             _context = context;
 
             _source = source;
-            _writableSource = source as ITextSource;
 
             _ready = DocumentReadyState.Loading;
             _sandbox = Sandboxes.None;
@@ -517,11 +515,6 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public IReadOnlyTextSource Source => _source;
-
-        /// <summary>
-        ///
-        /// </summary>
-        public ITextSource? WritableSource => _writableSource;
 
         /// <inheritdoc />
         public abstract IEntityProvider Entities
@@ -917,9 +910,6 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidState);
             }
 
-            if (_writableSource == null)
-                throw new InvalidOperationException();
-
             if (!IsInBrowsingContext || Object.ReferenceEquals(_context.Active, this))
             {
                 var responsibleDocument = _context?.Parent!.Active;
@@ -960,7 +950,7 @@ namespace AngleSharp.Dom
 
                     _loop?.CancelAll();
                     ReplaceAll(null, suppressObservers: true);
-                    _writableSource.CurrentEncoding = TextEncoding.Utf8;
+                    _source.CurrentEncoding = TextEncoding.Utf8;
                     _salvageable = true;
                     _ready = DocumentReadyState.Loading;
 
@@ -1014,10 +1004,12 @@ namespace AngleSharp.Dom
             }
             else
             {
-                if (WritableSource == null)
+                if (_source is not IWritableTextSource wts)
+                {
                     throw new InvalidOperationException();
+                }
 
-                WritableSource.InsertText(content);
+                wts.InsertText(content);
             }
         }
 
