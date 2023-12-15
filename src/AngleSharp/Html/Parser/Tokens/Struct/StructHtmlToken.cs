@@ -51,40 +51,6 @@ public ref struct MaybeStructHtmlToken
     public static implicit operator MaybeStructHtmlToken(StructHtmlToken value) => new(value);
 }
 
-/// <summary>
-/// The token representation of an HTML tag attribute.
-/// </summary>
-public readonly struct MemoryHtmlAttributeToken
-{
-    /// <summary>
-    /// Creates a new attribute token using the provided information.
-    /// </summary>
-    /// <param name="position">The start position of the attribute's name.</param>
-    /// <param name="name">The name of the attribute.</param>
-    /// <param name="value">The value of the attribute.</param>
-    public MemoryHtmlAttributeToken(TextPosition position, StringOrMemory name, StringOrMemory value)
-    {
-        Position = position;
-        Name = name;
-        Value = value;
-    }
-
-    /// <summary>
-    /// Gets the attribute's name.
-    /// </summary>
-    public StringOrMemory Name { get; }
-
-    /// <summary>
-    /// Gets the attribute's value.
-    /// </summary>
-    public StringOrMemory Value { get; }
-
-    /// <summary>
-    /// Gets the position of the token.
-    /// </summary>
-    public TextPosition Position { get; }
-}
-
 public ref struct StructHtmlToken
 {
     #region Fields
@@ -103,8 +69,8 @@ public ref struct StructHtmlToken
     // doctype token
 
     private Boolean _quirks;
-    private StringOrMemory _publicIdentifier;
-    private StringOrMemory _systemIdentifier;
+    private StringOrMemory? _publicIdentifier;
+    private StringOrMemory? _systemIdentifier;
 
     #endregion
 
@@ -136,20 +102,12 @@ public ref struct StructHtmlToken
             _quirks = quirksForced,
         };
 
-    public static StructHtmlToken TagOpen(StringOrMemory name) =>
-        new(HtmlTokenType.StartTag, TextPosition.Empty, name);
+    public static StructHtmlToken TagOpen(TextPosition position) =>
+        new(HtmlTokenType.StartTag, position);
 
-    public static StructHtmlToken TagOpen() =>
-        new(HtmlTokenType.StartTag, TextPosition.Empty);
-
-    public static StructHtmlToken TagClose(StringOrMemory name)
+    public static StructHtmlToken TagClose(TextPosition position)
     {
-        return new StructHtmlToken(HtmlTokenType.EndTag, TextPosition.Empty, name);
-    }
-
-    public static StructHtmlToken TagClose()
-    {
-        return new StructHtmlToken(HtmlTokenType.EndTag, TextPosition.Empty);
+        return new StructHtmlToken(HtmlTokenType.EndTag, position);
     }
 
     public static StructHtmlToken Character(StringOrMemory name, TextPosition position)
@@ -176,6 +134,7 @@ public ref struct StructHtmlToken
     #region Properties
 
     public Boolean IsDoctype => _type == HtmlTokenType.Doctype;
+
     public Boolean IsTag => _type is HtmlTokenType.StartTag or HtmlTokenType.EndTag;
 
     /// <summary>
@@ -283,19 +242,19 @@ public ref struct StructHtmlToken
     /// <summary>
     /// Gets the state of the public identifier.
     /// </summary>
-    public Boolean IsPublicIdentifierMissing => _publicIdentifier == default;
+    public Boolean IsPublicIdentifierMissing => _publicIdentifier == null;
 
     /// <summary>
     /// Gets the state of the system identifier.
     /// </summary>
-    public Boolean IsSystemIdentifierMissing => _systemIdentifier == default;
+    public Boolean IsSystemIdentifierMissing => _systemIdentifier == null;
 
     /// <summary>
     /// Gets or sets the value of the public identifier.
     /// </summary>
     public StringOrMemory PublicIdentifier
     {
-        get => _publicIdentifier;
+        get => _publicIdentifier ?? default;
         set => _publicIdentifier = value;
     }
 
@@ -304,7 +263,7 @@ public ref struct StructHtmlToken
     /// </summary>
     public StringOrMemory SystemIdentifier
     {
-        get => _systemIdentifier;
+        get => _systemIdentifier ?? default;
         set => _systemIdentifier = value;
     }
 
@@ -583,34 +542,44 @@ public ref struct StructHtmlToken
         switch (Type)
         {
             case HtmlTokenType.Doctype:
-                return new HtmlDoctypeToken(_quirks, _position)
+                var doctype = new HtmlDoctypeToken(_quirks, _position)
                 {
                     IsProcessingInstruction = IsProcessingInstruction,
-                    Name = _name,
-                    PublicIdentifier = PublicIdentifier,
-                    SystemIdentifier = SystemIdentifier,
+                    Name = _name.String,
+                    IsQuirksForced = _quirks,
                 };
+
+                if (_publicIdentifier != null)
+                {
+                    doctype.PublicIdentifier = _publicIdentifier.Value.String;
+                }
+
+                if (_systemIdentifier != null)
+                {
+                    doctype.SystemIdentifier = _systemIdentifier.Value.String;
+                }
+
+                return doctype;
             case HtmlTokenType.StartTag:
             case HtmlTokenType.EndTag:
             {
-                var token = new HtmlTagToken(Type, _position)
+                var token = new HtmlTagToken(Type, _position, _name.String)
                 {
                     IsSelfClosing = IsSelfClosing,
                     IsProcessingInstruction = IsProcessingInstruction,
-                    Name = _name,
                 };
 
                 foreach (var attribute in Attributes)
                 {
-                    token.AddAttribute(attribute.Name, attribute.Value);
+                    token.AddAttribute(attribute.Name.String, attribute.Position);
+                    token.SetAttributeValue(attribute.Value.String);
                 }
 
                 return token;
             }
             default:
-                return new HtmlToken(Type, _position)
+                return new HtmlToken(Type, _position, _name.String)
                 {
-                    Name = _name,
                     IsProcessingInstruction = IsProcessingInstruction
                 };
         }
