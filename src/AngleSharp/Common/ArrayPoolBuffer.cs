@@ -17,7 +17,7 @@ internal class ArrayPoolBuffer : IBuffer
     public ArrayPoolBuffer(Int32 length)
     {
         _buffer = ArrayPool<Char>.Shared.Rent(length);
-        Capacity = length;
+        Capacity = _buffer.Length;
         // _canLog = true;
     }
 
@@ -37,13 +37,20 @@ internal class ArrayPoolBuffer : IBuffer
         return this;
     }
 
-    public IBuffer Clear()
+    public void Discard()
     {
         if (_canLog)
-            Console.WriteLine($"Clear() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
-        _start += _idx;
+            Console.WriteLine($"Discard() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+
+        Clear(false);
+    }
+
+    private void Clear(bool commit)
+    {
+        if (commit)
+            _start += _idx;
+
         _idx = 0;
-        return this;
     }
 
     public Int32 Length => _idx;
@@ -55,8 +62,6 @@ internal class ArrayPoolBuffer : IBuffer
         if (_canLog)
             Console.WriteLine($"Remove({startIndex}, {length}) [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
 
-        // x x x x [x x x x x x x  x  x  x  x] x  x  x  x  x  x
-        // 1 2 3 4  5 6 7 8 9 0 10 11 12 13 14 15 16
         var tail = _buffer.AsSpan(_start + startIndex + length);
         var dest = _buffer.AsSpan(_start + startIndex);
         tail.CopyTo(dest);
@@ -65,25 +70,13 @@ internal class ArrayPoolBuffer : IBuffer
         return this;
     }
 
-    public void CopyTo(Int32 offset, Span<Char> dest, Int32 length)
-    {
-        if (_canLog)
-            Console.WriteLine($"CopyTo({offset}, dest, {length}) [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
-
-        if ((UInt32)offset + (UInt32)length > Length)
-        {
-            throw new ArgumentOutOfRangeException(nameof(length)/*, SR.ArgumentOutOfRange_IndexMustBeLessOrEqual*/);
-        }
-
-        _buffer.AsSpan(_start + offset, length).CopyTo(dest);
-    }
-
     private Boolean _disposed;
 
     public void ReturnToPool()
     {
         if (_canLog)
             Console.WriteLine($"ReturnToPool() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+
         if (!_disposed)
         {
             ArrayPool<Char>.Shared.Return(_buffer);
@@ -143,27 +136,39 @@ internal class ArrayPoolBuffer : IBuffer
         }
     }
 
-    public StringOrMemory GetData()
+    private StringOrMemory GetData()
     {
-        if (_canLog)
-            Console.WriteLine($"GetData() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+
         return new StringOrMemory(_buffer.AsMemory(_start, Length));
     }
 
-    public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison)
+    public StringOrMemory GetDataAndClear()
     {
-        return MemoryExtensions.Equals(_buffer.AsSpan(_start, Length), test, comparison);
+        if (_canLog)
+            Console.WriteLine($"GetDataAndClear() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+
+        var result = GetData();
+        Clear(true);
+        return result;
     }
 
-    public Boolean Has(CheckBuffer test, StringComparison comparison)
+    public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison = StringComparison.Ordinal)
     {
-        return test(_buffer.AsSpan(_start, Length));
+        var actual = _buffer.AsSpan(_start, Length);
+        return MemoryExtensions.Equals(actual, test, comparison);
     }
 
-    public override String ToString()
+    public Boolean HasTextAt(ReadOnlySpan<Char> test, Int32 offset, Int32 length, StringComparison comparison = StringComparison.Ordinal)
+    {
+        var actual = _buffer.AsSpan(_start + offset, length);
+        return MemoryExtensions.Equals(actual, test, comparison);
+    }
+
+    String IBuffer.ToString()
     {
         if (_canLog)
             Console.WriteLine($"ToString() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+
         return new StringOrMemory(_buffer.AsMemory(_start, Length)).String;
     }
 }

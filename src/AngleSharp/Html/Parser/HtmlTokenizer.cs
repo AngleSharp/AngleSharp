@@ -24,7 +24,11 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Fired in case of a parse error.
         /// </summary>
-        public event EventHandler<HtmlErrorEvent>? Error;
+        public event EventHandler<HtmlErrorEvent>? Error
+        {
+            add => _tokenizer.Error += value;
+            remove => _tokenizer.Error -= value;
+        }
 
         #endregion
 
@@ -38,7 +42,6 @@ namespace AngleSharp.Html.Parser
         public HtmlTokenizer(IReadOnlyTextSource source, IEntityProvider resolver) : base(source)
         {
             _tokenizer = new StructHtmlTokenizer(source, resolver);
-            _tokenizer.Error += (s, ev) => Error?.Invoke(s, ev);
         }
 
         #endregion
@@ -98,7 +101,7 @@ namespace AngleSharp.Html.Parser
             get => _tokenizer.ShouldEmitAttribute;
             set => _tokenizer.ShouldEmitAttribute = value;
         }
-        
+
         /// <summary>
         /// Gets or sets if CDATA sections are accepted.
         /// </summary>
@@ -136,12 +139,12 @@ namespace AngleSharp.Html.Parser
         {
             return _tokenizer.Get().ToHtmlToken();
         }
-        
+
         public void RaiseErrorOccurred(HtmlParseError code, TextPosition tokenPosition)
         {
             _tokenizer.RaiseErrorOccurred(code, tokenPosition);
         }
-        
+
         #endregion
     }
 }

@@ -98,12 +98,12 @@ public struct StringOrMemory
     /// <returns></returns>
     public static implicit operator ReadOnlyMemory<Char>(StringOrMemory str) => str.Memory;
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="str"></param>
-    /// <returns></returns>
-    public static implicit operator String(StringOrMemory str) => str.String;
+    // /// <summary>
+    // ///
+    // /// </summary>
+    // /// <param name="str"></param>
+    // /// <returns></returns>
+    // public static implicit operator String(StringOrMemory str) => str.String;
 
     /// <summary>
     ///

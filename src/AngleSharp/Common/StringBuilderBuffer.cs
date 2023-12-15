@@ -15,10 +15,9 @@ internal class StringBuilderBuffer : IBuffer
         return this;
     }
 
-    public IBuffer Clear()
+    public void Discard()
     {
         _sb.Clear();
-        return this;
     }
 
     public Int32 Length => _sb.Length;
@@ -67,23 +66,33 @@ internal class StringBuilderBuffer : IBuffer
 
     public Char this[Int32 i] => _sb[i];
 
-    public StringOrMemory GetData()
+    private StringOrMemory GetData()
     {
         return new StringOrMemory(_sb.ToString());
     }
 
-    public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison)
+    public StringOrMemory GetDataAndClear()
     {
-        using var lease = ArrayPool<Char>.Shared.Borrow(_sb.Length);
-        _sb.CopyTo(0, lease.Span, _sb.Length);
-        return MemoryExtensions.Equals(lease.Span, test, comparison);
+        var temp = GetData();
+        Discard();
+        return temp;
     }
 
-    public Boolean Has(CheckBuffer test, StringComparison comparison)
+    public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison)
     {
-        using var lease = ArrayPool<Char>.Shared.Borrow(_sb.Length);
-        _sb.CopyTo(0, lease.Span, _sb.Length);
-        return test(lease.Span);
+        var length = _sb.Length;
+
+        using var lease = ArrayPool<Char>.Shared.Borrow(length);
+        _sb.CopyTo(0, lease.Span, length);
+        return MemoryExtensions.Equals(lease.Span.Slice(0, length), test, comparison);
+    }
+
+    public Boolean HasTextAt(ReadOnlySpan<Char> test, int offset, int length, StringComparison comparison = StringComparison.Ordinal)
+    {
+        using var lease = ArrayPool<Char>.Shared.Borrow(length);
+        _sb.CopyTo(offset, lease.Span, length);
+        var test2 = _sb.ToString(offset, length);
+        return MemoryExtensions.Equals(lease.Span.Slice(0, length), test, comparison);
     }
 
     public override String ToString()

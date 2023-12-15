@@ -111,12 +111,11 @@ namespace AngleSharp.Common
             var resolved = stringResolver?.Invoke(StringBuffer);
             if (resolved != null)
             {
-                StringBuffer.Clear();
+                StringBuffer.Discard();
                 return new StringOrMemory(resolved);
             }
 
-            var data = StringBuffer.GetData();
-            StringBuffer.Clear();
+            var data = StringBuffer.GetDataAndClear();
             return data;
         }
 
@@ -131,7 +130,8 @@ namespace AngleSharp.Common
             {
                 var disposable = _source as IDisposable;
                 disposable?.Dispose();
-                StringBuffer!.Clear().ReturnToPool();
+                StringBuffer!.Discard();
+                StringBuffer!.ReturnToPool();
                 _buffer = null!;
             }
         }

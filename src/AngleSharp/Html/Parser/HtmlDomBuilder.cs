@@ -10,6 +10,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -269,7 +270,33 @@ namespace AngleSharp.Html.Parser
         /// <param name="token">The token to consume.</param>
         private void Consume(HtmlToken token)
         {
+            static string map(Char c) =>
+                c switch
+                {
+                    '\r' => "\\r",
+                    '\n' => "\\n",
+                    '\t' => "\\t",
+                    _ => c.ToString(),
+                };
+
+            static string raw(string? input) => input == null ? "null" : $"\"{string.Join("", input.Select(map))}\"";
+
+            switch (token)
+            {
+                case HtmlDoctypeToken doctype:
+                    Console.WriteLine($"{doctype.Type} {raw(doctype.Name)} {doctype.Position} {doctype.PublicIdentifier} {doctype.SystemIdentifier} {doctype.GetQuirksMode()} ");
+                    break;
+                case HtmlTagToken tag:
+                    Console.WriteLine($"{tag.Type} {raw(tag.Name)} {tag.Position} Attrs: {tag.Attributes.Count} ");
+                    break;
+                default:
+                    Console.WriteLine($"{token.Type} {raw(token.Name)} {token.Position}");
+                    break;
+            }
+
             var node = AdjustedCurrentNode;
+
+            // Console.WriteLine($"Current: {node?.LocalName} {_currentMode}");
 
             if (node is null || token.Type == HtmlTokenType.EndOfFile || ((node.Flags & NodeFlags.HtmlMember) == NodeFlags.HtmlMember) ||
                 (((node.Flags & NodeFlags.HtmlTip) == NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||

@@ -13,7 +13,7 @@ namespace AngleSharp.Html.Parser
     using AttributeName = System.ReadOnlyMemory<System.Char>;
 
     public delegate Boolean ShouldEmitAttribute(StructHtmlToken token, AttributeName attributeName);
-    
+
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
@@ -64,7 +64,7 @@ namespace AngleSharp.Html.Parser
         public Boolean SkipRCDataText { get; set; }
         public Boolean SkipCDATA { get; set; }
         public Boolean SkipProcessingInstructions { get; set; }
-        
+
         public ShouldEmitAttribute ShouldEmitAttribute { get; set; } = static (_, _) => true;
 
         /// <summary>
@@ -186,6 +186,7 @@ namespace AngleSharp.Html.Parser
 
         private StructHtmlToken DataText(Char c)
         {
+
             while (true)
             {
                 switch (c)
@@ -197,7 +198,6 @@ namespace AngleSharp.Html.Parser
                         {
                             return NewSkippedContent();
                         }
-
                         return NewCharacter();
 
                     case Symbols.Ampersand:
@@ -878,7 +878,7 @@ namespace AngleSharp.Html.Parser
 
         private StructHtmlToken ProcessingInstruction(Char c)
         {
-            StringBuffer.Clear();
+            StringBuffer.Discard();
 
             while (true)
             {
@@ -914,7 +914,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="c">The current character.</param>
         private StructHtmlToken BogusComment(Char c)
         {
-            StringBuffer.Clear();
+            StringBuffer.Discard();
 
             while (true)
             {
@@ -945,7 +945,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="c">The next input character.</param>
         private StructHtmlToken CommentStart(Char c)
         {
-            StringBuffer.Clear();
+            StringBuffer.Discard();
 
             switch (c)
             {
@@ -2018,7 +2018,7 @@ namespace AngleSharp.Html.Parser
                             }
                             else
                             {
-                                StringBuffer.Clear();
+                                StringBuffer.Discard();
                             }
                             state = AttributeState.AfterValue;
                         }
@@ -2054,7 +2054,7 @@ namespace AngleSharp.Html.Parser
                             }
                             else
                             {
-                                StringBuffer.Clear();
+                                StringBuffer.Discard();
                             }
                             return EmitTag(tag);
                         }
@@ -2067,7 +2067,7 @@ namespace AngleSharp.Html.Parser
                             }
                             else
                             {
-                                StringBuffer.Clear();
+                                StringBuffer.Discard();
                             }
                             state = AttributeState.BeforeName;
                         }
@@ -2285,39 +2285,42 @@ namespace AngleSharp.Html.Parser
                             var isslash = c == Symbols.Solidus;
                             var hasLength = StringBuffer.Length - offset == length;
 
-                            if (hasLength && (isspace || isclosed || isslash) && StringBuffer.Isi(_lastStartTag.Memory.Span))
+                            if (hasLength && (isspace || isclosed || isslash))
                             {
-                                if (offset > 2)
+                                if (StringBuffer.HasTextAt(_lastStartTag.Memory.Span, offset, length, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    Back(3 + length);
-                                    StringBuffer.Remove(offset - 2, length + 2);
-                                    if (SkipScriptText)
+                                    if (offset > 2)
                                     {
-                                        StringBuffer.Clear();
-                                        return NewSkippedContent();
+                                        Back(3 + length);
+                                        StringBuffer.Remove(offset - 2, length + 2);
+                                        if (SkipScriptText)
+                                        {
+                                            StringBuffer.Discard();
+                                            return NewSkippedContent();
+                                        }
+                                        else
+                                        {
+                                            return NewCharacter();
+                                        }
                                     }
-                                    else
+
+                                    StringBuffer.Discard();
+
+                                    if (isspace)
                                     {
-                                        return NewCharacter();
+                                        tag.Name = _lastStartTag;
+                                        return ParseAttributes(tag);
                                     }
-                                }
-
-                                StringBuffer.Clear();
-
-                                if (isspace)
-                                {
-                                    tag.Name = _lastStartTag;
-                                    return ParseAttributes(tag);
-                                }
-                                else if (isslash)
-                                {
-                                    tag.Name = _lastStartTag;
-                                    return TagSelfClosing(tag);
-                                }
-                                else if (isclosed)
-                                {
-                                    tag.Name = _lastStartTag;
-                                    return EmitTag(tag);
+                                    else if (isslash)
+                                    {
+                                        tag.Name = _lastStartTag;
+                                        return TagSelfClosing(tag);
+                                    }
+                                    else if (isclosed)
+                                    {
+                                        tag.Name = _lastStartTag;
+                                        return EmitTag(tag);
+                                    }
                                 }
                             }
                         }
@@ -2468,7 +2471,7 @@ namespace AngleSharp.Html.Parser
                         var hasLength = StringBuffer.Length - offset == scriptLength;
                         if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
-                            if (StringBuffer.Isi(TagNames.Script))
+                            if (StringBuffer.Isi(offset, scriptLength, TagNames.Script))
                             {
                                 Back(scriptLength + 3);
                                 StringBuffer.Remove(offset - 2, scriptLength + 2);
@@ -2495,7 +2498,7 @@ namespace AngleSharp.Html.Parser
 
                         if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
-                            var isscript = StringBuffer.Isi(TagNames.Script);
+                            var isscript = StringBuffer.Isi(offset, scriptLength, TagNames.Script);
                             StringBuffer.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.EscapedDouble : ScriptState.Escaped;
@@ -2643,7 +2646,7 @@ namespace AngleSharp.Html.Parser
 
                         if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
                         {
-                            var isscript = StringBuffer.Isi(TagNames.Script);
+                            var isscript = StringBuffer.Isi(offset, scriptLength, TagNames.Script);
                             StringBuffer.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.Escaped : ScriptState.EscapedDouble;
@@ -2669,14 +2672,13 @@ namespace AngleSharp.Html.Parser
 
         private StructHtmlToken NewSkippedContent(HtmlTokenType htmlTokenType = HtmlTokenType.Character)
         {
-            StringBuffer.Clear();
+            StringBuffer.Discard();
             return StructHtmlToken.Skipped(htmlTokenType, _position);
         }
 
         private StructHtmlToken NewCharacter()
         {
             var content = FlushBuffer();
-            // return new HtmlToken(HtmlTokenType.Character, _position, content);
             return StructHtmlToken.Character(content, _position);
         }
 
@@ -2699,7 +2701,6 @@ namespace AngleSharp.Html.Parser
             }
 
             var content = FlushBuffer();
-            //return new HtmlToken(HtmlTokenType.Comment, _position, content);
             return StructHtmlToken.Comment(content, _position);
         }
 
@@ -2720,12 +2721,12 @@ namespace AngleSharp.Html.Parser
 
         private StructHtmlToken NewTagOpen()
         {
-            return StructHtmlToken.TagOpen();
+            return StructHtmlToken.TagOpen(_position);
         }
 
         private StructHtmlToken NewTagClose()
         {
-            return StructHtmlToken.TagClose();
+            return StructHtmlToken.TagClose(_position);
         }
 
         #endregion
@@ -2750,28 +2751,25 @@ namespace AngleSharp.Html.Parser
             var isslash = c == Symbols.Solidus;
             var hasLength = StringBuffer.Length == _lastStartTag.Length;
 
-            if (hasLength && (isspace || isclosed || isslash))
+            if (hasLength && (isspace || isclosed || isslash) && StringBuffer.Is(_lastStartTag))
             {
-                if (StringBuffer.Is(_lastStartTag.Memory.Span))
-                {
-                    var tag = NewTagClose();
-                    StringBuffer.Clear();
+                var tag = NewTagClose();
+                StringBuffer.Discard();
 
-                    if (isspace)
-                    {
-                        tag.Name = _lastStartTag;
-                        return ParseAttributes(tag);
-                    }
-                    else if (isslash)
-                    {
-                        tag.Name = _lastStartTag;
-                        return TagSelfClosing(tag);
-                    }
-                    else if (isclosed)
-                    {
-                        tag.Name = _lastStartTag;
-                        return EmitTag(tag);
-                    }
+                if (isspace)
+                {
+                    tag.Name = _lastStartTag;
+                    return ParseAttributes(tag);
+                }
+                else if (isslash)
+                {
+                    tag.Name = _lastStartTag;
+                    return TagSelfClosing(tag);
+                }
+                else if (isclosed)
+                {
+                    tag.Name = _lastStartTag;
+                    return EmitTag(tag);
                 }
             }
 

@@ -18,7 +18,7 @@ public interface IBuffer : IDisposable
     ///
     /// </summary>
     /// <returns></returns>
-    IBuffer Clear();
+    void Discard();
 
     /// <summary>
     ///
@@ -37,14 +37,6 @@ public interface IBuffer : IDisposable
     /// <param name="length"></param>
     /// <returns></returns>
     IBuffer Remove(Int32 start, Int32 length);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="offset"></param>
-    /// <param name="dest"></param>
-    /// <param name="length"></param>
-    void CopyTo(Int32 offset, Span<Char> dest, Int32 length);
 
     /// <summary>
     ///
@@ -76,7 +68,7 @@ public interface IBuffer : IDisposable
     /// Gets the data as a memory.
     /// </summary>
     /// <returns></returns>
-    StringOrMemory GetData();
+    StringOrMemory GetDataAndClear();
 
     /// <summary>
     ///
@@ -84,18 +76,9 @@ public interface IBuffer : IDisposable
     /// <param name="test"></param>
     /// <param name="comparison"></param>
     /// <returns></returns>
-    public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison);
+    public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison = StringComparison.Ordinal);
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="test"></param>
-    /// <param name="comparison"></param>
-    /// <returns></returns>
-    public Boolean Has(CheckBuffer test, StringComparison comparison);
+    public Boolean HasTextAt(ReadOnlySpan<Char> test, int offset, int length, StringComparison comparison = StringComparison.Ordinal);
+
+    public String ToString();
 }
-
-/// <summary>
-///
-/// </summary>
-public delegate Boolean CheckBuffer(ReadOnlySpan<Char> arg);

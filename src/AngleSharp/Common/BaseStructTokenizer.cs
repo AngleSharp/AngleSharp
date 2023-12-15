@@ -87,7 +87,7 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        public IBuffer StringBuffer => _buffer;
+        protected IBuffer StringBuffer => _buffer;
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).
@@ -109,13 +109,11 @@ namespace AngleSharp.Common
             var resolved = stringResolver?.Invoke(StringBuffer);
             if (resolved != null)
             {
-                StringBuffer.Clear();
+                StringBuffer.Discard();
                 return new StringOrMemory(resolved);
             }
 
-            var data = StringBuffer.GetData();
-            StringBuffer.Clear();
-            return data;
+            return StringBuffer.GetDataAndClear();
         }
 
         /// <summary>
@@ -129,7 +127,8 @@ namespace AngleSharp.Common
             {
                 var disposable = _source as IDisposable;
                 disposable?.Dispose();
-                StringBuffer!.Clear().ReturnToPool();
+                StringBuffer!.Discard();
+                StringBuffer!.ReturnToPool();
                 _buffer = null!;
             }
         }
