@@ -49,8 +49,9 @@ internal class ArrayPoolBuffer : IBuffer
     private void Clear(bool commit)
     {
         if (commit)
+        {
             _start += _idx;
-
+        }
         _idx = 0;
     }
 
@@ -85,8 +86,6 @@ internal class ArrayPoolBuffer : IBuffer
             _disposed = true;
         }
     }
-
-
 
     public IBuffer Insert(Int32 idx, Char c)
     {

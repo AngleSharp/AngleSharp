@@ -63,7 +63,7 @@ public ref struct StructHtmlToken
     // tag token
 
     private static readonly List<MemoryHtmlAttributeToken> Empty = new List<MemoryHtmlAttributeToken>();
-    private List<MemoryHtmlAttributeToken>? _attributes;
+    private Attributes _attributes;
     private Boolean _selfClosing;
 
     // doctype token
@@ -224,7 +224,7 @@ public ref struct StructHtmlToken
     /// <summary>
     /// Gets the list of attributes.
     /// </summary>
-    public IReadOnlyList<MemoryHtmlAttributeToken> Attributes => _attributes ?? Empty;
+    public Attributes Attributes => _attributes;
 
     #endregion
 
@@ -473,7 +473,6 @@ public ref struct StructHtmlToken
     /// <param name="position">The starting position of the attribute.</param>
     public void AddAttribute(StringOrMemory name, TextPosition position)
     {
-        _attributes ??= new List<MemoryHtmlAttributeToken>();
         _attributes.Add(new MemoryHtmlAttributeToken(position, name, StringOrMemory.Empty));
     }
 
@@ -484,7 +483,6 @@ public ref struct StructHtmlToken
     /// <param name="value">The value of the attribute.</param>
     public void AddAttribute(StringOrMemory name, StringOrMemory value)
     {
-        _attributes ??= new List<MemoryHtmlAttributeToken>();
         _attributes.Add(new MemoryHtmlAttributeToken(TextPosition.Empty, name, value));
     }
 
@@ -507,13 +505,12 @@ public ref struct StructHtmlToken
     /// <returns>The value of the attribute.</returns>
     public StringOrMemory GetAttribute(StringOrMemory name)
     {
-        if (_attributes == null)
+        if (_attributes.Count == 0)
             return StringOrMemory.Empty;
 
         for (var i = 0; i != _attributes.Count; i++)
         {
             var attr = _attributes[i];
-
             if (attr.Name.Is(name))
             {
                 return attr.Value;
@@ -529,7 +526,7 @@ public ref struct StructHtmlToken
     /// <param name="i">idx</param>
     public void RemoveAttributeAt(Int32 i)
     {
-        if (_attributes != null && i < _attributes.Count)
+        if (i < _attributes.Count)
         {
             _attributes.RemoveAt(i);
         }
