@@ -69,7 +69,7 @@ namespace AngleSharp.Benchmarks
             // SkipProcessingInstructions = true,
 
             ShouldEmitAttribute = (token, attributeName) =>
-                AllowedAttributes.TryGetValue(token.Name.AsMemory(), out var allowed)
+                AllowedAttributes.TryGetValue(token.Name, out var allowed)
                 && allowed.Contains(attributeName),
         };
 

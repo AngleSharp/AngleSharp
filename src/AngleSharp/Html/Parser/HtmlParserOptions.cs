@@ -4,7 +4,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Text;
     using System;
     using Tokens;
-    using AttributeName = System.ReadOnlyMemory<char>;
+    using AttributeName = System.ReadOnlyMemory<System.Char>;
 
     /// <summary>
     ///
@@ -40,32 +40,32 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         ///
         /// </summary>
-        public bool SkipComments {get;set;}
+        public Boolean SkipComments {get;set;}
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipPlaintext {get;set;}
+        public Boolean SkipPlaintext {get;set;}
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipRCDataText {get;set;}
+        public Boolean SkipRCDataText {get;set;}
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipCDATA {get;set;}
+        public Boolean SkipCDATA {get;set;}
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipProcessingInstructions {get;set;}
+        public Boolean SkipProcessingInstructions {get;set;}
 
         /// <summary>
         ///
         /// </summary>
-        public Func<HtmlTagToken, ReadOnlyMemory<Char>, Boolean> ShouldEmitAttribute { get; set; }
+        public ShouldEmitAttribute ShouldEmitAttribute { get; set; }
 
         /// <summary>
         ///
@@ -100,7 +100,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         ///
         /// </summary>
-        public bool IsStrictMode { get; set; }
+        public Boolean IsStrictMode { get; set; }
     }
 
     /// <summary>
@@ -173,46 +173,46 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         ///
         /// </summary>
-        public bool SkipDataText { get; set; }
+        public Boolean SkipDataText { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipScriptText { get; set; }
+        public Boolean SkipScriptText { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipRawText { get; set; }
+        public Boolean SkipRawText { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipComments { get; set; }
+        public Boolean SkipComments { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipPlaintext { get; set; }
+        public Boolean SkipPlaintext { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipRCDataText { get; set; }
+        public Boolean SkipRCDataText { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipCDATA { get; set; }
+        public Boolean SkipCDATA { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public bool SkipProcessingInstructions { get; set; }
+        public Boolean SkipProcessingInstructions { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public Func<HtmlTagToken, AttributeName, Boolean>? ShouldEmitAttribute { get; set; }
+        public ShouldEmitAttribute? ShouldEmitAttribute { get; set; }
     }
 }

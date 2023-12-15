@@ -14,8 +14,7 @@ namespace AngleSharp.Html.Parser.Tokens
 
         private readonly HtmlTokenType _type;
         private readonly TextPosition _position;
-        private String? _name;
-        private ReadOnlyMemory<Char> _data;
+        private StringOrMemory _name;
 
         #endregion
 
@@ -31,7 +30,7 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             _type = type;
             _position = position;
-            _data = name.Memory; // null is rare, default to non-null
+            _name = name; // null is rare, default to non-null
         }
 
         #endregion
@@ -46,9 +45,9 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             get
             {
-                for (var i = 0; i < _data.Length; i++)
+                for (var i = 0; i < _name.Length; i++)
                 {
-                    if (!_data.Span[i].IsSpaceCharacter())
+                    if (!_name[i].IsSpaceCharacter())
                     {
                         return true;
                     }
@@ -61,26 +60,22 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets or sets the name of a tag token.
         /// </summary>
-        public String Name
+        public StringOrMemory Name
         {
-            get => _name ??= _data.CreateString();
-            set
-            {
-                _data = value.AsMemory();
-                _name = value;
-            }
+            get => _name;
+            set => _name = value;
         }
 
         /// <summary>
         /// Gets if the character data is empty (null or length equal to zero).
         /// </summary>
         /// <returns>True if the character data is actually NULL or empty.</returns>
-        public Boolean IsEmpty => _data.Length == 0;
+        public Boolean IsEmpty => _name.Length == 0;
 
         /// <summary>
         /// Gets the data of the comment or character token.
         /// </summary>
-        public String Data => Name;
+        public StringOrMemory Data => Name;
 
         /// <summary>
         /// Gets the position of the token.
@@ -110,7 +105,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Indicates that this comment token is a processing instruction.
         /// </summary>
-        public bool IsProcessingInstruction { get; internal set; }
+        public Boolean IsProcessingInstruction { get; internal set; }
 
         #endregion
 
@@ -120,21 +115,20 @@ namespace AngleSharp.Html.Parser.Tokens
         /// Removes all ignorable characters from the beginning.
         /// </summary>
         /// <returns>The trimmed characters.</returns>
-        public String TrimStart()
+        public StringOrMemory TrimStart()
         {
-            int i;
-            for (i = 0; i < _data.Length; i++)
+            Int32 i;
+            for (i = 0; i < _name.Length; i++)
             {
-                if (!_data.Span[i].IsSpaceCharacter())
+                if (!_name.Memory.Span[i].IsSpaceCharacter())
                 {
                     break;
                 }
             }
 
-            var t = _data.Slice(0, i);
-            _data = _data.Slice(i);
-            _name = null;
-            return t.Span.CreateString();
+            var t = _name.Memory.Slice(0, i);
+            _name = new StringOrMemory(_name.Memory.Slice(i));
+            return new StringOrMemory(t);
         }
 
         private static readonly Char[] Spaces = new Char[]
@@ -152,11 +146,10 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <returns>The trimmed characters.</returns>
         public void CleanStart()
         {
-            var newData = _data.TrimStart(Spaces);
-            if (newData.Length != _data.Length)
+            var newData = _name.Memory.TrimStart(Spaces);
+            if (newData.Length != _name.Length)
             {
-                _data = newData;
-                _name = null;
+                _name = new StringOrMemory(newData);
             }
         }
 
@@ -165,10 +158,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public void RemoveNewLine()
         {
-            if (_data.Length > 0 && _data.Span[0] == Symbols.LineFeed)
+            if (_name.Length > 0 && _name[0] == Symbols.LineFeed)
             {
-                _data = _data.Slice(1);
-                _name = null;
+                _name = new StringOrMemory(_name.Memory.Slice(1));
             }
         }
 
@@ -186,9 +178,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         /// <param name="name">The name of the tag.</param>
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
-        public Boolean IsStartTag(String name)
+        public Boolean IsStartTag(StringOrMemory name)
         {
-            return _type == HtmlTokenType.StartTag && _data.Span.Is(name);
+            return _type == HtmlTokenType.StartTag && _name.Is(name);
         }
 
         #endregion

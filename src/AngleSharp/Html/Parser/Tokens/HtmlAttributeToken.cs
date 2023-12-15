@@ -2,6 +2,7 @@ namespace AngleSharp.Html.Parser.Tokens
 {
     using AngleSharp.Text;
     using System;
+    using Common;
 
     /// <summary>
     /// The token representation of an HTML tag attribute.
@@ -14,7 +15,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="position">The start position of the attribute's name.</param>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        public HtmlAttributeToken(TextPosition position, String name, String value)
+        public HtmlAttributeToken(TextPosition position, StringOrMemory name, StringOrMemory value)
         {
             Position = position;
             Name = name;
@@ -24,12 +25,12 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets the attribute's name.
         /// </summary>
-        public String Name { get; }
+        public StringOrMemory Name { get; }
 
         /// <summary>
         /// Gets the attribute's value.
         /// </summary>
-        public String Value { get; }
+        public StringOrMemory Value { get; }
 
         /// <summary>
         /// Gets the position of the token.

@@ -8,6 +8,7 @@ namespace AngleSharp.Text
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Common;
 
     /// <summary>
     /// A stream abstraction to handle encoding and more.
@@ -34,7 +35,7 @@ namespace AngleSharp.Text
 
         #region ctor
 
-        private TextSource(Encoding encoding, bool allocateBuffers)
+        private TextSource(Encoding encoding, Boolean allocateBuffers)
         {
             if (allocateBuffers)
             {
@@ -214,6 +215,11 @@ namespace AngleSharp.Text
         /// <returns>The string with the next characters.</returns>
         public String ReadCharacters(Int32 characters)
         {
+            return ReadMemory(characters).String;
+        }
+
+        public StringOrMemory ReadMemory(int characters)
+        {
             var start = _index;
             var end = start + characters;
 
@@ -261,7 +267,7 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-        public Boolean TryGetContentLength(out int length)
+        public Boolean TryGetContentLength(out Int32 length)
         {
             length = 0;
             return false;

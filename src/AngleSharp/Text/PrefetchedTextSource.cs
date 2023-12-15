@@ -116,18 +116,23 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// <returns>The string with the next characters.</returns>
     public String ReadCharacters(Int32 characters)
     {
+        return ReadMemory(characters).String;
+    }
+
+    public StringOrMemory ReadMemory(Int32 characters)
+    {
         var start = _index;
         var end = start + characters;
 
         if (end <= _memory!.Length)
         {
             _index += characters;
-            return _memory.Span.Slice(start, characters).CreateString();
+            return _memory.Slice(start, characters);
         }
 
         _index += characters;
         characters = Math.Min(characters, _memory.Length - start);
-        return _memory.Span.Slice(start, characters).CreateString();
+        return _memory.Slice(start, characters);
     }
 
     /// <summary>
@@ -136,7 +141,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// <param name="length"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public Task PrefetchAsync(int length, CancellationToken cancellationToken)
+    public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }
@@ -156,7 +161,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// </summary>
     /// <param name="length"></param>
     /// <returns></returns>
-    public Boolean TryGetContentLength(out int length)
+    public Boolean TryGetContentLength(out Int32 length)
     {
         length = _memory.Length;
         return true;

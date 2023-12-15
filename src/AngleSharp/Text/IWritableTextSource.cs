@@ -5,6 +5,7 @@ using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Common;
 
 /// <summary>
 /// ...
@@ -52,6 +53,14 @@ public interface IReadOnlyTextSource : IDisposable
     /// <param name="characters">The number of characters to read.</param>
     /// <returns>The string with the next characters.</returns>
     String ReadCharacters(Int32 characters);
+    
+    /// <summary>
+    /// Reads the upcoming numbers of characters from the buffer or
+    /// underlying stream, if any.
+    /// </summary>
+    /// <param name="characters">The number of characters to read.</param>
+    /// <returns>The structure which is either materialized string or a reference to Memory of Char</returns>
+    StringOrMemory ReadMemory(Int32 characters);
 
     /// <summary>
     /// Prefetches the number of bytes by expanding the internal buffer.
@@ -73,7 +82,7 @@ public interface IReadOnlyTextSource : IDisposable
     /// </summary>
     /// <param name="length"></param>
     /// <returns></returns>
-    bool TryGetContentLength(out int length);
+    Boolean TryGetContentLength(out Int32 length);
 
 }
 

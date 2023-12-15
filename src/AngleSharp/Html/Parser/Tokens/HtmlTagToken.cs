@@ -95,7 +95,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="position">The starting position of the attribute.</param>
-        public void AddAttribute(String name, TextPosition position)
+        public void AddAttribute(StringOrMemory name, TextPosition position)
         {
             _attributes ??= new List<HtmlAttributeToken>();
             _attributes.Add(new HtmlAttributeToken(position, name, String.Empty));
@@ -106,7 +106,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        public void AddAttribute(String name, String value)
+        public void AddAttribute(StringOrMemory name, StringOrMemory value)
         {
             _attributes ??= new List<HtmlAttributeToken>();
             _attributes.Add(new HtmlAttributeToken(TextPosition.Empty, name, value));
@@ -116,7 +116,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// Sets the value of the last added attribute.
         /// </summary>
         /// <param name="value">The value to set.</param>
-        public void SetAttributeValue(String value)
+        public void SetAttributeValue(StringOrMemory value)
         {
             var last = _attributes!.Count - 1;
             var attr = _attributes[last];
@@ -129,7 +129,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <returns>The value of the attribute.</returns>
-        public String GetAttribute(String name)
+        public StringOrMemory GetAttribute(StringOrMemory name)
         {
             if (_attributes == null)
                 return String.Empty;
@@ -160,7 +160,5 @@ namespace AngleSharp.Html.Parser.Tokens
         }
 
         #endregion
-
-
     }
 }

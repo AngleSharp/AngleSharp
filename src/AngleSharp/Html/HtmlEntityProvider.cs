@@ -6,7 +6,7 @@ namespace AngleSharp.Html
     using System.Collections.Generic;
     using System.Linq;
     using Common;
-    using EntitiesCache = System.Collections.Frozen.FrozenDictionary<char, System.Collections.Frozen.FrozenDictionary<System.ReadOnlyMemory<char>, string>>;
+    using EntitiesCache = System.Collections.Frozen.FrozenDictionary<System.Char, System.Collections.Frozen.FrozenDictionary<System.ReadOnlyMemory<System.Char>, System.String>>;
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>

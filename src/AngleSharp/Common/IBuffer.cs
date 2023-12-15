@@ -5,45 +5,6 @@ using System;
 /// <summary>
 ///
 /// </summary>
-public ref struct StringOrMemory
-{
-    private String? _string;
-    private readonly ReadOnlyMemory<Char> _memory;
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="str"></param>
-    public StringOrMemory(String str)
-    {
-        _memory = str.AsMemory();
-        _string = str;
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="memory"></param>
-    public StringOrMemory(ReadOnlyMemory<Char> memory)
-    {
-        _memory = memory;
-        _string = null;
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    public readonly ReadOnlyMemory<Char> Memory => _memory;
-
-    /// <summary>
-    ///
-    /// </summary>
-    public String String => _string ??= _memory.Span.CreateString();
-}
-
-/// <summary>
-///
-/// </summary>
 public interface IBuffer : IDisposable
 {
     /// <summary>
@@ -138,31 +99,3 @@ public interface IBuffer : IDisposable
 ///
 /// </summary>
 public delegate Boolean CheckBuffer(ReadOnlySpan<Char> arg);
-
-/// <summary>
-///
-/// </summary>
-public static class StringBufferExtensions
-{
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="buffer"></param>
-    /// <param name="test"></param>
-    /// <returns></returns>
-    public static Boolean Isi(this IBuffer buffer, ReadOnlySpan<Char> test)
-    {
-        return buffer.HasText(test, StringComparison.OrdinalIgnoreCase);
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="buffer"></param>
-    /// <param name="test"></param>
-    /// <returns></returns>
-    public static Boolean Is(this IBuffer buffer, ReadOnlySpan<Char> test)
-    {
-        return buffer.HasText(test, StringComparison.Ordinal);
-    }
-}

@@ -34,7 +34,7 @@ namespace AngleSharp.Text
             /// <param name="owner"></param>
             /// <param name="data"></param>
             /// <param name="requestedLength"></param>
-            public Lease(ArrayPool<T> owner, T[] data, int requestedLength)
+            public Lease(ArrayPool<T> owner, T[] data, Int32 requestedLength)
             {
                 this.owner = owner;
                 this.Data = data;
@@ -54,7 +54,7 @@ namespace AngleSharp.Text
             /// <summary>
             ///
             /// </summary>
-            public int RequestedLength { get; }
+            public Int32 RequestedLength { get; }
 
             /// <summary>
             ///
@@ -72,7 +72,7 @@ namespace AngleSharp.Text
         /// <param name="length"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static Lease<T> Borrow<T>(this ArrayPool<T> pool, int length)
+        public static Lease<T> Borrow<T>(this ArrayPool<T> pool, Int32 length)
         {
             var arr = ArrayPool<T>.Shared.Rent(length);
             return new Lease<T>(ArrayPool<T>.Shared, arr, length);
@@ -493,7 +493,7 @@ namespace AngleSharp.Text
         /// <param name="other"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean Is(this ReadOnlySpan<Char> current, ReadOnlyMemory<char> other)
+        public static Boolean Is(this ReadOnlySpan<Char> current, ReadOnlyMemory<Char> other)
         {
             return current.SequenceEqual(other.Span);
         }

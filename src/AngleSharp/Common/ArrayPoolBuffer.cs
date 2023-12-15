@@ -2,8 +2,6 @@ namespace AngleSharp.Common;
 
 using System;
 using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
 
 internal class ArrayPoolBuffer : IBuffer
 {
@@ -12,7 +10,7 @@ internal class ArrayPoolBuffer : IBuffer
     private Int32 _start = 0;
     private Int32 _idx = 0;
 
-    private bool _canLog = false;
+    private Boolean _canLog = false;
 
     private Int32 Pointer => _start + _idx;
 
