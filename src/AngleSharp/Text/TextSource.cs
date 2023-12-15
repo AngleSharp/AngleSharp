@@ -226,13 +226,13 @@ namespace AngleSharp.Text
             if (end <= _content!.Length)
             {
                 _index += characters;
-                return _content.ToString(start, characters);
+                return new StringOrMemory(_content.ToString(start, characters));
             }
 
             ExpandBuffer(Math.Max(BufferSize, characters));
             _index += characters;
             characters = Math.Min(characters, _content.Length - start);
-            return _content.ToString(start, characters);
+            return new StringOrMemory(_content.ToString(start, characters));
         }
 
         /// <summary>

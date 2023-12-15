@@ -148,7 +148,7 @@ namespace AngleSharp.Common
         protected Boolean ContinuesWithInsensitive(String s)
         {
             var content = PeekString(s.Length);
-            return content.Length == s.Length && content.Isi(s);
+            return content.Isi(s);
         }
 
         /// <summary>

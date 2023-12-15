@@ -414,7 +414,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void NoOriginShouldNotDeliverAnyCookie_Issue702()
         {
-            if (Helper.IsFramework(".NET 6.0", ".NET 7.0"))
+            if (Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
                 var mcp = new MemoryCookieProvider();
                 var url = new Url("");

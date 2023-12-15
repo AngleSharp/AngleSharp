@@ -25,6 +25,7 @@ internal class ArrayPoolBuffer : IBuffer
     {
         if (_canLog)
             Console.WriteLine($"Dispose() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+
         ReturnToPool();
     }
 
@@ -84,6 +85,8 @@ internal class ArrayPoolBuffer : IBuffer
             _disposed = true;
         }
     }
+
+
 
     public IBuffer Insert(Int32 idx, Char c)
     {

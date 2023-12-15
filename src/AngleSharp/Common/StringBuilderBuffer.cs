@@ -91,7 +91,6 @@ internal class StringBuilderBuffer : IBuffer
     {
         using var lease = ArrayPool<Char>.Shared.Borrow(length);
         _sb.CopyTo(offset, lease.Span, length);
-        var test2 = _sb.ToString(offset, length);
         return MemoryExtensions.Equals(lease.Span.Slice(0, length), test, comparison);
     }
 

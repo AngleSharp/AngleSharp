@@ -456,7 +456,7 @@ public ref struct StructHtmlToken
     /// </summary>
     /// <param name="name">The name of the tag.</param>
     /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
-    public Boolean IsStartTag(StringOrMemory name)
+    public Boolean IsStartTag(string name)
     {
         return _type == HtmlTokenType.StartTag && _name.Is(name);
     }
@@ -474,7 +474,7 @@ public ref struct StructHtmlToken
     public void AddAttribute(StringOrMemory name, TextPosition position)
     {
         _attributes ??= new List<MemoryHtmlAttributeToken>();
-        _attributes.Add(new MemoryHtmlAttributeToken(position, name, String.Empty));
+        _attributes.Add(new MemoryHtmlAttributeToken(position, name, StringOrMemory.Empty));
     }
 
     /// <summary>
@@ -508,7 +508,7 @@ public ref struct StructHtmlToken
     public StringOrMemory GetAttribute(StringOrMemory name)
     {
         if (_attributes == null)
-            return String.Empty;
+            return StringOrMemory.Empty;
 
         for (var i = 0; i != _attributes.Count; i++)
         {
@@ -520,7 +520,7 @@ public ref struct StructHtmlToken
             }
         }
 
-        return String.Empty;
+        return StringOrMemory.Empty;
     }
 
     /// <summary>

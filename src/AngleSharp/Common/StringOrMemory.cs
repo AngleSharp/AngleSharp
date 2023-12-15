@@ -77,12 +77,12 @@ public struct StringOrMemory
     /// <returns></returns>
     public Boolean IsNullOrEmpty => _memory.IsEmpty;
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="str"></param>
-    /// <returns></returns>
-    public static implicit operator StringOrMemory(String str) => new StringOrMemory(str);
+    // /// <summary>
+    // ///
+    // /// </summary>
+    // /// <param name="str"></param>
+    // /// <returns></returns>
+    // public static implicit operator StringOrMemory(String str) => new StringOrMemory(str);
 
     /// <summary>
     ///
@@ -114,6 +114,22 @@ public struct StringOrMemory
     public static Boolean operator ==(StringOrMemory left, StringOrMemory right)
     {
         return left.Memory.Equals(right.Memory);
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static Boolean operator ==(StringOrMemory left, string right)
+    {
+        return left.Memory.Span.SequenceEqual(right);
+    }
+
+    public static bool operator !=(StringOrMemory left, string right)
+    {
+        return !left.Memory.Span.SequenceEqual(right);
     }
 
     /// <summary>
@@ -182,6 +198,8 @@ public struct StringOrMemory
     {
         return String;
     }
+
+    public static StringOrMemory Empty { get; } = new StringOrMemory(String.Empty);
 }
 
 /// <summary>
@@ -200,6 +218,11 @@ public static class StringOrMemoryExtensions
         return str.Memory.Span.SequenceEqual(other.Memory.Span);
     }
 
+    public static Boolean Is(this StringOrMemory str, string other)
+    {
+        return str.Memory.Span.SequenceEqual(other);
+    }
+
     /// <summary>
     ///
     /// </summary>
@@ -209,6 +232,11 @@ public static class StringOrMemoryExtensions
     public static Boolean Isi(this StringOrMemory str, StringOrMemory other)
     {
         return str.Memory.Span.Equals(other.Memory.Span, StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static Boolean Isi(this StringOrMemory str, string other)
+    {
+        return str.Memory.Span.Equals(other.AsSpan(), StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>

@@ -6,7 +6,7 @@ namespace AngleSharp.Html
     using System.Collections.Generic;
     using System.Linq;
     using Common;
-    using EntitiesCache = System.Collections.Frozen.FrozenDictionary<System.Char, System.Collections.Frozen.FrozenDictionary<System.ReadOnlyMemory<System.Char>, System.String>>;
+    using EntitiesCache = System.Collections.Generic.Dictionary<System.Char, System.Collections.Generic.Dictionary<System.ReadOnlyMemory<System.Char>, System.String>>;
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
@@ -94,7 +94,14 @@ namespace AngleSharp.Html
                 { 'Z', GetSymbolBigZ() },
             };
 
-            _entities = entities.ToFrozenDictionary(k => k.Key, v => v.Value.ToFrozenDictionary(k => k.Key.AsMemory(), v => v.Value, new ReadOnlyMemoryComparer()));
+            _entities = entities
+                .ToDictionary(
+                    static k => k.Key,
+                    static v => v.Value.ToDictionary(
+                        static k => k.Key.AsMemory(),
+                        static v => v.Value,
+                        ReadOnlyMemoryComparer.Instance)
+                    );
         }
 
         #endregion

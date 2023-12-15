@@ -105,28 +105,57 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Gets or sets if CDATA sections are accepted.
         /// </summary>
-        public Boolean IsAcceptingCharacterData { get => _tokenizer.IsAcceptingCharacterData; set => _tokenizer.IsAcceptingCharacterData = value; }
+        public Boolean IsAcceptingCharacterData
+        {
+            get => _tokenizer.IsAcceptingCharacterData;
+            set => _tokenizer.IsAcceptingCharacterData = value;
+        }
+
         /// <summary>
         /// Gets or sets if attribute names should be taken as is.
         /// </summary>
-        public Boolean IsPreservingAttributeNames { get => _tokenizer.IsPreservingAttributeNames; set => _tokenizer.IsPreservingAttributeNames = value; }
+        public Boolean IsPreservingAttributeNames
+        {
+            get => _tokenizer.IsPreservingAttributeNames;
+            set => _tokenizer.IsPreservingAttributeNames = value;
+        }
+
         /// <summary>
         /// Gets or sets if character references should be avoided.
         /// </summary>
-        public Boolean IsNotConsumingCharacterReferences { get => _tokenizer.IsNotConsumingCharacterReferences; set => _tokenizer.IsNotConsumingCharacterReferences = value; }
+        public Boolean IsNotConsumingCharacterReferences
+        {
+            get => _tokenizer.IsNotConsumingCharacterReferences;
+            set => _tokenizer.IsNotConsumingCharacterReferences = value;
+        }
+
         /// <summary>
         /// Gets or sets the current parse mode.
         /// </summary>
-        public HtmlParseMode State { get => _tokenizer.State; set => _tokenizer.State = value; }
+        public HtmlParseMode State
+        {
+            get => _tokenizer.State;
+            set => _tokenizer.State = value;
+        }
+
         /// <summary>
         /// Gets or sets if strict mode is used.
         /// </summary>
-        public Boolean IsStrictMode { get => _tokenizer.IsStrictMode; set => _tokenizer.IsStrictMode = value; }
+        public Boolean IsStrictMode
+        {
+            get => _tokenizer.IsStrictMode;
+            set => _tokenizer.IsStrictMode = value;
+        }
+
         /// <summary>
         /// Gets or sets if XML processing instructions should
         /// be parsed into DOM nodes.
         /// </summary>
-        public Boolean IsSupportingProcessingInstructions { get => _tokenizer.IsSupportingProcessingInstructions; set => _tokenizer.IsSupportingProcessingInstructions = value; }
+        public Boolean IsSupportingProcessingInstructions
+        {
+            get => _tokenizer.IsSupportingProcessingInstructions;
+            set => _tokenizer.IsSupportingProcessingInstructions = value;
+        }
         #endregion
 
         #region Methods

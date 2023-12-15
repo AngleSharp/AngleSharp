@@ -10,7 +10,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <NoWarn>$(NoWarn);SYSLIB0014;CS1591</NoWarn>
+    <NoWarn>$(NoWarn);SYSLIB0014;CS1591;CS0649</NoWarn>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
