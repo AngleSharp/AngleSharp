@@ -2,7 +2,6 @@ namespace AngleSharp.Html.Parser.Tokens
 {
     using AngleSharp.Text;
     using System;
-    using Common;
 
     /// <summary>
     /// The DOCTYPE token.
@@ -12,8 +11,8 @@ namespace AngleSharp.Html.Parser.Tokens
         #region Fields
 
         private Boolean _quirks;
-        private StringOrMemory? _publicIdentifier;
-        private StringOrMemory? _systemIdentifier;
+        private String? _publicIdentifier;
+        private String? _systemIdentifier;
 
         #endregion
 
@@ -58,7 +57,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets or sets the value of the public identifier.
         /// </summary>
-        public StringOrMemory PublicIdentifier
+        public String PublicIdentifier
         {
             get => _publicIdentifier ?? String.Empty;
             set => _publicIdentifier = value;
@@ -67,7 +66,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets or sets the value of the system identifier.
         /// </summary>
-        public StringOrMemory SystemIdentifier
+        public String SystemIdentifier
         {
             get => _systemIdentifier ?? String.Empty;
             set => _systemIdentifier = value;
@@ -97,7 +96,7 @@ namespace AngleSharp.Html.Parser.Tokens
             get
             {
                 var pi = PublicIdentifier;
-                return IsQuirksForced || Name != "html" ||
+                return IsQuirksForced || Name is not "html" ||
                        pi.StartsWith("+//Silmaril//dtd html Pro v0r11 19970101//", StringComparison.OrdinalIgnoreCase) ||
                        pi.StartsWith("-//AdvaSoft Ltd//DTD HTML 3.0 asWedit + extensions//", StringComparison.OrdinalIgnoreCase) ||
                        pi.StartsWith("-//AS//DTD HTML 3.0 asWedit + extensions//", StringComparison.OrdinalIgnoreCase) ||
@@ -169,31 +168,31 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             get
             {
-                if (Name == "html")
+                if (Name is "html")
                 {
                     if (!IsPublicIdentifierMissing)
                     {
                         var pi = PublicIdentifier;
 
-                        if (pi == "-//W3C//DTD HTML 4.0//EN")
+                        if (pi is "-//W3C//DTD HTML 4.0//EN")
                         {
-                            return IsSystemIdentifierMissing || SystemIdentifier == "http://www.w3.org/TR/REC-html40/strict.dtd";
+                            return IsSystemIdentifierMissing || SystemIdentifier is "http://www.w3.org/TR/REC-html40/strict.dtd";
                         }
-                        else if (pi == "-//W3C//DTD HTML 4.01//EN")
+                        else if (pi is "-//W3C//DTD HTML 4.01//EN")
                         {
-                            return IsSystemIdentifierMissing || SystemIdentifier == "http://www.w3.org/TR/html4/strict.dtd";
+                            return IsSystemIdentifierMissing || SystemIdentifier is "http://www.w3.org/TR/html4/strict.dtd";
                         }
-                        else if (pi == "-//W3C//DTD XHTML 1.0 Strict//EN")
+                        else if (pi is "-//W3C//DTD XHTML 1.0 Strict//EN")
                         {
-                            return SystemIdentifier == "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
+                            return SystemIdentifier is "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
                         }
-                        else if (pi == "-//W3C//DTD XHTML 1.1//EN")
+                        else if (pi is "-//W3C//DTD XHTML 1.1//EN")
                         {
-                            return SystemIdentifier == "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd";
+                            return SystemIdentifier is "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd";
                         }
                     }
 
-                    return IsSystemIdentifierMissing || SystemIdentifier == "about:legacy-compat";
+                    return IsSystemIdentifierMissing || SystemIdentifier is "about:legacy-compat";
                 }
 
                 return false;

@@ -3,7 +3,6 @@ namespace AngleSharp.Html.Parser.Tokens
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
-    using Common;
 
     /// <summary>
     /// The abstract base class of top-level HTML tokens.
@@ -14,7 +13,7 @@ namespace AngleSharp.Html.Parser.Tokens
 
         private readonly HtmlTokenType _type;
         private readonly TextPosition _position;
-        private StringOrMemory _name;
+        private String _name;
 
         #endregion
 
@@ -26,11 +25,11 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="type">The exact type of the token.</param>
         /// <param name="position">The token's text position.</param>
         /// <param name="name">The optional name of the token, if any.</param>
-        public HtmlToken(HtmlTokenType type, TextPosition position, StringOrMemory name = default)
+        public HtmlToken(HtmlTokenType type, TextPosition position, String? name = null)
         {
             _type = type;
             _position = position;
-            _name = name; // null is rare, default to non-null
+            _name = name!; // null is rare, default to non-null
         }
 
         #endregion
@@ -45,7 +44,7 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             get
             {
-                for (var i = 0; i < _name.Length; i++)
+                for (var i = 0; i < _name!.Length; i++)
                 {
                     if (!_name[i].IsSpaceCharacter())
                     {
@@ -60,7 +59,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets or sets the name of a tag token.
         /// </summary>
-        public StringOrMemory Name
+        public String Name
         {
             get => _name;
             set => _name = value;
@@ -70,12 +69,12 @@ namespace AngleSharp.Html.Parser.Tokens
         /// Gets if the character data is empty (null or length equal to zero).
         /// </summary>
         /// <returns>True if the character data is actually NULL or empty.</returns>
-        public Boolean IsEmpty => _name.Length == 0;
+        public Boolean IsEmpty => String.IsNullOrEmpty(_name);
 
         /// <summary>
         /// Gets the data of the comment or character token.
         /// </summary>
-        public StringOrMemory Data => Name;
+        public String Data => _name;
 
         /// <summary>
         /// Gets the position of the token.
@@ -105,7 +104,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Indicates that this comment token is a processing instruction.
         /// </summary>
-        public Boolean IsProcessingInstruction { get; internal set; }
+        public bool IsProcessingInstruction { get; internal set; }
 
         #endregion
 
@@ -115,42 +114,39 @@ namespace AngleSharp.Html.Parser.Tokens
         /// Removes all ignorable characters from the beginning.
         /// </summary>
         /// <returns>The trimmed characters.</returns>
-        public StringOrMemory TrimStart()
+        public String TrimStart()
         {
-            Int32 i;
+            var i = 0;
+
             for (i = 0; i < _name.Length; i++)
             {
-                if (!_name.Memory.Span[i].IsSpaceCharacter())
+                if (!_name[i].IsSpaceCharacter())
                 {
                     break;
                 }
             }
 
-            var t = _name.Memory.Slice(0, i);
-            _name = new StringOrMemory(_name.Memory.Slice(i));
-            return new StringOrMemory(t);
+            var t = _name.Substring(0, i);
+            _name = _name.Substring(i);
+            return t;
         }
-
-        private static readonly Char[] Spaces = new Char[]
-        {
-            Symbols.Space,
-            Symbols.Tab,
-            Symbols.LineFeed,
-            Symbols.CarriageReturn,
-            Symbols.FormFeed
-        };
 
         /// <summary>
         /// Removes all ignorable characters from the beginning.
         /// </summary>
-        /// <returns>The trimmed characters.</returns>
         public void CleanStart()
         {
-            var newData = _name.Memory.TrimStart(Spaces);
-            if (newData.Length != _name.Length)
+            var i = 0;
+
+            for (i = 0; i < _name.Length; i++)
             {
-                _name = new StringOrMemory(newData);
+                if (!_name[i].IsSpaceCharacter())
+                {
+                    break;
+                }
             }
+
+            _name = _name.Substring(i);
         }
 
         /// <summary>
@@ -158,9 +154,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         public void RemoveNewLine()
         {
-            if (_name.Length > 0 && _name[0] == Symbols.LineFeed)
+            if (_name.Has(Symbols.LineFeed))
             {
-                _name = new StringOrMemory(_name.Memory.Slice(1));
+                _name = _name.Substring(1);
             }
         }
 
@@ -178,7 +174,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         /// <param name="name">The name of the tag.</param>
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
-        public Boolean IsStartTag(StringOrMemory name)
+        public Boolean IsStartTag(String name)
         {
             return _type == HtmlTokenType.StartTag && _name.Is(name);
         }

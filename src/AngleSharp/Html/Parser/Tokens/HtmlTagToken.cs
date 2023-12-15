@@ -4,18 +4,15 @@ namespace AngleSharp.Html.Parser.Tokens
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using Common;
 
     /// <summary>
     /// Class for StartTagToken and EndTagToken.
     /// </summary>
-    public class HtmlTagToken : HtmlToken, ISourceReference
+    public sealed class HtmlTagToken : HtmlToken, ISourceReference
     {
-        private static readonly List<HtmlAttributeToken> Empty = new List<HtmlAttributeToken>();
-
         #region Fields
 
-        private List<HtmlAttributeToken>? _attributes;
+        private readonly List<HtmlAttributeToken> _attributes = new List<HtmlAttributeToken>();
         private Boolean _selfClosing;
 
         #endregion
@@ -28,7 +25,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="type">The type of the tag token.</param>
         /// <param name="position">The token's position.</param>
         public HtmlTagToken(HtmlTokenType type, TextPosition position)
-            : this(type, position, default)
+            : this(type, position, String.Empty)
         {
         }
 
@@ -38,7 +35,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <param name="type">The type of the tag token.</param>
         /// <param name="position">The token's position.</param>
         /// <param name="name">The name of the tag.</param>
-        public HtmlTagToken(HtmlTokenType type, TextPosition position, StringOrMemory name)
+        public HtmlTagToken(HtmlTokenType type, TextPosition position, String name)
             : base(type, position, name)
         {
         }
@@ -54,7 +51,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <returns>The new HTML tag token.</returns>
         public static HtmlTagToken Open(String name)
         {
-            return new HtmlTagToken(HtmlTokenType.StartTag, TextPosition.Empty, new StringOrMemory(name));
+            return new HtmlTagToken(HtmlTokenType.StartTag, TextPosition.Empty, name);
         }
 
         /// <summary>
@@ -64,7 +61,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <returns>The new HTML tag token.</returns>
         public static HtmlTagToken Close(String name)
         {
-            return new HtmlTagToken(HtmlTokenType.EndTag, TextPosition.Empty, new StringOrMemory(name));
+            return new HtmlTagToken(HtmlTokenType.EndTag, TextPosition.Empty, name);
         }
 
         #endregion
@@ -83,7 +80,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Gets the list of attributes.
         /// </summary>
-        public IReadOnlyList<HtmlAttributeToken> Attributes => _attributes ?? Empty;
+        public List<HtmlAttributeToken> Attributes => _attributes;
 
         #endregion
 
@@ -95,9 +92,8 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="position">The starting position of the attribute.</param>
-        public void AddAttribute(StringOrMemory name, TextPosition position)
+        public void AddAttribute(String name, TextPosition position)
         {
-            _attributes ??= new List<HtmlAttributeToken>();
             _attributes.Add(new HtmlAttributeToken(position, name, String.Empty));
         }
 
@@ -106,9 +102,8 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        public void AddAttribute(StringOrMemory name, StringOrMemory value)
+        public void AddAttribute(String name, String value)
         {
-            _attributes ??= new List<HtmlAttributeToken>();
             _attributes.Add(new HtmlAttributeToken(TextPosition.Empty, name, value));
         }
 
@@ -116,9 +111,9 @@ namespace AngleSharp.Html.Parser.Tokens
         /// Sets the value of the last added attribute.
         /// </summary>
         /// <param name="value">The value to set.</param>
-        public void SetAttributeValue(StringOrMemory value)
+        public void SetAttributeValue(String value)
         {
-            var last = _attributes!.Count - 1;
+            var last = _attributes.Count - 1;
             var attr = _attributes[last];
             _attributes[last] = new HtmlAttributeToken(attr.Position, attr.Name, value);
         }
@@ -129,11 +124,8 @@ namespace AngleSharp.Html.Parser.Tokens
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <returns>The value of the attribute.</returns>
-        public StringOrMemory GetAttribute(StringOrMemory name)
+        public String GetAttribute(String name)
         {
-            if (_attributes == null)
-                return String.Empty;
-
             for (var i = 0; i != _attributes.Count; i++)
             {
                 var attr = _attributes[i];
@@ -148,17 +140,16 @@ namespace AngleSharp.Html.Parser.Tokens
         }
 
         /// <summary>
-        /// Removes attribute with index i.
+        /// Removes attribute at the given index.
         /// </summary>
-        /// <param name="i">idx</param>
+        /// <param name="i">Attribute index</param>
         public void RemoveAttributeAt(Int32 i)
         {
-            if (_attributes != null && i < _attributes.Count)
-            {
-                _attributes.RemoveAt(i);
-            }
+            _attributes.RemoveAt(i);
         }
 
         #endregion
+
+
     }
 }
