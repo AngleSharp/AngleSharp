@@ -199,7 +199,7 @@ public struct StringOrMemory
         return String;
     }
 
-    public static StringOrMemory Empty { get; } = new StringOrMemory(String.Empty);
+    public static StringOrMemory Empty => new StringOrMemory(String.Empty);
 }
 
 /// <summary>

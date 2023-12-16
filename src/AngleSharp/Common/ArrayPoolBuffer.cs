@@ -10,7 +10,7 @@ internal class ArrayPoolBuffer : IBuffer
     private Int32 _start = 0;
     private Int32 _idx = 0;
 
-    private Boolean _canLog = false;
+    // private Boolean _canLog = false;
 
     private Int32 Pointer => _start + _idx;
 
@@ -23,16 +23,16 @@ internal class ArrayPoolBuffer : IBuffer
 
     public void Dispose()
     {
-        if (_canLog)
-            Console.WriteLine($"Dispose() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+        //// if (_canLog)
+        ////     Console.WriteLine($"Dispose() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
 
         ReturnToPool();
     }
 
     public IBuffer Append(Char c)
     {
-        if (_canLog)
-            Console.WriteLine($"Append('{c}') [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+        //if (_canLog)
+        //    Console.WriteLine($"Append('{c}') [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
         _buffer[Pointer] = c;
         _idx++;
         return this;
@@ -40,8 +40,8 @@ internal class ArrayPoolBuffer : IBuffer
 
     public void Discard()
     {
-        if (_canLog)
-            Console.WriteLine($"Discard() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+        //if (_canLog)
+        //    Console.WriteLine($"Discard() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
 
         Clear(false);
     }
@@ -61,8 +61,8 @@ internal class ArrayPoolBuffer : IBuffer
 
     public IBuffer Remove(Int32 startIndex, Int32 length)
     {
-        if (_canLog)
-            Console.WriteLine($"Remove({startIndex}, {length}) [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+        //if (_canLog)
+        //    Console.WriteLine($"Remove({startIndex}, {length}) [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
 
         var tail = _buffer.AsSpan(_start + startIndex + length);
         var dest = _buffer.AsSpan(_start + startIndex);
@@ -76,12 +76,12 @@ internal class ArrayPoolBuffer : IBuffer
 
     public void ReturnToPool()
     {
-        if (_canLog)
-            Console.WriteLine($"ReturnToPool() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+        //if (_canLog)
+        //    Console.WriteLine($"ReturnToPool() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
 
         if (!_disposed)
         {
-            ArrayPool<Char>.Shared.Return(_buffer);
+            ArrayPool<Char>.Shared.Return(_buffer, false);
             _buffer = null!;
             _disposed = true;
         }
@@ -89,8 +89,8 @@ internal class ArrayPoolBuffer : IBuffer
 
     public IBuffer Insert(Int32 idx, Char c)
     {
-        if (_canLog)
-            Console.WriteLine($"Insert({idx}, '{c}') [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+        //if (_canLog)
+        //    Console.WriteLine($"Insert({idx}, '{c}') [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
 
         if ((UInt32)idx > Length)
         {
@@ -115,8 +115,8 @@ internal class ArrayPoolBuffer : IBuffer
 
     public IBuffer Append(ReadOnlySpan<Char> str)
     {
-        if (_canLog)
-            Console.WriteLine($"Append(\"{str}\") [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+        //if (_canLog)
+        //    Console.WriteLine($"Append(\"{str}\") [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
 
         if (Pointer + str.Length > Capacity)
         {
@@ -132,8 +132,8 @@ internal class ArrayPoolBuffer : IBuffer
     {
         get
         {
-            if (_canLog)
-                Console.WriteLine($"this[{i}] [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+            //if (_canLog)
+            //    Console.WriteLine($"this[{i}] [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
             return _buffer[_start + i];
         }
     }
@@ -146,8 +146,8 @@ internal class ArrayPoolBuffer : IBuffer
 
     public StringOrMemory GetDataAndClear()
     {
-        if (_canLog)
-            Console.WriteLine($"GetDataAndClear() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+        //if (_canLog)
+        //    Console.WriteLine($"GetDataAndClear() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
 
         var result = GetData();
         Clear(true);
@@ -168,8 +168,8 @@ internal class ArrayPoolBuffer : IBuffer
 
     String IBuffer.ToString()
     {
-        if (_canLog)
-            Console.WriteLine($"ToString() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
+        //if (_canLog)
+        //    Console.WriteLine($"ToString() [Pointer={Pointer} Length={Length} Start={_start} Idx={_idx}]");
 
         return new StringOrMemory(_buffer.AsMemory(_start, Length)).String;
     }

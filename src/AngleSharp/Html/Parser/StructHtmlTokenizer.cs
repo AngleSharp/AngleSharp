@@ -26,6 +26,8 @@ namespace AngleSharp.Html.Parser
         private StringOrMemory _lastStartTag;
         private TextPosition _position;
 
+        private StructHtmlToken _token;
+
         #endregion
 
         #region Events
@@ -44,7 +46,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public StructHtmlTokenizer(IReadOnlyTextSource source, IEntityProvider resolver)
+        public StructHtmlTokenizer(PrefetchedTextSource source, IEntityProvider resolver)
             : base(source)
         {
             State = HtmlParseMode.PCData;
@@ -132,6 +134,8 @@ namespace AngleSharp.Html.Parser
         /// <returns>The next available token.</returns>
         public StructHtmlToken Get()
         {
+            _token = new StructHtmlToken();
+
             var current = GetNext();
             _position = GetCurrentPosition();
 

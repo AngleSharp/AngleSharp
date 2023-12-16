@@ -62,7 +62,6 @@ public ref struct StructHtmlToken
 
     // tag token
 
-    private static readonly List<MemoryHtmlAttributeToken> Empty = new List<MemoryHtmlAttributeToken>();
     private Attributes _attributes;
     private Boolean _selfClosing;
 
@@ -566,8 +565,9 @@ public ref struct StructHtmlToken
                     IsProcessingInstruction = IsProcessingInstruction,
                 };
 
-                foreach (var attribute in Attributes)
+                for (var i = 0; i < _attributes.Count; i++)
                 {
+                    var attribute = _attributes[i];
                     token.AddAttribute(attribute.Name.String, attribute.Position);
                     token.SetAttributeValue(attribute.Value.String);
                 }

@@ -215,24 +215,24 @@ namespace AngleSharp.Text
         /// <returns>The string with the next characters.</returns>
         public String ReadCharacters(Int32 characters)
         {
-            return ReadMemory(characters).String;
-        }
-
-        public StringOrMemory ReadMemory(int characters)
-        {
             var start = _index;
             var end = start + characters;
 
             if (end <= _content!.Length)
             {
                 _index += characters;
-                return new StringOrMemory(_content.ToString(start, characters));
+                return _content.ToString(start, characters);
             }
 
             ExpandBuffer(Math.Max(BufferSize, characters));
             _index += characters;
             characters = Math.Min(characters, _content.Length - start);
-            return new StringOrMemory(_content.ToString(start, characters));
+            return _content.ToString(start, characters);
+        }
+
+        public StringOrMemory ReadMemory(int characters)
+        {
+            return new StringOrMemory(ReadCharacters(characters));
         }
 
         /// <summary>

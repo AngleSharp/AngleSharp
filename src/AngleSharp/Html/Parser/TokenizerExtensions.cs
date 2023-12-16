@@ -21,7 +21,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="options"></param>
         /// <returns>A stream of consumed tokens.</returns>
         public static IEnumerable<HtmlToken> Tokenize(
-            this IReadOnlyTextSource source,
+            this TextSource source,
             IEntityProvider? provider = null,
             EventHandler<HtmlErrorEvent>? errorHandler = null,
             HtmlTokenizerOptions? options = null)
@@ -38,10 +38,10 @@ namespace AngleSharp.Html.Parser
                 htmlTokenizer.IsNotConsumingCharacterReferences = ov.IsNotConsumingCharacterReferences;
                 htmlTokenizer.IsPreservingAttributeNames = ov.IsPreservingAttributeNames;
 
-                htmlTokenizer.SkipRawText = ov.SkipRawText;
-                htmlTokenizer.SkipScriptText = ov.SkipScriptText;
-                htmlTokenizer.SkipDataText = ov.SkipDataText;
-                htmlTokenizer.ShouldEmitAttribute = ov.ShouldEmitAttribute ?? (static (_, _) => true);
+                // htmlTokenizer.SkipRawText = ov.SkipRawText;
+                // htmlTokenizer.SkipScriptText = ov.SkipScriptText;
+                // htmlTokenizer.SkipDataText = ov.SkipDataText;
+                // htmlTokenizer.ShouldEmitAttribute = ov.ShouldEmitAttribute ?? (static (_, _) => true);
             }
 
             var token = default(HtmlToken);

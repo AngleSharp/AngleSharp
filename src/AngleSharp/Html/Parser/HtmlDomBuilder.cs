@@ -270,29 +270,29 @@ namespace AngleSharp.Html.Parser
         /// <param name="token">The token to consume.</param>
         private void Consume(HtmlToken token)
         {
-            static string map(Char c) =>
-                c switch
-                {
-                    '\r' => "\\r",
-                    '\n' => "\\n",
-                    '\t' => "\\t",
-                    _ => c.ToString(),
-                };
-
-            static string raw(string? input) => input == null ? "null" : $"\"{string.Join("", input.Select(map))}\"";
-
-            switch (token)
-            {
-                case HtmlDoctypeToken doctype:
-                    Console.WriteLine($"{doctype.Type} {raw(doctype.Name)} {doctype.Position} {doctype.PublicIdentifier} {doctype.SystemIdentifier} {doctype.GetQuirksMode()} ");
-                    break;
-                case HtmlTagToken tag:
-                    Console.WriteLine($"{tag.Type} {raw(tag.Name)} {tag.Position} Attrs: {tag.Attributes.Count} ");
-                    break;
-                default:
-                    Console.WriteLine($"{token.Type} {raw(token.Name)} {token.Position}");
-                    break;
-            }
+            // static string map(Char c) =>
+            //     c switch
+            //     {
+            //         '\r' => "\\r",
+            //         '\n' => "\\n",
+            //         '\t' => "\\t",
+            //         _ => c.ToString(),
+            //     };
+            //
+            // static string raw(string? input) => input == null ? "null" : $"\"{string.Join("", input.Select(map))}\"";
+            //
+            // switch (token)
+            // {
+            //     case HtmlDoctypeToken doctype:
+            //         Console.WriteLine($"{doctype.Type} {raw(doctype.Name)} {doctype.Position} {doctype.PublicIdentifier} {doctype.SystemIdentifier} {doctype.GetQuirksMode()} ");
+            //         break;
+            //     case HtmlTagToken tag:
+            //         Console.WriteLine($"{tag.Type} {raw(tag.Name)} {tag.Position} Attrs: {tag.Attributes.Count} ");
+            //         break;
+            //     default:
+            //         Console.WriteLine($"{token.Type} {raw(token.Name)} {token.Position}");
+            //         break;
+            // }
 
             var node = AdjustedCurrentNode;
 
@@ -318,20 +318,20 @@ namespace AngleSharp.Html.Parser
             _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
             _tokenizer.IsPreservingAttributeNames = options.IsPreservingAttributeNames;
 
-            _tokenizer.SkipRawText = options.SkipRawText;
-            _tokenizer.SkipScriptText = options.SkipScriptText;
-            _tokenizer.SkipDataText = options.SkipDataText;
-
-            _tokenizer.SkipDataText = options.SkipDataText;
-            _tokenizer.SkipScriptText = options.SkipScriptText;
-            _tokenizer.SkipRawText = options.SkipRawText;
-            _tokenizer.SkipComments = options.SkipComments;
-            _tokenizer.SkipPlaintext = options.SkipPlaintext;
-            _tokenizer.SkipRCDataText = options.SkipRCDataText;
-            _tokenizer.SkipCDATA = options.SkipCDATA;
-            _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
-
-            _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute ?? (static (_, _) => true);
+            // _tokenizer.SkipRawText = options.SkipRawText;
+            // _tokenizer.SkipScriptText = options.SkipScriptText;
+            // _tokenizer.SkipDataText = options.SkipDataText;
+            //
+            // _tokenizer.SkipDataText = options.SkipDataText;
+            // _tokenizer.SkipScriptText = options.SkipScriptText;
+            // _tokenizer.SkipRawText = options.SkipRawText;
+            // _tokenizer.SkipComments = options.SkipComments;
+            // _tokenizer.SkipPlaintext = options.SkipPlaintext;
+            // _tokenizer.SkipRCDataText = options.SkipRCDataText;
+            // _tokenizer.SkipCDATA = options.SkipCDATA;
+            // _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
+            //
+            // _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute ?? (static (_, _) => true);
 
 
 

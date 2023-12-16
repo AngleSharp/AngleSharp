@@ -3,6 +3,7 @@ namespace AngleSharp.Text;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,8 +14,11 @@ using Common;
 /// </summary>
 public sealed class PrefetchedTextSource : IReadOnlyTextSource
 {
-    private readonly ReadOnlyMemory<Char> _memory;
     private Int32 _index;
+    private String _content;
+
+    private readonly ReadOnlyMemory<Char> _memory;
+    private readonly Int32 _length;
 
     #region ctor
 
@@ -25,6 +29,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     public PrefetchedTextSource(ReadOnlyMemory<Char> memory)
     {
         _memory = memory;
+        _length = memory.Length;
     }
 
     /// <summary>
@@ -33,7 +38,9 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// <param name="str"></param>
     public PrefetchedTextSource(String str)
     {
+        _content = str;
         _memory = str.AsMemory();
+        _length = _memory.Length;
     }
 
     #endregion
@@ -44,19 +51,19 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// Gets the full text buffer.
     /// </summary>
     [MemberNotNull("_content")]
-    public String Text => _memory.Span.CreateString();
+    public String Text => _content ??= _memory.Span.CreateString();
 
     /// <summary>
     /// Gets the character at the given position in the text buffer.
     /// </summary>
     /// <param name="index">The index of the character.</param>
     /// <returns>The character.</returns>
-    public Char this[Int32 index] => _memory.Span[index];
+    public Char this[Int32 index] => _content[index];
 
     /// <summary>
     /// Gets the length of the text buffer.
     /// </summary>
-    public Int32 Length => _memory.Length;
+    public Int32 Length => _length;
 
     /// <summary>
     /// Gets or sets the encoding to use.
@@ -85,7 +92,6 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// </summary>
     public void Dispose()
     {
-
     }
 
     #endregion
@@ -93,19 +99,18 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     #region Text Methods
 
     /// <summary>
-    /// Reads the next character from the buffer or underlying stream, if
-    /// any.
+    /// Reads the next character from the buffer or underlying stream, if any.
     /// </summary>
     /// <returns>The next character.</returns>
     public Char ReadCharacter()
     {
-        if (_index < _memory.Length)
+        if (_index < _length)
         {
-            return ReplaceEof(_memory.Span[_index++]);
+            return ReplaceEof(_content[_index++]);
         }
 
-        var index = _index++;
-        return index < _memory.Span.Length ? ReplaceEof(_memory.Span[index]) : Symbols.EndOfFile;
+        _index += 1;
+        return Symbols.EndOfFile;
     }
 
     /// <summary>
@@ -124,14 +129,14 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
         var start = _index;
         var end = start + characters;
 
-        if (end <= _memory!.Length)
+        if (end <= _length)
         {
             _index += characters;
             return _memory.Slice(start, characters);
         }
 
         _index += characters;
-        characters = Math.Min(characters, _memory.Length - start);
+        characters = Math.Min(characters, _length - start);
         return _memory.Slice(start, characters);
     }
 
@@ -163,12 +168,13 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// <returns></returns>
     public Boolean TryGetContentLength(out Int32 length)
     {
-        length = _memory.Length;
+        length = _length;
         return true;
     }
 
     #endregion
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Char ReplaceEof(Char c) => c == Symbols.EndOfFile ? (Char)0xFFFD : c;
 
 }

@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Common;
 
-using System;
+using System;using Html.Parser;
 
 /// <summary>
 ///
 /// </summary>
-public interface IBuffer : IDisposable
+public interface IBuffer : ISlimBuffer, IDisposable
 {
     /// <summary>
     ///
@@ -19,11 +19,6 @@ public interface IBuffer : IDisposable
     /// </summary>
     /// <returns></returns>
     void Discard();
-
-    /// <summary>
-    ///
-    /// </summary>
-    Int32 Length { get; }
 
     /// <summary>
     ///
@@ -57,12 +52,6 @@ public interface IBuffer : IDisposable
     /// <param name="str"></param>
     /// <returns></returns>
     IBuffer Append(ReadOnlySpan<Char> str);
-
-    /// <summary>
-    /// Gets the character at the specified index.
-    /// </summary>
-    /// <param name="i"></param>
-    Char this[Int32 i] { get; }
 
     /// <summary>
     /// Gets the data as a memory.

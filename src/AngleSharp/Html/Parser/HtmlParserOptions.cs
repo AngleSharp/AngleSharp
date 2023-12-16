@@ -35,32 +35,36 @@ namespace AngleSharp.Html.Parser
             SkipRCDataText = htmlParserOptions.SkipRCDataText;
             SkipCDATA = htmlParserOptions.SkipCDATA;
             SkipProcessingInstructions = htmlParserOptions.SkipProcessingInstructions;
+
+            DisableElementPositionTracking = htmlParserOptions.DisableElementPositionTracking;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        public Boolean SkipComments {get;set;}
+        public Boolean DisableElementPositionTracking { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public Boolean SkipPlaintext {get;set;}
+        public Boolean SkipComments { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public Boolean SkipRCDataText {get;set;}
+        public Boolean SkipPlaintext { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public Boolean SkipCDATA {get;set;}
+        public Boolean SkipRCDataText { get; set; }
 
         /// <summary>
         ///
         /// </summary>
-        public Boolean SkipProcessingInstructions {get;set;}
+        public Boolean SkipCDATA { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Boolean SkipProcessingInstructions { get; set; }
 
         /// <summary>
         ///
@@ -108,6 +112,7 @@ namespace AngleSharp.Html.Parser
     /// </summary>
     public struct HtmlParserOptions
     {
+
         /// <summary>
         /// Gets or sets if the document is embedded.
         /// </summary>
@@ -168,7 +173,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Gets or sets the callback once a new element was created.
         /// </summary>
-        public Action<IElement, TextPosition> OnCreated { get; set; }
+        public Action<IElement, TextPosition>? OnCreated { get; set; }
 
         /// <summary>
         ///
@@ -214,5 +219,8 @@ namespace AngleSharp.Html.Parser
         ///
         /// </summary>
         public ShouldEmitAttribute? ShouldEmitAttribute { get; set; }
+
+
+        public bool DisableElementPositionTracking { get; set; }
     }
 }

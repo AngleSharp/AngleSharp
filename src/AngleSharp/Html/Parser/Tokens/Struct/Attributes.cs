@@ -3,7 +3,8 @@
 using System;
 using System.Collections.Generic;
 
-public struct Attributes
+#nullable disable
+public ref struct Attributes
 {
     private Int32 _count;
     private MemoryHtmlAttributeToken _t0;
@@ -11,32 +12,6 @@ public struct Attributes
     private MemoryHtmlAttributeToken _t2;
     private MemoryHtmlAttributeToken _t3;
     private List<MemoryHtmlAttributeToken> _tail;
-
-    public IEnumerator<MemoryHtmlAttributeToken> GetEnumerator()
-    {
-        if (_count == 0)
-            yield break;
-
-        if (_count >= 1)
-            yield return _t0;
-
-        if (_count >= 2)
-            yield return _t1;
-
-        if (_count >= 3)
-            yield return _t2;
-
-        if (_count >= 4)
-            yield return _t3;
-
-        if (_tail != null && _count >= 5)
-        {
-            foreach (var item in _tail)
-            {
-                yield return item;
-            }
-        }
-    }
 
     public void Add(MemoryHtmlAttributeToken item)
     {
@@ -74,12 +49,6 @@ public struct Attributes
             _tail.Add(item);
             _count++;
         }
-    }
-
-    public void Clear()
-    {
-        _tail?.Clear();
-        _count = 0;
     }
 
     public int Count => _count;
@@ -193,24 +162,16 @@ public struct Attributes
     {
         get
         {
-            if (id >= _count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(id));
-            }
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(id, _count);
 
-            switch (id)
+            return id switch
             {
-                case 0:
-                    return _t0;
-                case 1:
-                    return _t1;
-                case 2:
-                    return _t2;
-                case 3:
-                    return _t3;
-                default:
-                    return _tail[id - 4];
-            }
+                0 => _t0,
+                1 => _t1,
+                2 => _t2,
+                3 => _t3,
+                _ => _tail[id - 4]
+            };
         }
 
         set

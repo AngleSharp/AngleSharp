@@ -4,21 +4,22 @@ namespace AngleSharp.Common
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Html.Parser;
 
     /// <summary>
     /// Common methods and variables of all tokenizers.
     /// </summary>
-    public abstract class BaseTokenizer : IDisposable
+    public abstract class CustomBaseTokenizer : IDisposable
     {
         #region Fields
 
         private readonly Stack<UInt16> _columns;
-        private readonly TextSource _source;
+        private readonly IReadOnlyTextSource _source;
 
         private UInt16 _column;
         private UInt16 _row;
         private Char _current;
-        private StringBuilder _buffer;
+        private IBuffer _buffer;
         private Boolean _normalized;
 
         #endregion
@@ -29,9 +30,17 @@ namespace AngleSharp.Common
         /// Creates a new instance of the base tokenizer.
         /// </summary>
         /// <param name="source">The source to tokenize.</param>
-        public BaseTokenizer(TextSource source)
+        public CustomBaseTokenizer(IReadOnlyTextSource source)
         {
-            _buffer = StringBuilderPool.Obtain();
+            if (source.TryGetContentLength(out var length))
+            {
+                _buffer = new ArrayPoolBuffer(length);
+            }
+            else
+            {
+                _buffer = new StringBuilderBuffer();
+            }
+
             _columns = new Stack<UInt16>();
             _source = source;
             _current = Symbols.Null;
@@ -80,7 +89,7 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        protected StringBuilder StringBuffer => _buffer;
+        public IBuffer StringBuffer => _buffer;
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).
@@ -95,13 +104,19 @@ namespace AngleSharp.Common
         /// Flushes the buffer.
         /// </summary>
         /// <returns>The content of the buffer.</returns>
-        public String FlushBuffer() => FlushBuffer(null);
+        public StringOrMemory FlushBuffer() => FlushBuffer(null);
 
-        internal String FlushBuffer(Func<StringBuilder, String?>? stringResolver)
+        internal StringOrMemory FlushBuffer(Func<IBuffer, String?>? stringResolver)
         {
-            var content = stringResolver?.Invoke(StringBuffer) ?? StringBuffer.ToString();
-            StringBuffer.Clear();
-            return content;
+            var resolved = stringResolver?.Invoke(StringBuffer);
+            if (resolved != null)
+            {
+                StringBuffer.Discard();
+                return new StringOrMemory(resolved);
+            }
+
+            var data = StringBuffer.GetDataAndClear();
+            return data;
         }
 
         /// <summary>
@@ -115,7 +130,8 @@ namespace AngleSharp.Common
             {
                 var disposable = _source as IDisposable;
                 disposable?.Dispose();
-                StringBuffer!.Clear().ReturnToPool();
+                StringBuffer!.Discard();
+                StringBuffer!.ReturnToPool();
                 _buffer = null!;
             }
         }
@@ -267,7 +283,8 @@ namespace AngleSharp.Common
                 _column++;
             }
 
-            _current = NormalizeForward(_source.ReadCharacter());
+            var c = _source.ReadCharacter();
+            _current = NormalizeForward(c);
         }
 
         private void BackUnsafe()
@@ -311,7 +328,7 @@ namespace AngleSharp.Common
             {
                 _normalized = true;
             }
-            
+
             return Symbols.LineFeed;
         }
 

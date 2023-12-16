@@ -2,11 +2,37 @@ namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using System;
-    using Common;
+    using System.Text;
+
+    public interface ISlimBuffer
+    {
+        Int32 Length { get; }
+        Char this[Int32 i] { get; }
+    }
+
+    public readonly struct StringBuilderAdapter : ISlimBuffer
+    {
+        private readonly StringBuilder _sb;
+
+        public StringBuilderAdapter(StringBuilder sb)
+        {
+            _sb = sb;
+        }
+
+        public Int32 Length => _sb.Length;
+
+        public Char this[Int32 i] => _sb[i];
+    }
 
     static class HtmlTagNameLookup
     {
-        public static String? TryGetWellKnownTagName(IBuffer builder)
+        public static String? TryGetWellKnownTagName(StringBuilder builder)
+        {
+            var adapter = new StringBuilderAdapter(builder);
+            return TryGetWellKnownTagName(adapter);
+        }
+
+        public static String? TryGetWellKnownTagName(ISlimBuffer builder)
         {
             switch (builder.Length)
             {
@@ -553,7 +579,7 @@ namespace AngleSharp.Html.Parser
             }
         }
 
-        private static Boolean CharsAreEqual( IBuffer builder, String tagName)
+        private static Boolean CharsAreEqual(ISlimBuffer builder, String tagName)
         {
             for ( int i = 0; i < tagName.Length; i++ )
             {

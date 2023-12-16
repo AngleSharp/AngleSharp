@@ -22,7 +22,7 @@ namespace AngleSharp.Html.Dom
 
         #region ctor
 
-        internal HtmlDocument(IBrowsingContext? context, IReadOnlyTextSource source)
+        internal HtmlDocument(IBrowsingContext? context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypeNames.Html;

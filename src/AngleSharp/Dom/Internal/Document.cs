@@ -31,7 +31,7 @@ namespace AngleSharp.Dom
         private readonly Window _view;
         private readonly IResourceLoader? _loader;
         private readonly Location _location;
-        private readonly IReadOnlyTextSource _source;
+        private readonly TextSource _source;
         private readonly object _importedUrisLock = new object();
 
         private QuirksMode _quirksMode;
@@ -481,7 +481,7 @@ namespace AngleSharp.Dom
         #region ctor
 
         /// <inheritdoc />
-        public Document(IBrowsingContext context, IReadOnlyTextSource source)
+        public Document(IBrowsingContext context, TextSource source)
             : base(null, "#document", NodeType.Document)
         {
             Referrer = String.Empty;
@@ -512,7 +512,7 @@ namespace AngleSharp.Dom
         #region Properties
 
         /// <inheritdoc />
-        public IReadOnlyTextSource Source => _source;
+        public TextSource Source => _source;
 
         /// <inheritdoc />
         public abstract IEntityProvider Entities

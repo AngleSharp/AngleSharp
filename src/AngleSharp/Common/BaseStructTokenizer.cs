@@ -11,11 +11,11 @@ namespace AngleSharp.Common
     {
         #region Fields
 
-        private readonly Stack<UInt16> _columns;
-        private readonly IReadOnlyTextSource _source;
+        // private Stack<UInt16>? _columns;
+        private readonly PrefetchedTextSource _source;
 
-        private UInt16 _column;
-        private UInt16 _row;
+        // private UInt16 _column;
+        // private UInt16 _row;
         private Char _current;
         private IBuffer _buffer;
         private Boolean _normalized;
@@ -28,7 +28,7 @@ namespace AngleSharp.Common
         /// Creates a new instance of the base tokenizer.
         /// </summary>
         /// <param name="source">The source to tokenize.</param>
-        public BaseStructTokenizer(IReadOnlyTextSource source)
+        public BaseStructTokenizer(PrefetchedTextSource source)
         {
             if (source.TryGetContentLength(out var length))
             {
@@ -39,11 +39,10 @@ namespace AngleSharp.Common
                 _buffer = new StringBuilderBuffer();
             }
 
-            _columns = new Stack<UInt16>();
             _source = source;
             _current = Symbols.Null;
-            _column = 0;
-            _row = 1;
+            // _column = 0;
+            // _row = 1;
         }
 
         #endregion
@@ -94,6 +93,11 @@ namespace AngleSharp.Common
         /// </summary>
         protected Boolean IsNormalized => _normalized;
 
+        /// <summary>
+        ///
+        /// </summary>
+        public Boolean PositionTracking { get; set; } = true;
+
         #endregion
 
         #region Methods
@@ -137,7 +141,7 @@ namespace AngleSharp.Common
         /// Gets the current text position in the source.
         /// </summary>
         /// <returns>The (row, col) position.</returns>
-        public TextPosition GetCurrentPosition() => new TextPosition(_row, _column, Position);
+        public TextPosition GetCurrentPosition() => new TextPosition(0, 0, Position);
 
         /// <summary>
         /// Checks if the source continues with the given string.
@@ -269,16 +273,21 @@ namespace AngleSharp.Common
 
         private void AdvanceUnsafe()
         {
-            if (_current == Symbols.LineFeed)
-            {
-                _columns.Push(_column);
-                _column = 1;
-                _row++;
-            }
-            else
-            {
-                _column++;
-            }
+            // if (_current == Symbols.LineFeed)
+            // {
+            //     // if (PositionTracking)
+            //     // {
+            //     //     _columns ??= new Stack<UInt16>();
+            //     //     _columns.Push(_column);
+            //     // }
+            //
+            //     _column = 1;
+            //     _row++;
+            // }
+            // else
+            // {
+            //     _column++;
+            // }
 
             var c = _source.ReadCharacter();
             _current = NormalizeForward(c);
@@ -290,24 +299,32 @@ namespace AngleSharp.Common
 
             if (_source.Index == 0)
             {
-                _column = 0;
+                // _column = 0;
                 _current = Symbols.Null;
                 return;
             }
 
             var c = NormalizeBackward(_source[_source.Index - 1]);
+            _current = c;
 
-            if (c == Symbols.LineFeed)
-            {
-                _column = _columns.Count != 0 ? _columns.Pop() : (UInt16)1;
-                _row--;
-                _current = c;
-            }
-            else if (c != Symbols.Null)
-            {
-                _current = c;
-                _column--;
-            }
+            // if (c == Symbols.LineFeed)
+            // {
+            //     if (PositionTracking)
+            //     {
+            //         _columns ??= new Stack<UInt16>();
+            //         _column = _columns.Count != 0 ? _columns.Pop() : (UInt16)1;
+            //     }
+            //     else
+            //     {
+            //         _column = 1;
+            //     }
+            //
+            //     _row--;
+            // }
+            // else if (c != Symbols.Null)
+            // {
+            //     _column--;
+            // }
         }
 
         private Char NormalizeForward(Char p)

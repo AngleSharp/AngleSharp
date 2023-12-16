@@ -61,7 +61,7 @@ namespace AngleSharp.Text
             /// </summary>
             public void Dispose()
             {
-                owner.Return(this.Data);
+                owner.Return(this.Data, false);
             }
         }
 

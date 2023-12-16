@@ -155,7 +155,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the stream and returns the result.
         /// </summary>
-        public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
+        public IHtmlDocument ParseDocument(TextSource source)
         {
             var document = CreateDocument(source);
             return Parse(document);
@@ -214,13 +214,18 @@ namespace AngleSharp.Html.Parser
             return await ParseAsync(doc, cancel).ConfigureAwait(false);
         }
 
+        public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///
         /// </summary>
         /// <param name="source"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public IHtmlDocument ParseDocument(IReadOnlyTextSource source, HtmlParserOptions options)
+        public IHtmlDocument ParseDocument(TextSource source, HtmlParserOptions options)
         {
             var document = CreateDocument(source);
             return Parse(document);
@@ -244,7 +249,7 @@ namespace AngleSharp.Html.Parser
             return CreateDocument(textSource);
         }
 
-        private HtmlDocument CreateDocument(IReadOnlyTextSource textSource)
+        private HtmlDocument CreateDocument(TextSource textSource)
         {
             var document = new HtmlDocument(_context, textSource);
             return document;
