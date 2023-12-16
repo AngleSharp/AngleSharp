@@ -13,7 +13,7 @@ namespace AngleSharp.Text
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
-    public sealed class TextSource : IWritableTextSource
+    public sealed class TextSource : ITextSource
     {
         #region Fields
 

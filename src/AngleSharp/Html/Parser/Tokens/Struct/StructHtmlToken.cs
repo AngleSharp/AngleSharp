@@ -6,52 +6,52 @@ using AngleSharp.Common;
 using AngleSharp.Dom;
 using AngleSharp.Text;
 
-public ref struct MaybeStructHtmlToken
-{
-    private StructHtmlToken _value;
-    private Boolean _hasValue;
+// public ref struct MaybeStructHtmlToken
+// {
+//     private StructHtmlToken _value;
+//     private Boolean _hasValue;
+//
+//     public MaybeStructHtmlToken(StructHtmlToken value)
+//     {
+//         _value = value;
+//         _hasValue = true;
+//     }
+//
+//     public MaybeStructHtmlToken()
+//     {
+//         _hasValue = false;
+//     }
+//
+//     public static MaybeStructHtmlToken Null => new();
+//
+//     public Boolean HasValue => _hasValue;
+//
+//     public StructHtmlToken Value
+//     {
+//         get
+//         {
+//             if (!_hasValue)
+//             {
+//                 throw new InvalidOperationException("No value present.");
+//             }
+//
+//             return _value;
+//         }
+//     }
+//
+//     public override Boolean Equals(Object? other)
+//     {
+//         if (!_hasValue) return other == null;
+//         return false;
+//     }
+//
+//     public override Int32 GetHashCode() => 0;
+//     public override String ToString() => "";
+//
+//     public static implicit operator MaybeStructHtmlToken(StructHtmlToken value) => new(value);
+// }
 
-    public MaybeStructHtmlToken(StructHtmlToken value)
-    {
-        _value = value;
-        _hasValue = true;
-    }
-
-    public MaybeStructHtmlToken()
-    {
-        _hasValue = false;
-    }
-
-    public static MaybeStructHtmlToken Null => new();
-
-    public Boolean HasValue => _hasValue;
-
-    public StructHtmlToken Value
-    {
-        get
-        {
-            if (!_hasValue)
-            {
-                throw new InvalidOperationException("No value present.");
-            }
-
-            return _value;
-        }
-    }
-
-    public override Boolean Equals(Object? other)
-    {
-        if (!_hasValue) return other == null;
-        return false;
-    }
-
-    public override Int32 GetHashCode() => 0;
-    public override String ToString() => "";
-
-    public static implicit operator MaybeStructHtmlToken(StructHtmlToken value) => new(value);
-}
-
-public ref struct StructHtmlToken
+public struct StructHtmlToken
 {
     #region Fields
 

@@ -23,7 +23,7 @@ namespace AngleSharp.Html.Parser
     {
         #region Fields
 
-        private readonly HtmlTokenizer _tokenizer;
+        private readonly IHtmlTokenizer _tokenizer;
         private readonly HtmlDocument _document;
         private readonly List<Element> _openElements;
         private readonly List<Element> _formattingElements;
@@ -66,7 +66,7 @@ namespace AngleSharp.Html.Parser
         /// </param>
         public HtmlDomBuilder(HtmlDocument document, String? stopAt = null)
         {
-            _tokenizer = new HtmlTokenizer(document.Source, document.Entities);
+            _tokenizer = new StructHtmlTokenizerAdapter(document.Source, document.Entities);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();

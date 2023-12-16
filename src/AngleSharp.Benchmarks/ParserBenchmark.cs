@@ -26,7 +26,7 @@ namespace AngleSharp.Benchmarks
         {
             public Config()
             {
-                AddJob(Job.MediumRun
+                AddJob(Job.ShortRun
                     .WithRuntime(CoreRuntime.Core80)
                     .WithStrategy(RunStrategy.Throughput)
                     // .WithToolchain(InProcessNoEmitToolchain.Instance)
@@ -84,55 +84,55 @@ namespace AngleSharp.Benchmarks
             var websites = new UrlTests(".html", true);
 
             websites.Include(
-                "http://www.amazon.com",
-                "http://www.blogspot.com",
-                "http://www.smashing.com",
-                "http://www.youtube.com",
-                "http://www.weibo.com",
-                "http://www.yahoo.com",
-                "http://www.google.com",
-                "http://www.linkedin.com",
-                "http://www.pinterest.com",
-                "http://news.google.com",
-                "http://www.baidu.com",
-                "http://www.codeproject.com",
-                "http://www.ebay.com",
-                "http://www.msn.com",
-
-                "http://www.qq.com",
-                "http://www.florian-rappl.de",
-                "http://www.stackoverflow.com",
-
-                "http://www.live.com",
-                "http://www.taobao.com",
-                "http://www.huffingtonpost.com",
-                "http://www.wordpress.org",
-                "http://www.myspace.com",
-                "http://www.flickr.com",
-                "http://www.godaddy.com",
-                "http://www.reddit.com",
-
-                "http://peacekeeper.futuremark.com",
-                "http://www.pcmag.com",
-                "http://www.sitepoint.com",
-                "http://html5test.com",
-                "http://www.spiegel.de",
-                "http://www.tmall.com",
-                "http://www.sohu.com",
-                "http://www.vk.com",
-                "http://www.wordpress.com",
-                "http://www.bing.com",
-
-                "http://www.nbc.com",
-                "http://www.ask.com",
-                "http://www.mail.ru",
-                "http://www.imdb.com",
-                "http://www.kickass.to",
-                "http://www.360.cn",
-                "http://www.163.com",
-                "http://www.tumblr.com",
-                "http://www.html5rocks.com/en",
-                "http://www.neobux.com",
+                // "http://www.amazon.com",
+                // "http://www.blogspot.com",
+                // "http://www.smashing.com",
+                // "http://www.youtube.com",
+                // "http://www.weibo.com",
+                // "http://www.yahoo.com",
+                // "http://www.google.com",
+                // "http://www.linkedin.com",
+                // "http://www.pinterest.com",
+                // "http://news.google.com",
+                // "http://www.baidu.com",
+                // "http://www.codeproject.com",
+                // "http://www.ebay.com",
+                // "http://www.msn.com",
+                //
+                // "http://www.qq.com",
+                // "http://www.florian-rappl.de",
+                // "http://www.stackoverflow.com",
+                //
+                // "http://www.live.com",
+                // "http://www.taobao.com",
+                // "http://www.huffingtonpost.com",
+                // "http://www.wordpress.org",
+                // "http://www.myspace.com",
+                // "http://www.flickr.com",
+                // "http://www.godaddy.com",
+                // "http://www.reddit.com",
+                //
+                // "http://peacekeeper.futuremark.com",
+                // "http://www.pcmag.com",
+                // "http://www.sitepoint.com",
+                // "http://html5test.com",
+                // "http://www.spiegel.de",
+                // "http://www.tmall.com",
+                // "http://www.sohu.com",
+                // "http://www.vk.com",
+                // "http://www.wordpress.com",
+                // "http://www.bing.com",
+                //
+                // "http://www.nbc.com",
+                // "http://www.ask.com",
+                // "http://www.mail.ru",
+                // "http://www.imdb.com",
+                // "http://www.kickass.to",
+                // "http://www.360.cn",
+                // "http://www.163.com",
+                // "http://www.tumblr.com",
+                // "http://www.html5rocks.com/en",
+                // "http://www.neobux.com",
                 "http://www.nytimes.com",
                 "http://www.aliexpress.com",
                 "http://www.netflix.com",
@@ -145,58 +145,58 @@ namespace AngleSharp.Benchmarks
 
         [ParamsSource(nameof(GetSources))] public UrlTest UrlTest { get; set; }
 
-        // [Benchmark]
-        // public IHtmlDocument AngleSharpPrefetched()
-        // {
-        //     var parser = new HtmlParser(HtmlParserOptions);
-        //     using var source = new PrefetchedTextSource(UrlTest.Source);
-        //     using var document = parser.ParseDocument(source);
-        //     return document;
-        // }
-        //
-        // [Benchmark(Baseline = true)]
-        // public IHtmlDocument AngleSharp()
-        // {
-        //     var parser = new HtmlParser(HtmlParserOptions);
-        //     using var source = new TextSource(UrlTest.Source);
-        //     using var document = parser.ParseDocument(source);
-        //     return document;
-        // }
+        [Benchmark]
+        public IHtmlDocument AngleSharpPrefetched()
+        {
+            var parser = new HtmlParser();
+            using var source = new PrefetchedTextSource(UrlTest.Source);
+            using var document = parser.ParseDocument(source);
+            return document;
+        }
 
         [Benchmark(Baseline = true)]
-        public Int32 Classes()
+        public IHtmlDocument AngleSharp()
         {
-            int line = 0, count = 0;
+            var parser = new HtmlParser();
             using var source = new TextSource(UrlTest.Source);
-            using var tokenizer = new HtmlTokenizer(source, HtmlEntityProvider.Resolver);
-
-            HtmlToken token;
-            do
-            {
-                token = tokenizer.Get();
-                line = token.Position.Line;
-                count++;
-            }
-            while (token.Type != HtmlTokenType.EndOfFile);
-            return count + line;
+            using var document = parser.ParseDocument(source);
+            return document;
         }
 
-        [Benchmark]
-        public Int32 Structs()
-        {
-            int line = 0, count = 0;
-            using var source = new PrefetchedTextSource(UrlTest.Source);
-            using var tokenizer = new StructHtmlTokenizer(source, HtmlEntityProvider.Resolver);
-
-            StructHtmlToken token;
-            do
-            {
-                token = tokenizer.Get();
-                line = token.Position.Line;
-                count++;
-            }
-            while (token.Type != HtmlTokenType.EndOfFile);
-            return count + line;
-        }
+        // [Benchmark(Baseline = true)]
+        // public Int32 Classes()
+        // {
+        //     int line = 0, count = 0;
+        //     using var source = new TextSource(UrlTest.Source);
+        //     using var tokenizer = new HtmlTokenizer(source, HtmlEntityProvider.Resolver);
+        //
+        //     HtmlToken token;
+        //     do
+        //     {
+        //         token = tokenizer.Get();
+        //         line = token.Position.Line;
+        //         count++;
+        //     }
+        //     while (token.Type != HtmlTokenType.EndOfFile);
+        //     return count + line;
+        // }
+        //
+        // [Benchmark]
+        // public Int32 Structs()
+        // {
+        //     int line = 0, count = 0;
+        //     using var source = new PrefetchedTextSource(UrlTest.Source);
+        //     using var tokenizer = new StructHtmlTokenizer(source, HtmlEntityProvider.Resolver);
+        //
+        //     StructHtmlToken token;
+        //     do
+        //     {
+        //         token = tokenizer.Get();
+        //         line = token.Position.Line;
+        //         count++;
+        //     }
+        //     while (token.Type != HtmlTokenType.EndOfFile);
+        //     return count + line;
+        // }
     }
 }

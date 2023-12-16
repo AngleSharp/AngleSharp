@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 #nullable disable
-public ref struct Attributes
+public struct Attributes
 {
     private Int32 _count;
     private MemoryHtmlAttributeToken _t0;

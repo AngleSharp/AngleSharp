@@ -53,7 +53,7 @@ public interface IReadOnlyTextSource : IDisposable
     /// <param name="characters">The number of characters to read.</param>
     /// <returns>The string with the next characters.</returns>
     String ReadCharacters(Int32 characters);
-    
+
     /// <summary>
     /// Reads the upcoming numbers of characters from the buffer or
     /// underlying stream, if any.
@@ -89,7 +89,7 @@ public interface IReadOnlyTextSource : IDisposable
 /// <summary>
 ///
 /// </summary>
-public interface IWritableTextSource : IReadOnlyTextSource
+public interface ITextSource : IReadOnlyTextSource
 {
     /// <summary>
     /// Inserts the given content at the current insertation mark. Moves the

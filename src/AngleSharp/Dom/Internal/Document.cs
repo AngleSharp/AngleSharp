@@ -1002,7 +1002,7 @@ namespace AngleSharp.Dom
             }
             else
             {
-                if (_source is not IWritableTextSource wts)
+                if (_source is not ITextSource wts)
                 {
                     throw new InvalidOperationException();
                 }

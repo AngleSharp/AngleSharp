@@ -7,11 +7,32 @@ namespace AngleSharp.Html.Parser
     using System;
     using Common;
 
-    /// <summary>
-    /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
-    /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
-    /// </summary>
-    public sealed class StructHtmlTokenizerAdapter : CustomBaseTokenizer
+
+    public interface IHtmlTokenizer
+    {
+        /// <summary>
+        /// Gets the next available token.
+        /// </summary>
+        /// <returns>The next available token.</returns>
+        HtmlToken Get();
+
+        /// <summary>
+        /// Fired in case of a parse error.
+        /// </summary>
+        event EventHandler<HtmlErrorEvent>? Error;
+
+        void RaiseErrorOccurred(HtmlParseError code, TextPosition tokenPosition);
+
+        HtmlParseMode State { get; set; }
+
+        Boolean IsAcceptingCharacterData { get; set; }
+        Boolean IsStrictMode { get; set; }
+        Boolean IsSupportingProcessingInstructions { get; set; }
+        Boolean IsNotConsumingCharacterReferences { get; set; }
+        bool IsPreservingAttributeNames { get; set; }
+    }
+
+    public sealed class StructHtmlTokenizerAdapter : IHtmlTokenizer
     {
         #region Fields
 
@@ -34,12 +55,7 @@ namespace AngleSharp.Html.Parser
 
         #region ctor
 
-        /// <summary>
-        /// See 8.2.4 Tokenization
-        /// </summary>
-        /// <param name="source">The source code manager.</param>
-        /// <param name="resolver">The entity resolver to use.</param>
-        public StructHtmlTokenizerAdapter(PrefetchedTextSource source, IEntityProvider resolver) : base(source)
+        public StructHtmlTokenizerAdapter(ITextSource source, IEntityProvider resolver)
         {
             _tokenizer = new StructHtmlTokenizer(source, resolver);
         }
