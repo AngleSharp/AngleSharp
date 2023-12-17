@@ -51,7 +51,13 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// Gets the full text buffer.
     /// </summary>
     [MemberNotNull("_content")]
-    public String Text => _content ??= _memory.Span.CreateString();
+    public String Text
+    {
+        get
+        {
+            return _content ??= _memory.Span.CreateString();
+        }
+    }
 
     /// <summary>
     /// Gets the character at the given position in the text buffer.

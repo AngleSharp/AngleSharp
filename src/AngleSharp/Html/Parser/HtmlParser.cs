@@ -214,10 +214,20 @@ namespace AngleSharp.Html.Parser
             return await ParseAsync(doc, cancel).ConfigureAwait(false);
         }
 
-        public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
+        public IHtmlDocument ParseDocument(IReadOnlyTextSource source, Middleware? middleware = null)
         {
-            throw new NotImplementedException();
+            var document = new HtmlDocument(_context, source);
+            using var parser = new StructHtmlDomBuilder(document);
+            if (HasEventListener(EventNames.Error))
+            {
+                parser.Error += (_, ev) => InvokeEventListener(ev);
+            }
+            InvokeHtmlParseEvent(document, completed: false);
+            parser.Parse(_options, middleware);
+            InvokeHtmlParseEvent(document, completed: true);
+            return document;
         }
+
 
         /// <summary>
         ///
@@ -249,7 +259,7 @@ namespace AngleSharp.Html.Parser
             return CreateDocument(textSource);
         }
 
-        private HtmlDocument CreateDocument(TextSource textSource)
+        private HtmlDocument CreateDocument(IReadOnlyTextSource textSource)
         {
             var document = new HtmlDocument(_context, textSource);
             return document;
@@ -310,7 +320,5 @@ namespace AngleSharp.Html.Parser
         }
 
         #endregion
-
-
     }
 }

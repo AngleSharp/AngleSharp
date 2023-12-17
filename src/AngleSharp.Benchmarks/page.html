@@ -98,7 +98,7 @@
         href="http://www.w3.org/TR/">W3C technical reports index at
         http://www.w3.org/TR/.</a></em></p>
 
-<p>This document describes the selectors that already exist in <a
+<p id="some-magical-id">This document describes the selectors that already exist in <a
     href="#refsCSS1"><abbr title="CSS level 1">CSS1</abbr></a> and <a
     href="#refsCSS21"><abbr title="CSS level 2">CSS2</abbr></a>, and
     also proposes new selectors for <abbr title="CSS level
@@ -2861,5 +2861,38 @@ specification.</p>-->
 
     <dt>[YACC]
     <dd><a name="refsYACC"></a> S. C. Johnson; "<cite>YACC &mdash; Yet another compiler compiler</cite>", Technical Report, Murray Hill, 1975
+    <p id="some-magical-id">
+        h1 {
+            color: orange;
+        }
+    </p>
+    <span>Some important text
 
+        Some More
+    </span>
+    SHIT
+    <script id="hello2" type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "WebPage",
+            "headline": "DER SPIEGEL | Online-Nachrichten",
+            "mainEntityOfPage": "https://www.spiegel.de/",
+            "name": "Homepage",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "query-input": "required name=q",
+                "target": "https://www.spiegel.de/suche/?search={q}"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "logo": "https://cdn.prod.www.spiegel.de/public/spon/images/logos/der-spiegel-h60.png",
+                "name": "DER SPIEGEL",
+                "sameAs": [
+                    "https://www.facebook.com/derspiegel",
+                    "https://www.instagram.com/spiegelmagazin/",
+                    "https://twitter.com/derspiegel"
+                ]
+            },
+            "url": "https://www.spiegel.de/"
+        }</script>
 </dl>

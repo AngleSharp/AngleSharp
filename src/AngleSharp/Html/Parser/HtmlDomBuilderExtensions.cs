@@ -6,6 +6,7 @@ namespace AngleSharp.Html.Parser
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
+    using Tokens.Struct;
 
     /// <summary>
     /// Extensions to be used exclusively by the DOM Builder.
@@ -117,6 +118,19 @@ namespace AngleSharp.Html.Parser
             element.SetAttributes(token.Attributes);
         }
 
+        public static void SetUniqueAttributes(this Element element, StructHtmlToken token)
+        {
+            for (var i = token.Attributes.Count - 1; i >= 0; i--)
+            {
+                if (element.HasAttribute(token.Attributes[i].Name.String))
+                {
+                    token.RemoveAttributeAt(i);
+                }
+            }
+
+            element.SetAttributes(token.Attributes);
+        }
+
         public static void AddFormatting(this List<Element> formatting, Element element)
         {
             var count = 0;
@@ -172,6 +186,14 @@ namespace AngleSharp.Html.Parser
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddComment(this Element parent, StructHtmlToken token)
+        {
+            parent.AddNode(token.IsProcessingInstruction
+                ? ProcessingInstruction.Create(parent.Owner, token.Data.String)
+                : new Comment(parent.Owner, token.Data.String));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddComment(this Document parent, HtmlToken token)
         {
             parent.AddNode(token.IsProcessingInstruction
@@ -179,7 +201,86 @@ namespace AngleSharp.Html.Parser
                 : new Comment(parent, token.Data));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddComment(this Document parent, StructHtmlToken token)
+        {
+            parent.AddNode(token.IsProcessingInstruction
+                ? ProcessingInstruction.Create(parent, token.Data.String)
+                : new Comment(parent, token.Data.String));
+        }
+
         public static QuirksMode GetQuirksMode(this HtmlDoctypeToken doctype)
+        {
+            if (doctype.IsFullQuirks)
+            {
+                return QuirksMode.On;
+            }
+            else if (doctype.IsLimitedQuirks)
+            {
+                return QuirksMode.Limited;
+            }
+
+            return QuirksMode.Off;
+        }
+    }
+
+    /// <summary>
+    /// Extensions to be used exclusively by the DOM Builder.
+    /// </summary>
+    static class StructHtmlDomBuilderExtensions
+    {
+        public static void SetAttributes(this Element element, StructAttributes attributes)
+        {
+            var container = element.Attributes;
+
+            for (var i = 0; i < attributes.Count; i++)
+            {
+                var attribute = attributes[i];
+                var item = new Attr(attribute.Name.String, attribute.Value.String);
+                item.Container = container;
+                container.FastAddItem(item);
+            }
+        }
+
+        public static void AddAttribute(this Element element, ref MemoryHtmlAttributeToken attribute)
+        {
+            var container = element.Attributes;
+            var item = new Attr(attribute.Name.String, attribute.Value.String);
+            item.Container = container;
+            container.FastAddItem(item);
+        }
+
+        public static void SetUniqueAttributes(this Element element, ref StructHtmlToken token)
+        {
+            for (var i = token.Attributes.Count - 1; i >= 0; i--)
+            {
+                if (element.HasAttribute(token.Attributes[i].Name.String))
+                {
+                    token.RemoveAttributeAt(i);
+                }
+            }
+
+            element.SetAttributes(token.Attributes);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddComment(this Element parent, ref StructHtmlToken token)
+        {
+            parent.AddNode(token.IsProcessingInstruction
+                ? ProcessingInstruction.Create(parent.Owner, token.Data.String)
+                : new Comment(parent.Owner, token.Data.String));
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddComment(this Document parent, ref StructHtmlToken token)
+        {
+            parent.AddNode(token.IsProcessingInstruction
+                ? ProcessingInstruction.Create(parent, token.Data.String)
+                : new Comment(parent, token.Data.String));
+        }
+
+        public static QuirksMode GetQuirksMode(this ref StructHtmlToken doctype)
         {
             if (doctype.IsFullQuirks)
             {

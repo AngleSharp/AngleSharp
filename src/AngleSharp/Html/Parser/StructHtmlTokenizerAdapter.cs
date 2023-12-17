@@ -55,7 +55,7 @@ namespace AngleSharp.Html.Parser
 
         #region ctor
 
-        public StructHtmlTokenizerAdapter(ITextSource source, IEntityProvider resolver)
+        public StructHtmlTokenizerAdapter(IReadOnlyTextSource source, IEntityProvider resolver)
         {
             _tokenizer = new StructHtmlTokenizer(source, resolver);
         }

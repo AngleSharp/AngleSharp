@@ -62,7 +62,7 @@ public struct StructHtmlToken
 
     // tag token
 
-    private Attributes _attributes;
+    private StructAttributes _attributes;
     private Boolean _selfClosing;
 
     // doctype token
@@ -104,9 +104,19 @@ public struct StructHtmlToken
     public static StructHtmlToken TagOpen(TextPosition position) =>
         new(HtmlTokenType.StartTag, position);
 
+    public static StructHtmlToken Open(StringOrMemory name)
+    {
+        return new StructHtmlToken(HtmlTokenType.StartTag, TextPosition.Empty, name);
+    }
+
     public static StructHtmlToken TagClose(TextPosition position)
     {
         return new StructHtmlToken(HtmlTokenType.EndTag, position);
+    }
+
+    public static StructHtmlToken Close(StringOrMemory s)
+    {
+        return new StructHtmlToken(HtmlTokenType.EndTag, TextPosition.Empty, s);
     }
 
     public static StructHtmlToken Character(StringOrMemory name, TextPosition position)
@@ -223,7 +233,7 @@ public struct StructHtmlToken
     /// <summary>
     /// Gets the list of attributes.
     /// </summary>
-    public Attributes Attributes => _attributes;
+    public StructAttributes Attributes => _attributes;
 
     #endregion
 
@@ -581,4 +591,7 @@ public struct StructHtmlToken
                 };
         }
     }
+
+
+
 }

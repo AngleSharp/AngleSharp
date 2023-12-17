@@ -11,7 +11,7 @@ namespace AngleSharp.Common
     {
         #region Fields
 
-        private Stack<UInt16>? _columns;
+        private Stack<UInt16> _columns;
         private readonly IReadOnlyTextSource _source;
 
         private UInt16 _column;
@@ -43,6 +43,7 @@ namespace AngleSharp.Common
             _current = Symbols.Null;
             _column = 0;
             _row = 1;
+            _columns = new Stack<UInt16>();
         }
 
         #endregion
@@ -96,7 +97,7 @@ namespace AngleSharp.Common
         /// <summary>
         ///
         /// </summary>
-        public Boolean PositionTracking { get; set; } = true;
+        public Boolean DisablePositionTracking { get; set; }
 
         #endregion
 
@@ -273,20 +274,19 @@ namespace AngleSharp.Common
 
         private void AdvanceUnsafe()
         {
-            if (_current == Symbols.LineFeed)
+            if (!DisablePositionTracking)
             {
-                if (PositionTracking)
+                if (_current == Symbols.LineFeed)
                 {
-                    _columns ??= new Stack<UInt16>();
-                    _columns.Push(_column);
-                }
 
-                _column = 1;
-                _row++;
-            }
-            else
-            {
-                _column++;
+                    _columns.Push(_column);
+                    _column = 1;
+                    _row++;
+                }
+                else
+                {
+                    _column++;
+                }
             }
 
             var c = _source.ReadCharacter();
@@ -307,23 +307,17 @@ namespace AngleSharp.Common
             var c = NormalizeBackward(_source[_source.Index - 1]);
             _current = c;
 
-            if (c == Symbols.LineFeed)
+            if (!DisablePositionTracking)
             {
-                if (PositionTracking)
+                if (c == Symbols.LineFeed)
                 {
-                    _columns ??= new Stack<UInt16>();
                     _column = _columns.Count != 0 ? _columns.Pop() : (UInt16)1;
+                    _row--;
                 }
-                else
+                else if (c != Symbols.Null)
                 {
-                    _column = 1;
+                    _column--;
                 }
-
-                _row--;
-            }
-            else if (c != Symbols.Null)
-            {
-                _column--;
             }
         }
 

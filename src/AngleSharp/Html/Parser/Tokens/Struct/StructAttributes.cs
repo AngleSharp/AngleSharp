@@ -2,9 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using Common;
 
 #nullable disable
-public struct Attributes
+public struct StructAttributes
 {
     private Int32 _count;
     private MemoryHtmlAttributeToken _t0;
@@ -201,5 +202,35 @@ public struct Attributes
             }
         }
 
+    }
+
+    public bool HasAttribute(StringOrMemory name, StringOrMemory value)
+    {
+        for (var i = 0; i < _count; i++)
+        {
+            var attr = this[i];
+
+            if (attr.Name.Equals(name) && attr.Value.Equals(value))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool HasAttribute(String name, String value)
+    {
+        for (var i = 0; i < _count; i++)
+        {
+            var attr = this[i];
+
+            if (attr.Name.Isi(name) && attr.Value.Is(value))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

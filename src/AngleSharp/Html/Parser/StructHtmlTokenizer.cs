@@ -12,7 +12,7 @@ namespace AngleSharp.Html.Parser
     using Tokens.Struct;
     using AttributeName = System.ReadOnlyMemory<System.Char>;
 
-    public delegate Boolean ShouldEmitAttribute(StructHtmlToken token, AttributeName attributeName);
+    public delegate Boolean ShouldEmitAttribute(ref StructHtmlToken token, AttributeName attributeName);
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
@@ -67,7 +67,7 @@ namespace AngleSharp.Html.Parser
         public Boolean SkipCDATA { get; set; }
         public Boolean SkipProcessingInstructions { get; set; }
 
-        public ShouldEmitAttribute ShouldEmitAttribute { get; set; } = static (_, _) => true;
+        public ShouldEmitAttribute ShouldEmitAttribute { get; set; } = static Boolean (ref StructHtmlToken _, AttributeName _) => true;
 
         /// <summary>
         /// Gets or sets if CDATA sections are accepted.
@@ -1861,7 +1861,7 @@ namespace AngleSharp.Html.Parser
                         if (c == Symbols.Equality)
                         {
                             var attributeName = FlushBuffer();
-                            attributeAllowed = ShouldEmitAttribute(tag, attributeName.Memory);
+                            attributeAllowed = ShouldEmitAttribute(ref tag, attributeName.Memory);
                             if (attributeAllowed)
                             {
                                 tag.AddAttribute(attributeName, pos);
@@ -1871,7 +1871,7 @@ namespace AngleSharp.Html.Parser
                         else if (c == Symbols.GreaterThan)
                         {
                             var attributeName = FlushBuffer();
-                            attributeAllowed = ShouldEmitAttribute(tag, attributeName.Memory);
+                            attributeAllowed = ShouldEmitAttribute(ref tag, attributeName.Memory);
                             if (attributeAllowed)
                             {
                                 tag.AddAttribute(attributeName, pos);
@@ -1882,7 +1882,7 @@ namespace AngleSharp.Html.Parser
                         else if (c.IsSpaceCharacter())
                         {
                             var attributeName = FlushBuffer();
-                            attributeAllowed = ShouldEmitAttribute(tag, attributeName.Memory);
+                            attributeAllowed = ShouldEmitAttribute(ref tag, attributeName.Memory);
                             if (attributeAllowed)
                             {
                                 tag.AddAttribute(attributeName, pos);
@@ -1892,7 +1892,7 @@ namespace AngleSharp.Html.Parser
                         else if (c == Symbols.Solidus)
                         {
                             var attributeName = FlushBuffer();
-                            attributeAllowed = ShouldEmitAttribute(tag, attributeName.Memory);
+                            attributeAllowed = ShouldEmitAttribute(ref tag, attributeName.Memory);
                             if (attributeAllowed)
                             {
                                 tag.AddAttribute(attributeName, pos);

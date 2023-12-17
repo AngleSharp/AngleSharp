@@ -77,12 +77,12 @@ public struct StringOrMemory
     /// <returns></returns>
     public Boolean IsNullOrEmpty => _memory.IsEmpty;
 
-    // /// <summary>
-    // ///
-    // /// </summary>
-    // /// <param name="str"></param>
-    // /// <returns></returns>
-    // public static implicit operator StringOrMemory(String str) => new StringOrMemory(str);
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="str"></param>
+    /// <returns></returns>
+    public static implicit operator StringOrMemory(String str) => new StringOrMemory(str);
 
     /// <summary>
     ///

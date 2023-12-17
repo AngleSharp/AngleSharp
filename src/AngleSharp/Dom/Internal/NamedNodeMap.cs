@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using Common;
 
     /// <summary>
     /// NamedNodeNap is a key/value pair of nodes that can be accessed by
@@ -12,7 +13,7 @@ namespace AngleSharp.Dom
     sealed class NamedNodeMap : INamedNodeMap
     {
         #region Fields
-        
+
         private readonly List<Attr> _items;
         private readonly WeakReference<Element> _owner;
 
@@ -114,6 +115,20 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public IAttr? GetNamedItem(String name)
+        {
+            for (var i = 0; i < _items.Count; i++)
+            {
+                if (name.Is(_items[i].Name))
+                {
+                    return _items[i];
+                }
+            }
+
+            return null;
+        }
+
+        /// <inheritdoc />
+        public IAttr? GetNamedItem(StringOrMemory name)
         {
             for (var i = 0; i < _items.Count; i++)
             {
@@ -237,7 +252,7 @@ namespace AngleSharp.Dom
         public IEnumerator<IAttr> GetEnumerator() => _items.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
-        
+
         #endregion
 
         #region Helpers

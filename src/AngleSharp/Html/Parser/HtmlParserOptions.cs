@@ -4,6 +4,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Text;
     using System;
     using Tokens;
+    using Tokens.Struct;
     using AttributeName = System.ReadOnlyMemory<System.Char>;
 
     /// <summary>
@@ -25,7 +26,7 @@ namespace AngleSharp.Html.Parser
             SkipRawText = htmlParserOptions.SkipRawText;
             SkipScriptText = htmlParserOptions.SkipScriptText;
             SkipDataText = htmlParserOptions.SkipDataText;
-            ShouldEmitAttribute = htmlParserOptions.ShouldEmitAttribute ?? ((_, _) => true);
+            ShouldEmitAttribute = htmlParserOptions.ShouldEmitAttribute ?? (static (ref StructHtmlToken _, AttributeName _) => true);
 
             SkipDataText = htmlParserOptions.SkipDataText;
             SkipScriptText = htmlParserOptions.SkipScriptText;

@@ -12,11 +12,9 @@ namespace AngleSharp.Benchmarks
     using Html.Parser;
     using BenchmarkDotNet.Attributes;
     using BenchmarkDotNet.Configs;
-    using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
-    using Html.Dom;
-    using Html.Parser.Tokens;
+    using Dom;
     using Html.Parser.Tokens.Struct;
-    using Perfolizer.Horology;
+    using HtmlAgilityPack;
 
     [Config(typeof(Config))]
     [MemoryDiagnoser]
@@ -28,26 +26,26 @@ namespace AngleSharp.Benchmarks
             {
                 AddJob(Job.ShortRun
                     .WithRuntime(CoreRuntime.Core80)
-                    .WithStrategy(RunStrategy.Throughput)
-                    // .WithToolchain(InProcessNoEmitToolchain.Instance)
+                    .WithStrategy(RunStrategy.Monitoring)
+
                 );
             }
         }
 
-        public static readonly FrozenDictionary<ReadOnlyMemory<Char>, FrozenSet<ReadOnlyMemory<Char>>>
-            AllowedAttributes =
-                new Dictionary<String, String[]>
-                {
-                    ["div"] = new[] { "id" },
-                    ["span"] = new[] { "id", "class" },
-                    ["table"] = new[] { "id", "class" },
-                    ["meta"] = new[] { "charset" }
-                }.ToFrozenDictionary(
-                    kvp => kvp.Key.AsMemory(),
-                    kvp => kvp.Value
-                        .Select(v => v.AsMemory())
-                        .ToFrozenSet(ReadOnlyMemoryComparer.Instance),
-                    ReadOnlyMemoryComparer.Instance);
+        // public static readonly FrozenDictionary<ReadOnlyMemory<Char>, FrozenSet<ReadOnlyMemory<Char>>>
+        //     AllowedAttributes =
+        //         new Dictionary<String, String[]>
+        //         {
+        //             ["div"] = new[] { "id" },
+        //             ["span"] = new[] { "id", "class" },
+        //             ["table"] = new[] { "id", "class" },
+        //             ["meta"] = new[] { "charset" }
+        //         }.ToFrozenDictionary(
+        //             kvp => kvp.Key.AsMemory(),
+        //             kvp => kvp.Value
+        //                 .Select(v => v.AsMemory())
+        //                 .ToFrozenSet(ReadOnlyMemoryComparer.Instance),
+        //             ReadOnlyMemoryComparer.Instance);
 
         public static readonly HtmlParserOptions HtmlParserOptions = new HtmlParserOptions()
         {
@@ -57,26 +55,30 @@ namespace AngleSharp.Benchmarks
             IsNotSupportingFrames = true,
             IsSupportingProcessingInstructions = false,
             IsEmbedded = false,
+
             IsKeepingSourceReferences = false,
             IsPreservingAttributeNames = false,
             IsAcceptingCustomElementsEverywhere = false,
 
             SkipScriptText = true,
-            SkipRawText = false,
-            SkipDataText = true,
+            SkipRawText = true,
+            SkipDataText = false,
             SkipComments = true,
             SkipPlaintext = true,
             SkipCDATA = true,
             SkipRCDataText = true,
             SkipProcessingInstructions = true,
-
             DisableElementPositionTracking = true,
-
-            ShouldEmitAttribute = (token, attributeName) =>
-                AllowedAttributes.TryGetValue(token.Name, out var allowed)
-                && allowed.Contains(attributeName),
+            ShouldEmitAttribute = static (ref StructHtmlToken _, ReadOnlyMemory<Char> n) =>
+            {
+                var s = n.Span;
+                return s.Length switch
+                {
+                    2 => s[0] == 'i' && s[1] == 'd',
+                    _ => false
+                };
+            },
         };
-
         public static readonly HtmlTokenizerOptions HtmlTokenizerOptions = new HtmlTokenizerOptions(HtmlParserOptions);
 
         public IEnumerable<UrlTest> GetSources()
@@ -84,6 +86,7 @@ namespace AngleSharp.Benchmarks
             var websites = new UrlTests(".html", true);
 
             websites.Include(
+                new[]{
                 // "http://www.amazon.com",
                 // "http://www.blogspot.com",
                 // "http://www.smashing.com",
@@ -133,11 +136,12 @@ namespace AngleSharp.Benchmarks
                 // "http://www.tumblr.com",
                 // "http://www.html5rocks.com/en",
                 // "http://www.neobux.com",
-                "http://www.nytimes.com",
-                "http://www.aliexpress.com",
-                "http://www.netflix.com",
+                // "http://www.nytimes.com",
+                // "http://www.aliexpress.com",
+                // "http://www.netflix.com",
                 "http://www.w3.org/TR/html5/single-page.html",
-                "http://en.wikipedia.org/wiki/South_African_labour_law"
+                // "http://en.wikipedia.org/wiki/South_African_labour_law",
+                }
                 ).GetAwaiter().GetResult();
 
             return websites.Tests;
@@ -145,23 +149,114 @@ namespace AngleSharp.Benchmarks
 
         [ParamsSource(nameof(GetSources))] public UrlTest UrlTest { get; set; }
 
-        [Benchmark]
-        public IHtmlDocument AngleSharpPrefetched()
+        // [Benchmark]
+        // public HtmlDocument CreateDocument()
+        // {
+        //     var htmlDocument = new HtmlDocument();
+        //     htmlDocument.CreateComment("This is a comment");
+        //     return htmlDocument;
+        // }
+
+        IBrowsingContext context = BrowsingContext.New(Configuration.Default);
+
+
+        public struct TokenFilter
         {
-            var parser = new HtmlParser();
-            using var source = new PrefetchedTextSource(UrlTest.Source);
-            using var document = parser.ParseDocument(source);
-            return document;
+            private readonly String _id;
+            private readonly String _tag;
+
+            private Int32 _depth;
+            private Boolean _started;
+
+            public TokenFilter(String tag, String id)
+            {
+                _tag = tag;
+                _id = id;
+                _depth = 0;
+                _started = false;
+            }
+
+            public Result Loop(ref StructHtmlToken token, Next next)
+            {
+                _started = _started ||
+                   token.Type == HtmlTokenType.StartTag &&
+                   token.Name.Memory.Span.SequenceEqual(_tag.AsSpan()) &&
+                   token.Attributes.HasAttribute(AttributeNames.Id, _id);
+
+                if (_started)
+                {
+                    if (token is { Type: HtmlTokenType.StartTag, IsSelfClosing: false })
+                    {
+                        _depth++;
+                    }
+                    else if (token.Type == HtmlTokenType.EndTag)
+                    {
+                        _depth--;
+                    }
+
+                    if (_depth > 0)
+                    {
+                        next(ref token);
+                    }
+                    else
+                    {
+                        return Result.Stop;
+                    }
+                }
+
+                return Result.Continue;
+            }
         }
 
-        [Benchmark(Baseline = true)]
-        public IHtmlDocument AngleSharp()
+        [Benchmark]
+        public Boolean CustomOptionsFiltered()
+        {
+            var filter = new TokenFilter("p", "some-magical-id");
+            var parser = new HtmlParser(HtmlParserOptions, context);
+            using var source = new PrefetchedTextSource(UrlTest.Source);
+            using var document = parser.ParseDocument(source, filter.Loop);
+            var result = document.QuerySelector("p#some-magical-id") != null;
+            return result;
+        }
+
+        [Benchmark]
+        public Boolean CustomOptions()
+        {
+            var parser = new HtmlParser(HtmlParserOptions, context);
+            using var source = new PrefetchedTextSource(UrlTest.Source);
+            using var document = parser.ParseDocument(source);
+            var result = document.QuerySelector("p#some-magical-id") != null;
+            return result;
+        }
+
+        [Benchmark]
+        public Boolean Default()
         {
             var parser = new HtmlParser();
-            using var source = new TextSource(UrlTest.Source);
-            using var document = parser.ParseDocument(source);
-            return document;
+            using var document = parser.ParseDocument(UrlTest.Source);
+            var result = document.QuerySelector("p#some-magical-id") != null;
+            return result;
         }
+        //
+        // [Benchmark]
+        // public Boolean AngleSharp1()
+        // {
+        //     var parser = new HtmlParser();
+        //     using var source = new PrefetchedTextSource(UrlTest.Source);
+        //     using var document = parser.ParseDocument2(source);
+        //     var result = document.QuerySelector("p#some-magical-id") != null;
+        //     return result;
+        // }
+        //
+        // [Benchmark(Baseline = true)]
+        // public Boolean AngleSharp0()
+        // {
+        //     var parser = new HtmlParser();
+        //     using var source = new TextSource(UrlTest.Source);
+        //     using var document = parser.ParseDocument(source);
+        //     var result = document.QuerySelector("p#some-magical-id") != null;
+        //     return result;
+        // }
 
         // [Benchmark(Baseline = true)]
         // public Int32 Classes()

@@ -7,6 +7,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using Tokens.Struct;
 
     /// <summary>
     /// A collection of useful helpers when working with foreign content.
@@ -162,6 +163,28 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Setups a new math element with the attributes from the token.
+        /// </summary>
+        /// <param name="element">The element to setup.</param>
+        /// <param name="tag">The tag token to use.</param>
+        /// <returns>The finished element.</returns>
+        public static MathElement Setup(this MathElement element, ref StructHtmlToken tag)
+        {
+            var count = tag.Attributes.Count;
+
+            for (var i = 0; i < count; i++)
+            {
+                var attr = tag.Attributes[i];
+                var name = attr.Name;
+                var value = attr.Value;
+                // todo: adjust attribute name
+                //element.AdjustAttribute(name.AdjustToMathAttribute(), value);
+            }
+
+            return element;
+        }
+
+        /// <summary>
         /// Setups a new SVG element with the attributes from the token.
         /// </summary>
         /// <param name="element">The element to setup.</param>
@@ -177,6 +200,28 @@ namespace AngleSharp.Html.Parser
                 var name = attr.Name;
                 var value = attr.Value;
                 element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
+            }
+
+            return element;
+        }
+
+        /// <summary>
+        /// Setups a new SVG element with the attributes from the token.
+        /// </summary>
+        /// <param name="element">The element to setup.</param>
+        /// <param name="tag">The tag token to use.</param>
+        /// <returns>The finished element.</returns>
+        public static SvgElement Setup(this SvgElement element, ref StructHtmlToken tag)
+        {
+            var count = tag.Attributes.Count;
+
+            for (var i = 0; i < count; i++)
+            {
+                var attr = tag.Attributes[i];
+                var name = attr.Name;
+                var value = attr.Value;
+                // todo: adjust attribute name
+                // element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
             }
 
             return element;
@@ -250,6 +295,7 @@ namespace AngleSharp.Html.Parser
 
             return attributeName;
         }
+
 
         #endregion
 

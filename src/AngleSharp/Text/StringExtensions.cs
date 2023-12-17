@@ -14,6 +14,7 @@ namespace AngleSharp.Text
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using Common;
 
     /// <summary>
     /// Useful methods for string objects.
@@ -127,6 +128,66 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="value">The string to be transformed.</param>
         /// <returns>The resulting string.</returns>
+        public static StringOrMemory HtmlLower(this StringOrMemory value)
+        {
+            var length = value.Length;
+
+            for (var i = 0; i < length; i++)
+            {
+                var c = value[i];
+
+                if (c.IsUppercaseAscii())
+                {
+                    if (length < 128)
+                    {
+                        // safe to stackalloc inside loop because will immediately return
+                        Span<Char> result = stackalloc Char[length];
+                        return Slow(value, i, result);
+                    }
+                    else
+                    {
+                        var rent = ArrayPool<Char>.Shared.Rent(length);
+                        Span<Char> result = rent.AsSpan(0, length);
+                        var tmp = Slow(value, i, result);
+                        ArrayPool<Char>.Shared.Return(rent);
+                        return tmp;
+                    }
+                }
+            }
+
+            return value;
+
+            static String Slow(StringOrMemory value, Int32 i, Span<Char> result)
+            {
+                for (var j = 0; j < i; j++)
+                {
+                    result[j] = value[j];
+                }
+
+                var c = value[i];
+                result[i] = Char.ToLowerInvariant(c);
+
+                for (var j = i + 1; j < value.Length; j++)
+                {
+                    c = value[j];
+
+                    if (c.IsUppercaseAscii())
+                    {
+                        c = Char.ToLowerInvariant(c);
+                    }
+
+                    result[j] = c;
+                }
+
+                return result.CreateString();
+            }
+        }
+
+        /// <summary>
+        /// Transforms the given string to lower case by the HTML specification.
+        /// </summary>
+        /// <param name="value">The string to be transformed.</param>
+        /// <returns>The resulting string.</returns>
         public static String HtmlLower(this String value)
         {
             var length = value.Length;
@@ -156,7 +217,7 @@ namespace AngleSharp.Text
 
             return value;
 
-            static String Slow(String value, Int32 i, Span<Char> result)
+            static String Slow(StringOrMemory value, Int32 i, Span<Char> result)
             {
                 for (var j = 0; j < i; j++)
                 {
@@ -178,7 +239,7 @@ namespace AngleSharp.Text
                     result[j] = c;
                 }
 
-                return result.ToString();
+                return result.CreateString();
             }
         }
 
@@ -464,6 +525,31 @@ namespace AngleSharp.Text
         }
 
         /// <summary>
+        /// Checks if the given string satisfies the rules for a custom element name.
+        /// </summary>
+        /// <param name="tag">The current tag name.</param>
+        /// <returns>True if the string matches a custom element name.</returns>
+        public static Boolean IsCustomElement(this StringOrMemory tag)
+        {
+            if (tag.Memory.Span.IndexOf('-') != -1 && !TagNames._mDisallowedCustomElementNames.Contains(tag))
+            {
+                var l = tag.Length;
+
+                for (var i = 0; i < l; i++)
+                {
+                    if (!tag[i].IsCustomElementName())
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Checks if two strings are exactly equal.
         /// </summary>
         /// <param name="current">The current string.</param>
@@ -472,6 +558,16 @@ namespace AngleSharp.Text
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean Is(this String? current, String? other) =>
             String.Equals(current, other, StringComparison.Ordinal);
+
+        /// <summary>
+        /// Checks if two strings are exactly equal.
+        /// </summary>
+        /// <param name="current">The current string.</param>
+        /// <param name="other">The other string.</param>
+        /// <returns>True if both are equal, false otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Is(this String? current, StringOrMemory other) =>
+            other.Memory.Span.SequenceEqual(current.AsSpan());
 
         /// <summary>
         ///
@@ -521,6 +617,16 @@ namespace AngleSharp.Text
             String.Equals(current, other, StringComparison.OrdinalIgnoreCase);
 
         /// <summary>
+        /// Checks if two strings are equal when viewed case-insensitive.
+        /// </summary>
+        /// <param name="current">The current string.</param>
+        /// <param name="other">The other string.</param>
+        /// <returns>True if both are equal, false otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Isi(this String? current, StringOrMemory other) =>
+            MemoryExtensions.Equals(current.AsSpan(), other.Memory.Span, StringComparison.OrdinalIgnoreCase);
+
+        /// <summary>
         ///
         /// </summary>
         /// <param name="current"></param>
@@ -542,7 +648,6 @@ namespace AngleSharp.Text
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean Isi(this Span<Char> current, ReadOnlySpan<Char> other)
         {
-            if (other == null) return false;
             return System.MemoryExtensions.Equals(current, other, StringComparison.OrdinalIgnoreCase);
         }
 
@@ -592,6 +697,10 @@ namespace AngleSharp.Text
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3) =>
+            element.Is(item1) || element.Is(item2) || element.Is(item3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean IsOneOf(this string element, StringOrMemory item1, StringOrMemory item2, StringOrMemory item3) =>
             element.Is(item1) || element.Is(item2) || element.Is(item3);
 
         /// <summary>

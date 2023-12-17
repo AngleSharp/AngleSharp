@@ -5,6 +5,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.Linq;
+    using Common;
 
     /// <summary>
     /// Represents an element node.
@@ -74,7 +75,7 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public String? NamespaceUri => _namespace ?? this.GetNamespaceUri();
-        
+
         /// <inheritdoc />
         public String? GivenNamespaceUri => _namespace;
 
@@ -390,6 +391,16 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public Boolean HasAttribute(String name)
+        {
+            if (_namespace.Is(NamespaceNames.HtmlUri))
+            {
+                name = name.HtmlLower();
+            }
+
+            return _attributes.GetNamedItem(name) != null;
+        }
+
+        public Boolean HasAttribute(StringOrMemory name)
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
             {
