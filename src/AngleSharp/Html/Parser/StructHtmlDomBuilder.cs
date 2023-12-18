@@ -71,9 +71,15 @@ namespace AngleSharp.Html.Parser
         ///     The name of the element where the parsing should be stopped.
         /// </param>
         /// <param name="maybeOptions"></param>
-        public StructHtmlDomBuilder(HtmlDocument document, String? stopAt = null, HtmlTokenizerOptions? maybeOptions = null)
+        public StructHtmlDomBuilder(
+            HtmlDocument document,
+            String? stopAt = null,
+            HtmlTokenizerOptions? maybeOptions = null)
         {
-            _tokenizer = new StructHtmlTokenizer(document.Source, document.Entities);
+            _tokenizer = new StructHtmlTokenizer(
+                document.Source,
+                document.Context.GetService<IEntityProvider>() ?? HtmlEntityProvider.Resolver);
+
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();
@@ -82,6 +88,7 @@ namespace AngleSharp.Html.Parser
             _currentMode = HtmlTreeMode.Initial;
             _stopAt = stopAt;
             _ended = false;
+            ConsumeAsDelegate = Consume;
 
             if (maybeOptions.HasValue)
             {
@@ -163,6 +170,8 @@ namespace AngleSharp.Html.Parser
             return _document;
         }
 
+        private readonly Next ConsumeAsDelegate;
+
         /// <summary>
         /// Parses the given source and creates the document.
         /// </summary>
@@ -179,18 +188,17 @@ namespace AngleSharp.Html.Parser
 
             var EOF = StructHtmlToken.EndOfFile(default);
 
-            Next consume = this.Consume;
-
             do
             {
                 ref var token = ref _tokenizer.Get();
+
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
                     Consume(ref token);
                     break;
                 }
 
-                var result = middleware(ref token, consume);
+                var result = middleware(ref token, ConsumeAsDelegate);
 
                 if (result == Result.Stop)
                 {

@@ -214,7 +214,7 @@ namespace AngleSharp.Html.Parser
             return await ParseAsync(doc, cancel).ConfigureAwait(false);
         }
 
-        public IHtmlDocument ParseDocument(IReadOnlyTextSource source, Middleware? middleware = null)
+        public IHtmlDocument ParseDocumentStruct(IReadOnlyTextSource source, Middleware? middleware = null)
         {
             var document = new HtmlDocument(_context, source);
             using var parser = new StructHtmlDomBuilder(document);
@@ -226,19 +226,6 @@ namespace AngleSharp.Html.Parser
             parser.Parse(_options, middleware);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
-        }
-
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        public IHtmlDocument ParseDocument(TextSource source, HtmlParserOptions options)
-        {
-            var document = CreateDocument(source);
-            return Parse(document);
         }
 
         #endregion

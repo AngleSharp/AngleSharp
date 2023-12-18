@@ -17,54 +17,58 @@ namespace AngleSharp.Text
     using Common;
 
     /// <summary>
+    ///
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public readonly struct Lease<T> : IDisposable
+    {
+        private readonly ArrayPool<T> owner;
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="data"></param>
+        /// <param name="requestedLength"></param>
+        public Lease(ArrayPool<T> owner, T[] data, Int32 requestedLength)
+        {
+            this.owner = owner;
+            this.Data = data;
+            this.RequestedLength = requestedLength;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public T[] Data { get; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Span<T> Span => Data.AsSpan(0, RequestedLength);
+
+        public Memory<T> Memory => Data.AsMemory(0, RequestedLength);
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Int32 RequestedLength { get; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public void Dispose()
+        {
+            owner.Return(this.Data, false);
+        }
+    }
+
+    /// <summary>
     /// Useful methods for string objects.
     /// </summary>
     public static class StringExtensions
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public readonly struct Lease<T> : IDisposable
-        {
-            private readonly ArrayPool<T> owner;
 
-            /// <summary>
-            ///
-            /// </summary>
-            /// <param name="owner"></param>
-            /// <param name="data"></param>
-            /// <param name="requestedLength"></param>
-            public Lease(ArrayPool<T> owner, T[] data, Int32 requestedLength)
-            {
-                this.owner = owner;
-                this.Data = data;
-                this.RequestedLength = requestedLength;
-            }
-
-            /// <summary>
-            ///
-            /// </summary>
-            public T[] Data { get; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            public Span<T> Span => Data.AsSpan(0, RequestedLength);
-
-            /// <summary>
-            ///
-            /// </summary>
-            public Int32 RequestedLength { get; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            public void Dispose()
-            {
-                owner.Return(this.Data, false);
-            }
-        }
 
         /// <summary>
         ///

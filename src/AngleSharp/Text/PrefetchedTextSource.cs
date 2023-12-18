@@ -1,5 +1,4 @@
-﻿#nullable disable
-namespace AngleSharp.Text;
+﻿namespace AngleSharp.Text;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -15,7 +14,7 @@ using Common;
 public sealed class PrefetchedTextSource : IReadOnlyTextSource
 {
     private Int32 _index;
-    private String _content;
+    private String? _content;
 
     private readonly ReadOnlyMemory<Char> _memory;
     private readonly Int32 _length;
@@ -64,7 +63,8 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// </summary>
     /// <param name="index">The index of the character.</param>
     /// <returns>The character.</returns>
-    public Char this[Int32 index] => _content[index];
+    public Char this[Int32 index] =>
+        _content != null ? _content[index] : _memory.Span[index];
 
     /// <summary>
     /// Gets the length of the text buffer.
@@ -112,7 +112,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     {
         if (_index < _length)
         {
-            return ReplaceEof(_content[_index++]);
+            return ReplaceEof(this[_index++]);
         }
 
         _index += 1;
@@ -182,5 +182,4 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Char ReplaceEof(Char c) => c == Symbols.EndOfFile ? (Char)0xFFFD : c;
-
 }

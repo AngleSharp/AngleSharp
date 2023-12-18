@@ -131,16 +131,16 @@ namespace AngleSharp.Benchmarks
                 // "http://www.mail.ru",
                 // "http://www.imdb.com",
                 // "http://www.kickass.to",
-                // "http://www.360.cn",
-                // "http://www.163.com",
-                // "http://www.tumblr.com",
-                // "http://www.html5rocks.com/en",
-                // "http://www.neobux.com",
-                // "http://www.nytimes.com",
-                // "http://www.aliexpress.com",
-                // "http://www.netflix.com",
+                "http://www.360.cn",
+                "http://www.163.com",
+                "http://www.tumblr.com",
+                "http://www.html5rocks.com/en",
+                "http://www.neobux.com",
+                "http://www.nytimes.com",
+                "http://www.aliexpress.com",
+                "http://www.netflix.com",
                 "http://www.w3.org/TR/html5/single-page.html",
-                // "http://en.wikipedia.org/wiki/South_African_labour_law",
+                "http://en.wikipedia.org/wiki/South_African_labour_law",
                 }
                 ).GetAwaiter().GetResult();
 
@@ -159,62 +159,13 @@ namespace AngleSharp.Benchmarks
 
         IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 
-
-        public struct TokenFilter
-        {
-            private readonly String _id;
-            private readonly String _tag;
-
-            private Int32 _depth;
-            private Boolean _started;
-
-            public TokenFilter(String tag, String id)
-            {
-                _tag = tag;
-                _id = id;
-                _depth = 0;
-                _started = false;
-            }
-
-            public Result Loop(ref StructHtmlToken token, Next next)
-            {
-                _started = _started ||
-                   token.Type == HtmlTokenType.StartTag &&
-                   token.Name.Memory.Span.SequenceEqual(_tag.AsSpan()) &&
-                   token.Attributes.HasAttribute(AttributeNames.Id, _id);
-
-                if (_started)
-                {
-                    if (token is { Type: HtmlTokenType.StartTag, IsSelfClosing: false })
-                    {
-                        _depth++;
-                    }
-                    else if (token.Type == HtmlTokenType.EndTag)
-                    {
-                        _depth--;
-                    }
-
-                    if (_depth > 0)
-                    {
-                        next(ref token);
-                    }
-                    else
-                    {
-                        return Result.Stop;
-                    }
-                }
-
-                return Result.Continue;
-            }
-        }
-
         [Benchmark]
         public Boolean CustomOptionsFiltered()
         {
-            var filter = new TokenFilter("p", "some-magical-id");
+            var filter = new OnlyElementWithId("p", "some-magical-id");
             var parser = new HtmlParser(HtmlParserOptions, context);
             using var source = new PrefetchedTextSource(UrlTest.Source);
-            using var document = parser.ParseDocument(source, filter.Loop);
+            using var document = parser.ParseDocumentStruct(source, filter.Loop);
             var result = document.QuerySelector("p#some-magical-id") != null;
             return result;
         }
@@ -224,12 +175,12 @@ namespace AngleSharp.Benchmarks
         {
             var parser = new HtmlParser(HtmlParserOptions, context);
             using var source = new PrefetchedTextSource(UrlTest.Source);
-            using var document = parser.ParseDocument(source);
+            using var document = parser.ParseDocumentStruct(source);
             var result = document.QuerySelector("p#some-magical-id") != null;
             return result;
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true)]
         public Boolean Default()
         {
             var parser = new HtmlParser();
