@@ -2,6 +2,7 @@
 using System;
 using System.Text;
 using BenchmarkDotNet.Running;
+using AngleSharp.ReadOnly;
 
 namespace AngleSharp.Benchmarks
 {
@@ -15,6 +16,7 @@ namespace AngleSharp.Benchmarks
     using System.Net.Http;
     using System.Numerics;
     using System.Threading.Tasks;
+    using Common;
     using Css.Dom;
     using Css.Parser;
     using Dom;
@@ -39,140 +41,24 @@ namespace AngleSharp.Benchmarks
                 return;
             }
 
-            var benchmark = new HttpParsingBenchmark();
-            benchmark.Id = "81454937594";
-            await benchmark.CustomLibLevel();
-            await benchmark.CustomLibLevel();
-            await benchmark.CustomLibLevel();
+            using var source = new PrefetchedTextSource(StaticHtml.Github);
 
-            Console.ReadLine();
+            var htmlParser = new HtmlParser();
 
-            await benchmark.CustomLibLevel();
+            var doc1 = htmlParser.ParseReadOnlyDocument(source);
 
-            Console.ReadLine();
-            //
-            // // var file = @"..\..\..\temp\w3.html";
-            // // var file = @"..\..\..\page.html";
-            //
-            // var files = Directory.EnumerateFiles(@"..\..\..\temp\", "*.html");
-            //
-            //
-            // var options = new HtmlParserOptions()
-            // {
-            //     IsStrictMode = false,
-            //     IsScripting = false,
-            //     IsNotConsumingCharacterReferences = true,
-            //     IsNotSupportingFrames = true,
-            //     IsSupportingProcessingInstructions = false,
-            //     IsEmbedded = false,
-            //
-            //     IsKeepingSourceReferences = false,
-            //     IsPreservingAttributeNames = false,
-            //     IsAcceptingCustomElementsEverywhere = false,
-            //
-            //     SkipScriptText = true,
-            //     SkipRawText = true,
-            //     SkipDataText = false,
-            //     SkipComments = true,
-            //     SkipPlaintext = true,
-            //     SkipCDATA = true,
-            //     SkipRCDataText = true,
-            //     SkipProcessingInstructions = true,
-            //     DisableElementPositionTracking = true,
-            //     ShouldEmitAttribute = static (ref StructHtmlToken _, ReadOnlyMemory<Char> n) =>
-            //     {
-            //         var s = n.Span;
-            //         return s.Length switch
-            //         {
-            //             2 => s[0] == 'i' && s[1] == 'd',
-            //             _ => false
-            //         };
-            //     },
-            // };
-            //
-            // var context = BrowsingContext.New(Configuration.Default);
-            // var parser = new HtmlParser(options, context);
-            //
-            // foreach (var file in files)
-            // {
-            //     var readOnlyMemory = File.ReadAllText(file);
-            //     using var source = new PrefetchedTextSource(readOnlyMemory);
-            //     var filter = new ParserBenchmark.TokenFilter("p", "some-magical-id");
-            //     using var document = parser.ParseDocument(source, filter.Loop);
-            //     var result = document.QuerySelector("p#some-magical-id");
-            //     Console.WriteLine(file);
-            //     Console.WriteLine(result?.ToHtml());
-            // }
+            var doc2 = htmlParser.ParseReadOnlyDocument(source);
 
-
-            // using var source = new PrefetchedTextSource(readOnlyMemory);
-            // using var tokenizer = new StructHtmlTokenizer(source, HtmlEntityProvider.Resolver);
-            // StructHtmlToken token;
-            // int sum = 0;
-            // do
-            // {
-            //     token = tokenizer.Get();
-            //     if (token.Type == HtmlTokenType.StartTag)
-            //     {
-            //         sum+=token.Attributes.Count;
-            //     }
-            //
-            // } while (token.Type != HtmlTokenType.EndOfFile);
-            //
-            // Console.WriteLine(sum);
-
-
-            // return new
-            // {
-            //     file,
-            //     avg = atrs.Count > 0 ? atrs.Average() : -1,
-            //     max = atrs.Count > 0 ? atrs.Max() : -1,
-            //     count = atrs.Count
-            // };
-
-
-            /*
-            var stats = Directory.EnumerateFiles(@"..\..\..\temp\", "*.html", SearchOption.AllDirectories)
-                .Select(file =>
-                {
-                    var readOnlyMemory = File.ReadAllText(file).AsMemory();
-                    using var source = new PrefetchedTextSource(readOnlyMemory);
-                    using var tokenizer = new StructHtmlTokenizer(source, HtmlEntityProvider.Resolver);
-                    StructHtmlToken token;
-                    List<int> atrs = new();
-                    do
-                    {
-                        token = tokenizer.Get();
-                        if (token.Type == HtmlTokenType.StartTag)
-                        {
-                            atrs.Add(token.Attributes.Count);
-                        }
-
-                    } while (token.Type != HtmlTokenType.EndOfFile);
-
-                    return new
-                    {
-                        file,
-                        avg = atrs.Count > 0 ? atrs.Average() : -1,
-                        max = atrs.Count > 0 ? atrs.Max() : -1,
-                        count = atrs.Count
-                    };
-                });
-
-            // foreach (var stat in stats)
-            // {
-            //     Console.WriteLine(stat);
-            // }
-*/
+            File.WriteAllText(@"C:\Users\Dmitry\source\repos\AngleSharp\src\AngleSharp.Benchmarks\tests\test.html", doc2.ToHtml());
         }
     }
 
     public static class ParserExtensions
     {
-        public static IDocument ParseWithFilter(this IHtmlParser parser, Memory<Char> data, Middleware mw)
+        public static IReadOnlyDocument ParseWithFilter(this IHtmlParser parser, Memory<Char> data, Middleware mw)
         {
             using var source = new PrefetchedTextSource(data);
-            var doc = parser.ParseDocumentStruct(source, mw);
+            var doc = parser.ParseReadOnlyDocument(source, mw);
             return doc;
         }
     }

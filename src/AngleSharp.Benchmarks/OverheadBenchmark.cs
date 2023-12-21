@@ -40,11 +40,14 @@ public class OverheadBenchmark
         }
     }
 
+    private HtmlParser parser = new HtmlParser();
+
     [GlobalSetup]
     public void Setup()
     {
         HtmlEntityProvider.Resolver.GetSymbol("test");
         MimeTypeNames.FromExtension(".txt");
+        parser = new HtmlParser(It!.Options);
     }
 
     [ParamsSource(nameof(GetTasks))] public HtmlTask? It { get; set; }
@@ -62,19 +65,19 @@ public class OverheadBenchmark
         yield return new HtmlTask { Display = "github *", Html = StaticHtml.Github, Options = Custom };
     }
 
+
+
     [Benchmark(Baseline = true)]
     public IHtmlDocument V1()
     {
-        var htmlParser = new HtmlParser(It!.Options);
-        return htmlParser.ParseDocument(It!.Html);
+        return parser.ParseDocument(It!.Html);
     }
 
     [Benchmark]
-    public IHtmlDocument V2()
+    public IReadOnlyDocument V2()
     {
-        var htmlParser = new HtmlParser(It!.Options);
         using var source = new PrefetchedTextSource(It!.Html);
-        return htmlParser.ParseDocumentStruct(source);
+        return parser.ParseReadOnlyDocument(source);
     }
 
     public static readonly HtmlParserOptions Custom = new HtmlParserOptions()

@@ -165,9 +165,10 @@ namespace AngleSharp.Benchmarks
             var filter = new OnlyElementWithId("p", "some-magical-id");
             var parser = new HtmlParser(HtmlParserOptions, context);
             using var source = new PrefetchedTextSource(UrlTest.Source);
-            using var document = parser.ParseDocumentStruct(source, filter.Loop);
-            var result = document.QuerySelector("p#some-magical-id") != null;
-            return result;
+            using var document = parser.ParseReadOnlyDocument(source, filter.Loop);
+            // var result = document.QuerySelector("p#some-magical-id") != null;
+            // return result;
+            return false;
         }
 
         [Benchmark]
@@ -175,9 +176,10 @@ namespace AngleSharp.Benchmarks
         {
             var parser = new HtmlParser(HtmlParserOptions, context);
             using var source = new PrefetchedTextSource(UrlTest.Source);
-            using var document = parser.ParseDocumentStruct(source);
-            var result = document.QuerySelector("p#some-magical-id") != null;
-            return result;
+            using var document = parser.ParseReadOnlyDocument(source);
+            // var result = document.QuerySelector("p#some-magical-id") != null;
+            // return result;
+            return false;
         }
 
         [Benchmark(Baseline = true)]
@@ -185,8 +187,9 @@ namespace AngleSharp.Benchmarks
         {
             var parser = new HtmlParser();
             using var document = parser.ParseDocument(UrlTest.Source);
-            var result = document.QuerySelector("p#some-magical-id") != null;
-            return result;
+            // var result = document.QuerySelector("p#some-magical-id") != null;
+            // return result;
+            return false;
         }
         //
         // [Benchmark]

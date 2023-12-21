@@ -75,7 +75,7 @@ namespace AngleSharp.Core.Tests
                 htmlParser.Error += onError;
             }
 
-            return htmlParser.ParseDocumentStruct(new PrefetchedTextSource(sourceCode));
+            return htmlParser.ParseDocument(sourceCode);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, IElement contextElement = null, IConfiguration configuration = null)

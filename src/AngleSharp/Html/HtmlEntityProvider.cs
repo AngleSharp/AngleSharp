@@ -100,7 +100,7 @@ namespace AngleSharp.Html
                     static v => v.Value.ToDictionary(
                         static k => k.Key.AsMemory(),
                         static v => v.Value,
-                        ReadOnlyMemoryComparer.Instance)
+                        ReadOnlyMemoryComparer.Ordinal)
                     );
         }
 

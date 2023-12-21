@@ -42,6 +42,13 @@ namespace AngleSharp.Dom
                    type != NodeType.Element;
         }
 
+        public static Boolean IsEndPoint(this NodeType type)
+        {
+            return type != NodeType.Document &&
+                   type != NodeType.DocumentFragment &&
+                   type != NodeType.Element;
+        }
+
         /// <summary>
         /// Checks if the provided node can be inserted into some other node.
         /// This excludes, e.g., documents from being inserted.

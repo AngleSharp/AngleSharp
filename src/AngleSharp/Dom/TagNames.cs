@@ -3,6 +3,7 @@ namespace AngleSharp.Dom
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Common;
     using Html;
 
     /// <summary>
@@ -964,44 +965,46 @@ namespace AngleSharp.Dom
             "missing-glyph"
         };
 
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBeforeHead = AllBeforeHead.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllNoShadowRoot = AllNoShadowRoot.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllHead = AllHead.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllHeadNoTemplate = AllHeadNoTemplate.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllHeadBase = AllHeadBase.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBodyBreakrow = AllBodyBreakrow.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBodyClosed = AllBodyClosed.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllNoScript = AllNoScript.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllHeadings = AllHeadings.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBlocks = AllBlocks.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBody = AllBody.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBodyObsolete = AllBodyObsolete.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllInput = AllInput.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBasicBlocks = AllBasicBlocks.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllSemanticFormatting = AllSemanticFormatting.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllClassicFormatting = AllClassicFormatting.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllFormatting = AllFormatting.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllNested = AllNested.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllCaptionStart = AllCaptionStart.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTable = AllTable.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableRoot = AllTableRoot.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableGeneral = AllTableGeneral.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableSections = AllTableSections.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableMajor = AllTableMajor.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableSpecial = AllTableSpecial.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableCore = AllTableCore.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableInner = AllTableInner.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableSelects = AllTableSelects.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableCells = AllTableCells.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableCellsRows = AllTableCellsRows.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableHead = AllTableHead.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mDisallowedCustomElementNames = DisallowedCustomElementNames.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllCaptionEnd = AllCaptionEnd.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
-        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllForeignExceptions = AllForeignExceptions.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Instance);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBeforeHead = AllBeforeHead.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllNoShadowRoot = AllNoShadowRoot.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllHead = AllHead.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllHeadNoTemplate = AllHeadNoTemplate.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllHeadBase = AllHeadBase.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBodyBreakrow = AllBodyBreakrow.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBodyClosed = AllBodyClosed.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllNoScript = AllNoScript.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllHeadings = AllHeadings.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBlocks = AllBlocks.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBody = AllBody.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBodyObsolete = AllBodyObsolete.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllInput = AllInput.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllBasicBlocks = AllBasicBlocks.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllSemanticFormatting = AllSemanticFormatting.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllClassicFormatting = AllClassicFormatting.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllFormatting = AllFormatting.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllNested = AllNested.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllCaptionStart = AllCaptionStart.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTable = AllTable.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableRoot = AllTableRoot.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableGeneral = AllTableGeneral.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableSections = AllTableSections.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableMajor = AllTableMajor.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableSpecial = AllTableSpecial.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableCore = AllTableCore.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableInner = AllTableInner.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableSelects = AllTableSelects.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableCells = AllTableCells.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableCellsRows = AllTableCellsRows.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllTableHead = AllTableHead.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mDisallowedCustomElementNames = DisallowedCustomElementNames.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllCaptionEnd = AllCaptionEnd.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
+        internal static readonly HashSet<ReadOnlyMemory<char>> _mAllForeignExceptions = AllForeignExceptions.Select(it => it.AsMemory()).ToHashSet(ReadOnlyMemoryComparer.Ordinal);
 
 
 
 
         #endregion
+
+        public static readonly String Unknown = "UNKNOWN";
     }
 }

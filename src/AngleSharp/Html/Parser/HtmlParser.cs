@@ -214,17 +214,19 @@ namespace AngleSharp.Html.Parser
             return await ParseAsync(doc, cancel).ConfigureAwait(false);
         }
 
-        public IHtmlDocument ParseDocumentStruct(IReadOnlyTextSource source, Middleware? middleware = null)
+        public IReadOnlyDocument ParseReadOnlyDocument(IReadOnlyTextSource source, Middleware? middleware = null)
         {
-            var document = new HtmlDocument(_context, source);
-            using var parser = new StructHtmlDomBuilder(document);
+            var document = new ReadOnlyDocument { Source = source };
+            var factory = new ReadOnlyHtmlElementFactory();
+            using var builder = new GenericHtmlDomBuilder<ReadOnlyDocument, ReadOnlyHtmlElement>(factory, document);
+
             if (HasEventListener(EventNames.Error))
             {
-                parser.Error += (_, ev) => InvokeEventListener(ev);
+                builder.Error += (_, ev) => InvokeEventListener(ev);
             }
-            InvokeHtmlParseEvent(document, completed: false);
-            parser.Parse(_options, middleware);
-            InvokeHtmlParseEvent(document, completed: true);
+            // InvokeHtmlParseEvent(document, completed: false);
+            builder.Parse(_options, middleware);
+            // InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
 

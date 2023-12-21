@@ -8,8 +8,8 @@ namespace AngleSharp.Dom
     /// <typeparam name="TDocument">The type of root document.</typeparam>
     /// <typeparam name="TElement">The common type of elements to create.</typeparam>
     public interface IElementFactory<TDocument, TElement>
-        where TElement : IElement
-        where TDocument : IDocument
+        // where TElement : IElement
+        // where TDocument : IDocument
     {
         /// <summary>
         /// Creates a new element with the given local name and optional prefix.

@@ -6,7 +6,9 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using Common;
     using Tokens.Struct;
 
     /// <summary>
@@ -122,6 +124,112 @@ namespace AngleSharp.Html.Parser
              { "textpath", "textPath" }
         };
 
+        private static readonly Dictionary<StringOrMemory, StringOrMemory> _MsvgAttributeNames = new(StringOrMemoryComparer.Ordinal)
+        {
+            { "attributename", "attributeName" },
+            { "attributetype", "attributeType" },
+            { "basefrequency", "baseFrequency" },
+            { "baseprofile", "baseProfile" },
+            { "calcmode", "calcMode" },
+            { "clippathunits", "clipPathUnits" },
+            { "contentscripttype", "contentScriptType" },
+            { "contentstyletype", "contentStyleType" },
+            { "diffuseconstant", "diffuseConstant" },
+            { "edgemode", "edgeMode" },
+            { "externalresourcesrequired", "externalResourcesRequired" },
+            { "filterres", "filterRes" },
+            { "filterunits", "filterUnits" },
+            { "glyphref", "glyphRef" },
+            { "gradienttransform", "gradientTransform" },
+            { "gradientunits", "gradientUnits" },
+            { "kernelmatrix", "kernelMatrix" },
+            { "kernelunitlength", "kernelUnitLength" },
+            { "keypoints", "keyPoints" },
+            { "keysplines", "keySplines" },
+            { "keytimes", "keyTimes" },
+            { "lengthadjust", "lengthAdjust" },
+            { "limitingconeangle", "limitingConeAngle" },
+            { "markerheight", "markerHeight" },
+            { "markerunits", "markerUnits" },
+            { "markerwidth", "markerWidth" },
+            { "maskcontentunits", "maskContentUnits" },
+            { "maskunits", "maskUnits" },
+            { "numoctaves", "numOctaves" },
+            { "pathlength", "pathLength" },
+            { "patterncontentunits", "patternContentUnits" },
+            { "patterntransform", "patternTransform" },
+            { "patternunits", "patternUnits" },
+            { "pointsatx", "pointsAtX" },
+            { "pointsaty", "pointsAtY" },
+            { "pointsatz", "pointsAtZ" },
+            { "preservealpha", "preserveAlpha" },
+            { "preserveaspectratio", "preserveAspectRatio" },
+            { "primitiveunits", "primitiveUnits" },
+            { "refx", "refX" },
+            { "refy", "refY" },
+            { "repeatcount", "repeatCount" },
+            { "repeatdur", "repeatDur" },
+            { "requiredextensions", "requiredExtensions" },
+            { "requiredfeatures", "requiredFeatures" },
+            { "specularconstant", "specularConstant" },
+            { "specularexponent", "specularExponent" },
+            { "spreadmethod", "spreadMethod" },
+            { "startoffset", "startOffset" },
+            { "stddeviation", "stdDeviation" },
+            { "stitchtiles", "stitchTiles" },
+            { "surfacescale", "surfaceScale" },
+            { "systemlanguage", "systemLanguage" },
+            { "tablevalues", "tableValues" },
+            { "targetx", "targetX" },
+            { "targety", "targetY" },
+            { "textlength", "textLength" },
+            { "viewbox", "viewBox" },
+            { "viewtarget", "viewTarget" },
+            { "xchannelselector", "xChannelSelector" },
+            { "ychannelselector", "yChannelSelector" },
+            { "zoomandpan", "zoomAndPan" },
+        };
+
+        private static readonly Dictionary<StringOrMemory, StringOrMemory> _MsvgAdjustedTagNames =  new(StringOrMemoryComparer.Ordinal)
+        {
+             { "altglyph", "altGlyph" },
+             { "altglyphdef", "altGlyphDef" },
+             { "altglyphitem", "altGlyphItem" },
+             { "animatecolor", "animateColor" },
+             { "animatemotion", "animateMotion" },
+             { "animatetransform", "animateTransform" },
+             { "clippath", "clipPath" },
+             { "feblend", "feBlend" },
+             { "fecolormatrix", "feColorMatrix" },
+             { "fecomponenttransfer", "feComponentTransfer" },
+             { "fecomposite", "feComposite" },
+             { "feconvolvematrix", "feConvolveMatrix" },
+             { "fediffuselighting", "feDiffuseLighting" },
+             { "fedisplacementmap", "feDisplacementMap" },
+             { "fedistantlight", "feDistantLight" },
+             { "feflood", "feFlood" },
+             { "fefunca", "feFuncA" },
+             { "fefuncb", "feFuncB" },
+             { "fefuncg", "feFuncG" },
+             { "fefuncr", "feFuncR" },
+             { "fegaussianblur", "feGaussianBlur" },
+             { "feimage", "feImage" },
+             { "femerge", "feMerge" },
+             { "femergenode", "feMergeNode" },
+             { "femorphology", "feMorphology" },
+             { "feoffset", "feOffset" },
+             { "fepointlight", "fePointLight" },
+             { "fespecularlighting", "feSpecularLighting" },
+             { "fespotlight", "feSpotLight" },
+             { "fetile", "feTile" },
+             { "feturbulence", "feTurbulence" },
+             { "foreignobject", "foreignObject" },
+             { "glyphref", "glyphRef" },
+             { "lineargradient", "linearGradient" },
+             { "radialgradient", "radialGradient" },
+             { "textpath", "textPath" }
+        };
+
         #endregion
 
         #region Methods
@@ -134,6 +242,21 @@ namespace AngleSharp.Html.Parser
         public static String SanatizeSvgTagName(this String localName)
         {
             if (svgAdjustedTagNames.TryGetValue(localName, out var adjustedTagName))
+            {
+                return adjustedTagName;
+            }
+
+            return localName;
+        }
+
+        /// <summary>
+        /// Adjusts the tag name to the correct capitalization.
+        /// </summary>
+        /// <param name="localName">The name of adjust.</param>
+        /// <returns>The name with the correct capitalization.</returns>
+        public static StringOrMemory SanatizeSvgTagName(this StringOrMemory localName)
+        {
+            if (_MsvgAttributeNames.TryGetValue(localName, out var adjustedTagName))
             {
                 return adjustedTagName;
             }
@@ -220,8 +343,7 @@ namespace AngleSharp.Html.Parser
                 var attr = tag.Attributes[i];
                 var name = attr.Name;
                 var value = attr.Value;
-                // todo: adjust attribute name
-                // element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
+                element.AdjustAttribute(name.String.AdjustToSvgAttribute(), value.String);
             }
 
             return element;
@@ -281,6 +403,16 @@ namespace AngleSharp.Html.Parser
             return attributeName;
         }
 
+        public static StringOrMemory AdjustToMathAttribute(this StringOrMemory attributeName)
+        {
+            if (attributeName == "definitionurl")
+            {
+                return "definitionURL";
+            }
+
+            return attributeName;
+        }
+
         /// <summary>
         /// Adjusts the attribute name to the correct capitalization.
         /// </summary>
@@ -289,6 +421,16 @@ namespace AngleSharp.Html.Parser
         public static String AdjustToSvgAttribute(this String attributeName)
         {
             if (svgAttributeNames.TryGetValue(attributeName, out var adjustedAttributeName))
+            {
+                return adjustedAttributeName;
+            }
+
+            return attributeName;
+        }
+
+        public static StringOrMemory AdjustToSvgAttribute(this StringOrMemory attributeName)
+        {
+            if (_MsvgAttributeNames.TryGetValue(attributeName, out var adjustedAttributeName))
             {
                 return adjustedAttributeName;
             }

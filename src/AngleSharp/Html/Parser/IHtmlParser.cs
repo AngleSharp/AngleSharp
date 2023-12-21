@@ -72,6 +72,6 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the stream and returns the result.
         /// </summary>
-        IHtmlDocument ParseDocumentStruct(IReadOnlyTextSource source, Middleware? middleware = null);
+        IReadOnlyDocument ParseReadOnlyDocument(IReadOnlyTextSource source, Middleware? middleware = null);
     }
 }
