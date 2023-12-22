@@ -25,6 +25,7 @@ namespace AngleSharp.Benchmarks
     using Html.Parser;
     using Html.Parser.Tokens.Struct;
     using Microsoft.IO;
+    using ReadOnly.Html;
     using Text;
 
     static class Program
@@ -41,15 +42,19 @@ namespace AngleSharp.Benchmarks
                 return;
             }
 
-            using var source = new PrefetchedTextSource(StaticHtml.HtmlTableTabbedSoMuch);
-
             var htmlParser = new HtmlParser();
+            {
+                using var source = new PrefetchedTextSource(StaticHtml.HtmlTableTabbedSoMuch);
+                var doc = htmlParser.ParseReadOnlyDocument(source);
+                File.WriteAllText(@"C:\Users\Dmitry\source\repos\AngleSharp\src\AngleSharp.Benchmarks\tests\test-ro.html", doc.ToHtml());
+            }
 
-            var doc1 = htmlParser.ParseReadOnlyDocument(source);
+            // {
+            //     using var source = new PrefetchedTextSource(StaticHtml.HtmlTableTabbedSoMuch);
+            //     var doc = htmlParser.ParseDocument(source);
+            //     File.WriteAllText(@"C:\Users\Dmitry\source\repos\AngleSharp\src\AngleSharp.Benchmarks\tests\test-mut.html", doc.ToHtml());
+            // }
 
-            var doc2 = htmlParser.ParseReadOnlyDocument(source);
-
-            File.WriteAllText(@"C:\Users\Dmitry\source\repos\AngleSharp\src\AngleSharp.Benchmarks\tests\test.html", doc2.ToHtml());
         }
     }
 

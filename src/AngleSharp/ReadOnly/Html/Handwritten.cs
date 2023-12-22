@@ -1,5 +1,4 @@
 using System;
-using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -9,137 +8,12 @@ using System.Threading.Tasks;
 using AngleSharp;
 using AngleSharp.Common;
 using AngleSharp.Dom;
+using AngleSharp.Html.Construction;
 using AngleSharp.Html.Parser.Tokens;
 using AngleSharp.Html.Parser.Tokens.Struct;
+using AngleSharp.ReadOnly.Html;
 using AngleSharp.Text;
 
-public interface IReadOnlyNode: IMarkupFormattable
-{
-    StringOrMemory NodeName { get; }
-    NodeFlags Flags { get; }
-    IReadOnlyNode? Parent { get; }
-    IReadOnlyNodeList ChildNodes { get; }
-    HtmlToken? SourceReference { get; }
-}
-
-public interface IReadOnlyTextNode
-{
-    StringOrMemory Content { get; }
-}
-
-public interface IReadOnlyCommentNode
-{
-    StringOrMemory Content { get; }
-}
-
-public interface IReadOnlyProcessingInstructionNode
-{
-    StringOrMemory Content { get; }
-}
-
-public interface IReadOnlyNodeList : IEnumerable<IReadOnlyNode>
-{
-    IReadOnlyElement this[Int32 index] { get; }
-    Int32 Length { get; }
-}
-
-public interface IReadOnlyElement : IReadOnlyNode
-{
-    StringOrMemory NamespaceUri { get; }
-    StringOrMemory LocalName { get; }
-    IReadOnlyNamedNodeMap Attributes { get; }
-}
-
-public interface IReadOnlyDocument : IReadOnlyNode, IDisposable
-{
-    IReadOnlyElement Head { get; }
-    IReadOnlyElement Body { get; }
-}
-
-public interface IReadOnlyNamedNodeMap : IEnumerable<IReadOnlyAttr>
-{
-    IReadOnlyAttr? this[Int32 index] { get; }
-    IReadOnlyAttr? this[StringOrMemory name] { get; }
-    Int32 Length { get; }
-}
-
-internal interface IConstructableNode : IMarkupFormattable
-{
-    StringOrMemory NodeName { get; }
-    NodeFlags Flags { get; }
-    IConstructableNode? Parent { get; internal set; }
-    IConstructableNodeList ChildNodes { get; }
-    HtmlToken? SourceReference { get; set; }
-
-    void RemoveFromParent();
-    void RemoveChild(IConstructableNode childNode);
-    void RemoveNode(int idx, IConstructableNode childNode);
-    void InsertNode(int idx, IConstructableNode childNode);
-    void AddNode(IConstructableNode node);
-    void AppendText(StringOrMemory text, bool emitWhiteSpaceOnly = false);
-    void InsertText(int idx, StringOrMemory text, bool emitWhiteSpaceOnly = false);
-    void AddComment(ref StructHtmlToken token);
-}
-
-internal interface IConstructableElement : IConstructableNode
-{
-    StringOrMemory NamespaceUri { get; }
-    StringOrMemory LocalName { get; }
-    IConstructableNamedNodeMap Attributes { get; }
-    void SetAttribute(String? ns, StringOrMemory name, StringOrMemory value);
-    void SetOwnAttribute(StringOrMemory name, StringOrMemory value);
-    StringOrMemory GetAttribute(StringOrMemory @namespace, StringOrMemory name);
-    void SetAttributes(StructAttributes tagAttributes);
-    bool HasAttribute(StringOrMemory name);
-    void SetupElement();
-    IConstructableNode ShallowCopy();
-}
-
-internal interface IMathElement : IConstructableElement
-{
-}
-
-internal interface ISvgElement : IConstructableElement
-{
-}
-
-internal interface IMetaElement : IConstructableElement
-{
-    void Handle();
-}
-
-internal interface IScriptElement: IConstructableElement
-{
-    internal Task RunAsync(CancellationToken cancel);
-    internal Boolean Prepare(IConstructableDocument document);
-}
-
-internal interface IFrameElement : IConstructableElement
-{
-}
-
-internal interface ITemplateElement : IConstructableElement
-{
-    void PopulateFragment();
-}
-
-internal interface IConstructableDocument : IConstructableNode
-{
-    IReadOnlyTextSource Source { get; }
-
-    QuirksMode QuirksMode { get; set; }
-
-    IConstructableElement Head { get; }
-    IConstructableElement DocumentElement { get; }
-
-    void PerformMicrotaskCheckpoint();
-    void ProvideStableState();
-
-    void TrackError(Exception exception);
-    Task WaitForReadyAsync(CancellationToken cancelToken);
-    void ApplyManifest();
-    void Clear();
-}
 
 internal class ReadOnlyCharacterData : ReadOnlyNode
 {
@@ -206,21 +80,7 @@ internal class ReadOnlyComment : ReadOnlyCharacterData, IReadOnlyCommentNode
     }
 }
 
-public interface IReadOnlyAttr
-{
-    public StringOrMemory Name { get; }
-    public StringOrMemory Value { get; internal set; }
-}
-
-public interface IConstructableNamedNodeMap : IEnumerable<IReadOnlyAttr>
-{
-    // IReadOnlyAttr? this[Int32 index] { get; }
-    IReadOnlyAttr? this[StringOrMemory name] { get; }
-    Int32 Length { get; }
-    bool SameAs(IConstructableNamedNodeMap? attributes);
-}
-
-internal class ReadOnlyAttr : IReadOnlyAttr
+internal class ReadOnlyAttr : IReadOnlyAttr, IConstructableAttr
 {
     public StringOrMemory Name { get; }
     public StringOrMemory Value { get; set; }
@@ -252,13 +112,6 @@ internal abstract class ReadOnlyNode : IConstructableNode, IReadOnlyNode
     {
         NodeName = name;
         _flags = flags;
-        // _nodeType = nodeType;
-    }
-
-    public HtmlToken? SourceReference
-    {
-        get => null;
-        set { }
     }
 
     public IConstructableNode? Parent
@@ -366,12 +219,11 @@ internal class ReadOnlyDocument : ReadOnlyNode, IConstructableDocument, IReadOnl
     }
 
     public required IReadOnlyTextSource Source { get; init; }
-
+    public IDisposable? Builder { get; set; }
     public QuirksMode QuirksMode { get; set; }
 
     public void TrackError(Exception exception)
     {
-        // Console.WriteLine(exception);
     }
 
     public Task WaitForReadyAsync(CancellationToken cancelToken)
@@ -404,24 +256,17 @@ internal class ReadOnlyDocument : ReadOnlyNode, IConstructableDocument, IReadOnl
     {
     }
 
-    public IReadOnlyElement Body => throw new NotImplementedException();
-    // NodeType IReadOnlyNode.NodeType => _nodeType;
-    IReadOnlyNode? IReadOnlyNode.Parent => throw new NotImplementedException();
-    IReadOnlyNodeList IReadOnlyNode.ChildNodes => _childNodes ?? EmptyChildNodes;
+    IReadOnlyElement IReadOnlyDocument.Body => throw new NotImplementedException();
     IReadOnlyElement IReadOnlyDocument.Head => throw new NotImplementedException();
+    IReadOnlyNode? IReadOnlyNode.Parent => throw new NotImplementedException();
+
+    IReadOnlyNodeList IReadOnlyNode.ChildNodes => _childNodes ?? EmptyChildNodes;
 
     public void Dispose()
     {
         Source.Dispose();
+        Builder?.Dispose();
     }
-}
-
-internal interface IConstructableNodeList : IEnumerable<IConstructableNode>
-{
-    IConstructableNode this[Int32 index] { get; }
-    Int32 Length { get; }
-    void Add(IConstructableNode node);
-    void Clear();
 }
 
 internal class ConstructableNodeList : IConstructableNodeList, IReadOnlyNodeList
@@ -433,11 +278,10 @@ internal class ConstructableNodeList : IConstructableNodeList, IReadOnlyNodeList
         _nodes = new List<IConstructableNode>();
     }
 
-    public IConstructableNode this[Int32 index] => _nodes[index];
-
-    IReadOnlyElement IReadOnlyNodeList.this[int index] => throw new NotImplementedException();
-
     public Int32 Length => _nodes.Count;
+
+    public IConstructableNode this[Int32 index] => _nodes[index];
+    IReadOnlyNode IReadOnlyNodeList.this[Int32 index] => (_nodes[index] as IReadOnlyNode)!;
 
     IEnumerator<IReadOnlyNode> IEnumerable<IReadOnlyNode>.GetEnumerator()
     {
@@ -480,13 +324,11 @@ internal class ConstructableNodeList : IConstructableNodeList, IReadOnlyNodeList
     }
 }
 
-internal class ReadOnlyElement : ReadOnlyNode, IReadOnlyElement
+internal abstract class ReadOnlyElement : ReadOnlyNode, IReadOnlyElement
 {
     protected static readonly ConstructableNamedNodeMap EmptyAttributes = new ConstructableNamedNodeMap();
 
     protected ConstructableNamedNodeMap? _attributes;
-    // private StringOrMemory _localName;
-    // private StringOrMemory _namespaceUri;
 
     public StringOrMemory LocalName
     {
@@ -502,6 +344,12 @@ internal class ReadOnlyElement : ReadOnlyNode, IReadOnlyElement
 
     public IConstructableNamedNodeMap Attributes => _attributes ?? EmptyAttributes;
 
+    public ISourceReference? SourceReference
+    {
+        get => null;
+        set {}
+    }
+
     /// <inheritdoc />
     public ReadOnlyElement(
         ReadOnlyDocument? owner,
@@ -512,13 +360,6 @@ internal class ReadOnlyElement : ReadOnlyNode, IReadOnlyElement
         NodeFlags flags = NodeFlags.None)
         : base(owner, name, NodeType.Element, flags)
     {
-        // _localName = localName;
-        // _prefix = prefix;
-        // _namespace = namespaceUri;
-
-        // NamespaceUri = namespaceUri;
-        // LocalName = localName;
-        // _attributes = new ConstructableNamedNodeMap();
     }
 
     public StringOrMemory GetAttribute(StringOrMemory @namespace, StringOrMemory name)
@@ -592,15 +433,16 @@ internal class ReadOnlyElement : ReadOnlyNode, IReadOnlyElement
 
 internal class ConstructableNamedNodeMap : IConstructableNamedNodeMap, IReadOnlyNamedNodeMap
 {
-    protected readonly List<IReadOnlyAttr> _attributes;
+    protected readonly List<IConstructableAttr> _attributes;
 
     public ConstructableNamedNodeMap()
     {
-        _attributes = new List<IReadOnlyAttr>();
+        _attributes = new List<IConstructableAttr>();
     }
 
-    public IReadOnlyAttr? this[Int32 index] => index < _attributes.Count ? _attributes[index] : null;
-    public IReadOnlyAttr? this[StringOrMemory name]
+    IReadOnlyAttr? IReadOnlyNamedNodeMap.this[StringOrMemory name] => this[name] as IReadOnlyAttr;
+
+    public IConstructableAttr? this[StringOrMemory name]
     {
         get
         {
@@ -643,7 +485,12 @@ internal class ConstructableNamedNodeMap : IConstructableNamedNodeMap, IReadOnly
         return true;
     }
 
-    public IEnumerator<IReadOnlyAttr> GetEnumerator()
+    IEnumerator<IReadOnlyAttr> IEnumerable<IReadOnlyAttr>.GetEnumerator()
+    {
+        return _attributes.OfType<IReadOnlyAttr>().GetEnumerator();
+    }
+
+    public IEnumerator<IConstructableAttr> GetEnumerator()
     {
         return _attributes.GetEnumerator();
     }
@@ -653,12 +500,12 @@ internal class ConstructableNamedNodeMap : IConstructableNamedNodeMap, IReadOnly
         return GetEnumerator();
     }
 
-    public void Add(IReadOnlyAttr attr)
+    public void Add(IConstructableAttr attr)
     {
         _attributes.Add(attr);
     }
 
-    public void Remove(IReadOnlyAttr attr)
+    public void Remove(IConstructableAttr attr)
     {
         _attributes.Remove(attr);
     }
@@ -682,7 +529,7 @@ internal class ConstructableNamedNodeMap : IConstructableNamedNodeMap, IReadOnly
     }
 }
 
-class ReadOnlyHtmlElement : ReadOnlyElement, ISvgElement, IMathElement
+class ReadOnlyHtmlElement : ReadOnlyElement, IConstructableSvgElement, IConstructableMathElement, IReadOnlyElement
 {
     public ReadOnlyHtmlElement(ReadOnlyDocument? owner, StringOrMemory localName = default, StringOrMemory prefix = default, NodeFlags flags = NodeFlags.None)
         : base(owner, Combine(prefix, localName), localName, prefix, NamespaceNames.HtmlUri, flags | NodeFlags.HtmlMember)
@@ -698,6 +545,7 @@ class ReadOnlyHtmlElement : ReadOnlyElement, ISvgElement, IMathElement
 
         return String.Concat(prefix.Memory.Span, ":", localName.Memory.Span);
     }
+
 
     public void SetOwnAttribute(StringOrMemory name, StringOrMemory value)
     {
@@ -720,7 +568,7 @@ class ReadOnlyHtmlElement : ReadOnlyElement, ISvgElement, IMathElement
     }
 }
 
-class ReadOnlyHtmlMeta : ReadOnlyHtmlElement, IMetaElement
+class ReadOnlyHtmlMeta : ReadOnlyHtmlElement, IConstructableMetaElement
 {
     public ReadOnlyHtmlMeta(ReadOnlyDocument? owner, StringOrMemory prefix = default)
         : base(owner, TagNames.Meta, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
@@ -742,7 +590,7 @@ class ReadOnlyHtmlMeta : ReadOnlyHtmlElement, IMetaElement
     }
 }
 
-class ReadOnlyHtmlScript : ReadOnlyHtmlElement, IScriptElement
+class ReadOnlyHtmlScript : ReadOnlyHtmlElement, IConstructableScriptElement
 {
     public ReadOnlyHtmlScript(ReadOnlyDocument? owner, StringOrMemory prefix = default)
         :base(owner, TagNames.Script, prefix, NodeFlags.Special | NodeFlags.LiteralText)
@@ -762,7 +610,7 @@ class ReadOnlyHtmlScript : ReadOnlyHtmlElement, IScriptElement
     }
 }
 
-class ReadOnlyHtmlTemplateElement : ReadOnlyHtmlElement, ITemplateElement
+class ReadOnlyHtmlTemplateElement : ReadOnlyHtmlElement, IConstructableTemplateElement
 {
     public ReadOnlyHtmlTemplateElement(ReadOnlyDocument? owner, StringOrMemory prefix = default)
         : base(owner, TagNames.Template, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
@@ -783,7 +631,7 @@ class ReadOnlyHtmlTemplateElement : ReadOnlyHtmlElement, ITemplateElement
     }
 }
 
-class ReadOnlyHtmlFrameElement : ReadOnlyHtmlElement, IFrameElement
+class ReadOnlyHtmlFrameElement : ReadOnlyHtmlElement, IConstructableFrameElement
 {
     public ReadOnlyHtmlFrameElement(ReadOnlyDocument? owner, StringOrMemory prefix = default)
         : base(owner, TagNames.Frame, prefix, NodeFlags.SelfClosing)

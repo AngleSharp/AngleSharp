@@ -6,11 +6,16 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Construction;
+    using Parser;
+    using Parser.Tokens.Struct;
 
     /// <summary>
     /// Represents a document node that contains only HTML nodes.
     /// </summary>
-    public sealed class HtmlDocument : Document, IHtmlDocument
+    public sealed class HtmlDocument : Document, IHtmlDocument, IConstructableDocument
     {
         #region Fields
 
@@ -92,6 +97,52 @@ namespace AngleSharp.Html.Dom
             }
 
             title.TextContent = value!;
+        }
+
+        #endregion
+
+        #region Construction
+
+        IDisposable? IConstructableDocument.Builder { get; set; }
+
+        QuirksMode IConstructableDocument.QuirksMode
+        {
+            get => QuirksMode;
+            set => QuirksMode = value;
+        }
+
+        IConstructableElement? IConstructableDocument.Head => DocumentElement.FindChild<HtmlHeadElement>();
+
+        IConstructableElement IConstructableDocument.DocumentElement => this.FindChild<HtmlHtmlElement>()!;
+
+        void IConstructableDocument.PerformMicrotaskCheckpoint()
+        {
+            this.PerformMicrotaskCheckpoint();
+        }
+
+        void IConstructableDocument.ProvideStableState()
+        {
+            this.ProvideStableState();
+        }
+
+        void IConstructableDocument.AddComment(ref StructHtmlToken token)
+        {
+            HtmlDomBuilderExtensions.AddComment(this, ref token);
+        }
+
+        void IConstructableDocument.TrackError(Exception exception)
+        {
+            Context.TrackError(exception);
+        }
+
+        Task IConstructableDocument.WaitForReadyAsync(CancellationToken cancelToken)
+        {
+            return this.WaitForReadyAsync();
+        }
+
+        void IConstructableDocument.ApplyManifest()
+        {
+            this.ApplyManifest();
         }
 
         #endregion

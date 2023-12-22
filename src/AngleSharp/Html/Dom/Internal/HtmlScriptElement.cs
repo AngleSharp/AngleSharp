@@ -8,12 +8,13 @@ namespace AngleSharp.Html.Dom
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Construction;
 
     /// <summary>
     /// Represents an HTML script element.
     /// http://www.w3.org/TR/html5/scripting-1.html#execute-the-script-block
     /// </summary>
-    sealed class HtmlScriptElement : HtmlElement, IHtmlScriptElement
+    sealed class HtmlScriptElement : HtmlElement, IHtmlScriptElement, IConstructableScriptElement
     {
         #region Fields
 
@@ -115,7 +116,7 @@ namespace AngleSharp.Html.Dom
                 RunAsync(CancellationToken.None);
             }
         }
-        
+
         internal Task RunAsync(CancellationToken cancel)
         {
             return _request?.RunAsync(cancel)!;
@@ -213,6 +214,20 @@ namespace AngleSharp.Html.Dom
         }
 
         private void FireErrorEvent() => Owner.QueueTask(() => this.FireSimpleEvent(EventNames.Error));
+
+        #endregion
+
+        #region Construction
+
+        Task IConstructableScriptElement.RunAsync(CancellationToken cancel)
+        {
+            return RunAsync(cancel);
+        }
+
+        Boolean IConstructableScriptElement.Prepare(IConstructableDocument document)
+        {
+            return Prepare((Document)document);
+        }
 
         #endregion
     }

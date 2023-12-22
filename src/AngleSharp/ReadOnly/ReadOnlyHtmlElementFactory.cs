@@ -4,6 +4,10 @@ using System;
 using System.Collections.Generic;
 using AngleSharp.Dom;
 using Common;
+using Construction;
+using Dom;
+using Mathml.Dom;
+using Svg.Dom;
 
 internal interface IHtmlElementFactory<TDocument, TElement, TValue>
     where TElement: class, IConstructableElement
@@ -13,49 +17,44 @@ internal interface IHtmlElementFactory<TDocument, TElement, TValue>
 
     TElement CreateNoScript(TDocument document, Boolean scripting);
     IConstructableNode CreateDocumentType(TDocument document, TValue name, TValue publicIdentifier, TValue systemIdentifier);
-    IMathElement CreateMath(TDocument document, TValue name = default!);
-    ISvgElement CreateSvg(TDocument document, TValue name = default!);
+    IConstructableMathElement CreateMath(TDocument document, TValue name = default!);
+    IConstructableSvgElement CreateSvg(TDocument document, TValue name = default!);
     TElement CreateUnknown(TDocument document, TValue tagName);
 
-    IMetaElement CreateMeta(TDocument document);
-    IScriptElement CreateScript(TDocument document, Boolean parserInserted, Boolean started);
-    IFrameElement CreateFrame(TDocument document);
-    ITemplateElement CreateTemplate(TDocument document);
+    IConstructableMetaElement CreateMeta(TDocument document);
+    IConstructableScriptElement CreateScript(TDocument document, Boolean parserInserted, Boolean started);
+    IConstructableFrameElement CreateFrame(TDocument document);
+    IConstructableTemplateElement CreateTemplate(TDocument document);
 }
 
-internal interface IReadOnlyFactory : IHtmlElementFactory<ReadOnlyDocument, ReadOnlyHtmlElement, StringOrMemory>;
+internal interface IHtmlConstructionFactory : IHtmlElementFactory<HtmlDocument, Element, StringOrMemory>;
 
-sealed class ReadOnlyHtmlElementFactory : IReadOnlyFactory
+internal interface IReadOnlyConstructionFactory : IHtmlElementFactory<ReadOnlyDocument, ReadOnlyHtmlElement, StringOrMemory>;
+
+internal sealed class ReadOnlyConstructionHtmlElementFactory : IReadOnlyConstructionFactory
 {
-    public ReadOnlyHtmlElementFactory(bool emitWhitespaceOnlyNodes = false)
-    {
-        EmitWhitespaceOnlyNodes = emitWhitespaceOnlyNodes;
-    }
-
-    public bool EmitWhitespaceOnlyNodes { get; set; }
-
     public ReadOnlyHtmlElement Create(ReadOnlyDocument document, StringOrMemory localName, StringOrMemory prefix = default, NodeFlags flags = NodeFlags.None)
     {
         _creators.TryGetValue(localName, out var creator);
         return creator?.Invoke(document, prefix) ?? new ReadOnlyHtmlElement(document, localName, prefix, flags);
     }
 
-    public IMetaElement CreateMeta(ReadOnlyDocument document)
+    public IConstructableMetaElement CreateMeta(ReadOnlyDocument document)
     {
         return new ReadOnlyHtmlMeta(document);
     }
 
-    public IScriptElement CreateScript(ReadOnlyDocument document, bool parserInserted, bool started)
+    public IConstructableScriptElement CreateScript(ReadOnlyDocument document, bool parserInserted, bool started)
     {
         return new ReadOnlyHtmlScript(document);
     }
 
-    public IFrameElement CreateFrame(ReadOnlyDocument document)
+    public IConstructableFrameElement CreateFrame(ReadOnlyDocument document)
     {
         return new ReadOnlyHtmlFrameElement(document);
     }
 
-    public ITemplateElement CreateTemplate(ReadOnlyDocument document)
+    public IConstructableTemplateElement CreateTemplate(ReadOnlyDocument document)
     {
         return new ReadOnlyHtmlTemplateElement(document);
     }
@@ -65,12 +64,12 @@ sealed class ReadOnlyHtmlElementFactory : IReadOnlyFactory
         return new ReadOnlyHtmlElement(document, TagNames.NoScript, default, NodeFlags.Special);
     }
 
-    public IMathElement CreateMath(ReadOnlyDocument document, StringOrMemory name = default)
+    public IConstructableMathElement CreateMath(ReadOnlyDocument document, StringOrMemory name = default)
     {
         return new ReadOnlyHtmlElement(document, TagNames.Math);
     }
 
-    public ISvgElement CreateSvg(ReadOnlyDocument document, StringOrMemory name = default)
+    public IConstructableSvgElement CreateSvg(ReadOnlyDocument document, StringOrMemory name = default)
     {
         return new ReadOnlyHtmlElement(document, TagNames.Svg);
     }
@@ -245,4 +244,82 @@ sealed class ReadOnlyHtmlElementFactory : IReadOnlyFactory
         { TagNames.Bdi, (document, _) => new ReadOnlyHtmlElement(document, TagNames.Bdi) },
         { TagNames.Bdo, (document, _) => new ReadOnlyHtmlElement(document, TagNames.Bdo) },
     };
+}
+
+internal sealed class MutableHtmlElementFactory : IHtmlConstructionFactory
+{
+    private readonly IElementFactory<Document,HtmlElement> _html;
+    private readonly IElementFactory<Document,MathElement> _math;
+    private readonly IElementFactory<Document,SvgElement> _svg;
+
+    public MutableHtmlElementFactory(IBrowsingContext context)
+    {
+        _html = context.GetService<IElementFactory<Document, HtmlElement>>()!;
+        _math = context.GetService<IElementFactory<Document, MathElement>>()!;
+        _svg = context.GetService<IElementFactory<Document, SvgElement>>()!;
+    }
+
+    public Element Create(
+        HtmlDocument document,
+        StringOrMemory localName,
+        StringOrMemory prefix = default,
+        NodeFlags flags = NodeFlags.None)
+    {
+        return _html.Create(document, localName.String, prefix.String, flags);
+    }
+
+    public IConstructableMetaElement CreateMeta(HtmlDocument document)
+    {
+        return new HtmlMetaElement(document);
+    }
+
+    public IConstructableScriptElement CreateScript(HtmlDocument document, bool parserInserted, bool started)
+    {
+        return new HtmlScriptElement(document, null, parserInserted, started);
+    }
+
+    public IConstructableFrameElement CreateFrame(HtmlDocument document)
+    {
+        return new HtmlFrameElement(document);
+    }
+
+    public IConstructableTemplateElement CreateTemplate(HtmlDocument document)
+    {
+        return new HtmlTemplateElement(document);
+    }
+
+    public Element CreateNoScript(HtmlDocument document, Boolean scripting)
+    {
+        return new HtmlNoScriptElement(document, null, scripting);
+    }
+
+    public IConstructableMathElement CreateMath(HtmlDocument document, StringOrMemory name = default)
+    {
+        return _math.Create(document, name.String);
+    }
+
+    public IConstructableSvgElement CreateSvg(HtmlDocument document, StringOrMemory name = default)
+    {
+        return _svg.Create(document, name.String);
+    }
+
+    public Element CreateUnknown(HtmlDocument document, StringOrMemory tagName)
+    {
+        return new HtmlUnknownElement(document, tagName.String);
+    }
+
+    public IConstructableNode CreateDocumentType(
+        HtmlDocument document,
+        StringOrMemory name,
+        StringOrMemory publicIdentifier,
+        StringOrMemory systemIdentifier)
+    {
+        var doctype = new DocumentType(document, name.String)
+        {
+            SystemIdentifier = systemIdentifier.String,
+            PublicIdentifier = publicIdentifier.String
+        };
+
+        return doctype;
+    }
 }

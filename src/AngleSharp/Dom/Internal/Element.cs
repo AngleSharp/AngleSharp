@@ -6,11 +6,14 @@ namespace AngleSharp.Dom
     using System;
     using System.Linq;
     using Common;
+    using Html.Construction;
+    using Html.Parser;
+    using Html.Parser.Tokens.Struct;
 
     /// <summary>
     /// Represents an element node.
     /// </summary>
-    public abstract class Element : Node, IElement
+    public abstract class Element : Node, IElement, IConstructableElement
     {
         #region Fields
 
@@ -69,6 +72,8 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public String? Prefix => _prefix;
+
+
 
         /// <inheritdoc />
         public String LocalName => _localName;
@@ -410,6 +415,8 @@ namespace AngleSharp.Dom
             return _attributes.GetNamedItem(name) != null;
         }
 
+
+
         /// <inheritdoc />
         public Boolean HasAttribute(String? namespaceUri, String localName)
         {
@@ -656,6 +663,60 @@ namespace AngleSharp.Dom
             }
 
             element.SetupElement();
+        }
+
+        #endregion
+
+        #region Construction
+
+        StringOrMemory IConstructableElement.LocalName => LocalName;
+
+        IConstructableNamedNodeMap IConstructableElement.Attributes => Attributes;
+
+        StringOrMemory IConstructableElement.NamespaceUri => NamespaceUri ?? "";
+
+        void IConstructableElement.SetAttribute(string? ns, StringOrMemory name, StringOrMemory value)
+        {
+            SetAttribute(ns, name.String, value.String);
+        }
+
+        void IConstructableElement.SetOwnAttribute(StringOrMemory name, StringOrMemory value)
+        {
+            this.SetOwnAttribute(name.String, value.String);
+        }
+
+        StringOrMemory IConstructableElement.GetAttribute(StringOrMemory @namespace, StringOrMemory name)
+        {
+            var result = GetAttribute(@namespace.String, name.String);
+            return result ?? StringOrMemory.Empty;
+        }
+
+        void IConstructableElement.SetAttributes(StructAttributes tagAttributes)
+        {
+            var container = Attributes;
+
+            for (var i = 0; i < tagAttributes.Count; i++)
+            {
+                var attribute = tagAttributes[i];
+                var item = new Attr(attribute.Name.String, attribute.Value.String);
+                item.Container = container;
+                container.FastAddItem(item);
+            }
+        }
+
+        void IConstructableElement.SetupElement()
+        {
+            SetupElement();
+        }
+
+        void IConstructableElement.AddComment(ref StructHtmlToken token)
+        {
+            this.AddComment(ref token);
+        }
+
+        IConstructableNode IConstructableElement.ShallowCopy()
+        {
+            return Clone(Owner, false);
         }
 
         #endregion

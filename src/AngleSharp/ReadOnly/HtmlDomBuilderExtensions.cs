@@ -2,11 +2,11 @@ namespace AngleSharp.Html.Parser
 {
     using System;
     using AngleSharp.Dom;
-    using AngleSharp.Html.Parser.Tokens;
     using AngleSharp.Text;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using Common;
+    using Construction;
     using ReadOnly;
     using Tokens.Struct;
 
@@ -193,7 +193,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="element">The element to setup.</param>
         /// <param name="tag">The tag token to use.</param>
         /// <returns>The finished element.</returns>
-        public static ISvgElement Setup(this ISvgElement element, ref StructHtmlToken tag)
+        public static IConstructableSvgElement Setup(this IConstructableSvgElement element, ref StructHtmlToken tag)
         {
             var count = tag.Attributes.Count;
 
@@ -214,7 +214,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="element">The element to setup.</param>
         /// <param name="tag">The tag token to use.</param>
         /// <returns>The finished element.</returns>
-        public static IMathElement Setup(this IMathElement element, ref StructHtmlToken tag)
+        public static IConstructableMathElement Setup(this IConstructableMathElement element, ref StructHtmlToken tag)
         {
             var count = tag.Attributes.Count;
 

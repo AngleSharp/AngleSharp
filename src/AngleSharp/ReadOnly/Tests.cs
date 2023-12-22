@@ -1,12 +1,9 @@
 ﻿namespace AngleSharp.ReadOnly;
 
 using System;
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Common;
-using Html.Parser;
-using Text;
 
 public class Tests
 {

@@ -10,14 +10,19 @@ namespace AngleSharp.Html.Parser
     using System.Threading;
     using System.Threading.Tasks;
     using Common;
+    using Construction;
     using Tokens.Struct;
+
+    public delegate void Next(ref StructHtmlToken token);
+    public enum Result { Continue, Stop }
+    public delegate Result Middleware(ref StructHtmlToken token, Next next);
 
     /// <summary>
     /// Represents the Tree construction as specified in
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    sealed class GenericHtmlDomBuilder<TDocument, TElement> : IDisposable
+    class GenericHtmlDomBuilder<TDocument, TElement> : IDisposable
         where TElement : class, IConstructableElement
         where TDocument : class, IConstructableDocument
     {
@@ -45,10 +50,9 @@ namespace AngleSharp.Html.Parser
 
         private StructHtmlToken _temp;
 
-        private Func<IConstructableElement, Boolean>? _shouldEnd = static _ => false;
+        private Func<IConstructableElement, Boolean>? _shouldEnd;
 
-        private readonly IHtmlElementFactory<TDocument, TElement, StringOrMemory>
-            _elementFactory;
+        private readonly IHtmlElementFactory<TDocument, TElement, StringOrMemory> _elementFactory;
 
         private Task? _waiting;
 
@@ -69,12 +73,12 @@ namespace AngleSharp.Html.Parser
         public GenericHtmlDomBuilder(
             IHtmlElementFactory<TDocument, TElement, StringOrMemory> elementFactory,
             TDocument document,
-            HtmlTokenizerOptions? maybeOptions = null)
+            HtmlTokenizerOptions? maybeOptions = null,
+            Func<IConstructableElement, Boolean>? shouldEnd = null)
         {
+            _shouldEnd = shouldEnd;
             _elementFactory = elementFactory;
-
             _tokenizer = new StructHtmlTokenizer(document.Source, HtmlEntityProvider.Resolver);
-
             _document = document;
             _openElements = new List<IConstructableElement>();
             _templateModes = new Stack<HtmlTreeMode>();
@@ -83,6 +87,8 @@ namespace AngleSharp.Html.Parser
             _currentMode = HtmlTreeMode.Initial;
             _ended = false;
             ConsumeAsDelegate = Consume;
+
+            document.Builder = this;
 
             if (maybeOptions.HasValue)
             {
@@ -221,6 +227,76 @@ namespace AngleSharp.Html.Parser
 
             return _document;
         }
+
+        /// <summary>
+        /// Switches to the fragment algorithm with the specified context
+        /// element. Then parses the given source and creates the document.
+        /// </summary>
+        /// <param name="options">The options to use for parsing.</param>
+        /// <param name="context">
+        /// The context element where the algorithm is applied to.
+        /// </param>
+        public TDocument ParseFragment(HtmlParserOptions options, Element context)
+        {
+            context = context ?? throw new ArgumentNullException(nameof(context));
+
+            _fragmentContext = context;
+            var tagName = context.LocalName;
+
+            if (tagName.IsOneOf(TagNames.Title, TagNames.Textarea))
+            {
+                _tokenizer.State = HtmlParseMode.RCData;
+            }
+            else if (tagName.IsOneOf(TagNames.Style, TagNames.Xmp, TagNames.Iframe, TagNames.NoEmbed))
+            {
+                _tokenizer.State = HtmlParseMode.Rawtext;
+            }
+            else if (tagName.Is(TagNames.Script))
+            {
+                _tokenizer.State = HtmlParseMode.Script;
+            }
+            else if (tagName.Is(TagNames.Plaintext))
+            {
+                _tokenizer.State = HtmlParseMode.Plaintext;
+            }
+            else if (tagName.Is(TagNames.NoScript) && (options.IsScripting || context.Flags.HasFlag(NodeFlags.LiteralText)))
+            {
+                _tokenizer.State = HtmlParseMode.Rawtext;
+            }
+            else if (tagName.Is(TagNames.NoFrames) && !options.IsNotSupportingFrames)
+            {
+                _tokenizer.State = HtmlParseMode.Rawtext;
+            }
+
+            var root = _elementFactory.Create(_document, TagNames.Html);
+
+            _document.AddNode(root);
+            _openElements.Add(root);
+
+            if (context is HtmlTemplateElement)
+            {
+                _templateModes.Push(HtmlTreeMode.InTemplate);
+            }
+
+            Reset();
+
+            _tokenizer.IsAcceptingCharacterData = (this.AdjustedCurrentNode!.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember;
+
+            do
+            {
+                if (context is HtmlFormElement formEl)
+                {
+                    _currentFormElement = formEl;
+                    break;
+                }
+
+                context = (context.ParentElement as Element)!;
+            }
+            while (context != null);
+
+            return Parse(options);
+        }
+
 
         /// <summary>
         /// Restarts the parser by resetting the internal state.
@@ -1703,7 +1779,7 @@ namespace AngleSharp.Html.Parser
                     }
                     else
                     {
-                        HandleScript((IScriptElement)CurrentNode);
+                        HandleScript((IConstructableScriptElement)CurrentNode);
                     }
 
                     return;
@@ -2909,7 +2985,7 @@ namespace AngleSharp.Html.Parser
         {
             while (_openElements.Count > 0)
             {
-                var template = CurrentNode as ITemplateElement;
+                var template = CurrentNode as IConstructableTemplateElement;
                 CloseCurrentNode();
 
                 if (template != null)
@@ -3594,7 +3670,7 @@ namespace AngleSharp.Html.Parser
                     var tagName = token.Name;
                     var node = CurrentNode;
 
-                    if (node is IScriptElement script)
+                    if (node is IConstructableScriptElement script)
                     {
                         HandleScript(script);
                         return;
@@ -3914,7 +3990,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Runs a script given by the current node.
         /// </summary>
-        private void HandleScript(IScriptElement script)
+        private void HandleScript(IConstructableScriptElement script)
         {
             if (script != null)
             {
@@ -3944,7 +4020,7 @@ namespace AngleSharp.Html.Parser
         /// Runs the current script element, if there is one.
         /// </summary>
         /// <returns>The task waiting for the document to be ready.</returns>
-        private async Task RunScript(IScriptElement script)
+        private async Task RunScript(IConstructableScriptElement script)
         {
             await _document.WaitForReadyAsync(CancellationToken.None).ConfigureAwait(false);
             await script.RunAsync(CancellationToken.None).ConfigureAwait(false);
@@ -4267,11 +4343,11 @@ namespace AngleSharp.Html.Parser
             }
         }
 
-        private void AuxiliarySetupSteps(IConstructableNode element, ref StructHtmlToken tag)
+        private void AuxiliarySetupSteps(IConstructableElement element, ref StructHtmlToken tag)
         {
             if (_options.IsKeepingSourceReferences)
             {
-                element.SourceReference = tag.ToHtmlToken();
+                element.SourceReference = new SourceReference(tag.Position);
             }
 
             if (_options.OnCreated != null && element is IElement e)

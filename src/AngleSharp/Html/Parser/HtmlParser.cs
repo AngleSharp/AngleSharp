@@ -11,6 +11,7 @@ namespace AngleSharp.Html.Parser
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using ReadOnly.Html;
 
     /// <summary>
     /// Creates an instance of the HTML parser front-end.
@@ -162,6 +163,15 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses the stream and returns the result.
+        /// </summary>
+        public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
+        {
+            var document = CreateDocument(source);
+            return Parse(document);
+        }
+
+        /// <summary>
         /// Parses the stream and returns the head.
         /// </summary>
         public IHtmlHeadElement? ParseHead(Stream source)
@@ -217,16 +227,16 @@ namespace AngleSharp.Html.Parser
         public IReadOnlyDocument ParseReadOnlyDocument(IReadOnlyTextSource source, Middleware? middleware = null)
         {
             var document = new ReadOnlyDocument { Source = source };
-            var factory = new ReadOnlyHtmlElementFactory();
-            using var builder = new GenericHtmlDomBuilder<ReadOnlyDocument, ReadOnlyHtmlElement>(factory, document);
+            var factory = _context.GetService<IReadOnlyConstructionFactory>() ?? throw new InvalidOperationException("No read-only construction factory found.");
+            var builder = new GenericHtmlDomBuilder<ReadOnlyDocument, ReadOnlyHtmlElement>(factory, document);
 
             if (HasEventListener(EventNames.Error))
             {
                 builder.Error += (_, ev) => InvokeEventListener(ev);
             }
-            // InvokeHtmlParseEvent(document, completed: false);
+
             builder.Parse(_options, middleware);
-            // InvokeHtmlParseEvent(document, completed: true);
+
             return document;
         }
 
@@ -253,9 +263,11 @@ namespace AngleSharp.Html.Parser
             return document;
         }
 
-        private HtmlDomBuilder CreateBuilder(HtmlDocument document, String? stopAt)
+        private MutableDomBuilder CreateBuilder(HtmlDocument document, String? stopAt)
         {
-            var parser = new HtmlDomBuilder(document, stopAt);
+            var options = new HtmlTokenizerOptions(_options);
+            var factory = _context.GetFactory<IHtmlConstructionFactory>();
+            var parser = new MutableDomBuilder(factory, document, options, stopAt);
 
             if (HasEventListener(EventNames.Error))
             {
@@ -278,7 +290,7 @@ namespace AngleSharp.Html.Parser
         {
             var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
-            await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            await parser.ParseAsync(_options, null, cancel).ConfigureAwait(false);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }

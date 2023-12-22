@@ -14,9 +14,17 @@ namespace AngleSharp.Html.Parser
     using Common;
     using Tokens.Struct;
 
-    public delegate void Next(ref StructHtmlToken token);
-    public enum Result { Continue, Stop }
-    public delegate Result Middleware(ref StructHtmlToken token, Next next);
+    sealed class MutableDomBuilder : GenericHtmlDomBuilder<HtmlDocument, Element>
+    {
+        public MutableDomBuilder(
+            IHtmlElementFactory<HtmlDocument, Element, StringOrMemory> elementFactory,
+            HtmlDocument document,
+            HtmlTokenizerOptions? maybeOptions = null,
+            String? stopAt = null)
+            : base(elementFactory, document, maybeOptions, stopAt != null ? e => e.NodeName.Is(stopAt) : null)
+        {
+        }
+    }
 
     /// <summary>
     /// Represents the Tree construction as specified in

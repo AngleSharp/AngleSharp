@@ -13,6 +13,7 @@ using Html.Dom;
 using Html.Parser;
 using Html.Parser.Tokens.Struct;
 using Io;
+using ReadOnly.Html;
 using Text;
 
 [Config(typeof(Config))]
@@ -31,7 +32,7 @@ public class OverheadBenchmark
     {
         public Config()
         {
-            AddJob(Job.MediumRun
+            AddJob(Job.ShortRun
                 .WithRuntime(CoreRuntime.Core80)
                 .WithStrategy(RunStrategy.Throughput)
             );
@@ -61,15 +62,15 @@ public class OverheadBenchmark
         // yield return new HtmlTask { Display = "br *", Html = "<br/>", Options = Custom };
         // yield return new HtmlTask { Display = "table *", Html = StaticHtml.HtmlTable, Options = Custom };
         // yield return new HtmlTask { Display = "table tabbed *", Html = StaticHtml.HtmlTableTabbed, Options = Custom };
-        // yield return new HtmlTask { Display = "table TABBED *", Html = StaticHtml.HtmlTableTabbedSoMuch, Options = Custom };
-        // yield return new HtmlTask { Display = "github *", Html = StaticHtml.Github, Options = Custom };
+        yield return new HtmlTask { Display = "table TABBED *", Html = StaticHtml.HtmlTableTabbedSoMuch, Options = Custom };
+        yield return new HtmlTask { Display = "github *", Html = StaticHtml.Github, Options = Custom };
     }
 
-    [Benchmark(Baseline = true)]
-    public IHtmlDocument V1()
-    {
-        return parser.ParseDocument(It!.Html);
-    }
+    // [Benchmark(Baseline = true)]
+    // public IHtmlDocument V1()
+    // {
+    //     return parser.ParseDocument(It!.Html);
+    // }
 
     [Benchmark]
     public IReadOnlyDocument V2()

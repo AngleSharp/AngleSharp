@@ -3,11 +3,15 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.IO;
+    using Common;
+    using Html.Construction;
+    using Html.Parser.Tokens;
+    using Html.Parser.Tokens.Struct;
 
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
-    public abstract class Node : EventTarget, INode, IEquatable<INode>
+    public abstract class Node : EventTarget, INode, IEquatable<INode>, IConstructableNode
     {
         #region Fields
 
@@ -37,9 +41,6 @@ namespace AngleSharp.Dom
         #endregion
 
         #region Public Properties
-
-        /// <inheritdoc />
-        public NodeFlags Flags => _flags;
 
         /// <inheritdoc />
         public Boolean HasChildNodes => _children.Length != 0;
@@ -868,6 +869,76 @@ namespace AngleSharp.Dom
                     }
                 }
             }
+        }
+
+        #endregion
+
+        #region Construction
+
+        StringOrMemory IConstructableNode.NodeName => NodeName;
+
+        /// <inheritdoc />
+        public NodeFlags Flags => _flags;
+
+        IConstructableNode? IConstructableNode.Parent
+        {
+            get => Parent;
+            set
+            {
+                if (value != null)
+                {
+                    Parent = (Node)value;
+                }
+            }
+        }
+
+        IConstructableNodeList IConstructableNode.ChildNodes => throw new NotImplementedException();
+
+        void IConstructableNode.RemoveFromParent()
+        {
+            Parent?.RemoveChild(this);
+        }
+
+        void IConstructableNode.RemoveChild(IConstructableNode childNode)
+        {
+            RemoveChild((Node)childNode, false);
+        }
+
+        void IConstructableNode.RemoveNode(int idx, IConstructableNode childNode)
+        {
+            RemoveNode(idx, (Node)childNode);
+        }
+
+        void IConstructableNode.InsertNode(int idx, IConstructableNode childNode)
+        {
+            InsertNode(idx, (Node)childNode);
+        }
+
+        void IConstructableNode.AddNode(IConstructableNode node)
+        {
+            AddNode((Node)node);
+        }
+
+        private static ReadOnlySpan<Char> WhiteSpace => " \t\r\n".AsSpan();
+
+        void IConstructableNode.AppendText(StringOrMemory text, bool emitWhiteSpaceOnly)
+        {
+            if (!emitWhiteSpaceOnly && text.Memory.Span.Trim(WhiteSpace).Length == 0)
+            {
+                return;
+            }
+
+            AppendText(text.ToString());
+        }
+
+        void IConstructableNode.InsertText(int idx, StringOrMemory text, bool emitWhiteSpaceOnly)
+        {
+            if (!emitWhiteSpaceOnly && text.Memory.Span.Trim(WhiteSpace).Length == 0)
+            {
+                return;
+            }
+
+            InsertText(idx, text.ToString());
         }
 
         #endregion

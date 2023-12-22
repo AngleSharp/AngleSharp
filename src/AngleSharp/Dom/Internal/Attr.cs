@@ -4,11 +4,13 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.IO;
+    using Common;
+    using Html.Construction;
 
     /// <summary>
     /// Represents a generic node attribute.
     /// </summary>
-    public sealed class Attr : IAttr
+    public sealed class Attr : IAttr, IConstructableAttr
     {
         #region Fields
 
@@ -99,6 +101,14 @@ namespace AngleSharp.Dom
         /// Gets the attribute's fully qualified name.
         /// </summary>
         public String Name => _prefix is null ? _localName : String.Concat(_prefix, ":", _localName);
+
+        StringOrMemory IConstructableAttr.Value
+        {
+            get => Value;
+            set => Value = value.String;
+        }
+
+        StringOrMemory IConstructableAttr.Name => Name;
 
         /// <summary>
         /// Gets the attribute's value.

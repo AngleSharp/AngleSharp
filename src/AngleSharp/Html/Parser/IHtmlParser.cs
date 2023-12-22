@@ -7,6 +7,7 @@ namespace AngleSharp.Html.Parser
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using ReadOnly.Html;
     using Text;
 
     /// <summary>
