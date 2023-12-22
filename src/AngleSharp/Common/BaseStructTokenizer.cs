@@ -11,7 +11,7 @@ namespace AngleSharp.Common
     {
         #region Fields
 
-        private Stack<UInt16> _columns;
+        private readonly Stack<UInt16> _columns;
         private readonly IReadOnlyTextSource _source;
 
         private UInt16 _column;
@@ -87,7 +87,7 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        private protected IBuffer StringBuffer => _buffer;
+        protected IBuffer StringBuffer => _buffer;
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).

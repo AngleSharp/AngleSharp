@@ -572,5 +572,13 @@ namespace AngleSharp.Html.Parser
 
             return true;
         }
+
+        private readonly struct StringBuilderAdapter : ISlimBuffer
+        {
+            private readonly StringBuilder _sb;
+            public StringBuilderAdapter(StringBuilder sb) => _sb = sb;
+            public Int32 Length => _sb.Length;
+            public Char this[Int32 i] => _sb[i];
+        }
     }
 }

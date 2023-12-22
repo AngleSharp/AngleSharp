@@ -156,15 +156,6 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the stream and returns the result.
         /// </summary>
-        public IHtmlDocument ParseDocument(TextSource source)
-        {
-            var document = CreateDocument(source);
-            return Parse(document);
-        }
-
-        /// <summary>
-        /// Parses the stream and returns the result.
-        /// </summary>
         public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
         {
             var document = CreateDocument(source);

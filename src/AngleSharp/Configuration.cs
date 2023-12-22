@@ -57,7 +57,6 @@ namespace AngleSharp
                 Instance<IAttributeObserver>(new DefaultAttributeObserver()),
                 Instance<IMetaHandler>(new EncodingMetaHandler()),
                 Instance<IHtmlEncoder>(new DefaultHtmlEncoder()),
-                Instance<IHtmlEncoder>(new DefaultHtmlEncoder()),
                 Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
                 Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
                 Creator<INavigationHandler>(ctx => new DefaultNavigationHandler(ctx)),

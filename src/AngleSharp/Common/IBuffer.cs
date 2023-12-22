@@ -3,21 +3,13 @@
 using System;
 using System.Text;
 
-interface ISlimBuffer
+public interface ISlimBuffer
 {
     Int32 Length { get; }
     Char this[Int32 i] { get; }
 }
 
-readonly struct StringBuilderAdapter : ISlimBuffer
-{
-    private readonly StringBuilder _sb;
-    public StringBuilderAdapter(StringBuilder sb) => _sb = sb;
-    public Int32 Length => _sb.Length;
-    public Char this[Int32 i] => _sb[i];
-}
-
-interface IBuffer : ISlimBuffer, IDisposable
+public interface IBuffer : ISlimBuffer, IDisposable
 {
     IBuffer Append(Char c);
     void Discard();

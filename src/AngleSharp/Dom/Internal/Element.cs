@@ -413,8 +413,6 @@ namespace AngleSharp.Dom
             return _attributes.GetNamedItem(name) != null;
         }
 
-
-
         /// <inheritdoc />
         public Boolean HasAttribute(String? namespaceUri, String localName)
         {
