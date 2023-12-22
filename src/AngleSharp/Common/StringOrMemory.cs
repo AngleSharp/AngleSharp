@@ -7,7 +7,7 @@ using System;
 /// </summary>
 public struct StringOrMemory
 {
-    private String? _string;
+    // private String? _string;
     private readonly ReadOnlyMemory<Char> _memory;
 
     /// <summary>
@@ -17,7 +17,7 @@ public struct StringOrMemory
     public StringOrMemory(String str)
     {
         _memory = str.AsMemory();
-        _string = str;
+        // _string = str;
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public struct StringOrMemory
     public StringOrMemory(ReadOnlyMemory<Char> memory)
     {
         _memory = memory;
-        _string = null;
+        // _string = null;
     }
 
     /// <summary>
@@ -49,7 +49,8 @@ public struct StringOrMemory
 
             // ToString here checks if pointer is already a string and also checks case when length is same as original string
             // important for cached string, usually from dictionaries
-            return _string ??= _memory.Span.ToString();
+            // return _string ??= _memory.Span.ToString();
+            return _memory.Span.ToString();
         }
     }
 

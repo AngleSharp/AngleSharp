@@ -26,6 +26,7 @@ namespace AngleSharp.Html.Parser
         private StringOrMemory _lastStartTag;
         private TextPosition _position;
 
+        // todo: proove that this is faster than ref return
         private StructHtmlToken _token;
 
         #endregion

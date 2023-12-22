@@ -46,7 +46,7 @@ public struct StructAttributes
 
         if (_count > 3)
         {
-            _tail ??= new List<MemoryHtmlAttributeToken>();
+            _tail ??= new List<MemoryHtmlAttributeToken>(2);
             _tail.Add(item);
             _count++;
         }

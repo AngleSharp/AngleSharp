@@ -48,7 +48,7 @@ namespace AngleSharp.Html.Parser
         private Boolean _frameset;
         private Boolean _ended;
 
-        private StructHtmlToken _temp;
+        // private StructHtmlToken _temp;
 
         private Func<IConstructableElement, Boolean>? _shouldEnd;
 
@@ -199,24 +199,10 @@ namespace AngleSharp.Html.Parser
                 {
                     await source.PrefetchAsync(8192, cancelToken).ConfigureAwait(false);
                 }
-
                 cancelToken.ThrowIfCancellationRequested();
 
-                var token = _tokenizer.Get();
-                if (token.Type == HtmlTokenType.EndOfFile)
-                {
-                    Consume(ref token);
-                    break;
-                }
-
-                var result = middleware(ref token, ConsumeAsDelegate);
-
-                if (result == Result.Stop)
-                {
-                    var EOF = StructHtmlToken.EndOfFile(default);
-                    Consume(ref EOF);
-                    break;
-                }
+                bool @break = Worker(middleware);
+                if (@break) { break; }
 
                 if (_waiting != null)
                 {
@@ -226,6 +212,25 @@ namespace AngleSharp.Html.Parser
             } while (!_ended);
 
             return _document;
+
+            bool Worker(Middleware middleware)
+            {
+                var token = _tokenizer.Get();
+                if (token.Type == HtmlTokenType.EndOfFile)
+                {
+                    Consume(ref token);
+                    return true;
+                }
+                var result = middleware(ref token, ConsumeAsDelegate);
+                if (result == Result.Stop)
+                {
+                    var EOF = StructHtmlToken.EndOfFile(default);
+                    Consume(ref EOF);
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         /// <summary>
@@ -663,8 +668,8 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
-            _temp = StructHtmlToken.Open(TagNames.Html);
-            BeforeHtml(ref _temp);
+            var temp = StructHtmlToken.Open(TagNames.Html);
+            BeforeHtml(ref temp);
             BeforeHead(ref token);
         }
 
@@ -728,8 +733,8 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
-            _temp = StructHtmlToken.Open(TagNames.Head);
-            BeforeHead(ref _temp);
+            var temp = StructHtmlToken.Open(TagNames.Head);
+            BeforeHead(ref temp);
             InHead(ref token);
         }
 
@@ -1074,8 +1079,8 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
-            _temp = StructHtmlToken.Open(TagNames.Body);
-            AfterHeadStartTagBody(ref _temp);
+            var temp = StructHtmlToken.Open(TagNames.Body);
+            AfterHeadStartTagBody(ref temp);
             _frameset = true;
             Home(ref token);
         }
@@ -1101,8 +1106,8 @@ namespace AngleSharp.Html.Parser
                     {
                         var format = _formattingElements[i];
                         RaiseErrorOccurred(HtmlParseError.AnchorNested, ref tag);
-                        _temp = StructHtmlToken.Close(TagNames.A);
-                        HeisenbergAlgorithm(ref _temp);
+                        var temp = StructHtmlToken.Close(TagNames.A);
+                        HeisenbergAlgorithm(ref temp);
                         CloseNode(format);
                         _formattingElements.Remove(format);
                         break;
@@ -1313,8 +1318,8 @@ namespace AngleSharp.Html.Parser
             {
                 if (CurrentNode.LocalName.Is(TagNames.Option))
                 {
-                    _temp = StructHtmlToken.Close(TagNames.Option);
-                    InBodyEndTagAnythingElse(ref _temp);
+                    var temp = StructHtmlToken.Close(TagNames.Option);
+                    InBodyEndTagAnythingElse(ref temp);
                 }
 
                 ReconstructFormatting();
@@ -1496,8 +1501,8 @@ namespace AngleSharp.Html.Parser
 
                 if (_currentFormElement is null)
                 {
-                    _temp = StructHtmlToken.Open(TagNames.Form);
-                    InBody(ref _temp);
+                    var temp = StructHtmlToken.Open(TagNames.Form);
+                    InBody(ref temp);
 
                     if (tag.GetAttribute(AttributeNames.Action).Length > 0)
                     {
@@ -1507,10 +1512,10 @@ namespace AngleSharp.Html.Parser
                             tag.GetAttribute(AttributeNames.Action));
                     }
 
-                    _temp = StructHtmlToken.Open(TagNames.Hr);
-                    InBody(ref _temp);
-                    _temp = StructHtmlToken.Open(TagNames.Label);
-                    InBody(ref _temp);
+                    temp = StructHtmlToken.Open(TagNames.Hr);
+                    InBody(ref temp);
+                    temp = StructHtmlToken.Open(TagNames.Label);
+                    InBody(ref temp);
 
                     if (tag.GetAttribute(AttributeNames.Prompt).Length > 0)
                     {
@@ -1536,12 +1541,12 @@ namespace AngleSharp.Html.Parser
 
                     InBody(ref input);
 
-                    _temp = StructHtmlToken.Close(TagNames.Label);
-                    InBody(ref _temp);
-                    _temp = StructHtmlToken.Open(TagNames.Hr);
-                    InBody(ref _temp);
-                    _temp = StructHtmlToken.Close(TagNames.Form);
-                    InBody(ref _temp);
+                    temp = StructHtmlToken.Close(TagNames.Label);
+                    InBody(ref temp);
+                    temp = StructHtmlToken.Open(TagNames.Hr);
+                    InBody(ref temp);
+                    temp = StructHtmlToken.Close(TagNames.Form);
+                    InBody(ref temp);
                 }
             }
             else if (TagNames._mAllNested.Contains(tagName))
@@ -1622,8 +1627,8 @@ namespace AngleSharp.Html.Parser
             else if (tagName.Is(TagNames.Br))
             {
                 RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, ref tag);
-                _temp = StructHtmlToken.Open(TagNames.Br);
-                Consume(ref _temp);
+                var temp = StructHtmlToken.Open(TagNames.Br);
+                Consume(ref temp);
             }
             else if (TagNames._mAllHeadings.Contains(tagName))
             {
@@ -1837,8 +1842,8 @@ namespace AngleSharp.Html.Parser
                     }
                     else if (tagName.Is(TagNames.Col))
                     {
-                        _temp = StructHtmlToken.Open(TagNames.Colgroup);
-                        InTable(ref _temp);
+                        var temp = StructHtmlToken.Open(TagNames.Colgroup);
+                        InTable(ref temp);
                         InColumnGroup(ref token);
                     }
                     else if (TagNames._mAllTableSections.Contains(tagName))
@@ -1852,8 +1857,8 @@ namespace AngleSharp.Html.Parser
                     }
                     else if (TagNames._mAllTableCellsRows.Contains(tagName))
                     {
-                        _temp = StructHtmlToken.Open(TagNames.Tbody);
-                        InTable(ref _temp);
+                        var temp = StructHtmlToken.Open(TagNames.Tbody);
+                        InTable(ref temp);
                         InTableBody(ref token);
                     }
                     else if (tagName.Is(TagNames.Table))
@@ -2160,8 +2165,8 @@ namespace AngleSharp.Html.Parser
                     }
                     else if (TagNames._mAllTableCells.Contains(tagName))
                     {
-                        _temp = StructHtmlToken.Open(TagNames.Tr);
-                        InTableBody(ref _temp);
+                        var temp = StructHtmlToken.Open(TagNames.Tr);
+                        InTableBody(ref temp);
                         InRow(ref token);
                     }
                     else if (TagNames._mAllTableGeneral.Contains(tagName))
@@ -3143,8 +3148,8 @@ namespace AngleSharp.Html.Parser
             {
                 if (node.LocalName.Is(TagNames.Li))
                 {
-                    _temp = StructHtmlToken.Close(node.LocalName);
-                    InBody(ref _temp);
+                    var temp = StructHtmlToken.Close(node.LocalName);
+                    InBody(ref temp);
                     break;
                 }
 
@@ -3179,8 +3184,8 @@ namespace AngleSharp.Html.Parser
             {
                 if (node.LocalName.IsOneOf(TagNames.Dd, TagNames.Dt))
                 {
-                    _temp = StructHtmlToken.Close(node.LocalName);
-                    InBody(ref _temp);
+                    var temp = StructHtmlToken.Close(node.LocalName);
+                    InBody(ref temp);
                     break;
                 }
 
@@ -3510,8 +3515,8 @@ namespace AngleSharp.Html.Parser
             else
             {
                 RaiseErrorOccurred(HtmlParseError.ParagraphNotInScope, ref token);
-                _temp = StructHtmlToken.Open(TagNames.P);
-                Consume(ref _temp);
+                var temp = StructHtmlToken.Open(TagNames.P);
+                Consume(ref temp);
                 InBodyEndTagParagraph(ref token);
                 return false;
             }
@@ -3738,8 +3743,8 @@ namespace AngleSharp.Html.Parser
                 }
                 else if (tag.Name.Is(TagNames.Script))
                 {
-                    _temp = StructHtmlToken.Close(TagNames.Script);
-                    Foreign(ref _temp);
+                    var temp = StructHtmlToken.Close(TagNames.Script);
+                    Foreign(ref temp);
                 }
             }
         }

@@ -43,11 +43,17 @@ namespace AngleSharp.Benchmarks
             }
 
             var htmlParser = new HtmlParser();
+
             {
-                using var source = new PrefetchedTextSource(StaticHtml.HtmlTableTabbedSoMuch);
-                var doc = htmlParser.ParseReadOnlyDocument(source);
-                File.WriteAllText(@"C:\Users\Dmitry\source\repos\AngleSharp\src\AngleSharp.Benchmarks\tests\test-ro.html", doc.ToHtml());
+                var source = new PrefetchedTextSource(StaticHtml.Github);
+                using var doc = htmlParser.ParseReadOnlyDocument(source);
             }
+
+            {
+                using var source = new PrefetchedTextSource(StaticHtml.Github);
+                using var doc = htmlParser.ParseReadOnlyDocument(source);
+            }
+
 
             // {
             //     using var source = new PrefetchedTextSource(StaticHtml.HtmlTableTabbedSoMuch);
