@@ -76,7 +76,7 @@ internal class ArrayPoolBuffer : IBuffer
 
         if (Pointer + 1 > Capacity)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("Buffer is full.");
         }
 
         Array.Copy(
@@ -94,7 +94,7 @@ internal class ArrayPoolBuffer : IBuffer
     {
         if (Pointer + str.Length > Capacity)
         {
-            throw new ArgumentOutOfRangeException(nameof(str));
+            throw new InvalidOperationException("Buffer is full.");
         }
 
         str.CopyTo(_buffer.AsSpan(Pointer));

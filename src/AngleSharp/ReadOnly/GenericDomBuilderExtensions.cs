@@ -13,7 +13,7 @@ namespace AngleSharp.Html.Parser
     /// <summary>
     /// Extensions to be used exclusively by the DOM Builder.
     /// </summary>
-    static class StructHtmlDomBuilderExtensions
+    static class GenericDomBuilderExtensions
     {
         public static void ClearFormatting<TElement>(this List<TElement> formatting)
             where TElement: class, IConstructableElement
