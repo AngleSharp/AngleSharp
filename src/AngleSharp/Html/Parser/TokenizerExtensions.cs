@@ -32,16 +32,20 @@ namespace AngleSharp.Html.Parser
             if (options != null)
             {
                 var ov = options.Value;
-
                 htmlTokenizer.IsStrictMode = ov.IsStrictMode;
                 htmlTokenizer.IsSupportingProcessingInstructions = ov.IsSupportingProcessingInstructions;
                 htmlTokenizer.IsNotConsumingCharacterReferences = ov.IsNotConsumingCharacterReferences;
                 htmlTokenizer.IsPreservingAttributeNames = ov.IsPreservingAttributeNames;
-
-                // htmlTokenizer.SkipRawText = ov.SkipRawText;
-                // htmlTokenizer.SkipScriptText = ov.SkipScriptText;
-                // htmlTokenizer.SkipDataText = ov.SkipDataText;
-                // htmlTokenizer.ShouldEmitAttribute = ov.ShouldEmitAttribute ?? (static (_, _) => true);
+                htmlTokenizer.SkipRawText = ov.SkipRawText;
+                htmlTokenizer.SkipScriptText = ov.SkipScriptText;
+                htmlTokenizer.SkipDataText = ov.SkipDataText;
+                htmlTokenizer.ShouldEmitAttribute = ov.ShouldEmitAttribute;
+                htmlTokenizer.SkipComments = ov.SkipComments;
+                htmlTokenizer.SkipPlaintext = ov.SkipPlaintext;
+                htmlTokenizer.SkipRCDataText = ov.SkipRCDataText;
+                htmlTokenizer.SkipCDATA = ov.SkipCDATA;
+                htmlTokenizer.SkipProcessingInstructions = ov.SkipProcessingInstructions;
+                htmlTokenizer.ShouldEmitAttribute = ov.ShouldEmitAttribute;
             }
 
             var token = default(HtmlToken);
@@ -53,7 +57,7 @@ namespace AngleSharp.Html.Parser
 
             do
             {
-                token = htmlTokenizer.Get();
+                token = htmlTokenizer.Get().ToHtmlToken();
                 yield return token;
             }
             while (token.Type != HtmlTokenType.EndOfFile);

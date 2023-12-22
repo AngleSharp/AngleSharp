@@ -2,6 +2,8 @@
   <PropertyGroup>
     <AssemblyName>AngleSharp</AssemblyName>
     <RootNamespace>AngleSharp</RootNamespace>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;net461;net472;net6.0;net7.0;net8.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
     <RepositoryUrl>https://github.com/AngleSharp/AngleSharp</RepositoryUrl>
@@ -10,24 +12,20 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <NoWarn>$(NoWarn);SYSLIB0014;CS1591;CS0649</NoWarn>
-    <TargetFramework>net8.0</TargetFramework>
+    <NoWarn>$(NoWarn);SYSLIB0014;CS1591;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="all" />
-
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'net461' or '$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net6.0' ">
     <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
-    <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
     <DelaySign>false</DelaySign>
-
   </PropertyGroup>
 </Project>

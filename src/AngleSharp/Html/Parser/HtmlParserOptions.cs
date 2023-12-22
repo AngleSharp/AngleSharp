@@ -7,15 +7,8 @@ namespace AngleSharp.Html.Parser
     using Tokens.Struct;
     using AttributeName = System.ReadOnlyMemory<System.Char>;
 
-    /// <summary>
-    ///
-    /// </summary>
     public struct HtmlTokenizerOptions
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="htmlParserOptions"></param>
         public HtmlTokenizerOptions(HtmlParserOptions htmlParserOptions)
         {
             IsStrictMode = htmlParserOptions.IsStrictMode;
@@ -41,70 +34,18 @@ namespace AngleSharp.Html.Parser
         }
 
         public Boolean DisableElementPositionTracking { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean SkipComments { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean SkipPlaintext { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean SkipRCDataText { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean SkipCDATA { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean SkipProcessingInstructions { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public ShouldEmitAttribute ShouldEmitAttribute { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean SkipDataText { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean SkipScriptText { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean SkipRawText { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean IsPreservingAttributeNames { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean IsNotConsumingCharacterReferences { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean IsSupportingProcessingInstructions { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public Boolean IsStrictMode { get; set; }
     }
 
@@ -222,6 +163,9 @@ namespace AngleSharp.Html.Parser
         public ShouldEmitAttribute? ShouldEmitAttribute { get; set; }
 
 
+        /// <summary>
+        ///
+        /// </summary>
         public bool DisableElementPositionTracking { get; set; }
     }
 }

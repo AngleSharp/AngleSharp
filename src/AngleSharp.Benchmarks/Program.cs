@@ -41,26 +41,6 @@ namespace AngleSharp.Benchmarks
                 BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
                 return;
             }
-
-            var htmlParser = new HtmlParser();
-
-            {
-                var source = new PrefetchedTextSource(StaticHtml.Github);
-                using var doc = htmlParser.ParseReadOnlyDocument(source);
-            }
-
-            {
-                using var source = new PrefetchedTextSource(StaticHtml.Github);
-                using var doc = htmlParser.ParseReadOnlyDocument(source);
-            }
-
-
-            // {
-            //     using var source = new PrefetchedTextSource(StaticHtml.HtmlTableTabbedSoMuch);
-            //     var doc = htmlParser.ParseDocument(source);
-            //     File.WriteAllText(@"C:\Users\Dmitry\source\repos\AngleSharp\src\AngleSharp.Benchmarks\tests\test-mut.html", doc.ToHtml());
-            // }
-
         }
     }
 

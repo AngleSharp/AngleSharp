@@ -1593,13 +1593,13 @@ namespace AngleSharp.Dom
             var context = element.Context;
             var source = new TextSource(html);
             var document = new HtmlDocument(context, source);
-            var parser = new HtmlDomBuilder(document);
             var options = new HtmlParserOptions
             {
                 IsEmbedded = false,
                 IsStrictMode = false,
                 IsScripting = context.IsScripting(),
             };
+            var parser = new HtmlDomBuilder(MutableHtmlElementFactory.Instance, document, new HtmlTokenizerOptions(options));
             return parser.ParseFragment(options, element).DocumentElement;
         }
     }

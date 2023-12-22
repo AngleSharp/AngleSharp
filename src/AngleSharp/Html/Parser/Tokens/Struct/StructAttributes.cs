@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Common;
 
-#nullable disable
 public struct StructAttributes
 {
     private Int32 _count;
@@ -16,45 +15,35 @@ public struct StructAttributes
 
     public void Add(MemoryHtmlAttributeToken item)
     {
-        if (_count == 0)
+        switch (_count)
         {
-            _t0 = item;
-            _count = 1;
-            return;
-        }
-
-        if (_count == 1)
-        {
-            _t1 = item;
-            _count = 2;
-            return;
-        }
-
-        if (_count == 2)
-        {
-            _t2 = item;
-            _count = 3;
-            return;
-        }
-
-        if (_count == 3)
-        {
-            _t3 = item;
-            _count = 4;
-            return;
-        }
-
-        if (_count > 3)
-        {
-            _tail ??= new List<MemoryHtmlAttributeToken>(2);
-            _tail.Add(item);
-            _count++;
+            case 0:
+                _t0 = item;
+                _count = 1;
+                return;
+            case 1:
+                _t1 = item;
+                _count = 2;
+                return;
+            case 2:
+                _t2 = item;
+                _count = 3;
+                return;
+            case 3:
+                _t3 = item;
+                _count = 4;
+                return;
+            case > 3:
+                _tail ??= new List<MemoryHtmlAttributeToken>(2);
+                _tail.Add(item);
+                _count++;
+                break;
         }
     }
 
-    public int Count => _count;
+    public Int32 Count => _count;
 
-    public void RemoveAt(int index)
+    public void RemoveAt(Int32 index)
     {
         if (index > _count)
         {
@@ -79,78 +68,75 @@ public struct StructAttributes
 
                 break;
             case 3:
-                if (index == 0)
+                switch (index)
                 {
-                    _t0 = _t1;
-                    _t1 = _t2;
-                    _t2 = default;
-                }
-                else if (index == 1)
-                {
-                    _t1 = _t2;
-                    _t2 = default;
-                }
-                else
-                {
-                    _t2 = default;
+                    case 0:
+                        _t0 = _t1;
+                        _t1 = _t2;
+                        _t2 = default;
+                        break;
+                    case 1:
+                        _t1 = _t2;
+                        _t2 = default;
+                        break;
+                    default:
+                        _t2 = default;
+                        break;
                 }
 
                 break;
             case 4:
-                if (index == 0)
+                switch (index)
                 {
-                    _t0 = _t1;
-                    _t1 = _t2;
-                    _t2 = _t3;
-                    _t3 = default;
-                }
-                else if (index == 1)
-                {
-                    _t1 = _t2;
-                    _t2 = _t3;
-                    _t3 = default;
-                }
-                else if (index == 2)
-                {
-                    _t2 = _t3;
-                    _t3 = default;
-                }
-                else
-                {
-                    _t3 = default;
+                    case 0:
+                        _t0 = _t1;
+                        _t1 = _t2;
+                        _t2 = _t3;
+                        _t3 = default;
+                        break;
+                    case 1:
+                        _t1 = _t2;
+                        _t2 = _t3;
+                        _t3 = default;
+                        break;
+                    case 2:
+                        _t2 = _t3;
+                        _t3 = default;
+                        break;
+                    default:
+                        _t3 = default;
+                        break;
                 }
 
                 break;
             default:
-                if (index == 0)
+                switch (index)
                 {
-                    _t0 = _t1;
-                    _t1 = _t2;
-                    _t2 = _t3;
-                    _t3 = _tail[0];
-                    _tail.RemoveAt(0);
-                }
-                else if (index == 1)
-                {
-                    _t1 = _t2;
-                    _t2 = _t3;
-                    _t3 = _tail[0];
-                    _tail.RemoveAt(0);
-                }
-                else if (index == 2)
-                {
-                    _t2 = _t3;
-                    _t3 = _tail[0];
-                    _tail.RemoveAt(0);
-                }
-                else if (index == 3)
-                {
-                    _t3 = _tail[0];
-                    _tail.RemoveAt(0);
-                }
-                else
-                {
-                    _tail.RemoveAt(index - 4);
+                    case 0:
+                        _t0 = _t1;
+                        _t1 = _t2;
+                        _t2 = _t3;
+                        _t3 = _tail[0];
+                        _tail.RemoveAt(0);
+                        break;
+                    case 1:
+                        _t1 = _t2;
+                        _t2 = _t3;
+                        _t3 = _tail[0];
+                        _tail.RemoveAt(0);
+                        break;
+                    case 2:
+                        _t2 = _t3;
+                        _t3 = _tail[0];
+                        _tail.RemoveAt(0);
+                        break;
+                    case 3:
+                        _t3 = _tail[0];
+                        _tail.RemoveAt(0);
+                        break;
+                    default:
+                        _tail.RemoveAt(index - 4);
+                        break;
                 }
 
                 break;
@@ -159,11 +145,14 @@ public struct StructAttributes
         _count--;
     }
 
-    public MemoryHtmlAttributeToken this[int id]
+    public MemoryHtmlAttributeToken this[Int32 id]
     {
         get
         {
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(id, _count);
+            if (id >= _count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
 
             return id switch
             {
@@ -204,7 +193,7 @@ public struct StructAttributes
 
     }
 
-    public bool HasAttribute(StringOrMemory name, StringOrMemory value)
+    public Boolean HasAttribute(StringOrMemory name, StringOrMemory value)
     {
         for (var i = 0; i < _count; i++)
         {
@@ -219,7 +208,7 @@ public struct StructAttributes
         return false;
     }
 
-    public bool HasAttribute(String name, String value)
+    public Boolean HasAttribute(String name, String value)
     {
         for (var i = 0; i < _count; i++)
         {

@@ -218,11 +218,12 @@ internal class ReadOnlyDocumentType : ReadOnlyNode
 
 internal class ReadOnlyDocument : ReadOnlyNode, IConstructableDocument, IReadOnlyDocument
 {
-    public ReadOnlyDocument() : base(null, "#document", NodeType.Document)
+    public ReadOnlyDocument(IReadOnlyTextSource source) : base(null, "#document", NodeType.Document)
     {
+        Source = source;
     }
 
-    public required IReadOnlyTextSource Source { get; init; }
+    public IReadOnlyTextSource Source { get; set; }
     public IDisposable? Builder { get; set; }
     public QuirksMode QuirksMode { get; set; }
 
@@ -286,7 +287,7 @@ internal class ConstructableNodeList : IConstructableNodeList, IReadOnlyNodeList
 
     public ConstructableNodeList()
     {
-        _nodes = new List<IConstructableNode>();
+        _nodes = new List<IConstructableNode>(2);
     }
 
     public Int32 Length => _nodes.Count;
@@ -448,7 +449,7 @@ internal class ConstructableNamedNodeMap : IConstructableNamedNodeMap, IReadOnly
 
     public ConstructableNamedNodeMap()
     {
-        _attributes = new List<IConstructableAttr>();
+        _attributes = new List<IConstructableAttr>(2);
     }
 
     IReadOnlyAttr? IReadOnlyNamedNodeMap.this[StringOrMemory name] => this[name] as IReadOnlyAttr;
@@ -553,8 +554,11 @@ class ReadOnlyHtmlElement : ReadOnlyElement, IConstructableSvgElement, IConstruc
         {
             return localName;
         }
-
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         return String.Concat(prefix.Memory.Span, ":", localName.Memory.Span);
+#else
+        return String.Concat(prefix.String, ":", localName.String);
+#endif
     }
 
     public StringOrMemory Prefix => StringOrMemory.Empty;
@@ -567,7 +571,6 @@ class ReadOnlyHtmlElement : ReadOnlyElement, IConstructableSvgElement, IConstruc
 
     public void SetupElement()
     {
-        // todo: ??
     }
 
     public virtual IConstructableNode ShallowCopy()
@@ -657,5 +660,13 @@ class ReadOnlyHtmlFrameElement : ReadOnlyHtmlElement, IConstructableFrameElement
             _childNodes = _childNodes
         };
         return readOnlyElement;
+    }
+}
+
+class ReadOnlyHtmlFormElement : ReadOnlyHtmlElement, IConstructableFormElement
+{
+    public ReadOnlyHtmlFormElement(ReadOnlyDocument? owner, StringOrMemory prefix = default)
+        : base(owner, TagNames.Form, prefix, NodeFlags.Special)
+    {
     }
 }

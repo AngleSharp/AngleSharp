@@ -126,7 +126,7 @@ namespace AngleSharp.Html.Parser
         };
 
         private static readonly Dictionary<StringOrMemory, String> _MsvgAttributeNames =
-            new(StringOrMemoryComparer.Ordinal)
+            new(OrdinalStringOrMemoryComparer.Instance)
         {
             { "attributename", "attributeName" },
             { "attributetype", "attributeType" },
@@ -193,7 +193,7 @@ namespace AngleSharp.Html.Parser
         };
 
         private static readonly Dictionary<StringOrMemory, String> _MsvgAdjustedTagNames =
-            new(StringOrMemoryComparer.Ordinal)
+            new(OrdinalStringOrMemoryComparer.Instance)
         {
              { "altglyph", "altGlyph" },
              { "altglyphdef", "altGlyphDef" },

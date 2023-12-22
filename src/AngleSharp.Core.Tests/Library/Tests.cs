@@ -1,5 +1,6 @@
 namespace AngleSharp.Core.Tests.Library;
 
+using System;
 using Common;
 using NUnit.Framework;
 
@@ -9,7 +10,7 @@ public class Tests
     public void Check1()
     {
         using var b = new ArrayPoolBuffer(128);
-        b.Append("Hello World!");
+        b.Append("Hello World!".AsSpan());
         Assert.AreEqual("Hello World!", b.GetDataAndClear().String);
     }
 
@@ -17,7 +18,7 @@ public class Tests
     public void Check2()
     {
         var b = new ArrayPoolBuffer(128);
-        b.Append("Hello World!");
+        b.Append("Hello World!".AsSpan());
         b.Append('!');
         Assert.AreEqual("Hello World!!", b.GetDataAndClear().String);
     }
@@ -102,7 +103,7 @@ public class Tests
             b.Append('p');
             b.Append('t');
             b.Append('>');
-            Assert.True(b.HasText("<script>"));
+            Assert.True(b.HasText("<script>".AsSpan()));
             b.Discard();
 
             b.Append('<');
@@ -112,7 +113,7 @@ public class Tests
             b.Append('.');
             b.Append('.');
             b.Append('.');
-            Assert.True(b.HasText("<!--..."));
+            Assert.True(b.HasText("<!--...".AsSpan()));
             b.Discard();
 
             b.Append('s');
@@ -124,7 +125,7 @@ public class Tests
             b.Insert(0, '<');
             b.Insert(1, '/');
             b.Append('>');
-            Assert.True(b.HasText("</script>"));
+            Assert.True(b.HasText("</script>".AsSpan()));
             b.Discard();
 
             b.Append('b');
@@ -134,7 +135,7 @@ public class Tests
             b.Insert(0, '<');
             b.Insert(1, '/');
             b.Append('>');
-            Assert.True(b.HasText("</body>"));
+            Assert.True(b.HasText("</body>".AsSpan()));
             b.Discard();
 
             b.Append('n');
@@ -145,14 +146,14 @@ public class Tests
             b.Append('m');
             b.Append('e');
             b.Append('s');
-            Assert.True(b.HasText("noframes"));
+            Assert.True(b.HasText("noframes".AsSpan()));
             b.Discard();
 
             b.Append('h');
             b.Append('t');
             b.Append('m');
             b.Append('l');
-            Assert.True(b.HasText("html"));
+            Assert.True(b.HasText("html".AsSpan()));
             b.Discard();
         }
     }

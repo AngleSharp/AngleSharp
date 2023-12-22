@@ -65,30 +65,20 @@ public struct StructHtmlToken
     public static StructHtmlToken TagOpen(TextPosition position) =>
         new(HtmlTokenType.StartTag, position);
 
-    public static StructHtmlToken Open(StringOrMemory name)
-    {
-        return new StructHtmlToken(HtmlTokenType.StartTag, TextPosition.Empty, name);
-    }
+    public static StructHtmlToken Open(StringOrMemory name) =>
+        new(HtmlTokenType.StartTag, TextPosition.Empty, name);
 
-    public static StructHtmlToken TagClose(TextPosition position)
-    {
-        return new StructHtmlToken(HtmlTokenType.EndTag, position);
-    }
+    public static StructHtmlToken TagClose(TextPosition position) =>
+        new(HtmlTokenType.EndTag, position);
 
-    public static StructHtmlToken Close(StringOrMemory s)
-    {
-        return new StructHtmlToken(HtmlTokenType.EndTag, TextPosition.Empty, s);
-    }
+    public static StructHtmlToken Close(StringOrMemory s) =>
+        new(HtmlTokenType.EndTag, TextPosition.Empty, s);
 
-    public static StructHtmlToken Character(StringOrMemory name, TextPosition position)
-    {
-        return new StructHtmlToken(HtmlTokenType.Character, position, name);
-    }
+    public static StructHtmlToken Character(StringOrMemory name, TextPosition position) =>
+        new(HtmlTokenType.Character, position, name);
 
-    public static StructHtmlToken Comment(StringOrMemory name, TextPosition position)
-    {
-        return new StructHtmlToken(HtmlTokenType.Comment, position, name);
-    }
+    public static StructHtmlToken Comment(StringOrMemory name, TextPosition position) =>
+        new(HtmlTokenType.Comment, position, name);
 
     public static StructHtmlToken ProcessingInstruction(StringOrMemory name, TextPosition position) =>
         new(HtmlTokenType.Comment, position, name)
@@ -415,11 +405,27 @@ public struct StructHtmlToken
     /// <returns>The trimmed characters.</returns>
     public void CleanStart()
     {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         var newData = _name.Memory.TrimStart(Spaces);
         if (newData.Length != _name.Length)
         {
             _name = new StringOrMemory(newData);
         }
+#else
+        var i = 0;
+        for (; i < _name.Length; i++)
+        {
+            if (!_name.Memory.Span[i].IsSpaceCharacter())
+            {
+                break;
+            }
+        }
+
+        if (i > 0)
+        {
+            _name = new StringOrMemory(_name.Memory.Slice(i));
+        }
+#endif
     }
 
     /// <summary>

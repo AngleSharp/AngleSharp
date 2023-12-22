@@ -50,7 +50,6 @@ public struct StringOrMemory
             // ToString here checks if pointer is already a string and also checks case when length is same as original string
             // important for cached string, usually from dictionaries
             return _string ??= _memory.Span.ToString();
-            // return _memory.Span.ToString();
         }
     }
 
@@ -96,12 +95,6 @@ public struct StringOrMemory
     /// <returns></returns>
     public static implicit operator ReadOnlyMemory<Char>(StringOrMemory str) => str.Memory;
 
-    // /// <summary>
-    // ///
-    // /// </summary>
-    // /// <param name="str"></param>
-    // /// <returns></returns>
-    // public static implicit operator String(StringOrMemory str) => str.String;
 
     /// <summary>
     ///
@@ -122,12 +115,18 @@ public struct StringOrMemory
     /// <returns></returns>
     public static Boolean operator ==(StringOrMemory left, string right)
     {
-        return left.Memory.Span.SequenceEqual(right);
+        return left.Memory.Span.SequenceEqual(right.AsSpan());
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
     public static bool operator !=(StringOrMemory left, string right)
     {
-        return !left.Memory.Span.SequenceEqual(right);
+        return !left.Memory.Span.SequenceEqual(right.AsSpan());
     }
 
     /// <summary>
@@ -167,7 +166,11 @@ public struct StringOrMemory
     /// <returns></returns>
     public override Int32 GetHashCode()
     {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         return HashCode.Combine(_memory);
+#else
+        return _memory.GetHashCode();
+#endif
     }
 
     /// <summary>
@@ -178,13 +181,14 @@ public struct StringOrMemory
     /// <returns></returns>
     public StringOrMemory Replace(Char target, Char replacement)
     {
+#if NET8_0_OR_GREATER
         if (_memory.Length < 128)
         {
             Span<Char> tmp = stackalloc Char[_memory.Length];
             _memory.Span.Replace(tmp, target, replacement);
             return new StringOrMemory(tmp.CreateString());
         }
-
+#endif
         return new StringOrMemory(String.Replace(target, replacement));
     }
 
@@ -197,6 +201,9 @@ public struct StringOrMemory
         return String;
     }
 
+    /// <summary>
+    ///
+    /// </summary>
     public static StringOrMemory Empty => new StringOrMemory(String.Empty);
 }
 
@@ -216,9 +223,15 @@ public static class StringOrMemoryExtensions
         return str.Memory.Span.SequenceEqual(other.Memory.Span);
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="other"></param>
+    /// <returns></returns>
     public static Boolean Is(this StringOrMemory str, string other)
     {
-        return str.Memory.Span.SequenceEqual(other);
+        return str.Memory.Span.SequenceEqual(other.AsSpan());
     }
 
     /// <summary>
@@ -232,6 +245,12 @@ public static class StringOrMemoryExtensions
         return str.Memory.Span.Equals(other.Memory.Span, StringComparison.OrdinalIgnoreCase);
     }
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="other"></param>
+    /// <returns></returns>
     public static Boolean Isi(this StringOrMemory str, string other)
     {
         return str.Memory.Span.Equals(other.AsSpan(), StringComparison.OrdinalIgnoreCase);

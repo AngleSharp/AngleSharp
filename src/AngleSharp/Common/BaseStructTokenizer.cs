@@ -7,7 +7,7 @@ namespace AngleSharp.Common
     /// <summary>
     /// Common methods and variables of all tokenizers.
     /// </summary>
-    public abstract class BaseStructTokenizer : IDisposable
+    public abstract class BaseTokenizer : IDisposable
     {
         #region Fields
 
@@ -28,7 +28,7 @@ namespace AngleSharp.Common
         /// Creates a new instance of the base tokenizer.
         /// </summary>
         /// <param name="source">The source to tokenize.</param>
-        public BaseStructTokenizer(IReadOnlyTextSource source)
+        public BaseTokenizer(IReadOnlyTextSource source)
         {
             if (source.TryGetContentLength(out var length))
             {
@@ -87,7 +87,7 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        protected IBuffer StringBuffer => _buffer;
+        private protected IBuffer StringBuffer => _buffer;
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).

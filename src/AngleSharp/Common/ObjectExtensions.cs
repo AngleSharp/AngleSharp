@@ -2,26 +2,18 @@ namespace AngleSharp.Common
 {
     using AngleSharp.Attributes;
     using System;
+    using System.Buffers;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using System.Runtime.CompilerServices;
+    using Text;
 
     /// <summary>
     /// Some methods for working with bare objects.
     /// </summary>
     public static class ObjectExtensions
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="chars"></param>
-        /// <returns></returns>
-        public static String CreateString(this ReadOnlyMemory<Char> chars)
-        {
-            return new String(chars.Span);
-        }
-
         /// <summary>
         /// Transforms the values of the object into a dictionary of strings.
         /// </summary>
@@ -213,25 +205,21 @@ namespace AngleSharp.Common
         /// <summary>
         /// Creates a string from the given read only span of characters.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe String CreateString(this ReadOnlySpan<Char> chars)
+        public static String CreateString(this ReadOnlySpan<Char> chars)
         {
-            fixed (Char* cp = chars)
-            {
-                return new String(cp, 0, chars.Length);
-            }
+            using var lease = ArrayPool<Char>.Shared.Borrow(chars.Length);
+            chars.CopyTo(lease.Span);
+            return new String(lease.Data, 0, chars.Length);
         }
 
         /// <summary>
         /// Creates a string from the given span of characters.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe String CreateString(this Span<Char> chars)
+        public static String CreateString(this Span<Char> chars)
         {
-            fixed (Char* cp = chars)
-            {
-                return new String(cp, 0, chars.Length);
-            }
+            using var lease = ArrayPool<Char>.Shared.Borrow(chars.Length);
+            chars.CopyTo(lease.Span);
+            return new String(lease.Data, 0, chars.Length);
         }
 #endif
     }

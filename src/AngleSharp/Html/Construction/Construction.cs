@@ -45,7 +45,7 @@ internal interface IConstructableNodeList : IEnumerable<IConstructableNode>
     void Clear();
 }
 
-public class SourceReference : ISourceReference
+internal class SourceReference : ISourceReference
 {
     public SourceReference(TextPosition position)
     {
@@ -96,6 +96,10 @@ internal interface IConstructableFrameElement : IConstructableElement;
 internal interface IConstructableTemplateElement : IConstructableElement
 {
     void PopulateFragment();
+}
+
+internal interface IConstructableFormElement : IConstructableElement
+{
 }
 
 internal interface IConstructableDocument : IConstructableNode

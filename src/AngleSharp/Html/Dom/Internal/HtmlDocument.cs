@@ -15,7 +15,7 @@ namespace AngleSharp.Html.Dom
     /// <summary>
     /// Represents a document node that contains only HTML nodes.
     /// </summary>
-    public sealed class HtmlDocument : Document, IHtmlDocument, IConstructableDocument
+    sealed class HtmlDocument : Document, IHtmlDocument, IConstructableDocument
     {
         #region Fields
 
@@ -36,7 +36,7 @@ namespace AngleSharp.Html.Dom
             _svgFactory = Context.GetFactory<IElementFactory<Document, SvgElement>>();
         }
 
-        public HtmlDocument(IBrowsingContext? context = null)
+        internal HtmlDocument(IBrowsingContext? context = null)
             : this(context, new TextSource(String.Empty))
         {
         }

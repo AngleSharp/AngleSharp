@@ -218,17 +218,14 @@ namespace AngleSharp.Html.Parser
             return result.Head;
         }
 
-        async Task<IDocument> IHtmlParser.ParseDocumentAsync(IDocument document, CancellationToken cancel)
-        {
-            var doc = (HtmlDocument)document;
-            return await ParseAsync(doc, cancel).ConfigureAwait(false);
-        }
-
+        /// <summary>
+        /// Parses text source into a read-only document.
+        /// </summary>
         public IReadOnlyDocument ParseReadOnlyDocument(IReadOnlyTextSource source, Middleware? middleware = null)
         {
-            var document = new ReadOnlyDocument { Source = source };
+            var document = new ReadOnlyDocument(source);
             var factory = _context.GetService<IReadOnlyConstructionFactory>() ?? throw new InvalidOperationException("No read-only construction factory found.");
-            var builder = new GenericHtmlDomBuilder<ReadOnlyDocument, ReadOnlyHtmlElement>(factory, document);
+            var builder = new HtmlDomBuilder<ReadOnlyDocument, ReadOnlyHtmlElement>(factory, document);
 
             if (HasEventListener(EventNames.Error))
             {
@@ -238,6 +235,12 @@ namespace AngleSharp.Html.Parser
             builder.Parse(_options, middleware);
 
             return document;
+        }
+
+        async Task<IDocument> IHtmlParser.ParseDocumentAsync(IDocument document, CancellationToken cancel)
+        {
+            var doc = (HtmlDocument)document;
+            return await ParseAsync(doc, cancel).ConfigureAwait(false);
         }
 
         #endregion
@@ -263,17 +266,15 @@ namespace AngleSharp.Html.Parser
             return document;
         }
 
-        private MutableDomBuilder CreateBuilder(HtmlDocument document, String? stopAt)
+        private HtmlDomBuilder CreateBuilder(HtmlDocument document, String? stopAt)
         {
             var options = new HtmlTokenizerOptions(_options);
             var factory = _context.GetFactory<IHtmlConstructionFactory>();
-            var parser = new MutableDomBuilder(factory, document, options, stopAt);
-
+            var parser = new HtmlDomBuilder(factory, document, options, stopAt);
             if (HasEventListener(EventNames.Error))
             {
                 parser.Error += (_, ev) => InvokeEventListener(ev);
             }
-
             return parser;
         }
 
@@ -306,7 +307,7 @@ namespace AngleSharp.Html.Parser
 
         private INodeList ParseFragment(HtmlDocument document, IElement contextElement)
         {
-            var parser = new HtmlDomBuilder(document);
+            var parser = new HtmlDomBuilder(MutableHtmlElementFactory.Instance, document);
 
             if (contextElement is Element element)
             {

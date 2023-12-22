@@ -16,14 +16,10 @@ namespace AngleSharp.Core.Tests.Css
 
     public class StylesheetExtensions
     {
-        [TestCase(1000)]
-        [TestCase(900)]
-        [TestCase(800)]
-        [TestCase(700)]
-        [TestCase(600)]
-        [TestCase(500)]
+        [TestCase(10)]
         [TestCase(100)]
-        [TestCase(1)]
+        [TestCase(1000)]
+        [TestCase(10000)]
         public void TestStyleSheetsDoesNotThrowStackOverflowException(Int32 count)
         {
             var thread = new Thread( () =>

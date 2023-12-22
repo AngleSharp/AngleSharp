@@ -12,13 +12,16 @@ namespace AngleSharp.Html.Parser
     using Tokens.Struct;
     using AttributeName = System.ReadOnlyMemory<System.Char>;
 
+    /// <summary>
+    /// Determines if the attribute should be emitted
+    /// </summary>
     public delegate Boolean ShouldEmitAttribute(ref StructHtmlToken token, AttributeName attributeName);
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    public sealed class StructHtmlTokenizer : BaseStructTokenizer
+    public sealed class HtmlTokenizer : BaseTokenizer
     {
         #region Fields
 
@@ -47,7 +50,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public StructHtmlTokenizer(IReadOnlyTextSource source, IEntityProvider resolver)
+        public HtmlTokenizer(IReadOnlyTextSource source, IEntityProvider resolver)
             : base(source)
         {
             State = HtmlParseMode.PCData;
@@ -59,15 +62,49 @@ namespace AngleSharp.Html.Parser
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip data text.
+        /// </summary>
         public Boolean SkipDataText { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip script text.
+        /// </summary>
         public Boolean SkipScriptText { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip raw text.
+        /// </summary>
         public Boolean SkipRawText { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip comments.
+        /// </summary>
         public Boolean SkipComments { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip plaintext.
+        /// </summary>
         public Boolean SkipPlaintext { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip RCDATA text.
+        /// </summary>
         public Boolean SkipRCDataText { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip CDATA text.
+        /// </summary>
         public Boolean SkipCDATA { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip processing instructions.
+        /// </summary>
         public Boolean SkipProcessingInstructions { get; set; }
 
+        /// <summary>
+        /// Gets or sets delegate to determine if the attribute should be emitted.
+        /// </summary>
         public ShouldEmitAttribute ShouldEmitAttribute { get; set; } = static Boolean (ref StructHtmlToken _, AttributeName _) => true;
 
         /// <summary>
@@ -542,7 +579,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    StringBuffer.Append(entity);
+                    StringBuffer.Append(entity.AsSpan());
                 }
             }
         }
@@ -2487,7 +2524,7 @@ namespace AngleSharp.Html.Parser
                         var hasLength = StringBuffer.Length - offset == scriptLength;
                         if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
-                            if (StringBuffer.Isi(offset, scriptLength, TagNames.Script))
+                            if (StringBuffer.Isi(offset, scriptLength, TagNames.Script.AsSpan()))
                             {
                                 Back(scriptLength + 3);
                                 StringBuffer.Remove(offset - 2, scriptLength + 2);
@@ -2514,7 +2551,7 @@ namespace AngleSharp.Html.Parser
 
                         if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
-                            var isscript = StringBuffer.Isi(offset, scriptLength, TagNames.Script);
+                            var isscript = StringBuffer.Isi(offset, scriptLength, TagNames.Script.AsSpan());
                             StringBuffer.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.EscapedDouble : ScriptState.Escaped;
@@ -2662,7 +2699,7 @@ namespace AngleSharp.Html.Parser
 
                         if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
                         {
-                            var isscript = StringBuffer.Isi(offset, scriptLength, TagNames.Script);
+                            var isscript = StringBuffer.Isi(offset, scriptLength, TagNames.Script.AsSpan());
                             StringBuffer.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.Escaped : ScriptState.EscapedDouble;

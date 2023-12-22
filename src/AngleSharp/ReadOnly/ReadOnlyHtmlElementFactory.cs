@@ -7,17 +7,17 @@ using Common;
 using Construction;
 using Dom;
 
-internal interface IHtmlElementFactory<TDocument, TElement, TValue>
+internal interface IHtmlElementFactory<TDocument, TElement>
     where TElement: class, IConstructableElement
     where TDocument: class, IConstructableDocument
 {
-    TElement Create(TDocument document, TValue localName, TValue prefix = default!, NodeFlags flags = NodeFlags.None);
+    TElement Create(TDocument document, StringOrMemory localName, StringOrMemory prefix = default!, NodeFlags flags = NodeFlags.None);
 
     TElement CreateNoScript(TDocument document, Boolean scripting);
-    IConstructableNode CreateDocumentType(TDocument document, TValue name, TValue publicIdentifier, TValue systemIdentifier);
-    IConstructableMathElement CreateMath(TDocument document, TValue name = default!);
-    IConstructableSvgElement CreateSvg(TDocument document, TValue name = default!);
-    TElement CreateUnknown(TDocument document, TValue tagName);
+    IConstructableNode CreateDocumentType(TDocument document, StringOrMemory name, StringOrMemory publicIdentifier, StringOrMemory systemIdentifier);
+    IConstructableMathElement CreateMath(TDocument document, StringOrMemory name = default!);
+    IConstructableSvgElement CreateSvg(TDocument document, StringOrMemory name = default!);
+    TElement CreateUnknown(TDocument document, StringOrMemory tagName);
 
     IConstructableMetaElement CreateMeta(TDocument document);
     IConstructableScriptElement CreateScript(TDocument document, Boolean parserInserted, Boolean started);
@@ -25,15 +25,15 @@ internal interface IHtmlElementFactory<TDocument, TElement, TValue>
     IConstructableTemplateElement CreateTemplate(TDocument document);
 }
 
-internal interface IHtmlConstructionFactory : IHtmlElementFactory<HtmlDocument, Element, StringOrMemory>;
+internal interface IHtmlConstructionFactory : IHtmlElementFactory<HtmlDocument, Element>;
 
-internal interface IReadOnlyConstructionFactory : IHtmlElementFactory<ReadOnlyDocument, ReadOnlyHtmlElement, StringOrMemory>;
+internal interface IReadOnlyConstructionFactory : IHtmlElementFactory<ReadOnlyDocument, ReadOnlyHtmlElement>;
 
 internal sealed class ReadOnlyConstructionHtmlElementFactory : IReadOnlyConstructionFactory
 {
     public ReadOnlyHtmlElement Create(ReadOnlyDocument document, StringOrMemory localName, StringOrMemory prefix = default, NodeFlags flags = NodeFlags.None)
     {
-        _creators.TryGetValue(localName, out var creator);
+        Creators.TryGetValue(localName, out var creator);
         return creator?.Invoke(document, prefix) ?? new ReadOnlyHtmlElement(document, localName, prefix, flags);
     }
 
@@ -92,9 +92,9 @@ internal sealed class ReadOnlyConstructionHtmlElementFactory : IReadOnlyConstruc
         return doctype;
     }
 
-    internal delegate ReadOnlyHtmlElement Creator(ReadOnlyDocument owner, StringOrMemory prefix);
+    private delegate ReadOnlyHtmlElement Creator(ReadOnlyDocument owner, StringOrMemory prefix);
 
-    private static Dictionary<StringOrMemory, Creator> _creators = new Dictionary<StringOrMemory, Creator>
+    private static readonly Dictionary<StringOrMemory, Creator> Creators = new()
     {
         { TagNames.Address, (document, prefix) => new ReadOnlyHtmlElement(document, TagNames.Address, prefix, NodeFlags.Special)},
         { TagNames.A, (document, prefix) => new ReadOnlyHtmlElement(document, TagNames.A, prefix, NodeFlags.HtmlFormatting)},
@@ -122,7 +122,7 @@ internal sealed class ReadOnlyConstructionHtmlElementFactory : IReadOnlyConstruc
         { TagNames.Em, (document, prefix) => new ReadOnlyHtmlElement(document, TagNames.Em, prefix, NodeFlags.HtmlFormatting)},
         { TagNames.Fieldset, (document, prefix) => new ReadOnlyHtmlElement(document, TagNames.Fieldset, prefix)},
         { TagNames.Font, (document, prefix) => new ReadOnlyHtmlElement(document, TagNames.Font, prefix, NodeFlags.HtmlFormatting)},
-        { TagNames.Form, (document, prefix) => new ReadOnlyHtmlElement(document, TagNames.Form, prefix, NodeFlags.Special)},
+        { TagNames.Form, (document, prefix) => new ReadOnlyHtmlFormElement(document, prefix)},
         { TagNames.Frame, (document, prefix) => new ReadOnlyHtmlElement(document, TagNames.Frame, prefix, NodeFlags.SelfClosing)},
         { TagNames.Frameset, (document, prefix) => new ReadOnlyHtmlElement(document, TagNames.Frameset, prefix, NodeFlags.Special)},
         { TagNames.Head, (document, prefix) => new ReadOnlyHtmlElement(document, TagNames.Head, prefix, NodeFlags.Special)},

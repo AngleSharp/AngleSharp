@@ -30,10 +30,10 @@ internal class StringBuilderBuffer : IBuffer
         return this;
     }
 
-    public void CopyTo(Int32 offset, Span<Char> dest, Int32 length)
-    {
-        _sb.CopyTo(offset, dest, length);
-    }
+    // public void CopyTo(Int32 offset, Span<Char> dest, Int32 length)
+    // {
+    //     _sb.CopyTo(offset, dest, length);
+    // }
 
     private Boolean _disposed = false;
 
@@ -60,7 +60,14 @@ internal class StringBuilderBuffer : IBuffer
 
     public IBuffer Append(ReadOnlySpan<Char> str)
     {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         _sb.Append(str);
+#else
+        foreach (var c in str)
+        {
+            _sb.Append(c);
+        }
+#endif
         return this;
     }
 
@@ -81,16 +88,15 @@ internal class StringBuilderBuffer : IBuffer
     public Boolean HasText(ReadOnlySpan<Char> test, StringComparison comparison)
     {
         var length = _sb.Length;
-
         using var lease = ArrayPool<Char>.Shared.Borrow(length);
-        _sb.CopyTo(0, lease.Span, length);
+        _sb.CopyTo(0, lease.Data, 0, length);
         return MemoryExtensions.Equals(lease.Span.Slice(0, length), test, comparison);
     }
 
     public Boolean HasTextAt(ReadOnlySpan<Char> test, int offset, int length, StringComparison comparison = StringComparison.Ordinal)
     {
         using var lease = ArrayPool<Char>.Shared.Borrow(length);
-        _sb.CopyTo(offset, lease.Span, length);
+        _sb.CopyTo(offset, lease.Data, 0, length);
         return MemoryExtensions.Equals(lease.Span.Slice(0, length), test, comparison);
     }
 

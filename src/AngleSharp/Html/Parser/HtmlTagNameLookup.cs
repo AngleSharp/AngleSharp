@@ -3,26 +3,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Dom;
     using System;
     using System.Text;
-
-    public interface ISlimBuffer
-    {
-        Int32 Length { get; }
-        Char this[Int32 i] { get; }
-    }
-
-    public readonly struct StringBuilderAdapter : ISlimBuffer
-    {
-        private readonly StringBuilder _sb;
-
-        public StringBuilderAdapter(StringBuilder sb)
-        {
-            _sb = sb;
-        }
-
-        public Int32 Length => _sb.Length;
-
-        public Char this[Int32 i] => _sb[i];
-    }
+    using Common;
 
     static class HtmlTagNameLookup
     {

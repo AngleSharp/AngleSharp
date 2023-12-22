@@ -5,11 +5,16 @@ using AngleSharp.Dom;
 using Common;
 using Construction;
 using Dom;
+using Mathml;
 using Mathml.Dom;
+using Svg;
 using Svg.Dom;
 
 internal sealed class MutableHtmlElementFactory : IHtmlConstructionFactory
 {
+    public static readonly MutableHtmlElementFactory Instance =
+        new(HtmlElementFactory.Instance, MathElementFactory.Instance, SvgElementFactory.Instance);
+
     private readonly IElementFactory<Document,HtmlElement> _html;
     private readonly IElementFactory<Document,MathElement> _math;
     private readonly IElementFactory<Document,SvgElement> _svg;
@@ -19,6 +24,16 @@ internal sealed class MutableHtmlElementFactory : IHtmlConstructionFactory
         _html = context.GetService<IElementFactory<Document, HtmlElement>>()!;
         _math = context.GetService<IElementFactory<Document, MathElement>>()!;
         _svg = context.GetService<IElementFactory<Document, SvgElement>>()!;
+    }
+
+    public MutableHtmlElementFactory(
+        IElementFactory<Document,HtmlElement> html,
+        IElementFactory<Document,MathElement> math,
+        IElementFactory<Document,SvgElement> svg)
+    {
+        _html = html;
+        _math = math;
+        _svg = svg;
     }
 
     public Element Create(

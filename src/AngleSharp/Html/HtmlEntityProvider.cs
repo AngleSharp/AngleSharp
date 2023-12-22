@@ -2,11 +2,9 @@ namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
     using System;
-    using System.Collections.Frozen;
     using System.Collections.Generic;
     using System.Linq;
     using Common;
-    using EntitiesCache = System.Collections.Generic.Dictionary<System.Char, System.Collections.Generic.Dictionary<System.ReadOnlyMemory<System.Char>, System.String>>;
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
@@ -14,7 +12,7 @@ namespace AngleSharp.Html
     {
         #region Fields
 
-        private readonly EntitiesCache _entities;
+        private readonly Dictionary<Char, Dictionary<StringOrMemory, String>> _entities;
 
         #endregion
 
@@ -100,7 +98,7 @@ namespace AngleSharp.Html
                     static v => v.Value.ToDictionary(
                         static k => k.Key.AsMemory(),
                         static v => v.Value,
-                        ReadOnlyMemoryComparer.Ordinal)
+                        OrdinalStringOrMemoryComparer.Instance)
                     );
         }
 
@@ -2602,7 +2600,7 @@ namespace AngleSharp.Html
                 {
                     if (entity.Value == symbol)
                     {
-                        return entity.Key.CreateString();
+                        return entity.Key.String;
                     }
                 }
             }
