@@ -41,7 +41,7 @@ namespace AngleSharp.Benchmarks
                 return;
             }
 
-            using var source = new PrefetchedTextSource(StaticHtml.Github);
+            using var source = new PrefetchedTextSource(StaticHtml.HtmlTableTabbedSoMuch);
 
             var htmlParser = new HtmlParser();
 

@@ -6,7 +6,6 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using Common;
     using Tokens.Struct;
@@ -18,7 +17,8 @@ namespace AngleSharp.Html.Parser
     {
         #region Fields
 
-        private static readonly Dictionary<String, String> svgAttributeNames = new Dictionary<String, String>(StringComparer.Ordinal)
+        private static readonly Dictionary<String, String> svgAttributeNames =
+            new Dictionary<String, String>(StringComparer.Ordinal)
         {
             { "attributename", "attributeName" },
             { "attributetype", "attributeType" },
@@ -84,7 +84,8 @@ namespace AngleSharp.Html.Parser
             { "zoomandpan", "zoomAndPan" },
         };
 
-        private static readonly Dictionary<String, String> svgAdjustedTagNames = new Dictionary<String, String>(StringComparer.Ordinal)
+        private static readonly Dictionary<String, String> svgAdjustedTagNames =
+            new Dictionary<String, String>(StringComparer.Ordinal)
         {
              { "altglyph", "altGlyph" },
              { "altglyphdef", "altGlyphDef" },
@@ -124,7 +125,8 @@ namespace AngleSharp.Html.Parser
              { "textpath", "textPath" }
         };
 
-        private static readonly Dictionary<StringOrMemory, StringOrMemory> _MsvgAttributeNames = new(StringOrMemoryComparer.Ordinal)
+        private static readonly Dictionary<StringOrMemory, String> _MsvgAttributeNames =
+            new(StringOrMemoryComparer.Ordinal)
         {
             { "attributename", "attributeName" },
             { "attributetype", "attributeType" },
@@ -190,7 +192,8 @@ namespace AngleSharp.Html.Parser
             { "zoomandpan", "zoomAndPan" },
         };
 
-        private static readonly Dictionary<StringOrMemory, StringOrMemory> _MsvgAdjustedTagNames =  new(StringOrMemoryComparer.Ordinal)
+        private static readonly Dictionary<StringOrMemory, String> _MsvgAdjustedTagNames =
+            new(StringOrMemoryComparer.Ordinal)
         {
              { "altglyph", "altGlyph" },
              { "altglyphdef", "altGlyphDef" },
@@ -256,7 +259,7 @@ namespace AngleSharp.Html.Parser
         /// <returns>The name with the correct capitalization.</returns>
         public static StringOrMemory SanatizeSvgTagName(this StringOrMemory localName)
         {
-            if (_MsvgAttributeNames.TryGetValue(localName, out var adjustedTagName))
+            if (_MsvgAdjustedTagNames.TryGetValue(localName, out var adjustedTagName))
             {
                 return adjustedTagName;
             }
@@ -300,8 +303,7 @@ namespace AngleSharp.Html.Parser
                 var attr = tag.Attributes[i];
                 var name = attr.Name;
                 var value = attr.Value;
-                // todo: adjust attribute name
-                //element.AdjustAttribute(name.AdjustToMathAttribute(), value);
+                element.AdjustAttribute(name.AdjustToMathAttribute().String, value.String);
             }
 
             return element;
@@ -343,7 +345,7 @@ namespace AngleSharp.Html.Parser
                 var attr = tag.Attributes[i];
                 var name = attr.Name;
                 var value = attr.Value;
-                element.AdjustAttribute(name.String.AdjustToSvgAttribute(), value.String);
+                element.AdjustAttribute(name.AdjustToSvgAttribute().String, value.String);
             }
 
             return element;
@@ -437,7 +439,6 @@ namespace AngleSharp.Html.Parser
 
             return attributeName;
         }
-
 
         #endregion
 

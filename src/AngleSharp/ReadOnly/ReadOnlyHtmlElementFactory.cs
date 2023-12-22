@@ -27,6 +27,13 @@ internal interface IReadOnlyFactory : IHtmlElementFactory<ReadOnlyDocument, Read
 
 sealed class ReadOnlyHtmlElementFactory : IReadOnlyFactory
 {
+    public ReadOnlyHtmlElementFactory(bool emitWhitespaceOnlyNodes = false)
+    {
+        EmitWhitespaceOnlyNodes = emitWhitespaceOnlyNodes;
+    }
+
+    public bool EmitWhitespaceOnlyNodes { get; set; }
+
     public ReadOnlyHtmlElement Create(ReadOnlyDocument document, StringOrMemory localName, StringOrMemory prefix = default, NodeFlags flags = NodeFlags.None)
     {
         _creators.TryGetValue(localName, out var creator);

@@ -13,7 +13,6 @@ namespace AngleSharp.Benchmarks
         private UrlTest(string name, string source)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
             Name = name;
             Source = source;
         }

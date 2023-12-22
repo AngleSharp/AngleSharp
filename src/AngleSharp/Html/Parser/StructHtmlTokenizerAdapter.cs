@@ -8,7 +8,7 @@ namespace AngleSharp.Html.Parser
     using Common;
 
 
-    public interface IHtmlTokenizer
+    internal interface IHtmlTokenizer
     {
         /// <summary>
         /// Gets the next available token.

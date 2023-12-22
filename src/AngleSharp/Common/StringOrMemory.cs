@@ -47,12 +47,9 @@ public struct StringOrMemory
                 return String.Empty;
             }
 
-            if (_memory.Length == 1)
-            {
-                return _memory.Span[0].ToString();
-            }
-
-            return _string ??= _memory.Span.CreateString();
+            // ToString here checks if pointer is already a string and also checks case when length is same as original string
+            // important for cached string, usually from dictionaries
+            return _string ??= _memory.Span.ToString();
         }
     }
 

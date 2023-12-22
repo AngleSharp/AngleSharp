@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -15,11 +16,25 @@ using AngleSharp.Text;
 public interface IReadOnlyNode: IMarkupFormattable
 {
     StringOrMemory NodeName { get; }
-    // NodeType NodeType { get; }
     NodeFlags Flags { get; }
     IReadOnlyNode? Parent { get; }
     IReadOnlyNodeList ChildNodes { get; }
     HtmlToken? SourceReference { get; }
+}
+
+public interface IReadOnlyTextNode
+{
+    StringOrMemory Content { get; }
+}
+
+public interface IReadOnlyCommentNode
+{
+    StringOrMemory Content { get; }
+}
+
+public interface IReadOnlyProcessingInstructionNode
+{
+    StringOrMemory Content { get; }
 }
 
 public interface IReadOnlyNodeList : IEnumerable<IReadOnlyNode>
@@ -61,8 +76,8 @@ internal interface IConstructableNode : IMarkupFormattable
     void RemoveNode(int idx, IConstructableNode childNode);
     void InsertNode(int idx, IConstructableNode childNode);
     void AddNode(IConstructableNode node);
-    void AppendText(StringOrMemory text);
-    void InsertText(int idx, StringOrMemory text);
+    void AppendText(StringOrMemory text, bool emitWhiteSpaceOnly = false);
+    void InsertText(int idx, StringOrMemory text, bool emitWhiteSpaceOnly = false);
     void AddComment(ref StructHtmlToken token);
 }
 
@@ -128,21 +143,20 @@ internal interface IConstructableDocument : IConstructableNode
 
 internal class ReadOnlyCharacterData : ReadOnlyNode
 {
-    public StringOrMemory Content { get; }
-
     internal ReadOnlyCharacterData(ReadOnlyDocument? owner, StringOrMemory name, NodeType nodeType)
         : this(owner, name, nodeType, StringOrMemory.Empty)
     {
     }
 
     internal ReadOnlyCharacterData(ReadOnlyDocument? owner, StringOrMemory name, NodeType nodeType, StringOrMemory content)
-        : base(owner, name, nodeType)
+        : base(owner, content, nodeType)
     {
-        Content = content;
     }
+
+    public StringOrMemory Content => NodeName;
 }
 
-internal class ReadOnlyProcessingInstruction : ReadOnlyCharacterData
+internal class ReadOnlyProcessingInstruction : ReadOnlyCharacterData, IReadOnlyProcessingInstructionNode
 {
     private ReadOnlyProcessingInstruction(ReadOnlyDocument? owner, StringOrMemory name)
         : base(owner, name, NodeType.ProcessingInstruction)
@@ -164,7 +178,7 @@ internal class ReadOnlyProcessingInstruction : ReadOnlyCharacterData
     }
 }
 
-internal class ReadOnlyTextNode : ReadOnlyCharacterData
+internal class ReadOnlyTextNode : ReadOnlyCharacterData, IReadOnlyTextNode
 {
     public ReadOnlyTextNode(ReadOnlyDocument? owner, StringOrMemory content)
         :  base(owner, "#text", NodeType.Text, content)
@@ -177,7 +191,7 @@ internal class ReadOnlyTextNode : ReadOnlyCharacterData
     }
 }
 
-internal class ReadOnlyComment : ReadOnlyCharacterData
+internal class ReadOnlyComment : ReadOnlyCharacterData, IReadOnlyCommentNode
 {
     public ReadOnlyComment(ReadOnlyDocument? owner, StringOrMemory tokenData)
         : base(owner, "#comment", NodeType.Comment, tokenData)
@@ -200,7 +214,7 @@ public interface IReadOnlyAttr
 
 public interface IConstructableNamedNodeMap : IEnumerable<IReadOnlyAttr>
 {
-    IReadOnlyAttr? this[Int32 index] { get; }
+    // IReadOnlyAttr? this[Int32 index] { get; }
     IReadOnlyAttr? this[StringOrMemory name] { get; }
     Int32 Length { get; }
     bool SameAs(IConstructableNamedNodeMap? attributes);
@@ -220,6 +234,7 @@ internal class ReadOnlyAttr : IReadOnlyAttr
 
 internal abstract class ReadOnlyNode : IConstructableNode, IReadOnlyNode
 {
+    private static ReadOnlySpan<Char> WhiteSpace => " \t\r\n".AsSpan();
     protected readonly NodeFlags _flags;
     protected ConstructableNodeList? _childNodes;
     private IConstructableNode? _parent;
@@ -236,7 +251,6 @@ internal abstract class ReadOnlyNode : IConstructableNode, IReadOnlyNode
     public ReadOnlyNode(ReadOnlyDocument? owner, StringOrMemory name, NodeType nodeType = NodeType.Element, NodeFlags flags = NodeFlags.None)
     {
         NodeName = name;
-        _childNodes = new ConstructableNodeList();
         _flags = flags;
         // _nodeType = nodeType;
     }
@@ -282,13 +296,23 @@ internal abstract class ReadOnlyNode : IConstructableNode, IReadOnlyNode
         _childNodes.Add(node);
     }
 
-    public void AppendText(StringOrMemory text)
+    public void AppendText(StringOrMemory text, bool emitWhiteSpaceOnly = false)
     {
+        if (!emitWhiteSpaceOnly && text.Memory.Span.Trim(WhiteSpace).Length == 0)
+        {
+            return;
+        }
+
         AddNode(new ReadOnlyTextNode(Owner, text));
     }
 
-    public void InsertText(int idx, StringOrMemory text)
+    public void InsertText(int idx, StringOrMemory text, bool emitWhiteSpaceOnly = false)
     {
+        if (!emitWhiteSpaceOnly && text.Memory.Span.Trim(WhiteSpace).Length == 0)
+        {
+            return;
+        }
+
         var readOnlyTextNode = new ReadOnlyTextNode(Owner, text);
         _childNodes ??= new ConstructableNodeList();
         _childNodes.Insert(idx, readOnlyTextNode);
@@ -480,19 +504,6 @@ internal class ReadOnlyElement : ReadOnlyNode, IReadOnlyElement
 
     /// <inheritdoc />
     public ReadOnlyElement(
-        ReadOnlyDocument owner,
-        StringOrMemory localName,
-        StringOrMemory prefix = default,
-        StringOrMemory namespaceUri = default,
-        NodeFlags flags = NodeFlags.None)
-        : this(owner,
-            prefix.IsNullOrEmpty ? String.Concat(prefix.Memory.Span, ":", localName.Memory.Span) : localName,
-            localName, prefix, namespaceUri, flags)
-    {
-    }
-
-    /// <inheritdoc />
-    public ReadOnlyElement(
         ReadOnlyDocument? owner,
         StringOrMemory name,
         StringOrMemory localName,
@@ -504,11 +515,10 @@ internal class ReadOnlyElement : ReadOnlyNode, IReadOnlyElement
         // _localName = localName;
         // _prefix = prefix;
         // _namespace = namespaceUri;
-        // _attributes = new NamedNodeMap(this);
 
         // NamespaceUri = namespaceUri;
         // LocalName = localName;
-        _attributes = new ConstructableNamedNodeMap();
+        // _attributes = new ConstructableNamedNodeMap();
     }
 
     public StringOrMemory GetAttribute(StringOrMemory @namespace, StringOrMemory name)
@@ -547,10 +557,14 @@ internal class ReadOnlyElement : ReadOnlyNode, IReadOnlyElement
 
     public void SetAttributes(StructAttributes attributes)
     {
+        if (attributes.Count == 0)
+            return;
+
         _attributes ??= new ConstructableNamedNodeMap();
         for (int i = 0; i < attributes.Count; i++)
         {
-            _attributes.Add(new ReadOnlyAttr(attributes[i].Name, attributes[i].Value));
+            var attribute = attributes[i];
+            SetAttribute(null, attribute.Name, attribute.Value);
         }
     }
 
@@ -585,8 +599,23 @@ internal class ConstructableNamedNodeMap : IConstructableNamedNodeMap, IReadOnly
         _attributes = new List<IReadOnlyAttr>();
     }
 
-    public IReadOnlyAttr? this[Int32 index] => _attributes.ElementAtOrDefault(index);
-    public IReadOnlyAttr? this[StringOrMemory name] => _attributes.Find(attr => attr.Name == name);
+    public IReadOnlyAttr? this[Int32 index] => index < _attributes.Count ? _attributes[index] : null;
+    public IReadOnlyAttr? this[StringOrMemory name]
+    {
+        get
+        {
+            for (int i = 0; i < _attributes.Count; i++)
+            {
+                var attr = _attributes[i];
+                if (attr.Name == name)
+                {
+                    return attr;
+                }
+            }
+
+            return null;
+        }
+    }
 
     public Int32 Length => _attributes.Count;
 
@@ -612,11 +641,6 @@ internal class ConstructableNamedNodeMap : IConstructableNamedNodeMap, IReadOnly
         }
 
         return true;
-    }
-
-    public void FastAddItem(IReadOnlyAttr item)
-    {
-        Add(item);
     }
 
     public IEnumerator<IReadOnlyAttr> GetEnumerator()

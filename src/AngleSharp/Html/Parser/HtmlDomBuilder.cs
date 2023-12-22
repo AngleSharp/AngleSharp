@@ -66,7 +66,7 @@ namespace AngleSharp.Html.Parser
         /// </param>
         public HtmlDomBuilder(HtmlDocument document, String? stopAt = null)
         {
-            _tokenizer = new StructHtmlTokenizerAdapter(document.Source, document.Entities);
+            _tokenizer = new HtmlTokenizer((TextSource)document.Source, document.Entities);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();

@@ -6,53 +6,16 @@ using AngleSharp.Common;
 using AngleSharp.Dom;
 using AngleSharp.Text;
 
-// public ref struct MaybeStructHtmlToken
-// {
-//     private StructHtmlToken _value;
-//     private Boolean _hasValue;
-//
-//     public MaybeStructHtmlToken(StructHtmlToken value)
-//     {
-//         _value = value;
-//         _hasValue = true;
-//     }
-//
-//     public MaybeStructHtmlToken()
-//     {
-//         _hasValue = false;
-//     }
-//
-//     public static MaybeStructHtmlToken Null => new();
-//
-//     public Boolean HasValue => _hasValue;
-//
-//     public StructHtmlToken Value
-//     {
-//         get
-//         {
-//             if (!_hasValue)
-//             {
-//                 throw new InvalidOperationException("No value present.");
-//             }
-//
-//             return _value;
-//         }
-//     }
-//
-//     public override Boolean Equals(Object? other)
-//     {
-//         if (!_hasValue) return other == null;
-//         return false;
-//     }
-//
-//     public override Int32 GetHashCode() => 0;
-//     public override String ToString() => "";
-//
-//     public static implicit operator MaybeStructHtmlToken(StructHtmlToken value) => new(value);
-// }
-
 public struct StructHtmlToken
 {
+    // as doctype is very rare, we can save some stack memory copying by not storing doctype data as fields on struct
+    private sealed class StructTokenDoctypeData
+    {
+        public Boolean Quirks { get; set; }
+        public StringOrMemory? PublicIdentifier { get; set; }
+        public StringOrMemory? SystemIdentifier { get; set; }
+    }
+
     #region Fields
 
     // token
@@ -61,15 +24,11 @@ public struct StructHtmlToken
     private StringOrMemory _name;
 
     // tag token
-
     private StructAttributes _attributes;
     private Boolean _selfClosing;
 
     // doctype token
-
-    private Boolean _quirks;
-    private StringOrMemory? _publicIdentifier;
-    private StringOrMemory? _systemIdentifier;
+    private StructTokenDoctypeData? _structTokenDoctypeData;
 
     #endregion
 
@@ -98,7 +57,10 @@ public struct StructHtmlToken
     public static StructHtmlToken Doctype(Boolean quirksForced, TextPosition position) =>
         new(HtmlTokenType.Doctype, position)
         {
-            _quirks = quirksForced,
+            _structTokenDoctypeData = new StructTokenDoctypeData()
+            {
+                Quirks = quirksForced
+            }
         };
 
     public static StructHtmlToken TagOpen(TextPosition position) =>
@@ -244,27 +206,35 @@ public struct StructHtmlToken
     /// </summary>
     public Boolean IsQuirksForced
     {
-        get => _quirks;
-        set => _quirks = value;
+        get => _structTokenDoctypeData?.Quirks ?? false;
+        set
+        {
+            _structTokenDoctypeData ??= new StructTokenDoctypeData();
+            _structTokenDoctypeData.Quirks = value;
+        }
     }
 
     /// <summary>
     /// Gets the state of the public identifier.
     /// </summary>
-    public Boolean IsPublicIdentifierMissing => _publicIdentifier == null;
+    public Boolean IsPublicIdentifierMissing => _structTokenDoctypeData?.PublicIdentifier == null;
 
     /// <summary>
     /// Gets the state of the system identifier.
     /// </summary>
-    public Boolean IsSystemIdentifierMissing => _systemIdentifier == null;
+    public Boolean IsSystemIdentifierMissing => _structTokenDoctypeData?.SystemIdentifier == null;
 
     /// <summary>
     /// Gets or sets the value of the public identifier.
     /// </summary>
     public StringOrMemory PublicIdentifier
     {
-        get => _publicIdentifier ?? default;
-        set => _publicIdentifier = value;
+        get => _structTokenDoctypeData?.PublicIdentifier ?? default;
+        set
+        {
+            _structTokenDoctypeData ??= new StructTokenDoctypeData();
+            _structTokenDoctypeData.PublicIdentifier = value;
+        }
     }
 
     /// <summary>
@@ -272,8 +242,12 @@ public struct StructHtmlToken
     /// </summary>
     public StringOrMemory SystemIdentifier
     {
-        get => _systemIdentifier ?? default;
-        set => _systemIdentifier = value;
+        get => _structTokenDoctypeData?.SystemIdentifier ?? default;
+        set
+        {
+            _structTokenDoctypeData ??= new StructTokenDoctypeData();
+            _structTokenDoctypeData.SystemIdentifier = value;
+        }
     }
 
     /// <summary>
@@ -548,21 +522,30 @@ public struct StructHtmlToken
         switch (Type)
         {
             case HtmlTokenType.Doctype:
-                var doctype = new HtmlDoctypeToken(_quirks, _position)
+
+                if (_structTokenDoctypeData == null)
+                {
+                    return new HtmlDoctypeToken(false, _position)
+                    {
+                        IsProcessingInstruction = IsProcessingInstruction,
+                        Name = _name.String,
+                    };
+                }
+
+                var doctype = new HtmlDoctypeToken(_structTokenDoctypeData.Quirks, _position)
                 {
                     IsProcessingInstruction = IsProcessingInstruction,
                     Name = _name.String,
-                    IsQuirksForced = _quirks,
                 };
 
-                if (_publicIdentifier != null)
+                if (_structTokenDoctypeData.PublicIdentifier != null)
                 {
-                    doctype.PublicIdentifier = _publicIdentifier.Value.String;
+                    doctype.PublicIdentifier = _structTokenDoctypeData.PublicIdentifier.Value.String;
                 }
 
-                if (_systemIdentifier != null)
+                if (_structTokenDoctypeData.SystemIdentifier != null)
                 {
-                    doctype.SystemIdentifier = _systemIdentifier.Value.String;
+                    doctype.SystemIdentifier = _structTokenDoctypeData.SystemIdentifier.Value.String;
                 }
 
                 return doctype;
@@ -591,7 +574,4 @@ public struct StructHtmlToken
                 };
         }
     }
-
-
-
 }

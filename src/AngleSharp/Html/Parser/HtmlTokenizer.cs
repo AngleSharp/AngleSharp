@@ -13,7 +13,7 @@ namespace AngleSharp.Html.Parser
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    public sealed class HtmlTokenizer : BaseTokenizer
+    public sealed class HtmlTokenizer : BaseTokenizer, IHtmlTokenizer
     {
         #region Fields
 
@@ -142,7 +142,7 @@ namespace AngleSharp.Html.Parser
             return NewEof(acceptable: true);
         }
 
-        internal void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
+        public void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
         {
             var handler = Error;
 
