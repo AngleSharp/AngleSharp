@@ -21,7 +21,13 @@ namespace AngleSharp.Html.Parser
             HtmlDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
             String? stopAt = null)
-            : base(elementFactory, document, maybeOptions, stopAt != null ? e => e.NodeName.Is(stopAt) : null)
+            : base(
+                elementFactory: elementFactory,
+                document: document,
+                maybeOptions: maybeOptions,
+                emitWhitespaceTextNodes: true,
+                // if (_stopAt is not null && element.Prefix is null && _stopAt == element.LocalName)
+                shouldEnd: stopAt != null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null)
         {
         }
     }

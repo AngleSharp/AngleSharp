@@ -145,6 +145,19 @@ namespace AngleSharp.Html.Dom
             this.ApplyManifest();
         }
 
+        Boolean IConstructableDocument.IsLoading => IsLoading;
+
+        Task IConstructableDocument.FinishLoadingAsync()
+        {
+            return this.FinishLoadingAsync();
+        }
+
         #endregion
+
+        public override void Dispose()
+        {
+            ((IConstructableDocument)this).Builder?.Dispose();
+            base.Dispose();
+        }
     }
 }

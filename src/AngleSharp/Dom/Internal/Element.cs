@@ -73,8 +73,6 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String? Prefix => _prefix;
 
-
-
         /// <inheritdoc />
         public String LocalName => _localName;
 
@@ -718,6 +716,8 @@ namespace AngleSharp.Dom
         {
             return Clone(Owner, false);
         }
+
+        StringOrMemory IConstructableElement.Prefix => Prefix ?? StringOrMemory.Empty;
 
         #endregion
     }

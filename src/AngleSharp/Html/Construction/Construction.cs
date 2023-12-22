@@ -59,6 +59,8 @@ internal interface IConstructableElement : IConstructableNode
 {
     StringOrMemory NamespaceUri { get; }
     StringOrMemory LocalName { get; }
+    StringOrMemory Prefix { get; }
+
     IConstructableNamedNodeMap Attributes { get; }
     ISourceReference? SourceReference { get; set; }
 
@@ -100,11 +102,11 @@ internal interface IConstructableDocument : IConstructableNode
 {
     IReadOnlyTextSource Source { get; }
     IDisposable? Builder { get; set; }
-
     QuirksMode QuirksMode { get; set; }
-
     IConstructableElement? Head { get; }
     IConstructableElement DocumentElement { get; }
+
+    Boolean IsLoading { get; }
 
     void PerformMicrotaskCheckpoint();
     void ProvideStableState();
@@ -113,6 +115,7 @@ internal interface IConstructableDocument : IConstructableNode
 
     void TrackError(Exception exception);
     Task WaitForReadyAsync(CancellationToken cancelToken);
+    Task FinishLoadingAsync();
     void ApplyManifest();
     void Clear();
 }

@@ -16,13 +16,20 @@ namespace AngleSharp.Core.Tests.Css
 
     public class StylesheetExtensions
     {
-        [Test]
-        public void TestStyleSheetsDoesNotThrowStackOverflowException()
+        [TestCase(1000)]
+        [TestCase(900)]
+        [TestCase(800)]
+        [TestCase(700)]
+        [TestCase(600)]
+        [TestCase(500)]
+        [TestCase(100)]
+        [TestCase(1)]
+        public void TestStyleSheetsDoesNotThrowStackOverflowException(Int32 count)
         {
             var thread = new Thread( () =>
             {
-                var beginTags = String.Join("", Enumerable.Repeat("<div>", 1000));
-                var endTags = String.Join("", Enumerable.Repeat("</div>", 1000));
+                var beginTags = String.Join("", Enumerable.Repeat("<div>", count));
+                var endTags = String.Join("", Enumerable.Repeat("</div>", count));
                 var html = $"<html><head><style></style></head><body>{beginTags}<span><style></style></span>{endTags}</body></html>";
 
                 var stylingService = new MockStylingService();
@@ -34,7 +41,7 @@ namespace AngleSharp.Core.Tests.Css
                 Assert.AreEqual("HEAD", sheets[0]!.OwnerNode.ParentElement?.TagName);
                 Assert.AreEqual("SPAN", sheets[1]!.OwnerNode.ParentElement?.TagName);
 
-            }, 64 * 1024);
+            }, (64 + 1) * 1024);
 
             thread.Start();
             thread.Join();

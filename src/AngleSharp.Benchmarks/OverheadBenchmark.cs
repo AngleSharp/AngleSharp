@@ -66,17 +66,19 @@ public class OverheadBenchmark
         yield return new HtmlTask { Display = "github *", Html = StaticHtml.Github, Options = Custom };
     }
 
-    // [Benchmark(Baseline = true)]
-    // public IHtmlDocument V1()
-    // {
-    //     return parser.ParseDocument(It!.Html);
-    // }
+    [Benchmark(Baseline = true)]
+    public void V1()
+    {
+        var doc = parser.ParseDocument(It!.Html);
+        doc.Dispose();
+    }
 
     [Benchmark]
-    public IReadOnlyDocument V2()
+    public void V2()
     {
-        using var source = new PrefetchedTextSource(It!.Html);
-        return parser.ParseReadOnlyDocument(source);
+        var source = new PrefetchedTextSource(It!.Html);
+        var doc = parser.ParseReadOnlyDocument(source);
+        doc.Dispose();
     }
 
     public static readonly HtmlParserOptions Custom = new HtmlParserOptions()

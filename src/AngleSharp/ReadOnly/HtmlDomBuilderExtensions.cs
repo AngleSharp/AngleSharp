@@ -286,8 +286,20 @@ namespace AngleSharp.Html.Parser
              AttributeNames.Show.EqualsSubset(name, 6, 4) || AttributeNames.Type.EqualsSubset(name, 6, 4) ||
              AttributeNames.Title.EqualsSubset(name, 6, 5));
 
-        private static Boolean EqualsSubset(this String a, StringOrMemory b, Int32 index, Int32 length) =>
-            a.AsSpan().Slice(0, length).SequenceEqual(b.Memory.Span.Slice(index, length));
+        private static Boolean EqualsSubset(this String a, StringOrMemory b, Int32 index, Int32 length)
+        {
+            if (length > a.Length)
+            {
+                return false;
+            }
+
+            if (length > b.Length - index)
+            {
+                return false;
+            }
+
+            return a.AsSpan().Slice(0, length).SequenceEqual(b.Memory.Span.Slice(index, length));
+        }
 
         #endregion
 

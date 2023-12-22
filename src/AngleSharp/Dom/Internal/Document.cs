@@ -881,7 +881,7 @@ namespace AngleSharp.Dom
         public void Clear() => ReplaceAll(null, true);
 
         /// <inheritdoc />
-        public void Dispose()
+        public virtual void Dispose()
         {
             //Important to fix #45
             Clear();

@@ -892,7 +892,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        IConstructableNodeList IConstructableNode.ChildNodes => throw new NotImplementedException();
+        IConstructableNodeList IConstructableNode.ChildNodes => ChildNodes;
 
         void IConstructableNode.RemoveFromParent()
         {

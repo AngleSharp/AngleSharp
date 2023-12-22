@@ -129,6 +129,7 @@ internal abstract class ReadOnlyNode : IConstructableNode, IReadOnlyNode
 
     public void RemoveChild(IConstructableNode childNode)
     {
+        childNode.Parent = null;
         _childNodes?.Remove(childNode);
     }
 
@@ -140,12 +141,15 @@ internal abstract class ReadOnlyNode : IConstructableNode, IReadOnlyNode
 
     public void InsertNode(int idx, IConstructableNode childNode)
     {
+        _childNodes ??= new ConstructableNodeList();
+        childNode.Parent = this;
         _childNodes?.Insert(idx, childNode);
     }
 
     public void AddNode(IConstructableNode node)
     {
         _childNodes ??= new ConstructableNodeList();
+        node.Parent = this;
         _childNodes.Add(node);
     }
 
@@ -231,9 +235,16 @@ internal class ReadOnlyDocument : ReadOnlyNode, IConstructableDocument, IReadOnl
         return Task.CompletedTask;
     }
 
+    public Task FinishLoadingAsync()
+    {
+        return Task.CompletedTask;
+    }
+
     public IConstructableElement Head => throw new NotImplementedException();
 
     public IConstructableElement DocumentElement => throw new NotImplementedException();
+
+    public bool IsLoading => false;
 
     public void ApplyManifest()
     {
@@ -546,6 +557,7 @@ class ReadOnlyHtmlElement : ReadOnlyElement, IConstructableSvgElement, IConstruc
         return String.Concat(prefix.Memory.Span, ":", localName.Memory.Span);
     }
 
+    public StringOrMemory Prefix => StringOrMemory.Empty;
 
     public void SetOwnAttribute(StringOrMemory name, StringOrMemory value)
     {
