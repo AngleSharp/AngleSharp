@@ -31,7 +31,7 @@ namespace AngleSharp.Text
             chrs[0] = (Char)(rem + (rem < 10 ? 48 : 55));
             rem = num - 16 * rem;
             chrs[1] = (Char)(rem + (rem < 10 ? 48 : 55));
-            return chrs.CreateString();
+            return chrs.ToString();
         }
 
         /// <summary>

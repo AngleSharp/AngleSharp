@@ -54,7 +54,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     {
         get
         {
-            return _content ??= _memory.Span.CreateString();
+            return _content ??= _memory.Span.ToString();
         }
     }
 

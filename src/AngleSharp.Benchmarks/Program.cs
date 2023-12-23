@@ -2,7 +2,6 @@
 using System;
 using System.Text;
 using BenchmarkDotNet.Running;
-using AngleSharp.ReadOnly;
 
 namespace AngleSharp.Benchmarks
 {
@@ -11,22 +10,18 @@ namespace AngleSharp.Benchmarks
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.Numerics;
     using System.Threading.Tasks;
-    using Common;
     using Css.Dom;
     using Css.Parser;
     using Dom;
-    using Html;
-    using Html.Dom;
     using Html.Parser;
-    using Html.Parser.Tokens.Struct;
     using Microsoft.IO;
     using ReadOnly.Html;
     using Text;
+    using UserCode;
 
     static class Program
     {
@@ -41,14 +36,33 @@ namespace AngleSharp.Benchmarks
                 BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
                 return;
             }
+
+            var html = new PrefetchedTextSource(StaticHtml.Github);
+            var parser = new HtmlParser();
+            using var doc = parser.ParseReadOnlyDocument(html, new FirstTagAndAllChildren("body").Loop);
+            var sb = new StringBuilder();
+
+            var comments = doc
+                .QueryAll(
+                    n => n.Tag("div") && n.Class("edit-comment-hide"),
+                    n => n.Tag("tr") && n.Class("d-block"),
+                    n => n.Tag("td") && n.Class("comment-body"))
+                .Select(n => n.GetTextContent(sb))
+                .ToList();
+
+            foreach (var comment in comments)
+            {
+                Console.WriteLine(comment);
+                Console.WriteLine("========================================");
+            }
         }
     }
 
     public static class ParserExtensions
     {
-        public static IReadOnlyDocument ParseWithFilter(this IHtmlParser parser, Memory<Char> data, Middleware mw)
+        public static IReadOnlyDocument ParseWithFilter(this IHtmlParser parser, ReadOnlyMemory<Char> data, Middleware mw)
         {
-            using var source = new PrefetchedTextSource(data);
+            var source = new PrefetchedTextSource(data);
             var doc = parser.ParseReadOnlyDocument(source, mw);
             return doc;
         }

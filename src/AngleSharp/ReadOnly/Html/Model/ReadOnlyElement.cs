@@ -57,12 +57,7 @@ internal abstract class ReadOnlyElement : ReadOnlyNode, IReadOnlyElement
 
     public bool HasAttribute(StringOrMemory name)
     {
-        if (_attributes is null)
-        {
-            return false;
-        }
-
-        return _attributes[name] is not null;
+        return _attributes?[name] != null;
     }
 
     public void SetAttribute(String? ns, StringOrMemory name, StringOrMemory value)

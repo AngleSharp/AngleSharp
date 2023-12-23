@@ -121,7 +121,11 @@ namespace AngleSharp.Dom
         /// <param name="filter">Optional filter to run against items.</param>
         /// <param name="state">Optional state to help with filtering.</param>
         /// <returns>An iterator over all descendants and itself.</returns>
-        internal static IEnumerable<INode> GetDescendantsAndSelf<TState>(this INode parent, Stack<INode> stack, Func<INode, TState?, Boolean>? filter = null, TState? state = default)
+        internal static IEnumerable<INode> GetDescendantsAndSelf<TState>(
+            this INode parent,
+            Stack<INode> stack,
+            Func<INode, TState?, Boolean>? filter = null,
+            TState? state = default)
         {
             stack.Push(parent);
 

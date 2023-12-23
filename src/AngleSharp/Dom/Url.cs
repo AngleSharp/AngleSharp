@@ -1335,7 +1335,7 @@ namespace AngleSharp.Dom
                 }
             }
 
-            return chars.Slice(0, count).CreateString();
+            return chars.Slice(0, count).ToString();
         }
 
 #endregion

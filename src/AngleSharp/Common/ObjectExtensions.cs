@@ -182,45 +182,5 @@ namespace AngleSharp.Common
 
             return description ?? "An unknown error occurred.";
         }
-
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-        /// <summary>
-        /// Creates a string from the given read only span of characters.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String CreateString(this ReadOnlySpan<Char> chars)
-        {
-            return new String(chars);
-        }
-
-        /// <summary>
-        /// Creates a string from the given span of characters.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String CreateString(this Span<Char> chars)
-        {
-            return new String(chars);
-        }
-#else
-        /// <summary>
-        /// Creates a string from the given read only span of characters.
-        /// </summary>
-        public static String CreateString(this ReadOnlySpan<Char> chars)
-        {
-            using var lease = ArrayPool<Char>.Shared.Borrow(chars.Length);
-            chars.CopyTo(lease.Span);
-            return new String(lease.Data, 0, chars.Length);
-        }
-
-        /// <summary>
-        /// Creates a string from the given span of characters.
-        /// </summary>
-        public static String CreateString(this Span<Char> chars)
-        {
-            using var lease = ArrayPool<Char>.Shared.Borrow(chars.Length);
-            chars.CopyTo(lease.Span);
-            return new String(lease.Data, 0, chars.Length);
-        }
-#endif
     }
 }

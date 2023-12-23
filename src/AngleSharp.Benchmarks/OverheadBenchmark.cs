@@ -20,14 +20,6 @@ using Text;
 [MemoryDiagnoser]
 public class OverheadBenchmark
 {
-    public class HtmlTask
-    {
-        public required string Display { get; init; }
-        public required string Html { get; init; }
-        public required HtmlParserOptions Options {get; init;}
-        public override string ToString() => Display;
-    }
-
     private class Config : ManualConfig
     {
         public Config()
@@ -37,6 +29,14 @@ public class OverheadBenchmark
                 .WithStrategy(RunStrategy.Throughput)
             );
         }
+    }
+
+    public class HtmlTask
+    {
+        public required string Display { get; init; }
+        public required string Html { get; init; }
+        public required HtmlParserOptions Options {get; init;}
+        public override string ToString() => Display;
     }
 
     private HtmlParser parser = new HtmlParser();

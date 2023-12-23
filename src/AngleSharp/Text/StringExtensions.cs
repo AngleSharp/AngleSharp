@@ -183,7 +183,7 @@ namespace AngleSharp.Text
                     result[j] = c;
                 }
 
-                return result.CreateString();
+                return result.ToString();
             }
         }
 
@@ -243,7 +243,7 @@ namespace AngleSharp.Text
                     result[j] = c;
                 }
 
-                return result.CreateString();
+                return result.ToString();
             }
         }
 
