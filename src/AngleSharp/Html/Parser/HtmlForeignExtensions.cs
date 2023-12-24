@@ -81,7 +81,7 @@ namespace AngleSharp.Html.Parser
             { "zoomandpan", "zoomAndPan" },
         };
 
-        private static readonly Dictionary<StringOrMemory, String> _MsvgAdjustedTagNames =
+        private static readonly Dictionary<StringOrMemory, String> svgAdjustedTagNames =
             new(OrdinalStringOrMemoryComparer.Instance)
         {
              { "altglyph", "altGlyph" },
@@ -133,7 +133,7 @@ namespace AngleSharp.Html.Parser
         /// <returns>The name with the correct capitalization.</returns>
         public static StringOrMemory SanatizeSvgTagName(this StringOrMemory localName)
         {
-            if (_MsvgAdjustedTagNames.TryGetValue(localName, out var adjustedTagName))
+            if (svgAdjustedTagNames.TryGetValue(localName, out var adjustedTagName))
             {
                 return adjustedTagName;
             }

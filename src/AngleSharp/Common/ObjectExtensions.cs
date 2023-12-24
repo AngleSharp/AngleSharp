@@ -2,12 +2,9 @@ namespace AngleSharp.Common
 {
     using AngleSharp.Attributes;
     using System;
-    using System.Buffers;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using Text;
 
     /// <summary>
     /// Some methods for working with bare objects.

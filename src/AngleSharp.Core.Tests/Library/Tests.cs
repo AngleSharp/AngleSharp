@@ -4,10 +4,10 @@ using System;
 using Common;
 using NUnit.Framework;
 
-public class Tests
+public class ArrayPoolBufferTests
 {
     [Test]
-    public void Check1()
+    public void CanAppendAndStrings()
     {
         using var b = new ArrayPoolBuffer(128);
         b.Append("Hello World!".AsSpan());
@@ -15,7 +15,7 @@ public class Tests
     }
 
     [Test]
-    public void Check2()
+    public void CanAppendMultipleTimesAndProduceStrings()
     {
         var b = new ArrayPoolBuffer(128);
         b.Append("Hello World!".AsSpan());
@@ -24,13 +24,12 @@ public class Tests
     }
 
     [Test]
-    public void Check3()
+    public void CanProduceMultipleStrings()
     {
         var b = new ArrayPoolBuffer(1024);
 
         for (int i = 0; i < 5; i++)
         {
-
             b.Append('<');
             b.Append('s');
             b.Append('c');
@@ -90,7 +89,7 @@ public class Tests
 
 
     [Test]
-    public void Check4()
+    public void CanAppendMultipleTimesWhileDiscarding()
     {
         var b = new ArrayPoolBuffer(16);
         for (int i = 0; i < 1024; i++)

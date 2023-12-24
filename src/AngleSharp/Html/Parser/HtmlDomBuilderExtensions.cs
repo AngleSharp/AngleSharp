@@ -25,7 +25,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return HtmlTreeMode.InSelect;
                 }
-                else if (TagNames._mAllTableCells.Contains(tagName))
+                else if (TagNames.AllTableCells.Contains(tagName))
                 {
                     return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
                 }
@@ -33,7 +33,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return HtmlTreeMode.InRow;
                 }
-                else if (TagNames._mAllTableSections.Contains(tagName))
+                else if (TagNames.AllTableSections.Contains(tagName))
                 {
                     return HtmlTreeMode.InTableBody;
                 }

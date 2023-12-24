@@ -216,7 +216,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <returns>The factory instance.</returns>
         public static TFactory GetFactory<TFactory>(this IBrowsingContext context)
-            where TFactory : class => context.GetService<TFactory>() ?? throw new Exception("Required factory " + typeof(TFactory).Name + " is not registered.");
+            where TFactory : class => context.GetServices<TFactory>().Single();
 
         /// <summary>
         /// Gets a provider service instance. At most one has to be available.
@@ -225,7 +225,7 @@ namespace AngleSharp
         /// <param name="context">The current context.</param>
         /// <returns>The provider instance or null.</returns>
         public static TProvider? GetProvider<TProvider>(this IBrowsingContext context)
-            where TProvider : class => context.GetService<TProvider>();
+            where TProvider : class => context.GetServices<TProvider>().SingleOrDefault();
 
         /// <summary>
         /// Gets a resource service. Multiple resource services may be registered, so

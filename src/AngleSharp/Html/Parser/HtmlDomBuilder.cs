@@ -583,7 +583,7 @@ namespace AngleSharp.Html.Parser
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    if (TagNames._mAllBeforeHead.Contains(token.Name))
+                    if (TagNames.AllBeforeHead.Contains(token.Name))
                     {
                         break;
                     }
@@ -643,7 +643,7 @@ namespace AngleSharp.Html.Parser
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    if (TagNames._mAllBeforeHead.Contains(token.Name))
+                    if (TagNames.AllBeforeHead.Contains(token.Name))
                     {
                         break;
                     }
@@ -725,7 +725,7 @@ namespace AngleSharp.Html.Parser
 
                         return;
                     }
-                    else if (TagNames._mAllHeadBase.Contains(tagName))
+                    else if (TagNames.AllHeadBase.Contains(tagName))
                     {
                         AddElement(ref token, acknowledgeSelfClosing: true);
                         CloseCurrentNode();
@@ -881,7 +881,7 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (TagNames._mAllNoScript.Contains(tagName))
+                    if (TagNames.AllNoScript.Contains(tagName))
                     {
                         InHead(ref token);
                     }
@@ -979,7 +979,7 @@ namespace AngleSharp.Html.Parser
                         AddElement(frameSetElement, ref token);
                         _currentMode = HtmlTreeMode.InFrameset;
                     }
-                    else if (TagNames._mAllHeadNoTemplate.Contains(tagName))
+                    else if (TagNames.AllHeadNoTemplate.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagMustBeInHead, ref token);
                         var head = _document.Head;
@@ -1072,7 +1072,7 @@ namespace AngleSharp.Html.Parser
 
                 AddElement(ref tag);
             }
-            else if (TagNames._mAllSemanticFormatting.Contains(tagName))
+            else if (TagNames.AllSemanticFormatting.Contains(tagName))
             {
                 ReconstructFormatting();
                 _formattingElements.AddFormatting(AddElement(ref tag));
@@ -1081,14 +1081,14 @@ namespace AngleSharp.Html.Parser
             {
                 InHead(ref tag);
             }
-            else if (TagNames._mAllHeadings.Contains(tagName))
+            else if (TagNames.AllHeadings.Contains(tagName))
             {
                 if (IsInButtonScope())
                 {
                     InBodyEndTagParagraph(ref tag);
                 }
 
-                if (TagNames._mAllHeadings.Contains(CurrentNode.LocalName))
+                if (TagNames.AllHeadings.Contains(CurrentNode.LocalName))
                 {
                     RaiseErrorOccurred(HtmlParseError.HeadingNested, ref tag);
                     CloseCurrentNode();
@@ -1126,7 +1126,7 @@ namespace AngleSharp.Html.Parser
                     RaiseErrorOccurred(HtmlParseError.FormAlreadyOpen, ref tag);
                 }
             }
-            else if (TagNames._mAllBody.Contains(tagName))
+            else if (TagNames.AllBody.Contains(tagName))
             {
                 if (IsInButtonScope())
                 {
@@ -1135,12 +1135,12 @@ namespace AngleSharp.Html.Parser
 
                 AddElement(ref tag);
             }
-            else if (TagNames._mAllClassicFormatting.Contains(tagName))
+            else if (TagNames.AllClassicFormatting.Contains(tagName))
             {
                 ReconstructFormatting();
                 _formattingElements.AddFormatting(AddElement(ref tag));
             }
-            else if (TagNames._mAllHead.Contains(tagName))
+            else if (TagNames.AllHead.Contains(tagName))
             {
                 InHead(ref tag);
             }
@@ -1183,11 +1183,11 @@ namespace AngleSharp.Html.Parser
                 _frameset = false;
                 _currentMode = HtmlTreeMode.InTable;
             }
-            else if (TagNames._mAllBodyBreakrow.Contains(tagName))
+            else if (TagNames.AllBodyBreakrow.Contains(tagName))
             {
                 InBodyStartTagBreakrow(ref tag);
             }
-            else if (TagNames._mAllBodyClosed.Contains(tagName))
+            else if (TagNames.AllBodyClosed.Contains(tagName))
             {
                 AddElement(ref tag, acknowledgeSelfClosing: true);
                 CloseCurrentNode();
@@ -1256,7 +1256,7 @@ namespace AngleSharp.Html.Parser
                 _frameset = false;
                 RawtextAlgorithm(ref tag);
             }
-            else if (TagNames._mAllBodyObsolete.Contains(tagName))
+            else if (TagNames.AllBodyObsolete.Contains(tagName))
             {
                 ReconstructFormatting();
                 AddElement(ref tag);
@@ -1463,7 +1463,7 @@ namespace AngleSharp.Html.Parser
                     InBody(ref temp);
                 }
             }
-            else if (TagNames._mAllNested.Contains(tagName))
+            else if (TagNames.AllNested.Contains(tagName))
             {
                 RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, ref tag);
             }
@@ -1509,11 +1509,11 @@ namespace AngleSharp.Html.Parser
             {
                 InBodyEndTagParagraph(ref tag);
             }
-            else if (TagNames._mAllBlocks.Contains(tagName))
+            else if (TagNames.AllBlocks.Contains(tagName))
             {
                 InBodyEndTagBlock(ref tag);
             }
-            else if (TagNames._mAllFormatting.Contains(tagName))
+            else if (TagNames.AllFormatting.Contains(tagName))
             {
                 HeisenbergAlgorithm(ref tag);
             }
@@ -1544,9 +1544,9 @@ namespace AngleSharp.Html.Parser
                 var temp = StructHtmlToken.Open(TagNames.Br);
                 Consume(ref temp);
             }
-            else if (TagNames._mAllHeadings.Contains(tagName))
+            else if (TagNames.AllHeadings.Contains(tagName))
             {
-                if (IsInScope(TagNames._mAllHeadings))
+                if (IsInScope(TagNames.AllHeadings))
                 {
                     GenerateImpliedEndTags();
 
@@ -1555,7 +1555,7 @@ namespace AngleSharp.Html.Parser
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, ref tag);
                     }
 
-                    ClearStackBackTo(TagNames._mAllHeadings);
+                    ClearStackBackTo(TagNames.AllHeadings);
                     CloseCurrentNode();
                 }
                 else
@@ -1757,14 +1757,14 @@ namespace AngleSharp.Html.Parser
                         InTable(ref temp);
                         InColumnGroup(ref token);
                     }
-                    else if (TagNames._mAllTableSections.Contains(tagName))
+                    else if (TagNames.AllTableSections.Contains(tagName))
                     {
                         ClearStackBackTo(TagNames.Table);
                         var section = _elementFactory.Create(_document, tagName);
                         AddElement(section, ref token);
                         _currentMode = HtmlTreeMode.InTableBody;
                     }
-                    else if (TagNames._mAllTableCellsRows.Contains(tagName))
+                    else if (TagNames.AllTableCellsRows.Contains(tagName))
                     {
                         var temp = StructHtmlToken.Open(TagNames.Tbody);
                         InTable(ref temp);
@@ -1807,7 +1807,7 @@ namespace AngleSharp.Html.Parser
                             CloseCurrentNode();
                         }
                     }
-                    else if (TagNames._mAllTableHead.Contains(tagName))
+                    else if (TagNames.AllTableHead.Contains(tagName))
                     {
                         InHead(ref token);
                     }
@@ -1835,7 +1835,7 @@ namespace AngleSharp.Html.Parser
                     {
                         InHead(ref token);
                     }
-                    else if (TagNames._mAllTableSpecial.Contains(tagName) || TagNames._mAllTableInner.Contains(tagName))
+                    else if (TagNames.AllTableSpecial.Contains(tagName) || TagNames.AllTableInner.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, ref token);
                     }
@@ -1858,7 +1858,7 @@ namespace AngleSharp.Html.Parser
                 }
                 case HtmlTokenType.Character:
                 {
-                    if (TagNames._mAllTableMajor.Contains(CurrentNode.LocalName))
+                    if (TagNames.AllTableMajor.Contains(CurrentNode.LocalName))
                     {
                         InTableText(ref token);
                         return;
@@ -1905,7 +1905,7 @@ namespace AngleSharp.Html.Parser
                     {
                         InCaptionEndTagCaption(ref token);
                     }
-                    else if (TagNames._mAllCaptionStart.Contains(tagName))
+                    else if (TagNames.AllCaptionStart.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, ref token);
                     }
@@ -1933,7 +1933,7 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (TagNames._mAllCaptionEnd.Contains(tagName))
+                    if (TagNames.AllCaptionEnd.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, ref token);
 
@@ -2063,18 +2063,18 @@ namespace AngleSharp.Html.Parser
 
                     if (tagName.Is(TagNames.Tr))
                     {
-                        ClearStackBackTo(TagNames._mAllTableSections);
+                        ClearStackBackTo(TagNames.AllTableSections);
                         var row = _elementFactory.Create(_document, TagNames.Tr);
                         AddElement(row, ref token);
                         _currentMode = HtmlTreeMode.InRow;
                     }
-                    else if (TagNames._mAllTableCells.Contains(tagName))
+                    else if (TagNames.AllTableCells.Contains(tagName))
                     {
                         var temp = StructHtmlToken.Open(TagNames.Tr);
                         InTableBody(ref temp);
                         InRow(ref token);
                     }
-                    else if (TagNames._mAllTableGeneral.Contains(tagName))
+                    else if (TagNames.AllTableGeneral.Contains(tagName))
                     {
                         InTableBodyCloseTable(ref token);
                     }
@@ -2089,11 +2089,11 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (TagNames._mAllTableSections.Contains(tagName))
+                    if (TagNames.AllTableSections.Contains(tagName))
                     {
                         if (IsInTableScope(tagName))
                         {
-                            ClearStackBackTo(TagNames._mAllTableSections);
+                            ClearStackBackTo(TagNames.AllTableSections);
                             CloseCurrentNode();
                             _currentMode = HtmlTreeMode.InTable;
                         }
@@ -2102,7 +2102,7 @@ namespace AngleSharp.Html.Parser
                             RaiseErrorOccurred(HtmlParseError.TableSectionNotInScope, ref token);
                         }
                     }
-                    else if (tagName.Is(TagNames.Tr) || TagNames._mAllTableSpecial.Contains(tagName))
+                    else if (tagName.Is(TagNames.Tr) || TagNames.AllTableSpecial.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, ref token);
                     }
@@ -2134,14 +2134,14 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (TagNames._mAllTableCells.Contains(tagName))
+                    if (TagNames.AllTableCells.Contains(tagName))
                     {
                         ClearStackBackTo(TagNames.Tr);
                         AddElement(ref token);
                         _currentMode = HtmlTreeMode.InCell;
                         _formattingElements.AddScopeMarker();
                     }
-                    else if (tagName.Is(TagNames.Tr) || TagNames._mAllTableGeneral.Contains(tagName))
+                    else if (tagName.Is(TagNames.Tr) || TagNames.AllTableGeneral.Contains(tagName))
                     {
                         if (InRowEndTagTablerow(ref token))
                         {
@@ -2170,7 +2170,7 @@ namespace AngleSharp.Html.Parser
                             InTableBody(ref token);
                         }
                     }
-                    else if (TagNames._mAllTableSections.Contains(tagName))
+                    else if (TagNames.AllTableSections.Contains(tagName))
                     {
                         if (IsInTableScope(tagName))
                         {
@@ -2182,7 +2182,7 @@ namespace AngleSharp.Html.Parser
                             RaiseErrorOccurred(HtmlParseError.TableSectionNotInScope, ref token);
                         }
                     }
-                    else if (TagNames._mAllTableSpecial.Contains(tagName))
+                    else if (TagNames.AllTableSpecial.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, ref token);
                     }
@@ -2210,9 +2210,9 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (TagNames._mAllTableCellsRows.Contains(tagName) || TagNames._mAllTableGeneral.Contains(tagName))
+                    if (TagNames.AllTableCellsRows.Contains(tagName) || TagNames.AllTableGeneral.Contains(tagName))
                     {
-                        if (IsInTableScope(TagNames._mAllTableCells))
+                        if (IsInTableScope(TagNames.AllTableCells))
                         {
                             InCellEndTagCell(ref token);
                             Home(ref token);
@@ -2231,11 +2231,11 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (TagNames._mAllTableCells.Contains(tagName))
+                    if (TagNames.AllTableCells.Contains(tagName))
                     {
                         InCellEndTagCell(ref token);
                     }
-                    else if (TagNames._mAllTableCore.Contains(tagName))
+                    else if (TagNames.AllTableCore.Contains(tagName))
                     {
                         if (IsInTableScope(tagName))
                         {
@@ -2247,7 +2247,7 @@ namespace AngleSharp.Html.Parser
                             RaiseErrorOccurred(HtmlParseError.TableNotInScope, ref token);
                         }
                     }
-                    else if (!TagNames._mAllTableSpecial.Contains(tagName))
+                    else if (!TagNames.AllTableSpecial.Contains(tagName))
                     {
                         InBody(ref token);
                     }
@@ -2324,7 +2324,7 @@ namespace AngleSharp.Html.Parser
                         RaiseErrorOccurred(HtmlParseError.SelectNesting, ref token);
                         InSelectEndTagSelect();
                     }
-                    else if (TagNames._mAllInput.Contains(tagName))
+                    else if (TagNames.AllInput.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.IllegalElementInSelectDetected, ref token);
 
@@ -2401,7 +2401,7 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (TagNames._mAllTableSelects.Contains(tagName))
+                    if (TagNames.AllTableSelects.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.IllegalElementInSelectDetected, ref token);
                         InSelectEndTagSelect();
@@ -2415,7 +2415,7 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (TagNames._mAllTableSelects.Contains(tagName))
+                    if (TagNames.AllTableSelects.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, ref token);
 
@@ -2447,11 +2447,11 @@ namespace AngleSharp.Html.Parser
                 {
                     var tagName = token.Name;
 
-                    if (tagName.Is(TagNames.Script) || TagNames._mAllHead.Contains(tagName))
+                    if (tagName.Is(TagNames.Script) || TagNames.AllHead.Contains(tagName))
                     {
                         InHead(ref token);
                     }
-                    else if (TagNames._mAllTableRoot.Contains(tagName))
+                    else if (TagNames.AllTableRoot.Contains(tagName))
                     {
                         TemplateStep(ref token, HtmlTreeMode.InTable);
                     }
@@ -2463,7 +2463,7 @@ namespace AngleSharp.Html.Parser
                     {
                         TemplateStep(ref token, HtmlTreeMode.InTableBody);
                     }
-                    else if (TagNames._mAllTableCells.Contains(tagName))
+                    else if (TagNames.AllTableCells.Contains(tagName))
                     {
                         TemplateStep(ref token, HtmlTreeMode.InRow);
                     }
@@ -2922,9 +2922,9 @@ namespace AngleSharp.Html.Parser
         /// <param name="tag">The tag to insert (closes table).</param>
         private void InTableBodyCloseTable(ref StructHtmlToken tag)
         {
-            if (IsInTableScope(TagNames._mAllTableSections))
+            if (IsInTableScope(TagNames.AllTableSections))
             {
-                ClearStackBackTo(TagNames._mAllTableSections);
+                ClearStackBackTo(TagNames.AllTableSections);
                 CloseCurrentNode();
                 _currentMode = HtmlTreeMode.InTable;
                 InTable(ref tag);
@@ -3054,7 +3054,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames._mAllBasicBlocks.Contains(node.LocalName))
+                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
                 {
                     break;
                 }
@@ -3089,7 +3089,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames._mAllBasicBlocks.Contains(node.LocalName))
+                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
                 {
                     break;
                 }
@@ -3272,7 +3272,7 @@ namespace AngleSharp.Html.Parser
 
                 lastNode.Parent?.RemoveChild(lastNode);
 
-                if (!TagNames._mAllTableMajor.Contains(commonAncestor.LocalName))
+                if (!TagNames.AllTableMajor.Contains(commonAncestor.LocalName))
                 {
                     commonAncestor.AddNode(lastNode);
                 }
@@ -3510,12 +3510,12 @@ namespace AngleSharp.Html.Parser
         {
             GenerateImpliedEndTags();
 
-            if (!TagNames._mAllTableCells.Contains(CurrentNode.LocalName))
+            if (!TagNames.AllTableCells.Contains(CurrentNode.LocalName))
             {
                 RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, ref token);
             }
 
-            ClearStackBackTo(TagNames._mAllTableCells);
+            ClearStackBackTo(TagNames.AllTableCells);
             CloseCurrentNode();
             _formattingElements.ClearFormatting();
             _currentMode = HtmlTreeMode.InRow;
@@ -3557,7 +3557,7 @@ namespace AngleSharp.Html.Parser
 
                         ForeignSpecialTag(ref token);
                     }
-                    else if (TagNames._mAllForeignExceptions.Contains(tagName))
+                    else if (TagNames.AllForeignExceptions.Contains(tagName))
                     {
                         ForeignNormalTag(ref token);
                     }
@@ -4127,7 +4127,7 @@ namespace AngleSharp.Html.Parser
         {
             var node = CurrentNode;
 
-            if (_foster && TagNames._mAllTableMajor.Contains(node.LocalName))
+            if (_foster && TagNames.AllTableMajor.Contains(node.LocalName))
             {
                 AddElementWithFoster(element);
             }
@@ -4193,7 +4193,7 @@ namespace AngleSharp.Html.Parser
             {
                 var node = CurrentNode;
 
-                if (_foster && TagNames._mAllTableMajor.Contains(node.LocalName))
+                if (_foster && TagNames.AllTableMajor.Contains(node.LocalName))
                 {
                     AddCharactersWithFoster(text);
                 }

@@ -473,7 +473,7 @@ namespace AngleSharp.Text
         /// <returns>True if the string matches a custom element name.</returns>
         public static Boolean IsCustomElement(this StringOrMemory tag)
         {
-            if (tag.Memory.Span.IndexOf('-') != -1 && !TagNames._mDisallowedCustomElementNames.Contains(tag))
+            if (tag.Memory.Span.IndexOf('-') != -1 && !TagNames.DisallowedCustomElementNames.Contains(tag))
             {
                 var l = tag.Length;
 
