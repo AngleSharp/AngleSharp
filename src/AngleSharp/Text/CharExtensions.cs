@@ -2,6 +2,7 @@ namespace AngleSharp.Text
 {
     using System;
     using System.Runtime.CompilerServices;
+    using Common;
 
     /// <summary>
     /// Useful methods for chars.
@@ -25,12 +26,12 @@ namespace AngleSharp.Text
         /// <returns>A 2 digit upper case hexadecimal string.</returns>
         public static String ToHex(this Byte num)
         {
-            var chrs = new Char[2];
+            Span<Char> chrs = stackalloc Char[2];
             var rem = num >> 4;
             chrs[0] = (Char)(rem + (rem < 10 ? 48 : 55));
             rem = num - 16 * rem;
             chrs[1] = (Char)(rem + (rem < 10 ? 48 : 55));
-            return new String(chrs);
+            return chrs.ToString();
         }
 
         /// <summary>

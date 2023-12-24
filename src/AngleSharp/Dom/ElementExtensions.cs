@@ -15,6 +15,7 @@ namespace AngleSharp.Dom
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Html.Construction;
 
     /// <summary>
     /// Useful methods for element objects.
@@ -1492,7 +1493,8 @@ namespace AngleSharp.Dom
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The attribute's value.</param>
         /// <param name="suppressCallbacks">Flag to suppress callbacks.</param>
-        internal static void SetOwnAttribute(this Element element, String name, String? value, Boolean suppressCallbacks = false) => element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value!), suppressCallbacks);
+        internal static void SetOwnAttribute(this Element element, String name, String? value, Boolean suppressCallbacks = false) =>
+            element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value!), suppressCallbacks);
 
         private static IDocumentFragment CreateFragment(this IElement context, String html)
         {
@@ -1592,13 +1594,13 @@ namespace AngleSharp.Dom
             var context = element.Context;
             var source = new TextSource(html);
             var document = new HtmlDocument(context, source);
-            var parser = new HtmlDomBuilder(document);
             var options = new HtmlParserOptions
             {
                 IsEmbedded = false,
                 IsStrictMode = false,
                 IsScripting = context.IsScripting(),
             };
+            var parser = new HtmlDomBuilder(HtmlDomConstructionFactory.Instance, document, new HtmlTokenizerOptions(options));
             return parser.ParseFragment(options, element).DocumentElement;
         }
     }

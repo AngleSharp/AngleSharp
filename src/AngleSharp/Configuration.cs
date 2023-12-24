@@ -15,6 +15,7 @@ namespace AngleSharp
     using AngleSharp.Svg.Dom;
     using System;
     using System.Collections.Generic;
+    using Html.Construction;
 
     /// <summary>
     /// Represents context configuration for the AngleSharp library. Custom
@@ -60,6 +61,7 @@ namespace AngleSharp
                 Creator<ICssSelectorParser>(ctx => new CssSelectorParser(ctx)),
                 Creator<IHtmlParser>(ctx => new HtmlParser(ctx)),
                 Creator<INavigationHandler>(ctx => new DefaultNavigationHandler(ctx)),
+                Creator<IHtmlElementConstructionFactory>(ctx => new HtmlDomConstructionFactory(ctx)),
             };
         }
 

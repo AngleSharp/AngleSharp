@@ -7,7 +7,41 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Html.Parser.Tokens;
     using AngleSharp.Text;
     using System;
+    using System.Buffers;
     using System.Collections.Generic;
+    using Tokens.Struct;
+    using AttributeName = System.ReadOnlyMemory<System.Char>;
+
+    /// <summary>
+    /// Determines if the attribute should be emitted
+    /// </summary>
+    public delegate Boolean ShouldEmitAttribute(ref StructHtmlToken token, AttributeName attributeName);
+
+    /// <summary>
+    /// Token consumption result
+    /// </summary>
+    public enum Result
+    {
+        /// <summary>
+        /// Tokenization should continue.
+        /// </summary>
+        Continue,
+
+        /// <summary>
+        /// Tokenization should stop.
+        /// </summary>
+        Stop
+    }
+
+    /// <summary>
+    /// Represent token consumer delegate.
+    /// </summary>
+    public delegate void TokenConsumer(ref StructHtmlToken token);
+
+    /// <summary>
+    /// Represents the callback that is invoked when a token is consumed.
+    /// </summary>
+    public delegate Result TokenizerMiddleware(ref StructHtmlToken token, TokenConsumer next);
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
@@ -18,8 +52,11 @@ namespace AngleSharp.Html.Parser
         #region Fields
 
         private readonly IEntityProvider _resolver;
-        private String _lastStartTag;
+        private StringOrMemory _lastStartTag;
         private TextPosition _position;
+
+        // todo: proove that this is faster than ref return
+        private StructHtmlToken _token;
 
         #endregion
 
@@ -39,20 +76,62 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public HtmlTokenizer(TextSource source, IEntityProvider resolver)
+        public HtmlTokenizer(IReadOnlyTextSource source, IEntityProvider resolver)
             : base(source)
         {
             State = HtmlParseMode.PCData;
-            IsAcceptingCharacterData = false;
-            IsNotConsumingCharacterReferences = false;
-            IsStrictMode = false;
-            _lastStartTag = String.Empty;
+            _lastStartTag = StringOrMemory.Empty;
             _resolver = resolver;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip data text.
+        /// </summary>
+        public Boolean SkipDataText { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip script text.
+        /// </summary>
+        public Boolean SkipScriptText { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip raw text.
+        /// </summary>
+        public Boolean SkipRawText { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip comments.
+        /// </summary>
+        public Boolean SkipComments { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip plaintext.
+        /// </summary>
+        public Boolean SkipPlaintext { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip RCDATA text.
+        /// </summary>
+        public Boolean SkipRCDataText { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip CDATA text.
+        /// </summary>
+        public Boolean SkipCDATA { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tokenizer should skip processing instructions.
+        /// </summary>
+        public Boolean SkipProcessingInstructions { get; set; }
+
+        /// <summary>
+        /// Gets or sets delegate to determine if the attribute should be emitted.
+        /// </summary>
+        public ShouldEmitAttribute ShouldEmitAttribute { get; set; } = static Boolean (ref StructHtmlToken _, AttributeName _) => true;
 
         /// <summary>
         /// Gets or sets if CDATA sections are accepted.
@@ -117,8 +196,9 @@ namespace AngleSharp.Html.Parser
         /// Gets the next available token.
         /// </summary>
         /// <returns>The next available token.</returns>
-        public HtmlToken Get()
+        public ref StructHtmlToken Get()
         {
+
             var current = GetNext();
             _position = GetCurrentPosition();
 
@@ -127,19 +207,19 @@ namespace AngleSharp.Html.Parser
                 switch (State)
                 {
                     case HtmlParseMode.PCData:
-                        return Data(current);
+                        return ref Data(current);
                     case HtmlParseMode.RCData:
-                        return RCData(current);
+                        return ref RCData(current);
                     case HtmlParseMode.Plaintext:
-                        return Plaintext(current);
+                        return ref Plaintext(current);
                     case HtmlParseMode.Rawtext:
-                        return Rawtext(current);
+                        return ref Rawtext(current);
                     case HtmlParseMode.Script:
-                        return ScriptData(current);
+                        return ref ScriptData(current);
                 }
             }
 
-            return NewEof(acceptable: true);
+            return ref NewEof(acceptable: true);
         }
 
         internal void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
@@ -166,12 +246,12 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.1 Data state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken Data(Char c)
+        private ref StructHtmlToken Data(Char c)
         {
-            return c == Symbols.LessThan ? TagOpen(GetNext()) : DataText(c);
+            return ref c == Symbols.LessThan ? ref TagOpen(GetNext()) : ref DataText(c);
         }
 
-        private HtmlToken DataText(Char c)
+        private ref StructHtmlToken DataText(Char c)
         {
             while (true)
             {
@@ -180,7 +260,11 @@ namespace AngleSharp.Html.Parser
                     case Symbols.LessThan:
                     case Symbols.EndOfFile:
                         Back();
-                        return NewCharacter();
+                        if (SkipDataText)
+                        {
+                            return ref NewSkippedContent();
+                        }
+                        return ref NewCharacter();
 
                     case Symbols.Ampersand:
                         AppendCharacterReference(GetNext());
@@ -207,7 +291,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.7 PLAINTEXT state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken Plaintext(Char c)
+        private ref StructHtmlToken Plaintext(Char c)
         {
             while (true)
             {
@@ -219,7 +303,13 @@ namespace AngleSharp.Html.Parser
 
                     case Symbols.EndOfFile:
                         Back();
-                        return NewCharacter();
+
+                        if (SkipPlaintext)
+                        {
+                            return ref NewSkippedContent();
+                        }
+
+                        return ref NewCharacter();
 
                     default:
                         StringBuffer.Append(c);
@@ -238,12 +328,12 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.3 RCDATA state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken RCData(Char c)
+        private ref StructHtmlToken RCData(Char c)
         {
-            return c == Symbols.LessThan ? RCDataLt(GetNext()) : RCDataText(c);
+            return ref c == Symbols.LessThan ? ref RCDataLt(GetNext()) : ref RCDataText(c);
         }
 
-        private HtmlToken RCDataText(Char c)
+        private ref StructHtmlToken RCDataText(Char c)
         {
             while (true)
             {
@@ -256,7 +346,12 @@ namespace AngleSharp.Html.Parser
                     case Symbols.LessThan:
                     case Symbols.EndOfFile:
                         Back();
-                        return NewCharacter();
+                        if (SkipRCDataText)
+                        {
+                            return ref NewSkippedContent();
+                        }
+
+                        return ref NewCharacter();
 
                     case Symbols.Null:
                         AppendReplacement();
@@ -275,7 +370,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.11 RCDATA less-than sign state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken RCDataLt(Char c)
+        private ref StructHtmlToken RCDataLt(Char c)
         {
             if (c == Symbols.Solidus)
             {
@@ -285,23 +380,23 @@ namespace AngleSharp.Html.Parser
                 if (c.IsUppercaseAscii())
                 {
                     StringBuffer.Append(Char.ToLowerInvariant(c));
-                    return RCDataNameEndTag(GetNext());
+                    return ref RCDataNameEndTag(GetNext());
                 }
                 else if (c.IsLowercaseAscii())
                 {
                     StringBuffer.Append(c);
-                    return RCDataNameEndTag(GetNext());
+                    return ref RCDataNameEndTag(GetNext());
                 }
                 else
                 {
                     StringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                    return RCDataText(c);
+                    return ref RCDataText(c);
                 }
             }
             else
             {
                 StringBuffer.Append(Symbols.LessThan);
-                return RCDataText(c);
+                return ref RCDataText(c);
             }
         }
 
@@ -309,15 +404,13 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.13 RCDATA end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken RCDataNameEndTag(Char c)
+        private ref StructHtmlToken RCDataNameEndTag(Char c)
         {
             while (true)
             {
-                var token = CreateIfAppropriate(c);
-
-                if (token != null)
+                if (CreateIfAppropriate(c, ref _token))
                 {
-                    return token;
+                    return ref _token;
                 }
                 else if (c.IsUppercaseAscii())
                 {
@@ -330,7 +423,7 @@ namespace AngleSharp.Html.Parser
                 else
                 {
                     StringBuffer.Insert(0, Symbols.LessThan).Insert(1, Symbols.Solidus);
-                    return RCDataText(c);
+                    return ref RCDataText(c);
                 }
 
                 c = GetNext();
@@ -345,12 +438,12 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.5 RAWTEXT state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken Rawtext(Char c)
+        private ref StructHtmlToken Rawtext(Char c)
         {
-            return c == Symbols.LessThan ? RawtextLT(GetNext()) : RawtextText(c);
+            return ref c == Symbols.LessThan ? ref RawtextLT(GetNext()) : ref RawtextText(c);
         }
 
-        private HtmlToken RawtextText(Char c)
+        private ref StructHtmlToken RawtextText(Char c)
         {
             while (true)
             {
@@ -359,7 +452,12 @@ namespace AngleSharp.Html.Parser
                     case Symbols.LessThan:
                     case Symbols.EndOfFile:
                         Back();
-                        return NewCharacter();
+                        if (SkipRawText)
+                        {
+                            return ref NewSkippedContent();
+                        }
+
+                        return ref NewCharacter();
 
                     case Symbols.Null:
                         AppendReplacement();
@@ -378,7 +476,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.14 RAWTEXT less-than sign state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken RawtextLT(Char c)
+        private ref StructHtmlToken RawtextLT(Char c)
         {
             if (c == Symbols.Solidus)
             {
@@ -388,23 +486,23 @@ namespace AngleSharp.Html.Parser
                 if (c.IsUppercaseAscii())
                 {
                     StringBuffer.Append(Char.ToLowerInvariant(c));
-                    return RawtextNameEndTag(GetNext());
+                    return ref RawtextNameEndTag(GetNext());
                 }
                 else if (c.IsLowercaseAscii())
                 {
                     StringBuffer.Append(c);
-                    return RawtextNameEndTag(GetNext());
+                    return ref RawtextNameEndTag(GetNext());
                 }
                 else
                 {
                     StringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                    return RawtextText(c);
+                    return ref RawtextText(c);
                 }
             }
             else
             {
                 StringBuffer.Append(Symbols.LessThan);
-                return RawtextText(c);
+                return ref RawtextText(c);
             }
         }
 
@@ -412,15 +510,13 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.16 RAWTEXT end tag name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken RawtextNameEndTag(Char c)
+        private ref StructHtmlToken RawtextNameEndTag(Char c)
         {
             while (true)
             {
-                var token = CreateIfAppropriate(c);
-
-                if (token != null)
+                if (CreateIfAppropriate(c, ref _token))
                 {
-                    return token;
+                    return ref _token;
                 }
                 else if (c.IsUppercaseAscii())
                 {
@@ -433,7 +529,7 @@ namespace AngleSharp.Html.Parser
                 else
                 {
                     StringBuffer.Insert(0, Symbols.LessThan).Insert(1, Symbols.Solidus);
-                    return RawtextText(c);
+                    return ref RawtextText(c);
                 }
 
                 c = GetNext();
@@ -448,7 +544,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.68 CDATA section state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken CharacterData(Char c)
+        private ref StructHtmlToken CharacterData(Char c)
         {
             while (true)
             {
@@ -469,7 +565,12 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
-            return NewCharacter();
+            if (SkipCDATA)
+            {
+                return ref NewSkippedContent();
+            }
+
+            return ref NewCharacter();
         }
 
         /// <summary>
@@ -495,7 +596,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    entity = GetLookupCharacterReference(c, allowedCharacter, isAttribute);
+                    entity = GetLookupCharacterReference(allowedCharacter, isAttribute);
                 }
 
                 if (entity is null)
@@ -504,7 +605,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    StringBuffer.Append(entity);
+                    StringBuffer.Append(entity.AsSpan());
                 }
             }
         }
@@ -582,11 +683,12 @@ namespace AngleSharp.Html.Parser
             return Char.ConvertFromUtf32(num);
         }
 
-        private String? GetLookupCharacterReference(Char c, Char allowedCharacter, Boolean isAttribute)
+        private String? GetLookupCharacterReference(Char allowedCharacter, Boolean isAttribute)
         {
             var entity = default(String);
             var start = InsertionPoint - 1;
-            var reference = new Char[32];
+            using var lease = ArrayPool<Char>.Shared.Borrow(32);
+            Memory<Char> reference = lease.Data.AsMemory(0, 32);
             var index = 0;
             var chr = Current;
 
@@ -597,22 +699,22 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                reference[index++] = chr;
+                reference.Span[index++] = chr;
                 chr = GetNext();
             }
             while (chr != Symbols.EndOfFile && index < 31);
 
             if (chr == Symbols.Semicolon)
             {
-                reference[index] = Symbols.Semicolon;
-                var value = new String(reference, 0, index + 1);
-                entity = _resolver.GetSymbol(value);
+                reference.Span[index] = Symbols.Semicolon;
+                var value = reference.Slice(0, index + 1);
+                entity = _resolver.GetSymbol(new StringOrMemory(value));
             }
 
             while (entity is null && index > 0)
             {
-                var value = new String(reference, 0, index--);
-                entity = _resolver.GetSymbol(value);
+                var value = reference.Slice(0, index--);
+                entity = _resolver.GetSymbol(new StringOrMemory(value));
 
                 if (entity is null)
                 {
@@ -654,41 +756,41 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.8 Tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken TagOpen(Char c)
+        private ref StructHtmlToken TagOpen(Char c)
         {
             if (c == Symbols.Solidus)
             {
-                return TagEnd(GetNext());
+                return ref TagEnd(GetNext());
             }
             else if (c.IsLowercaseAscii())
             {
                 StringBuffer.Append(c);
-                return TagName(NewTagOpen());
+                return ref TagName(ref NewTagOpen());
             }
             else if (c.IsUppercaseAscii())
             {
                 StringBuffer.Append(Char.ToLowerInvariant(c));
-                return TagName(NewTagOpen());
+                return ref TagName(ref NewTagOpen());
             }
             else if (c == Symbols.ExclamationMark)
             {
-                return MarkupDeclaration(GetNext());
+                return ref MarkupDeclaration(GetNext());
             }
             else if (c == Symbols.QuestionMark && IsSupportingProcessingInstructions)
             {
-                return ProcessingInstruction(c);
+                return ref ProcessingInstruction(c);
             }
             else if (c != Symbols.QuestionMark)
             {
                 State = HtmlParseMode.PCData;
                 RaiseErrorOccurred(HtmlParseError.AmbiguousOpenTag);
                 StringBuffer.Append(Symbols.LessThan);
-                return DataText(c);
+                return ref DataText(c);
             }
             else
             {
                 RaiseErrorOccurred(HtmlParseError.BogusComment);
-                return BogusComment(c);
+                return ref BogusComment(c);
             }
         }
 
@@ -696,35 +798,35 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.9 End tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken TagEnd(Char c)
+        private ref StructHtmlToken TagEnd(Char c)
         {
             if (c.IsLowercaseAscii())
             {
                 StringBuffer.Append(c);
-                return TagName(NewTagClose());
+                return ref TagName(ref NewTagClose());
             }
             else if (c.IsUppercaseAscii())
             {
                 StringBuffer.Append(Char.ToLowerInvariant(c));
-                return TagName(NewTagClose());
+                return ref TagName(ref NewTagClose());
             }
             else if (c == Symbols.GreaterThan)
             {
                 State = HtmlParseMode.PCData;
                 RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
-                return Data(GetNext());
+                return ref Data(GetNext());
             }
             else if (c == Symbols.EndOfFile)
             {
                 Back();
                 RaiseErrorOccurred(HtmlParseError.EOF);
                 StringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                return NewCharacter();
+                return ref NewCharacter();
             }
             else
             {
                 RaiseErrorOccurred(HtmlParseError.BogusComment);
-                return BogusComment(c);
+                return ref BogusComment(c);
             }
         }
 
@@ -732,7 +834,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.10 Tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        private HtmlToken TagName(HtmlTagToken tag)
+        private ref StructHtmlToken TagName(ref StructHtmlToken tag)
         {
             while (true)
             {
@@ -741,17 +843,17 @@ namespace AngleSharp.Html.Parser
                 if (c == Symbols.GreaterThan)
                 {
                     tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
-                    return EmitTag(tag);
+                    return ref EmitTag(ref tag);
                 }
                 else if (c.IsSpaceCharacter())
                 {
                     tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
-                    return ParseAttributes(tag);
+                    return ref ParseAttributes(ref tag);
                 }
                 else if (c == Symbols.Solidus)
                 {
                     tag.Name = FlushBuffer(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
-                    return TagSelfClosing(tag);
+                    return ref TagSelfClosing(ref tag);
                 }
                 else if (c.IsUppercaseAscii())
                 {
@@ -767,7 +869,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    return NewEof();
+                    return ref NewEof();
                 }
             }
         }
@@ -776,12 +878,19 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.43 Self-closing start tag state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        private HtmlToken TagSelfClosing(HtmlTagToken tag)
+        private ref StructHtmlToken TagSelfClosing(ref StructHtmlToken tag)
         {
-            return TagSelfClosingInner(tag) ?? ParseAttributes(tag);
+            if (TagSelfClosingInner(ref tag))
+            {
+                return ref tag;
+            }
+            else
+            {
+                return ref ParseAttributes(ref tag);
+            }
         }
 
-        private HtmlToken? TagSelfClosingInner(HtmlTagToken tag)
+        private bool TagSelfClosingInner(ref StructHtmlToken tag)
         {
             while (true)
             {
@@ -789,16 +898,18 @@ namespace AngleSharp.Html.Parser
                 {
                     case Symbols.GreaterThan:
                         tag.IsSelfClosing = true;
-                        return EmitTag(tag);
+                        tag = EmitTag(ref tag);
+                        return true;
                     case Symbols.EndOfFile:
-                        return NewEof();
+                        tag = NewEof();
+                        return true;
                     case Symbols.Solidus:
                         RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
                         break;
                     default:
                         RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
                         Back();
-                        return null;
+                        return false;
                 }
             }
         }
@@ -807,27 +918,27 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.45 Markup declaration open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken MarkupDeclaration(Char c)
+        private ref StructHtmlToken MarkupDeclaration(Char c)
         {
             if (ContinuesWithSensitive("--"))
             {
                 Advance();
-                return CommentStart(GetNext());
+                return ref CommentStart(GetNext());
             }
             else if (ContinuesWithInsensitive(TagNames.Doctype))
             {
                 Advance(6);
-                return Doctype(GetNext());
+                return ref Doctype(GetNext());
             }
             else if (IsAcceptingCharacterData && ContinuesWithSensitive(Keywords.CData))
             {
                 Advance(6);
-                return CharacterData(GetNext());
+                return ref CharacterData(GetNext());
             }
             else
             {
                 RaiseErrorOccurred(HtmlParseError.UndefinedMarkupDeclaration);
-                return BogusComment(c);
+                return ref BogusComment(c);
             }
         }
 
@@ -835,9 +946,9 @@ namespace AngleSharp.Html.Parser
 
         #region ProcessingInstructions
 
-        private HtmlToken ProcessingInstruction(Char c)
+        private ref StructHtmlToken ProcessingInstruction(Char c)
         {
-            StringBuffer.Clear();
+            StringBuffer.Discard();
 
             while (true)
             {
@@ -858,7 +969,8 @@ namespace AngleSharp.Html.Parser
                 }
 
                 State = HtmlParseMode.PCData;
-                return NewProcessingInstruction();
+
+                return ref NewProcessingInstruction();
             }
         }
 
@@ -870,9 +982,9 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.44 Bogus comment state
         /// </summary>
         /// <param name="c">The current character.</param>
-        private HtmlToken BogusComment(Char c)
+        private ref StructHtmlToken BogusComment(Char c)
         {
-            StringBuffer.Clear();
+            StringBuffer.Discard();
 
             while (true)
             {
@@ -893,7 +1005,7 @@ namespace AngleSharp.Html.Parser
                 }
 
                 State = HtmlParseMode.PCData;
-                return NewComment();
+                return ref NewComment();
             }
         }
 
@@ -901,17 +1013,21 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.46 Comment start state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken CommentStart(Char c)
+        private ref StructHtmlToken CommentStart(Char c)
         {
-            StringBuffer.Clear();
+            StringBuffer.Discard();
 
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentDashStart(GetNext()) ?? Comment(GetNext());
+                    if (CommentDashStart(GetNext(), ref _token))
+                    {
+                        return ref _token;
+                    }
+                    return  ref Comment(GetNext());
                 case Symbols.Null:
                     AppendReplacement();
-                    return Comment(GetNext());
+                    return ref Comment(GetNext());
                 case Symbols.GreaterThan:
                     State = HtmlParseMode.PCData;
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
@@ -922,26 +1038,28 @@ namespace AngleSharp.Html.Parser
                     break;
                 default:
                     StringBuffer.Append(c);
-                    return Comment(GetNext());
+                    return ref Comment(GetNext());
             }
 
-            return NewComment();
+            return ref NewComment();
         }
 
         /// <summary>
         /// See 8.2.4.47 Comment start dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken? CommentDashStart(Char c)
+        /// <param name="token"></param>
+        private bool CommentDashStart(Char c, ref StructHtmlToken token)
         {
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentEnd(GetNext());
+                    return CommentEnd(GetNext(), ref token);
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
                     StringBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
-                    return Comment(GetNext());
+                    token = ref Comment(GetNext());
+                    return true;
                 case Symbols.GreaterThan:
                     State = HtmlParseMode.PCData;
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
@@ -952,35 +1070,34 @@ namespace AngleSharp.Html.Parser
                     break;
                 default:
                     StringBuffer.Append(Symbols.Minus).Append(c);
-                    return Comment(GetNext());
+                    token = ref Comment(GetNext());
+                    return true;
             }
 
-            return NewComment();
+            token = NewComment();
+            return true;
         }
 
         /// <summary>
         /// See 8.2.4.48 Comment state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken Comment(Char c)
+        private ref StructHtmlToken Comment(Char c)
         {
             while (true)
             {
                 switch (c)
                 {
                     case Symbols.Minus:
-                        var result = CommentDashEnd(GetNext());
-
-                        if (result != null)
+                        if (CommentDashEnd(GetNext(), ref _token))
                         {
-                            return result;
+                            return ref _token;
                         }
-
                         break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
                         Back();
-                        return NewComment();
+                        return ref NewComment();
                     case Symbols.Null:
                         AppendReplacement();
                         break;
@@ -997,16 +1114,18 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.49 Comment end dash state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken? CommentDashEnd(Char c)
+        /// <param name="token"></param>
+        private bool CommentDashEnd(Char c, ref StructHtmlToken token)
         {
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentEnd(GetNext());
+                    return CommentEnd(GetNext(), ref token);
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
-                    return NewComment();
+                    token = NewComment();
+                    return true;
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
                     c = Symbols.Replacement;
@@ -1014,14 +1133,15 @@ namespace AngleSharp.Html.Parser
             }
 
             StringBuffer.Append(Symbols.Minus).Append(c);
-            return null;
+            return false;
         }
 
         /// <summary>
         /// See 8.2.4.50 Comment end state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken? CommentEnd(Char c)
+        /// <param name="token"></param>
+        private bool CommentEnd(Char c, ref StructHtmlToken token)
         {
             while (true)
             {
@@ -1029,14 +1149,15 @@ namespace AngleSharp.Html.Parser
                 {
                     case Symbols.GreaterThan:
                         State = HtmlParseMode.PCData;
-                        return NewComment();
+                        token = NewComment();
+                        return true;
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
                         StringBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
-                        return null;
+                        return false;
                     case Symbols.ExclamationMark:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedWithEM);
-                        return CommentBangEnd(GetNext());
+                        return CommentBangEnd(GetNext(), ref token);
                     case Symbols.Minus:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedWithDash);
                         StringBuffer.Append(Symbols.Minus);
@@ -1044,11 +1165,12 @@ namespace AngleSharp.Html.Parser
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
                         Back();
-                        return NewComment();
+                        token = NewComment();
+                        return true;
                     default:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedUnexpected);
                         StringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(c);
-                        return null;
+                        return false;
                 }
 
                 c = GetNext();
@@ -1059,30 +1181,32 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.51 Comment end bang state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken? CommentBangEnd(Char c)
+        /// <param name="token"></param>
+        private bool CommentBangEnd(Char c, ref StructHtmlToken token)
         {
             switch (c)
             {
                 case Symbols.Minus:
                     StringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark);
-                    return CommentDashEnd(GetNext());
+                    return CommentDashEnd(GetNext(), ref token);
                 case Symbols.GreaterThan:
                     State = HtmlParseMode.PCData;
                     break;
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
                     StringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark).Append(Symbols.Replacement);
-                    return null;
+                    return false;
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     break;
                 default:
                     StringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark).Append(c);
-                    return null;
+                    return false;
             }
 
-            return NewComment();
+            token = NewComment();
+            return true;
         }
 
         #endregion
@@ -1093,22 +1217,22 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.52 DOCTYPE state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken Doctype(Char c)
+        private ref StructHtmlToken Doctype(Char c)
         {
             if (c.IsSpaceCharacter())
             {
-                return DoctypeNameBefore(GetNext());
+                return ref DoctypeNameBefore(GetNext());
             }
             else if (c == Symbols.EndOfFile)
             {
                 RaiseErrorOccurred(HtmlParseError.EOF);
                 Back();
-                return NewDoctype(true);
+                return ref NewDoctype(true);
             }
             else
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypeUnexpected);
-                return DoctypeNameBefore(c);
+                return ref DoctypeNameBefore(c);
             }
         }
 
@@ -1116,7 +1240,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.53 Before DOCTYPE name state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        private HtmlToken DoctypeNameBefore(Char c)
+        private ref StructHtmlToken DoctypeNameBefore(Char c)
         {
             while (c.IsSpaceCharacter())
             {
@@ -1125,35 +1249,35 @@ namespace AngleSharp.Html.Parser
 
             if (c.IsUppercaseAscii())
             {
-                var doctype = NewDoctype(false);
+                ref var doctype = ref NewDoctype(false);
                 StringBuffer.Append(Char.ToLowerInvariant(c));
-                return DoctypeName(doctype);
+                return ref DoctypeName(ref doctype);
             }
             else if (c == Symbols.Null)
             {
-                var doctype = NewDoctype(false);
+                ref var doctype = ref NewDoctype(false);
                 AppendReplacement();
-                return DoctypeName(doctype);
+                return ref DoctypeName(ref doctype);
             }
             else if (c == Symbols.GreaterThan)
             {
-                var doctype = NewDoctype(true);
+                ref var doctype = ref NewDoctype(true);
                 State = HtmlParseMode.PCData;
                 RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
-                return doctype;
+                return ref doctype;
             }
             else if (c == Symbols.EndOfFile)
             {
-                var doctype = NewDoctype(true);
+                ref var doctype = ref NewDoctype(true);
                 RaiseErrorOccurred(HtmlParseError.EOF);
                 Back();
-                return doctype;
+                return ref doctype;
             }
             else
             {
-                var doctype = NewDoctype(false);
+                ref var doctype = ref NewDoctype(false);
                 StringBuffer.Append(c);
-                return DoctypeName(doctype);
+                return ref DoctypeName(ref doctype);
             }
         }
 
@@ -1161,7 +1285,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.54 DOCTYPE name state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypeName(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypeName(ref StructHtmlToken doctype)
         {
             while (true)
             {
@@ -1170,7 +1294,7 @@ namespace AngleSharp.Html.Parser
                 if (c.IsSpaceCharacter())
                 {
                     doctype.Name = FlushBuffer();
-                    return DoctypeNameAfter(doctype);
+                    return ref DoctypeNameAfter(ref doctype);
                 }
                 else if (c == Symbols.GreaterThan)
                 {
@@ -1200,14 +1324,14 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.55 After DOCTYPE name state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypeNameAfter(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypeNameAfter(ref StructHtmlToken doctype)
         {
             var c = SkipSpaces();
 
@@ -1224,46 +1348,46 @@ namespace AngleSharp.Html.Parser
             else if (ContinuesWithInsensitive(Keywords.Public))
             {
                 Advance(5);
-                return DoctypePublic(doctype);
+                return ref DoctypePublic(ref doctype);
             }
             else if (ContinuesWithInsensitive(Keywords.System))
             {
                 Advance(5);
-                return DoctypeSystem(doctype);
+                return ref DoctypeSystem(ref doctype);
             }
             else
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypeUnexpectedAfterName);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(doctype);
+                return ref BogusDoctype(ref doctype);
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.56 After DOCTYPE public keyword state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypePublic(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypePublic(ref StructHtmlToken doctype)
         {
             var c = GetNext();
 
             if (c.IsSpaceCharacter())
             {
-                return DoctypePublicIdentifierBefore(doctype);
+                return ref DoctypePublicIdentifierBefore(ref doctype);
             }
             else if (c == Symbols.DoubleQuote)
             {
                 RaiseErrorOccurred(HtmlParseError.DoubleQuotationMarkUnexpected);
-                doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(doctype);
+                doctype.PublicIdentifier = StringOrMemory.Empty;
+                return ref DoctypePublicIdentifierDoubleQuoted(ref doctype);
             }
             else if (c == Symbols.SingleQuote)
             {
                 RaiseErrorOccurred(HtmlParseError.SingleQuotationMarkUnexpected);
-                doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(doctype);
+                doctype.PublicIdentifier = StringOrMemory.Empty;
+                return ref DoctypePublicIdentifierSingleQuoted(ref doctype);
             }
             else if (c == Symbols.GreaterThan)
             {
@@ -1281,29 +1405,29 @@ namespace AngleSharp.Html.Parser
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypePublicInvalid);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(doctype);
+                return ref BogusDoctype(ref doctype);
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.57 Before DOCTYPE public identifier state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypePublicIdentifierBefore(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypePublicIdentifierBefore(ref StructHtmlToken doctype)
         {
             var c = SkipSpaces();
 
             if (c == Symbols.DoubleQuote)
             {
-                doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierDoubleQuoted(doctype);
+                doctype.PublicIdentifier = StringOrMemory.Empty;
+                return ref DoctypePublicIdentifierDoubleQuoted(ref doctype);
             }
             else if (c == Symbols.SingleQuote)
             {
-                doctype.PublicIdentifier = String.Empty;
-                return DoctypePublicIdentifierSingleQuoted(doctype);
+                doctype.PublicIdentifier = StringOrMemory.Empty;
+                return ref DoctypePublicIdentifierSingleQuoted(ref doctype);
             }
             else if (c == Symbols.GreaterThan)
             {
@@ -1321,17 +1445,17 @@ namespace AngleSharp.Html.Parser
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypePublicInvalid);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(doctype);
+                return ref BogusDoctype(ref doctype);
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.58 DOCTYPE public identifier (double-quoted) state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypePublicIdentifierDoubleQuoted(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypePublicIdentifierDoubleQuoted(ref StructHtmlToken doctype)
         {
             while (true)
             {
@@ -1340,7 +1464,7 @@ namespace AngleSharp.Html.Parser
                 if (c == Symbols.DoubleQuote)
                 {
                     doctype.PublicIdentifier = FlushBuffer();
-                    return DoctypePublicIdentifierAfter(doctype);
+                    return ref DoctypePublicIdentifierAfter(ref doctype);
                 }
                 else if (c == Symbols.Null)
                 {
@@ -1368,14 +1492,14 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.59 DOCTYPE public identifier (single-quoted) state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypePublicIdentifierSingleQuoted(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypePublicIdentifierSingleQuoted(ref StructHtmlToken doctype)
         {
             while (true)
             {
@@ -1384,7 +1508,7 @@ namespace AngleSharp.Html.Parser
                 if (c == Symbols.SingleQuote)
                 {
                     doctype.PublicIdentifier = FlushBuffer();
-                    return DoctypePublicIdentifierAfter(doctype);
+                    return ref DoctypePublicIdentifierAfter(ref doctype);
                 }
                 else if (c == Symbols.Null)
                 {
@@ -1412,20 +1536,20 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.60 After DOCTYPE public identifier state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypePublicIdentifierAfter(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypePublicIdentifierAfter(ref StructHtmlToken doctype)
         {
             var c = GetNext();
 
             if (c.IsSpaceCharacter())
             {
-                return DoctypeBetween(doctype);
+                return ref DoctypeBetween(ref doctype);
             }
             else if (c == Symbols.GreaterThan)
             {
@@ -1434,14 +1558,14 @@ namespace AngleSharp.Html.Parser
             else if (c == Symbols.DoubleQuote)
             {
                 RaiseErrorOccurred(HtmlParseError.DoubleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(doctype);
+                doctype.SystemIdentifier = StringOrMemory.Empty;
+                return ref DoctypeSystemIdentifierDoubleQuoted(ref doctype);
             }
             else if (c == Symbols.SingleQuote)
             {
                 RaiseErrorOccurred(HtmlParseError.SingleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(doctype);
+                doctype.SystemIdentifier = StringOrMemory.Empty;
+                return ref DoctypeSystemIdentifierSingleQuoted(ref doctype);
             }
             else if (c == Symbols.EndOfFile)
             {
@@ -1453,17 +1577,17 @@ namespace AngleSharp.Html.Parser
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypeInvalidCharacter);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(doctype);
+                return ref BogusDoctype(ref doctype);
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.61 Between DOCTYPE public and system identifiers state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypeBetween(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypeBetween(ref StructHtmlToken doctype)
         {
             var c = SkipSpaces();
 
@@ -1473,13 +1597,13 @@ namespace AngleSharp.Html.Parser
             }
             else if (c == Symbols.DoubleQuote)
             {
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(doctype);
+                doctype.SystemIdentifier = StringOrMemory.Empty;
+                return ref DoctypeSystemIdentifierDoubleQuoted(ref doctype);
             }
             else if (c == Symbols.SingleQuote)
             {
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(doctype);
+                doctype.SystemIdentifier = StringOrMemory.Empty;
+                return ref DoctypeSystemIdentifierSingleQuoted(ref doctype);
             }
             else if (c == Symbols.EndOfFile)
             {
@@ -1491,36 +1615,36 @@ namespace AngleSharp.Html.Parser
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypeInvalidCharacter);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(doctype);
+                return ref BogusDoctype(ref doctype);
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.62 After DOCTYPE system keyword state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypeSystem(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypeSystem(ref StructHtmlToken doctype)
         {
             var c = GetNext();
 
             if (c.IsSpaceCharacter())
             {
                 State = HtmlParseMode.PCData;
-                return DoctypeSystemIdentifierBefore(doctype);
+                return ref DoctypeSystemIdentifierBefore(ref doctype);
             }
             else if (c == Symbols.DoubleQuote)
             {
                 RaiseErrorOccurred(HtmlParseError.DoubleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(doctype);
+                doctype.SystemIdentifier = StringOrMemory.Empty;
+                return ref DoctypeSystemIdentifierDoubleQuoted(ref doctype);
             }
             else if (c == Symbols.SingleQuote)
             {
                 RaiseErrorOccurred(HtmlParseError.SingleQuotationMarkUnexpected);
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(doctype);
+                doctype.SystemIdentifier = StringOrMemory.Empty;
+                return ref DoctypeSystemIdentifierSingleQuoted(ref doctype);
             }
             else if (c == Symbols.GreaterThan)
             {
@@ -1538,29 +1662,29 @@ namespace AngleSharp.Html.Parser
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypeSystemInvalid);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(doctype);
+                return ref BogusDoctype(ref doctype);
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.63 Before DOCTYPE system identifier state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypeSystemIdentifierBefore(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypeSystemIdentifierBefore(ref StructHtmlToken doctype)
         {
             var c = SkipSpaces();
 
             if (c == Symbols.DoubleQuote)
             {
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierDoubleQuoted(doctype);
+                doctype.SystemIdentifier = StringOrMemory.Empty;
+                return ref DoctypeSystemIdentifierDoubleQuoted(ref doctype);
             }
             else if (c == Symbols.SingleQuote)
             {
-                doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierSingleQuoted(doctype);
+                doctype.SystemIdentifier = StringOrMemory.Empty;
+                return ref DoctypeSystemIdentifierSingleQuoted(ref doctype);
             }
             else if (c == Symbols.GreaterThan)
             {
@@ -1580,17 +1704,17 @@ namespace AngleSharp.Html.Parser
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypeInvalidCharacter);
                 doctype.IsQuirksForced = true;
-                return BogusDoctype(doctype);
+                return ref BogusDoctype(ref doctype);
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.64 DOCTYPE system identifier (double-quoted) state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypeSystemIdentifierDoubleQuoted(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypeSystemIdentifierDoubleQuoted(ref StructHtmlToken doctype)
         {
             while (true)
             {
@@ -1599,7 +1723,7 @@ namespace AngleSharp.Html.Parser
                 if (c == Symbols.DoubleQuote)
                 {
                     doctype.SystemIdentifier = FlushBuffer();
-                    return DoctypeSystemIdentifierAfter(doctype);
+                    return ref DoctypeSystemIdentifierAfter(ref doctype);
                 }
                 else if (c == Symbols.Null)
                 {
@@ -1627,14 +1751,14 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.65 DOCTYPE system identifier (single-quoted) state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypeSystemIdentifierSingleQuoted(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypeSystemIdentifierSingleQuoted(ref StructHtmlToken doctype)
         {
             while (true)
             {
@@ -1644,7 +1768,7 @@ namespace AngleSharp.Html.Parser
                 {
                     case Symbols.SingleQuote:
                         doctype.SystemIdentifier = FlushBuffer();
-                        return DoctypeSystemIdentifierAfter(doctype);
+                        return ref DoctypeSystemIdentifierAfter(ref doctype);
                     case Symbols.Null:
                         AppendReplacement();
                         continue;
@@ -1665,7 +1789,7 @@ namespace AngleSharp.Html.Parser
                         continue;
                 }
 
-                return doctype;
+                return ref doctype;
             }
         }
 
@@ -1673,7 +1797,7 @@ namespace AngleSharp.Html.Parser
         /// See 8.2.4.66 After DOCTYPE system identifier state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken DoctypeSystemIdentifierAfter(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken DoctypeSystemIdentifierAfter(ref StructHtmlToken doctype)
         {
             var c = SkipSpaces();
 
@@ -1689,17 +1813,17 @@ namespace AngleSharp.Html.Parser
                     break;
                 default:
                     RaiseErrorOccurred(HtmlParseError.DoctypeInvalidCharacter);
-                    return BogusDoctype(doctype);
+                    return ref BogusDoctype(ref doctype);
             }
 
-            return doctype;
+            return ref doctype;
         }
 
         /// <summary>
         /// See 8.2.4.67 Bogus DOCTYPE state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        private HtmlToken BogusDoctype(HtmlDoctypeToken doctype)
+        private ref StructHtmlToken BogusDoctype(ref StructHtmlToken doctype)
         {
             while (true)
             {
@@ -1715,7 +1839,7 @@ namespace AngleSharp.Html.Parser
                         continue;
                 }
 
-                return doctype;
+                return ref doctype;
             }
         }
 
@@ -1735,12 +1859,13 @@ namespace AngleSharp.Html.Parser
             SelfClose
         }
 
-        private HtmlToken ParseAttributes(HtmlTagToken tag)
+        private ref StructHtmlToken ParseAttributes(ref StructHtmlToken tag)
         {
             var state = AttributeState.BeforeName;
             var quote = Symbols.DoubleQuote;
             var c = Symbols.Null;
             var pos = GetCurrentPosition();
+            var attributeAllowed = false;
 
             while (true)
             {
@@ -1757,7 +1882,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c == Symbols.GreaterThan)
                         {
-                            return EmitTag(tag);
+                            return ref EmitTag(ref tag);
                         }
                         else if (c.IsUppercaseAscii() && !IsPreservingAttributeNames)
                         {
@@ -1786,7 +1911,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else
                         {
-                            return NewEof();
+                            return ref NewEof();
                         }
 
                         break;
@@ -1799,22 +1924,43 @@ namespace AngleSharp.Html.Parser
 
                         if (c == Symbols.Equality)
                         {
-                            tag.AddAttribute(FlushBuffer(), pos);
+                            var attributeName = FlushBuffer();
+                            attributeAllowed = ShouldEmitAttribute(ref tag, attributeName.Memory);
+                            if (attributeAllowed)
+                            {
+                                tag.AddAttribute(attributeName, pos);
+                            }
                             state = AttributeState.BeforeValue;
                         }
                         else if (c == Symbols.GreaterThan)
                         {
-                            tag.AddAttribute(FlushBuffer(), pos);
-                            return EmitTag(tag);
+                            var attributeName = FlushBuffer();
+                            attributeAllowed = ShouldEmitAttribute(ref tag, attributeName.Memory);
+                            if (attributeAllowed)
+                            {
+                                tag.AddAttribute(attributeName, pos);
+                            }
+
+                            return ref EmitTag(ref tag);
                         }
                         else if (c.IsSpaceCharacter())
                         {
-                            tag.AddAttribute(FlushBuffer(), pos);
+                            var attributeName = FlushBuffer();
+                            attributeAllowed = ShouldEmitAttribute(ref tag, attributeName.Memory);
+                            if (attributeAllowed)
+                            {
+                                tag.AddAttribute(attributeName, pos);
+                            }
                             state = AttributeState.AfterName;
                         }
                         else if (c == Symbols.Solidus)
                         {
-                            tag.AddAttribute(FlushBuffer(), pos);
+                            var attributeName = FlushBuffer();
+                            attributeAllowed = ShouldEmitAttribute(ref tag, attributeName.Memory);
+                            if (attributeAllowed)
+                            {
+                                tag.AddAttribute(attributeName, pos);
+                            }
                             state = AttributeState.SelfClose;
                         }
                         else if (c.IsUppercaseAscii() && !IsPreservingAttributeNames)
@@ -1836,7 +1982,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else
                         {
-                            return NewEof();
+                            return ref NewEof();
                         }
 
                         break;
@@ -1849,7 +1995,7 @@ namespace AngleSharp.Html.Parser
 
                         if (c == Symbols.GreaterThan)
                         {
-                            return EmitTag(tag);
+                            return ref EmitTag(ref tag);
                         }
                         else if (c == Symbols.Equality)
                         {
@@ -1886,7 +2032,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else
                         {
-                            return NewEof();
+                            return ref NewEof();
                         }
 
                         break;
@@ -1909,7 +2055,7 @@ namespace AngleSharp.Html.Parser
                         else if (c == Symbols.GreaterThan)
                         {
                             RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
-                            return EmitTag(tag);
+                            return ref EmitTag(ref tag);
                         }
                         else if (c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
                         {
@@ -1932,7 +2078,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else
                         {
-                            return NewEof();
+                            return ref NewEof();
                         }
 
                         break;
@@ -1946,7 +2092,15 @@ namespace AngleSharp.Html.Parser
 
                         if (c == quote)
                         {
-                            tag.SetAttributeValue(FlushBuffer());
+                            if (attributeAllowed)
+                            {
+                                var value = FlushBuffer();
+                                tag.SetAttributeValue(value);
+                            }
+                            else
+                            {
+                                StringBuffer.Discard();
+                            }
                             state = AttributeState.AfterValue;
                         }
                         else if (c == Symbols.Ampersand)
@@ -1963,7 +2117,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else
                         {
-                            return NewEof();
+                            return ref NewEof();
                         }
 
                         break;
@@ -1974,12 +2128,28 @@ namespace AngleSharp.Html.Parser
                     {
                         if (c == Symbols.GreaterThan)
                         {
-                            tag.SetAttributeValue(FlushBuffer());
-                            return EmitTag(tag);
+                            if (attributeAllowed)
+                            {
+                                var value = FlushBuffer();
+                                tag.SetAttributeValue(value);
+                            }
+                            else
+                            {
+                                StringBuffer.Discard();
+                            }
+                            return ref EmitTag(ref tag);
                         }
                         else if (c.IsSpaceCharacter())
                         {
-                            tag.SetAttributeValue(FlushBuffer());
+                            if (attributeAllowed)
+                            {
+                                var value = FlushBuffer();
+                                tag.SetAttributeValue(value);
+                            }
+                            else
+                            {
+                                StringBuffer.Discard();
+                            }
                             state = AttributeState.BeforeName;
                         }
                         else if (c == Symbols.Ampersand)
@@ -2005,7 +2175,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else
                         {
-                            return NewEof();
+                            return ref NewEof();
                         }
 
                         break;
@@ -2018,7 +2188,7 @@ namespace AngleSharp.Html.Parser
 
                         if (c == Symbols.GreaterThan)
                         {
-                            return EmitTag(tag);
+                            return ref EmitTag(ref tag);
                         }
                         else if (c.IsSpaceCharacter())
                         {
@@ -2030,7 +2200,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c == Symbols.EndOfFile)
                         {
-                            return NewEof();
+                            return ref NewEof();
                         }
                         else
                         {
@@ -2044,15 +2214,13 @@ namespace AngleSharp.Html.Parser
 
                     case AttributeState.SelfClose:
                     {
-                        var token = TagSelfClosingInner(tag);
-
-                        if (token is null)
+                        if (!TagSelfClosingInner(ref tag))
                         {
                             state = AttributeState.BeforeName;
                             break;
                         }
 
-                        return token;
+                        return ref tag;
                     }
                 }
             }
@@ -2083,7 +2251,7 @@ namespace AngleSharp.Html.Parser
             EndDoubleEscape
         }
 
-        private HtmlToken ScriptData(Char c)
+        private ref StructHtmlToken ScriptData(Char c)
         {
             var length = _lastStartTag.Length;
             var scriptLength = TagNames.Script.Length;
@@ -2110,7 +2278,7 @@ namespace AngleSharp.Html.Parser
 
                             case Symbols.EndOfFile:
                                 Back();
-                                return NewCharacter();
+                                return ref NewCharacter();
 
                             default:
                                 StringBuffer.Append(c);
@@ -2184,7 +2352,7 @@ namespace AngleSharp.Html.Parser
                     {
                         c = GetNext();
                         offset = StringBuffer.Append(Symbols.Solidus).Length;
-                        var tag = NewTagClose();
+                        ref var tag = ref NewTagClose();
 
                         while (c.IsLetter())
                         {
@@ -2198,33 +2366,39 @@ namespace AngleSharp.Html.Parser
 
                             if (hasLength && (isspace || isclosed || isslash))
                             {
-                                var name = StringBuffer.ToString(offset, length);
-
-                                if (name.Isi(_lastStartTag))
+                                if (StringBuffer.HasTextAt(_lastStartTag.Memory.Span, offset, length, StringComparison.OrdinalIgnoreCase))
                                 {
                                     if (offset > 2)
                                     {
                                         Back(3 + length);
                                         StringBuffer.Remove(offset - 2, length + 2);
-                                        return NewCharacter();
+                                        if (SkipScriptText)
+                                        {
+                                            StringBuffer.Discard();
+                                            return ref NewSkippedContent();
+                                        }
+                                        else
+                                        {
+                                            return ref NewCharacter();
+                                        }
                                     }
 
-                                    StringBuffer.Clear();
+                                    StringBuffer.Discard();
 
                                     if (isspace)
                                     {
                                         tag.Name = _lastStartTag;
-                                        return ParseAttributes(tag);
+                                        return ref ParseAttributes(ref tag);
                                     }
                                     else if (isslash)
                                     {
                                         tag.Name = _lastStartTag;
-                                        return TagSelfClosing(tag);
+                                        return ref TagSelfClosing(ref tag);
                                     }
                                     else if (isclosed)
                                     {
                                         tag.Name = _lastStartTag;
-                                        return EmitTag(tag);
+                                        return ref EmitTag(ref tag);
                                     }
                                 }
                             }
@@ -2253,7 +2427,7 @@ namespace AngleSharp.Html.Parser
                                 break;
                             case Symbols.EndOfFile:
                                 Back();
-                                return NewCharacter();
+                                return ref NewCharacter();
                             default:
                                 state = ScriptState.Normal;
                                 continue;
@@ -2281,7 +2455,7 @@ namespace AngleSharp.Html.Parser
                                 break;
                             case Symbols.EndOfFile:
                                 Back();
-                                return NewCharacter();
+                                return ref NewCharacter();
                             default:
                                 StringBuffer.Append(c);
                                 break;
@@ -2317,7 +2491,7 @@ namespace AngleSharp.Html.Parser
                                 state = ScriptState.Escaped;
                                 continue;
                             case Symbols.EndOfFile:
-                                return NewCharacter();
+                                return ref NewCharacter();
                             default:
                                 StringBuffer.Append(c);
                                 c = GetNext();
@@ -2374,13 +2548,14 @@ namespace AngleSharp.Html.Parser
                     {
                         c = GetNext();
                         var hasLength = StringBuffer.Length - offset == scriptLength;
-
-                        if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) &&
-                            StringBuffer.ToString(offset, scriptLength).Isi(TagNames.Script))
+                        if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
-                            Back(scriptLength + 3);
-                            StringBuffer.Remove(offset - 2, scriptLength + 2);
-                            return NewCharacter();
+                            if (StringBuffer.Isi(offset, scriptLength, TagNames.Script.AsSpan()))
+                            {
+                                Back(scriptLength + 3);
+                                StringBuffer.Remove(offset - 2, scriptLength + 2);
+                                return ref NewCharacter();
+                            }
                         }
                         else if (!c.IsLetter())
                         {
@@ -2402,7 +2577,7 @@ namespace AngleSharp.Html.Parser
 
                         if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
-                            var isscript = StringBuffer.ToString(offset, scriptLength).Isi(TagNames.Script);
+                            var isscript = StringBuffer.Isi(offset, scriptLength, TagNames.Script.AsSpan());
                             StringBuffer.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.EscapedDouble : ScriptState.Escaped;
@@ -2443,7 +2618,7 @@ namespace AngleSharp.Html.Parser
                             case Symbols.EndOfFile:
                                 RaiseErrorOccurred(HtmlParseError.EOF);
                                 Back();
-                                return NewCharacter();
+                                return ref NewCharacter();
                         }
 
                         StringBuffer.Append(c);
@@ -2475,7 +2650,7 @@ namespace AngleSharp.Html.Parser
                             case Symbols.EndOfFile:
                                 RaiseErrorOccurred(HtmlParseError.EOF);
                                 Back();
-                                return NewCharacter();
+                                return ref NewCharacter();
                         }
 
                         state = ScriptState.EscapedDouble;
@@ -2514,7 +2689,7 @@ namespace AngleSharp.Html.Parser
                             case Symbols.EndOfFile:
                                 RaiseErrorOccurred(HtmlParseError.EOF);
                                 Back();
-                                return NewCharacter();
+                                return ref NewCharacter();
 
                             default:
                                 StringBuffer.Append(c);
@@ -2550,7 +2725,7 @@ namespace AngleSharp.Html.Parser
 
                         if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
                         {
-                            var isscript = StringBuffer.ToString(offset, scriptLength).Isi(TagNames.Script);
+                            var isscript = StringBuffer.Isi(offset, scriptLength, TagNames.Script.AsSpan());
                             StringBuffer.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.Escaped : ScriptState.EscapedDouble;
@@ -2574,50 +2749,71 @@ namespace AngleSharp.Html.Parser
 
         #region Tokens
 
-        private HtmlToken NewCharacter()
+        private ref StructHtmlToken NewSkippedContent(HtmlTokenType htmlTokenType = HtmlTokenType.Character)
         {
-            var content = FlushBuffer();
-            return new HtmlToken(HtmlTokenType.Character, _position, content);
+            StringBuffer.Discard();
+            _token = StructHtmlToken.Skipped(htmlTokenType, _position);
+            return ref _token;
         }
 
-        private HtmlToken NewProcessingInstruction()
+        private ref StructHtmlToken NewCharacter()
         {
             var content = FlushBuffer();
-            return new HtmlToken(HtmlTokenType.Comment, _position, content)
+            _token = StructHtmlToken.Character(content, _position);
+            return ref _token;
+        }
+
+        private ref StructHtmlToken NewProcessingInstruction()
+        {
+            if (SkipProcessingInstructions)
             {
-                IsProcessingInstruction = true
-            };
-        }
+                return ref NewSkippedContent(HtmlTokenType.Comment);
+            }
 
-        private HtmlToken NewComment()
-        {
             var content = FlushBuffer();
-            return new HtmlToken(HtmlTokenType.Comment, _position, content);
+            _token = StructHtmlToken.ProcessingInstruction(content, _position);
+            return ref _token;
         }
 
-        private HtmlToken NewEof(Boolean acceptable = false)
+        private ref StructHtmlToken NewComment()
+        {
+            if (SkipComments)
+            {
+                return ref NewSkippedContent(HtmlTokenType.Comment);
+            }
+
+            var content = FlushBuffer();
+            _token = StructHtmlToken.Comment(content, _position);
+            return ref _token;
+        }
+
+        private ref StructHtmlToken NewEof(Boolean acceptable = false)
         {
             if (!acceptable)
             {
                 RaiseErrorOccurred(HtmlParseError.EOF);
             }
 
-            return new HtmlToken(HtmlTokenType.EndOfFile, _position);
+            _token = StructHtmlToken.EndOfFile(_position);
+            return ref _token;
         }
 
-        private HtmlDoctypeToken NewDoctype(Boolean quirksForced)
+        private ref StructHtmlToken NewDoctype(Boolean quirksForced)
         {
-            return new HtmlDoctypeToken(quirksForced, _position);
+            _token = StructHtmlToken.Doctype(quirksForced, _position);
+            return ref _token;
         }
 
-        private HtmlTagToken NewTagOpen()
+        private ref StructHtmlToken NewTagOpen()
         {
-            return new HtmlTagToken(HtmlTokenType.StartTag, _position);
+            _token = StructHtmlToken.TagOpen(_position);
+            return ref _token;
         }
 
-        private HtmlTagToken NewTagClose()
+        private ref StructHtmlToken NewTagClose()
         {
-            return new HtmlTagToken(HtmlTokenType.EndTag, _position);
+            _token = StructHtmlToken.TagClose(_position);
+            return ref _token;
         }
 
         #endregion
@@ -2635,39 +2831,42 @@ namespace AngleSharp.Html.Parser
             StringBuffer.Append(Symbols.Replacement);
         }
 
-        private HtmlToken? CreateIfAppropriate(Char c)
+        private bool CreateIfAppropriate(Char c, ref StructHtmlToken token)
         {
             var isspace = c.IsSpaceCharacter();
             var isclosed = c == Symbols.GreaterThan;
             var isslash = c == Symbols.Solidus;
             var hasLength = StringBuffer.Length == _lastStartTag.Length;
 
-            if (hasLength && (isspace || isclosed || isslash) && StringBuffer.ToString().Is(_lastStartTag))
+            if (hasLength && (isspace || isclosed || isslash) && StringBuffer.Is(_lastStartTag))
             {
-                var tag = NewTagClose();
-                StringBuffer.Clear();
+                ref var tag = ref NewTagClose();
+                StringBuffer.Discard();
 
                 if (isspace)
                 {
                     tag.Name = _lastStartTag;
-                    return ParseAttributes(tag);
+                    token = ParseAttributes(ref tag);
+                    return true;
                 }
                 else if (isslash)
                 {
                     tag.Name = _lastStartTag;
-                    return TagSelfClosing(tag);
+                    token = TagSelfClosing(ref tag);
+                    return true;
                 }
                 else if (isclosed)
                 {
                     tag.Name = _lastStartTag;
-                    return EmitTag(tag);
+                    token = EmitTag(ref tag);
+                    return true;
                 }
             }
 
-            return null;
+            return false;
         }
 
-        private HtmlToken EmitTag(HtmlTagToken tag)
+        private ref StructHtmlToken EmitTag(ref StructHtmlToken tag)
         {
             var attributes = tag.Attributes;
             State = HtmlParseMode.PCData;
@@ -2681,7 +2880,7 @@ namespace AngleSharp.Html.Parser
                         {
                             if (attributes[j].Name.Is(attributes[i].Name))
                             {
-                                attributes.RemoveAt(i);
+                                tag.RemoveAttributeAt(i);
                                 RaiseErrorOccurred(HtmlParseError.AttributeDuplicateOmitted, tag.Position);
                                 break;
                             }
@@ -2704,7 +2903,7 @@ namespace AngleSharp.Html.Parser
                     break;
             }
 
-            return tag;
+            return ref tag;
         }
 
         #endregion

@@ -49,7 +49,7 @@ namespace AngleSharp.Css.Parser
             if (current.IsHex())
             {
                 var isHex = true;
-                var escape = new Char[6];
+                Span<Char> escape = stackalloc Char[6];
                 var length = 0;
 
                 while (isHex && length < escape.Length)

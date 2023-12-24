@@ -11,6 +11,8 @@ namespace AngleSharp.Html
     /// </summary>
     sealed class HtmlElementFactory : IElementFactory<Document, HtmlElement>
     {
+        internal static readonly HtmlElementFactory Instance = new();
+
         private delegate HtmlElement Creator(Document owner, String? prefix);
 
         private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)

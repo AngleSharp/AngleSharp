@@ -3,7 +3,6 @@ namespace AngleSharp.Common
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.Text;
 
     /// <summary>
     /// Common methods and variables of all tokenizers.
@@ -13,12 +12,12 @@ namespace AngleSharp.Common
         #region Fields
 
         private readonly Stack<UInt16> _columns;
-        private readonly TextSource _source;
+        private readonly IReadOnlyTextSource _source;
 
         private UInt16 _column;
         private UInt16 _row;
         private Char _current;
-        private StringBuilder _buffer;
+        private IMutableCharBuffer _buffer;
         private Boolean _normalized;
 
         #endregion
@@ -29,14 +28,22 @@ namespace AngleSharp.Common
         /// Creates a new instance of the base tokenizer.
         /// </summary>
         /// <param name="source">The source to tokenize.</param>
-        public BaseTokenizer(TextSource source)
+        public BaseTokenizer(IReadOnlyTextSource source)
         {
-            _buffer = StringBuilderPool.Obtain();
-            _columns = new Stack<UInt16>();
+            if (source.TryGetContentLength(out var length))
+            {
+                _buffer = new ArrayPoolBuffer(length);
+            }
+            else
+            {
+                _buffer = new StringBuilderBuffer();
+            }
+
             _source = source;
             _current = Symbols.Null;
             _column = 0;
             _row = 1;
+            _columns = new Stack<UInt16>();
         }
 
         #endregion
@@ -80,12 +87,17 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        protected StringBuilder StringBuffer => _buffer;
+        protected IMutableCharBuffer StringBuffer => _buffer;
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).
         /// </summary>
         protected Boolean IsNormalized => _normalized;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Boolean DisablePositionTracking { get; set; }
 
         #endregion
 
@@ -95,13 +107,18 @@ namespace AngleSharp.Common
         /// Flushes the buffer.
         /// </summary>
         /// <returns>The content of the buffer.</returns>
-        public String FlushBuffer() => FlushBuffer(null);
+        public StringOrMemory FlushBuffer() => FlushBuffer(null);
 
-        internal String FlushBuffer(Func<StringBuilder, String?>? stringResolver)
+        internal StringOrMemory FlushBuffer(Func<IMutableCharBuffer, String?>? stringResolver)
         {
-            var content = stringResolver?.Invoke(StringBuffer) ?? StringBuffer.ToString();
-            StringBuffer.Clear();
-            return content;
+            var resolved = stringResolver?.Invoke(StringBuffer);
+            if (resolved != null)
+            {
+                StringBuffer.Discard();
+                return new StringOrMemory(resolved);
+            }
+
+            return StringBuffer.GetDataAndClear();
         }
 
         /// <summary>
@@ -115,7 +132,8 @@ namespace AngleSharp.Common
             {
                 var disposable = _source as IDisposable;
                 disposable?.Dispose();
-                StringBuffer!.Clear().ReturnToPool();
+                _buffer.Discard();
+                _buffer.ReturnToPool();
                 _buffer = null!;
             }
         }
@@ -135,7 +153,7 @@ namespace AngleSharp.Common
         protected Boolean ContinuesWithInsensitive(String s)
         {
             var content = PeekString(s.Length);
-            return content.Length == s.Length && content.Isi(s);
+            return content.Isi(s);
         }
 
         /// <summary>
@@ -155,11 +173,11 @@ namespace AngleSharp.Common
         /// </summary>
         /// <param name="length">The length of the string.</param>
         /// <returns>The upcoming string.</returns>
-        protected String PeekString(Int32 length)
+        protected StringOrMemory PeekString(Int32 length)
         {
             var mark = _source.Index;
             _source.Index--;
-            var content = _source.ReadCharacters(length);
+            var content = _source.ReadMemory(length);
             _source.Index = mark;
             return content;
         }
@@ -256,18 +274,23 @@ namespace AngleSharp.Common
 
         private void AdvanceUnsafe()
         {
-            if (_current == Symbols.LineFeed)
+            if (!DisablePositionTracking)
             {
-                _columns.Push(_column);
-                _column = 1;
-                _row++;
-            }
-            else
-            {
-                _column++;
+                if (_current == Symbols.LineFeed)
+                {
+
+                    _columns.Push(_column);
+                    _column = 1;
+                    _row++;
+                }
+                else
+                {
+                    _column++;
+                }
             }
 
-            _current = NormalizeForward(_source.ReadCharacter());
+            var c = _source.ReadCharacter();
+            _current = NormalizeForward(c);
         }
 
         private void BackUnsafe()
@@ -282,17 +305,19 @@ namespace AngleSharp.Common
             }
 
             var c = NormalizeBackward(_source[_source.Index - 1]);
+            _current = c;
 
-            if (c == Symbols.LineFeed)
+            if (!DisablePositionTracking)
             {
-                _column = _columns.Count != 0 ? _columns.Pop() : (UInt16)1;
-                _row--;
-                _current = c;
-            }
-            else if (c != Symbols.Null)
-            {
-                _current = c;
-                _column--;
+                if (c == Symbols.LineFeed)
+                {
+                    _column = _columns.Count != 0 ? _columns.Pop() : (UInt16)1;
+                    _row--;
+                }
+                else if (c != Symbols.Null)
+                {
+                    _column--;
+                }
             }
         }
 
@@ -311,7 +336,7 @@ namespace AngleSharp.Common
             {
                 _normalized = true;
             }
-            
+
             return Symbols.LineFeed;
         }
 

@@ -22,6 +22,8 @@ namespace AngleSharp.Mathml
             { TagNames.AnnotationXml, (document, prefix) => new MathAnnotationXmlElement(document, prefix) },
         };
 
+        internal static readonly MathElementFactory Instance = new();
+
         /// <summary>
         /// Returns a specialized MathMLElement instance for the given tag.
         /// </summary>

@@ -11,6 +11,7 @@ namespace AngleSharp.Html.Parser
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Construction;
 
     /// <summary>
     /// Creates an instance of the HTML parser front-end.
@@ -153,6 +154,81 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses the read only chunk of chars and returns the result.
+        /// </summary>
+        public IHtmlDocument ParseDocument(ReadOnlyMemory<Char> source)
+        {
+            var document = CreateDocument(source);
+            return Parse(document);
+        }
+
+        /// <summary>
+        /// Parses the read only text source and returns the result.
+        /// </summary>
+        public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
+        {
+            var document = CreateDocument(source);
+            return Parse(document);
+        }
+
+        /// <summary>
+        /// Parses the read only text source and returns the result.
+        /// </summary>
+        /// <param name="chars">Read only chars</param>
+        /// <param name="middleware">Tokenizer middleware</param>
+        /// <typeparam name="TDocument">Type of document to parse into, should implement <see cref="IConstructableDocument"/></typeparam>
+        /// <typeparam name="TElement">Type of element to use for document construction, should implement <see cref="IConstructableElement"/></typeparam>
+        /// <returns>Constructed TDocument instance</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when no read-only construction factory is found for specified type arguments.
+        /// </exception>
+        /// <remarks>
+        /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
+        /// </remarks>
+        public TDocument ParseDocument<TDocument, TElement>(ReadOnlyMemory<Char> chars, TokenizerMiddleware? middleware = null)
+            where TDocument : class, IConstructableDocument
+            where TElement : class, IConstructableElement
+        {
+            var source = new PrefetchedTextSource(chars);
+            return ParseDocument<TDocument, TElement>(source, middleware);
+        }
+
+        /// <summary>
+        /// Parses the read only text source and returns the result.
+        /// </summary>
+        /// <param name="source">Read only text source.</param>
+        /// <param name="middleware">Tokenizer middleware</param>
+        /// <typeparam name="TDocument">Type of document to parse into, should implement <see cref="IConstructableDocument"/></typeparam>
+        /// <typeparam name="TElement">Type of element to use for document construction, should implement <see cref="IConstructableElement"/></typeparam>
+        /// <returns>Constructed TDocument instance</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when no read-only construction factory is found for specified type arguments.
+        /// </exception>
+        /// <remarks>
+        /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
+        /// </remarks>
+        public TDocument ParseDocument<TDocument, TElement>(IReadOnlyTextSource source, TokenizerMiddleware? middleware = null)
+             where TDocument : class, IConstructableDocument
+             where TElement : class, IConstructableElement
+        {
+            var factory = _context.GetService<IDomConstructionElementFactory<TDocument, TElement>>()
+                          ?? throw new InvalidOperationException("No read-only construction factory found.");
+
+            TDocument document = factory.CreateDocument(source, _context);
+
+            var builder = new HtmlDomBuilder<TDocument, TElement>(factory, document);
+
+            if (HasEventListener(EventNames.Error))
+            {
+                builder.Error += (_, ev) => InvokeEventListener(ev);
+            }
+
+            builder.Parse(_options, middleware);
+
+            return document;
+        }
+
+        /// <summary>
         /// Parses the stream and returns the head.
         /// </summary>
         public IHtmlHeadElement? ParseHead(Stream source)
@@ -199,6 +275,8 @@ namespace AngleSharp.Html.Parser
             return result.Head;
         }
 
+
+
         async Task<IDocument> IHtmlParser.ParseDocumentAsync(IDocument document, CancellationToken cancel)
         {
             var doc = (HtmlDocument)document;
@@ -215,6 +293,12 @@ namespace AngleSharp.Html.Parser
             return CreateDocument(textSource);
         }
 
+        private HtmlDocument CreateDocument(ReadOnlyMemory<Char> source)
+        {
+            var textSource = new PrefetchedTextSource(source);
+            return CreateDocument(textSource);
+        }
+
         private HtmlDocument CreateDocument(Stream source)
         {
             var encoding = _context.GetDefaultEncoding();
@@ -222,7 +306,7 @@ namespace AngleSharp.Html.Parser
             return CreateDocument(textSource);
         }
 
-        private HtmlDocument CreateDocument(TextSource textSource)
+        private HtmlDocument CreateDocument(IReadOnlyTextSource textSource)
         {
             var document = new HtmlDocument(_context, textSource);
             return document;
@@ -230,13 +314,13 @@ namespace AngleSharp.Html.Parser
 
         private HtmlDomBuilder CreateBuilder(HtmlDocument document, String? stopAt)
         {
-            var parser = new HtmlDomBuilder(document, stopAt);
-
+            var options = new HtmlTokenizerOptions(_options);
+            var factory = _context.GetFactory<IHtmlElementConstructionFactory>();
+            var parser = new HtmlDomBuilder(factory, document, options, stopAt);
             if (HasEventListener(EventNames.Error))
             {
                 parser.Error += (_, ev) => InvokeEventListener(ev);
             }
-
             return parser;
         }
 
@@ -253,7 +337,7 @@ namespace AngleSharp.Html.Parser
         {
             var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
-            await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            await parser.ParseAsync(_options, null, cancel).ConfigureAwait(false);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
@@ -269,7 +353,7 @@ namespace AngleSharp.Html.Parser
 
         private INodeList ParseFragment(HtmlDocument document, IElement contextElement)
         {
-            var parser = new HtmlDomBuilder(document);
+            var parser = new HtmlDomBuilder(HtmlDomConstructionFactory.Instance, document);
 
             if (contextElement is Element element)
             {

@@ -184,7 +184,7 @@ namespace AngleSharp.Dom
         IHtmlCollection<IElement> GetElementsByTagName(String? namespaceUri, String tagName);
 
         /// <summary>
-        /// Creates an event of the type specified. 
+        /// Creates an event of the type specified.
         /// </summary>
         /// <param name="type">
         /// Represents the type of event (e.g., uievent, event, customevent,
@@ -585,7 +585,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the underlying source.
         /// </summary>
-        TextSource Source { get; }
+        IReadOnlyTextSource Source { get; }
 
         /// <summary>
         /// Gets the status code of the server's response, if any.
