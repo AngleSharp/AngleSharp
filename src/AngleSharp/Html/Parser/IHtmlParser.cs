@@ -7,6 +7,7 @@ namespace AngleSharp.Html.Parser
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using Construction;
     using Text;
 
     /// <summary>
@@ -73,5 +74,40 @@ namespace AngleSharp.Html.Parser
         // /// Parses the stream and returns the result.
         // /// </summary>
         // IReadOnlyDocument ParseReadOnlyDocument(IReadOnlyTextSource source, Middleware? middleware = null);
+        /// <summary>
+        /// Parses the read only text source and returns the result.
+        /// </summary>
+        /// <param name="chars">Read only chars</param>
+        /// <param name="middleware">Tokenizer middleware</param>
+        /// <typeparam name="TDocument">Type of document to parse into, should implement <see cref="IConstructableDocument"/></typeparam>
+        /// <typeparam name="TElement">Type of element to use for document construction, should implement <see cref="IConstructableElement"/></typeparam>
+        /// <returns>Constructed TDocument instance</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when no read-only construction factory is found for specified type arguments.
+        /// </exception>
+        /// <remarks>
+        /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
+        /// </remarks>
+        TDocument ParseDocument<TDocument, TElement>(ReadOnlyMemory<Char> chars, TokenizerMiddleware? middleware = null)
+            where TDocument : class, IConstructableDocument
+            where TElement : class, IConstructableElement;
+
+        /// <summary>
+        /// Parses the read only text source and returns the result.
+        /// </summary>
+        /// <param name="source">Read only text source.</param>
+        /// <param name="middleware">Tokenizer middleware</param>
+        /// <typeparam name="TDocument">Type of document to parse into, should implement <see cref="IConstructableDocument"/></typeparam>
+        /// <typeparam name="TElement">Type of element to use for document construction, should implement <see cref="IConstructableElement"/></typeparam>
+        /// <returns>Constructed TDocument instance</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when no read-only construction factory is found for specified type arguments.
+        /// </exception>
+        /// <remarks>
+        /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
+        /// </remarks>
+        TDocument ParseDocument<TDocument, TElement>(IReadOnlyTextSource source, TokenizerMiddleware? middleware = null)
+            where TDocument : class, IConstructableDocument
+            where TElement : class, IConstructableElement;
     }
 }
