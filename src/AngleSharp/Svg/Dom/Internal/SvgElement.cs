@@ -2,11 +2,12 @@ namespace AngleSharp.Svg.Dom
 {
     using AngleSharp.Dom;
     using System;
+    using Html.Construction;
 
     /// <summary>
     /// Represents an element of the SVG DOM.
     /// </summary>
-    public class SvgElement : Element, ISvgElement
+    public class SvgElement : Element, ISvgElement, IConstructableSvgElement
     {
         #region ctor
 

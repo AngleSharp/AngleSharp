@@ -6,6 +6,11 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Construction;
+    using Parser;
+    using Parser.Tokens.Struct;
 
     /// <summary>
     /// Represents a document node that contains only HTML nodes.
@@ -22,7 +27,7 @@ namespace AngleSharp.Html.Dom
 
         #region ctor
 
-        internal HtmlDocument(IBrowsingContext? context, TextSource source)
+        internal HtmlDocument(IBrowsingContext? context, IReadOnlyTextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypeNames.Html;

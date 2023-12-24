@@ -2,11 +2,12 @@ namespace AngleSharp.Mathml.Dom
 {
     using AngleSharp.Dom;
     using System;
+    using Html.Construction;
 
     /// <summary>
     /// Represents an element of the MathML DOM.
     /// </summary>
-    public class MathElement : Element
+    public class MathElement : Element, IConstructableMathElement
     {
         #region ctor
 

@@ -7,6 +7,7 @@ namespace AngleSharp.Html.Parser
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using Text;
 
     /// <summary>
     /// Represents the interface of an HTML parser.
@@ -67,5 +68,10 @@ namespace AngleSharp.Html.Parser
         /// Populates the given HTML document asynchronously.
         /// </summary>
         Task<IDocument> ParseDocumentAsync(IDocument document, CancellationToken cancel);
+
+        // /// <summary>
+        // /// Parses the stream and returns the result.
+        // /// </summary>
+        // IReadOnlyDocument ParseReadOnlyDocument(IReadOnlyTextSource source, Middleware? middleware = null);
     }
 }

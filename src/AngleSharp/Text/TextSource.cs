@@ -8,11 +8,12 @@ namespace AngleSharp.Text
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Common;
 
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
-    public sealed class TextSource : IDisposable
+    public sealed class TextSource : ITextSource
     {
         #region Fields
 
@@ -34,7 +35,7 @@ namespace AngleSharp.Text
 
         #region ctor
 
-        private TextSource(Encoding encoding, bool allocateBuffers)
+        private TextSource(Encoding encoding, Boolean allocateBuffers)
         {
             if (allocateBuffers)
             {
@@ -229,6 +230,12 @@ namespace AngleSharp.Text
             return _content.ToString(start, characters);
         }
 
+        /// <inheritdoc/>
+        public StringOrMemory ReadMemory(int characters)
+        {
+            return new StringOrMemory(ReadCharacters(characters));
+        }
+
         /// <summary>
         /// Prefetches the number of bytes by expanding the internal buffer.
         /// </summary>
@@ -254,6 +261,17 @@ namespace AngleSharp.Text
             {
                 await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
             }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public Boolean TryGetContentLength(out Int32 length)
+        {
+            length = 0;
+            return false;
         }
 
         /// <summary>

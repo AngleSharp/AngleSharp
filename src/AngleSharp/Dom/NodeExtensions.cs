@@ -43,6 +43,19 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Checks if the provided <see cref="NodeType"/> is an endpoint, i.e., does not host any
+        /// other node.
+        /// </summary>
+        /// <param name="type">The <see cref="NodeType"/> that is checked.</param>
+        /// <returns>True if the node is an endpoint, otherwise false.</returns>
+        public static Boolean IsEndPoint(this NodeType type)
+        {
+            return type != NodeType.Document &&
+                   type != NodeType.DocumentFragment &&
+                   type != NodeType.Element;
+        }
+
+        /// <summary>
         /// Checks if the provided node can be inserted into some other node.
         /// This excludes, e.g., documents from being inserted.
         /// </summary>
@@ -114,7 +127,11 @@ namespace AngleSharp.Dom
         /// <param name="filter">Optional filter to run against items.</param>
         /// <param name="state">Optional state to help with filtering.</param>
         /// <returns>An iterator over all descendants and itself.</returns>
-        internal static IEnumerable<INode> GetDescendantsAndSelf<TState>(this INode parent, Stack<INode> stack, Func<INode, TState?, Boolean>? filter = null, TState? state = default)
+        internal static IEnumerable<INode> GetDescendantsAndSelf<TState>(
+            this INode parent,
+            Stack<INode> stack,
+            Func<INode, TState?, Boolean>? filter = null,
+            TState? state = default)
         {
             stack.Push(parent);
 
@@ -591,7 +608,6 @@ namespace AngleSharp.Dom
             {
                 for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
-
                     if (parent.ChildNodes[i] is TNode child)
                     {
                         return child;

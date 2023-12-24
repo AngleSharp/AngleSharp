@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using System;
+    using Common;
 
     sealed class MockEntityProvider : IEntityProvider
     {
@@ -15,6 +16,11 @@
         public String GetSymbol(String name)
         {
             return _resolver.Invoke(name);
+        }
+
+        public String GetSymbol(StringOrMemory name)
+        {
+            return _resolver.Invoke(name.String);
         }
     }
 }

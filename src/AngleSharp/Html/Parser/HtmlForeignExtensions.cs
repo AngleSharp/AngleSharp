@@ -1,12 +1,12 @@
 namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
-    using AngleSharp.Html.Parser.Tokens;
-    using AngleSharp.Mathml.Dom;
-    using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using Common;
+    using Construction;
+    using Tokens.Struct;
 
     /// <summary>
     /// A collection of useful helpers when working with foreign content.
@@ -14,8 +14,8 @@ namespace AngleSharp.Html.Parser
     static class HtmlForeignExtensions
     {
         #region Fields
-
-        private static readonly Dictionary<String, String> svgAttributeNames = new Dictionary<String, String>(StringComparer.Ordinal)
+        private static readonly Dictionary<StringOrMemory, String> svgAttributeNames =
+            new(OrdinalStringOrMemoryComparer.Instance)
         {
             { "attributename", "attributeName" },
             { "attributetype", "attributeType" },
@@ -81,7 +81,8 @@ namespace AngleSharp.Html.Parser
             { "zoomandpan", "zoomAndPan" },
         };
 
-        private static readonly Dictionary<String, String> svgAdjustedTagNames = new Dictionary<String, String>(StringComparer.Ordinal)
+        private static readonly Dictionary<StringOrMemory, String> svgAdjustedTagNames =
+            new(OrdinalStringOrMemoryComparer.Instance)
         {
              { "altglyph", "altGlyph" },
              { "altglyphdef", "altGlyphDef" },
@@ -130,7 +131,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="localName">The name of adjust.</param>
         /// <returns>The name with the correct capitalization.</returns>
-        public static String SanatizeSvgTagName(this String localName)
+        public static StringOrMemory SanatizeSvgTagName(this StringOrMemory localName)
         {
             if (svgAdjustedTagNames.TryGetValue(localName, out var adjustedTagName))
             {
@@ -146,7 +147,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="element">The element to setup.</param>
         /// <param name="tag">The tag token to use.</param>
         /// <returns>The finished element.</returns>
-        public static MathElement Setup(this MathElement element, HtmlTagToken tag)
+        public static IConstructableMathElement Setup(this IConstructableMathElement element, ref StructHtmlToken tag)
         {
             var count = tag.Attributes.Count;
 
@@ -167,7 +168,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="element">The element to setup.</param>
         /// <param name="tag">The tag token to use.</param>
         /// <returns>The finished element.</returns>
-        public static SvgElement Setup(this SvgElement element, HtmlTagToken tag)
+        public static IConstructableSvgElement Setup(this IConstructableSvgElement element, ref StructHtmlToken tag)
         {
             var count = tag.Attributes.Count;
 
@@ -188,13 +189,14 @@ namespace AngleSharp.Html.Parser
         /// <param name="element">The element to host the attribute.</param>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        public static void AdjustAttribute(this Element element, String name, String value)
+        public static void AdjustAttribute(this IConstructableElement element, StringOrMemory name, StringOrMemory value)
         {
             var ns = default(String);
 
             if (IsXLinkAttribute(name))
             {
-                var newName = name.Substring(name.IndexOf(Symbols.Colon) + 1);
+                // var newName = name.Substring(name.IndexOf(Symbols.Colon) + 1);
+                var newName = new StringOrMemory(name.Memory.Slice(name.Memory.Span.IndexOf(Symbols.Colon) + 1));
 
                 if (newName.IsXmlName() && newName.IsQualifiedName())
                 {
@@ -226,9 +228,9 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="attributeName">The name of adjust.</param>
         /// <returns>The name with the correct capitalization.</returns>
-        public static String AdjustToMathAttribute(this String attributeName)
+        public static StringOrMemory AdjustToMathAttribute(this StringOrMemory attributeName)
         {
-            if (attributeName is "definitionurl")
+            if (attributeName == "definitionurl")
             {
                 return "definitionURL";
             }
@@ -241,7 +243,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="attributeName">The name of adjust.</param>
         /// <returns>The name with the correct capitalization.</returns>
-        public static String AdjustToSvgAttribute(this String attributeName)
+        public static StringOrMemory AdjustToSvgAttribute(this StringOrMemory attributeName)
         {
             if (svgAttributeNames.TryGetValue(attributeName, out var adjustedAttributeName))
             {
@@ -255,23 +257,35 @@ namespace AngleSharp.Html.Parser
 
         #region Helpers
 
-        private static Boolean IsXmlNamespaceAttribute(String name) =>
-            name.Length > 4 && (name.Is(NamespaceNames.XmlNsPrefix) || name is "xmlns:xlink");
+        private static Boolean IsXmlNamespaceAttribute(StringOrMemory name) =>
+            name.Length > 4 && (name.Is(NamespaceNames.XmlNsPrefix) || name == "xmlns:xlink");
 
-        private static Boolean IsXmlAttribute(String name) =>
+        private static Boolean IsXmlAttribute(StringOrMemory name) =>
             (name.Length > 7 && "xml:".EqualsSubset(name, 0, 4)) &&
-                (TagNames.Base.EqualsSubset(name, 4, 4) || AttributeNames.Lang.EqualsSubset(name, 4, 4) ||
-                 AttributeNames.Space.EqualsSubset(name, 4, 5));
+            (TagNames.Base.EqualsSubset(name, 4, 4) || AttributeNames.Lang.EqualsSubset(name, 4, 4) ||
+             AttributeNames.Space.EqualsSubset(name, 4, 5));
 
-        private static Boolean IsXLinkAttribute(String name) =>
+        private static Boolean IsXLinkAttribute(StringOrMemory name) =>
             (name.Length > 9 && "xlink:".EqualsSubset(name, 0, 6)) &&
-                (AttributeNames.Actuate.EqualsSubset(name, 6, 7) || AttributeNames.Arcrole.EqualsSubset(name, 6, 7) ||
-                 AttributeNames.Href.EqualsSubset(name, 6, 4) || AttributeNames.Role.EqualsSubset(name, 6, 4) ||
-                 AttributeNames.Show.EqualsSubset(name, 6, 4) || AttributeNames.Type.EqualsSubset(name, 6, 4) ||
-                 AttributeNames.Title.EqualsSubset(name, 6, 5));
+            (AttributeNames.Actuate.EqualsSubset(name, 6, 7) || AttributeNames.Arcrole.EqualsSubset(name, 6, 7) ||
+             AttributeNames.Href.EqualsSubset(name, 6, 4) || AttributeNames.Role.EqualsSubset(name, 6, 4) ||
+             AttributeNames.Show.EqualsSubset(name, 6, 4) || AttributeNames.Type.EqualsSubset(name, 6, 4) ||
+             AttributeNames.Title.EqualsSubset(name, 6, 5));
 
-        private static Boolean EqualsSubset(this String a, String b, Int32 index, Int32 length) =>
-            String.Compare(a, 0, b, index, length, StringComparison.Ordinal) == 0;
+        private static Boolean EqualsSubset(this String a, StringOrMemory b, Int32 index, Int32 length)
+        {
+            if (length > a.Length)
+            {
+                return false;
+            }
+
+            if (length > b.Length - index)
+            {
+                return false;
+            }
+
+            return a.AsSpan().Slice(0, length).SequenceEqual(b.Memory.Span.Slice(index, length));
+        }
 
         #endregion
     }

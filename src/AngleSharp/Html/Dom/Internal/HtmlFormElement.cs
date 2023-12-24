@@ -12,11 +12,12 @@ namespace AngleSharp.Html.Dom
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading.Tasks;
+    using Construction;
 
     /// <summary>
     /// Represents the form element.
     /// </summary>
-    sealed class HtmlFormElement : HtmlElement, IHtmlFormElement
+    sealed class HtmlFormElement : HtmlElement, IHtmlFormElement, IConstructableFormElement
     {
         #region Fields
 
