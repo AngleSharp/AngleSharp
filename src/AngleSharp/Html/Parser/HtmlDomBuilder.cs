@@ -71,7 +71,7 @@ namespace AngleSharp.Html.Parser
         private Boolean _ended;
 
         private Func<IConstructableElement, Boolean>? _shouldEnd;
-        private readonly IHtmlElementFactory<TDocument, TElement> _elementFactory;
+        private readonly IDomConstructionElementFactory<TDocument, TElement> _elementFactory;
         private Task? _waiting;
         private readonly Boolean _emitWhitespaceTextNodes;
 
@@ -90,7 +90,7 @@ namespace AngleSharp.Html.Parser
         #region ctor
 
         public HtmlDomBuilder(
-            IHtmlElementFactory<TDocument, TElement> elementFactory,
+            IDomConstructionElementFactory<TDocument, TElement> elementFactory,
             TDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
             Boolean emitWhitespaceTextNodes = false,
@@ -1144,7 +1144,7 @@ namespace AngleSharp.Html.Parser
                         InBodyEndTagParagraph(ref tag);
                     }
 
-                    _currentFormElement = _elementFactory.Create(_document, TagNames.Form);
+                    _currentFormElement = _elementFactory.CreateForm(_document);
                     AddElement(_currentFormElement, ref tag);
                 }
                 else
@@ -1828,7 +1828,7 @@ namespace AngleSharp.Html.Parser
 
                         if (_currentFormElement is null)
                         {
-                            _currentFormElement = _elementFactory.Create(_document, TagNames.Form);
+                            _currentFormElement = _elementFactory.CreateForm(_document);
                             AddElement(_currentFormElement, ref token);
                             CloseCurrentNode();
                         }
@@ -4403,7 +4403,7 @@ namespace AngleSharp.Html.Parser
     sealed class HtmlDomBuilder : HtmlDomBuilder<HtmlDocument, Element>
     {
         public HtmlDomBuilder(
-            IHtmlElementFactory<HtmlDocument, Element> elementFactory,
+            IDomConstructionElementFactory<HtmlDocument, Element> elementFactory,
             HtmlDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
             String? stopAt = null)

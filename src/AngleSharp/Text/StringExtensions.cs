@@ -17,72 +17,10 @@ namespace AngleSharp.Text
     using Common;
 
     /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public readonly struct Lease<T> : IDisposable
-    {
-        private readonly ArrayPool<T> owner;
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="owner"></param>
-        /// <param name="data"></param>
-        /// <param name="requestedLength"></param>
-        public Lease(ArrayPool<T> owner, T[] data, Int32 requestedLength)
-        {
-            this.owner = owner;
-            this.Data = data;
-            this.RequestedLength = requestedLength;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public T[] Data { get; }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public Span<T> Span => Data.AsSpan(0, RequestedLength);
-
-        public Memory<T> Memory => Data.AsMemory(0, RequestedLength);
-
-        /// <summary>
-        ///
-        /// </summary>
-        public Int32 RequestedLength { get; }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public void Dispose()
-        {
-            owner.Return(this.Data, false);
-        }
-    }
-
-    /// <summary>
     /// Useful methods for string objects.
     /// </summary>
     public static class StringExtensions
     {
-
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="pool"></param>
-        /// <param name="length"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static Lease<T> Borrow<T>(this ArrayPool<T> pool, Int32 length)
-        {
-            var arr = ArrayPool<T>.Shared.Rent(length);
-            return new Lease<T>(ArrayPool<T>.Shared, arr, length);
-        }
-
         /// <summary>
         /// Checks if the given string has a certain character at a specific
         /// index. The index is optional (default is 0).
@@ -701,10 +639,6 @@ namespace AngleSharp.Text
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3) =>
-            element.Is(item1) || element.Is(item2) || element.Is(item3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsOneOf(this string element, StringOrMemory item1, StringOrMemory item2, StringOrMemory item3) =>
             element.Is(item1) || element.Is(item2) || element.Is(item3);
 
         /// <summary>

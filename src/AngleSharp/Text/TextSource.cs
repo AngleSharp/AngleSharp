@@ -230,6 +230,7 @@ namespace AngleSharp.Text
             return _content.ToString(start, characters);
         }
 
+        /// <inheritdoc/>
         public StringOrMemory ReadMemory(int characters)
         {
             return new StringOrMemory(ReadCharacters(characters));

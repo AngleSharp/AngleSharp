@@ -15,6 +15,7 @@ namespace AngleSharp.Dom
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Html.Construction;
 
     /// <summary>
     /// Useful methods for element objects.
@@ -1599,7 +1600,7 @@ namespace AngleSharp.Dom
                 IsStrictMode = false,
                 IsScripting = context.IsScripting(),
             };
-            var parser = new HtmlDomBuilder(MutableHtmlElementFactory.Instance, document, new HtmlTokenizerOptions(options));
+            var parser = new HtmlDomBuilder(HtmlDomConstructionFactory.Instance, document, new HtmlTokenizerOptions(options));
             return parser.ParseFragment(options, element).DocumentElement;
         }
     }

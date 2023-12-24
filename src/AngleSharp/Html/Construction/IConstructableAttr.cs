@@ -2,8 +2,18 @@
 
 using Common;
 
-internal interface IConstructableAttr
+/// <summary>
+/// Represents a constructable attribute.
+/// </summary>
+public interface IConstructableAttr
 {
-    public StringOrMemory Name { get; }
-    public StringOrMemory Value { get; internal set; }
+    /// <summary>
+    /// Name of the attribute.
+    /// </summary>
+    StringOrMemory Name { get; }
+
+    /// <summary>
+    /// Value of the attribute.
+    /// </summary>
+    StringOrMemory Value { get; set; }
 };

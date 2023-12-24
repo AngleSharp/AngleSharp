@@ -15,7 +15,7 @@ namespace AngleSharp.Html.Dom
     /// <summary>
     /// Represents a document node that contains only HTML nodes.
     /// </summary>
-    sealed class HtmlDocument : Document, IHtmlDocument, IConstructableDocument
+    sealed class HtmlDocument : Document, IHtmlDocument
     {
         #region Fields
 
@@ -100,64 +100,5 @@ namespace AngleSharp.Html.Dom
         }
 
         #endregion
-
-        #region Construction
-
-        IDisposable? IConstructableDocument.Builder { get; set; }
-
-        QuirksMode IConstructableDocument.QuirksMode
-        {
-            get => QuirksMode;
-            set => QuirksMode = value;
-        }
-
-        IConstructableElement? IConstructableDocument.Head => DocumentElement.FindChild<HtmlHeadElement>();
-
-        IConstructableElement IConstructableDocument.DocumentElement => this.FindChild<HtmlHtmlElement>()!;
-
-        void IConstructableDocument.PerformMicrotaskCheckpoint()
-        {
-            this.PerformMicrotaskCheckpoint();
-        }
-
-        void IConstructableDocument.ProvideStableState()
-        {
-            this.ProvideStableState();
-        }
-
-        void IConstructableDocument.AddComment(ref StructHtmlToken token)
-        {
-            HtmlDomBuilderExtensions.AddComment(this, ref token);
-        }
-
-        void IConstructableDocument.TrackError(Exception exception)
-        {
-            Context.TrackError(exception);
-        }
-
-        Task IConstructableDocument.WaitForReadyAsync(CancellationToken cancelToken)
-        {
-            return this.WaitForReadyAsync();
-        }
-
-        void IConstructableDocument.ApplyManifest()
-        {
-            this.ApplyManifest();
-        }
-
-        Boolean IConstructableDocument.IsLoading => IsLoading;
-
-        Task IConstructableDocument.FinishLoadingAsync()
-        {
-            return this.FinishLoadingAsync();
-        }
-
-        #endregion
-
-        public override void Dispose()
-        {
-            ((IConstructableDocument)this).Builder?.Dispose();
-            base.Dispose();
-        }
     }
 }

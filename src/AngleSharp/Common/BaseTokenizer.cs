@@ -17,7 +17,7 @@ namespace AngleSharp.Common
         private UInt16 _column;
         private UInt16 _row;
         private Char _current;
-        private IBuffer _buffer;
+        private IMutableCharBuffer _buffer;
         private Boolean _normalized;
 
         #endregion
@@ -87,7 +87,7 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        protected IBuffer StringBuffer => _buffer;
+        protected IMutableCharBuffer StringBuffer => _buffer;
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).
@@ -109,7 +109,7 @@ namespace AngleSharp.Common
         /// <returns>The content of the buffer.</returns>
         public StringOrMemory FlushBuffer() => FlushBuffer(null);
 
-        internal StringOrMemory FlushBuffer(Func<IBuffer, String?>? stringResolver)
+        internal StringOrMemory FlushBuffer(Func<IMutableCharBuffer, String?>? stringResolver)
         {
             var resolved = stringResolver?.Invoke(StringBuffer);
             if (resolved != null)

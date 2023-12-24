@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Common;
 
 /// <summary>
-/// A stream abstraction to handle encoding and more.
+/// Represents a fully loaded immutable text source.
 /// </summary>
 public sealed class PrefetchedTextSource : IReadOnlyTextSource
 {
@@ -46,10 +46,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
 
     #region Properties
 
-    /// <summary>
-    /// Gets the full text buffer.
-    /// </summary>
-    [MemberNotNull("_content")]
+    /// <ihneritdoc />
     public String Text
     {
         get
@@ -58,31 +55,21 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
         }
     }
 
-    /// <summary>
-    /// Gets the character at the given position in the text buffer.
-    /// </summary>
-    /// <param name="index">The index of the character.</param>
-    /// <returns>The character.</returns>
+    /// <ihneritdoc />
     public Char this[Int32 index] =>
         _content != null ? _content[index] : _memory.Span[index];
 
-    /// <summary>
-    /// Gets the length of the text buffer.
-    /// </summary>
+    /// <ihneritdoc />
     public Int32 Length => _length;
 
-    /// <summary>
-    /// Gets or sets the encoding to use.
-    /// </summary>
+    /// <ihneritdoc />
     public Encoding CurrentEncoding
     {
         get => Encoding.Default;
         set { }
     }
 
-    /// <summary>
-    /// Gets or sets the current index of the insertation and read point.
-    /// </summary>
+    /// <ihneritdoc />
     public Int32 Index
     {
         get => _index;
@@ -93,9 +80,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
 
     #region Disposable
 
-    /// <summary>
-    /// Disposes the text source by freeing the underlying stream, if any.
-    /// </summary>
+    /// <ihneritdoc />
     public void Dispose()
     {
     }
@@ -104,10 +89,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
 
     #region Text Methods
 
-    /// <summary>
-    /// Reads the next character from the buffer or underlying stream, if any.
-    /// </summary>
-    /// <returns>The next character.</returns>
+    /// <ihneritdoc />
     public Char ReadCharacter()
     {
         if (_index < _length)
@@ -119,17 +101,13 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
         return Symbols.EndOfFile;
     }
 
-    /// <summary>
-    /// Reads the upcoming numbers of characters from the buffer or
-    /// underlying stream, if any.
-    /// </summary>
-    /// <param name="characters">The number of characters to read.</param>
-    /// <returns>The string with the next characters.</returns>
+    /// <ihneritdoc />
     public String ReadCharacters(Int32 characters)
     {
         return ReadMemory(characters).String;
     }
 
+    /// <ihneritdoc />
     public StringOrMemory ReadMemory(Int32 characters)
     {
         var start = _index;
@@ -146,32 +124,19 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
         return _memory.Slice(start, characters);
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="length"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <ihneritdoc />
     public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <ihneritdoc />
     public Task PrefetchAllAsync(CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="length"></param>
-    /// <returns></returns>
+    /// <ihneritdoc />
     public Boolean TryGetContentLength(out Int32 length)
     {
         length = _length;

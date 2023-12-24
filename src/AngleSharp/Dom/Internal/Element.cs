@@ -403,6 +403,7 @@ namespace AngleSharp.Dom
             return _attributes.GetNamedItem(name) != null;
         }
 
+        /// <inheritdoc />
         public Boolean HasAttribute(StringOrMemory name)
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))

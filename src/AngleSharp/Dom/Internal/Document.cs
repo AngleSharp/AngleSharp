@@ -15,11 +15,14 @@ namespace AngleSharp.Dom
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
+    using Html.Construction;
+    using Html.Parser;
+    using Html.Parser.Tokens.Struct;
 
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    public abstract class Document : Node, IDocument
+    public abstract class Document : Node, IDocument, IConstructableDocument
     {
         #region Fields
 
@@ -889,6 +892,7 @@ namespace AngleSharp.Dom
             _loadingScripts.Clear();
             _source.Dispose();
             _view?.Dispose();
+            ((IConstructableDocument)this).Builder?.Dispose();
         }
 
         /// <inheritdoc />
@@ -1590,5 +1594,59 @@ namespace AngleSharp.Dom
             return _importedUris?.Contains(uri) ?? false;
         }
 #endregion
+
+#region Construction
+
+        IDisposable? IConstructableDocument.Builder { get; set; }
+
+        QuirksMode IConstructableDocument.QuirksMode
+        {
+            get => QuirksMode;
+            set => QuirksMode = value;
+        }
+
+        IConstructableElement? IConstructableDocument.Head => DocumentElement.FindChild<HtmlHeadElement>();
+
+        IConstructableElement IConstructableDocument.DocumentElement => this.FindChild<HtmlHtmlElement>()!;
+
+        void IConstructableDocument.PerformMicrotaskCheckpoint()
+        {
+            this.PerformMicrotaskCheckpoint();
+        }
+
+        void IConstructableDocument.ProvideStableState()
+        {
+            this.ProvideStableState();
+        }
+
+        void IConstructableDocument.AddComment(ref StructHtmlToken token)
+        {
+            HtmlDomBuilderExtensions.AddComment(this, ref token);
+        }
+
+        void IConstructableDocument.TrackError(Exception exception)
+        {
+            Context.TrackError(exception);
+        }
+
+        Task IConstructableDocument.WaitForReadyAsync(CancellationToken cancelToken)
+        {
+            return this.WaitForReadyAsync();
+        }
+
+        void IConstructableDocument.ApplyManifest()
+        {
+            this.ApplyManifest();
+        }
+
+        Boolean IConstructableDocument.IsLoading => IsLoading;
+
+        Task IConstructableDocument.FinishLoadingAsync()
+        {
+            return this.FinishLoadingAsync();
+        }
+
+#endregion
+
     }
 }

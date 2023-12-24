@@ -7,7 +7,6 @@ namespace AngleSharp.Html.Parser
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-    using ReadOnly.Html;
     using Text;
 
     /// <summary>
@@ -70,9 +69,9 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         Task<IDocument> ParseDocumentAsync(IDocument document, CancellationToken cancel);
 
-        /// <summary>
-        /// Parses the stream and returns the result.
-        /// </summary>
-        IReadOnlyDocument ParseReadOnlyDocument(IReadOnlyTextSource source, Middleware? middleware = null);
+        // /// <summary>
+        // /// Parses the stream and returns the result.
+        // /// </summary>
+        // IReadOnlyDocument ParseReadOnlyDocument(IReadOnlyTextSource source, Middleware? middleware = null);
     }
 }

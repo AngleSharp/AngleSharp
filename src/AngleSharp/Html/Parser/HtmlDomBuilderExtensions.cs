@@ -6,6 +6,8 @@ namespace AngleSharp.Html.Parser
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
+    using Common;
+    using Construction;
     using Tokens.Struct;
 
     /// <summary>
@@ -13,41 +15,7 @@ namespace AngleSharp.Html.Parser
     /// </summary>
     static class HtmlDomBuilderExtensions
     {
-        public static void SetAttributes(this Element element, IReadOnlyList<HtmlAttributeToken> attributes)
-        {
-            var container = element.Attributes;
-
-            for (var i = 0; i < attributes.Count; i++)
-            {
-                var attribute = attributes[i];
-                var item = new Attr(attribute.Name, attribute.Value);
-                item.Container = container;
-                container.FastAddItem(item);
-            }
-        }
-
-        public static void SetAttributes(this Element element, StructAttributes attributes)
-        {
-            var container = element.Attributes;
-
-            for (var i = 0; i < attributes.Count; i++)
-            {
-                var attribute = attributes[i];
-                var item = new Attr(attribute.Name.String, attribute.Value.String);
-                item.Container = container;
-                container.FastAddItem(item);
-            }
-        }
-
-        public static void AddAttribute(this Element element, HtmlAttributeToken attribute)
-        {
-            var container = element.Attributes;
-            var item = new Attr(attribute.Name, attribute.Value);
-            item.Container = container;
-            container.FastAddItem(item);
-        }
-
-        public static HtmlTreeMode? SelectMode(this Element element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
+        public static HtmlTreeMode? SelectMode(this IConstructableElement element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
         {
             if (element.Flags.HasFlag(NodeFlags.HtmlMember))
             {
@@ -57,7 +25,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return HtmlTreeMode.InSelect;
                 }
-                else if (TagNames.AllTableCells.Contains(tagName))
+                else if (TagNames._mAllTableCells.Contains(tagName))
                 {
                     return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
                 }
@@ -65,7 +33,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return HtmlTreeMode.InRow;
                 }
-                else if (TagNames.AllTableSections.Contains(tagName))
+                else if (TagNames._mAllTableSections.Contains(tagName))
                 {
                     return HtmlTreeMode.InTableBody;
                 }
@@ -118,7 +86,8 @@ namespace AngleSharp.Html.Parser
             return (Int32)code;
         }
 
-        public static void SetUniqueAttributes(this Element element, HtmlTagToken token)
+        public static void SetUniqueAttributes<TElement>(this TElement element, ref StructHtmlToken token)
+            where TElement: class, IConstructableElement
         {
             for (var i = token.Attributes.Count - 1; i >= 0; i--)
             {
@@ -131,20 +100,13 @@ namespace AngleSharp.Html.Parser
             element.SetAttributes(token.Attributes);
         }
 
-        public static void SetUniqueAttributes(this Element element, ref StructHtmlToken token)
+        public static void AddFormatting(this List<Element> formatting, Element element)
         {
-            for (var i = token.Attributes.Count - 1; i >= 0; i--)
-            {
-                if (element.HasAttribute(token.Attributes[i].Name.String))
-                {
-                    token.RemoveAttributeAt(i);
-                }
-            }
-
-            element.SetAttributes(token.Attributes);
+            AddFormatting<Element>(formatting, element);
         }
 
-        public static void AddFormatting(this List<Element> formatting, Element element)
+        public static void AddFormatting<TElement>(this List<TElement> formatting, TElement element)
+            where TElement: class, IConstructableElement
         {
             var count = 0;
 
@@ -171,6 +133,12 @@ namespace AngleSharp.Html.Parser
 
         public static void ClearFormatting(this List<Element> formatting)
         {
+            ClearFormatting<Element>(formatting);
+        }
+
+        public static void ClearFormatting<TElement>(this List<TElement> formatting)
+            where TElement: class, IConstructableElement
+        {
             while (formatting.Count != 0)
             {
                 var index = formatting.Count - 1;
@@ -186,6 +154,13 @@ namespace AngleSharp.Html.Parser
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddScopeMarker(this List<Element> formatting)
+        {
+            AddScopeMarker<Element>(formatting);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddScopeMarker<TElement>(this List<TElement> formatting)
+            where TElement: class, IConstructableElement
         {
             formatting.Add(null!);
         }
@@ -223,6 +198,20 @@ namespace AngleSharp.Html.Parser
         }
 
         public static QuirksMode GetQuirksMode(this HtmlDoctypeToken doctype)
+        {
+            if (doctype.IsFullQuirks)
+            {
+                return QuirksMode.On;
+            }
+            else if (doctype.IsLimitedQuirks)
+            {
+                return QuirksMode.Limited;
+            }
+
+            return QuirksMode.Off;
+        }
+
+        public static QuirksMode GetQuirksMode(this ref StructHtmlToken doctype)
         {
             if (doctype.IsFullQuirks)
             {

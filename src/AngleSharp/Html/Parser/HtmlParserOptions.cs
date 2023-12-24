@@ -3,58 +3,12 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
-    using Tokens;
-    using Tokens.Struct;
-    using AttributeName = System.ReadOnlyMemory<System.Char>;
-
-    public struct HtmlTokenizerOptions
-    {
-        public HtmlTokenizerOptions(HtmlParserOptions htmlParserOptions)
-        {
-            IsStrictMode = htmlParserOptions.IsStrictMode;
-            IsSupportingProcessingInstructions = htmlParserOptions.IsSupportingProcessingInstructions;
-            IsNotConsumingCharacterReferences = htmlParserOptions.IsNotConsumingCharacterReferences;
-            IsPreservingAttributeNames = htmlParserOptions.IsPreservingAttributeNames;
-
-            SkipRawText = htmlParserOptions.SkipRawText;
-            SkipScriptText = htmlParserOptions.SkipScriptText;
-            SkipDataText = htmlParserOptions.SkipDataText;
-            ShouldEmitAttribute = htmlParserOptions.ShouldEmitAttribute ?? (static (ref StructHtmlToken _, AttributeName _) => true);
-
-            SkipDataText = htmlParserOptions.SkipDataText;
-            SkipScriptText = htmlParserOptions.SkipScriptText;
-            SkipRawText = htmlParserOptions.SkipRawText;
-            SkipComments = htmlParserOptions.SkipComments;
-            SkipPlaintext = htmlParserOptions.SkipPlaintext;
-            SkipRCDataText = htmlParserOptions.SkipRCDataText;
-            SkipCDATA = htmlParserOptions.SkipCDATA;
-            SkipProcessingInstructions = htmlParserOptions.SkipProcessingInstructions;
-
-            DisableElementPositionTracking = htmlParserOptions.DisableElementPositionTracking;
-        }
-
-        public Boolean DisableElementPositionTracking { get; set; }
-        public Boolean SkipComments { get; set; }
-        public Boolean SkipPlaintext { get; set; }
-        public Boolean SkipRCDataText { get; set; }
-        public Boolean SkipCDATA { get; set; }
-        public Boolean SkipProcessingInstructions { get; set; }
-        public ShouldEmitAttribute ShouldEmitAttribute { get; set; }
-        public Boolean SkipDataText { get; set; }
-        public Boolean SkipScriptText { get; set; }
-        public Boolean SkipRawText { get; set; }
-        public Boolean IsPreservingAttributeNames { get; set; }
-        public Boolean IsNotConsumingCharacterReferences { get; set; }
-        public Boolean IsSupportingProcessingInstructions { get; set; }
-        public Boolean IsStrictMode { get; set; }
-    }
 
     /// <summary>
     /// Contains a number of options for the HTML parser.
     /// </summary>
     public struct HtmlParserOptions
     {
-
         /// <summary>
         /// Gets or sets if the document is embedded.
         /// </summary>
@@ -118,54 +72,53 @@ namespace AngleSharp.Html.Parser
         public Action<IElement, TextPosition>? OnCreated { get; set; }
 
         /// <summary>
-        ///
+        /// Prevents the tokenizer from tracking the position of elements.
         /// </summary>
-        public Boolean SkipDataText { get; set; }
+        public Boolean DisableElementPositionTracking { get; set; }
 
         /// <summary>
-        ///
-        /// </summary>
-        public Boolean SkipScriptText { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public Boolean SkipRawText { get; set; }
-
-        /// <summary>
-        ///
+        /// Should the tokenizer skip comment tokens.
         /// </summary>
         public Boolean SkipComments { get; set; }
 
         /// <summary>
-        ///
+        /// Should the tokenizer skip plaintext tokens.
         /// </summary>
         public Boolean SkipPlaintext { get; set; }
 
         /// <summary>
-        ///
+        /// Should the tokenizer skip RCDATA text tokens.
         /// </summary>
         public Boolean SkipRCDataText { get; set; }
 
         /// <summary>
-        ///
+        /// Should the tokenizer skip CDATA text tokens.
         /// </summary>
         public Boolean SkipCDATA { get; set; }
 
         /// <summary>
-        ///
+        /// Should the tokenizer skip processing instruction tokens.
         /// </summary>
         public Boolean SkipProcessingInstructions { get; set; }
 
         /// <summary>
-        ///
+        /// Gets or set the delegate which determines if an attribute should be emitted.
         /// </summary>
-        public ShouldEmitAttribute? ShouldEmitAttribute { get; set; }
-
+        public ShouldEmitAttribute ShouldEmitAttribute { get; set; }
 
         /// <summary>
-        ///
+        /// Should the tokenizer skip data text tokens.
         /// </summary>
-        public bool DisableElementPositionTracking { get; set; }
+        public Boolean SkipDataText { get; set; }
+
+        /// <summary>
+        /// Should the tokenizer skip script text tokens.
+        /// </summary>
+        public Boolean SkipScriptText { get; set; }
+
+        /// <summary>
+        /// Should the tokenizer skip raw text tokens.
+        /// </summary>
+        public Boolean SkipRawText { get; set; }
     }
 }

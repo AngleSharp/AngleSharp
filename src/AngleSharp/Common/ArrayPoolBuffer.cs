@@ -3,17 +3,23 @@ namespace AngleSharp.Common;
 using System;
 using System.Buffers;
 
-internal class ArrayPoolBuffer : IBuffer
+/// <summary>
+/// A buffer that uses an array pool to store the characters.
+/// Usage of this buffer assumes that the max capacity is known upfront
+/// Maintains an append only contiguous chunk of characters
+/// Created <see cref="StringOrMemory"/> instances lifetime is tied to the buffer
+/// </summary>
+internal class ArrayPoolBuffer : IMutableCharBuffer
 {
     private Char[] _buffer;
     private Int32 _start = 0;
     private Int32 _idx = 0;
     private Int32 Pointer => _start + _idx;
+    private Boolean _disposed;
 
     public ArrayPoolBuffer(Int32 length)
     {
         _buffer = ArrayPool<Char>.Shared.Rent(length);
-        Capacity = _buffer.Length;
     }
 
     public void Dispose()
@@ -21,7 +27,7 @@ internal class ArrayPoolBuffer : IBuffer
         ReturnToPool();
     }
 
-    public IBuffer Append(Char c)
+    public IMutableCharBuffer Append(Char c)
     {
         _buffer[Pointer] = c;
         _idx++;
@@ -44,9 +50,9 @@ internal class ArrayPoolBuffer : IBuffer
 
     public Int32 Length => _idx;
 
-    public Int32 Capacity { get; }
+    public Int32 Capacity => _buffer.Length;
 
-    public IBuffer Remove(Int32 startIndex, Int32 length)
+    public IMutableCharBuffer Remove(Int32 startIndex, Int32 length)
     {
         var tail = _buffer.AsSpan(_start + startIndex + length);
         var dest = _buffer.AsSpan(_start + startIndex);
@@ -54,8 +60,6 @@ internal class ArrayPoolBuffer : IBuffer
         _idx -= length;
         return this;
     }
-
-    private Boolean _disposed;
 
     public void ReturnToPool()
     {
@@ -67,7 +71,7 @@ internal class ArrayPoolBuffer : IBuffer
         }
     }
 
-    public IBuffer Insert(Int32 idx, Char c)
+    public IMutableCharBuffer Insert(Int32 idx, Char c)
     {
         if ((UInt32)idx > Length)
         {
@@ -90,7 +94,7 @@ internal class ArrayPoolBuffer : IBuffer
         return this;
     }
 
-    public IBuffer Append(ReadOnlySpan<Char> str)
+    public IMutableCharBuffer Append(ReadOnlySpan<Char> str)
     {
         if (Pointer + str.Length > Capacity)
         {
@@ -129,5 +133,5 @@ internal class ArrayPoolBuffer : IBuffer
         return MemoryExtensions.Equals(actual, test, comparison);
     }
 
-    String IBuffer.ToString() => new StringOrMemory(_buffer.AsMemory(_start, Length)).String;
+    String IMutableCharBuffer.ToString() => new StringOrMemory(_buffer.AsMemory(_start, Length)).String;
 }

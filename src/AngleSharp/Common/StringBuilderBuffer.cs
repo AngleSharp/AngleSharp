@@ -5,11 +5,15 @@ using System.Buffers;
 using System.Text;
 using Text;
 
-internal class StringBuilderBuffer : IBuffer
+/// <summary>
+/// Delegates implementation to <see cref="StringBuilder"/> obtained from <see cref="StringBuilderPool"/>
+/// </summary>
+internal class StringBuilderBuffer : IMutableCharBuffer
 {
+    private Boolean _disposed = false;
     private StringBuilder _sb = StringBuilderPool.Obtain();
 
-    public IBuffer Append(Char c)
+    public IMutableCharBuffer Append(Char c)
     {
         _sb.Append(c);
         return this;
@@ -24,18 +28,11 @@ internal class StringBuilderBuffer : IBuffer
 
     public Int32 Capacity => _sb.Capacity;
 
-    public IBuffer Remove(Int32 startIndex, Int32 length)
+    public IMutableCharBuffer Remove(Int32 startIndex, Int32 length)
     {
         _sb.Remove(startIndex, length);
         return this;
     }
-
-    // public void CopyTo(Int32 offset, Span<Char> dest, Int32 length)
-    // {
-    //     _sb.CopyTo(offset, dest, length);
-    // }
-
-    private Boolean _disposed = false;
 
     public void ReturnToPool()
     {
@@ -52,13 +49,13 @@ internal class StringBuilderBuffer : IBuffer
         ReturnToPool();
     }
 
-    public IBuffer Insert(Int32 index, Char c)
+    public IMutableCharBuffer Insert(Int32 index, Char c)
     {
         _sb.Insert(index, c);
         return this;
     }
 
-    public IBuffer Append(ReadOnlySpan<Char> str)
+    public IMutableCharBuffer Append(ReadOnlySpan<Char> str)
     {
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         _sb.Append(str);

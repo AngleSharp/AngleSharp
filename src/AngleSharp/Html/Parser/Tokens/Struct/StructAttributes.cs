@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using Common;
 
+/// <summary>
+/// Struct to hold attributes.
+/// </summary>
 public struct StructAttributes
 {
     private Int32 _count;
@@ -13,6 +16,10 @@ public struct StructAttributes
     private MemoryHtmlAttributeToken _t3;
     private List<MemoryHtmlAttributeToken> _tail;
 
+    /// <summary>
+    /// Adds an attribute to the list.
+    /// </summary>
+    /// <param name="item">Attribute to add.</param>
     public void Add(MemoryHtmlAttributeToken item)
     {
         switch (_count)
@@ -41,8 +48,15 @@ public struct StructAttributes
         }
     }
 
+    /// <summary>
+    /// Gets the number of attributes.
+    /// </summary>
     public Int32 Count => _count;
 
+    /// <summary>
+    /// Removes the attribute at the given index.
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void RemoveAt(Int32 index)
     {
         if (index > _count)
@@ -145,6 +159,11 @@ public struct StructAttributes
         _count--;
     }
 
+    /// <summary>
+    /// Gets or sets the attribute at the given index.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public MemoryHtmlAttributeToken this[Int32 id]
     {
         get
@@ -190,9 +209,13 @@ public struct StructAttributes
                     break;
             }
         }
-
     }
 
+    /// <summary>
+    /// Checks if the attribute list contains the given attribute.
+    /// </summary>
+    /// <param name="name">Attribute name.</param>
+    /// <param name="value">Attribute value.</param>
     public Boolean HasAttribute(StringOrMemory name, StringOrMemory value)
     {
         for (var i = 0; i < _count; i++)
@@ -200,21 +223,6 @@ public struct StructAttributes
             var attr = this[i];
 
             if (attr.Name.Equals(name) && attr.Value.Equals(value))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public Boolean HasAttribute(String name, String value)
-    {
-        for (var i = 0; i < _count; i++)
-        {
-            var attr = this[i];
-
-            if (attr.Name.Isi(name) && attr.Value.Is(value))
             {
                 return true;
             }

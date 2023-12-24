@@ -42,6 +42,12 @@ namespace AngleSharp.Dom
                    type != NodeType.Element;
         }
 
+        /// <summary>
+        /// Checks if the provided <see cref="NodeType"/> is an endpoint, i.e., does not host any
+        /// other node.
+        /// </summary>
+        /// <param name="type">The <see cref="NodeType"/> that is checked.</param>
+        /// <returns>True if the node is an endpoint, otherwise false.</returns>
         public static Boolean IsEndPoint(this NodeType type)
         {
             return type != NodeType.Document &&

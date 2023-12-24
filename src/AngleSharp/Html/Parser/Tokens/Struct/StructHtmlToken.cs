@@ -5,6 +5,9 @@ using AngleSharp.Common;
 using AngleSharp.Dom;
 using AngleSharp.Text;
 
+/// <summary>
+/// Struct representation of an HTML token.
+/// </summary>
 public struct StructHtmlToken
 {
     // as doctype is very rare, we can save some stack memory copying by not storing doctype data as fields on struct
@@ -50,10 +53,10 @@ public struct StructHtmlToken
 
     #region Creators
 
-    public static StructHtmlToken Skipped(HtmlTokenType htmlTokenType, TextPosition position) =>
+    internal static StructHtmlToken Skipped(HtmlTokenType htmlTokenType, TextPosition position) =>
         new(htmlTokenType, position);
 
-    public static StructHtmlToken Doctype(Boolean quirksForced, TextPosition position) =>
+    internal static StructHtmlToken Doctype(Boolean quirksForced, TextPosition position) =>
         new(HtmlTokenType.Doctype, position)
         {
             _structTokenDoctypeData = new StructTokenDoctypeData()
@@ -62,39 +65,45 @@ public struct StructHtmlToken
             }
         };
 
-    public static StructHtmlToken TagOpen(TextPosition position) =>
+    internal static StructHtmlToken TagOpen(TextPosition position) =>
         new(HtmlTokenType.StartTag, position);
 
-    public static StructHtmlToken Open(StringOrMemory name) =>
+    internal static StructHtmlToken Open(StringOrMemory name) =>
         new(HtmlTokenType.StartTag, TextPosition.Empty, name);
 
-    public static StructHtmlToken TagClose(TextPosition position) =>
+    internal static StructHtmlToken TagClose(TextPosition position) =>
         new(HtmlTokenType.EndTag, position);
 
-    public static StructHtmlToken Close(StringOrMemory s) =>
+    internal static StructHtmlToken Close(StringOrMemory s) =>
         new(HtmlTokenType.EndTag, TextPosition.Empty, s);
 
-    public static StructHtmlToken Character(StringOrMemory name, TextPosition position) =>
+    internal static StructHtmlToken Character(StringOrMemory name, TextPosition position) =>
         new(HtmlTokenType.Character, position, name);
 
-    public static StructHtmlToken Comment(StringOrMemory name, TextPosition position) =>
+    internal static StructHtmlToken Comment(StringOrMemory name, TextPosition position) =>
         new(HtmlTokenType.Comment, position, name);
 
-    public static StructHtmlToken ProcessingInstruction(StringOrMemory name, TextPosition position) =>
+    internal static StructHtmlToken ProcessingInstruction(StringOrMemory name, TextPosition position) =>
         new(HtmlTokenType.Comment, position, name)
         {
             IsProcessingInstruction = true
         };
 
-    public static StructHtmlToken EndOfFile(TextPosition position) =>
+    internal static StructHtmlToken EndOfFile(TextPosition position) =>
         new(HtmlTokenType.EndOfFile, position);
 
     #endregion
 
     #region Properties
 
+    /// <summary>
+    /// Is this a doctype token
+    /// </summary>
     public Boolean IsDoctype => _type == HtmlTokenType.Doctype;
 
+    /// <summary>
+    /// Is this a tag token
+    /// </summary>
     public Boolean IsTag => _type is HtmlTokenType.StartTag or HtmlTokenType.EndTag;
 
     /// <summary>
@@ -522,6 +531,10 @@ public struct StructHtmlToken
 
     #endregion
 
+    /// <summary>
+    /// Converts the current token instance to a class representation by <see cref="HtmlToken"/>
+    /// </summary>
+    /// <returns></returns>
     public HtmlToken ToHtmlToken()
     {
         switch (Type)

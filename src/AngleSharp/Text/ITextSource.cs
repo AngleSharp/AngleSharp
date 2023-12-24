@@ -8,7 +8,20 @@ using System.Threading.Tasks;
 using Common;
 
 /// <summary>
-/// ...
+/// Represents a text source that can be read from and written to.
+/// </summary>
+public interface ITextSource : IReadOnlyTextSource
+{
+    /// <summary>
+    /// Inserts the given content at the current insertation mark. Moves the
+    /// insertation mark.
+    /// </summary>
+    /// <param name="content">The content to insert.</param>
+    void InsertText(String content);
+}
+
+/// <summary>
+/// Represents a text source that can be read from.
 /// </summary>
 public interface IReadOnlyTextSource : IDisposable
 {
@@ -78,24 +91,9 @@ public interface IReadOnlyTextSource : IDisposable
     Task PrefetchAllAsync(CancellationToken cancellationToken);
 
     /// <summary>
-    ///
+    /// Gets the content length, if known.
     /// </summary>
     /// <param name="length"></param>
     /// <returns></returns>
     Boolean TryGetContentLength(out Int32 length);
-
-}
-
-/// <summary>
-///
-/// </summary>
-public interface ITextSource : IReadOnlyTextSource
-{
-    /// <summary>
-    /// Inserts the given content at the current insertation mark. Moves the
-    /// insertation mark.
-    /// </summary>
-    /// <param name="content">The content to insert.</param>
-    void InsertText(String content);
-
 }

@@ -13,7 +13,7 @@ namespace AngleSharp.Html.Parser
             return TryGetWellKnownTagName(adapter);
         }
 
-        public static String? TryGetWellKnownTagName(ISlimBuffer builder)
+        public static String? TryGetWellKnownTagName(ICharBuffer builder)
         {
             switch (builder.Length)
             {
@@ -560,7 +560,7 @@ namespace AngleSharp.Html.Parser
             }
         }
 
-        private static Boolean CharsAreEqual(ISlimBuffer builder, String tagName)
+        private static Boolean CharsAreEqual(ICharBuffer builder, String tagName)
         {
             for ( int i = 0; i < tagName.Length; i++ )
             {
@@ -573,7 +573,7 @@ namespace AngleSharp.Html.Parser
             return true;
         }
 
-        private readonly struct StringBuilderAdapter : ISlimBuffer
+        private readonly struct StringBuilderAdapter : ICharBuffer
         {
             private readonly StringBuilder _sb;
             public StringBuilderAdapter(StringBuilder sb) => _sb = sb;
