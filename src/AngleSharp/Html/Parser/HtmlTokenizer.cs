@@ -18,6 +18,32 @@ namespace AngleSharp.Html.Parser
     public delegate Boolean ShouldEmitAttribute(ref StructHtmlToken token, AttributeName attributeName);
 
     /// <summary>
+    /// Token consumption result
+    /// </summary>
+    public enum Result
+    {
+        /// <summary>
+        /// Tokenization should continue.
+        /// </summary>
+        Continue,
+
+        /// <summary>
+        /// Tokenization should stop.
+        /// </summary>
+        Stop
+    }
+
+    /// <summary>
+    /// Represent token consumer delegate.
+    /// </summary>
+    public delegate void TokenConsumer(ref StructHtmlToken token);
+
+    /// <summary>
+    /// Represents the callback that is invoked when a token is consumed.
+    /// </summary>
+    public delegate Result TokenizerMiddleware(ref StructHtmlToken token, TokenConsumer next);
+
+    /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>

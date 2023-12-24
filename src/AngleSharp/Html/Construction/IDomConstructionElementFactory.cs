@@ -3,13 +3,14 @@
 using System;
 using AngleSharp.Common;
 using AngleSharp.Dom;
+using Text;
 
 /// <summary>
 /// Represents a factory for creating DOM during parsing of HTML.
 /// </summary>
 /// <typeparam name="TDocument">Type of the document, should implement <see cref="IConstructableDocument"/></typeparam>
 /// <typeparam name="TElement">Type of the element, should implement <see cref="IConstructableElement"/></typeparam>
-public interface IDomConstructionElementFactory<in TDocument, out TElement>
+public interface IDomConstructionElementFactory<TDocument, TElement>
     where TDocument: class, IConstructableDocument
     where TElement: class, IConstructableElement
 {
@@ -101,4 +102,11 @@ public interface IDomConstructionElementFactory<in TDocument, out TElement>
     /// <param name="tagName">Tag name</param>
     /// <returns>Created element</returns>
     TElement CreateUnknown(TDocument document, StringOrMemory tagName);
+
+    /// <summary>
+    /// Creates a new document to hold parsed DOM
+    /// </summary>
+    /// <param name="source">Source of the document</param>
+    /// <param name="context">Optional browsing context</param>
+    TDocument CreateDocument(IReadOnlyTextSource source, IBrowsingContext? context = null);
 }

@@ -8,18 +8,17 @@ using AngleSharp.Mathml;
 using AngleSharp.Mathml.Dom;
 using AngleSharp.Svg;
 using AngleSharp.Svg.Dom;
+using Text;
 
 /// <summary>
 /// Shortcut interface inherited from <see cref="IDomConstructionElementFactory&lt;Document, HtmlElement&gt;"/> with fixed generic parameters for <see cref="HtmlElement" />.
 /// </summary>
-public interface IHtmlElementConstructionFactory : IDomConstructionElementFactory<Document, HtmlElement>
-{
-}
+public interface IHtmlElementConstructionFactory : IDomConstructionElementFactory<Document, Element>;
 
 internal sealed class HtmlDomConstructionFactory : IHtmlElementConstructionFactory
 {
-    public static readonly HtmlDomConstructionFactory Instance =
-        new(HtmlElementFactory.Instance, MathElementFactory.Instance, SvgElementFactory.Instance);
+    public static readonly IHtmlElementConstructionFactory Instance =
+        new HtmlDomConstructionFactory(HtmlElementFactory.Instance, MathElementFactory.Instance, SvgElementFactory.Instance);
 
     private readonly IElementFactory<Document, HtmlElement> _html;
     private readonly IElementFactory<Document, MathElement> _math;
@@ -42,7 +41,7 @@ internal sealed class HtmlDomConstructionFactory : IHtmlElementConstructionFacto
         _svg = svg;
     }
 
-    public HtmlElement Create(Document document, StringOrMemory localName, StringOrMemory prefix = default, NodeFlags flags = NodeFlags.None) =>
+    public Element Create(Document document, StringOrMemory localName, StringOrMemory prefix = default, NodeFlags flags = NodeFlags.None) =>
         _html.Create(document, localName.String, prefix.IsNullOrEmpty ? null : prefix.String, flags);
 
     public IConstructableMetaElement CreateMeta(Document document) => new HtmlMetaElement(document);
@@ -56,7 +55,7 @@ internal sealed class HtmlDomConstructionFactory : IHtmlElementConstructionFacto
 
     public IConstructableFormElement CreateForm(Document document) => new HtmlFormElement(document);
 
-    public HtmlElement CreateNoScript(Document document, Boolean scripting) =>
+    public Element CreateNoScript(Document document, Boolean scripting) =>
         new HtmlNoScriptElement(document, null, scripting);
 
     public IConstructableMathElement CreateMath(Document document, StringOrMemory name = default) =>
@@ -65,8 +64,11 @@ internal sealed class HtmlDomConstructionFactory : IHtmlElementConstructionFacto
     public IConstructableSvgElement CreateSvg(Document document, StringOrMemory name = default) =>
         _svg.Create(document, name.String);
 
-    public HtmlElement CreateUnknown(Document document, StringOrMemory tagName) =>
+    public Element CreateUnknown(Document document, StringOrMemory tagName) =>
         new HtmlUnknownElement(document, tagName.String);
+
+    public Document CreateDocument(IReadOnlyTextSource source, IBrowsingContext? context = null) =>
+        new HtmlDocument(context, source);
 
     public IConstructableNode CreateDocumentType(
         Document document,

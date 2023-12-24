@@ -1046,6 +1046,7 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        // [Timeout(500)]
         public void EntityDecodingInNoScript_Issue1139()
         {
             var html = @"<html></head><body><noscript><div></div></noscript></body></html>";

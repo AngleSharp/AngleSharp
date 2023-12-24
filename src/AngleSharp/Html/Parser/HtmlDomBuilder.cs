@@ -14,32 +14,6 @@ namespace AngleSharp.Html.Parser
     using Tokens.Struct;
 
     /// <summary>
-    /// Token consumption result
-    /// </summary>
-    public enum Result
-    {
-        /// <summary>
-        /// Tokenization should continue.
-        /// </summary>
-        Continue,
-
-        /// <summary>
-        /// Tokenization should stop.
-        /// </summary>
-        Stop
-    }
-
-    /// <summary>
-    /// Represent token consumer delegate.
-    /// </summary>
-    public delegate void Next(ref StructHtmlToken token);
-
-    /// <summary>
-    /// Represents the callback that is invoked when a token is consumed.
-    /// </summary>
-    public delegate Result Middleware(ref StructHtmlToken token, Next next);
-
-    /// <summary>
     /// Represents the Tree construction as specified in
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
@@ -50,7 +24,7 @@ namespace AngleSharp.Html.Parser
     {
         #region Fields
 
-        private readonly Next ConsumeAsDelegate;
+        private readonly TokenConsumer _consumeAsDelegate;
         private readonly HtmlTokenizer _tokenizer;
         private readonly TDocument _document;
         private readonly List<IConstructableElement> _openElements;
@@ -106,7 +80,7 @@ namespace AngleSharp.Html.Parser
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
             _ended = false;
-            ConsumeAsDelegate = Consume;
+            _consumeAsDelegate = Consume;
             _emitWhitespaceTextNodes = emitWhitespaceTextNodes;
             document.Builder = this;
 
@@ -163,10 +137,10 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="options">The options to use for parsing.</param>
         /// <param name="middleware"></param>
-        public TDocument Parse(HtmlParserOptions options, Middleware? middleware = null)
+        public TDocument Parse(HtmlParserOptions options, TokenizerMiddleware? middleware = null)
         {
             SetOptions(options);
-            middleware ??= static (ref StructHtmlToken token, Next next) =>
+            middleware ??= static (ref StructHtmlToken token, TokenConsumer next) =>
             {
                 next(ref token);
                 return Result.Continue;
@@ -182,7 +156,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                var result = middleware(ref token, ConsumeAsDelegate);
+                var result = middleware(ref token, _consumeAsDelegate);
 
                 if (result == Result.Stop)
                 {
@@ -201,12 +175,12 @@ namespace AngleSharp.Html.Parser
         /// <param name="options">The options to use for parsing.</param>
         /// <param name="middleware"></param>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        public async Task<TDocument> ParseAsync(HtmlParserOptions options, Middleware? middleware = null,
+        public async Task<TDocument> ParseAsync(HtmlParserOptions options, TokenizerMiddleware? middleware = null,
             CancellationToken cancelToken = default)
         {
             var source = _document.Source;
             SetOptions(options);
-            middleware ??= static (ref StructHtmlToken token, Next next) =>
+            middleware ??= static (ref StructHtmlToken token, TokenConsumer next) =>
             {
                 next(ref token);
                 return Result.Continue;
@@ -238,7 +212,7 @@ namespace AngleSharp.Html.Parser
 
             return _document;
 
-            bool Worker(Middleware middleware)
+            bool Worker(TokenizerMiddleware middleware)
             {
                 var token = _tokenizer.Get();
                 if (token.Type == HtmlTokenType.EndOfFile)
@@ -246,7 +220,7 @@ namespace AngleSharp.Html.Parser
                     Consume(ref token);
                     return true;
                 }
-                var result = middleware(ref token, ConsumeAsDelegate);
+                var result = middleware(ref token, _consumeAsDelegate);
                 if (result == Result.Stop)
                 {
                     var EOF = StructHtmlToken.EndOfFile(default);
@@ -366,7 +340,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                contextNode = context.Parent!;
+                contextNode = contextNode.Parent;
             }
             while (contextNode != null);
 
@@ -4400,10 +4374,10 @@ namespace AngleSharp.Html.Parser
         }
     }
 
-    sealed class HtmlDomBuilder : HtmlDomBuilder<HtmlDocument, Element>
+    sealed class HtmlDomBuilder : HtmlDomBuilder<Document, Element>
     {
         public HtmlDomBuilder(
-            IDomConstructionElementFactory<HtmlDocument, Element> elementFactory,
+            IHtmlElementConstructionFactory elementFactory,
             HtmlDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
             String? stopAt = null)

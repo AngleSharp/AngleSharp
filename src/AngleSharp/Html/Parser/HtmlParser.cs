@@ -154,12 +154,78 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
-        /// Parses the stream and returns the result.
+        /// Parses the read only chunk of chars and returns the result.
+        /// </summary>
+        public IHtmlDocument ParseDocument(ReadOnlyMemory<Char> source)
+        {
+            var document = CreateDocument(source);
+            return Parse(document);
+        }
+
+        /// <summary>
+        /// Parses the read only text source and returns the result.
         /// </summary>
         public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
         {
             var document = CreateDocument(source);
             return Parse(document);
+        }
+
+        /// <summary>
+        /// Parses the read only text source and returns the result.
+        /// </summary>
+        /// <param name="chars">Read only chars</param>
+        /// <param name="middleware">Tokenizer middleware</param>
+        /// <typeparam name="TDocument">Type of document to parse into, should implement <see cref="IConstructableDocument"/></typeparam>
+        /// <typeparam name="TElement">Type of element to use for document construction, should implement <see cref="IConstructableElement"/></typeparam>
+        /// <returns>Constructed TDocument instance</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when no read-only construction factory is found for specified type arguments.
+        /// </exception>
+        /// <remarks>
+        /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
+        /// </remarks>
+        public TDocument ParseDocument<TDocument, TElement>(ReadOnlyMemory<Char> chars, TokenizerMiddleware? middleware = null)
+            where TDocument : class, IConstructableDocument
+            where TElement : class, IConstructableElement
+        {
+            var source = new PrefetchedTextSource(chars);
+            return ParseDocument<TDocument, TElement>(source, middleware);
+        }
+
+        /// <summary>
+        /// Parses the read only text source and returns the result.
+        /// </summary>
+        /// <param name="source">Read only text source.</param>
+        /// <param name="middleware">Tokenizer middleware</param>
+        /// <typeparam name="TDocument">Type of document to parse into, should implement <see cref="IConstructableDocument"/></typeparam>
+        /// <typeparam name="TElement">Type of element to use for document construction, should implement <see cref="IConstructableElement"/></typeparam>
+        /// <returns>Constructed TDocument instance</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when no read-only construction factory is found for specified type arguments.
+        /// </exception>
+        /// <remarks>
+        /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
+        /// </remarks>
+        public TDocument ParseDocument<TDocument, TElement>(IReadOnlyTextSource source, TokenizerMiddleware? middleware = null)
+             where TDocument : class, IConstructableDocument
+             where TElement : class, IConstructableElement
+        {
+            var factory = _context.GetService<IDomConstructionElementFactory<TDocument, TElement>>()
+                          ?? throw new InvalidOperationException("No read-only construction factory found.");
+
+            TDocument document = factory.CreateDocument(source, _context);
+
+            var builder = new HtmlDomBuilder<TDocument, TElement>(factory, document);
+
+            if (HasEventListener(EventNames.Error))
+            {
+                builder.Error += (_, ev) => InvokeEventListener(ev);
+            }
+
+            builder.Parse(_options, middleware);
+
+            return document;
         }
 
         /// <summary>
@@ -209,24 +275,7 @@ namespace AngleSharp.Html.Parser
             return result.Head;
         }
 
-        // /// <summary>
-        // /// Parses text source into a read-only document.
-        // /// </summary>
-        // public IReadOnlyDocument ParseReadOnlyDocument(IReadOnlyTextSource source, Middleware? middleware = null)
-        // {
-        //     var document = new ReadOnlyDocument(source);
-        //     var factory = _context.GetService<IReadOnlyConstructionFactory>() ?? throw new InvalidOperationException("No read-only construction factory found.");
-        //     var builder = new HtmlDomBuilder<ReadOnlyDocument, ReadOnlyHtmlElement>(factory, document);
-        //
-        //     if (HasEventListener(EventNames.Error))
-        //     {
-        //         builder.Error += (_, ev) => InvokeEventListener(ev);
-        //     }
-        //
-        //     builder.Parse(_options, middleware);
-        //
-        //     return document;
-        // }
+
 
         async Task<IDocument> IHtmlParser.ParseDocumentAsync(IDocument document, CancellationToken cancel)
         {
@@ -239,6 +288,12 @@ namespace AngleSharp.Html.Parser
         #region Helpers
 
         private HtmlDocument CreateDocument(String source)
+        {
+            var textSource = new TextSource(source);
+            return CreateDocument(textSource);
+        }
+
+        private HtmlDocument CreateDocument(ReadOnlyMemory<Char> source)
         {
             var textSource = new PrefetchedTextSource(source);
             return CreateDocument(textSource);
