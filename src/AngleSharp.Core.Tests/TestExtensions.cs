@@ -75,7 +75,7 @@ namespace AngleSharp.Core.Tests
                 htmlParser.Error += onError;
             }
 
-            if (TestRuntime.UserPrefetchedTextSource)
+            if (TestRuntime.UsePrefetchedTextSource)
             {
                 var textSource = new PrefetchedTextSource(sourceCode.AsMemory());
                 return htmlParser.ParseDocument(textSource);

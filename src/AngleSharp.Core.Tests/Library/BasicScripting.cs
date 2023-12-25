@@ -14,9 +14,9 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void DocumentWriteDynamicallyWithCustomScriptEngineAndText()
         {
-            if (TestRuntime.UserPrefetchedTextSource)
+            if (TestRuntime.UsePrefetchedTextSource)
             {
-                Assert.Ignore("Prefetched text source is immutable");
+                Assert.Ignore("Prefetched text source is read only");
             }
 
             var scripting = new CallbackScriptEngine(options => options.Document.Write("<b>Dynamically written</b>"));
