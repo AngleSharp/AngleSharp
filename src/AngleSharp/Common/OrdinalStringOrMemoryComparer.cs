@@ -12,8 +12,14 @@ internal class OrdinalStringOrMemoryComparer : IEqualityComparer<StringOrMemory>
     public static OrdinalStringOrMemoryComparer Instance { get; } = new();
 
     /// <inheritdoc/>
-    public Int32 GetHashCode(StringOrMemory obj) => obj.GetHashCode();
+    public Int32 GetHashCode(StringOrMemory obj)
+    {
+        return obj.GetHashCode();
+    }
 
     /// <inheritdoc/>
-    public Boolean Equals(StringOrMemory x, StringOrMemory y) => x.Equals(y);
+    public Boolean Equals(StringOrMemory x, StringOrMemory y)
+    {
+        return x.Equals(y);
+    }
 }

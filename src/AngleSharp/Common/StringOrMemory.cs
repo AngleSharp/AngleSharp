@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Common;
 
 using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 /// <summary>
 /// Represents a string and equivalent memory representation of this string.
@@ -74,22 +76,26 @@ public struct StringOrMemory
     /// <summary>
     /// Equality operator for <see cref="StringOrMemory"/> and <see cref="String"/>
     /// </summary>
-    public static Boolean operator ==(StringOrMemory left, String right) => left.Memory.Span.SequenceEqual(right.AsSpan());
+    public static Boolean operator ==(StringOrMemory left, String right) =>
+        left.Memory.Span.SequenceEqual(right.AsSpan());
 
     /// <summary>
     /// Equality operator for <see cref="StringOrMemory"/> and <see cref="StringOrMemory"/>
     /// </summary>
-    public static Boolean operator ==(StringOrMemory left, StringOrMemory right) => left.Memory.Span.SequenceEqual(right.Memory.Span);
+    public static Boolean operator ==(StringOrMemory left, StringOrMemory right) =>
+        left.Memory.Span.SequenceEqual(right.Memory.Span);
 
     /// <summary>
     /// Equality operator for <see cref="StringOrMemory"/> and <see cref="ReadOnlyMemory&lt;Char&gt;"/>
     /// </summary>
-    public static Boolean operator ==(StringOrMemory left, ReadOnlyMemory<Char> right) => left.Memory.Span.SequenceEqual(right.Span);
+    public static Boolean operator ==(StringOrMemory left, ReadOnlyMemory<Char> right) =>
+        left.Memory.Span.SequenceEqual(right.Span);
 
     /// <summary>
     /// Equality operator for <see cref="StringOrMemory"/> and <see cref="ReadOnlySpan&lt;Char&gt;"/>
     /// </summary>
-    public static Boolean operator ==(StringOrMemory left, ReadOnlySpan<Char> right) => left.Memory.Span.SequenceEqual(right);
+    public static Boolean operator ==(StringOrMemory left, ReadOnlySpan<Char> right) =>
+        left.Memory.Span.SequenceEqual(right);
 
     /// <summary>
     /// Inequality operator for <see cref="StringOrMemory"/> and <see cref="String"/>
@@ -134,7 +140,7 @@ public struct StringOrMemory
     /// </summary>
     public override Int32 GetHashCode()
     {
-        return _memory.GetHashCode();
+        return GetHashCode(_memory.Span);
     }
 
     /// <summary>
@@ -164,5 +170,19 @@ public struct StringOrMemory
         // ToString here checks if pointer is already a string and also checks case when length is same as original string
         // important for cached string, usually from dictionaries
         return _memory.ToString();
+    }
+
+    private static Int32 GetHashCode(ReadOnlySpan<Char> span)
+    {
+#if NET8_0_OR_GREATER
+        return String.GetHashCode(span);
+#else
+        var x = 352654597;
+        for (var i = 0; i < span.Length; i++)
+        {
+            x = (x << 5) + x + (x >> 27) ^ span[i];
+        }
+        return x * 1566083941;
+#endif
     }
 }

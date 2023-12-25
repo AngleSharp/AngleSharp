@@ -94,10 +94,10 @@ namespace AngleSharp.Html
 
             _entities = entities
                 .ToDictionary(
-                    static k => k.Key,
-                    static v => v.Value.ToDictionary(
-                        static k => k.Key.AsMemory(),
-                        static v => v.Value,
+                    k => k.Key,
+                    v => v.Value.ToDictionary(
+                        k => new StringOrMemory(k.Key),
+                        v => v.Value,
                         OrdinalStringOrMemoryComparer.Instance)
                     );
         }
@@ -2574,9 +2574,9 @@ namespace AngleSharp.Html
         /// <returns>The string with the symbol or null.</returns>
         public String? GetSymbol(StringOrMemory name)
         {
-            if (name.Memory.Length != 0 && _entities.TryGetValue(name.Memory.Span[0], out var symbols))
+            if (name.Memory.Length != 0 && _entities.TryGetValue(name[0], out var symbols))
             {
-                if (symbols.TryGetValue(name.Memory, out var symbol))
+                if (symbols.TryGetValue(name, out var symbol))
                 {
                     return symbol;
                 }

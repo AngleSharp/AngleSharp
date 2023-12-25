@@ -109,5 +109,10 @@ namespace AngleSharp.Html.Parser
         TDocument ParseDocument<TDocument, TElement>(IReadOnlyTextSource source, TokenizerMiddleware? middleware = null)
             where TDocument : class, IConstructableDocument
             where TElement : class, IConstructableElement;
+
+        /// <summary>
+        /// Parses the read only text source and returns the result.
+        /// </summary>
+        IHtmlDocument ParseDocument(IReadOnlyTextSource source);
     }
 }

@@ -9,6 +9,7 @@ namespace AngleSharp.Core.Tests
     using NUnit.Framework;
     using System;
     using System.IO;
+    using Text;
 
     static class TestExtensions
     {
@@ -74,7 +75,15 @@ namespace AngleSharp.Core.Tests
                 htmlParser.Error += onError;
             }
 
-            return htmlParser.ParseDocument(sourceCode);
+            if (TestRuntime.UserPrefetchedTextSource)
+            {
+                var textSource = new PrefetchedTextSource(sourceCode.AsMemory());
+                return htmlParser.ParseDocument(textSource);
+            }
+            else
+            {
+                return htmlParser.ParseDocument(sourceCode);
+            }
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, IElement contextElement = null, IConfiguration configuration = null)

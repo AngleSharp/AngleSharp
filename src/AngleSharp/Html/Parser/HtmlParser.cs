@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-
 namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
@@ -12,6 +10,7 @@ namespace AngleSharp.Html.Parser
     using System.Threading;
     using System.Threading.Tasks;
     using Construction;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Creates an instance of the HTML parser front-end.
@@ -274,8 +273,6 @@ namespace AngleSharp.Html.Parser
             var result = await ParseAsync(document, cancel, TagNames.Head).ConfigureAwait(false);
             return result.Head;
         }
-
-
 
         async Task<IDocument> IHtmlParser.ParseDocumentAsync(IDocument document, CancellationToken cancel)
         {
