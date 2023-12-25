@@ -20,7 +20,7 @@
 
         public String GetSymbol(StringOrMemory name)
         {
-            return _resolver.Invoke(name.String);
+            return _resolver.Invoke(name.ToString());
         }
     }
 }

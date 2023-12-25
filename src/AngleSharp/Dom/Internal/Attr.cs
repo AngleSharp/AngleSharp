@@ -105,7 +105,7 @@ namespace AngleSharp.Dom
         StringOrMemory IConstructableAttr.Value
         {
             get => Value;
-            set => Value = value.String;
+            set => Value = value.ToString();
         }
 
         StringOrMemory IConstructableAttr.Name => Name;

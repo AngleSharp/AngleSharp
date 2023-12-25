@@ -546,31 +546,31 @@ public struct StructHtmlToken
                     return new HtmlDoctypeToken(false, _position)
                     {
                         IsProcessingInstruction = IsProcessingInstruction,
-                        Name = _name.String,
+                        Name = _name.ToString(),
                     };
                 }
 
                 var doctype = new HtmlDoctypeToken(_structTokenDoctypeData.Quirks, _position)
                 {
                     IsProcessingInstruction = IsProcessingInstruction,
-                    Name = _name.String,
+                    Name = _name.ToString(),
                 };
 
                 if (_structTokenDoctypeData.PublicIdentifier != null)
                 {
-                    doctype.PublicIdentifier = _structTokenDoctypeData.PublicIdentifier.Value.String;
+                    doctype.PublicIdentifier = _structTokenDoctypeData.PublicIdentifier.Value.ToString();
                 }
 
                 if (_structTokenDoctypeData.SystemIdentifier != null)
                 {
-                    doctype.SystemIdentifier = _structTokenDoctypeData.SystemIdentifier.Value.String;
+                    doctype.SystemIdentifier = _structTokenDoctypeData.SystemIdentifier.Value.ToString();
                 }
 
                 return doctype;
             case HtmlTokenType.StartTag:
             case HtmlTokenType.EndTag:
             {
-                var token = new HtmlTagToken(Type, _position, _name.String)
+                var token = new HtmlTagToken(Type, _position, _name.ToString())
                 {
                     IsSelfClosing = IsSelfClosing,
                     IsProcessingInstruction = IsProcessingInstruction,
@@ -579,14 +579,14 @@ public struct StructHtmlToken
                 for (var i = 0; i < _attributes.Count; i++)
                 {
                     var attribute = _attributes[i];
-                    token.AddAttribute(attribute.Name.String, attribute.Position);
-                    token.SetAttributeValue(attribute.Value.String);
+                    token.AddAttribute(attribute.Name.ToString(), attribute.Position);
+                    token.SetAttributeValue(attribute.Value.ToString());
                 }
 
                 return token;
             }
             default:
-                return new HtmlToken(Type, _position, _name.String)
+                return new HtmlToken(Type, _position, _name.ToString())
                 {
                     IsProcessingInstruction = IsProcessingInstruction
                 };

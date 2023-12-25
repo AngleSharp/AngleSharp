@@ -177,8 +177,8 @@ namespace AngleSharp.Html.Parser
         public static void AddComment(this Element parent, ref StructHtmlToken token)
         {
             parent.AddNode(token.IsProcessingInstruction
-                ? ProcessingInstruction.Create(parent.Owner, token.Data.String)
-                : new Comment(parent.Owner, token.Data.String));
+                ? ProcessingInstruction.Create(parent.Owner, token.Data.ToString())
+                : new Comment(parent.Owner, token.Data.ToString()));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -193,8 +193,8 @@ namespace AngleSharp.Html.Parser
         public static void AddComment(this Document parent, ref StructHtmlToken token)
         {
             parent.AddNode(token.IsProcessingInstruction
-                ? ProcessingInstruction.Create(parent, token.Data.String)
-                : new Comment(parent, token.Data.String));
+                ? ProcessingInstruction.Create(parent, token.Data.ToString())
+                : new Comment(parent, token.Data.ToString()));
         }
 
         public static QuirksMode GetQuirksMode(this HtmlDoctypeToken doctype)

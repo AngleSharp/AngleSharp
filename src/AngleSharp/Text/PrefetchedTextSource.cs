@@ -104,7 +104,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     /// <ihneritdoc />
     public String ReadCharacters(Int32 characters)
     {
-        return ReadMemory(characters).String;
+        return ReadMemory(characters).ToString();
     }
 
     /// <ihneritdoc />

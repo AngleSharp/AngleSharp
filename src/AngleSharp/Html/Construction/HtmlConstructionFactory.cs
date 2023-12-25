@@ -42,7 +42,7 @@ internal sealed class HtmlDomConstructionFactory : IHtmlElementConstructionFacto
     }
 
     public Element Create(Document document, StringOrMemory localName, StringOrMemory prefix = default, NodeFlags flags = NodeFlags.None) =>
-        _html.Create(document, localName.String, prefix.IsNullOrEmpty ? null : prefix.String, flags);
+        _html.Create(document, localName.ToString(), prefix.IsNullOrEmpty ? null : prefix.ToString(), flags);
 
     public IConstructableMetaElement CreateMeta(Document document) => new HtmlMetaElement(document);
 
@@ -59,13 +59,13 @@ internal sealed class HtmlDomConstructionFactory : IHtmlElementConstructionFacto
         new HtmlNoScriptElement(document, null, scripting);
 
     public IConstructableMathElement CreateMath(Document document, StringOrMemory name = default) =>
-        _math.Create(document, name.String);
+        _math.Create(document, name.ToString());
 
     public IConstructableSvgElement CreateSvg(Document document, StringOrMemory name = default) =>
-        _svg.Create(document, name.String);
+        _svg.Create(document, name.ToString());
 
     public Element CreateUnknown(Document document, StringOrMemory tagName) =>
-        new HtmlUnknownElement(document, tagName.String);
+        new HtmlUnknownElement(document, tagName.ToString());
 
     public Document CreateDocument(IReadOnlyTextSource source, IBrowsingContext? context = null) =>
         new HtmlDocument(context, source);
@@ -76,10 +76,10 @@ internal sealed class HtmlDomConstructionFactory : IHtmlElementConstructionFacto
         StringOrMemory publicIdentifier,
         StringOrMemory systemIdentifier)
     {
-        var doctype = new DocumentType(document, name.String)
+        var doctype = new DocumentType(document, name.ToString())
         {
-            SystemIdentifier = systemIdentifier.String,
-            PublicIdentifier = publicIdentifier.String
+            SystemIdentifier = systemIdentifier.ToString(),
+            PublicIdentifier = publicIdentifier.ToString()
         };
 
         return doctype;

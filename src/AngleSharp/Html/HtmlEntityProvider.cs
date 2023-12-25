@@ -2600,7 +2600,7 @@ namespace AngleSharp.Html
                 {
                     if (entity.Value == symbol)
                     {
-                        return entity.Key.String;
+                        return entity.Key.ToString();
                     }
                 }
             }

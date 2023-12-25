@@ -7,11 +7,11 @@ using NUnit.Framework;
 public class ArrayPoolBufferTests
 {
     [Test]
-    public void CanAppendAndStrings()
+    public void CanAppendString()
     {
         using var b = new ArrayPoolBuffer(128);
         b.Append("Hello World!".AsSpan());
-        Assert.AreEqual("Hello World!", b.GetDataAndClear().String);
+        Assert.AreEqual("Hello World!", b.GetDataAndClear().ToString());
     }
 
     [Test]
@@ -20,7 +20,7 @@ public class ArrayPoolBufferTests
         var b = new ArrayPoolBuffer(128);
         b.Append("Hello World!".AsSpan());
         b.Append('!');
-        Assert.AreEqual("Hello World!!", b.GetDataAndClear().String);
+        Assert.AreEqual("Hello World!!", b.GetDataAndClear().ToString());
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class ArrayPoolBufferTests
             b.Append('p');
             b.Append('t');
             b.Append('>');
-            Assert.AreEqual(b.GetDataAndClear().String, "<script>");
+            Assert.AreEqual(b.GetDataAndClear().ToString(), "<script>");
 
             b.Append('<');
             b.Append('!');
@@ -47,7 +47,7 @@ public class ArrayPoolBufferTests
             b.Append('.');
             b.Append('.');
             b.Append('.');
-            Assert.AreEqual(b.GetDataAndClear().String, "<!--...");
+            Assert.AreEqual(b.GetDataAndClear().ToString(), "<!--...");
 
             b.Append('s');
             b.Append('c');
@@ -58,7 +58,7 @@ public class ArrayPoolBufferTests
             b.Insert(0, '<');
             b.Insert(1, '/');
             b.Append('>');
-            Assert.AreEqual("</script>", b.GetDataAndClear().String);
+            Assert.AreEqual("</script>", b.GetDataAndClear().ToString());
 
             b.Append('b');
             b.Append('o');
@@ -67,7 +67,7 @@ public class ArrayPoolBufferTests
             b.Insert(0, '<');
             b.Insert(1, '/');
             b.Append('>');
-            Assert.AreEqual("</body>", b.GetDataAndClear().String);
+            Assert.AreEqual("</body>", b.GetDataAndClear().ToString());
 
             b.Append('n');
             b.Append('o');
@@ -77,13 +77,13 @@ public class ArrayPoolBufferTests
             b.Append('m');
             b.Append('e');
             b.Append('s');
-            Assert.AreEqual(b.GetDataAndClear().String, "noframes");
+            Assert.AreEqual(b.GetDataAndClear().ToString(), "noframes");
 
             b.Append('h');
             b.Append('t');
             b.Append('m');
             b.Append('l');
-            Assert.AreEqual(b.GetDataAndClear().String, "html");
+            Assert.AreEqual(b.GetDataAndClear().ToString(), "html");
         }
     }
 

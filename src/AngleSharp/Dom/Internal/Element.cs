@@ -674,17 +674,17 @@ namespace AngleSharp.Dom
 
         void IConstructableElement.SetAttribute(string? ns, StringOrMemory name, StringOrMemory value)
         {
-            SetAttribute(ns, name.String, value.String);
+            SetAttribute(ns, name.ToString(), value.ToString());
         }
 
         void IConstructableElement.SetOwnAttribute(StringOrMemory name, StringOrMemory value)
         {
-            this.SetOwnAttribute(name.String, value.String);
+            this.SetOwnAttribute(name.ToString(), value.ToString());
         }
 
         StringOrMemory IConstructableElement.GetAttribute(StringOrMemory @namespace, StringOrMemory name)
         {
-            var result = GetAttribute(@namespace.String, name.String);
+            var result = GetAttribute(@namespace.ToString(), name.ToString());
             return result ?? StringOrMemory.Empty;
         }
 
@@ -695,7 +695,7 @@ namespace AngleSharp.Dom
             for (var i = 0; i < tagAttributes.Count; i++)
             {
                 var attribute = tagAttributes[i];
-                var item = new Attr(attribute.Name.String, attribute.Value.String);
+                var item = new Attr(attribute.Name.ToString(), attribute.Value.ToString());
                 item.Container = container;
                 container.FastAddItem(item);
             }

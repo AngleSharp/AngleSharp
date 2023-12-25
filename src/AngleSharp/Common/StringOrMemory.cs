@@ -8,7 +8,6 @@ using System;
 /// </summary>
 public struct StringOrMemory
 {
-    private String? _string;
     private readonly ReadOnlyMemory<Char> _memory;
 
     /// <summary>
@@ -17,7 +16,6 @@ public struct StringOrMemory
     public StringOrMemory(String str)
     {
         _memory = str.AsMemory();
-        _string = str;
     }
 
     /// <summary>
@@ -26,31 +24,12 @@ public struct StringOrMemory
     public StringOrMemory(ReadOnlyMemory<Char> memory)
     {
         _memory = memory;
-        _string = null;
     }
 
     /// <summary>
     /// Returns memory representation of string
     /// </summary>
     public readonly ReadOnlyMemory<Char> Memory => _memory;
-
-    /// <summary>
-    /// Converts memory representation to string
-    /// </summary>
-    public String String
-    {
-        get
-        {
-            if (_memory.IsEmpty)
-            {
-                return String.Empty;
-            }
-
-            // ToString here checks if pointer is already a string and also checks case when length is same as original string
-            // important for cached string, usually from dictionaries
-            return _string ??= _memory.Span.ToString();
-        }
-    }
 
     /// <summary>
     /// Length of string
@@ -137,7 +116,9 @@ public struct StringOrMemory
     /// </summary>
     public Boolean Equals(StringOrMemory other)
     {
-        return _memory.Span.SequenceEqual(other._memory.Span);
+        return
+            _memory.Equals(other._memory) || // checks pointers (e.g. same string or array parts)
+            _memory.Span.SequenceEqual(other._memory.Span);
     }
 
     /// <summary>
@@ -153,11 +134,7 @@ public struct StringOrMemory
     /// </summary>
     public override Int32 GetHashCode()
     {
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-        return String.GetHashCode(_memory.Span);
-#else
-        return String.GetHashCode();
-#endif
+        return _memory.GetHashCode();
     }
 
     /// <summary>
@@ -173,14 +150,19 @@ public struct StringOrMemory
             return new StringOrMemory(tmp.ToString());
         }
 #endif
-        return new StringOrMemory(String.Replace(target, replacement));
+        return new StringOrMemory(this.ToString().Replace(target, replacement));
     }
 
-    /// <summary>
-    /// Creates a CLR String instance
-    /// </summary>
+    /// <inheritdoc/>
     public override String ToString()
     {
-        return String;
+        if (_memory.IsEmpty)
+        {
+            return String.Empty;
+        }
+
+        // ToString here checks if pointer is already a string and also checks case when length is same as original string
+        // important for cached string, usually from dictionaries
+        return _memory.ToString();
     }
 }

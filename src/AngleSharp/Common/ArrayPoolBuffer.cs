@@ -133,5 +133,5 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
         return MemoryExtensions.Equals(actual, test, comparison);
     }
 
-    String IMutableCharBuffer.ToString() => new StringOrMemory(_buffer.AsMemory(_start, Length)).String;
+    String IMutableCharBuffer.ToString() => _buffer.AsMemory(_start, Length).ToString();
 }

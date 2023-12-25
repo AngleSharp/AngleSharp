@@ -9,7 +9,6 @@ namespace AngleSharp.Core.Tests
     using NUnit.Framework;
     using System;
     using System.IO;
-    using Text;
 
     static class TestExtensions
     {
