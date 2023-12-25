@@ -1319,25 +1319,33 @@ namespace AngleSharp.Dom
 
         private static String SanatizePort(String port, Int32 start, Int32 length)
         {
-            Span<Char> chars = stackalloc Char[length];
-            var count = 0;
-            var n = start + length;
-
-            for (var i = start; i < n; i++)
+            if (length < 128)
             {
-                if (count == 1 && chars[0] == '0')
-                {
-                    chars[0] = port[i];
-                }
-                else
-                {
-                    chars[count++] = port[i];
-                }
+                return Go(stackalloc Char[length]);
+            }
+            else
+            {
+                return Go(new Char[length]);
             }
 
-            return chars.Slice(0, count).ToString();
+            String Go(Span<Char> chars)
+            {
+                var count = 0;
+                var n = start + length;
+                for (var i = start; i < n; i++)
+                {
+                    if (count == 1 && chars[0] == '0')
+                    {
+                        chars[0] = port[i];
+                    }
+                    else
+                    {
+                        chars[count++] = port[i];
+                    }
+                }
+                return chars.Slice(0, count).ToString();
+            }
         }
-
 #endregion
     }
 }

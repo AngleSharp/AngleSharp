@@ -216,7 +216,7 @@ namespace AngleSharp.Common
         }
 
         /// <summary>
-        /// Gets the string formed by the next characters.
+        /// Will try to get the reference to the memory or will create new string formed by the next characters.
         /// </summary>
         /// <param name="length">The length of the string.</param>
         /// <returns>The upcoming string.</returns>

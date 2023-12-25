@@ -1011,12 +1011,10 @@ namespace AngleSharp.Dom
             }
             else
             {
-                if (_source is not ITextSource wts)
+                if (_source is ITextSource wts)
                 {
-                    throw new InvalidOperationException();
+                    wts.InsertText(content);
                 }
-
-                wts.InsertText(content);
             }
         }
 
