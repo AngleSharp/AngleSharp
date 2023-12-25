@@ -12,19 +12,15 @@ using System.Buffers;
 internal class ArrayPoolBuffer : IMutableCharBuffer
 {
     private Char[] _buffer;
-    private Int32 _start = 0;
-    private Int32 _idx = 0;
-    private Int32 Pointer => _start + _idx;
+    private Int32 _start;
+    private Int32 _idx;
     private Boolean _disposed;
+
+    private Int32 Pointer => _start + _idx;
 
     public ArrayPoolBuffer(Int32 length)
     {
         _buffer = ArrayPool<Char>.Shared.Rent(length);
-    }
-
-    public void Dispose()
-    {
-        ReturnToPool();
     }
 
     public IMutableCharBuffer Append(Char c)
@@ -39,7 +35,7 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
         Clear(false);
     }
 
-    private void Clear(bool commit)
+    private void Clear(Boolean commit)
     {
         if (commit)
         {
@@ -108,11 +104,7 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
 
     public Char this[Int32 i] => _buffer[_start + i];
 
-    private StringOrMemory GetData()
-    {
-
-        return new StringOrMemory(_buffer.AsMemory(_start, Length));
-    }
+    private StringOrMemory GetData() => new(_buffer.AsMemory(_start, Length));
 
     public StringOrMemory GetDataAndClear()
     {
@@ -134,4 +126,9 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
     }
 
     String IMutableCharBuffer.ToString() => _buffer.AsMemory(_start, Length).ToString();
+
+    public void Dispose()
+    {
+        ReturnToPool();
+    }
 }

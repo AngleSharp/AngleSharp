@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AngleSharp.Html.Parser;
+using AngleSharp.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 
@@ -103,6 +104,12 @@ namespace AngleSharp.Benchmarks
         public void AngleSharp()
         {
             angleSharpParser.ParseDocument(UrlTest.Source);
+        }
+
+        [Benchmark]
+        public void AngleSharpPrefetched()
+        {
+            using var _ = angleSharpParser.ParseDocument(new PrefetchedTextSource(UrlTest.Source));
         }
     }
 }
