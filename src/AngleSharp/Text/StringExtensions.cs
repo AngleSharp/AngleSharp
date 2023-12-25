@@ -132,57 +132,7 @@ namespace AngleSharp.Text
         /// <returns>The resulting string.</returns>
         public static String HtmlLower(this String value)
         {
-            var length = value.Length;
-
-            for (var i = 0; i < length; i++)
-            {
-                var c = value[i];
-
-                if (c.IsUppercaseAscii())
-                {
-                    if (length < 128)
-                    {
-                        // safe to stackalloc inside loop because will immediately return
-                        Span<Char> result = stackalloc Char[length];
-                        return Slow(value, i, result);
-                    }
-                    else
-                    {
-                        var rent = ArrayPool<Char>.Shared.Rent(length);
-                        Span<Char> result = rent.AsSpan(0, length);
-                        var tmp = Slow(value, i, result);
-                        ArrayPool<Char>.Shared.Return(rent);
-                        return tmp;
-                    }
-                }
-            }
-
-            return value;
-
-            static String Slow(StringOrMemory value, Int32 i, Span<Char> result)
-            {
-                for (var j = 0; j < i; j++)
-                {
-                    result[j] = value[j];
-                }
-
-                var c = value[i];
-                result[i] = Char.ToLowerInvariant(c);
-
-                for (var j = i + 1; j < value.Length; j++)
-                {
-                    c = value[j];
-
-                    if (c.IsUppercaseAscii())
-                    {
-                        c = Char.ToLowerInvariant(c);
-                    }
-
-                    result[j] = c;
-                }
-
-                return result.ToString();
-            }
+            return new StringOrMemory(value).HtmlLower().ToString();
         }
 
         /// <summary>

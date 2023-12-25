@@ -596,5 +596,6 @@ namespace AngleSharp.Dom
         /// Gets the associated entity provider.
         /// </summary>
         IEntityProvider Entities { get; }
+
     }
 }

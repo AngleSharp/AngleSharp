@@ -104,7 +104,7 @@ namespace AngleSharp.Html.Parser
                 _tokenizer.SkipRCDataText = options.SkipRCDataText;
                 _tokenizer.SkipCDATA = options.SkipCDATA;
                 _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
-                _tokenizer.DisablePositionTracking = options.DisableElementPositionTracking;
+                _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
             }
         }
 
@@ -387,7 +387,7 @@ namespace AngleSharp.Html.Parser
             _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
             _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute ??
                                              (static (ref StructHtmlToken _, ReadOnlyMemory<Char> asd) => true);
-            _tokenizer.DisablePositionTracking = options.DisableElementPositionTracking;
+            _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
 
             _options = options;
         }

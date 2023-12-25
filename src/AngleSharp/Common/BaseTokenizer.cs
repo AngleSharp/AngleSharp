@@ -115,7 +115,7 @@ namespace AngleSharp.Common
         /// <summary>
         ///
         /// </summary>
-        public Boolean DisablePositionTracking { get; set; }
+        public Boolean DisableElementPositionTracking { get; set; }
 
         #endregion
 
@@ -321,7 +321,7 @@ namespace AngleSharp.Common
 
         private void AdvanceUnsafe()
         {
-            if (!DisablePositionTracking)
+            if (!DisableElementPositionTracking)
             {
                 if (_current == Symbols.LineFeed)
                 {
@@ -354,7 +354,7 @@ namespace AngleSharp.Common
             var c = NormalizeBackward(_source[_source.Index - 1]);
             _current = c;
 
-            if (!DisablePositionTracking)
+            if (!DisableElementPositionTracking)
             {
                 if (c == Symbols.LineFeed)
                 {

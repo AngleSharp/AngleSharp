@@ -20,11 +20,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="errorHandler">The error handler to be used, if any.</param>
         /// <param name="options"></param>
         /// <returns>A stream of consumed tokens.</returns>
-        public static IEnumerable<HtmlToken> Tokenize(
-            this TextSource source,
-            IEntityProvider? provider = null,
-            EventHandler<HtmlErrorEvent>? errorHandler = null,
-            HtmlTokenizerOptions? options = null)
+        public static IEnumerable<HtmlToken> Tokenize(this TextSource source, IEntityProvider? provider = null, EventHandler<HtmlErrorEvent>? errorHandler = null, HtmlTokenizerOptions? options = null)
         {
             var resolver = provider ?? HtmlEntityProvider.Resolver;
             using var htmlTokenizer = new HtmlTokenizer(source, resolver);
@@ -40,12 +36,15 @@ namespace AngleSharp.Html.Parser
                 htmlTokenizer.SkipScriptText = ov.SkipScriptText;
                 htmlTokenizer.SkipDataText = ov.SkipDataText;
                 htmlTokenizer.ShouldEmitAttribute = ov.ShouldEmitAttribute;
+                htmlTokenizer.SkipDataText = ov.SkipDataText;
+                htmlTokenizer.SkipScriptText = ov.SkipScriptText;
+                htmlTokenizer.SkipRawText = ov.SkipRawText;
                 htmlTokenizer.SkipComments = ov.SkipComments;
                 htmlTokenizer.SkipPlaintext = ov.SkipPlaintext;
                 htmlTokenizer.SkipRCDataText = ov.SkipRCDataText;
                 htmlTokenizer.SkipCDATA = ov.SkipCDATA;
                 htmlTokenizer.SkipProcessingInstructions = ov.SkipProcessingInstructions;
-                htmlTokenizer.ShouldEmitAttribute = ov.ShouldEmitAttribute;
+                htmlTokenizer.DisableElementPositionTracking = ov.DisableElementPositionTracking;
             }
 
             var token = default(HtmlToken);
