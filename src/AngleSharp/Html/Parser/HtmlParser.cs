@@ -312,7 +312,7 @@ namespace AngleSharp.Html.Parser
         private HtmlDomBuilder CreateBuilder(HtmlDocument document, String? stopAt)
         {
             var options = new HtmlTokenizerOptions(_options);
-            var factory = _context.GetFactory<IHtmlElementConstructionFactory>();
+            var factory = _context.GetService<IHtmlElementConstructionFactory>() ?? HtmlDomConstructionFactory.Instance;
             var parser = new HtmlDomBuilder(factory, document, options, stopAt);
             if (HasEventListener(EventNames.Error))
             {

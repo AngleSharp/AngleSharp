@@ -5,10 +5,11 @@ namespace AngleSharp.Html
     using System.Collections.Generic;
     using System.Linq;
     using Common;
+
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
-    public sealed class HtmlEntityProvider : IEntityProvider, IReverseEntityProvider
+    public sealed class HtmlEntityProvider : IEntityProvider, IReverseEntityProvider, IEntityProviderSOM
     {
         #region Fields
 
@@ -24,6 +25,11 @@ namespace AngleSharp.Html
         /// Gets the instance to resolve entities.
         /// </summary>
         public static readonly IEntityProvider Resolver = Instance;
+
+        /// <summary>
+        /// Gets the instance to resolve entities using <see cref="StringOrMemory"/>
+        /// </summary>
+        public static readonly IEntityProviderSOM ResolverSOM = Instance;
 
         /// <summary>
         /// Gets the instance to reverse resolve entities.

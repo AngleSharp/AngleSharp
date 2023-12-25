@@ -35,6 +35,7 @@ namespace AngleSharp.Dom
         private readonly IResourceLoader? _loader;
         private readonly Location _location;
         private readonly IReadOnlyTextSource _source;
+        private readonly TextSource? _textSource;
         private readonly object _importedUrisLock = new object();
 
         private QuirksMode _quirksMode;
@@ -58,9 +59,7 @@ namespace AngleSharp.Dom
         private HtmlCollection<IElement>? _links;
         private IStyleSheetList? _styleSheets;
         private HttpStatusCode _statusCode;
-
         private HashSet<Uri>? _importedUris;
-
 
         #endregion
 
@@ -484,6 +483,12 @@ namespace AngleSharp.Dom
         #region ctor
 
         /// <inheritdoc />
+        public Document(IBrowsingContext context, TextSource source) : this(context, (IReadOnlyTextSource)source)
+        {
+            _textSource = source;
+        }
+
+        /// <inheritdoc />
         public Document(IBrowsingContext context, IReadOnlyTextSource source)
             : base(null, "#document", NodeType.Document)
         {
@@ -515,7 +520,7 @@ namespace AngleSharp.Dom
         #region Properties
 
         /// <inheritdoc />
-        public IReadOnlyTextSource Source => _source;
+        public TextSource Source => (_textSource ?? _source as TextSource)!;
 
         /// <inheritdoc />
         public abstract IEntityProvider Entities
@@ -1595,7 +1600,9 @@ namespace AngleSharp.Dom
         }
 #endregion
 
-#region Construction
+        #region Construction
+
+        IReadOnlyTextSource IConstructableDocument.Source => _source;
 
         IDisposable? IConstructableDocument.Builder { get; set; }
 
@@ -1646,7 +1653,7 @@ namespace AngleSharp.Dom
             return this.FinishLoadingAsync();
         }
 
-#endregion
+        #endregion
 
     }
 }

@@ -57,7 +57,7 @@ namespace AngleSharp.Html.Parser
 
             do
             {
-                token = htmlTokenizer.Get().ToHtmlToken();
+                token = htmlTokenizer.Get();
                 yield return token;
             }
             while (token.Type != HtmlTokenType.EndOfFile);

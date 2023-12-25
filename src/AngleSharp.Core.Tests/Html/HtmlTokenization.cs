@@ -26,7 +26,7 @@ namespace AngleSharp.Core.Tests.Html
             var ms = new MemoryStream(Encoding.UTF8.GetBytes("\r\nThis is test 1\r\nThis is test 2"));
             var s = new TextSource(ms);
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
             Assert.AreEqual("\nThis is test 1\nThis is test 2", token.Data);
         }
@@ -49,15 +49,15 @@ namespace AngleSharp.Core.Tests.Html
             var ms = new MemoryStream(Encoding.UTF8.GetBytes("<html><body><p>\r\nThis is test 1<p> \r\nThis is test 2</body></html>"));
             var s = new TextSource(ms);
             var t = CreateTokenizer(s);
-            var tokenHtmlOpen = t.Get().ToHtmlToken();
-            var tokenBodyOpen = t.Get().ToHtmlToken();
-            var tokenP1 = t.Get().ToHtmlToken();
-            var tokenP1data = t.Get().ToHtmlToken();
-            var tokenP2 = t.Get().ToHtmlToken();
-            var tokenP2data = t.Get().ToHtmlToken();
-            var tokenBodyClose = t.Get().ToHtmlToken();
-            var tokenHtmlClose = t.Get().ToHtmlToken();
-            var eof = t.Get().ToHtmlToken();
+            var tokenHtmlOpen = t.Get();
+            var tokenBodyOpen = t.Get();
+            var tokenP1 = t.Get();
+            var tokenP1data = t.Get();
+            var tokenP2 = t.Get();
+            var tokenP2data = t.Get();
+            var tokenBodyClose = t.Get();
+            var tokenHtmlClose = t.Get();
+            var eof = t.Get();
             Assert.AreEqual(HtmlTokenType.EndTag, tokenHtmlClose.Type);
             Assert.AreEqual(HtmlTokenType.StartTag, tokenHtmlOpen.Type);
             Assert.AreEqual(HtmlTokenType.EndTag, tokenBodyClose.Type);
@@ -85,7 +85,7 @@ namespace AngleSharp.Core.Tests.Html
             var content = "&abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTV;";
             var s = new TextSource(content);
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
             Assert.AreEqual(content, token.Data);
         }
@@ -97,7 +97,7 @@ namespace AngleSharp.Core.Tests.Html
             var t = CreateTokenizer(s);
             var token = t.Get();
             Assert.AreEqual(HtmlTokenType.StartTag, token.Type);
-            Assert.AreEqual("p", ((HtmlTagToken)token.ToHtmlToken()).Name);
+            Assert.AreEqual("p", ((HtmlTagToken)token).Name);
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<!>");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
             Assert.AreEqual(String.Empty, token.Data);
         }
@@ -115,7 +115,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<?>");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
             Assert.AreEqual("?", token.Data);
         }
@@ -125,7 +125,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("</ >");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Comment, token.Type);
             Assert.AreEqual(" ", token.Data);
         }
@@ -135,7 +135,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<span>");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual("span", ((HtmlTagToken)token).Name);
         }
 
@@ -145,7 +145,7 @@ namespace AngleSharp.Core.Tests.Html
             var s = new TextSource("<img />");
             var t = CreateTokenizer(s);
             var token = t.Get();
-            Assert.AreEqual(true, ((HtmlTagToken)token.ToHtmlToken()).IsSelfClosing);
+            Assert.AreEqual(true, ((HtmlTagToken)token).IsSelfClosing);
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<a target='_blank' href='http://whatever' title='ho'>");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual(3, ((HtmlTagToken)token).Attributes.Count);
         }
 
@@ -162,7 +162,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<a target='_blank' href='http://whatever' title='ho'>");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             var attrs = ((HtmlTagToken)token).Attributes;
             Assert.AreEqual(new TextPosition(1, 4, 4), attrs[0].Position);
             Assert.AreEqual(new TextPosition(1, 20, 20), attrs[1].Position);
@@ -174,7 +174,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<a target='_blank'\nhref='http://whatever'\n title='ho'>");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             var attrs = ((HtmlTagToken)token).Attributes;
             Assert.AreEqual(new TextPosition(1, 4, 4), attrs[0].Position);
             Assert.AreEqual(new TextPosition(2, 1, 20), attrs[1].Position);
@@ -186,7 +186,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<a target='_blank'   \n href='http://whatever'\n    title='ho'>");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             var attrs = ((HtmlTagToken)token).Attributes;
             Assert.AreEqual(new TextPosition(1, 4, 4), attrs[0].Position);
             Assert.AreEqual(new TextPosition(2, 2, 24), attrs[1].Position);
@@ -198,7 +198,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<input required>");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual("required", ((HtmlTagToken)token).Attributes[0].Name);
         }
 
@@ -207,7 +207,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<InpUT>");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual("input", ((HtmlTagToken)token).Name);
         }
 
@@ -216,7 +216,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("<i   >");
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual("i", ((HtmlTagToken)token).Name);
         }
 
@@ -231,7 +231,7 @@ namespace AngleSharp.Core.Tests.Html
 
             do
             {
-                token = t.Get().ToHtmlToken();
+                token = t.Get();
 
                 if (token.Type == HtmlTokenType.Character)
                 {
@@ -254,7 +254,7 @@ namespace AngleSharp.Core.Tests.Html
 
             do
             {
-                token = t.Get().ToHtmlToken();
+                token = t.Get();
 
                 if (token.Type == HtmlTokenType.Character)
                 {
@@ -305,7 +305,7 @@ namespace AngleSharp.Core.Tests.Html
 
             do
             {
-                token = t.Get().ToHtmlToken();
+                token = t.Get();
 
                 if (token.Type == HtmlTokenType.Character)
                 {
@@ -324,7 +324,7 @@ namespace AngleSharp.Core.Tests.Html
             var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Doctype, e.Type);
-            var d = (HtmlDoctypeToken)e.ToHtmlToken();
+            var d = (HtmlDoctypeToken)e;
             Assert.IsNotNull(d.Name);
             Assert.AreEqual("root_element", d.Name);
             Assert.IsFalse(d.IsSystemIdentifierMissing);
@@ -336,7 +336,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("\r");
             var t = CreateTokenizer(s);
-            var e = t.Get().ToHtmlToken();
+            var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, e.Type);
             Assert.AreEqual("\n", e.Data);
         }
@@ -346,7 +346,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("\n");
             var t = CreateTokenizer(s);
-            var e = t.Get().ToHtmlToken();
+            var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, e.Type);
             Assert.AreEqual("\n", e.Data);
         }
@@ -356,7 +356,7 @@ namespace AngleSharp.Core.Tests.Html
         {
             var s = new TextSource("\r\n");
             var t = CreateTokenizer(s);
-            var e = t.Get().ToHtmlToken();
+            var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, e.Type);
             Assert.AreEqual("\n", e.Data);
         }
@@ -374,7 +374,7 @@ namespace AngleSharp.Core.Tests.Html
             await s.PrefetchAsync(100, CancellationToken.None);
             // Change encoding utf-8 to utf-8. (Same, but different instance)
             s.CurrentEncoding = TextEncoding.Utf8;
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.IsTrue(s.CurrentEncoding == TextEncoding.Utf8);
             Assert.IsTrue(s.CurrentEncoding != encoding);
             Assert.AreEqual(content, token.Data);
@@ -386,7 +386,7 @@ namespace AngleSharp.Core.Tests.Html
             var content = "&CounterClockwiseContourIntegral;";
             var s = new TextSource(content);
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
             Assert.AreEqual("∳", token.Data);
         }
@@ -397,7 +397,7 @@ namespace AngleSharp.Core.Tests.Html
             var content = "&CounterClockwiseContourIntegralWithWrongName;";
             var s = new TextSource(content);
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, token.Type);
             Assert.AreEqual("&CounterClockwiseContourIntegralWithWrongName;", token.Data);
         }
@@ -408,7 +408,7 @@ namespace AngleSharp.Core.Tests.Html
             var content = Assets.GetManifestResourceString("Html.HtmlTokenization.TokenizationWithReallyLongAttributeShouldNotBreak.txt");
             var s = new TextSource(content);
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.IsNotNull(token);
             Assert.IsInstanceOf<HtmlTagToken>(token);
         }
@@ -419,7 +419,7 @@ namespace AngleSharp.Core.Tests.Html
             var content = Assets.GetManifestResourceString("Html.HtmlTokenization.TokenizationWithManyAttributesShouldNotBreak.txt");
             var s = new TextSource(content);
             var t = CreateTokenizer(s);
-            var token = t.Get().ToHtmlToken();
+            var token = t.Get();
             Assert.IsNotNull(token);
             Assert.IsInstanceOf<HtmlTagToken>(token);
         }

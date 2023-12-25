@@ -3,11 +3,12 @@ namespace AngleSharp.Common
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Text;
 
     /// <summary>
     /// Common methods and variables of all tokenizers.
     /// </summary>
-    public abstract class BaseTokenizer : IDisposable
+    public abstract class BaseTokenizer: IDisposable
     {
         #region Fields
 
@@ -17,7 +18,8 @@ namespace AngleSharp.Common
         private UInt16 _column;
         private UInt16 _row;
         private Char _current;
-        private IMutableCharBuffer _buffer;
+        private StringBuilder _stringBuilder;
+        private IMutableCharBuffer _charBuffer;
         private Boolean _normalized;
 
         #endregion
@@ -28,15 +30,26 @@ namespace AngleSharp.Common
         /// Creates a new instance of the base tokenizer.
         /// </summary>
         /// <param name="source">The source to tokenize.</param>
+        public BaseTokenizer(TextSource source) : this((IReadOnlyTextSource)source)
+        {
+
+        }
+
+        /// <summary>
+        /// Creates a new instance of the base tokenizer.
+        /// </summary>
+        /// <param name="source">The source to tokenize.</param>
         public BaseTokenizer(IReadOnlyTextSource source)
         {
+            _stringBuilder = StringBuilderPool.Obtain();
+
             if (source.TryGetContentLength(out var length))
             {
-                _buffer = new ArrayPoolBuffer(length);
+                _charBuffer = new ArrayPoolBuffer(length);
             }
             else
             {
-                _buffer = new StringBuilderBuffer();
+                _charBuffer = new StringBuilderBuffer();
             }
 
             _source = source;
@@ -87,7 +100,12 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        protected IMutableCharBuffer StringBuffer => _buffer;
+        protected StringBuilder StringBuffer => _stringBuilder;
+
+        /// <summary>
+        /// Gets the allocated string buffer.
+        /// </summary>
+        protected IMutableCharBuffer CharBuffer => _charBuffer;
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).
@@ -107,18 +125,29 @@ namespace AngleSharp.Common
         /// Flushes the buffer.
         /// </summary>
         /// <returns>The content of the buffer.</returns>
-        public StringOrMemory FlushBuffer() => FlushBuffer(null);
-
-        internal StringOrMemory FlushBuffer(Func<IMutableCharBuffer, String?>? stringResolver)
+        public String FlushBuffer()
         {
-            var resolved = stringResolver?.Invoke(StringBuffer);
+            var result = StringBuffer.ToString();
+            StringBuffer.Clear();
+            return result;
+        }
+
+        /// <summary>
+        /// Flushes the buffer. Will return the reference to the memory without creating a new string if possible.
+        /// </summary>
+        /// <returns></returns>
+        public StringOrMemory FlushBufferFast() => FlushBufferFast(null);
+
+        internal StringOrMemory FlushBufferFast(Func<IMutableCharBuffer, String?>? stringResolver)
+        {
+            var resolved = stringResolver?.Invoke(CharBuffer);
             if (resolved != null)
             {
-                StringBuffer.Discard();
+                CharBuffer.Discard();
                 return new StringOrMemory(resolved);
             }
 
-            return StringBuffer.GetDataAndClear();
+            return CharBuffer.GetDataAndClear();
         }
 
         /// <summary>
@@ -126,15 +155,19 @@ namespace AngleSharp.Common
         /// </summary>
         public void Dispose()
         {
-            var isDisposed = StringBuffer is null;
-
+            var isDisposed = _charBuffer is null;
             if (!isDisposed)
             {
                 var disposable = _source as IDisposable;
                 disposable?.Dispose();
-                _buffer.Discard();
-                _buffer.ReturnToPool();
-                _buffer = null!;
+
+                _stringBuilder.Clear();
+                _stringBuilder.ReturnToPool();
+                _stringBuilder = null!;
+
+                _charBuffer!.Discard();
+                _charBuffer.ReturnToPool();
+                _charBuffer = null!;
             }
         }
 
@@ -152,7 +185,7 @@ namespace AngleSharp.Common
         /// <returns>True if the source continues with the given string.</returns>
         protected Boolean ContinuesWithInsensitive(String s)
         {
-            var content = PeekString(s.Length);
+            var content = PeekStringFast(s.Length);
             return content.Isi(s);
         }
 
@@ -164,7 +197,7 @@ namespace AngleSharp.Common
         /// <returns>True if the source continues with the given string.</returns>
         protected Boolean ContinuesWithSensitive(String s)
         {
-            var content = PeekString(s.Length);
+            var content = PeekStringFast(s.Length);
             return content.Length == s.Length && content.Is(s);
         }
 
@@ -173,7 +206,21 @@ namespace AngleSharp.Common
         /// </summary>
         /// <param name="length">The length of the string.</param>
         /// <returns>The upcoming string.</returns>
-        protected StringOrMemory PeekString(Int32 length)
+        protected String PeekString(Int32 length)
+        {
+            var mark = _source.Index;
+            _source.Index--;
+            var content = _source.ReadCharacters(length);
+            _source.Index = mark;
+            return content;
+        }
+
+        /// <summary>
+        /// Gets the string formed by the next characters.
+        /// </summary>
+        /// <param name="length">The length of the string.</param>
+        /// <returns>The upcoming string.</returns>
+        protected StringOrMemory PeekStringFast(Int32 length)
         {
             var mark = _source.Index;
             _source.Index--;

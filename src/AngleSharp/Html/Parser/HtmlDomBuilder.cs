@@ -72,7 +72,7 @@ namespace AngleSharp.Html.Parser
         {
             _shouldEnd = shouldEnd;
             _elementFactory = elementFactory;
-            _tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.Resolver);
+            _tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverSOM);
             _document = document;
             _openElements = new List<IConstructableElement>();
             _templateModes = new Stack<HtmlTreeMode>();
@@ -148,7 +148,7 @@ namespace AngleSharp.Html.Parser
 
             do
             {
-                ref var token = ref _tokenizer.Get();
+                ref var token = ref _tokenizer.GetStructToken();
 
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
@@ -214,7 +214,7 @@ namespace AngleSharp.Html.Parser
 
             bool Worker(TokenizerMiddleware middleware)
             {
-                var token = _tokenizer.Get();
+                var token = _tokenizer.GetStructToken();
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
                     Consume(ref token);
@@ -3968,7 +3968,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         private void PreventNewLine()
         {
-            var temp = _tokenizer.Get();
+            var temp = _tokenizer.GetStructToken();
 
             if (temp.Type == HtmlTokenType.Character)
             {

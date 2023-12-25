@@ -585,7 +585,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the underlying source.
         /// </summary>
-        IReadOnlyTextSource Source { get; }
+        TextSource Source { get; }
 
         /// <summary>
         /// Gets the status code of the server's response, if any.
@@ -596,6 +596,5 @@ namespace AngleSharp.Dom
         /// Gets the associated entity provider.
         /// </summary>
         IEntityProvider Entities { get; }
-
     }
 }

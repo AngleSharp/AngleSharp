@@ -132,24 +132,6 @@ namespace AngleSharp.Html.Parser.Tokens
         }
 
         /// <summary>
-        /// Removes all ignorable characters from the beginning.
-        /// </summary>
-        public void CleanStart()
-        {
-            var i = 0;
-
-            for (i = 0; i < _name.Length; i++)
-            {
-                if (!_name[i].IsSpaceCharacter())
-                {
-                    break;
-                }
-            }
-
-            _name = _name.Substring(i);
-        }
-
-        /// <summary>
         /// Removes the new line in the beginning, if any.
         /// </summary>
         public void RemoveNewLine()

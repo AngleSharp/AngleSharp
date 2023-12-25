@@ -139,17 +139,6 @@ namespace AngleSharp.Html.Parser.Tokens
             return String.Empty;
         }
 
-        /// <summary>
-        /// Removes attribute at the given index.
-        /// </summary>
-        /// <param name="i">Attribute index</param>
-        public void RemoveAttributeAt(Int32 i)
-        {
-            _attributes.RemoveAt(i);
-        }
-
         #endregion
-
-
     }
 }
