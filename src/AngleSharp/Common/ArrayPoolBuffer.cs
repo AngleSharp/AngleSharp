@@ -69,14 +69,9 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
 
     public IMutableCharBuffer Insert(Int32 idx, Char c)
     {
-        if ((UInt32)idx > Length)
+        if ((UInt32)idx > Length || Pointer + 1 > Capacity)
         {
-            throw new ArgumentOutOfRangeException(nameof(idx));
-        }
-
-        if (Pointer + 1 > Capacity)
-        {
-            throw new InvalidOperationException("Buffer is full.");
+            Grow();
         }
 
         Array.Copy(
@@ -94,7 +89,7 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
     {
         if (Pointer + str.Length > Capacity)
         {
-            throw new InvalidOperationException("Buffer is full.");
+            Grow();
         }
 
         str.CopyTo(_buffer.AsSpan(Pointer));
@@ -130,5 +125,15 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
     public void Dispose()
     {
         ReturnToPool();
+    }
+
+    private void Grow()
+    {
+        // should not be called, from the statistics from the field max committed text is around 75% of the source length
+        var oldBuffer = _buffer;
+        var newBuffer = ArrayPool<Char>.Shared.Rent(oldBuffer.Length * 2);
+        oldBuffer.AsSpan().CopyTo(newBuffer);
+        ArrayPool<Char>.Shared.Return(oldBuffer, false);
+        _buffer = newBuffer;
     }
 }
