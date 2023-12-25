@@ -6,8 +6,10 @@ using System.Buffers;
 /// <summary>
 /// A buffer that uses an array pool to store the characters.
 /// Usage of this buffer assumes that the max capacity is known upfront
-/// Maintains an append only contiguous chunk of characters
-/// Created <see cref="StringOrMemory"/> instances lifetime is tied to the buffer
+/// Maintains an append only contiguous chunk of characters.
+/// Created <see cref="StringOrMemory"/> instances lifetime is tied to the buffer.
+/// Works under assumption that the buffer will be disposed after use
+/// and max capacity can't be larger than char count in the source.
 /// </summary>
 internal class ArrayPoolBuffer : IMutableCharBuffer
 {
@@ -69,9 +71,14 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
 
     public IMutableCharBuffer Insert(Int32 idx, Char c)
     {
-        if ((UInt32)idx > Length || Pointer + 1 > Capacity)
+        if ((UInt32)idx > Length)
         {
-            Grow();
+            throw new ArgumentOutOfRangeException(nameof(idx));
+        }
+
+        if (Pointer + 1 > Capacity)
+        {
+            throw new InvalidOperationException("Buffer is full.");
         }
 
         Array.Copy(
@@ -89,7 +96,7 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
     {
         if (Pointer + str.Length > Capacity)
         {
-            Grow();
+            throw new InvalidOperationException("Buffer is full.");
         }
 
         str.CopyTo(_buffer.AsSpan(Pointer));
@@ -125,15 +132,5 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
     public void Dispose()
     {
         ReturnToPool();
-    }
-
-    private void Grow()
-    {
-        // should not be called, from the statistics from the field max committed text is around 75% of the source length
-        var oldBuffer = _buffer;
-        var newBuffer = ArrayPool<Char>.Shared.Rent(oldBuffer.Length * 2);
-        oldBuffer.AsSpan().CopyTo(newBuffer);
-        ArrayPool<Char>.Shared.Return(oldBuffer, false);
-        _buffer = newBuffer;
     }
 }
