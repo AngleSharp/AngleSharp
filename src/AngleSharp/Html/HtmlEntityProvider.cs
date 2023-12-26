@@ -9,7 +9,7 @@ namespace AngleSharp.Html
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
-    public sealed class HtmlEntityProvider : IEntityProvider, IReverseEntityProvider, IEntityProviderSOM
+    public sealed class HtmlEntityProvider : IEntityProvider, IReverseEntityProvider, IEntityProviderExtended
     {
         #region Fields
 
@@ -29,7 +29,7 @@ namespace AngleSharp.Html
         /// <summary>
         /// Gets the instance to resolve entities using <see cref="StringOrMemory"/>
         /// </summary>
-        public static readonly IEntityProviderSOM ResolverSOM = Instance;
+        public static readonly IEntityProviderExtended ResolverExtended = Instance;
 
         /// <summary>
         /// Gets the instance to reverse resolve entities.

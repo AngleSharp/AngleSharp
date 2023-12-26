@@ -510,9 +510,8 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public Document(IBrowsingContext context, IReadOnlyTextSource source)
-            : this(context, new TextSource(source))
+            : this(context, source as TextSource ?? new TextSource(source))
         {
-
         }
 
         #endregion

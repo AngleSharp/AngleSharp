@@ -72,7 +72,7 @@ namespace AngleSharp.Html.Parser
         {
             _shouldEnd = shouldEnd;
             _elementFactory = elementFactory;
-            _tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverSOM);
+            _tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended);
             _document = document;
             _openElements = new List<IConstructableElement>();
             _templateModes = new Stack<HtmlTreeMode>();

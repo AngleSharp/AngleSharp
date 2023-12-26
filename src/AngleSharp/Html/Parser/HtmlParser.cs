@@ -303,6 +303,12 @@ namespace AngleSharp.Html.Parser
             return CreateDocument(textSource);
         }
 
+        private HtmlDocument CreateDocument(TextSource textSource)
+        {
+            var document = new HtmlDocument(_context, textSource);
+            return document;
+        }
+
         private HtmlDocument CreateDocument(IReadOnlyTextSource textSource)
         {
             var document = new HtmlDocument(_context, textSource);

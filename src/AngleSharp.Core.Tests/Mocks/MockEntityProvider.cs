@@ -4,7 +4,7 @@
     using System;
     using Common;
 
-    sealed class MockEntityProvider : IEntityProvider, IEntityProviderSOM
+    sealed class MockEntityProvider : IEntityProvider, IEntityProviderExtended
     {
         readonly Func<String, String> _resolver;
 

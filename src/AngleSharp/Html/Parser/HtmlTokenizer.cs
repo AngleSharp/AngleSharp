@@ -87,7 +87,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public HtmlTokenizer(IReadOnlyTextSource source, IEntityProviderSOM resolver)
+        public HtmlTokenizer(IReadOnlyTextSource source, IEntityProviderExtended resolver)
             : base(source)
         {
             State = HtmlParseMode.PCData;
@@ -2928,7 +2928,7 @@ namespace AngleSharp.Html.Parser
 
         private class EntityProvider
         {
-            private readonly IEntityProviderSOM? _fast;
+            private readonly IEntityProviderExtended? _fast;
             private readonly IEntityProvider? _slow;
 
             public EntityProvider(IEntityProvider slow)
@@ -2936,7 +2936,7 @@ namespace AngleSharp.Html.Parser
                 _slow = slow;
             }
 
-            public EntityProvider(IEntityProviderSOM fast)
+            public EntityProvider(IEntityProviderExtended fast)
             {
                 _fast = fast;
             }

@@ -20,13 +20,13 @@ namespace AngleSharp.Dom
     /// <summary>
     /// Defines methods to create a custom entity service.
     /// </summary>
-    public interface IEntityProviderSOM
+    public interface IEntityProviderExtended
     {
         /// <summary>
         /// Gets a symbol specified by its entity name usually trailed with
         /// the semicolon, if available.
         /// </summary>
-        /// <param name="name">The name of the entity in the markup.</param>
+        /// <param name="name">The name of the entity in the markup presented as string or memory reference.</param>
         /// <returns>The string with the symbol or null.</returns>
         String? GetSymbol(StringOrMemory name);
     }
