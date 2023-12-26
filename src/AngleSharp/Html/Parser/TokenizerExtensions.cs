@@ -18,9 +18,25 @@ namespace AngleSharp.Html.Parser
         /// <param name="source">The source of the tokenization.</param>
         /// <param name="provider">The custom entity provider, if any.</param>
         /// <param name="errorHandler">The error handler to be used, if any.</param>
-        /// <param name="options"></param>
         /// <returns>A stream of consumed tokens.</returns>
-        public static IEnumerable<HtmlToken> Tokenize(this TextSource source, IEntityProvider? provider = null, EventHandler<HtmlErrorEvent>? errorHandler = null, HtmlTokenizerOptions? options = null)
+        public static IEnumerable<HtmlToken> Tokenize(this TextSource source, IEntityProvider? provider = null, EventHandler<HtmlErrorEvent>? errorHandler = null)
+        {
+            return TokenizerExtensions.Tokenize(source, null, provider, errorHandler);
+        }
+
+        /// <summary>
+        /// Performs the tokenization on the given text source.
+        /// </summary>
+        /// <param name="source">The source of the tokenization.</param>
+        /// <param name="provider">The custom entity provider, if any.</param>
+        /// <param name="errorHandler">The error handler to be used, if any.</param>
+        /// <param name="options">Html tokenizer options</param>
+        /// <returns>A stream of consumed tokens.</returns>
+        public static IEnumerable<HtmlToken> Tokenize(
+            this TextSource source,
+            HtmlTokenizerOptions? options = null,
+            IEntityProvider? provider = null,
+            EventHandler<HtmlErrorEvent>? errorHandler = null)
         {
             var resolver = provider ?? HtmlEntityProvider.Resolver;
             using var htmlTokenizer = new HtmlTokenizer(source, resolver);

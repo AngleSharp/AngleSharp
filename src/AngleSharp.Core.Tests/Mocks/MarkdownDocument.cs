@@ -12,11 +12,6 @@ namespace AngleSharp.Core.Tests.Mocks
         {
         }
 
-        public MarkdownDocument(IBrowsingContext context, IReadOnlyTextSource source)
-            : base(context, source)
-        {
-        }
-
         public override IElement DocumentElement => null;
 
         public override IEntityProvider Entities => HtmlEntityProvider.Resolver;

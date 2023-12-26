@@ -93,7 +93,7 @@ public interface IReadOnlyTextSource : IDisposable
     /// <summary>
     /// Gets the content length, if known.
     /// </summary>
-    /// <param name="length"></param>
-    /// <returns></returns>
+    /// <param name="length">Found length if known</param>
+    /// <returns>True if length is available</returns>
     Boolean TryGetContentLength(out Int32 length);
 }
