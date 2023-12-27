@@ -106,13 +106,17 @@ namespace AngleSharp.Html.Parser
         /// <remarks>
         /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
         /// </remarks>
-        TDocument ParseDocument<TDocument, TElement>(IReadOnlyTextSource source, TokenizerMiddleware? middleware = null)
+        TDocument ParseDocument<TDocument, TElement>(TextSource source, TokenizerMiddleware? middleware = null)
             where TDocument : class, IConstructableDocument
             where TElement : class, IConstructableElement;
 
+        // /// <summary>
+        // /// Parses the read only text source and returns the result.
+        // /// </summary>
+        // IHtmlDocument ParseDocument(IReadOnlyTextSource source);
         /// <summary>
-        /// Parses the read only text source and returns the result.
+        /// Parses the read only chunk of chars and returns the result.
         /// </summary>
-        IHtmlDocument ParseDocument(IReadOnlyTextSource source);
+        IHtmlDocument ParseDocument(ReadOnlyMemory<Char> source);
     }
 }

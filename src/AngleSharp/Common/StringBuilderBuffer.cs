@@ -8,10 +8,10 @@ using Text;
 /// <summary>
 /// Delegates implementation to <see cref="StringBuilder"/> obtained from <see cref="StringBuilderPool"/>
 /// </summary>
-internal class StringBuilderBuffer : IMutableCharBuffer
+internal sealed class StringBuilderBuffer : IMutableCharBuffer
 {
     private Boolean _disposed = false;
-    private StringBuilder _sb = StringBuilderPool.Obtain();
+    internal StringBuilder _sb = StringBuilderPool.Obtain();
 
     public IMutableCharBuffer Append(Char c)
     {

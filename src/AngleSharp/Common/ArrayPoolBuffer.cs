@@ -11,7 +11,7 @@ using System.Buffers;
 /// Works under assumption that the buffer will be disposed after use
 /// and max capacity can't be larger than char count in the source.
 /// </summary>
-internal class ArrayPoolBuffer : IMutableCharBuffer
+internal sealed class ArrayPoolBuffer : IMutableCharBuffer
 {
     private Char[] _buffer;
     private Int32 _start;
@@ -27,9 +27,14 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
 
     public IMutableCharBuffer Append(Char c)
     {
-        _buffer[Pointer] = c;
-        _idx++;
+        AppendFast(c);
         return this;
+    }
+
+    internal void AppendFast(Char c)
+    {
+        _buffer[_start + _idx] = c;
+        _idx++;
     }
 
     public void Discard()
@@ -52,9 +57,17 @@ internal class ArrayPoolBuffer : IMutableCharBuffer
 
     public IMutableCharBuffer Remove(Int32 startIndex, Int32 length)
     {
-        var tail = _buffer.AsSpan(_start + startIndex + length);
-        var dest = _buffer.AsSpan(_start + startIndex);
-        tail.CopyTo(dest);
+        var source = _buffer.AsSpan(_start + startIndex + length, length);
+        var destination = _buffer.AsSpan(_start + startIndex, length);
+        source.CopyTo(destination);
+
+        // Array.Copy(
+        //     sourceArray: _buffer,
+        //     sourceIndex: _start + startIndex + length,
+        //     destinationArray: _buffer,
+        //     destinationIndex: _start + startIndex,
+        //     length: length);
+
         _idx -= length;
         return this;
     }

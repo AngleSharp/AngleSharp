@@ -87,7 +87,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public HtmlTokenizer(IReadOnlyTextSource source, IEntityProviderExtended resolver)
+        public HtmlTokenizer(TextSource source, IEntityProviderExtended resolver)
             : base(source)
         {
             State = HtmlParseMode.PCData;
@@ -291,7 +291,7 @@ namespace AngleSharp.Html.Parser
                         break;
 
                     default:
-                        CharBuffer.Append(c);
+                        base.Append(c);
                         break;
                 }
 
@@ -328,7 +328,7 @@ namespace AngleSharp.Html.Parser
                         return ref NewCharacter();
 
                     default:
-                        CharBuffer.Append(c);
+                        base.Append(c);
                         break;
                 }
 
@@ -374,7 +374,7 @@ namespace AngleSharp.Html.Parser
                         break;
 
                     default:
-                        CharBuffer.Append(c);
+                        base.Append(c);
                         break;
                 }
 
@@ -395,23 +395,23 @@ namespace AngleSharp.Html.Parser
 
                 if (c.IsUppercaseAscii())
                 {
-                    CharBuffer.Append(Char.ToLowerInvariant(c));
+                    base.Append(Char.ToLowerInvariant(c));
                     return ref RCDataNameEndTag(GetNext());
                 }
                 else if (c.IsLowercaseAscii())
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                     return ref RCDataNameEndTag(GetNext());
                 }
                 else
                 {
-                    CharBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                    base.Append(Symbols.LessThan, Symbols.Solidus);
                     return ref RCDataText(c);
                 }
             }
             else
             {
-                CharBuffer.Append(Symbols.LessThan);
+                base.Append(Symbols.LessThan);
                 return ref RCDataText(c);
             }
         }
@@ -430,11 +430,11 @@ namespace AngleSharp.Html.Parser
                 }
                 else if (c.IsUppercaseAscii())
                 {
-                    CharBuffer.Append(Char.ToLowerInvariant(c));
+                    base.Append(Char.ToLowerInvariant(c));
                 }
                 else if (c.IsLowercaseAscii())
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                 }
                 else
                 {
@@ -480,7 +480,7 @@ namespace AngleSharp.Html.Parser
                         break;
 
                     default:
-                        CharBuffer.Append(c);
+                        base.Append(c);
                         break;
                 }
 
@@ -501,23 +501,23 @@ namespace AngleSharp.Html.Parser
 
                 if (c.IsUppercaseAscii())
                 {
-                    CharBuffer.Append(Char.ToLowerInvariant(c));
+                    base.Append(Char.ToLowerInvariant(c));
                     return ref RawtextNameEndTag(GetNext());
                 }
                 else if (c.IsLowercaseAscii())
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                     return ref RawtextNameEndTag(GetNext());
                 }
                 else
                 {
-                    CharBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                    base.Append(Symbols.LessThan, Symbols.Solidus);
                     return ref RawtextText(c);
                 }
             }
             else
             {
-                CharBuffer.Append(Symbols.LessThan);
+                base.Append(Symbols.LessThan);
                 return ref RawtextText(c);
             }
         }
@@ -536,11 +536,11 @@ namespace AngleSharp.Html.Parser
                 }
                 else if (c.IsUppercaseAscii())
                 {
-                    CharBuffer.Append(Char.ToLowerInvariant(c));
+                    base.Append(Char.ToLowerInvariant(c));
                 }
                 else if (c.IsLowercaseAscii())
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                 }
                 else
                 {
@@ -576,7 +576,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                     c = GetNext();
                 }
             }
@@ -600,7 +600,7 @@ namespace AngleSharp.Html.Parser
             if (IsNotConsumingCharacterReferences || c.IsSpaceCharacter() || c == Symbols.LessThan || c == Symbols.EndOfFile || c == Symbols.Ampersand || c == allowedCharacter)
             {
                 Back();
-                CharBuffer.Append(Symbols.Ampersand);
+                base.Append(Symbols.Ampersand);
             }
             else
             {
@@ -617,7 +617,7 @@ namespace AngleSharp.Html.Parser
 
                 if (entity is null)
                 {
-                    CharBuffer.Append(Symbols.Ampersand);
+                    base.Append(Symbols.Ampersand);
                 }
                 else
                 {
@@ -780,12 +780,12 @@ namespace AngleSharp.Html.Parser
             }
             else if (c.IsLowercaseAscii())
             {
-                CharBuffer.Append(c);
+                base.Append(c);
                 return ref TagName(ref NewTagOpen());
             }
             else if (c.IsUppercaseAscii())
             {
-                CharBuffer.Append(Char.ToLowerInvariant(c));
+                base.Append(Char.ToLowerInvariant(c));
                 return ref TagName(ref NewTagOpen());
             }
             else if (c == Symbols.ExclamationMark)
@@ -800,7 +800,7 @@ namespace AngleSharp.Html.Parser
             {
                 State = HtmlParseMode.PCData;
                 RaiseErrorOccurred(HtmlParseError.AmbiguousOpenTag);
-                CharBuffer.Append(Symbols.LessThan);
+                base.Append(Symbols.LessThan);
                 return ref DataText(c);
             }
             else
@@ -818,12 +818,12 @@ namespace AngleSharp.Html.Parser
         {
             if (c.IsLowercaseAscii())
             {
-                CharBuffer.Append(c);
+                base.Append(c);
                 return ref TagName(ref NewTagClose());
             }
             else if (c.IsUppercaseAscii())
             {
-                CharBuffer.Append(Char.ToLowerInvariant(c));
+                base.Append(Char.ToLowerInvariant(c));
                 return ref TagName(ref NewTagClose());
             }
             else if (c == Symbols.GreaterThan)
@@ -836,7 +836,7 @@ namespace AngleSharp.Html.Parser
             {
                 Back();
                 RaiseErrorOccurred(HtmlParseError.EOF);
-                CharBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                base.Append(Symbols.LessThan, Symbols.Solidus);
                 return ref NewCharacter();
             }
             else
@@ -873,7 +873,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else if (c.IsUppercaseAscii())
                 {
-                    CharBuffer.Append(Char.ToLowerInvariant(c));
+                    base.Append(Char.ToLowerInvariant(c));
                 }
                 else if (c == Symbols.Null)
                 {
@@ -881,7 +881,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else if (c != Symbols.EndOfFile)
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                 }
                 else
                 {
@@ -979,7 +979,7 @@ namespace AngleSharp.Html.Parser
                         c = Symbols.Replacement;
                         goto default;
                     default:
-                        CharBuffer.Append(c);
+                        base.Append(c);
                         c = GetNext();
                         continue;
                 }
@@ -1015,7 +1015,7 @@ namespace AngleSharp.Html.Parser
                         c = Symbols.Replacement;
                         goto default;
                     default:
-                        CharBuffer.Append(c);
+                        base.Append(c);
                         c = GetNext();
                         continue;
                 }
@@ -1053,7 +1053,7 @@ namespace AngleSharp.Html.Parser
                     Back();
                     break;
                 default:
-                    CharBuffer.Append(c);
+                    base.Append(c);
                     return ref Comment(GetNext());
             }
 
@@ -1073,7 +1073,7 @@ namespace AngleSharp.Html.Parser
                     return CommentEnd(GetNext(), ref token);
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
-                    CharBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
+                    base.Append(Symbols.Minus, Symbols.Replacement);
                     token = ref Comment(GetNext());
                     return true;
                 case Symbols.GreaterThan:
@@ -1085,7 +1085,7 @@ namespace AngleSharp.Html.Parser
                     Back();
                     break;
                 default:
-                    CharBuffer.Append(Symbols.Minus).Append(c);
+                    base.Append(Symbols.Minus, c);
                     token = ref Comment(GetNext());
                     return true;
             }
@@ -1118,7 +1118,7 @@ namespace AngleSharp.Html.Parser
                         AppendReplacement();
                         break;
                     default:
-                        CharBuffer.Append(c);
+                        base.Append(c);
                         break;
                 }
 
@@ -1148,7 +1148,7 @@ namespace AngleSharp.Html.Parser
                     break;
             }
 
-            CharBuffer.Append(Symbols.Minus).Append(c);
+            base.Append(Symbols.Minus, c);
             return false;
         }
 
@@ -1169,14 +1169,14 @@ namespace AngleSharp.Html.Parser
                         return true;
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        CharBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
+                        base.Append(Symbols.Minus, Symbols.Replacement);
                         return false;
                     case Symbols.ExclamationMark:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedWithEM);
                         return CommentBangEnd(GetNext(), ref token);
                     case Symbols.Minus:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedWithDash);
-                        CharBuffer.Append(Symbols.Minus);
+                        base.Append(Symbols.Minus);
                         break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
@@ -1185,7 +1185,7 @@ namespace AngleSharp.Html.Parser
                         return true;
                     default:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedUnexpected);
-                        CharBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(c);
+                        base.Append(Symbols.Minus, Symbols.Minus, c);
                         return false;
                 }
 
@@ -1203,21 +1203,21 @@ namespace AngleSharp.Html.Parser
             switch (c)
             {
                 case Symbols.Minus:
-                    CharBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark);
+                    base.Append(Symbols.Minus, Symbols.Minus, Symbols.ExclamationMark);
                     return CommentDashEnd(GetNext(), ref token);
                 case Symbols.GreaterThan:
                     State = HtmlParseMode.PCData;
                     break;
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
-                    CharBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark).Append(Symbols.Replacement);
+                    base.Append(Symbols.Minus, Symbols.Minus, Symbols.ExclamationMark, Symbols.Replacement);
                     return false;
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
                     break;
                 default:
-                    CharBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark).Append(c);
+                    base.Append(Symbols.Minus, Symbols.Minus, Symbols.ExclamationMark, c);
                     return false;
             }
 
@@ -1266,7 +1266,7 @@ namespace AngleSharp.Html.Parser
             if (c.IsUppercaseAscii())
             {
                 ref var doctype = ref NewDoctype(false);
-                CharBuffer.Append(Char.ToLowerInvariant(c));
+                base.Append(Char.ToLowerInvariant(c));
                 return ref DoctypeName(ref doctype);
             }
             else if (c == Symbols.Null)
@@ -1292,7 +1292,7 @@ namespace AngleSharp.Html.Parser
             else
             {
                 ref var doctype = ref NewDoctype(false);
-                CharBuffer.Append(c);
+                base.Append(c);
                 return ref DoctypeName(ref doctype);
             }
         }
@@ -1320,7 +1320,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else if (c.IsUppercaseAscii())
                 {
-                    CharBuffer.Append(Char.ToLowerInvariant(c));
+                    base.Append(Char.ToLowerInvariant(c));
                 }
                 else if (c == Symbols.Null)
                 {
@@ -1336,7 +1336,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                 }
             }
 
@@ -1504,7 +1504,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                 }
             }
 
@@ -1548,7 +1548,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                 }
             }
 
@@ -1763,7 +1763,7 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    CharBuffer.Append(c);
+                    base.Append(c);
                 }
             }
 
@@ -1801,7 +1801,7 @@ namespace AngleSharp.Html.Parser
                         Back();
                         break;
                     default:
-                        CharBuffer.Append(c);
+                        base.Append(c);
                         continue;
                 }
 
@@ -1902,7 +1902,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c.IsUppercaseAscii() && !IsPreservingAttributeNames)
                         {
-                            CharBuffer.Append(Char.ToLowerInvariant(c));
+                            base.Append(Char.ToLowerInvariant(c));
                             pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
@@ -1915,13 +1915,13 @@ namespace AngleSharp.Html.Parser
                         else if (c == Symbols.SingleQuote || c == Symbols.DoubleQuote || c == Symbols.Equality || c == Symbols.LessThan)
                         {
                             RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else if (c != Symbols.EndOfFile)
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
@@ -1981,12 +1981,12 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c.IsUppercaseAscii() && !IsPreservingAttributeNames)
                         {
-                            CharBuffer.Append(Char.ToLowerInvariant(c));
+                            base.Append(Char.ToLowerInvariant(c));
                         }
                         else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
                         {
                             RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
-                            CharBuffer.Append(c);
+                            base.Append(c);
                         }
                         else if (c == Symbols.Null)
                         {
@@ -1994,7 +1994,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c != Symbols.EndOfFile)
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                         }
                         else
                         {
@@ -2023,14 +2023,14 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c.IsUppercaseAscii() && !IsPreservingAttributeNames)
                         {
-                            CharBuffer.Append(Char.ToLowerInvariant(c));
+                            base.Append(Char.ToLowerInvariant(c));
                             pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
                         else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
                         {
                             RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
@@ -2042,7 +2042,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c != Symbols.EndOfFile)
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             pos = GetCurrentPosition();
                             state = AttributeState.Name;
                         }
@@ -2076,7 +2076,7 @@ namespace AngleSharp.Html.Parser
                         else if (c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
                         {
                             RaiseErrorOccurred(HtmlParseError.AttributeValueInvalid);
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             state = AttributeState.UnquotedValue;
                             c = GetNext();
                         }
@@ -2088,7 +2088,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c != Symbols.EndOfFile)
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             state = AttributeState.UnquotedValue;
                             c = GetNext();
                         }
@@ -2129,7 +2129,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c != Symbols.EndOfFile)
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                         }
                         else
                         {
@@ -2181,12 +2181,12 @@ namespace AngleSharp.Html.Parser
                         else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
                         {
                             RaiseErrorOccurred(HtmlParseError.AttributeValueInvalid);
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             c = GetNext();
                         }
                         else if (c != Symbols.EndOfFile)
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             c = GetNext();
                         }
                         else
@@ -2288,7 +2288,7 @@ namespace AngleSharp.Html.Parser
                                 break;
 
                             case Symbols.LessThan:
-                                CharBuffer.Append(Symbols.LessThan);
+                                base.Append(Symbols.LessThan);
                                 state = ScriptState.OpenTag;
                                 continue;
 
@@ -2297,7 +2297,7 @@ namespace AngleSharp.Html.Parser
                                 return ref NewCharacter();
 
                             default:
-                                CharBuffer.Append(c);
+                                base.Append(c);
                                 break;
                         }
 
@@ -2329,7 +2329,7 @@ namespace AngleSharp.Html.Parser
                     // See 8.2.4.20 Script data escape start state
                     case ScriptState.StartEscape:
                     {
-                        CharBuffer.Append(Symbols.ExclamationMark);
+                        base.Append(Symbols.ExclamationMark);
                         c = GetNext();
 
                         if (c == Symbols.Minus)
@@ -2348,11 +2348,11 @@ namespace AngleSharp.Html.Parser
                     case ScriptState.StartEscapeDash:
                     {
                         c = GetNext();
-                        CharBuffer.Append(Symbols.Minus);
+                        base.Append(Symbols.Minus);
 
                         if (c == Symbols.Minus)
                         {
-                            CharBuffer.Append(Symbols.Minus);
+                            base.Append(Symbols.Minus);
                             state = ScriptState.EscapedDashDash;
                         }
                         else
@@ -2367,13 +2367,14 @@ namespace AngleSharp.Html.Parser
                     case ScriptState.EndTag:
                     {
                         c = GetNext();
-                        offset = CharBuffer.Append(Symbols.Solidus).Length;
+                        base.Append(Symbols.Solidus);
+                        offset = CharBuffer.Length;
                         ref var tag = ref NewTagClose();
 
                         while (c.IsLetter())
                         {
                             // See 8.2.4.19 Script data end tag name state
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             c = GetNext();
                             var isspace = c.IsSpaceCharacter();
                             var isclosed = c == Symbols.GreaterThan;
@@ -2430,7 +2431,7 @@ namespace AngleSharp.Html.Parser
                         switch (c)
                         {
                             case Symbols.Minus:
-                                CharBuffer.Append(Symbols.Minus);
+                                base.Append(Symbols.Minus);
                                 c = GetNext();
                                 state = ScriptState.EscapedDash;
                                 continue;
@@ -2459,7 +2460,7 @@ namespace AngleSharp.Html.Parser
                         switch (c)
                         {
                             case Symbols.Minus:
-                                CharBuffer.Append(Symbols.Minus);
+                                base.Append(Symbols.Minus);
                                 state = ScriptState.EscapedDashDash;
                                 continue;
                             case Symbols.LessThan:
@@ -2473,7 +2474,7 @@ namespace AngleSharp.Html.Parser
                                 Back();
                                 return ref NewCharacter();
                             default:
-                                CharBuffer.Append(c);
+                                base.Append(c);
                                 break;
                         }
 
@@ -2490,14 +2491,14 @@ namespace AngleSharp.Html.Parser
                         switch (c)
                         {
                             case Symbols.Minus:
-                                CharBuffer.Append(Symbols.Minus);
+                                base.Append(Symbols.Minus);
                                 break;
                             case Symbols.LessThan:
                                 c = GetNext();
                                 state = ScriptState.EscapedOpenTag;
                                 continue;
                             case Symbols.GreaterThan:
-                                CharBuffer.Append(Symbols.GreaterThan);
+                                base.Append(Symbols.GreaterThan);
                                 c = GetNext();
                                 state = ScriptState.Normal;
                                 continue;
@@ -2509,7 +2510,7 @@ namespace AngleSharp.Html.Parser
                             case Symbols.EndOfFile:
                                 return ref NewCharacter();
                             default:
-                                CharBuffer.Append(c);
+                                base.Append(c);
                                 c = GetNext();
                                 state = ScriptState.Escaped;
                                 continue;
@@ -2528,13 +2529,14 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c.IsLetter())
                         {
-                            offset = CharBuffer.Append(Symbols.LessThan).Length;
-                            CharBuffer.Append(c);
+                            base.Append(Symbols.LessThan);
+                            offset = CharBuffer.Length;
+                            base.Append(c);
                             state = ScriptState.StartDoubleEscape;
                         }
                         else
                         {
-                            CharBuffer.Append(Symbols.LessThan);
+                            base.Append(Symbols.LessThan);
                             state = ScriptState.Escaped;
                         }
 
@@ -2544,11 +2546,12 @@ namespace AngleSharp.Html.Parser
                     // See 8.2.4.26 Script data escaped end tag open state
                     case ScriptState.EscapedEndTag:
                     {
-                        offset = CharBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Length;
+                        base.Append(Symbols.LessThan, Symbols.Solidus);
+                        offset = CharBuffer.Length;
 
                         if (c.IsLetter())
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             state = ScriptState.EscapedNameEndTag;
                         }
                         else
@@ -2579,7 +2582,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                         }
 
                         break;
@@ -2594,13 +2597,13 @@ namespace AngleSharp.Html.Parser
                         if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                         {
                             var isscript = CharBuffer.Isi(offset, scriptLength, TagNames.Script.AsSpan());
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.EscapedDouble : ScriptState.Escaped;
                         }
                         else if (c.IsLetter())
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                         }
                         else
                         {
@@ -2616,13 +2619,13 @@ namespace AngleSharp.Html.Parser
                         switch (c)
                         {
                             case Symbols.Minus:
-                                CharBuffer.Append(Symbols.Minus);
+                                base.Append(Symbols.Minus);
                                 c = GetNext();
                                 state = ScriptState.EscapedDoubleDash;
                                 continue;
 
                             case Symbols.LessThan:
-                                CharBuffer.Append(Symbols.LessThan);
+                                base.Append(Symbols.LessThan);
                                 c = GetNext();
                                 state = ScriptState.EscapedDoubleOpenTag;
                                 continue;
@@ -2637,7 +2640,7 @@ namespace AngleSharp.Html.Parser
                                 return ref NewCharacter();
                         }
 
-                        CharBuffer.Append(c);
+                        base.Append(c);
                         c = GetNext();
                         break;
                     }
@@ -2648,12 +2651,12 @@ namespace AngleSharp.Html.Parser
                         switch (c)
                         {
                             case Symbols.Minus:
-                                CharBuffer.Append(Symbols.Minus);
+                                base.Append(Symbols.Minus);
                                 state = ScriptState.EscapedDoubleDashDash;
                                 continue;
 
                             case Symbols.LessThan:
-                                CharBuffer.Append(Symbols.LessThan);
+                                base.Append(Symbols.LessThan);
                                 c = GetNext();
                                 state = ScriptState.EscapedDoubleOpenTag;
                                 continue;
@@ -2681,17 +2684,17 @@ namespace AngleSharp.Html.Parser
                         switch (c)
                         {
                             case Symbols.Minus:
-                                CharBuffer.Append(Symbols.Minus);
+                                base.Append(Symbols.Minus);
                                 break;
 
                             case Symbols.LessThan:
-                                CharBuffer.Append(Symbols.LessThan);
+                                base.Append(Symbols.LessThan);
                                 c = GetNext();
                                 state = ScriptState.EscapedDoubleOpenTag;
                                 continue;
 
                             case Symbols.GreaterThan:
-                                CharBuffer.Append(Symbols.GreaterThan);
+                                base.Append(Symbols.GreaterThan);
                                 c = GetNext();
                                 state = ScriptState.Normal;
                                 continue;
@@ -2708,7 +2711,7 @@ namespace AngleSharp.Html.Parser
                                 return ref NewCharacter();
 
                             default:
-                                CharBuffer.Append(c);
+                                base.Append(c);
                                 c = GetNext();
                                 state = ScriptState.EscapedDouble;
                                 continue;
@@ -2722,7 +2725,8 @@ namespace AngleSharp.Html.Parser
                     {
                         if (c == Symbols.Solidus)
                         {
-                            offset = CharBuffer.Append(Symbols.Solidus).Length;
+                            base.Append(Symbols.Solidus);
+                            offset = CharBuffer.Length;
                             state = ScriptState.EndDoubleEscape;
                         }
                         else
@@ -2742,13 +2746,13 @@ namespace AngleSharp.Html.Parser
                         if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
                         {
                             var isscript = CharBuffer.Isi(offset, scriptLength, TagNames.Script.AsSpan());
-                            CharBuffer.Append(c);
+                            base.Append(c);
                             c = GetNext();
                             state = isscript ? ScriptState.Escaped : ScriptState.EscapedDouble;
                         }
                         else if (c.IsLetter())
                         {
-                            CharBuffer.Append(c);
+                            base.Append(c);
                         }
                         else
                         {
@@ -2844,7 +2848,7 @@ namespace AngleSharp.Html.Parser
         private void AppendReplacement()
         {
             RaiseErrorOccurred(HtmlParseError.Null);
-            CharBuffer.Append(Symbols.Replacement);
+            base.Append(Symbols.Replacement);
         }
 
         private bool CreateIfAppropriate(Char c, ref StructHtmlToken token)
@@ -2926,7 +2930,7 @@ namespace AngleSharp.Html.Parser
 
         #region Helpers
 
-        private class EntityProvider
+        private readonly struct EntityProvider
         {
             private readonly IEntityProviderExtended? _fast;
             private readonly IEntityProvider? _slow;

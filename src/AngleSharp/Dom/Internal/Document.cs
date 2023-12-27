@@ -509,8 +509,8 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public Document(IBrowsingContext context, IReadOnlyTextSource source)
-            : this(context, source as TextSource ?? new TextSource(source))
+        public Document(IBrowsingContext context, PrefetchedTextSource source)
+            : this(context, new TextSource(source))
         {
         }
 
@@ -1599,7 +1599,7 @@ namespace AngleSharp.Dom
 
         #region Construction
 
-        IReadOnlyTextSource IConstructableDocument.Source => _source;
+        TextSource IConstructableDocument.Source => _source;
 
         IDisposable? IConstructableDocument.Builder { get; set; }
 

@@ -161,14 +161,14 @@ namespace AngleSharp.Html.Parser
             return Parse(document);
         }
 
-        /// <summary>
-        /// Parses the read only text source and returns the result.
-        /// </summary>
-        public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
-        {
-            var document = CreateDocument(source);
-            return Parse(document);
-        }
+        // /// <summary>
+        // /// Parses the read only text source and returns the result.
+        // /// </summary>
+        // public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
+        // {
+        //     var document = CreateDocument(source);
+        //     return Parse(document);
+        // }
 
         /// <summary>
         /// Parses the read only text source and returns the result.
@@ -188,7 +188,7 @@ namespace AngleSharp.Html.Parser
             where TDocument : class, IConstructableDocument
             where TElement : class, IConstructableElement
         {
-            var source = new PrefetchedTextSource(chars);
+            var source = new TextSource(new PrefetchedTextSource(chars));
             return ParseDocument<TDocument, TElement>(source, middleware);
         }
 
@@ -206,7 +206,7 @@ namespace AngleSharp.Html.Parser
         /// <remarks>
         /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
         /// </remarks>
-        public TDocument ParseDocument<TDocument, TElement>(IReadOnlyTextSource source, TokenizerMiddleware? middleware = null)
+        public TDocument ParseDocument<TDocument, TElement>(TextSource source, TokenizerMiddleware? middleware = null)
              where TDocument : class, IConstructableDocument
              where TElement : class, IConstructableElement
         {
@@ -293,7 +293,7 @@ namespace AngleSharp.Html.Parser
         private HtmlDocument CreateDocument(ReadOnlyMemory<Char> source)
         {
             var textSource = new PrefetchedTextSource(source);
-            return CreateDocument(textSource);
+            return CreateDocument(new TextSource(textSource));
         }
 
         private HtmlDocument CreateDocument(Stream source)
@@ -304,12 +304,6 @@ namespace AngleSharp.Html.Parser
         }
 
         private HtmlDocument CreateDocument(TextSource textSource)
-        {
-            var document = new HtmlDocument(_context, textSource);
-            return document;
-        }
-
-        private HtmlDocument CreateDocument(IReadOnlyTextSource textSource)
         {
             var document = new HtmlDocument(_context, textSource);
             return document;

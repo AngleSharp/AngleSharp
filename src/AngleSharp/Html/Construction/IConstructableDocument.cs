@@ -15,7 +15,7 @@ public interface IConstructableDocument : IConstructableNode
     /// <summary>
     /// Document source.
     /// </summary>
-    IReadOnlyTextSource Source { get; }
+    TextSource Source { get; }
 
     /// <summary>
     /// Builder instance to dispose and tie lifetime to the document.

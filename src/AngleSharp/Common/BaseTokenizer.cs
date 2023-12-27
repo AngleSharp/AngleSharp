@@ -30,16 +30,7 @@ namespace AngleSharp.Common
         /// Creates a new instance of the base tokenizer.
         /// </summary>
         /// <param name="source">The source to tokenize.</param>
-        public BaseTokenizer(TextSource source) : this((IReadOnlyTextSource)source)
-        {
-
-        }
-
-        /// <summary>
-        /// Creates a new instance of the base tokenizer.
-        /// </summary>
-        /// <param name="source">The source to tokenize.</param>
-        public BaseTokenizer(IReadOnlyTextSource source)
+        public BaseTokenizer(TextSource source)
         {
             _stringBuilder = StringBuilderPool.Obtain();
 
@@ -52,7 +43,7 @@ namespace AngleSharp.Common
                 _charBuffer = new StringBuilderBuffer();
             }
 
-            _source = source;
+            _source = source.GetReal();
             _current = Symbols.Null;
             _column = 0;
             _row = 1;
@@ -105,7 +96,7 @@ namespace AngleSharp.Common
         /// <summary>
         /// Gets the allocated string buffer.
         /// </summary>
-        protected IMutableCharBuffer CharBuffer => _charBuffer;
+        private protected IMutableCharBuffer CharBuffer => _charBuffer;
 
         /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).
@@ -186,7 +177,7 @@ namespace AngleSharp.Common
         protected Boolean ContinuesWithInsensitive(String s)
         {
             var content = PeekStringFast(s.Length);
-            return content.Isi(s);
+            return content.Length == s.Length && content.Isi(s);
         }
 
         /// <summary>
@@ -315,6 +306,73 @@ namespace AngleSharp.Common
             }
         }
 
+        /// <summary>
+        /// Appends the given character to the buffer.
+        /// </summary>
+        private protected void Append(Char c)
+        {
+            switch (_charBuffer)
+            {
+                case StringBuilderBuffer sb:
+                    sb._sb.Append(c);
+                    break;
+                case ArrayPoolBuffer ap:
+                    ap.AppendFast(c);
+                    break;
+                default:
+                    _charBuffer.Append(c);
+                    break;
+            }
+        }
+
+        private protected void Append(Char a, Char b)
+        {
+            switch (_charBuffer)
+            {
+                case StringBuilderBuffer sb:
+                    sb._sb.Append(a).Append(b);
+                    break;
+                case ArrayPoolBuffer ap:
+                    ap.Append(stackalloc Char[] { a, b });
+                    break;
+                default:
+                    _charBuffer.Append(stackalloc Char[] { a, b });
+                    break;
+            }
+        }
+
+        private protected void Append(Char a, Char b, Char c)
+        {
+            switch (_charBuffer)
+            {
+                case StringBuilderBuffer sb:
+                    sb._sb.Append(a).Append(b).Append(c);
+                    break;
+                case ArrayPoolBuffer ap:
+                    ap.Append(stackalloc Char[] { a, b, c });
+                    break;
+                default:
+                    _charBuffer.Append(stackalloc Char[] { a, b, c });
+                    break;
+            }
+        }
+
+        private protected void Append(Char a, Char b, Char c, Char d)
+        {
+            switch (_charBuffer)
+            {
+                case StringBuilderBuffer sb:
+                    sb._sb.Append(a).Append(b).Append(c).Append(d);
+                    break;
+                case ArrayPoolBuffer ap:
+                    ap.Append(stackalloc Char[] { a, b, c, d });
+                    break;
+                default:
+                    _charBuffer.Append(stackalloc Char[] { a, b, c, d });
+                    break;
+            }
+        }
+
         #endregion
 
         #region Helpers
@@ -325,7 +383,6 @@ namespace AngleSharp.Common
             {
                 if (_current == Symbols.LineFeed)
                 {
-
                     _columns.Push(_column);
                     _column = 1;
                     _row++;

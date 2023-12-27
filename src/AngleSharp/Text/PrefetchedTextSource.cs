@@ -15,7 +15,6 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
 {
     private Int32 _index;
     private String? _content;
-
     private readonly ReadOnlyMemory<Char> _memory;
     private readonly Int32 _length;
 
@@ -29,17 +28,6 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     {
         _memory = memory;
         _length = memory.Length;
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="str"></param>
-    public PrefetchedTextSource(String str)
-    {
-        _content = str;
-        _memory = str.AsMemory();
-        _length = _memory.Length;
     }
 
     #endregion
@@ -56,8 +44,12 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     }
 
     /// <ihneritdoc />
-    public Char this[Int32 index] =>
-        _content != null ? _content[index] : _memory.Span[index];
+
+    public Char this[Int32 index]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => _memory.Span[index];
+    }
 
     /// <ihneritdoc />
     public Int32 Length => _length;

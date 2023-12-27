@@ -21,7 +21,7 @@ public interface ICharBuffer
 /// <summary>
 /// Represents a mutable sequence of characters.
 /// </summary>
-public interface IMutableCharBuffer : ICharBuffer, IDisposable
+internal interface IMutableCharBuffer : ICharBuffer, IDisposable
 {
     /// <summary>
     /// Appends the given character to the buffer.

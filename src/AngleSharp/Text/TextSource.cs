@@ -14,8 +14,8 @@ namespace AngleSharp.Text
     /// </summary>
     public sealed class TextSource : ITextSource
     {
-        private readonly StringBuilderTextSource _source;
-        private readonly IReadOnlyTextSource _readOnlySource;
+        private readonly StringBuilderTextSource _stringBuilderSource;
+        private readonly PrefetchedTextSource _prefetchedSource;
 
         /// <summary>
         /// Creates a new text source from a string. No underlying stream will
@@ -24,8 +24,8 @@ namespace AngleSharp.Text
         /// <param name="source">The data source.</param>
         public TextSource(String source)
         {
-            _readOnlySource = null;
-            _source = new StringBuilderTextSource(source);
+            _prefetchedSource = null;
+            _stringBuilderSource = new StringBuilderTextSource(source);
         }
 
         /// <summary>
@@ -40,42 +40,42 @@ namespace AngleSharp.Text
         /// </param>
         public TextSource(Stream baseStream, Encoding encoding = null)
         {
-            _readOnlySource = null;
-            _source = new StringBuilderTextSource(baseStream, encoding);
+            _prefetchedSource = null;
+            _stringBuilderSource = new StringBuilderTextSource(baseStream, encoding);
         }
 
-        internal TextSource(IReadOnlyTextSource readOnlyTextSource)
+        internal TextSource(PrefetchedTextSource readOnlyTextSource)
         {
-            _readOnlySource = readOnlyTextSource;
-            _source = null;
+            _prefetchedSource = readOnlyTextSource;
+            _stringBuilderSource = null;
         }
 
         /// <summary>
         /// Gets the full text buffer.
         /// </summary>
-        public String Text => _source?.Text ?? _readOnlySource.Text;
+        public String Text => _stringBuilderSource?.Text ?? _prefetchedSource.Text;
 
         /// <summary>
         /// Gets the length of the text buffer.
         /// </summary>
-        public Int32 Length => _source?.Length ?? _readOnlySource.Length;
+        public Int32 Length => _stringBuilderSource?.Length ?? _prefetchedSource.Length;
 
         /// <summary>
         /// Gets or sets the encoding to use.
         /// </summary>
         public Encoding CurrentEncoding
         {
-            get => _source?.CurrentEncoding ?? _readOnlySource.CurrentEncoding;
+            get => _stringBuilderSource?.CurrentEncoding ?? _prefetchedSource.CurrentEncoding;
             set
             {
-                if (_source != null)
+                if (_stringBuilderSource != null)
                 {
-                    _source.CurrentEncoding = value;
+                    _stringBuilderSource.CurrentEncoding = value;
                 }
 
-                if (_readOnlySource != null)
+                if (_prefetchedSource != null)
                 {
-                    _readOnlySource.CurrentEncoding = value;
+                    _prefetchedSource.CurrentEncoding = value;
                 }
             }
         }
@@ -85,16 +85,16 @@ namespace AngleSharp.Text
         /// </summary>
         public Int32 Index
         {
-            get => _source?.Index ?? _readOnlySource.Index;
+            get => _stringBuilderSource?.Index ?? _prefetchedSource.Index;
             set
             {
-                if (_source != null)
+                if (_stringBuilderSource != null)
                 {
-                    _source.Index = value;
+                    _stringBuilderSource.Index = value;
                 }
                 else
                 {
-                    _readOnlySource.Index = value;
+                    _prefetchedSource.Index = value;
                 }
             }
         }
@@ -104,7 +104,7 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="index">The index of the character.</param>
         /// <returns>The character.</returns>
-        public Char this[Int32 index] => _source?[index] ?? _readOnlySource[index];
+        public Char this[Int32 index] => _stringBuilderSource?[index] ?? _prefetchedSource[index];
 
         /// <summary>
         /// Reads the next character from the buffer or underlying stream, if
@@ -113,7 +113,7 @@ namespace AngleSharp.Text
         /// <returns>The next character.</returns>
         public Char ReadCharacter()
         {
-            return _source?.ReadCharacter() ?? _readOnlySource.ReadCharacter();
+            return _stringBuilderSource?.ReadCharacter() ?? _prefetchedSource.ReadCharacter();
         }
 
         /// <summary>
@@ -124,13 +124,13 @@ namespace AngleSharp.Text
         /// <returns>The string with the next characters.</returns>
         public String ReadCharacters(Int32 characters)
         {
-            return _source?.ReadCharacters(characters) ?? _readOnlySource.ReadCharacters(characters);
+            return _stringBuilderSource?.ReadCharacters(characters) ?? _prefetchedSource.ReadCharacters(characters);
         }
 
         /// <inheritdoc/>
         public StringOrMemory ReadMemory(Int32 characters)
         {
-            return _source?.ReadMemory(characters) ?? _readOnlySource.ReadMemory(characters);
+            return _stringBuilderSource?.ReadMemory(characters) ?? _prefetchedSource.ReadMemory(characters);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace AngleSharp.Text
         /// <returns>The awaitable task.</returns>
         public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken)
         {
-            return _source?.PrefetchAsync(length, cancellationToken) ?? _readOnlySource.PrefetchAsync(length, cancellationToken);
+            return _stringBuilderSource?.PrefetchAsync(length, cancellationToken) ?? _prefetchedSource.PrefetchAsync(length, cancellationToken);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace AngleSharp.Text
         /// <returns>The awaitable task.</returns>
         public Task PrefetchAllAsync(CancellationToken cancellationToken)
         {
-            return _source?.PrefetchAllAsync(cancellationToken) ?? _readOnlySource.PrefetchAllAsync(cancellationToken);
+            return _stringBuilderSource?.PrefetchAllAsync(cancellationToken) ?? _prefetchedSource.PrefetchAllAsync(cancellationToken);
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace AngleSharp.Text
         /// <returns>True if length is available</returns>
         public Boolean TryGetContentLength(out Int32 length)
         {
-            return _source?.TryGetContentLength(out length) ?? _readOnlySource.TryGetContentLength(out length);
+            return _stringBuilderSource?.TryGetContentLength(out length) ?? _prefetchedSource.TryGetContentLength(out length);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace AngleSharp.Text
         /// <param name="content">The content to insert.</param>
         public void InsertText(String content)
         {
-            _source?.InsertText(content);
+            _stringBuilderSource?.InsertText(content);
         }
 
         /// <summary>
@@ -179,8 +179,13 @@ namespace AngleSharp.Text
         /// </summary>
         public void Dispose()
         {
-            _source?.Dispose();
-            _readOnlySource?.Dispose();
+            _stringBuilderSource?.Dispose();
+            _prefetchedSource?.Dispose();
+        }
+
+        internal IReadOnlyTextSource GetReal()
+        {
+            return (IReadOnlyTextSource)_prefetchedSource ?? _stringBuilderSource;
         }
     }
 }

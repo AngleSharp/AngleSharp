@@ -67,7 +67,7 @@ internal sealed class HtmlDomConstructionFactory : IHtmlElementConstructionFacto
     public Element CreateUnknown(Document document, StringOrMemory tagName) =>
         new HtmlUnknownElement(document, tagName.ToString());
 
-    public Document CreateDocument(IReadOnlyTextSource source, IBrowsingContext? context = null) =>
+    public Document CreateDocument(TextSource source, IBrowsingContext? context = null) =>
         new HtmlDocument(context, source);
 
     public IConstructableNode CreateDocumentType(

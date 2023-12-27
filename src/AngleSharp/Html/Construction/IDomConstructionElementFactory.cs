@@ -108,5 +108,5 @@ public interface IDomConstructionElementFactory<TDocument, TElement>
     /// </summary>
     /// <param name="source">Source of the document</param>
     /// <param name="context">Optional browsing context</param>
-    TDocument CreateDocument(IReadOnlyTextSource source, IBrowsingContext? context = null);
+    TDocument CreateDocument(TextSource source, IBrowsingContext? context = null);
 }

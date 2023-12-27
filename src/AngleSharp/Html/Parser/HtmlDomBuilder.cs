@@ -140,30 +140,32 @@ namespace AngleSharp.Html.Parser
         public TDocument Parse(HtmlParserOptions options, TokenizerMiddleware? middleware = null)
         {
             SetOptions(options);
-            middleware ??= static (ref StructHtmlToken token, TokenConsumer next) =>
-            {
-                next(ref token);
-                return Result.Continue;
-            };
 
             do
             {
                 ref var token = ref _tokenizer.GetStructToken();
-
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
                     Consume(ref token);
                     break;
                 }
 
-                var result = middleware(ref token, _consumeAsDelegate);
-
-                if (result == Result.Stop)
+                if (middleware == null)
                 {
-                    var EOF = StructHtmlToken.EndOfFile(default);
-                    Consume(ref EOF);
-                    break;
+                    Consume(ref token);
                 }
+                else
+                {
+                    var result = middleware(ref token, _consumeAsDelegate);
+
+                    if (result == Result.Stop)
+                    {
+                        var EOF = StructHtmlToken.EndOfFile(default);
+                        Consume(ref EOF);
+                        break;
+                    }
+                }
+
             } while (!_ended);
 
             return _document;
