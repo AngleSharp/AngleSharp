@@ -1951,7 +1951,7 @@ namespace AngleSharp.Html.Parser
 
                         if (c == Symbols.Equality)
                         {
-                            var attributeName = FlushBufferFast(HtmlAttributesLookup.TryGetWellKnownTagName);
+                            var attributeName = FlushBufferFast(HtmlAttributesLookup.TryGetWellKnownAttributeName);
                             attributeAllowed = _shouldEmitAttribute(ref tag, attributeName.Memory);
                             if (attributeAllowed)
                             {
@@ -1961,7 +1961,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c == Symbols.GreaterThan)
                         {
-                            var attributeName = FlushBufferFast(HtmlAttributesLookup.TryGetWellKnownTagName);
+                            var attributeName = FlushBufferFast(HtmlAttributesLookup.TryGetWellKnownAttributeName);
                             attributeAllowed = _shouldEmitAttribute(ref tag, attributeName.Memory);
                             if (attributeAllowed)
                             {
@@ -1972,7 +1972,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c.IsSpaceCharacter())
                         {
-                            var attributeName = FlushBufferFast(HtmlAttributesLookup.TryGetWellKnownTagName);
+                            var attributeName = FlushBufferFast(HtmlAttributesLookup.TryGetWellKnownAttributeName);
                             attributeAllowed = _shouldEmitAttribute(ref tag, attributeName.Memory);
                             if (attributeAllowed)
                             {
@@ -1982,7 +1982,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c == Symbols.Solidus)
                         {
-                            var attributeName = FlushBufferFast(HtmlAttributesLookup.TryGetWellKnownTagName);
+                            var attributeName = FlushBufferFast(HtmlAttributesLookup.TryGetWellKnownAttributeName);
                             attributeAllowed = _shouldEmitAttribute(ref tag, attributeName.Memory);
                             if (attributeAllowed)
                             {

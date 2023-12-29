@@ -181,7 +181,7 @@ static class HtmlAttributesLookup
     private static readonly Int32 MaxLength =
         WellKnownAttributeNames.Keys.Select(x => x.Length).Max();
 
-    public static String? TryGetWellKnownTagName(ICharBuffer builder)
+    public static String? TryGetWellKnownAttributeName(ICharBuffer builder)
     {
         var buffer = ArrayPool<Char>.Shared.Rent(MaxLength);
         try
