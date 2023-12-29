@@ -666,9 +666,9 @@ namespace AngleSharp.Dom
 
         #region Construction
 
-        StringOrMemory IConstructableElement.LocalName => LocalName;
+        StringOrMemory IConstructableElement.LocalName => _localName;
 
-        IConstructableNamedNodeMap IConstructableElement.Attributes => Attributes;
+        IConstructableNamedNodeMap IConstructableElement.Attributes => _attributes;
 
         StringOrMemory IConstructableElement.NamespaceUri => NamespaceUri ?? "";
 
@@ -701,20 +701,11 @@ namespace AngleSharp.Dom
             }
         }
 
-        void IConstructableElement.SetupElement()
-        {
-            SetupElement();
-        }
+        void IConstructableElement.SetupElement() => SetupElement();
 
-        void IConstructableElement.AddComment(ref StructHtmlToken token)
-        {
-            this.AddComment(ref token);
-        }
+        void IConstructableElement.AddComment(ref StructHtmlToken token) => this.AddComment(ref token);
 
-        IConstructableNode IConstructableElement.ShallowCopy()
-        {
-            return Clone(Owner, false);
-        }
+        IConstructableNode IConstructableElement.ShallowCopy() => Clone(Owner, false);
 
         StringOrMemory IConstructableElement.Prefix => Prefix ?? StringOrMemory.Empty;
 

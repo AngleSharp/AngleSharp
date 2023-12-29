@@ -153,43 +153,32 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
-        /// Parses the read only chunk of chars and returns the result.
+        /// Parses the read array of chars and returns the result.
         /// </summary>
-        public IHtmlDocument ParseDocument(ReadOnlyMemory<Char> source)
+        /// <param name="source">Array of chars to parse.</param>
+        /// <param name="length">Length of array to parse. Or 0 if whole array should be parsed.</param>
+        public IHtmlDocument ParseDocument(Char[] source, Int32 length = 0)
         {
-            var document = CreateDocument(source);
+            var document = CreateDocument(source, length);
             return Parse(document);
         }
 
-        // /// <summary>
-        // /// Parses the read only text source and returns the result.
-        // /// </summary>
-        // public IHtmlDocument ParseDocument(IReadOnlyTextSource source)
-        // {
-        //     var document = CreateDocument(source);
-        //     return Parse(document);
-        // }
+        /// <summary>
+        /// Parses the read only chunk of chars and returns the result.
+        /// </summary>
+        public IHtmlDocument ParseDocument(ReadOnlyMemory<Char> chars)
+        {
+            var document = CreateDocument(chars);
+            return Parse(document);
+        }
 
         /// <summary>
-        /// Parses the read only text source and returns the result.
+        /// Parses text source and returns result.
         /// </summary>
-        /// <param name="chars">Read only chars</param>
-        /// <param name="middleware">Tokenizer middleware</param>
-        /// <typeparam name="TDocument">Type of document to parse into, should implement <see cref="IConstructableDocument"/></typeparam>
-        /// <typeparam name="TElement">Type of element to use for document construction, should implement <see cref="IConstructableElement"/></typeparam>
-        /// <returns>Constructed TDocument instance</returns>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown when no read-only construction factory is found for specified type arguments.
-        /// </exception>
-        /// <remarks>
-        /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
-        /// </remarks>
-        public TDocument ParseDocument<TDocument, TElement>(ReadOnlyMemory<Char> chars, TokenizerMiddleware? middleware = null)
-            where TDocument : class, IConstructableDocument
-            where TElement : class, IConstructableElement
+        public IHtmlDocument ParseDocument(TextSource source)
         {
-            var source = new TextSource(new PrefetchedTextSource(chars));
-            return ParseDocument<TDocument, TElement>(source, middleware);
+            var document = CreateDocument(source);
+            return Parse(document);
         }
 
         /// <summary>
@@ -290,17 +279,23 @@ namespace AngleSharp.Html.Parser
             return CreateDocument(textSource);
         }
 
-        private HtmlDocument CreateDocument(ReadOnlyMemory<Char> source)
-        {
-            var textSource = new PrefetchedTextSource(source);
-            return CreateDocument(new TextSource(textSource));
-        }
-
         private HtmlDocument CreateDocument(Stream source)
         {
             var encoding = _context.GetDefaultEncoding();
             var textSource = new TextSource(source, encoding);
             return CreateDocument(textSource);
+        }
+
+        private HtmlDocument CreateDocument(ReadOnlyMemory<Char> chars)
+        {
+            var textSource = new TextSource(new ReadOnlyMemoryTextSource(chars));
+            return CreateDocument(textSource);
+        }
+
+        private HtmlDocument CreateDocument(Char[] source, Int32 length = 0)
+        {
+            var textSource = new CharArrayTextSource(source, length == 0 ? source.Length : length);
+            return CreateDocument(new TextSource(textSource));
         }
 
         private HtmlDocument CreateDocument(TextSource textSource)

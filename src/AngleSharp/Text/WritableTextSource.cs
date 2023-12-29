@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Common;
 
-internal sealed class StringBuilderTextSource : ITextSource
+internal sealed class WritableTextSource : ITextSource
 {
     #region Fields
 
@@ -31,7 +31,7 @@ internal sealed class StringBuilderTextSource : ITextSource
 
     #region ctor
 
-    private StringBuilderTextSource(Encoding encoding, Boolean allocateBuffers)
+    private WritableTextSource(Encoding encoding, Boolean allocateBuffers)
     {
         if (allocateBuffers)
         {
@@ -49,7 +49,7 @@ internal sealed class StringBuilderTextSource : ITextSource
     /// be used.
     /// </summary>
     /// <param name="source">The data source.</param>
-    public StringBuilderTextSource(String source)
+    public WritableTextSource(String source)
         : this(null, TextEncoding.Utf8)
     {
         _finished = true;
@@ -67,7 +67,7 @@ internal sealed class StringBuilderTextSource : ITextSource
     /// <param name="encoding">
     /// The initial encoding. Otherwise UTF-8.
     /// </param>
-    public StringBuilderTextSource(Stream baseStream, Encoding encoding = null)
+    public WritableTextSource(Stream baseStream, Encoding encoding = null)
         : this(encoding, allocateBuffers: baseStream != null)
     {
         _baseStream = baseStream;

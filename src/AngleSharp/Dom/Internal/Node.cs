@@ -89,6 +89,9 @@ namespace AngleSharp.Dom
         public NodeType NodeType => _type;
 
         /// <inheritdoc />
+        public NodeFlags Flags => _flags;
+
+        /// <inheritdoc />
         public virtual String NodeValue
         {
             get => null!;
@@ -598,6 +601,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public INode ReplaceChild(INode newChild, INode oldChild) => this.ReplaceChild((Node)newChild, (Node)oldChild, false);
 
+
         /// <inheritdoc />
         public INode RemoveChild(INode child) => this.PreRemove(child);
 
@@ -861,7 +865,6 @@ namespace AngleSharp.Dom
             {
                 foreach (var child in _children)
                 {
-
                     if (child is Node node)
                     {
                         var clone = node.Clone(owner, true);
@@ -878,7 +881,7 @@ namespace AngleSharp.Dom
         StringOrMemory IConstructableNode.NodeName => NodeName;
 
         /// <inheritdoc />
-        public NodeFlags Flags => _flags;
+        NodeFlags IConstructableNode.Flags => _flags;
 
         IConstructableNode? IConstructableNode.Parent
         {

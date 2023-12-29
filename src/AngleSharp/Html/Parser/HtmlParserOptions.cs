@@ -104,7 +104,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Gets or set the delegate which determines if an attribute should be emitted.
         /// </summary>
-        public ShouldEmitAttribute ShouldEmitAttribute { get; set; }
+        public ShouldEmitAttribute? ShouldEmitAttribute { get; set; }
 
         /// <summary>
         /// Should the tokenizer skip data text tokens.

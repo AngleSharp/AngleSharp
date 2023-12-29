@@ -1,36 +1,34 @@
-﻿namespace AngleSharp.Text;
+namespace AngleSharp.Text;
 
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Common;
 
 /// <summary>
-/// Represents a fully loaded immutable text source.
+/// Char array based immutable text source
 /// </summary>
-public sealed class PrefetchedTextSource : IReadOnlyTextSource
+public sealed class CharArrayTextSource : IReadOnlyTextSource
 {
     private Int32 _index;
     private String? _content;
+
+    private readonly Char[] _array;
     private readonly ReadOnlyMemory<Char> _memory;
     private readonly Int32 _length;
-
-    #region ctor
 
     /// <summary>
     ///
     /// </summary>
-    /// <param name="memory"></param>
-    public PrefetchedTextSource(ReadOnlyMemory<Char> memory)
+    /// <param name="array"></param>
+    /// <param name="length"></param>
+    public CharArrayTextSource(Char[] array, Int32 length)
     {
-        _memory = memory;
-        _length = memory.Length;
+        _array = array;
+        _length = length;
+        _memory = array.AsMemory(0, length);
     }
-
-    #endregion
 
     #region Properties
 
@@ -39,17 +37,12 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     {
         get
         {
-            return _content ??= _memory.Span.ToString();
+            return _content ??= new String(_array, 0, _length);
         }
     }
 
     /// <ihneritdoc />
-
-    public Char this[Int32 index]
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => _memory.Span[index];
-    }
+    public Char this[Int32 index] => _array[index];
 
     /// <ihneritdoc />
     public Int32 Length => _length;
@@ -86,7 +79,7 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     {
         if (_index < _length)
         {
-            return ReplaceEof(this[_index++]);
+            return _array[_index++];
         }
 
         _index += 1;
@@ -136,7 +129,4 @@ public sealed class PrefetchedTextSource : IReadOnlyTextSource
     }
 
     #endregion
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static Char ReplaceEof(Char c) => c == Symbols.EndOfFile ? (Char)0xFFFD : c;
 }

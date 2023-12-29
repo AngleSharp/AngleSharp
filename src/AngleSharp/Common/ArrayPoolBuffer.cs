@@ -25,13 +25,7 @@ internal sealed class ArrayPoolBuffer : IMutableCharBuffer
         _buffer = ArrayPool<Char>.Shared.Rent(length);
     }
 
-    public IMutableCharBuffer Append(Char c)
-    {
-        AppendFast(c);
-        return this;
-    }
-
-    internal void AppendFast(Char c)
+    public void Append(Char c)
     {
         _buffer[_start + _idx] = c;
         _idx++;
@@ -60,14 +54,6 @@ internal sealed class ArrayPoolBuffer : IMutableCharBuffer
         var source = _buffer.AsSpan(_start + startIndex + length, length);
         var destination = _buffer.AsSpan(_start + startIndex, length);
         source.CopyTo(destination);
-
-        // Array.Copy(
-        //     sourceArray: _buffer,
-        //     sourceIndex: _start + startIndex + length,
-        //     destinationArray: _buffer,
-        //     destinationIndex: _start + startIndex,
-        //     length: length);
-
         _idx -= length;
         return this;
     }
@@ -118,6 +104,18 @@ internal sealed class ArrayPoolBuffer : IMutableCharBuffer
     }
 
     public Char this[Int32 i] => _buffer[_start + i];
+
+    public ReadOnlyMemory<Char>? TryCopyTo(Char[] buffer)
+    {
+        var data = GetData();
+        if (data.Length > buffer.Length)
+        {
+            return null;
+        }
+
+        data.Memory.Span.CopyTo(buffer);
+        return buffer.AsMemory(0, data.Length);
+    }
 
     private StringOrMemory GetData() => new(_buffer.AsMemory(_start, Length));
 

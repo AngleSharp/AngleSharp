@@ -508,12 +508,6 @@ namespace AngleSharp.Dom
             _statusCode = HttpStatusCode.OK;
         }
 
-        /// <inheritdoc />
-        public Document(IBrowsingContext context, PrefetchedTextSource source)
-            : this(context, new TextSource(source))
-        {
-        }
-
         #endregion
 
         #region Properties

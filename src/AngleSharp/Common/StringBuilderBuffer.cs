@@ -13,10 +13,9 @@ internal sealed class StringBuilderBuffer : IMutableCharBuffer
     private Boolean _disposed = false;
     internal StringBuilder _sb = StringBuilderPool.Obtain();
 
-    public IMutableCharBuffer Append(Char c)
+    public void Append(Char c)
     {
         _sb.Append(c);
-        return this;
     }
 
     public void Discard()
@@ -69,6 +68,17 @@ internal sealed class StringBuilderBuffer : IMutableCharBuffer
     }
 
     public Char this[Int32 i] => _sb[i];
+
+    public ReadOnlyMemory<Char>? TryCopyTo(Char[] buffer)
+    {
+        if (_sb.Length > buffer.Length)
+        {
+            return null;
+        }
+
+        _sb.CopyTo(0, buffer, 0, _sb.Length);
+        return buffer.AsMemory(0, _sb.Length);
+    }
 
     private StringOrMemory GetData()
     {

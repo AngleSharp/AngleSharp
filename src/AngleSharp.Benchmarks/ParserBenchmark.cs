@@ -14,6 +14,8 @@ using HtmlAgilityPack;
 
 namespace AngleSharp.Benchmarks
 {
+    using System;
+
     [MemoryDiagnoser, GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams), ShortRunJob]
     public class ParserBenchmark
     {
@@ -107,9 +109,9 @@ namespace AngleSharp.Benchmarks
         }
 
         [Benchmark]
-        public void AngleSharpPrefetched()
+        public void ArrayPool()
         {
-            using var _ = angleSharpParser.ParseDocument(new PrefetchedTextSource(UrlTest.Source));
+            using var _ = angleSharpParser.ParseDocument(UrlTest.Source.AsMemory());
         }
     }
 }

@@ -13,14 +13,21 @@ namespace AngleSharp.Common
         #region Fields
 
         private readonly Stack<UInt16> _columns;
+
         private readonly IReadOnlyTextSource _source;
+        private readonly WritableTextSource? _wts;
+        private readonly CharArrayTextSource? _cats;
+
+        private StringBuilder _stringBuilder;
+        private IMutableCharBuffer _charBuffer;
+        private readonly ArrayPoolBuffer? _apb;
+        private readonly StringBuilderBuffer? _sbb;
 
         private UInt16 _column;
         private UInt16 _row;
         private Char _current;
-        private StringBuilder _stringBuilder;
-        private IMutableCharBuffer _charBuffer;
         private Boolean _normalized;
+        private Boolean _disableElementPositionTracking;
 
         #endregion
 
@@ -36,14 +43,24 @@ namespace AngleSharp.Common
 
             if (source.TryGetContentLength(out var length))
             {
-                _charBuffer = new ArrayPoolBuffer(length);
+                _charBuffer = _apb = new ArrayPoolBuffer(length);
             }
             else
             {
-                _charBuffer = new StringBuilderBuffer();
+                _charBuffer = _sbb = new StringBuilderBuffer();
             }
 
-            _source = source.GetReal();
+            _source = source.GetUnderlyingTextSource();
+
+            if (_source is WritableTextSource wts)
+            {
+                _wts = wts;
+            }
+            else if (_source is CharArrayTextSource cats)
+            {
+                _cats = cats;
+            }
+
             _current = Symbols.Null;
             _column = 0;
             _row = 1;
@@ -106,7 +123,11 @@ namespace AngleSharp.Common
         /// <summary>
         ///
         /// </summary>
-        public Boolean DisableElementPositionTracking { get; set; }
+        public Boolean DisableElementPositionTracking
+        {
+            get => _disableElementPositionTracking;
+            set => _disableElementPositionTracking = value;
+        }
 
         #endregion
 
@@ -127,18 +148,21 @@ namespace AngleSharp.Common
         /// Flushes the buffer. Will return the reference to the memory without creating a new string if possible.
         /// </summary>
         /// <returns></returns>
-        public StringOrMemory FlushBufferFast() => FlushBufferFast(null);
-
-        internal StringOrMemory FlushBufferFast(Func<IMutableCharBuffer, String?>? stringResolver)
+        internal StringOrMemory FlushBufferFast()
         {
-            var resolved = stringResolver?.Invoke(CharBuffer);
+            return _charBuffer.GetDataAndClear();
+        }
+
+        internal StringOrMemory FlushBufferFast(Func<IMutableCharBuffer, String?> stringResolver)
+        {
+            var resolved = stringResolver(CharBuffer);
             if (resolved != null)
             {
-                CharBuffer.Discard();
+                _charBuffer.Discard();
                 return new StringOrMemory(resolved);
             }
 
-            return CharBuffer.GetDataAndClear();
+            return _charBuffer.GetDataAndClear();
         }
 
         /// <summary>
@@ -149,15 +173,14 @@ namespace AngleSharp.Common
             var isDisposed = _charBuffer is null;
             if (!isDisposed)
             {
-                var disposable = _source as IDisposable;
-                disposable?.Dispose();
+                _source.Dispose();
 
                 _stringBuilder.Clear();
                 _stringBuilder.ReturnToPool();
                 _stringBuilder = null!;
 
                 _charBuffer!.Discard();
-                _charBuffer.ReturnToPool();
+                _charBuffer.Dispose();
                 _charBuffer = null!;
             }
         }
@@ -311,65 +334,55 @@ namespace AngleSharp.Common
         /// </summary>
         private protected void Append(Char c)
         {
-            switch (_charBuffer)
+            if (_sbb != null)
             {
-                case StringBuilderBuffer sb:
-                    sb._sb.Append(c);
-                    break;
-                case ArrayPoolBuffer ap:
-                    ap.AppendFast(c);
-                    break;
-                default:
-                    _charBuffer.Append(c);
-                    break;
+                _sbb._sb.Append(c);
+            }
+            else
+            {
+                _apb!.Append(c);
             }
         }
 
         private protected void Append(Char a, Char b)
         {
-            switch (_charBuffer)
+            if (_sbb != null)
             {
-                case StringBuilderBuffer sb:
-                    sb._sb.Append(a).Append(b);
-                    break;
-                case ArrayPoolBuffer ap:
-                    ap.Append(stackalloc Char[] { a, b });
-                    break;
-                default:
-                    _charBuffer.Append(stackalloc Char[] { a, b });
-                    break;
+                _sbb._sb.Append(a).Append(b);
+            }
+            else
+            {
+                _apb!.Append(a);
+                _apb!.Append(b);
             }
         }
 
         private protected void Append(Char a, Char b, Char c)
         {
-            switch (_charBuffer)
+            if (_sbb != null)
             {
-                case StringBuilderBuffer sb:
-                    sb._sb.Append(a).Append(b).Append(c);
-                    break;
-                case ArrayPoolBuffer ap:
-                    ap.Append(stackalloc Char[] { a, b, c });
-                    break;
-                default:
-                    _charBuffer.Append(stackalloc Char[] { a, b, c });
-                    break;
+                _sbb._sb.Append(a).Append(b).Append(c);
+            }
+            else
+            {
+                _apb!.Append(a);
+                _apb!.Append(b);
+                _apb!.Append(c);
             }
         }
 
         private protected void Append(Char a, Char b, Char c, Char d)
         {
-            switch (_charBuffer)
+            if (_sbb != null)
             {
-                case StringBuilderBuffer sb:
-                    sb._sb.Append(a).Append(b).Append(c).Append(d);
-                    break;
-                case ArrayPoolBuffer ap:
-                    ap.Append(stackalloc Char[] { a, b, c, d });
-                    break;
-                default:
-                    _charBuffer.Append(stackalloc Char[] { a, b, c, d });
-                    break;
+                _sbb._sb.Append(a).Append(b).Append(c).Append(d);
+            }
+            else
+            {
+                _apb!.Append(a);
+                _apb!.Append(b);
+                _apb!.Append(c);
+                _apb!.Append(d);
             }
         }
 
@@ -379,7 +392,12 @@ namespace AngleSharp.Common
 
         private void AdvanceUnsafe()
         {
-            if (!DisableElementPositionTracking)
+            if (!_disableElementPositionTracking) Track();
+
+            var c = ReadCharFromSource();
+            _current = NormalizeForward(c);
+
+            void Track()
             {
                 if (_current == Symbols.LineFeed)
                 {
@@ -392,9 +410,6 @@ namespace AngleSharp.Common
                     _column++;
                 }
             }
-
-            var c = _source.ReadCharacter();
-            _current = NormalizeForward(c);
         }
 
         private void BackUnsafe()
@@ -411,7 +426,7 @@ namespace AngleSharp.Common
             var c = NormalizeBackward(_source[_source.Index - 1]);
             _current = c;
 
-            if (!DisableElementPositionTracking)
+            if (!_disableElementPositionTracking)
             {
                 if (c == Symbols.LineFeed)
                 {
@@ -432,7 +447,7 @@ namespace AngleSharp.Common
                 _normalized = false;
                 return p;
             }
-            else if (_source.ReadCharacter() != Symbols.LineFeed)
+            else if (ReadCharFromSource() != Symbols.LineFeed)
             {
                 _source.Index--;
             }
@@ -462,6 +477,21 @@ namespace AngleSharp.Common
                 _normalized = true;
                 return Symbols.LineFeed;
             }
+        }
+
+        private Char ReadCharFromSource()
+        {
+            if (_wts != null)
+            {
+                return _wts.ReadCharacter();
+            }
+
+            if (_cats != null)
+            {
+                return _cats.ReadCharacter();
+            }
+
+            return _source.ReadCharacter();
         }
 
         #endregion

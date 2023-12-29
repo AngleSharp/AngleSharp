@@ -387,10 +387,8 @@ namespace AngleSharp.Html.Parser
             _tokenizer.SkipRCDataText = options.SkipRCDataText;
             _tokenizer.SkipCDATA = options.SkipCDATA;
             _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
-            _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute ??
-                                             (static (ref StructHtmlToken _, ReadOnlyMemory<Char> asd) => true);
+            _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute!;
             _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
-
             _options = options;
         }
 

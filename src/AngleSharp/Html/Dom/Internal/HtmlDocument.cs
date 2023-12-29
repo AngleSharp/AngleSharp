@@ -31,15 +31,6 @@ namespace AngleSharp.Html.Dom
             _svgFactory = Context.GetFactory<IElementFactory<Document, SvgElement>>();
         }
 
-        internal HtmlDocument(IBrowsingContext? context, PrefetchedTextSource source)
-            : base(context ?? BrowsingContext.New(), source)
-        {
-            ContentType = MimeTypeNames.Html;
-            _htmlFactory = Context.GetFactory<IElementFactory<Document, HtmlElement>>();
-            _mathFactory = Context.GetFactory<IElementFactory<Document, MathElement>>();
-            _svgFactory = Context.GetFactory<IElementFactory<Document, SvgElement>>();
-        }
-
         internal HtmlDocument(IBrowsingContext? context = null)
             : this(context, new TextSource(String.Empty))
         {

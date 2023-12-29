@@ -14,8 +14,8 @@ namespace AngleSharp.Text
     /// </summary>
     public sealed class TextSource : ITextSource
     {
-        private readonly StringBuilderTextSource _stringBuilderSource;
-        private readonly PrefetchedTextSource _prefetchedSource;
+        private readonly WritableTextSource _writableSource;
+        private readonly IReadOnlyTextSource _readOnlyTextSource;
 
         /// <summary>
         /// Creates a new text source from a string. No underlying stream will
@@ -24,12 +24,12 @@ namespace AngleSharp.Text
         /// <param name="source">The data source.</param>
         public TextSource(String source)
         {
-            _prefetchedSource = null;
-            _stringBuilderSource = new StringBuilderTextSource(source);
+            _writableSource = new WritableTextSource(source);
+            _readOnlyTextSource = _writableSource;
         }
 
         /// <summary>
-        /// Creates a new text source from a string. The underlying stream is
+        /// Creates a new text source from a stream. The underlying stream is
         /// used as an unknown data source.
         /// </summary>
         /// <param name="baseStream">
@@ -40,42 +40,58 @@ namespace AngleSharp.Text
         /// </param>
         public TextSource(Stream baseStream, Encoding encoding = null)
         {
-            _prefetchedSource = null;
-            _stringBuilderSource = new StringBuilderTextSource(baseStream, encoding);
+            _writableSource = new WritableTextSource(baseStream, encoding);
+            _readOnlyTextSource = _writableSource;
         }
 
-        internal TextSource(PrefetchedTextSource readOnlyTextSource)
+        /// <summary>
+        /// Creates a new immutable text source from a <see cref="ReadOnlyMemoryTextSource"/>. No underlying stream will be used
+        /// </summary>
+        public TextSource(ReadOnlyMemoryTextSource source)
         {
-            _prefetchedSource = readOnlyTextSource;
-            _stringBuilderSource = null;
+            _writableSource = null;
+            _readOnlyTextSource = source;
+        }
+
+        /// <summary>
+        /// Creates a new immutable text source from a <see cref="CharArrayTextSource"/>. No underlying stream will be used
+        /// </summary>
+        public TextSource(CharArrayTextSource source)
+        {
+            _writableSource = null;
+            _readOnlyTextSource = source;
+        }
+
+        /// <summary>
+        /// Creates a new immutable text source from a <see cref="StringTextSource"/>. No underlying stream will be used
+        /// </summary>
+        public TextSource(StringTextSource source)
+        {
+            _writableSource = null;
+            _readOnlyTextSource = source;
         }
 
         /// <summary>
         /// Gets the full text buffer.
         /// </summary>
-        public String Text => _stringBuilderSource?.Text ?? _prefetchedSource.Text;
+        public String Text => _readOnlyTextSource.Text;
 
         /// <summary>
         /// Gets the length of the text buffer.
         /// </summary>
-        public Int32 Length => _stringBuilderSource?.Length ?? _prefetchedSource.Length;
+        public Int32 Length => _readOnlyTextSource.Length;
 
         /// <summary>
         /// Gets or sets the encoding to use.
         /// </summary>
         public Encoding CurrentEncoding
         {
-            get => _stringBuilderSource?.CurrentEncoding ?? _prefetchedSource.CurrentEncoding;
+            get => _readOnlyTextSource.CurrentEncoding;
             set
             {
-                if (_stringBuilderSource != null)
+                if (_writableSource != null)
                 {
-                    _stringBuilderSource.CurrentEncoding = value;
-                }
-
-                if (_prefetchedSource != null)
-                {
-                    _prefetchedSource.CurrentEncoding = value;
+                    _writableSource.CurrentEncoding = value;
                 }
             }
         }
@@ -85,18 +101,8 @@ namespace AngleSharp.Text
         /// </summary>
         public Int32 Index
         {
-            get => _stringBuilderSource?.Index ?? _prefetchedSource.Index;
-            set
-            {
-                if (_stringBuilderSource != null)
-                {
-                    _stringBuilderSource.Index = value;
-                }
-                else
-                {
-                    _prefetchedSource.Index = value;
-                }
-            }
+            get => _readOnlyTextSource.Index;
+            set => _readOnlyTextSource.Index = value;
         }
 
         /// <summary>
@@ -104,7 +110,7 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="index">The index of the character.</param>
         /// <returns>The character.</returns>
-        public Char this[Int32 index] => _stringBuilderSource?[index] ?? _prefetchedSource[index];
+        public Char this[Int32 index] => _readOnlyTextSource[index];
 
         /// <summary>
         /// Reads the next character from the buffer or underlying stream, if
@@ -113,7 +119,7 @@ namespace AngleSharp.Text
         /// <returns>The next character.</returns>
         public Char ReadCharacter()
         {
-            return _stringBuilderSource?.ReadCharacter() ?? _prefetchedSource.ReadCharacter();
+            return _readOnlyTextSource.ReadCharacter();
         }
 
         /// <summary>
@@ -124,13 +130,13 @@ namespace AngleSharp.Text
         /// <returns>The string with the next characters.</returns>
         public String ReadCharacters(Int32 characters)
         {
-            return _stringBuilderSource?.ReadCharacters(characters) ?? _prefetchedSource.ReadCharacters(characters);
+            return _readOnlyTextSource.ReadCharacters(characters);
         }
 
         /// <inheritdoc/>
         public StringOrMemory ReadMemory(Int32 characters)
         {
-            return _stringBuilderSource?.ReadMemory(characters) ?? _prefetchedSource.ReadMemory(characters);
+            return _readOnlyTextSource.ReadMemory(characters);
         }
 
         /// <summary>
@@ -141,7 +147,7 @@ namespace AngleSharp.Text
         /// <returns>The awaitable task.</returns>
         public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken)
         {
-            return _stringBuilderSource?.PrefetchAsync(length, cancellationToken) ?? _prefetchedSource.PrefetchAsync(length, cancellationToken);
+            return _readOnlyTextSource.PrefetchAsync(length, cancellationToken);
         }
 
         /// <summary>
@@ -151,7 +157,7 @@ namespace AngleSharp.Text
         /// <returns>The awaitable task.</returns>
         public Task PrefetchAllAsync(CancellationToken cancellationToken)
         {
-            return _stringBuilderSource?.PrefetchAllAsync(cancellationToken) ?? _prefetchedSource.PrefetchAllAsync(cancellationToken);
+            return _readOnlyTextSource.PrefetchAllAsync(cancellationToken);
         }
 
         /// <summary>
@@ -161,7 +167,7 @@ namespace AngleSharp.Text
         /// <returns>True if length is available</returns>
         public Boolean TryGetContentLength(out Int32 length)
         {
-            return _stringBuilderSource?.TryGetContentLength(out length) ?? _prefetchedSource.TryGetContentLength(out length);
+            return _readOnlyTextSource.TryGetContentLength(out length);
         }
 
         /// <summary>
@@ -171,7 +177,12 @@ namespace AngleSharp.Text
         /// <param name="content">The content to insert.</param>
         public void InsertText(String content)
         {
-            _stringBuilderSource?.InsertText(content);
+            if (_writableSource == null)
+            {
+                throw new InvalidOperationException("Cannot insert text into a read-only text source.");
+            }
+
+            _writableSource.InsertText(content);
         }
 
         /// <summary>
@@ -179,13 +190,16 @@ namespace AngleSharp.Text
         /// </summary>
         public void Dispose()
         {
-            _stringBuilderSource?.Dispose();
-            _prefetchedSource?.Dispose();
+            _readOnlyTextSource.Dispose();
         }
 
-        internal IReadOnlyTextSource GetReal()
+        /// <summary>
+        /// Gets underlying text source.
+        /// </summary>
+        /// <returns></returns>
+        public IReadOnlyTextSource GetUnderlyingTextSource()
         {
-            return (IReadOnlyTextSource)_prefetchedSource ?? _stringBuilderSource;
+            return _readOnlyTextSource;
         }
     }
 }

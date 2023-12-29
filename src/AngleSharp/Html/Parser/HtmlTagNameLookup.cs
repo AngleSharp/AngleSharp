@@ -2,17 +2,10 @@ namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using System;
-    using System.Text;
     using Common;
 
     static class HtmlTagNameLookup
     {
-        public static String? TryGetWellKnownTagName(StringBuilder builder)
-        {
-            var adapter = new StringBuilderAdapter(builder);
-            return TryGetWellKnownTagName(adapter);
-        }
-
         public static String? TryGetWellKnownTagName(ICharBuffer builder)
         {
             switch (builder.Length)
@@ -571,14 +564,6 @@ namespace AngleSharp.Html.Parser
             }
 
             return true;
-        }
-
-        private readonly struct StringBuilderAdapter : ICharBuffer
-        {
-            private readonly StringBuilder _sb;
-            public StringBuilderAdapter(StringBuilder sb) => _sb = sb;
-            public Int32 Length => _sb.Length;
-            public Char this[Int32 i] => _sb[i];
         }
     }
 }

@@ -16,6 +16,11 @@ public interface ICharBuffer
     /// Returns the character at the given index.
     /// </summary>
     Char this[Int32 i] { get; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    ReadOnlyMemory<Char>? TryCopyTo(Char[] buffer);
 }
 
 /// <summary>
@@ -26,7 +31,7 @@ internal interface IMutableCharBuffer : ICharBuffer, IDisposable
     /// <summary>
     /// Appends the given character to the buffer.
     /// </summary>
-    IMutableCharBuffer Append(Char c);
+    void Append(Char c);
 
     /// <summary>
     /// Clears the buffer.
