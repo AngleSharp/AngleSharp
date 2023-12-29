@@ -4,23 +4,16 @@ namespace AngleSharp.Html
     using System;
     using System.Collections.Generic;
     using Common;
-#if NET8_0_OR_GREATER
-    using System.Collections.Frozen;
-#else
     using System.Linq;
-#endif
+
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
     public sealed class HtmlEntityProvider : IEntityProvider, IReverseEntityProvider, IEntityProviderExtended
     {
         #region Fields
-#if NET8_0_OR_GREATER
-        private readonly FrozenDictionary<Char, FrozenDictionary<StringOrMemory, String>> _entities;
-#else
-        private readonly Dictionary<Char, Dictionary<StringOrMemory, String>> _entities;
-#endif
 
+        private readonly Dictionary<Char, Dictionary<StringOrMemory, String>> _entities;
 
         #endregion
 
@@ -105,16 +98,6 @@ namespace AngleSharp.Html
                 { 'Z', GetSymbolBigZ() },
             };
 
-#if NET8_0_OR_GREATER
-            _entities = entities
-                .ToFrozenDictionary(
-                    k => k.Key,
-                    v => v.Value.ToFrozenDictionary(
-                        k => new StringOrMemory(k.Key),
-                        v => v.Value,
-                        OrdinalStringOrMemoryComparer.Instance)
-                );
-#else
             _entities = entities
                 .ToDictionary(
                     k => k.Key,
@@ -123,7 +106,7 @@ namespace AngleSharp.Html
                         v => v.Value,
                         OrdinalStringOrMemoryComparer.Instance)
                 );
-#endif
+
         }
 
         #endregion
