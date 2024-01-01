@@ -20,7 +20,7 @@ namespace AngleSharp.Html.Parser
     /// <summary>
     /// Token consumption result
     /// </summary>
-    public enum Result
+    public enum TokenConsumptionResult
     {
         /// <summary>
         /// Tokenization should continue.
@@ -41,7 +41,7 @@ namespace AngleSharp.Html.Parser
     /// <summary>
     /// Represents the callback that is invoked when a token is consumed.
     /// </summary>
-    public delegate Result TokenizerMiddleware(ref StructHtmlToken token, TokenConsumer next);
+    public delegate TokenConsumptionResult TokenizerMiddleware(ref StructHtmlToken token, TokenConsumer next);
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
@@ -56,6 +56,7 @@ namespace AngleSharp.Html.Parser
         private TextPosition _position;
         private StructHtmlToken _token;
         private ShouldEmitAttribute _shouldEmitAttribute = static Boolean (ref StructHtmlToken _, AttributeName _) => true;
+        private Char[]? _characterReferenceBuffer;
 
         #endregion
 
@@ -714,8 +715,8 @@ namespace AngleSharp.Html.Parser
         {
             var entity = default(String);
             var start = InsertionPoint - 1;
-            using var lease = ArrayPool<Char>.Shared.Borrow(32);
-            Memory<Char> reference = lease.Data.AsMemory(0, 32);
+            _characterReferenceBuffer ??= new Char[32];
+
             var index = 0;
             var chr = Current;
 
@@ -726,23 +727,20 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                reference.Span[index++] = chr;
+                _characterReferenceBuffer[index++] = chr;
                 chr = GetNext();
             }
             while (chr != Symbols.EndOfFile && index < 31);
 
             if (chr == Symbols.Semicolon)
             {
-                reference.Span[index] = Symbols.Semicolon;
-                var value = reference.Slice(0, index + 1);
-                entity = _resolver.GetSymbol(new StringOrMemory(value));
+                _characterReferenceBuffer[index] = Symbols.Semicolon;
+                entity = _resolver.GetSymbol(new StringOrMemory(_characterReferenceBuffer.AsMemory(0, index + 1)));
             }
 
             while (entity is null && index > 0)
             {
-                var value = reference.Slice(0, index--);
-                entity = _resolver.GetSymbol(new StringOrMemory(value));
-
+                entity = _resolver.GetSymbol(new StringOrMemory(_characterReferenceBuffer.AsMemory(0, index--)));
                 if (entity is null)
                 {
                     Back();

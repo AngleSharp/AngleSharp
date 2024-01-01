@@ -158,7 +158,7 @@ namespace AngleSharp.Html.Parser
                 {
                     var result = middleware(ref token, _consumeAsDelegate);
 
-                    if (result == Result.Stop)
+                    if (result == TokenConsumptionResult.Stop)
                     {
                         var EOF = StructHtmlToken.EndOfFile(default);
                         Consume(ref EOF);
@@ -185,7 +185,7 @@ namespace AngleSharp.Html.Parser
             middleware ??= static (ref StructHtmlToken token, TokenConsumer next) =>
             {
                 next(ref token);
-                return Result.Continue;
+                return TokenConsumptionResult.Continue;
             };
 
             do
@@ -223,7 +223,7 @@ namespace AngleSharp.Html.Parser
                     return true;
                 }
                 var result = middleware(ref token, _consumeAsDelegate);
-                if (result == Result.Stop)
+                if (result == TokenConsumptionResult.Stop)
                 {
                     var EOF = StructHtmlToken.EndOfFile(default);
                     Consume(ref EOF);

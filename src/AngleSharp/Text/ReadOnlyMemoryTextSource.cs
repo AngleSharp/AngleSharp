@@ -62,7 +62,7 @@ public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
     /// <ihneritdoc />
     public Encoding CurrentEncoding
     {
-        get => Encoding.Default;
+        get => TextEncoding.Utf8;
         set { }
     }
 
