@@ -1,3 +1,9 @@
+# 1.1.0
+
+Released on ?
+
+- tbd
+
 # 1.0.7
 
 Released on Friday, November 17 2023
