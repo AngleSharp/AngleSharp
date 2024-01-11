@@ -193,7 +193,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingOneCookiesInOneRequestAppearsInDocument()
         {
-            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
                 var url = "https://httpbingo.org/cookies/set?k1=v1";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
@@ -207,7 +207,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingTwoCookiesInOneRequestAppearsInDocument()
         {
-            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
                 var url = "https://httpbingo.org/cookies/set?k2=v2&k1=v1";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
@@ -222,7 +222,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingThreeCookiesInOneRequestAppearsInDocument()
         {
-            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
                 var url = "https://httpbingo.org/cookies/set?test=baz&k2=v2&k1=v1&foo=bar";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
@@ -237,7 +237,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingThreeCookiesInOneRequestAreTransportedToNextRequest()
         {
-            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
                 var baseUrl = "https://httpbingo.org/cookies";
                 var url = baseUrl + "/set?test=baz&k2=v2&k1=v1&foo=bar";
@@ -261,7 +261,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public async Task SettingCookieIsPreservedViaRedirect()
         {
-            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0"))
+            if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
                 var cookieUrl = "https://httpbingo.org/cookies/set?test=baz";
                 var redirectUrl = "https://httpbingo.org/redirect-to?url=https%3A%2F%2Fhttpbingo.org%2Fcookies";
@@ -414,7 +414,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void NoOriginShouldNotDeliverAnyCookie_Issue702()
         {
-            if (Helper.IsFramework(".NET 6.0", ".NET 7.0"))
+            if (Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
                 var mcp = new MemoryCookieProvider();
                 var url = new Url("");

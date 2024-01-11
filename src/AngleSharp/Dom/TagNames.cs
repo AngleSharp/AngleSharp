@@ -2,6 +2,9 @@ namespace AngleSharp.Dom
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using Common;
+    using Html;
 
     /// <summary>
     /// The collection of (known / used) tags.
@@ -780,177 +783,177 @@ namespace AngleSharp.Dom
 
         #region Combinations
 
-        internal static readonly HashSet<String> AllForeignExceptions = new()
+        internal static readonly HashSet<StringOrMemory> AllForeignExceptions = new (OrdinalStringOrMemoryComparer.Instance)
         {
-            B, Big, BlockQuote, Body, Br, Center, Code, Dd, Div, Dl, Dt, Em, Embed, Head, 
-            Hr, I, Img, Li, Ul, H3, H2, H4, H1, H6, H5, Listing, Menu, Meta, NoBr, Ol, P, 
+            B, Big, BlockQuote, Body, Br, Center, Code, Dd, Div, Dl, Dt, Em, Embed, Head,
+            Hr, I, Img, Li, Ul, H3, H2, H4, H1, H6, H5, Listing, Menu, Meta, NoBr, Ol, P,
             Pre, Ruby, S, Small, Span, Strike, Strong, Sub, Sup, Table, Tt, U, Var
         };
 
-        internal static readonly HashSet<String> AllBeforeHead = new ()
+        internal static readonly HashSet<StringOrMemory> AllBeforeHead = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Html, Body, Br, Head
         };
 
-        internal static readonly HashSet<String> AllNoShadowRoot = new ()
+        internal static readonly HashSet<StringOrMemory> AllNoShadowRoot = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Button, Details, Input, Marquee, Meter, Progress, Select, Textarea, Keygen
         };
 
-        internal static readonly HashSet<String> AllHead = new ()
+        internal static readonly HashSet<StringOrMemory> AllHead = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Style, Link, Meta, Title, NoFrames, Template, Base, BaseFont, Bgsound
         };
 
-        internal static readonly HashSet<String> AllHeadNoTemplate = new ()
+        internal static readonly HashSet<StringOrMemory> AllHeadNoTemplate = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Link, Meta, Script, Style, Title, Base, BaseFont, Bgsound, NoFrames
         };
 
-        internal static readonly HashSet<String> AllHeadBase = new ()
+        internal static readonly HashSet<StringOrMemory> AllHeadBase = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Link, Base, BaseFont, Bgsound
         };
 
-        internal static readonly HashSet<String> AllBodyBreakrow = new ()
+        internal static readonly HashSet<StringOrMemory> AllBodyBreakrow = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Br, Area, Embed, Keygen, Wbr
         };
 
-        internal static readonly HashSet<String> AllBodyClosed = new ()
+        internal static readonly HashSet<StringOrMemory> AllBodyClosed = new (OrdinalStringOrMemoryComparer.Instance)
         {
             MenuItem, Param, Source, Track
         };
 
-        internal static readonly HashSet<String> AllNoScript = new ()
+        internal static readonly HashSet<StringOrMemory> AllNoScript = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Style, Link, BaseFont, Meta, NoFrames, Bgsound
         };
 
-        internal static readonly HashSet<String> AllHeadings = new ()
+        internal static readonly HashSet<StringOrMemory> AllHeadings = new (OrdinalStringOrMemoryComparer.Instance)
         {
             H3, H2, H4, H1, H6, H5
         };
 
-        internal static readonly HashSet<String> AllBlocks = new ()
+        internal static readonly HashSet<StringOrMemory> AllBlocks = new (OrdinalStringOrMemoryComparer.Instance)
         {
-            Ol, Ul, Dl, Fieldset, Button, Figcaption, Figure, Article, Aside, BlockQuote, 
-            Center, Address, Dialog, Dir, Summary, Details, Listing, Footer, Header, Nav, 
+            Ol, Ul, Dl, Fieldset, Button, Figcaption, Figure, Article, Aside, BlockQuote,
+            Center, Address, Dialog, Dir, Summary, Details, Listing, Footer, Header, Nav,
             Section, Menu, Hgroup, Main, Pre
         };
 
-        internal static readonly HashSet<String> AllBody = new ()
+        internal static readonly HashSet<StringOrMemory> AllBody = new (OrdinalStringOrMemoryComparer.Instance)
         {
-            Ol, Dl, Fieldset, Figcaption, Figure, Article, Aside, BlockQuote, Center, Address, 
+            Ol, Dl, Fieldset, Figcaption, Figure, Article, Aside, BlockQuote, Center, Address,
             Dialog, Dir, Summary, Details, Main, Footer, Header, Nav, Section, Menu, Hgroup
         };
 
-        internal static readonly HashSet<String> AllBodyObsolete = new ()
+        internal static readonly HashSet<StringOrMemory> AllBodyObsolete = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Applet, Marquee, Object
         };
 
-        internal static readonly HashSet<String> AllInput = new ()
+        internal static readonly HashSet<StringOrMemory> AllInput = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Input, Keygen, Textarea
         };
 
-        internal static readonly HashSet<String> AllBasicBlocks = new ()
+        internal static readonly HashSet<StringOrMemory> AllBasicBlocks = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Address, Div, P
         };
 
-        internal static readonly HashSet<String> AllSemanticFormatting = new ()
+        internal static readonly HashSet<StringOrMemory> AllSemanticFormatting = new (OrdinalStringOrMemoryComparer.Instance)
         {
             B, Strong, Code, Em, U, I
         };
 
-        internal static readonly HashSet<String> AllClassicFormatting = new ()
+        internal static readonly HashSet<StringOrMemory> AllClassicFormatting = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Font, S, Small, Strike, Big, Tt
         };
 
-        internal static readonly HashSet<String> AllFormatting = new ()
+        internal static readonly HashSet<StringOrMemory> AllFormatting = new (OrdinalStringOrMemoryComparer.Instance)
         {
             B, Strong, Code, Em, U, I, NoBr, Font, S, Small, Strike, Big, Tt
         };
 
-        internal static readonly HashSet<String> AllNested = new ()
+        internal static readonly HashSet<StringOrMemory> AllNested = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Tbody, Td, Tfoot, Th, Thead, Tr, Caption, Col, Colgroup, Frame, Head
         };
 
-        internal static readonly HashSet<String> AllCaptionEnd = new()
+        internal static readonly HashSet<StringOrMemory> AllCaptionEnd = new(OrdinalStringOrMemoryComparer.Instance)
         {
             Tbody, Col, Tfoot, Td, Thead, Caption, Th, Colgroup, Tr
         };
 
-        internal static readonly HashSet<String> AllCaptionStart = new ()
+        internal static readonly HashSet<StringOrMemory> AllCaptionStart = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Tbody, Col, Tfoot, Td, Thead, Tr, Body, Th, Colgroup, Html
         };
 
-        internal static readonly HashSet<String> AllTable = new ()
+        internal static readonly HashSet<StringOrMemory> AllTable = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Tbody, Col, Tfoot, Td, Thead, Tr
         };
 
-        internal static readonly HashSet<String> AllTableRoot = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableRoot = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Caption, Colgroup, Tbody, Tfoot, Thead
         };
 
-        internal static readonly HashSet<String> AllTableGeneral = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableGeneral = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Caption, Colgroup, Col, Tbody, Tfoot, Thead
         };
 
-        internal static readonly HashSet<String> AllTableSections = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableSections = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Tbody, Tfoot, Thead
         };
 
-        internal static readonly HashSet<String> AllTableMajor = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableMajor = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Tbody, Tfoot, Thead, Table, Tr
         };
 
-        internal static readonly HashSet<String> AllTableSpecial = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableSpecial = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Td, Th,  Body, Caption, Col, Colgroup, Html
         };
 
-        internal static readonly HashSet<String> AllTableCore = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableCore = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Tr, Table, Tbody, Tfoot, Thead
         };
 
-        internal static readonly HashSet<String> AllTableInner = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableInner = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Tbody, Tr, Thead, Th, Tfoot, Td
         };
 
-        internal static readonly HashSet<String> AllTableSelects = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableSelects = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Tr, Table, Tbody, Tfoot, Thead, Td, Th, Caption
         };
 
-        internal static readonly HashSet<String> AllTableCells = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableCells = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Td, Th
         };
 
-        internal static readonly HashSet<String> AllTableCellsRows = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableCellsRows = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Tr, Td, Th
         };
 
-        internal static readonly HashSet<String> AllTableHead = new ()
+        internal static readonly HashSet<StringOrMemory> AllTableHead = new (OrdinalStringOrMemoryComparer.Instance)
         {
             Script, Style, Template
         };
 
-        internal static readonly HashSet<String> DisallowedCustomElementNames = new ()
+        internal static readonly HashSet<StringOrMemory> DisallowedCustomElementNames = new (OrdinalStringOrMemoryComparer.Instance)
         {
             "annotation-xml",
             "color-profile",
@@ -961,7 +964,7 @@ namespace AngleSharp.Dom
             "font-face-name",
             "missing-glyph"
         };
-
+        
         #endregion
     }
 }

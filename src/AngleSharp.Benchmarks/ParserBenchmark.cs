@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AngleSharp.Html.Parser;
+using AngleSharp.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 
@@ -13,6 +14,8 @@ using HtmlAgilityPack;
 
 namespace AngleSharp.Benchmarks
 {
+    using System;
+
     [MemoryDiagnoser, GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams), ShortRunJob]
     public class ParserBenchmark
     {
@@ -103,6 +106,12 @@ namespace AngleSharp.Benchmarks
         public void AngleSharp()
         {
             angleSharpParser.ParseDocument(UrlTest.Source);
+        }
+
+        [Benchmark]
+        public void ArrayPool()
+        {
+            using var _ = angleSharpParser.ParseDocument(UrlTest.Source.AsMemory());
         }
     }
 }

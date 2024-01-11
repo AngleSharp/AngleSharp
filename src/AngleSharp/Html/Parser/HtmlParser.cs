@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-
 namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
@@ -11,6 +9,8 @@ namespace AngleSharp.Html.Parser
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Construction;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Creates an instance of the HTML parser front-end.
@@ -153,6 +153,70 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses the read array of chars and returns the result.
+        /// </summary>
+        /// <param name="source">Array of chars to parse.</param>
+        /// <param name="length">Length of array to parse. Or 0 if whole array should be parsed.</param>
+        public IHtmlDocument ParseDocument(Char[] source, Int32 length = 0)
+        {
+            var document = CreateDocument(source, length);
+            return Parse(document);
+        }
+
+        /// <summary>
+        /// Parses the read only chunk of chars and returns the result.
+        /// </summary>
+        public IHtmlDocument ParseDocument(ReadOnlyMemory<Char> chars)
+        {
+            var document = CreateDocument(chars);
+            return Parse(document);
+        }
+
+        /// <summary>
+        /// Parses text source and returns result.
+        /// </summary>
+        public IHtmlDocument ParseDocument(TextSource source)
+        {
+            var document = CreateDocument(source);
+            return Parse(document);
+        }
+
+        /// <summary>
+        /// Parses the read only text source and returns the result.
+        /// </summary>
+        /// <param name="source">Read only text source.</param>
+        /// <param name="middleware">Tokenizer middleware</param>
+        /// <typeparam name="TDocument">Type of document to parse into, should implement <see cref="IConstructableDocument"/></typeparam>
+        /// <typeparam name="TElement">Type of element to use for document construction, should implement <see cref="IConstructableElement"/></typeparam>
+        /// <returns>Constructed TDocument instance</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when no read-only construction factory is found for specified type arguments.
+        /// </exception>
+        /// <remarks>
+        /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
+        /// </remarks>
+        public TDocument ParseDocument<TDocument, TElement>(TextSource source, TokenizerMiddleware? middleware = null)
+             where TDocument : class, IConstructableDocument
+             where TElement : class, IConstructableElement
+        {
+            var factory = _context.GetService<IDomConstructionElementFactory<TDocument, TElement>>()
+                          ?? throw new InvalidOperationException("No read-only construction factory found.");
+
+            TDocument document = factory.CreateDocument(source, _context);
+
+            var builder = new HtmlDomBuilder<TDocument, TElement>(factory, document);
+
+            if (HasEventListener(EventNames.Error))
+            {
+                builder.Error += (_, ev) => InvokeEventListener(ev);
+            }
+
+            builder.Parse(_options, middleware);
+
+            return document;
+        }
+
+        /// <summary>
         /// Parses the stream and returns the head.
         /// </summary>
         public IHtmlHeadElement? ParseHead(Stream source)
@@ -222,6 +286,18 @@ namespace AngleSharp.Html.Parser
             return CreateDocument(textSource);
         }
 
+        private HtmlDocument CreateDocument(ReadOnlyMemory<Char> chars)
+        {
+            var textSource = new TextSource(new ReadOnlyMemoryTextSource(chars));
+            return CreateDocument(textSource);
+        }
+
+        private HtmlDocument CreateDocument(Char[] source, Int32 length = 0)
+        {
+            var textSource = new CharArrayTextSource(source, length == 0 ? source.Length : length);
+            return CreateDocument(new TextSource(textSource));
+        }
+
         private HtmlDocument CreateDocument(TextSource textSource)
         {
             var document = new HtmlDocument(_context, textSource);
@@ -230,13 +306,13 @@ namespace AngleSharp.Html.Parser
 
         private HtmlDomBuilder CreateBuilder(HtmlDocument document, String? stopAt)
         {
-            var parser = new HtmlDomBuilder(document, stopAt);
-
+            var options = new HtmlTokenizerOptions(_options);
+            var factory = _context.GetService<IHtmlElementConstructionFactory>() ?? HtmlDomConstructionFactory.Instance;
+            var parser = new HtmlDomBuilder(factory, document, options, stopAt);
             if (HasEventListener(EventNames.Error))
             {
                 parser.Error += (_, ev) => InvokeEventListener(ev);
             }
-
             return parser;
         }
 
@@ -253,7 +329,7 @@ namespace AngleSharp.Html.Parser
         {
             var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
-            await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            await parser.ParseAsync(_options, null, cancel).ConfigureAwait(false);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
@@ -269,7 +345,7 @@ namespace AngleSharp.Html.Parser
 
         private INodeList ParseFragment(HtmlDocument document, IElement contextElement)
         {
-            var parser = new HtmlDomBuilder(document);
+            var parser = new HtmlDomBuilder(HtmlDomConstructionFactory.Instance, document);
 
             if (contextElement is Element element)
             {

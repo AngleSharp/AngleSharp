@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Text
 {
     using System;
+    using Common;
 
     /// <summary>
     /// Useful helpers for the XML parser.
@@ -31,10 +32,10 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsXmlNameStart(this Char c)
         {
-            return c.IsLetter() || c == Symbols.Colon || c == Symbols.Underscore || c.IsInRange(0xC0, 0xD6) || 
-                   c.IsInRange(0xD8, 0xF6) || c.IsInRange(0xF8, 0x2FF) || c.IsInRange(0x370, 0x37D) || c.IsInRange(0x37F, 0x1FFF) || 
-                   c.IsInRange(0x200C, 0x200D) || c.IsInRange(0x2070, 0x218F) || c.IsInRange(0x2C00, 0x2FEF) || 
-                   c.IsInRange(0x3001, 0xD7FF) || c.IsInRange(0xF900, 0xFDCF) || c.IsInRange(0xFDF0, 0xFFFD) || 
+            return c.IsLetter() || c == Symbols.Colon || c == Symbols.Underscore || c.IsInRange(0xC0, 0xD6) ||
+                   c.IsInRange(0xD8, 0xF6) || c.IsInRange(0xF8, 0x2FF) || c.IsInRange(0x370, 0x37D) || c.IsInRange(0x37F, 0x1FFF) ||
+                   c.IsInRange(0x200C, 0x200D) || c.IsInRange(0x2070, 0x218F) || c.IsInRange(0x2C00, 0x2FEF) ||
+                   c.IsInRange(0x3001, 0xD7FF) || c.IsInRange(0xF900, 0xFDCF) || c.IsInRange(0xFDF0, 0xFFFD) ||
                    c.IsInRange(0x10000, 0xEFFFF);
         }
 
@@ -56,6 +57,16 @@
         /// <param name="str">The string to examine.</param>
         /// <returns>The result of the test.</returns>
         public static Boolean IsXmlName(this String str)
+        {
+            return IsXmlName(new StringOrMemory(str));
+        }
+
+        /// <summary>
+        /// Determines if the given string is a valid (local or qualified) name.
+        /// </summary>
+        /// <param name="str">The string to examine.</param>
+        /// <returns>The result of the test.</returns>
+        public static Boolean IsXmlName(this StringOrMemory str)
         {
             if (str.Length > 0 && str[0].IsXmlNameStart())
             {
@@ -80,7 +91,17 @@
         /// <returns>The result of the test.</returns>
         public static Boolean IsQualifiedName(this String str)
         {
-            var colon = str.IndexOf(Symbols.Colon);
+            return IsQualifiedName(new StringOrMemory(str));
+        }
+
+        /// <summary>
+        /// Determines if the given string is a valid qualified name.
+        /// </summary>
+        /// <param name="str">The string to examine.</param>
+        /// <returns>The result of the test.</returns>
+        public static Boolean IsQualifiedName(this StringOrMemory str)
+        {
+            var colon = str.Memory.Span.IndexOf(Symbols.Colon);
 
             if (colon == -1)
             {
@@ -134,7 +155,7 @@
         /// <returns>True if the integer would indeed be valid.</returns>
         public static Boolean IsValidAsCharRef(this Int32 chr)
         {
-            return  chr == 0x9 || chr == 0xA || chr == 0xD || (chr >= 0x20 && chr <= 0xD7FF) || 
+            return  chr == 0x9 || chr == 0xA || chr == 0xD || (chr >= 0x20 && chr <= 0xD7FF) ||
                     (chr >= 0xE000 && chr <= 0xFFFD) || (chr >= 0x10000 && chr <= 0x10FFFF);
         }
     }

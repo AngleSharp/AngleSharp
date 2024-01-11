@@ -184,7 +184,7 @@ namespace AngleSharp.Dom
         IHtmlCollection<IElement> GetElementsByTagName(String? namespaceUri, String tagName);
 
         /// <summary>
-        /// Creates an event of the type specified. 
+        /// Creates an event of the type specified.
         /// </summary>
         /// <param name="type">
         /// Represents the type of event (e.g., uievent, event, customevent,

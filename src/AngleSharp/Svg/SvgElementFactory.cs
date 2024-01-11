@@ -21,6 +21,8 @@ namespace AngleSharp.Svg
             { TagNames.Title, (document, prefix) => new SvgTitleElement(document, prefix) },
         };
 
+        internal static readonly SvgElementFactory Instance = new();
+
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
         /// </summary>

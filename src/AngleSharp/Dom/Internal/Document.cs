@@ -15,11 +15,14 @@ namespace AngleSharp.Dom
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
+    using Html.Construction;
+    using Html.Parser;
+    using Html.Parser.Tokens.Struct;
 
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    public abstract class Document : Node, IDocument
+    public abstract class Document : Node, IDocument, IConstructableDocument
     {
         #region Fields
 
@@ -55,9 +58,7 @@ namespace AngleSharp.Dom
         private HtmlCollection<IElement>? _links;
         private IStyleSheetList? _styleSheets;
         private HttpStatusCode _statusCode;
-
         private HashSet<Uri>? _importedUris;
-
 
         #endregion
 
@@ -512,7 +513,7 @@ namespace AngleSharp.Dom
         #region Properties
 
         /// <inheritdoc />
-        public TextSource Source => _source;
+        public TextSource Source => (_source ?? _source as TextSource)!;
 
         /// <inheritdoc />
         public abstract IEntityProvider Entities
@@ -881,7 +882,7 @@ namespace AngleSharp.Dom
         public void Clear() => ReplaceAll(null, true);
 
         /// <inheritdoc />
-        public void Dispose()
+        public virtual void Dispose()
         {
             //Important to fix #45
             Clear();
@@ -889,6 +890,7 @@ namespace AngleSharp.Dom
             _loadingScripts.Clear();
             _source.Dispose();
             _view?.Dispose();
+            ((IConstructableDocument)this).Builder?.Dispose();
         }
 
         /// <inheritdoc />
@@ -1002,7 +1004,10 @@ namespace AngleSharp.Dom
             }
             else
             {
-                _source.InsertText(content);
+                if (_source is ITextSource wts)
+                {
+                    wts.InsertText(content);
+                }
             }
         }
 
@@ -1585,5 +1590,61 @@ namespace AngleSharp.Dom
             return _importedUris?.Contains(uri) ?? false;
         }
 #endregion
+
+        #region Construction
+
+        TextSource IConstructableDocument.Source => _source;
+
+        IDisposable? IConstructableDocument.Builder { get; set; }
+
+        QuirksMode IConstructableDocument.QuirksMode
+        {
+            get => QuirksMode;
+            set => QuirksMode = value;
+        }
+
+        IConstructableElement? IConstructableDocument.Head => DocumentElement.FindChild<HtmlHeadElement>();
+
+        IConstructableElement IConstructableDocument.DocumentElement => this.FindChild<HtmlHtmlElement>()!;
+
+        void IConstructableDocument.PerformMicrotaskCheckpoint()
+        {
+            this.PerformMicrotaskCheckpoint();
+        }
+
+        void IConstructableDocument.ProvideStableState()
+        {
+            this.ProvideStableState();
+        }
+
+        void IConstructableDocument.AddComment(ref StructHtmlToken token)
+        {
+            HtmlDomBuilderExtensions.AddComment(this, ref token);
+        }
+
+        void IConstructableDocument.TrackError(Exception exception)
+        {
+            Context.TrackError(exception);
+        }
+
+        Task IConstructableDocument.WaitForReadyAsync(CancellationToken cancelToken)
+        {
+            return this.WaitForReadyAsync();
+        }
+
+        void IConstructableDocument.ApplyManifest()
+        {
+            this.ApplyManifest();
+        }
+
+        Boolean IConstructableDocument.IsLoading => IsLoading;
+
+        Task IConstructableDocument.FinishLoadingAsync()
+        {
+            return this.FinishLoadingAsync();
+        }
+
+        #endregion
+
     }
 }

@@ -3,11 +3,12 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Browser;
     using AngleSharp.Dom;
     using System;
+    using Construction;
 
     /// <summary>
     /// Represents the HTML meta element.
     /// </summary>
-    sealed class HtmlMetaElement : HtmlElement, IHtmlMetaElement
+    sealed class HtmlMetaElement : HtmlElement, IHtmlMetaElement, IConstructableMetaElement
     {
         #region ctor
 
