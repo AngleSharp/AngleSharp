@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Css
+namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -6247,11 +6247,9 @@ This div should have three addresses above it.</div>";
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector2 = doc.QuerySelectorAll("foo & address, p");
-                Assert.AreEqual(0, selector2.Length);
-            });
+            // With nested selectors this now works
+            var selector2 = doc.QuerySelectorAll("foo & address, p");
+            Assert.AreEqual(1, selector2.Length);
         }
 
         /// <summary>
@@ -6263,11 +6261,9 @@ This div should have three addresses above it.</div>";
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
 	        var doc = source.ToHtmlDocument();
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector1 = doc.QuerySelectorAll("foo & address, p");
-                Assert.AreEqual(0, selector1.Length);
-            });
+            // With nested selectors this now works
+            var selector1 = doc.QuerySelectorAll("foo & address, p");
+            Assert.AreEqual(1, selector1.Length);
 
             var selector2 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector2.Length);
@@ -6282,11 +6278,9 @@ This div should have three addresses above it.</div>";
 	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">This line should have a green background.</p>";
 	        var doc = source.ToHtmlDocument();
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector1 = doc.QuerySelectorAll("foo & address, p");
-                Assert.AreEqual(0, selector1.Length);
-            });
+            // With nested selectors this now works
+            var selector1 = doc.QuerySelectorAll("foo & address, p");
+            Assert.AreEqual(1, selector1.Length);
 
             var selector2 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector2.Length);

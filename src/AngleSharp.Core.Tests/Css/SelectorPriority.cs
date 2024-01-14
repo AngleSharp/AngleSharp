@@ -55,5 +55,62 @@ namespace AngleSharp.Core.Tests.Css
 
             Assert.AreEqual(new Priority(0, 1, 0, 0), subSelector.Specificity);
         }
+
+        [Test]
+        public void IsSelectorMatchesInside()
+        {
+            var selectorText = $@":is(article, section, aside) h1";
+            var source = @"<section><div><h1>Foo</h1></div></section><p><h1>Other</h1></p>";
+            var doc = source.ToHtmlDocument();
+
+            var result = doc.QuerySelectorAll(selectorText);
+            Assert.AreEqual(1, result.Length);
+
+            Assert.AreEqual("div", result[0].ParentElement.LocalName);
+        }
+
+        [Test]
+        public void NotSelectorWhenNotMatchesInside()
+        {
+            var selectorText = $@":not(article, section, aside) h1";
+            var source = @"<section><div><h1>Foo</h1></div></section><p><h1>Other</h1></p>";
+            var doc = source.ToHtmlDocument();
+
+            var result = doc.QuerySelectorAll(selectorText);
+            Assert.AreEqual(2, result.Length);
+        }
+
+        [Test]
+        public void HasSelectorWithFollowUpWorks()
+        {
+            var selectorText = $@"h1:has(+ p)";
+            var source = @"<h1>Foo</h1><p>Text</p><h1>Other</h1>";
+            var doc = source.ToHtmlDocument();
+
+            var result = doc.QuerySelectorAll(selectorText);
+            Assert.AreEqual(1, result.Length);
+
+            Assert.AreEqual("Foo", result[0].TextContent);
+        }
+
+        [Test]
+        public void WhereHasZeroSpecificity()
+        {
+            var source = @"<h3 id='target'>Test</h3>";
+            var doc = source.ToHtmlDocument();
+            var selector = doc.Context.GetService<ICssSelectorParser>().ParseSelector(":where(h1)");
+
+            Assert.AreEqual(new Priority(0, 0, 0, 0), selector.Specificity);
+        }
+
+        [Test]
+        public void NestedSelectorRepresentsScopingRoot()
+        {
+            var source = @"<h3 id='target'>Test</h3>";
+            var doc = source.ToHtmlDocument();
+            var selector = doc.Context.GetService<ICssSelectorParser>().ParseSelector("&");
+
+            Assert.AreEqual(new Priority(0, 0, 1, 0), selector.Specificity);
+        }
     }
 }

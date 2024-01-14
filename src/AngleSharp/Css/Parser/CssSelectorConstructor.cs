@@ -530,6 +530,11 @@ namespace AngleSharp.Css.Parser
                     _ready = false;
                     break;
 
+                case Symbols.Ampersand:
+                    Insert(new NestedSelector(_pseudoClassSelector.Create(PseudoClassNames.Root) ?? AllSelector.Instance));
+                    _ready = true;
+                    break;
+
                 default:
                     _valid = false;
                     break;
