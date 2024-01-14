@@ -38,5 +38,17 @@ namespace AngleSharp.Css.Dom
 
             return String.Concat(parts);
         }
+
+        protected override Priority ComputeSpecificity()
+        {
+            var sum = new Priority();
+
+            for (var i = 0; i < _selectors.Count; i++)
+            {
+                sum += _selectors[i].Specificity;
+            }
+
+            return sum;
+        }
     }
 }

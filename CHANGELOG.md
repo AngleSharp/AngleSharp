@@ -2,7 +2,9 @@
 
 Released on ?
 
-- tbd
+- Fixed priority calculations for selector lists (#1161)
+- Added option for read only DOM (#1154) @dv00d00
+- Added more optimizations to reduce allocation rate (#1159) @dv00d00
 
 # 1.0.7
 

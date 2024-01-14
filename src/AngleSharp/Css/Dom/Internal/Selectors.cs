@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css.Dom
+namespace AngleSharp.Css.Dom
 {
     using System;
     using System.Collections;
@@ -27,20 +27,7 @@
 
         #region Properties
 
-        public Priority Specificity
-        {
-            get
-            {
-                var sum = new Priority();
-
-                for (var i = 0; i < _selectors.Count; i++)
-                {
-                    sum += _selectors[i].Specificity;
-                }
-
-                return sum;
-            }
-        }
+        public Priority Specificity => ComputeSpecificity();
 
         public String Text => Stringify();
 
@@ -55,6 +42,8 @@
         #endregion
 
         #region Methods
+
+        protected abstract Priority ComputeSpecificity();
 
         protected abstract String Stringify();
 
