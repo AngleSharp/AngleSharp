@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents a group of selectors, i.e., zero or more selectors separated
@@ -29,7 +30,7 @@ namespace AngleSharp.Css.Dom
 
         public ISelector? GetMatchingSelector(IElement element, IElement? scope = null)
         {
-            foreach (var selector in _selectors)
+            foreach (var selector in _selectors.OrderByDescending(m => m.Specificity))
             {
                 if (selector.Match(element, scope))
                 {
