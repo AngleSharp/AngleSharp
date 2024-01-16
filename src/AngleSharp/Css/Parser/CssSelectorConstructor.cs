@@ -531,7 +531,11 @@ namespace AngleSharp.Css.Parser
                     break;
 
                 case Symbols.Ampersand:
-                    Insert(new NestedSelector(_pseudoClassSelector.Create(PseudoClassNames.Root) ?? AllSelector.Instance));
+                    // The basic idea here is to also progressively support
+                    // AngleSharp.Css without requiring AngleSharp.Css to use 1.1.0
+                    // of AngleSharp; instead this architecture also works (without
+                    // nested support) for AngleSharp.Css with AngleSharp 1.0.0.
+                    Insert(_pseudoClassSelector.Create("&") ?? NestedSelector.Instance);
                     _ready = true;
                     break;
 

@@ -3,23 +3,20 @@ namespace AngleSharp.Css.Dom
     using AngleSharp.Dom;
     using System;
 
-    sealed class NestedSelector : INestedSelector
+    sealed class NestedSelector : ISelector
     {
-        private ISelector _parent;
+        public static readonly ISelector Instance = new NestedSelector();
 
-        public NestedSelector(ISelector parent)
+        private NestedSelector()
         {
-            _parent = parent;
         }
 
-        public ISelector ParentSelector { get => _parent; set => _parent = value; }
-
-        public Priority Specificity => _parent?.Specificity ?? Priority.Zero;
+        public Priority Specificity => Priority.OneClass;
 
         public String Text => "&";
 
         public void Accept(ISelectorVisitor visitor) => visitor.Type(Text);
 
-        public Boolean Match(IElement element, IElement? scope) => _parent?.Match(element, scope) ?? false;
+        public Boolean Match(IElement element, IElement? scope) => element.Owner!.DocumentElement == element;
     }
 }
