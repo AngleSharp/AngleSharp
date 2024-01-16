@@ -8,7 +8,7 @@ namespace AngleSharp.Io
     /// </summary>
     static class PortNumbers
     {
-        private static readonly Dictionary<String, String> Ports = new Dictionary<String, String>
+        private static readonly Dictionary<String, String> Ports = new()
         {
             { ProtocolNames.Http, "80" },
             { ProtocolNames.Https, "443" },

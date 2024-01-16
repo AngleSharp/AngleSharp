@@ -189,7 +189,7 @@ namespace AngleSharp.Common
         /// Gets the current text position in the source.
         /// </summary>
         /// <returns>The (row, col) position.</returns>
-        public TextPosition GetCurrentPosition() => new TextPosition(_row, _column, Position);
+        public TextPosition GetCurrentPosition() => new(_row, _column, Position);
 
         /// <summary>
         /// Checks if the source continues with the given string.

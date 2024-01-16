@@ -36,7 +36,7 @@ namespace AngleSharp.Io
 
         #region Map File extensions to Mime types
 
-        private static readonly Dictionary<String, String> Extensions = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, String> Extensions = new(StringComparer.OrdinalIgnoreCase)
         {
             { ".3dm", "x-world/x-3dmf" },
             { ".3dmf", "x-world/x-3dmf" },

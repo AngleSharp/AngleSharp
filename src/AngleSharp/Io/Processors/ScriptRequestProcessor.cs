@@ -137,7 +137,7 @@ namespace AngleSharp.Io.Processors
 
         #region Helpers
 
-        private ScriptOptions CreateOptions() => new ScriptOptions(_document, _document.Loop!)
+        private ScriptOptions CreateOptions() => new(_document, _document.Loop!)
         {
             Element = _script,
             Encoding = TextEncoding.Resolve(_script.CharacterSet)

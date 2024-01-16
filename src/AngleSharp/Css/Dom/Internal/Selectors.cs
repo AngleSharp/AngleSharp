@@ -20,7 +20,7 @@ namespace AngleSharp.Css.Dom
 
         public Selectors()
         {
-            _selectors = new List<ISelector>();
+            _selectors = [];
         }
 
         #endregion

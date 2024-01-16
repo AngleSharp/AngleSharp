@@ -26,7 +26,7 @@ namespace AngleSharp.Dom
         /// Creates a new instance.
         /// </summary>
         [DomConstructor]
-        public UrlSearchParams() => _values = new();
+        public UrlSearchParams() => _values = [];
 
         internal UrlSearchParams(Url parent) : this(parent.Query ?? String.Empty)
         {

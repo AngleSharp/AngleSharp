@@ -8,7 +8,7 @@ namespace AngleSharp.Html.InputTypes
     {
         #region Fields
 
-        static readonly Regex hexColorPattern = new Regex("^\\#[0-9A-Fa-f]{6}$", RegexOptions.Compiled);
+        static readonly Regex hexColorPattern = new("^\\#[0-9A-Fa-f]{6}$", RegexOptions.Compiled);
 
         #endregion
 

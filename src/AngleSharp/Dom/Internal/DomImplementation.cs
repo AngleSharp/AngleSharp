@@ -13,7 +13,7 @@ namespace AngleSharp.Dom
     {
         #region Features
 
-        static readonly Dictionary<String, String[]> features = new Dictionary<String, String[]>(StringComparer.OrdinalIgnoreCase)
+        static readonly Dictionary<String, String[]> features = new(StringComparer.OrdinalIgnoreCase)
         {
             { "XML", new[] { "1.0", "2.0" } },
             { "HTML", new[] { "1.0", "2.0" } },

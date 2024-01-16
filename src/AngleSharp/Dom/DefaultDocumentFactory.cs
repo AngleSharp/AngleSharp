@@ -13,7 +13,7 @@ namespace AngleSharp.Dom
     /// </summary>
     public class DefaultDocumentFactory : IDocumentFactory
     {
-        private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>
+        private readonly Dictionary<String, Creator> _creators = new()
         {
             { MimeTypeNames.Html, LoadHtmlAsync },
             { MimeTypeNames.ApplicationXHtml, LoadHtmlAsync },

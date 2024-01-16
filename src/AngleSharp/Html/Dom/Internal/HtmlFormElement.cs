@@ -52,7 +52,7 @@ namespace AngleSharp.Html.Dom
 
         public Int32 Length => Elements.Length;
 
-        public HtmlFormControlsCollection Elements => _elements ?? (_elements = new HtmlFormControlsCollection(this));
+        public HtmlFormControlsCollection Elements => _elements ??= new HtmlFormControlsCollection(this);
 
         IHtmlFormControlsCollection IHtmlFormElement.Elements => Elements;
 

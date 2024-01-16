@@ -26,10 +26,7 @@ namespace AngleSharp.Css.Parser
         /// </summary>
         internal CssSelectorParser(IBrowsingContext? context)
         {
-            if (context is null)
-            {
-                context = BrowsingContext.NewFrom<ICssSelectorParser>(this);
-            }
+            context ??= BrowsingContext.NewFrom<ICssSelectorParser>(this);
 
             _attribute = context.GetFactory<IAttributeSelectorFactory>();
             _pseudoClass = context.GetFactory<IPseudoClassSelectorFactory>();

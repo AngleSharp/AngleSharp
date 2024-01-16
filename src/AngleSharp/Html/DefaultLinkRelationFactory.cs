@@ -17,7 +17,7 @@ namespace AngleSharp.Html
         /// <returns>The created link relation provider.</returns>
         public delegate BaseLinkRelation Creator(IHtmlLinkElement link);
 
-        private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> _creators = new(StringComparer.OrdinalIgnoreCase)
         {
             { LinkRelNames.StyleSheet, link => new StyleSheetLinkRelation(link) },
             { LinkRelNames.Import, link => new ImportLinkRelation(link) },

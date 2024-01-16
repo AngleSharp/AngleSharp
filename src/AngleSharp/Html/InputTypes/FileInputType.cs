@@ -17,7 +17,7 @@ namespace AngleSharp.Html.InputTypes
         public FileInputType(IHtmlInputElement input, String name)
             : base(input, name, validate: true)
         {
-            _files = new FileList();
+            _files = [];
         }
 
         #endregion

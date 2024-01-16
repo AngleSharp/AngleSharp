@@ -6,7 +6,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
     sealed class JsonObject : JsonElement
     {
-        private readonly Dictionary<String, JsonElement?> _properties = new Dictionary<String, JsonElement?>();
+        private readonly Dictionary<String, JsonElement?> _properties = [];
 
         public override JsonElement? this[String key]
         {

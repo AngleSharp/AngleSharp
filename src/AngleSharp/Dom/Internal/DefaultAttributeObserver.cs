@@ -18,7 +18,7 @@ namespace AngleSharp.Dom
         /// </summary>
         public DefaultAttributeObserver()
         {
-            _actions = new List<AttributeObserver>();
+            _actions = [];
             RegisterStandardObservers();
         }
 

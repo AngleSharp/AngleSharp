@@ -14,7 +14,7 @@ namespace AngleSharp.Html.Forms.Submitters.Json
 
         public JsonArray()
         {
-            _elements = new List<JsonElement?>(); 
+            _elements = []; 
         }
 
         public JsonArray(int capacity)

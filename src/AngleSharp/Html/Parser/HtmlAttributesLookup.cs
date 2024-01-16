@@ -9,7 +9,7 @@ using Common;
 static class HtmlAttributesLookup
 {
     private static readonly Dictionary<StringOrMemory, String> WellKnownAttributeNames =
-        new Dictionary<StringOrMemory, String>(OrdinalStringOrMemoryComparer.Instance)
+        new(OrdinalStringOrMemoryComparer.Instance)
         {
             { "name", "name" },
             { "http-equiv", "http-equiv" },

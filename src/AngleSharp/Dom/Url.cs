@@ -26,7 +26,7 @@ namespace AngleSharp.Dom
         private static readonly String CurrentDirectoryAlternative = "%2e";
         private static readonly String UpperDirectory = "..";
         private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
-        private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
+        private static readonly Url DefaultBase = new(String.Empty, String.Empty, String.Empty);
         private static readonly Char[] C0ControlAndSpace = Enumerable.Range(0x00, 0x21).Select(c => (Char)c).ToArray();
 
         // Remark: `UseStd3AsciiRules = false` is against spec

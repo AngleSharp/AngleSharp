@@ -51,17 +51,17 @@ public struct StringOrMemory
     /// <summary>
     /// Static empty string instance
     /// </summary>
-    public static StringOrMemory Empty => new StringOrMemory(String.Empty);
+    public static StringOrMemory Empty => new(String.Empty);
 
     /// <summary>
     /// Converts string to <see cref="StringOrMemory"/> implicitly
     /// </summary>
-    public static implicit operator StringOrMemory(String str) => new StringOrMemory(str);
+    public static implicit operator StringOrMemory(String str) => new(str);
 
     /// <summary>
     /// Converts <see cref="ReadOnlyMemory&lt;Char&gt;"/> to string implicitly
     /// </summary>
-    public static implicit operator StringOrMemory(ReadOnlyMemory<Char> memory) => new StringOrMemory(memory);
+    public static implicit operator StringOrMemory(ReadOnlyMemory<Char> memory) => new(memory);
 
     /// <summary>
     /// Converts <see cref="StringOrMemory"/> to <see cref="ReadOnlyMemory&lt;Char&gt;"/>

@@ -12,7 +12,7 @@ namespace AngleSharp.Css.Parser
         private readonly CssTokenType _type;
         private readonly String _data;
 
-        public static readonly CssSelectorToken Whitespace = new CssSelectorToken(CssTokenType.Whitespace, " ");
+        public static readonly CssSelectorToken Whitespace = new(CssTokenType.Whitespace, " ");
 
         #endregion
 

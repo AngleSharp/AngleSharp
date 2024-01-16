@@ -25,7 +25,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public NamedNodeMap(Element owner)
         {
-            _items = new List<Attr>();
+            _items = [];
             _owner = new WeakReference<Element>(owner);
         }
 

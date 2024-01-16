@@ -30,7 +30,7 @@ namespace AngleSharp.Dom
         {
             _records = new Queue<IMutationRecord>();
             _callback = callback ?? throw new ArgumentNullException(nameof(callback));
-            _observing = new List<MutationObserving>();
+            _observing = [];
         }
 
         #endregion
@@ -291,7 +291,7 @@ namespace AngleSharp.Dom
             {
                 _target = target;
                 _options = options;
-                _transientNodes = new List<INode>();
+                _transientNodes = [];
             }
 
             public INode Target => _target;

@@ -22,7 +22,7 @@
         public HtmlProgressElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Progress, prefix)
         {
-            _labels = new NodeList();
+            _labels = [];
         }
 
         #endregion

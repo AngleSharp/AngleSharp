@@ -184,7 +184,7 @@ namespace AngleSharp.Css.Parser
             public NamespaceCombinator()
             {
                 Delimiter = CombinatorSymbols.Pipe;
-                Transform = el => Single(el);
+                Transform = Single;
             }
 
             public override ISelector Change(ISelector selector)

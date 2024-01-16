@@ -17,7 +17,7 @@
 
         public PlaintextFormDataSetVisitor()
         {
-            _lines = new List<String>();
+            _lines = [];
         }
 
         #endregion

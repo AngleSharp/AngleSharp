@@ -19,7 +19,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets an empty node-list. Shouldn't be modified.
         /// </summary>
-        internal static readonly NodeList Empty = new ();
+        internal static readonly NodeList Empty = [];
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace AngleSharp.Dom
 
         internal NodeList()
         {
-            _entries = new List<Node>();
+            _entries = [];
         }
 
         #endregion

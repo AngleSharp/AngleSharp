@@ -10,7 +10,7 @@ namespace AngleSharp.Css
     /// </summary>
     public class DefaultPseudoElementSelectorFactory : IPseudoElementSelectorFactory
     {
-        private readonly Dictionary<String, ISelector> _selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, ISelector> _selectors = new(StringComparer.OrdinalIgnoreCase)
         {
             //TODO
             //- some lack implementation (selection, content, footnote-call, footnote-marker, ...),

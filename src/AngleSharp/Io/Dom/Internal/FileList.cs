@@ -20,7 +20,7 @@ namespace AngleSharp.Io.Dom
 
         internal FileList()
         {
-            _entries = new List<IFile>();
+            _entries = [];
         }
 
         #endregion

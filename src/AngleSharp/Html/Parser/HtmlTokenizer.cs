@@ -867,17 +867,17 @@ namespace AngleSharp.Html.Parser
 
                 if (c == Symbols.GreaterThan)
                 {
-                    tag.Name = FlushBufferFast(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
+                    tag.Name = FlushBufferFast(stringResolver: HtmlTagNameLookup.TryGetWellKnownTagName);
                     return ref EmitTag(ref tag);
                 }
                 else if (c.IsSpaceCharacter())
                 {
-                    tag.Name = FlushBufferFast(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
+                    tag.Name = FlushBufferFast(stringResolver: HtmlTagNameLookup.TryGetWellKnownTagName);
                     return ref ParseAttributes(ref tag);
                 }
                 else if (c == Symbols.Solidus)
                 {
-                    tag.Name = FlushBufferFast(stringResolver: b => HtmlTagNameLookup.TryGetWellKnownTagName(b));
+                    tag.Name = FlushBufferFast(stringResolver: HtmlTagNameLookup.TryGetWellKnownTagName);
                     return ref TagSelfClosing(ref tag);
                 }
                 else if (c.IsUppercaseAscii())

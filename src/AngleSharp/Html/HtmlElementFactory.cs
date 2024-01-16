@@ -15,7 +15,7 @@ namespace AngleSharp.Html
 
         private delegate HtmlElement Creator(Document owner, String? prefix);
 
-        private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> creators = new(StringComparer.OrdinalIgnoreCase)
         {
             { TagNames.Div, (document, prefix) => new HtmlDivElement(document, prefix) },
             { TagNames.A, (document, prefix) => new HtmlAnchorElement(document, prefix) },

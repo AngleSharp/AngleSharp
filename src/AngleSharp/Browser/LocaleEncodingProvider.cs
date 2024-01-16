@@ -10,7 +10,7 @@ namespace AngleSharp.Browser
     /// </summary>
     public class LocaleEncodingProvider : IEncodingProvider
     {
-        private static readonly Dictionary<String, Encoding> suggestions = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Encoding> suggestions = new(StringComparer.OrdinalIgnoreCase)
         {
             { "ar", TextEncoding.Utf8 },
             { "cy", TextEncoding.Utf8 },

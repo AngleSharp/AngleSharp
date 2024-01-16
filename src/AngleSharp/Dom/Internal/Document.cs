@@ -35,7 +35,7 @@ namespace AngleSharp.Dom
         private readonly IResourceLoader? _loader;
         private readonly Location _location;
         private readonly TextSource _source;
-        private readonly object _importedUrisLock = new object();
+        private readonly object _importedUrisLock = new();
 
         private QuirksMode _quirksMode;
         private Sandboxes _sandbox;
@@ -487,7 +487,7 @@ namespace AngleSharp.Dom
         {
             Referrer = String.Empty;
             ContentType = MimeTypeNames.ApplicationXml;
-            _attachedReferences = new List<WeakReference>();
+            _attachedReferences = [];
             _async = true;
             _designMode = false;
             _firedUnload = false;
@@ -1577,7 +1577,7 @@ namespace AngleSharp.Dom
             {
                 lock (_importedUrisLock)
                 {
-                    _importedUris = _importedUris ?? new HashSet<Uri>();
+                    _importedUris = _importedUris ?? [];
                 }
             }
 

@@ -151,7 +151,7 @@ namespace AngleSharp.Dom
         /// <param name="element">The element creating a request.</param>
         /// <param name="url">The address that specifies the target.</param>
         /// <returns>The new resource request with the information.</returns>
-        public static ResourceRequest CreateRequestFor(this IElement element, Url url) => new ResourceRequest(element, url);
+        public static ResourceRequest CreateRequestFor(this IElement element, Url url) => new(element, url);
 
         /// <summary>
         /// Checks if the element with the provided prefix matches the CSS

@@ -34,7 +34,7 @@ namespace AngleSharp.Dom
             _owner = owner;
             _name = name ?? String.Empty;
             _type = type;
-            _children = this.IsEndPoint() ? NodeList.Empty : new NodeList();
+            _children = this.IsEndPoint() ? NodeList.Empty : [];
             _flags = flags;
         }
 

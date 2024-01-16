@@ -32,7 +32,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Align, value.ToString());
         }
 
-        public IHtmlCollection<IHtmlTableRowElement> Rows => _rows ?? (_rows = new HtmlCollection<IHtmlTableRowElement>(this, deep: false));
+        public IHtmlCollection<IHtmlTableRowElement> Rows => _rows ??= new HtmlCollection<IHtmlTableRowElement>(this, deep: false);
 
         public VerticalAlignment VAlign
         {
