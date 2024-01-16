@@ -1209,7 +1209,7 @@ namespace AngleSharp.Dom
 
             // 2. Return the percent decoding of bytes.
             // in-place
-            for (int i = 0, insertIndex = 0; i < bytes.Length; i++, insertIndex++)
+            for (Int32 i = 0, insertIndex = 0; i < bytes.Length; i++, insertIndex++)
             {
                 var cc = (Char)bytes[i];
                 switch (cc)
@@ -1263,11 +1263,11 @@ namespace AngleSharp.Dom
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.4
             // string utf 8 percent decoding of input.
-            string percentDecoded = Utf8PercentDecode(hostName.Substring(start, length));
+            var percentDecoded = Utf8PercentDecode(hostName.Substring(start, length));
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.5
             // domain to ASCII
-            string domainToAscii;
+            String domainToAscii;
 
             try
             {

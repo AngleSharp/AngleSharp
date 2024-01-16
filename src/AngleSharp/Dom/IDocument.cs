@@ -580,7 +580,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="uri">The Uri to check.</param>
         /// <returns>True if already imported.</returns>
-        bool HasImported(Uri uri);
+        Boolean HasImported(Uri uri);
 
         /// <summary>
         /// Gets the underlying source.

@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with all contenteditable modes.
     /// </summary>
-    enum ContentEditableMode : byte
+    enum ContentEditableMode : System.Byte
     {
         /// <summary>
         /// Not contenteditable.

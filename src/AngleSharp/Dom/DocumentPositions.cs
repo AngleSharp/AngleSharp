@@ -8,7 +8,7 @@
     /// </summary>
     [Flags]
     [DomName("Document")]
-    public enum DocumentPositions : byte
+    public enum DocumentPositions : Byte
     {
         /// <summary>
         /// It is the same node.

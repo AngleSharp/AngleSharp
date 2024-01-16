@@ -77,7 +77,7 @@ internal interface IMutableCharBuffer : ICharBuffer, IDisposable
     /// <summary>
     /// Checks if the buffer contains the given text at the specified offset.
     /// </summary>
-    public Boolean HasTextAt(ReadOnlySpan<Char> test, int offset, int length, StringComparison comparison = StringComparison.Ordinal);
+    public Boolean HasTextAt(ReadOnlySpan<Char> test, Int32 offset, Int32 length, StringComparison comparison = StringComparison.Ordinal);
 
     /// <summary>
     /// Creates a CLR String instance from the buffer.

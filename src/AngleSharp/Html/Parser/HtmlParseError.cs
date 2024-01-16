@@ -5,7 +5,7 @@
     /// <summary>
     /// A collection of HTML parse error codes.
     /// </summary>
-    public enum HtmlParseError : byte
+    public enum HtmlParseError : System.Byte
     {
         /// <summary>
         /// Unexpected end of file detected.

@@ -3,6 +3,7 @@ namespace AngleSharp.Core.Tests.Css
     using AngleSharp.Css;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Dom;
     using NUnit.Framework;
 
     [TestFixture]
@@ -111,6 +112,32 @@ namespace AngleSharp.Core.Tests.Css
             var selector = doc.Context.GetService<ICssSelectorParser>().ParseSelector("&");
 
             Assert.AreEqual(new Priority(0, 0, 1, 0), selector.Specificity);
+        }
+
+        [Test]
+        public void IsSelectorIsForgiving()
+        {
+            var source = @"<div class=valid-class>Foo</div>";
+            var selectorText = ":is(.valid-class, :invalid-pseudo-class)";
+            var doc = source.ToHtmlDocument();
+
+            var result = doc.QuerySelectorAll(selectorText);
+            Assert.AreEqual(1, result.Length);
+
+            Assert.AreEqual("Foo", result[0].TextContent);
+        }
+
+        [Test]
+        public void StandardSelectorIsNotForgiving()
+        {
+            var source = @"<div class=valid-class>Foo</div>";
+            var selectorText = ".valid-class, :invalid-pseudo-class";
+            var doc = source.ToHtmlDocument();
+
+            Assert.Throws<DomException>(() =>
+            {
+                doc.QuerySelectorAll(selectorText);
+            });
         }
     }
 }

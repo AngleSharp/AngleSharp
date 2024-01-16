@@ -915,7 +915,7 @@ namespace AngleSharp.Html.Parser
             }
         }
 
-        private bool TagSelfClosingInner(ref StructHtmlToken tag)
+        private Boolean TagSelfClosingInner(ref StructHtmlToken tag)
         {
             while (true)
             {
@@ -1074,7 +1074,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="token"></param>
-        private bool CommentDashStart(Char c, ref StructHtmlToken token)
+        private Boolean CommentDashStart(Char c, ref StructHtmlToken token)
         {
             switch (c)
             {
@@ -1140,7 +1140,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="token"></param>
-        private bool CommentDashEnd(Char c, ref StructHtmlToken token)
+        private Boolean CommentDashEnd(Char c, ref StructHtmlToken token)
         {
             switch (c)
             {
@@ -1166,7 +1166,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="token"></param>
-        private bool CommentEnd(Char c, ref StructHtmlToken token)
+        private Boolean CommentEnd(Char c, ref StructHtmlToken token)
         {
             while (true)
             {
@@ -1207,7 +1207,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="token"></param>
-        private bool CommentBangEnd(Char c, ref StructHtmlToken token)
+        private Boolean CommentBangEnd(Char c, ref StructHtmlToken token)
         {
             switch (c)
             {
@@ -1872,7 +1872,7 @@ namespace AngleSharp.Html.Parser
 
         #region Attributes
 
-        private enum AttributeState : byte
+        private enum AttributeState : Byte
         {
             BeforeName,
             Name,
@@ -2255,7 +2255,7 @@ namespace AngleSharp.Html.Parser
 
         #region Script
 
-        private enum ScriptState : byte
+        private enum ScriptState : Byte
         {
             Normal,
             OpenTag,
@@ -2896,7 +2896,7 @@ namespace AngleSharp.Html.Parser
             Append(Symbols.Replacement);
         }
 
-        private bool CreateIfAppropriate(Char c, ref StructHtmlToken token)
+        private Boolean CreateIfAppropriate(Char c, ref StructHtmlToken token)
         {
             var isspace = c.IsSpaceCharacter();
             var isclosed = c == Symbols.GreaterThan;

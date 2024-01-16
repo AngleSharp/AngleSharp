@@ -35,7 +35,7 @@ namespace AngleSharp.Dom
         private readonly IResourceLoader? _loader;
         private readonly Location _location;
         private readonly TextSource _source;
-        private readonly object _importedUrisLock = new();
+        private readonly Object _importedUrisLock = new();
 
         private QuirksMode _quirksMode;
         private Sandboxes _sandbox;
@@ -1553,7 +1553,7 @@ namespace AngleSharp.Dom
         protected abstract void SetTitle(String? value);
 
         /// <inheritdoc />
-        public bool AddImportUrl(Uri uri)
+        public Boolean AddImportUrl(Uri uri)
         {
             if (uri is null)
             {
@@ -1585,7 +1585,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public bool HasImported(Uri uri)
+        public Boolean HasImported(Uri uri)
         {
             return _importedUris?.Contains(uri) ?? false;
         }

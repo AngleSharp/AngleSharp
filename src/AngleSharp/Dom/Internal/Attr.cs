@@ -134,11 +134,11 @@ namespace AngleSharp.Dom
         /// </summary>
         public String? NamespaceUri => _namespace;
 
-        string INode.BaseUri => OwnerElement!.BaseUri;
+        String INode.BaseUri => OwnerElement!.BaseUri;
 
         Url? INode.BaseUrl => OwnerElement?.BaseUrl;
 
-        string INode.NodeName => Name;
+        String INode.NodeName => Name;
 
         INodeList INode.ChildNodes => NodeList.Empty;
 
@@ -158,19 +158,19 @@ namespace AngleSharp.Dom
 
         NodeType INode.NodeType => NodeType.Attribute;
 
-        string INode.NodeValue
+        String INode.NodeValue
         {
             get => Value;
             set => Value = value;
         }
 
-        string INode.TextContent
+        String INode.TextContent
         {
             get => Value;
             set => Value = value;
         }
 
-        bool INode.HasChildNodes => false;
+        Boolean INode.HasChildNodes => false;
 
         NodeFlags INode.Flags => throw new NotImplementedException();
 
@@ -191,7 +191,7 @@ namespace AngleSharp.Dom
         /// <returns>The computed hash code.</returns>
         public override Int32 GetHashCode()
         {
-            const int prime = 31;
+            const Int32 prime = 31;
             var result = 1;
 
             result = result * prime + _localName.GetHashCode();
@@ -232,7 +232,7 @@ namespace AngleSharp.Dom
 
         void IEventTarget.AddEventListener(String type, DomEventHandler? callback, Boolean capture) => throw new DomException(DomError.NotSupported);
 
-        void IEventTarget.RemoveEventListener(string type, DomEventHandler? callback, bool capture) => throw new DomException(DomError.NotSupported);
+        void IEventTarget.RemoveEventListener(String type, DomEventHandler? callback, Boolean capture) => throw new DomException(DomError.NotSupported);
 
         void IEventTarget.InvokeEventListener(Event ev) => throw new DomException(DomError.NotSupported);
 

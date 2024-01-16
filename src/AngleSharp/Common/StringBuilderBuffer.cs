@@ -100,7 +100,7 @@ internal sealed class StringBuilderBuffer : IMutableCharBuffer
         return MemoryExtensions.Equals(lease.Span.Slice(0, length), test, comparison);
     }
 
-    public Boolean HasTextAt(ReadOnlySpan<Char> test, int offset, int length, StringComparison comparison = StringComparison.Ordinal)
+    public Boolean HasTextAt(ReadOnlySpan<Char> test, Int32 offset, Int32 length, StringComparison comparison = StringComparison.Ordinal)
     {
         using var lease = ArrayPool<Char>.Shared.Borrow(length);
         _sb.CopyTo(offset, lease.Data, 0, length);

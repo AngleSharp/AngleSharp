@@ -6,7 +6,7 @@
     /// An enumeration over all possible cache states.
     /// </summary>
     [DomName("ApplicationCache")]
-    public enum CacheStatus : byte
+    public enum CacheStatus : System.Byte
     {
         /// <summary>
         /// The resource is uncached.

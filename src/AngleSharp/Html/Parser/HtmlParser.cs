@@ -335,7 +335,7 @@ namespace AngleSharp.Html.Parser
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void InvokeHtmlParseEvent(HtmlDocument document, bool completed)
+        private void InvokeHtmlParseEvent(HtmlDocument document, Boolean completed)
         {
             if (HasEventListeners)
             {

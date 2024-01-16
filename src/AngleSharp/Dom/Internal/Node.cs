@@ -907,12 +907,12 @@ namespace AngleSharp.Dom
             RemoveChild((Node)childNode, false);
         }
 
-        void IConstructableNode.RemoveNode(int idx, IConstructableNode childNode)
+        void IConstructableNode.RemoveNode(Int32 idx, IConstructableNode childNode)
         {
             RemoveNode(idx, (Node)childNode);
         }
 
-        void IConstructableNode.InsertNode(int idx, IConstructableNode childNode)
+        void IConstructableNode.InsertNode(Int32 idx, IConstructableNode childNode)
         {
             InsertNode(idx, (Node)childNode);
         }
@@ -924,7 +924,7 @@ namespace AngleSharp.Dom
 
         private static ReadOnlySpan<Char> WhiteSpace => " \t\r\n".AsSpan();
 
-        void IConstructableNode.AppendText(StringOrMemory text, bool emitWhiteSpaceOnly)
+        void IConstructableNode.AppendText(StringOrMemory text, Boolean emitWhiteSpaceOnly)
         {
             if (!emitWhiteSpaceOnly && text.Memory.Span.Trim(WhiteSpace).Length == 0)
             {
@@ -934,7 +934,7 @@ namespace AngleSharp.Dom
             AppendText(text.ToString());
         }
 
-        void IConstructableNode.InsertText(int idx, StringOrMemory text, bool emitWhiteSpaceOnly)
+        void IConstructableNode.InsertText(Int32 idx, StringOrMemory text, Boolean emitWhiteSpaceOnly)
         {
             if (!emitWhiteSpaceOnly && text.Memory.Span.Trim(WhiteSpace).Length == 0)
             {

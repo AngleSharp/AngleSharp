@@ -3,7 +3,7 @@
     /// <summary>
     /// The list of possible horizontal alignments.
     /// </summary>
-    public enum WordBreak : byte
+    public enum WordBreak : System.Byte
     {
         /// <summary>
         /// Use the default line break rule.

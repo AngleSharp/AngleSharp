@@ -55,7 +55,7 @@ namespace AngleSharp.Dom
                 var children = ChildNodes;
                 var n = children.Length;
 
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     if (children[i] is IElement child)
                     {

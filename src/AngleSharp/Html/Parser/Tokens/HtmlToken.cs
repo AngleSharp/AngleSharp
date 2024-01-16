@@ -104,7 +104,7 @@ namespace AngleSharp.Html.Parser.Tokens
         /// <summary>
         /// Indicates that this comment token is a processing instruction.
         /// </summary>
-        public bool IsProcessingInstruction { get; internal set; }
+        public Boolean IsProcessingInstruction { get; internal set; }
 
         #endregion
 

@@ -6,7 +6,7 @@
     /// Represents the different phases of an event.
     /// </summary>
     [DomName("Event")]
-    public enum EventPhase : byte
+    public enum EventPhase : System.Byte
     {
         /// <summary>
         /// Events not currently dispatched are in this phase.

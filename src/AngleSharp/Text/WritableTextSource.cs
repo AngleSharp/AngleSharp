@@ -398,7 +398,7 @@ internal sealed class WritableTextSource : ITextSource
 
     #region Confidence
 
-    private enum EncodingConfidence : byte
+    private enum EncodingConfidence : Byte
     {
         Tentative,
         Certain,

@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the usable methods for transmitting HTTP forms.
     /// </summary>
-    public enum HttpMethod : byte
+    public enum HttpMethod : System.Byte
     {
         /// <summary>
         /// The GET method.

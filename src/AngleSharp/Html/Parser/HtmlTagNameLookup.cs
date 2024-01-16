@@ -555,7 +555,7 @@ namespace AngleSharp.Html.Parser
 
         private static Boolean CharsAreEqual(ICharBuffer builder, String tagName)
         {
-            for ( int i = 0; i < tagName.Length; i++ )
+            for ( var i = 0; i < tagName.Length; i++ )
             {
                 if ( tagName[ i ] != builder[ i ] )
                 {

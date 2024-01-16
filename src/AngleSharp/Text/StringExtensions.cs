@@ -332,7 +332,7 @@ namespace AngleSharp.Text
 
             var result = new String(buffer, 0, index);
 
-            ArrayPool<char>.Shared.Return(buffer);
+            ArrayPool<Char>.Shared.Return(buffer);
 
             return result;
         }
@@ -654,7 +654,7 @@ namespace AngleSharp.Text
         /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String StripLeadingTrailingSpaces(this string str)
+        public static String StripLeadingTrailingSpaces(this String str)
         {
             var start = 0;
             var end = str.Length - 1;
@@ -678,7 +678,7 @@ namespace AngleSharp.Text
         /// <param name="str">The string to examine.</param>
         /// <param name="c">The delimiter character.</param>
         /// <returns>The list of tokens.</returns>
-        public static String[] SplitWithoutTrimming(this string str, Char c)
+        public static String[] SplitWithoutTrimming(this String str, Char c)
         {
             var list = new List<String>();
             var index = 0;
@@ -736,7 +736,7 @@ namespace AngleSharp.Text
         {
             var list = new List<String>();
             var buffer = ArrayPool<Char>.Shared.Rent(str.Length);
-            int c = 0;
+            var c = 0;
 
             for (var i = 0; i <= str.Length; i++)
             {
@@ -762,7 +762,7 @@ namespace AngleSharp.Text
                 }
             }
 
-            ArrayPool<char>.Shared.Return(buffer);
+            ArrayPool<Char>.Shared.Return(buffer);
 
             return list.ToArray();
         }
@@ -777,7 +777,7 @@ namespace AngleSharp.Text
         {
             var list = new List<String>();
             var buffer = ArrayPool<Char>.Shared.Rent(str.Length);
-            int c = 0;
+            var c = 0;
 
             for (var i = 0; i <= str.Length; i++)
             {
@@ -803,7 +803,7 @@ namespace AngleSharp.Text
                 }
             }
 
-            ArrayPool<char>.Shared.Return(buffer);
+            ArrayPool<Char>.Shared.Return(buffer);
 
             return list.ToArray();
         }

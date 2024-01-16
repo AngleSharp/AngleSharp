@@ -7,7 +7,7 @@ namespace AngleSharp.Browser
     /// untrusted resources have.
     /// </summary>
     [Flags]
-    public enum Sandboxes : ushort
+    public enum Sandboxes : UInt16
     {
         /// <summary>
         /// No flag is set, everything is accepted.

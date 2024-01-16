@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains simple choices.
     /// </summary>
-    enum SimpleChoice : byte
+    enum SimpleChoice : System.Byte
     {
         /// <summary>
         /// Yes.

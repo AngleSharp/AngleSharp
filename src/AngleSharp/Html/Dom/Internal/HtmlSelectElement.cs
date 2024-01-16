@@ -125,7 +125,7 @@ namespace AngleSharp.Html.Dom
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             var options = Options;
-            bool isAdded = false;
+            var isAdded = false;
 
             for (var i = 0; i < options.Length; i++)
             {
@@ -153,7 +153,7 @@ namespace AngleSharp.Html.Dom
         {
             var options = Options;
 
-            for (int i = 0; i < options.Length; i++)
+            for (var i = 0; i < options.Length; i++)
             {
                 var option = options.GetOptionAt(i);
 

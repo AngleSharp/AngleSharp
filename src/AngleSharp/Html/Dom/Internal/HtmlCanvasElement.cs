@@ -167,7 +167,7 @@ namespace AngleSharp.Html.Dom
 
         private Byte[] GetImageData(String? type)
         {
-            return _current?.ToImage(type ?? MimeTypeNames.Plain) ?? Array.Empty<byte>();
+            return _current?.ToImage(type ?? MimeTypeNames.Plain) ?? Array.Empty<Byte>();
         }
 
         private static ContextMode GetModeFrom(String contextId)
@@ -188,7 +188,7 @@ namespace AngleSharp.Html.Dom
 
         #region Context Mode
 
-        private enum ContextMode : byte
+        private enum ContextMode : Byte
         {
             None,
             Direct2d, 

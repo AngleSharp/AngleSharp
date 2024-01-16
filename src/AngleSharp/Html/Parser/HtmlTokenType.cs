@@ -3,7 +3,7 @@ namespace AngleSharp.Html.Parser
     /// <summary>
     /// An enumation of all possible tokens.
     /// </summary>
-    public enum HtmlTokenType : byte
+    public enum HtmlTokenType : System.Byte
     {
         /// <summary>
         /// The DOCTYPE token.

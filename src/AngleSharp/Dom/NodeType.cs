@@ -6,7 +6,7 @@
     /// Contains an enumeration of various node types.
     /// </summary>
     [DomName("Document")]
-    public enum NodeType : byte
+    public enum NodeType : System.Byte
     {
         /// <summary>
         /// A standard node element.

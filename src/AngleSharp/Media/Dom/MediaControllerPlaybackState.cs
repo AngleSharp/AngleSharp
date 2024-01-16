@@ -6,7 +6,7 @@
     /// An enumeration over the various playback states.
     /// </summary>
     [DomName("MediaControllerPlaybackState")]
-    public enum MediaControllerPlaybackState : byte
+    public enum MediaControllerPlaybackState : System.Byte
     {
         /// <summary>
         /// Waiting for the media to be ready.

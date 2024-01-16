@@ -17,7 +17,7 @@ namespace AngleSharp.Html.Forms.Submitters
         /// <param name="encoding">The encoding to consider.</param>
         /// <returns>The sanitized value.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string Encode(string value, Encoding encoding)
+        public System.String Encode(System.String value, Encoding encoding)
         {
             return value.HtmlEncode(encoding);
         }

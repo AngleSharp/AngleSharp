@@ -672,7 +672,7 @@ namespace AngleSharp.Dom
 
         StringOrMemory IConstructableElement.NamespaceUri => NamespaceUri ?? "";
 
-        void IConstructableElement.SetAttribute(string? ns, StringOrMemory name, StringOrMemory value)
+        void IConstructableElement.SetAttribute(String? ns, StringOrMemory name, StringOrMemory value)
         {
             SetAttribute(ns, name.ToString(), value.ToString());
         }

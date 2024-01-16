@@ -3,7 +3,7 @@
     /// <summary>
     /// All possible mouse button values that may appear in UI events.
     /// </summary>
-    public enum MouseButton : byte
+    public enum MouseButton : System.Byte
     {
         /// <summary>
         /// The primary button of the device. In general, the left button or the only button on single-button

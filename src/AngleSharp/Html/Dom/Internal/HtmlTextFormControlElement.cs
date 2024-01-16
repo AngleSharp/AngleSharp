@@ -202,7 +202,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// An enumeration with possible selection directions.
         /// </summary>
-        public enum SelectionType : byte
+        public enum SelectionType : Byte
         {
             /// <summary>
             /// The text selection direction is unknown.

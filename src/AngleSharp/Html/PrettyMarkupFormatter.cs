@@ -158,7 +158,7 @@ namespace AngleSharp.Html
             return content.Length > 0 && content[content.Length - 1].IsSpaceCharacter();
         }
 
-        private String IndentBefore(int i=0) => _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount-i));
+        private String IndentBefore(Int32 i =0) => _newLineString + String.Join(String.Empty, Enumerable.Repeat(_indentString, _indentCount-i));
 
         #endregion
     }

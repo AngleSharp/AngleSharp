@@ -196,7 +196,7 @@ namespace AngleSharp.Html.Parser
                 }
                 cancelToken.ThrowIfCancellationRequested();
 
-                bool @break = Worker(middleware);
+                var @break = Worker(middleware);
                 if (@break) { break; }
 
                 if (_waiting != null)
@@ -214,7 +214,7 @@ namespace AngleSharp.Html.Parser
 
             return _document;
 
-            bool Worker(TokenizerMiddleware middleware)
+            Boolean Worker(TokenizerMiddleware middleware)
             {
                 var token = _tokenizer.GetStructToken();
                 if (token.Type == HtmlTokenType.EndOfFile)
@@ -1220,21 +1220,11 @@ namespace AngleSharp.Html.Parser
                 var select = _elementFactory.Create(_document, TagNames.Select);
                 AddElement(select, ref tag);
                 _frameset = false;
-
-                switch (_currentMode)
+                _currentMode = _currentMode switch
                 {
-                    case HtmlTreeMode.InTable:
-                    case HtmlTreeMode.InTableBody:
-                    case HtmlTreeMode.InCaption:
-                    case HtmlTreeMode.InRow:
-                    case HtmlTreeMode.InCell:
-                        _currentMode = HtmlTreeMode.InSelectInTable;
-                        break;
-
-                    default:
-                        _currentMode = HtmlTreeMode.InSelect;
-                        break;
-                }
+                    HtmlTreeMode.InTable or HtmlTreeMode.InTableBody or HtmlTreeMode.InCaption or HtmlTreeMode.InRow or HtmlTreeMode.InCell => HtmlTreeMode.InSelectInTable,
+                    _ => HtmlTreeMode.InSelect,
+                };
             }
             else if (tagName.IsOneOf(TagNames.Optgroup, TagNames.Option))
             {
@@ -2893,10 +2883,10 @@ namespace AngleSharp.Html.Parser
         {
             while (_openElements.Count > 0)
             {
-                var template = CurrentNode as IConstructableTemplateElement;
+                var currentNode = CurrentNode;
                 CloseCurrentNode();
 
-                if (template != null)
+                if (currentNode is IConstructableTemplateElement template)
                 {
                     template.PopulateFragment();
                     break;

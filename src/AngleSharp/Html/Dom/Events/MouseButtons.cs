@@ -6,7 +6,7 @@
     /// All possible mouse button values that are currently pressed.
     /// </summary>
     [Flags]
-    public enum MouseButtons : byte
+    public enum MouseButtons : Byte
     {
         /// <summary>
         /// No buttons currently pressed.

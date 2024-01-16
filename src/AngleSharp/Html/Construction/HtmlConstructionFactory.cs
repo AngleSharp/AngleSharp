@@ -46,7 +46,7 @@ internal sealed class HtmlDomConstructionFactory : IHtmlElementConstructionFacto
 
     public IConstructableMetaElement CreateMeta(Document document) => new HtmlMetaElement(document);
 
-    public IConstructableScriptElement CreateScript(Document document, bool parserInserted, bool started) =>
+    public IConstructableScriptElement CreateScript(Document document, Boolean parserInserted, Boolean started) =>
         new HtmlScriptElement(document, null, parserInserted, started);
 
     public IConstructableFrameElement CreateFrame(Document document) => new HtmlFrameElement(document);

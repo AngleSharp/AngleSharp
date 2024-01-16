@@ -6,7 +6,7 @@
     /// An enumeration of media ready states.
     /// </summary>
     [DomName("HTMLMediaElement")]
-    public enum MediaReadyState : byte
+    public enum MediaReadyState : System.Byte
     {
         /// <summary>
         /// No information is available.

@@ -6,7 +6,7 @@
     /// An enumeration of possible network states.
     /// </summary>
     [DomName("HTMLMediaElement")]
-    public enum MediaNetworkState : byte
+    public enum MediaNetworkState : System.Byte
     {
         /// <summary>
         /// The element has not yet been initialized.

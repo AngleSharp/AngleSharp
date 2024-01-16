@@ -226,7 +226,7 @@ namespace AngleSharp.Text
                             else if (test == n)
                             {
                                 // Represent delta as a generalized variable-length integer:
-                                int q, k;
+                                Int32 q, k;
 
                                 for (q = delta, k = PunycodeBase; ; k += PunycodeBase)
                                 {

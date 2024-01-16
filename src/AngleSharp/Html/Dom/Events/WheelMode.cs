@@ -6,7 +6,7 @@
     /// Enumeration with the various mouse wheel modes.
     /// </summary>
     [DomName("WheelEvent")]
-    public enum WheelMode : byte
+    public enum WheelMode : System.Byte
     {
         /// <summary>
         /// The unit of change is pixels.

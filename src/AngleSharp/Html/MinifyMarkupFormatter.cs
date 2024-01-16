@@ -62,7 +62,7 @@ namespace AngleSharp.Html
         #region Methods
 
         /// <inheritdoc />
-        public override string Comment(IComment comment) => ShouldKeepComments ? base.Comment(comment) : String.Empty;
+        public override String Comment(IComment comment) => ShouldKeepComments ? base.Comment(comment) : String.Empty;
 
         /// <inheritdoc />
         public override String Text(ICharacterData text)
@@ -175,7 +175,7 @@ namespace AngleSharp.Html
         }
 
         /// <inheritdoc />
-        protected override string Attribute(IAttr attr)
+        protected override String Attribute(IAttr attr)
         {
             var value = attr.Value;
 
@@ -242,7 +242,7 @@ namespace AngleSharp.Html
             attr.Name.Is(AttributeNames.Type) &&
             attr.Value.Is(MimeTypeNames.Css);
 
-        private static bool MustBeQuotedAttributeValue(char c)
+        private static Boolean MustBeQuotedAttributeValue(Char c)
         {
             // https://w3c.github.io/html-reference/syntax.html#attr-value-unquoted
             return CharExtensions.IsWhiteSpaceCharacter(c) || c == '"' || c == '\'' || c == '=' || c == '>' || c == '<' || c == '`';
