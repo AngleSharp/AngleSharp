@@ -138,6 +138,11 @@ namespace AngleSharp.Css
                 return creator.Invoke(name, value, prefix, insensitive);
             }
 
+            if (combinator == "&")
+            {
+                return NestedSelector.Instance;
+            }
+
             return CreateDefault(name, value, prefix, insensitive);
         }
     }

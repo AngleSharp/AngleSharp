@@ -519,7 +519,7 @@ namespace AngleSharp.Css.Parser
                     // AngleSharp.Css without requiring AngleSharp.Css to use 1.1.0
                     // of AngleSharp; instead this architecture also works (without
                     // nested support) for AngleSharp.Css with AngleSharp 1.0.0.
-                    Insert(_pseudoClassSelector.Create("&") ?? NestedSelector.Instance);
+                    Insert(_attributeSelector.Create("&", String.Empty, String.Empty, null, true));
                     _ready = true;
                     break;
 
