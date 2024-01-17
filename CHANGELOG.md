@@ -1,6 +1,6 @@
 # 1.1.0
 
-Released on ?
+Released on Thursday, January 18 2024
 
 - Fixed priority calculations for selector lists (#1161)
 - Fixed `:where` and `:is` selectors using forgiving lists
