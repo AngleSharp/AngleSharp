@@ -1,3 +1,13 @@
+# 1.1.0
+
+Released on Thursday, January 18 2024
+
+- Fixed priority calculations for selector lists (#1161)
+- Fixed `:where` and `:is` selectors using forgiving lists
+- Added option for read only DOM (#1154) @dv00d00
+- Added more optimizations to reduce allocation rate (#1159) @dv00d00
+- Added support for nested selectors (`&`)
+
 # 1.0.7
 
 Released on Friday, November 17 2023

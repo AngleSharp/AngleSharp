@@ -49,7 +49,7 @@ namespace AngleSharp.Browser
                     return TextEncoding.Resolve(charset);
                 }
             }
-            
+
             var shouldParseContent = element.HttpEquivalent.Isi(HeaderNames.ContentType);
             return shouldParseContent ? TextEncoding.Parse(element.Content ?? String.Empty) : null;
         }

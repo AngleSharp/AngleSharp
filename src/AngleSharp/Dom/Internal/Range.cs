@@ -618,7 +618,7 @@ namespace AngleSharp.Dom
                 {
                     throw new DomException(DomError.IndexSizeError);
                 }
-                int length = node is IDocumentType || node is IAttr ? 0 : (node is ICharacterData charData ? charData.Data.Length : node.ChildNodes.Length);
+                var length = node is IDocumentType || node is IAttr ? 0 : (node is ICharacterData charData ? charData.Data.Length : node.ChildNodes.Length);
                 return new Boundary(node, offset) > _start && new Boundary(node, length) < _end;
             }
 

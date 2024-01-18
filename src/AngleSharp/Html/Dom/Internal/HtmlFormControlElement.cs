@@ -23,7 +23,7 @@ namespace AngleSharp.Html.Dom
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
             _vstate = new ValidityState();
-            _labels = new NodeList();
+            _labels = [];
         }
 
         #endregion

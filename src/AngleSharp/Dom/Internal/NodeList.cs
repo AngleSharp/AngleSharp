@@ -5,11 +5,12 @@ namespace AngleSharp.Dom
     using System.Collections.Generic;
     using System.IO;
     using System.Runtime.CompilerServices;
+    using Html.Construction;
 
     /// <summary>
     /// Represents a list of Node instances or nodes.
     /// </summary>
-    sealed class NodeList : INodeList
+    sealed class NodeList : INodeList, IConstructableNodeList
     {
         #region Fields
 
@@ -18,7 +19,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets an empty node-list. Shouldn't be modified.
         /// </summary>
-        internal static readonly NodeList Empty = new ();
+        internal static readonly NodeList Empty = [];
 
         #endregion
 
@@ -26,7 +27,7 @@ namespace AngleSharp.Dom
 
         internal NodeList()
         {
-            _entries = new List<Node>();
+            _entries = [];
         }
 
         #endregion
@@ -53,7 +54,6 @@ namespace AngleSharp.Dom
 
         public Int32 Length
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => _entries.Count;
         }
 
@@ -90,10 +90,21 @@ namespace AngleSharp.Dom
         #region IEnumerable Implementation
 
         public List<Node>.Enumerator GetEnumerator() => _entries.GetEnumerator();
-
         IEnumerator<INode> IEnumerable<INode>.GetEnumerator() => _entries.GetEnumerator();
-
         IEnumerator IEnumerable.GetEnumerator() => _entries.GetEnumerator();
+
+        #endregion
+
+        #region Construction
+
+        IEnumerator<IConstructableNode> IEnumerable<IConstructableNode>.GetEnumerator() => GetEnumerator();
+
+        void IConstructableNodeList.Clear()
+        {
+            _entries.Clear();
+        }
+
+        IConstructableNode IConstructableNodeList.this[Int32 index] => _entries[index];
 
         #endregion
     }

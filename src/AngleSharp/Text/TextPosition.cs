@@ -12,7 +12,7 @@ namespace AngleSharp.Text
         /// <summary>
         /// An empty position (0, 0, 0).
         /// </summary>
-        public static readonly TextPosition Empty = new TextPosition();
+        public static readonly TextPosition Empty = new();
 
         private readonly UInt16 _line;
         private readonly UInt16 _column;
@@ -72,7 +72,7 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="columns">The number of columns to shift.</param>
         /// <returns>The new text position.</returns>
-        public TextPosition Shift(Int32 columns) => new TextPosition(_line, (UInt16)(_column + columns), _position + columns);
+        public TextPosition Shift(Int32 columns) => new(_line, (UInt16)(_column + columns), _position + columns);
 
         /// <summary>
         /// Returns a new text position that is after the given character.

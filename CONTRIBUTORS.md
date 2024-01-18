@@ -51,6 +51,7 @@ AngleSharp contains code written by (in order of first pull request / commit):
 * [Marko Lahma](https://github.com/lahma)
 * [Ivandro Jao](https://github.com/ivandrofly)
 * [Muhammad Nabilasykar](https://github.com/zukarusan)
+* [Dmitry Kushnir](https://github.com/dv00d00)
 
 Without these awesome people AngleSharp could not exist. Thanks to everyone for your contributions! :beers:
 

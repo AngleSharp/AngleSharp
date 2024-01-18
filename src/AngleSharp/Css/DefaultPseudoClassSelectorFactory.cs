@@ -12,7 +12,7 @@ namespace AngleSharp.Css
     /// </summary>
     public class DefaultPseudoClassSelectorFactory : IPseudoClassSelectorFactory
     {
-        private readonly Dictionary<String, ISelector> _selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, ISelector> _selectors = new(StringComparer.OrdinalIgnoreCase)
         {
             { PseudoClassNames.Root, new PseudoClassSelector(el => el.Owner!.DocumentElement == el, PseudoClassNames.Root) },
             { PseudoClassNames.Scope, ScopePseudoClassSelector.Instance },

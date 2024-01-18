@@ -6,26 +6,16 @@ namespace AngleSharp.Html.Parser
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
+    using Common;
+    using Construction;
+    using Tokens.Struct;
 
     /// <summary>
     /// Extensions to be used exclusively by the DOM Builder.
     /// </summary>
     static class HtmlDomBuilderExtensions
     {
-        public static void SetAttributes(this Element element, List<HtmlAttributeToken> attributes)
-        {
-            var container = element.Attributes;
-
-            for (var i = 0; i < attributes.Count; i++)
-            {
-                var attribute = attributes[i];
-                var item = new Attr(attribute.Name, attribute.Value);
-                item.Container = container;
-                container.FastAddItem(item);
-            }
-        }
-
-        public static HtmlTreeMode? SelectMode(this Element element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
+        public static HtmlTreeMode? SelectMode(this IConstructableElement element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
         {
             if (element.Flags.HasFlag(NodeFlags.HtmlMember))
             {
@@ -96,20 +86,27 @@ namespace AngleSharp.Html.Parser
             return (Int32)code;
         }
 
-        public static void SetUniqueAttributes(this Element element, List<HtmlAttributeToken> attributes)
+        public static void SetUniqueAttributes<TElement>(this TElement element, ref StructHtmlToken token)
+            where TElement: class, IConstructableElement
         {
-            for (var i = attributes.Count - 1; i >= 0; i--)
+            for (var i = token.Attributes.Count - 1; i >= 0; i--)
             {
-                if (element.HasAttribute(attributes[i].Name))
+                if (element.HasAttribute(token.Attributes[i].Name))
                 {
-                    attributes.RemoveAt(i);
+                    token.RemoveAttributeAt(i);
                 }
             }
 
-            element.SetAttributes(attributes);
+            element.SetAttributes(token.Attributes);
         }
 
         public static void AddFormatting(this List<Element> formatting, Element element)
+        {
+            AddFormatting<Element>(formatting, element);
+        }
+
+        public static void AddFormatting<TElement>(this List<TElement> formatting, TElement element)
+            where TElement: class, IConstructableElement
         {
             var count = 0;
 
@@ -136,6 +133,12 @@ namespace AngleSharp.Html.Parser
 
         public static void ClearFormatting(this List<Element> formatting)
         {
+            ClearFormatting<Element>(formatting);
+        }
+
+        public static void ClearFormatting<TElement>(this List<TElement> formatting)
+            where TElement: class, IConstructableElement
+        {
             while (formatting.Count != 0)
             {
                 var index = formatting.Count - 1;
@@ -152,6 +155,13 @@ namespace AngleSharp.Html.Parser
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddScopeMarker(this List<Element> formatting)
         {
+            AddScopeMarker<Element>(formatting);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddScopeMarker<TElement>(this List<TElement> formatting)
+            where TElement: class, IConstructableElement
+        {
             formatting.Add(null!);
         }
 
@@ -164,6 +174,14 @@ namespace AngleSharp.Html.Parser
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddComment(this Element parent, ref StructHtmlToken token)
+        {
+            parent.AddNode(token.IsProcessingInstruction
+                ? ProcessingInstruction.Create(parent.Owner, token.Data.ToString())
+                : new Comment(parent.Owner, token.Data.ToString()));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddComment(this Document parent, HtmlToken token)
         {
             parent.AddNode(token.IsProcessingInstruction
@@ -171,7 +189,29 @@ namespace AngleSharp.Html.Parser
                 : new Comment(parent, token.Data));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddComment(this Document parent, ref StructHtmlToken token)
+        {
+            parent.AddNode(token.IsProcessingInstruction
+                ? ProcessingInstruction.Create(parent, token.Data.ToString())
+                : new Comment(parent, token.Data.ToString()));
+        }
+
         public static QuirksMode GetQuirksMode(this HtmlDoctypeToken doctype)
+        {
+            if (doctype.IsFullQuirks)
+            {
+                return QuirksMode.On;
+            }
+            else if (doctype.IsLimitedQuirks)
+            {
+                return QuirksMode.Limited;
+            }
+
+            return QuirksMode.Off;
+        }
+
+        public static QuirksMode GetQuirksMode(this ref StructHtmlToken doctype)
         {
             if (doctype.IsFullQuirks)
             {

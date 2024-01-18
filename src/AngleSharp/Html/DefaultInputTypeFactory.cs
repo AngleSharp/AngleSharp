@@ -17,7 +17,7 @@ namespace AngleSharp.Html
         /// <returns>The created input type provider.</returns>
         public delegate BaseInputType Creator(IHtmlInputElement input);
 
-        private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> _creators = new(StringComparer.OrdinalIgnoreCase)
         {
             { InputTypeNames.Text, input => new TextInputType(input, InputTypeNames.Text) },
             { InputTypeNames.Date, input => new DateInputType(input, InputTypeNames.Date) },

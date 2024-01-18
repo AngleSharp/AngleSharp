@@ -3,11 +3,12 @@
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+    using Construction;
 
     /// <summary>
     /// Represents the HTML frame element.
     /// </summary>
-    sealed class HtmlFrameElement : HtmlFrameElementBase
+    sealed class HtmlFrameElement : HtmlFrameElementBase, IConstructableFrameElement
     {
         #region ctor
 

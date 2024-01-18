@@ -21,7 +21,7 @@ namespace AngleSharp.Dom
 
         public MutationHost(IEventLoop loop)
         {
-            _observers = new List<MutationObserver>();
+            _observers = [];
             _queued = false;
             _loop = loop;
         }

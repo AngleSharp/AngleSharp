@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration of possible values for position comparisons in a range object.
     /// </summary>
-    public enum RangePosition : short
+    public enum RangePosition : System.Int16
     {
         /// <summary>
         /// The position of the given point to the other point is before.

@@ -22,7 +22,7 @@ namespace AngleSharp.Css.Dom
 
         public ComplexSelector()
         {
-            _combinators = new List<CombinatorSelector>();
+            _combinators = [];
         }
 
         #endregion

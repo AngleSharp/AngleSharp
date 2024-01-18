@@ -3,11 +3,15 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.IO;
+    using Common;
+    using Html.Construction;
+    using Html.Parser.Tokens;
+    using Html.Parser.Tokens.Struct;
 
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
-    public abstract class Node : EventTarget, INode, IEquatable<INode>
+    public abstract class Node : EventTarget, INode, IEquatable<INode>, IConstructableNode
     {
         #region Fields
 
@@ -30,16 +34,13 @@ namespace AngleSharp.Dom
             _owner = owner;
             _name = name ?? String.Empty;
             _type = type;
-            _children = this.IsEndPoint() ? NodeList.Empty : new NodeList();
+            _children = this.IsEndPoint() ? NodeList.Empty : [];
             _flags = flags;
         }
 
         #endregion
 
         #region Public Properties
-
-        /// <inheritdoc />
-        public NodeFlags Flags => _flags;
 
         /// <inheritdoc />
         public Boolean HasChildNodes => _children.Length != 0;
@@ -86,6 +87,9 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public NodeType NodeType => _type;
+
+        /// <inheritdoc />
+        public NodeFlags Flags => _flags;
 
         /// <inheritdoc />
         public virtual String NodeValue
@@ -597,6 +601,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public INode ReplaceChild(INode newChild, INode oldChild) => this.ReplaceChild((Node)newChild, (Node)oldChild, false);
 
+
         /// <inheritdoc />
         public INode RemoveChild(INode child) => this.PreRemove(child);
 
@@ -860,7 +865,6 @@ namespace AngleSharp.Dom
             {
                 foreach (var child in _children)
                 {
-
                     if (child is Node node)
                     {
                         var clone = node.Clone(owner, true);
@@ -868,6 +872,76 @@ namespace AngleSharp.Dom
                     }
                 }
             }
+        }
+
+        #endregion
+
+        #region Construction
+
+        StringOrMemory IConstructableNode.NodeName => NodeName;
+
+        /// <inheritdoc />
+        NodeFlags IConstructableNode.Flags => _flags;
+
+        IConstructableNode? IConstructableNode.Parent
+        {
+            get => Parent;
+            set
+            {
+                if (value != null)
+                {
+                    Parent = (Node)value;
+                }
+            }
+        }
+
+        IConstructableNodeList IConstructableNode.ChildNodes => ChildNodes;
+
+        void IConstructableNode.RemoveFromParent()
+        {
+            Parent?.RemoveChild(this);
+        }
+
+        void IConstructableNode.RemoveChild(IConstructableNode childNode)
+        {
+            RemoveChild((Node)childNode, false);
+        }
+
+        void IConstructableNode.RemoveNode(Int32 idx, IConstructableNode childNode)
+        {
+            RemoveNode(idx, (Node)childNode);
+        }
+
+        void IConstructableNode.InsertNode(Int32 idx, IConstructableNode childNode)
+        {
+            InsertNode(idx, (Node)childNode);
+        }
+
+        void IConstructableNode.AddNode(IConstructableNode node)
+        {
+            AddNode((Node)node);
+        }
+
+        private static ReadOnlySpan<Char> WhiteSpace => " \t\r\n".AsSpan();
+
+        void IConstructableNode.AppendText(StringOrMemory text, Boolean emitWhiteSpaceOnly)
+        {
+            if (!emitWhiteSpaceOnly && text.Memory.Span.Trim(WhiteSpace).Length == 0)
+            {
+                return;
+            }
+
+            AppendText(text.ToString());
+        }
+
+        void IConstructableNode.InsertText(Int32 idx, StringOrMemory text, Boolean emitWhiteSpaceOnly)
+        {
+            if (!emitWhiteSpaceOnly && text.Memory.Span.Trim(WhiteSpace).Length == 0)
+            {
+                return;
+            }
+
+            InsertText(idx, text.ToString());
         }
 
         #endregion

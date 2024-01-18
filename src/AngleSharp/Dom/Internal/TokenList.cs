@@ -27,7 +27,7 @@ namespace AngleSharp.Dom
 
         internal TokenList(String? value)
         {
-            _tokens = new List<String>();
+            _tokens = [];
             Update(value);
         }
 

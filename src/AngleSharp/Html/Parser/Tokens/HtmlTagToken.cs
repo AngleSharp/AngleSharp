@@ -12,7 +12,7 @@ namespace AngleSharp.Html.Parser.Tokens
     {
         #region Fields
 
-        private readonly List<HtmlAttributeToken> _attributes = new List<HtmlAttributeToken>();
+        private readonly List<HtmlAttributeToken> _attributes = [];
         private Boolean _selfClosing;
 
         #endregion

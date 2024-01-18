@@ -6,7 +6,7 @@
     /// Describes the various validation errors.
     /// </summary>
     [Flags]
-    public enum ValidationErrors : ushort
+    public enum ValidationErrors : UInt16
     {
         /// <summary>
         /// No errors.

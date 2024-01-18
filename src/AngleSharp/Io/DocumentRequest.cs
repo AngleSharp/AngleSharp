@@ -40,7 +40,7 @@ namespace AngleSharp.Io
         /// <param name="source">The optional source of the request.</param>
         /// <param name="referer">The optional referrer string.</param>
         /// <returns>The new document request.</returns>
-        public static DocumentRequest Get(Url target, INode? source = null, String? referer = null) => new DocumentRequest(target)
+        public static DocumentRequest Get(Url target, INode? source = null, String? referer = null) => new(target)
         {
             Method = HttpMethod.Get,
             Referer = referer,
@@ -58,7 +58,7 @@ namespace AngleSharp.Io
         /// <param name="source">The optional source of the request.</param>
         /// <param name="referer">The optional referrer string.</param>
         /// <returns>The new document request.</returns>
-        public static DocumentRequest Post(Url target, Stream body, String type, INode? source = null, String? referer = null) => new DocumentRequest(target)
+        public static DocumentRequest Post(Url target, Stream body, String type, INode? source = null, String? referer = null) => new(target)
         {
             Method = HttpMethod.Post,
             Body = body ?? throw new ArgumentNullException(nameof(body)),

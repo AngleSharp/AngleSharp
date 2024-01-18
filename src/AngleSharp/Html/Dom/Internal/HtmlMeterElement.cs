@@ -23,7 +23,7 @@
         public HtmlMeterElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Meter, prefix)
         {
-            _labels = new NodeList();
+            _labels = [];
         }
 
         #endregion

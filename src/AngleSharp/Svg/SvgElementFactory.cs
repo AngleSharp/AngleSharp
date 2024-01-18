@@ -12,7 +12,7 @@ namespace AngleSharp.Svg
     {
         private delegate SvgElement Creator(Document owner, String? prefix);
 
-        private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> creators = new(StringComparer.OrdinalIgnoreCase)
         {
             { TagNames.Svg, (document, prefix) => new SvgSvgElement(document, prefix) },
             { TagNames.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },
@@ -20,6 +20,8 @@ namespace AngleSharp.Svg
             { TagNames.ForeignObject, (document, prefix) => new SvgForeignObjectElement(document, prefix) },
             { TagNames.Title, (document, prefix) => new SvgTitleElement(document, prefix) },
         };
+
+        internal static readonly SvgElementFactory Instance = new();
 
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.

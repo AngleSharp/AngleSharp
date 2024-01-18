@@ -8,7 +8,7 @@
     /// </summary>
     [Flags]
     [DomName("NodeFilter")]
-    public enum FilterSettings : ulong
+    public enum FilterSettings : UInt64
     {
         /// <summary>
         /// All nodes will be considered.

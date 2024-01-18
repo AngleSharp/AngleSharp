@@ -11,8 +11,8 @@ namespace AngleSharp.Css
     public class DefaultAttributeSelectorFactory : IAttributeSelectorFactory
     {
         // see https://html.spec.whatwg.org/multipage/semantics-other.html#case-sensitivity-of-selectors
-        private static readonly HashSet<String> insensitiveAttributes = new HashSet<String>
-        {
+        private static readonly HashSet<String> insensitiveAttributes =
+        [
             AttributeNames.Accept,
             AttributeNames.AcceptCharset,
             AttributeNames.Align,
@@ -59,9 +59,9 @@ namespace AngleSharp.Css
             AttributeNames.Valign,
             AttributeNames.ValueType,
             AttributeNames.Vlink,
-        };
+        ];
 
-        private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>
+        private readonly Dictionary<String, Creator> _creators = new()
         {
             { CombinatorSymbols.Exactly, (name, value, prefix, mode) => new AttrMatchSelector(name, value, prefix, mode) },
             { CombinatorSymbols.InList, (name, value, prefix, mode) => new AttrInListSelector(name, value, prefix, mode) },
@@ -136,6 +136,11 @@ namespace AngleSharp.Css
             if (_creators.TryGetValue(combinator, out var creator))
             {
                 return creator.Invoke(name, value, prefix, insensitive);
+            }
+
+            if (combinator == "&")
+            {
+                return NestedSelector.Instance;
             }
 
             return CreateDefault(name, value, prefix, insensitive);

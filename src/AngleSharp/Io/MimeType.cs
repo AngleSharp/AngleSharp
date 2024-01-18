@@ -90,7 +90,7 @@ namespace AngleSharp.Io
         /// </summary>
         public String Suffix => _suffix;
 
-        private static readonly char[] s_semicolon = { ';' };
+        private static readonly Char[] s_semicolon = { ';' };
 
         /// <summary>
         /// Gets an iterator over all integrated keys.
@@ -106,7 +106,7 @@ namespace AngleSharp.Io
                         continue;
                     }
 
-                    int equalIndex = p.IndexOf('=');
+                    var equalIndex = p.IndexOf('=');
 
                     yield return equalIndex >= 0 ? p.Substring(0, equalIndex) : p;
                 }

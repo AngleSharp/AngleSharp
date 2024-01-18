@@ -303,10 +303,7 @@ namespace AngleSharp.Dom
 
         private static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, ISelector? selector)
         {
-            if (selector is null)
-            {
-                selector = AllSelector.Instance;
-            }
+            selector ??= AllSelector.Instance;
 
             foreach (var element in elements)
             {
@@ -330,10 +327,7 @@ namespace AngleSharp.Dom
 
         private static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement?> getter, ISelector? selector)
         {
-            if (selector is null)
-            {
-                selector = AllSelector.Instance;
-            }
+            selector ??= AllSelector.Instance;
 
             foreach (var element in elements)
             {
@@ -372,10 +366,7 @@ namespace AngleSharp.Dom
         private static IEnumerable<T> Filter<T>(this IEnumerable<T> elements, ISelector? selector, Boolean result)
             where T : IElement
         {
-            if (selector is null)
-            {
-                selector = AllSelector.Instance;
-            }
+            selector ??= AllSelector.Instance;
 
             foreach (var element in elements)
             {

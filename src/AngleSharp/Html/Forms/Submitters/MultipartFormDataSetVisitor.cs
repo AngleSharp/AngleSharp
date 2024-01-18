@@ -26,7 +26,7 @@ namespace AngleSharp.Html.Forms.Submitters
         {
             _htmlEncoder = htmlEncoder;
             _encoding = encoding;
-            _writers = new List<Action<StreamWriter>>();
+            _writers = [];
             _boundary = boundary;
         }
 

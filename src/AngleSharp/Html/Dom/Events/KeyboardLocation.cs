@@ -6,7 +6,7 @@
     /// An enumeration over all possible keyboard locations.
     /// </summary>
     [DomName("KeyboardEvent")]
-    public enum KeyboardLocation : byte
+    public enum KeyboardLocation : System.Byte
     {
         /// <summary>
         /// The standard location.

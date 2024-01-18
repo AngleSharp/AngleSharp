@@ -26,7 +26,7 @@ namespace AngleSharp.Dom
             _elements = elements;
         }
 
-        public HtmlCollection(INode parent, Boolean deep = true, Func<T, bool>? predicate = null)
+        public HtmlCollection(INode parent, Boolean deep = true, Func<T, Boolean>? predicate = null)
         {
             _elements = parent.GetNodes(deep, predicate);
         }

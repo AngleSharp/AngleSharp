@@ -19,7 +19,7 @@ namespace AngleSharp.Dom
 
         #region Properties
 
-        private List<RegisteredEventListener> Listeners => _listeners ??= new List<RegisteredEventListener>();
+        private List<RegisteredEventListener> Listeners => _listeners ??= [];
 
         #endregion
 

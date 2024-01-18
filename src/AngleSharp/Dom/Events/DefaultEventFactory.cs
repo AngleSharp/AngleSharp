@@ -15,7 +15,7 @@ namespace AngleSharp.Dom.Events
         /// <returns>The created event.</returns>
         public delegate Event Creator();
 
-        private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> _creators = new(StringComparer.OrdinalIgnoreCase)
         {
             { "event", () => new Event() },
             { "uievent", () => new UiEvent() },

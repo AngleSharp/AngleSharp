@@ -1040,11 +1040,13 @@ namespace AngleSharp.Core.Tests.Html
             var resolver = HtmlEntityProvider.Resolver;
             var reverseResolver = HtmlEntityProvider.ReverseResolver;
             var symbol = "copy;";
-            var result = reverseResolver.GetName(resolver.GetSymbol(symbol));
+            var resolved = resolver.GetSymbol(symbol);
+            var result = reverseResolver.GetName(resolved);
             Assert.AreEqual(symbol, result);
         }
 
         [Test]
+        // [Timeout(500)]
         public void EntityDecodingInNoScript_Issue1139()
         {
             var html = @"<html></head><body><noscript><div></div></noscript></body></html>";

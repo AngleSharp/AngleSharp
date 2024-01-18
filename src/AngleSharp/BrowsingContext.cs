@@ -40,10 +40,10 @@ namespace AngleSharp
 
         private BrowsingContext(Sandboxes security)
         {
-            _services = new List<Object>();
+            _services = [];
             _originalServices = _services;
             _security = security;
-            _children = new Dictionary<String, WeakReference<IBrowsingContext>>();
+            _children = [];
         }
 
         internal BrowsingContext(IEnumerable<Object> services, Sandboxes security)
@@ -219,10 +219,7 @@ namespace AngleSharp
         /// <returns>The browsing context to use.</returns>
         public static IBrowsingContext New(IConfiguration? configuration = null)
         {
-            if (configuration is null)
-            {
-                configuration = AngleSharp.Configuration.Default;
-            }
+            configuration ??= AngleSharp.Configuration.Default;
 
             return new BrowsingContext(configuration.Services, Sandboxes.None);
         }

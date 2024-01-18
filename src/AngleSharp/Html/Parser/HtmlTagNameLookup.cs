@@ -2,11 +2,11 @@ namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using System;
-    using System.Text;
+    using Common;
 
     static class HtmlTagNameLookup
     {
-        public static String? TryGetWellKnownTagName(StringBuilder builder)
+        public static String? TryGetWellKnownTagName(ICharBuffer builder)
         {
             switch (builder.Length)
             {
@@ -553,9 +553,9 @@ namespace AngleSharp.Html.Parser
             }
         }
 
-        private static Boolean CharsAreEqual( StringBuilder builder, String tagName )
+        private static Boolean CharsAreEqual(ICharBuffer builder, String tagName)
         {
-            for ( int i = 0; i < tagName.Length; i++ )
+            for ( var i = 0; i < tagName.Length; i++ )
             {
                 if ( tagName[ i ] != builder[ i ] )
                 {

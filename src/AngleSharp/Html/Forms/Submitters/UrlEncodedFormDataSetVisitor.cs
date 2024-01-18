@@ -24,7 +24,7 @@
         public UrlEncodedFormDataSetVisitor(Encoding encoding)
         {
             _encoding = encoding;
-            _lines = new List<String>();
+            _lines = [];
             _first = true;
             _index = String.Empty;
         }

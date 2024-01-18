@@ -417,9 +417,7 @@ Also not bold.").ToHtmlDocument();
         [Test]
         public void HelloWorldWithSomeDivs()
         {
-            var doc = (@"<html><body>
-<label><a><div>Hello<div>World</div></a></label>  
-</body></html>").ToHtmlDocument();
+            var doc = ("<html><body>\n<label><a><div>Hello<div>World</div></a></label>  \n</body></html>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);

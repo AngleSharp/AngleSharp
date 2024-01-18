@@ -12,7 +12,7 @@ namespace AngleSharp.Mathml
     {
         private delegate MathElement Creator(Document owner, String? prefix);
 
-        private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> creators = new(StringComparer.OrdinalIgnoreCase)
         {
             { TagNames.Mn, (document, prefix) => new MathNumberElement(document, prefix) },
             { TagNames.Mo, (document, prefix) => new MathOperatorElement(document, prefix) },
@@ -21,6 +21,8 @@ namespace AngleSharp.Mathml
             { TagNames.Mtext, (document, prefix) => new MathTextElement(document, prefix) },
             { TagNames.AnnotationXml, (document, prefix) => new MathAnnotationXmlElement(document, prefix) },
         };
+
+        internal static readonly MathElementFactory Instance = new();
 
         /// <summary>
         /// Returns a specialized MathMLElement instance for the given tag.

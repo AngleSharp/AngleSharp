@@ -305,7 +305,7 @@ namespace AngleSharp.Html.Dom
         }
 
         internal override FormControlState SaveControlState() =>
-            new FormControlState(Name!, Type, Value);
+            new(Name!, Type, Value);
 
         internal override void RestoreFormControlState(FormControlState state)
         {

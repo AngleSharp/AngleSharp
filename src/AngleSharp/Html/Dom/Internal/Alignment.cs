@@ -3,7 +3,7 @@
     /// <summary>
     /// The list of possible horizontal alignments.
     /// </summary>
-    enum Alignment : byte
+    enum Alignment : System.Byte
     {
         /// <summary>
         /// The bottom of the object should be vertically aligned with

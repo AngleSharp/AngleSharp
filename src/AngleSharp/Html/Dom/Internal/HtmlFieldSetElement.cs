@@ -27,7 +27,7 @@ namespace AngleSharp.Html.Dom
 
         public String Type => TagNames.Fieldset;
 
-        public IHtmlFormControlsCollection Elements => _elements ?? (_elements = new HtmlFormControlsCollection(Form!, this));
+        public IHtmlFormControlsCollection Elements => _elements ??= new HtmlFormControlsCollection(Form!, this);
 
         #endregion
 

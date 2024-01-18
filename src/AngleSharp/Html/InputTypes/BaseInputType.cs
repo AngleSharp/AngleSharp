@@ -20,12 +20,12 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// The start of the unix epoch (1st of January 1970).
         /// </summary>
-        protected static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        protected static readonly DateTime UnixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Simple regular expression for floating point numbers.
         /// </summary>
-        protected static readonly Regex NumberPattern = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$", RegexOptions.Compiled);
+        protected static readonly Regex NumberPattern = new("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$", RegexOptions.Compiled);
 
         private readonly IHtmlInputElement _input;
         private readonly Boolean _validate;

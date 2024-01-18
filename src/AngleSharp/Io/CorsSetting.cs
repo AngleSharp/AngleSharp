@@ -3,7 +3,7 @@
     /// <summary>
     /// CORS settings attributes (see 2.6.6).
     /// </summary>
-    public enum CorsSetting : byte
+    public enum CorsSetting : System.Byte
     {
         /// <summary>
         /// The default (missing) value.

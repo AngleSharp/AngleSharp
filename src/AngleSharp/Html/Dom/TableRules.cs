@@ -3,7 +3,7 @@
     /// <summary>
     /// The list of possible table rules.
     /// </summary>
-    public enum TableRules : byte
+    public enum TableRules : System.Byte
     {
         /// <summary>
         /// No rules. This is the default value.

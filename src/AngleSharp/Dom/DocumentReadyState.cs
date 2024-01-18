@@ -5,7 +5,7 @@ namespace AngleSharp.Dom
     /// <summary>
     /// Defines the document readiness.
     /// </summary>
-    public enum DocumentReadyState : byte
+    public enum DocumentReadyState : System.Byte
     {
         /// <summary>
         /// The document is still loading.

@@ -8,6 +8,7 @@ namespace AngleSharp.Dom
     using System.Globalization;
     using System.Linq;
     using System.Text;
+    using Common;
 
     /// <summary>
     /// Represents an Url class according to RFC3986. This is the base for all
@@ -25,7 +26,7 @@ namespace AngleSharp.Dom
         private static readonly String CurrentDirectoryAlternative = "%2e";
         private static readonly String UpperDirectory = "..";
         private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
-        private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
+        private static readonly Url DefaultBase = new(String.Empty, String.Empty, String.Empty);
         private static readonly Char[] C0ControlAndSpace = Enumerable.Range(0x00, 0x21).Select(c => (Char)c).ToArray();
 
         // Remark: `UseStd3AsciiRules = false` is against spec
@@ -672,7 +673,7 @@ namespace AngleSharp.Dom
                     }
                 }
             }
-            
+
             return !onlyScheme && RelativeState(input, 0, length);
         }
 
@@ -1029,8 +1030,8 @@ namespace AngleSharp.Dom
                     {
                         path = CurrentDirectory;
                     }
-                    else if (path.Isi(UpperDirectoryAlternatives[0]) || 
-                             path.Isi(UpperDirectoryAlternatives[1]) || 
+                    else if (path.Isi(UpperDirectoryAlternatives[0]) ||
+                             path.Isi(UpperDirectoryAlternatives[1]) ||
                              path.Isi(UpperDirectoryAlternatives[2]))
                     {
                         path = UpperDirectory;
@@ -1047,10 +1048,10 @@ namespace AngleSharp.Dom
                     }
                     else if (!path.Is(CurrentDirectory))
                     {
-                        if (_scheme.Is(ProtocolNames.File) && 
-                            paths.Count == originalCount && 
-                            path.Length == 2 && 
-                            path[0].IsLetter() && 
+                        if (_scheme.Is(ProtocolNames.File) &&
+                            paths.Count == originalCount &&
+                            path.Length == 2 &&
+                            path[0].IsLetter() &&
                             path[1] == Symbols.Pipe)
                         {
                             path = path.Replace(Symbols.Pipe, Symbols.Colon);
@@ -1208,7 +1209,7 @@ namespace AngleSharp.Dom
 
             // 2. Return the percent decoding of bytes.
             // in-place
-            for (int i = 0, insertIndex = 0; i < bytes.Length; i++, insertIndex++)
+            for (Int32 i = 0, insertIndex = 0; i < bytes.Length; i++, insertIndex++)
             {
                 var cc = (Char)bytes[i];
                 switch (cc)
@@ -1262,11 +1263,11 @@ namespace AngleSharp.Dom
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.4
             // string utf 8 percent decoding of input.
-            string percentDecoded = Utf8PercentDecode(hostName.Substring(start, length));
+            var percentDecoded = Utf8PercentDecode(hostName.Substring(start, length));
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.5
             // domain to ASCII
-            string domainToAscii;
+            String domainToAscii;
 
             try
             {
@@ -1318,25 +1319,33 @@ namespace AngleSharp.Dom
 
         private static String SanatizePort(String port, Int32 start, Int32 length)
         {
-            var chars = new Char[length];
-            var count = 0;
-            var n = start + length;
-
-            for (var i = start; i < n; i++)
+            if (length < 128)
             {
-                if (count == 1 && chars[0] == '0')
-                {
-                    chars[0] = port[i];
-                }
-                else
-                {
-                    chars[count++] = port[i];
-                }
+                return Go(stackalloc Char[length]);
+            }
+            else
+            {
+                return Go(new Char[length]);
             }
 
-            return new String(chars, 0, count);
+            String Go(Span<Char> chars)
+            {
+                var count = 0;
+                var n = start + length;
+                for (var i = start; i < n; i++)
+                {
+                    if (count == 1 && chars[0] == '0')
+                    {
+                        chars[0] = port[i];
+                    }
+                    else
+                    {
+                        chars[count++] = port[i];
+                    }
+                }
+                return chars.Slice(0, count).ToString();
+            }
         }
-
 #endregion
     }
 }

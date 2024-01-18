@@ -795,41 +795,41 @@ namespace AngleSharp.Dom
         /// <summary>
         /// The clear attribute.
         /// </summary>
-        public static readonly string Clear = "clear";
+        public static readonly String Clear = "clear";
 
         /// <summary>
         /// The codetype attribute.
         /// </summary>
-        public static readonly string Codetype = "codetype";
+        public static readonly String Codetype = "codetype";
 
         /// <summary>
         /// The compact attribute.
         /// </summary>
-        public static readonly string Compact = "compact";
+        public static readonly String Compact = "compact";
 
         /// <summary>
         /// The declare attribute.
         /// </summary>
-        public static readonly string Declare = "declare";
+        public static readonly String Declare = "declare";
 
         /// <summary>
         /// The direction attribute.
         /// </summary>
-        public static readonly string Direction = "direction";
+        public static readonly String Direction = "direction";
 
         /// <summary>
         /// The nohref attribute.
         /// </summary>
-        public static readonly string NoHref = "nohref";
+        public static readonly String NoHref = "nohref";
 
         /// <summary>
         /// The noshade attribute.
         /// </summary>
-        public static readonly string NoShade = "noshade";
+        public static readonly String NoShade = "noshade";
 
         /// <summary>
         /// The valuetype attribute.
         /// </summary>
-        public static readonly string ValueType = "valuetype";
+        public static readonly String ValueType = "valuetype";
     }
 }

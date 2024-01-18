@@ -24,10 +24,7 @@ namespace AngleSharp.Dom
 
         public HtmlFormControlsCollection(IElement form, IElement? root = null)
         {
-            if (root is null)
-            {
-                root = form.Owner!.DocumentElement;
-            }
+            root ??= form.Owner!.DocumentElement;
 
             _elements = root.GetNodes<HtmlFormControlElement>().Where(m =>
             {

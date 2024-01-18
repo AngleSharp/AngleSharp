@@ -2,11 +2,12 @@ namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
+    using Construction;
 
     /// <summary>
     /// Represents the template element.
     /// </summary>
-    sealed class HtmlTemplateElement : HtmlElement, IHtmlTemplateElement
+    sealed class HtmlTemplateElement : HtmlElement, IHtmlTemplateElement, IConstructableTemplateElement
     {
         #region Fields
 

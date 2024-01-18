@@ -5,7 +5,7 @@
     /// <summary>
     /// A list of possible quirks mode states.
     /// </summary>
-    enum QuirksMode : byte
+    public enum QuirksMode : System.Byte
     {
         /// <summary>
         /// The quirks mode is deactivated.

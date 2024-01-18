@@ -29,27 +29,27 @@ namespace AngleSharp.Css
         /// <summary>
         /// Gets the lowest (zero) priority.
         /// </summary>
-        public static readonly Priority Zero = new Priority(0u);
+        public static readonly Priority Zero = new(0u);
 
         /// <summary>
         /// Gets the priority for having a single tag.
         /// </summary>
-        public static readonly Priority OneTag = new Priority(0, 0, 0, 1);
+        public static readonly Priority OneTag = new(0, 0, 0, 1);
 
         /// <summary>
         /// Gets the priority for having a single class.
         /// </summary>
-        public static readonly Priority OneClass = new Priority(0, 0, 1, 0);
+        public static readonly Priority OneClass = new(0, 0, 1, 0);
 
         /// <summary>
         /// Gets the priority for having a single Id.
         /// </summary>
-        public static readonly Priority OneId = new Priority(0, 1, 0, 0);
+        public static readonly Priority OneId = new(0, 1, 0, 0);
 
         /// <summary>
         /// Gets the priority for having an inline element.
         /// </summary>
-        public static readonly Priority Inline = new Priority(1, 0, 0, 0);
+        public static readonly Priority Inline = new(1, 0, 0, 0);
 
         #endregion
 
@@ -115,7 +115,7 @@ namespace AngleSharp.Css
         /// <param name="a">The first priority.</param>
         /// <param name="b">The second priority.</param>
         /// <returns>The result of adding the two priorities.</returns>
-        public static Priority operator +(Priority a, Priority b) => new Priority(a._priority + b._priority);
+        public static Priority operator +(Priority a, Priority b) => new(a._priority + b._priority);
 
         #endregion
 

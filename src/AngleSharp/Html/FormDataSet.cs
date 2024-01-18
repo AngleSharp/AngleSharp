@@ -32,7 +32,7 @@ namespace AngleSharp.Html
         public FormDataSet()
         {
             _boundary = Guid.NewGuid().ToString();
-            _entries = new List<FormDataSetEntry>();
+            _entries = [];
         }
 
         #endregion

@@ -34,7 +34,7 @@ namespace AngleSharp.Io
         {
             _context = context;
             _filter = filter ?? (_ => true);
-            _downloads = new List<IDownload>();
+            _downloads = [];
             MaxRedirects = 50;
         }
 

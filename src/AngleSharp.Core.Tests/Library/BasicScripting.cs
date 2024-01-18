@@ -14,6 +14,11 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void DocumentWriteDynamicallyWithCustomScriptEngineAndText()
         {
+            if (TestRuntime.UsePrefetchedTextSource)
+            {
+                Assert.Ignore("Prefetched text source is read only");
+            }
+
             var scripting = new CallbackScriptEngine(options => options.Document.Write("<b>Dynamically written</b>"));
             var config = Configuration.Default.WithScripts(scripting);
             var source = "<title>Some title</title><body><script type='c-sharp'>//...</script>";
