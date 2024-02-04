@@ -6,6 +6,7 @@
     <authors>AngleSharp</authors>
     <owners>Florian Rappl</owners>
     <license type="expression">MIT</license>
+    <repository type="git" url="https://github.com/AngleSharp/AngleSharp" />
     <projectUrl>https://anglesharp.github.io</projectUrl>
     <icon>logo.png</icon>
     <readme>README.md</readme>
