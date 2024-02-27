@@ -8,7 +8,7 @@ namespace AngleSharp.Html.Parser.Tokens
     /// <summary>
     /// Class for StartTagToken and EndTagToken.
     /// </summary>
-    public sealed class HtmlTagToken : HtmlToken, ISourceReference
+    public sealed class HtmlTagToken : HtmlToken
     {
         #region Fields
 

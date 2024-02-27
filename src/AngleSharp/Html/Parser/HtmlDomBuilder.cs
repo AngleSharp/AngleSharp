@@ -4240,7 +4240,7 @@ namespace AngleSharp.Html.Parser
         {
             if (_options.IsKeepingSourceReferences)
             {
-                element.SourceReference = new SourceReference(tag.Position);
+                element.SourceReference = tag.ToHtmlToken();
             }
 
             if (_options.OnCreated != null && element is IElement e)

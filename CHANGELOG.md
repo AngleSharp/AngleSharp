@@ -1,7 +1,8 @@
 # 1.1.1
 
-Released on Sunday, February 25 2024.
+Released on Tuesday, February 27 2024.
 
+- Fixed `ISourceReference` not using `HtmlToken` underneath
 - Improved pre-release version to follow semver (#1171) @georg-jung
 - Improved NuGet package with link to repository (#1168) @thompson-tomo
 
