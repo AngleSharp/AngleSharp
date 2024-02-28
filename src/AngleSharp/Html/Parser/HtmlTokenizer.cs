@@ -2662,11 +2662,13 @@ namespace AngleSharp.Html.Parser
 
                             case Symbols.Null:
                                 AppendReplacement();
-                                break;
+                                c = GetNext();
+                                continue;
 
                             case Symbols.EndOfFile:
                                 RaiseErrorOccurred(HtmlParseError.EOF);
                                 Back();
+
                                 if (SkipScriptText)
                                 {
                                     return ref NewSkippedContent();

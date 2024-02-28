@@ -1,6 +1,7 @@
 namespace AngleSharp.Core.Tests.Library;
 
 using System;
+using System.Text;
 using Common;
 using NUnit.Framework;
 
@@ -154,6 +155,15 @@ public class ArrayPoolBufferTests
             b.Append('l');
             Assert.True(b.HasText("html".AsSpan()));
             b.Discard();
-        }
+        }        
+    }
+
+    [Test]
+    public void ShouldNotCrashForCertainInput_Issue1174()
+    {
+        var content = Convert.FromBase64String("PHNjcmlwdD58PCEtLTxzY3JpcHQ+AAAAAAAAAAAAAA==");
+        var html = Encoding.UTF8.GetString(content);
+        var parser = new AngleSharp.Html.Parser.HtmlParser();
+        parser.ParseDocument(html.ToCharArray(), 0);
     }
 }

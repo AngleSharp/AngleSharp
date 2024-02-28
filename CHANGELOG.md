@@ -1,8 +1,9 @@
 # 1.1.1
 
-Released on Tuesday, February 27 2024.
+Released on Thursday, February 29 2024.
 
 - Fixed `ISourceReference` not using `HtmlToken` underneath
+- Fixed handling of replacement characters in escaped script blocks (#1174)
 - Improved pre-release version to follow semver (#1171) @georg-jung
 - Improved NuGet package with link to repository (#1168) @thompson-tomo
 
