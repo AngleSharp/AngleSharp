@@ -7,6 +7,7 @@ Released on Thursday, February 29 2024.
 - Fixed handling of empty template element in SVG foreign mode (#1176)
 - Improved pre-release version to follow semver (#1171) @georg-jung
 - Improved NuGet package with link to repository (#1168) @thompson-tomo
+- Added `PostAsMultipart` helper for multipart/form-data to `DocumentRequest` (#1173)
 
 # 1.1.0
 

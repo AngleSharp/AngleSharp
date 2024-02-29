@@ -52,13 +52,13 @@ namespace AngleSharp.Html
         /// Applies the multipart/form-data algorithm.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#multipart/form-data-encoding-algorithm
         /// </summary>
-        /// <param name="htmlEncoder">HTML encoder.</param>
+        /// <param name="htmlEncoder">HTML encoder. If null is given a default encoder is created.</param>
         /// <param name="encoding">(Optional) Explicit encoding.</param>
         /// <returns>A stream containing the body.</returns>
-        public Stream AsMultipart(IHtmlEncoder htmlEncoder, Encoding? encoding = null)
+        public Stream AsMultipart(IHtmlEncoder? htmlEncoder, Encoding? encoding = null)
         {
             return BuildRequestContent(encoding,
-                stream => Connect(new MultipartFormDataSetVisitor(htmlEncoder, stream.Encoding, _boundary), stream));
+                stream => Connect(new MultipartFormDataSetVisitor(htmlEncoder ?? new DefaultHtmlEncoder(), stream.Encoding, _boundary), stream));
         }
 
         /// <summary>
@@ -116,6 +116,7 @@ namespace AngleSharp.Html
             {
                 // If same name radio entry already exist, drop it.
                 var earlierEntry = _entries.FirstOrDefault(s => s.Name.Is(name) && s.Type.Isi(InputTypeNames.Radio));
+
                 if (earlierEntry != null)
                 {
                     _entries.Remove(earlierEntry);
