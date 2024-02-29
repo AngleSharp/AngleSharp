@@ -1,10 +1,11 @@
 # 1.1.1
 
-Released on Thursday, February 29 2024.
+Released on Friday, March 1 2024.
 
 - Fixed `ISourceReference` not using `HtmlToken` underneath
 - Fixed handling of replacement characters in escaped script blocks (#1174)
 - Fixed handling of empty template element in SVG foreign mode (#1176)
+- Fixed handling of `<template>` in foreign elements (#1179)
 - Improved pre-release version to follow semver (#1171) @georg-jung
 - Improved NuGet package with link to repository (#1168) @thompson-tomo
 - Added `PostAsMultipart` helper for multipart/form-data to `DocumentRequest` (#1173)

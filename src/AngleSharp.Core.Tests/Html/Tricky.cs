@@ -983,5 +983,48 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
             var parser = new AngleSharp.Html.Parser.HtmlParser();
             parser.ParseDocument(html.ToCharArray(), 0);
         }
+
+        [Test]
+        public void TableMenuShouldApplyHeisenbergCorrectly_Issue1179()
+        {
+            var html = "<table><a><menu>";
+            var parser = new AngleSharp.Html.Parser.HtmlParser();
+            var document = parser.ParseDocument(html.ToCharArray(), 0);
+            Assert.AreEqual("<a><menu></menu></a><table></table>", document.Body.InnerHtml);
+        }
+
+        [Test]
+        public void TableMenuClosedAnchorShouldApplyHeisenbergCorrectly_Issue1179()
+        {
+            var html = "<table><a><menu></a><nobr>";
+            var parser = new AngleSharp.Html.Parser.HtmlParser();
+            var document = parser.ParseDocument(html.ToCharArray(), 0);
+            Assert.AreEqual("<a></a><menu><a></a><nobr></nobr></menu><table></table>", document.Body.InnerHtml);
+        }
+
+        [Test]
+        public void TableMenuTemplateShouldApplyHeisenbergCorrectly_Issue1179()
+        {
+            var html = "<table><a><menu><svg><template></a><nobr>";
+            var parser = new AngleSharp.Html.Parser.HtmlParser();
+            var document = parser.ParseDocument(html.ToCharArray(), 0);
+            Assert.AreEqual("<a></a><menu><a><svg><template></template></svg></a><nobr></nobr></menu><table></table>", document.Body.InnerHtml);
+        }
+
+        [Test]
+        public void TableMenuTemplateShouldNotHang_Issue1179()
+        {
+            var html = "<table><a><menu><svg><template></a><nobr><p><nobr>";
+            var parser = new AngleSharp.Html.Parser.HtmlParser();
+            parser.ParseDocument(html.ToCharArray(), 0);
+        }
+
+        [Test]
+        public void TableMainTemplateShouldNotHang_Issue1179()
+        {
+            var html = "<table><a><main><svg><template></a><a><main><a>";
+            var parser = new AngleSharp.Html.Parser.HtmlParser();
+            parser.ParseDocument(html.ToCharArray(), 0);
+        }
     }
 }

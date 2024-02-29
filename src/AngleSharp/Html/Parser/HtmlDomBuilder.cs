@@ -350,7 +350,7 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
-        /// Consumes a token and processes it.
+        /// Consumes a token and processes it.0
         /// </summary>
         /// <param name="token">The token to consume.</param>
         private void Consume(ref StructHtmlToken token)
@@ -4149,25 +4149,28 @@ namespace AngleSharp.Html.Parser
 
             while (--index != 0)
             {
-                if (_openElements[index].LocalName.Is(TagNames.Template))
+                var el = _openElements[index];
+
+                if (el is HtmlTemplateElement)
                 {
-                    _openElements[index].AddNode(element);
+                    el.AddNode(element);
                     return;
                 }
-                else if (_openElements[index].LocalName.Is(TagNames.Table))
+                else if (el is HtmlTableElement)
                 {
                     table = true;
                     break;
                 }
             }
 
-            var foster = _openElements[index].Parent ?? _openElements[index + 1];
+            var current = _openElements[index];
+            var foster = current.Parent ?? _openElements[index + 1];
 
-            if (table && _openElements[index].Parent != null)
+            if (table && current.Parent != null)
             {
                 for (var i = 0; i < foster.ChildNodes.Length; i++)
 			    {
-                    if (foster.ChildNodes[i] == _openElements[index])
+                    if (foster.ChildNodes[i] == current)
                     {
                         foster.InsertNode(i, element);
                         break;
