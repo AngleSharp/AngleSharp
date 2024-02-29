@@ -356,6 +356,7 @@ namespace AngleSharp.Html.Parser
         private void Consume(ref StructHtmlToken token)
         {
             var node = AdjustedCurrentNode;
+
             if (node is null || token.Type == HtmlTokenType.EndOfFile ||
                 (node.Flags & NodeFlags.HtmlMember) == NodeFlags.HtmlMember ||
                 ((node.Flags & NodeFlags.HtmlTip) == NodeFlags.HtmlTip && token.IsHtmlCompatible) ||
@@ -2881,6 +2882,12 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         private void CloseTemplate()
         {
+            // Well, obviously there is nothing to close - so let's abort
+            if (_templateModes.Count == 0)
+            {
+                return;
+            }
+
             while (_openElements.Count > 0)
             {
                 var currentNode = CurrentNode;

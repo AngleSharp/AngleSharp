@@ -975,5 +975,13 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
             }).ParseDocument("<!DOCTYPE html><a href=\"https://test.de/?foo&_\"></a>");
             Assert.IsNotNull(document);
         }
+
+        [Test]
+        public void StackEmptyShouldNotAppearWithTemplate_Issue1176()
+        {
+            var html = "<svg><template><title><v></temPlate>";
+            var parser = new AngleSharp.Html.Parser.HtmlParser();
+            parser.ParseDocument(html.ToCharArray(), 0);
+        }
     }
 }
