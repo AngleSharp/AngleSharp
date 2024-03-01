@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
+    using AngleSharp.Html;
     using AngleSharp.Html.Dom;
     using AngleSharp.Io;
     using AngleSharp.Io.Dom;
@@ -18,10 +19,16 @@
     {
         private const String BaseUrl = "http://anglesharp.azurewebsites.net/";
 
-        private static Task<IDocument> LoadDocumentAsync(String url)
+        private static Task<IDocument> LoadDocumentAsync(DocumentRequest request)
         {
             var config = new Configuration().WithDefaultLoader();
-            return BrowsingContext.New(config).OpenAsync(Url.Create(url));
+            return BrowsingContext.New(config).OpenAsync(request);
+        }
+
+        private static Task<IDocument> LoadDocumentAsync(String url)
+        {
+            var request = DocumentRequest.Get(Url.Create(url));
+            return LoadDocumentAsync(request);
         }
 
         private static Task<IDocument> PostDocumentAsync(Dictionary<String, String> fields, String encType = null)
@@ -241,6 +248,27 @@
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
                 var response = await form.SubmitAsync();
+                Assert.IsNotNull(response);
+                Assert.AreEqual("okay", response.Body.TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostMultipartFile_DocumentRequest_1173()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var address = BaseUrl + "PostMultipartFile";
+                var fds = new FormDataSet();
+
+                fds.Append("Name", "Test", "text");
+                fds.Append("Number", "1", "number");
+                fds.Append("IsActive", "true", "checkbox");
+                fds.Append("File", GenerateFile(), "file");
+
+                var request = DocumentRequest.PostAsMultipart(Url.Create(address), fds);
+                var response = await LoadDocumentAsync(request);
+
                 Assert.IsNotNull(response);
                 Assert.AreEqual("okay", response.Body.TextContent);
             }

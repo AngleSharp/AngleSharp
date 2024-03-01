@@ -7,12 +7,12 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Html.Forms.Submitters;
     using AngleSharp.Io;
     using AngleSharp.Text;
+    using Construction;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading.Tasks;
-    using Construction;
 
     /// <summary>
     /// Represents the form element.
@@ -113,7 +113,7 @@ namespace AngleSharp.Html.Dom
         {
             var request = GetSubmission();
             var context = Context.ResolveTargetContext(Target);
-            return Context.NavigateToAsync(request);
+            return context.NavigateToAsync(request);
         }
 
         public Task<IDocument> SubmitAsync(IHtmlElement sourceElement)
@@ -354,7 +354,7 @@ namespace AngleSharp.Html.Dom
 
             if (enctype.Isi(MimeTypeNames.MultipartForm))
             {
-                enctype = String.Concat(MimeTypeNames.MultipartForm, "; boundary=", formDataSet.Boundary);
+                return DocumentRequest.PostAsMultipart(url, body, formDataSet.Boundary);
             }
 
             return DocumentRequest.Post(url, body, enctype, source: this, referer: Owner.DocumentUri);

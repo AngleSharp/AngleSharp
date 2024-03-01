@@ -1,6 +1,18 @@
+# 1.1.1
+
+Released on Friday, March 1 2024.
+
+- Fixed `ISourceReference` not using `HtmlToken` underneath
+- Fixed handling of replacement characters in escaped script blocks (#1174)
+- Fixed handling of empty template element in SVG foreign mode (#1176)
+- Fixed handling of `<template>` in foreign elements (#1179)
+- Improved pre-release version to follow semver (#1171) @georg-jung
+- Improved NuGet package with link to repository (#1168) @thompson-tomo
+- Added `PostAsMultipart` helper for multipart/form-data to `DocumentRequest` (#1173)
+
 # 1.1.0
 
-Released on Thursday, January 18 2024
+Released on Thursday, January 18 2024.
 
 - Fixed priority calculations for selector lists (#1161)
 - Fixed `:where` and `:is` selectors using forgiving lists
@@ -10,7 +22,7 @@ Released on Thursday, January 18 2024
 
 # 1.0.7
 
-Released on Friday, November 17 2023
+Released on Friday, November 17 2023.
 
 - Fixed implementation of `IRange` using offsets (#1147) @zukarusan
 - Improved performance in `Node.set_Owner` (#1149) @campersau
@@ -18,7 +30,7 @@ Released on Friday, November 17 2023
 
 # 1.0.6
 
-Released on Saturday, November 11 2023
+Released on Saturday, November 11 2023.
 
 - Fixed case-sensitiveness in virtual responses
 - Fixed warning for outdated actions in CI/CD workflow (#1145) @martincostello
@@ -28,7 +40,7 @@ Released on Saturday, November 11 2023
 
 # 1.0.5
 
-Released on Tuesday, October 3 2023
+Released on Tuesday, October 3 2023.
 
 - Improved codebase (#1128, #1126, #1133) @matkoch @ivandrofly
 - Improved documentation (#1127)
@@ -40,7 +52,7 @@ Released on Tuesday, October 3 2023
 
 # 1.0.4
 
-Released on Saturday, June 24 2023
+Released on Saturday, June 24 2023.
 
 - Fixed issue with gzip encoding under certain conditions (#1122)
 - Fixed issue with `li` scope leading to stack overflow (#1123)
@@ -48,13 +60,13 @@ Released on Saturday, June 24 2023
 
 # 1.0.3
 
-Released on Thursday, June 8 2023
+Released on Thursday, June 8 2023.
 
 - Fixed wrong escaping of CSS selector pseudo class functions (#1069)
 
 # 1.0.2
 
-Released on Tuesday, June 4 2023
+Released on Tuesday, June 4 2023.
 
 - Improved codebase (#1091, #1090, #1089, #1088, #1087, #1086) @SimonCropp
 - Fixed potential stack overflow in `GetStyleSheets` (#1084) @bjornri
@@ -65,7 +77,7 @@ Released on Tuesday, June 4 2023
 
 # 1.0.1
 
-Released on Monday, January 16 2023
+Released on Monday, January 16 2023.
 
 - Fixed entities in `noscript` being double encoded (#1070)
 - Added previous `Event` constructor overload for ABI compatibility
@@ -73,7 +85,7 @@ Released on Monday, January 16 2023
 
 # 1.0.0
 
-Released on Tuesday, January 10 2023
+Released on Tuesday, January 10 2023.
 
 - Updated build system to use NUKE instead of CAKE (#1075) @driekus77
 - Fixed `TagClosedWrong` error with nested formatting elements (#1052)
@@ -88,13 +100,13 @@ Released on Tuesday, January 10 2023
 
 # 0.17.1
 
-Released on Thursday, June 2 2022
+Released on Thursday, June 2 2022.
 
 - Fixed wrong reference to `System.Text.Encoding.CodePages` (#1046) @linkdotnet
 
 # 0.17.0
 
-Released on Tuesday, May 31 2022
+Released on Tuesday, May 31 2022.
 
 - Dropped .NET Framework 4.6 (#960)
 - Updated GitHub actions logger (#1044) @Tyrrrz

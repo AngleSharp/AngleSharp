@@ -1,10 +1,9 @@
 namespace AngleSharp.Dom
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Common;
     using Html;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The collection of (known / used) tags.

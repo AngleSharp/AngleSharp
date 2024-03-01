@@ -7,7 +7,7 @@ namespace AngleSharp.Html.Parser.Tokens
     /// <summary>
     /// The abstract base class of top-level HTML tokens.
     /// </summary>
-    public class HtmlToken
+    public class HtmlToken : ISourceReference
     {
         #region Fields
 
@@ -118,12 +118,14 @@ namespace AngleSharp.Html.Parser.Tokens
         {
             var i = 0;
 
-            for (i = 0; i < _name.Length; i++)
+            while (i < _name.Length)
             {
                 if (!_name[i].IsSpaceCharacter())
                 {
                     break;
                 }
+
+                i++;
             }
 
             var t = _name.Substring(0, i);

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Parser.Tokens.Struct;
+namespace AngleSharp.Html.Parser.Tokens.Struct;
 
 using System;
 using AngleSharp.Common;
@@ -588,7 +588,7 @@ public struct StructHtmlToken
             default:
                 return new HtmlToken(Type, _position, _name.ToString())
                 {
-                    IsProcessingInstruction = IsProcessingInstruction
+                    IsProcessingInstruction = IsProcessingInstruction,
                 };
         }
     }

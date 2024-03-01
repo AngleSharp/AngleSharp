@@ -11,19 +11,14 @@ using System.Buffers;
 /// Works under assumption that the buffer will be disposed after use
 /// and max capacity can't be larger than char count in the source.
 /// </summary>
-internal sealed class ArrayPoolBuffer : IMutableCharBuffer
+internal sealed class ArrayPoolBuffer(Int32 length) : IMutableCharBuffer
 {
-    private Char[] _buffer;
+    private Char[] _buffer = ArrayPool<Char>.Shared.Rent(length);
     private Int32 _start;
     private Int32 _idx;
     private Boolean _disposed;
 
     private Int32 Pointer => _start + _idx;
-
-    public ArrayPoolBuffer(Int32 length)
-    {
-        _buffer = ArrayPool<Char>.Shared.Rent(length);
-    }
 
     public void Append(Char c)
     {

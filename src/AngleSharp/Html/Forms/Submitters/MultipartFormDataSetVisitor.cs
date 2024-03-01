@@ -1,7 +1,6 @@
 namespace AngleSharp.Html.Forms.Submitters
 {
     using AngleSharp.Io.Dom;
-    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.IO;
