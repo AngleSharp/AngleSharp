@@ -115,13 +115,13 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Gets if the tree builder has been created for parsing fragments.
         /// </summary>
-        public Boolean IsFragmentCase => _fragmentContext != null;
+        public Boolean IsFragmentCase => _fragmentContext is not null;
 
         /// <summary>
         /// Gets the adjusted current node.
         /// </summary>
         public IConstructableElement? AdjustedCurrentNode =>
-            (_fragmentContext != null && _openElements.Count == 1) ? _fragmentContext : CurrentNode;
+            (_fragmentContext is not null && _openElements.Count == 1) ? _fragmentContext : CurrentNode;
 
         /// <summary>
         /// Gets the current node.
@@ -150,7 +150,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                if (middleware == null)
+                if (middleware is null)
                 {
                     Consume(ref token);
                 }
@@ -199,14 +199,14 @@ namespace AngleSharp.Html.Parser
                 var @break = Worker(middleware);
                 if (@break) { break; }
 
-                if (_waiting != null)
+                if (_waiting is not null)
                 {
                     await _waiting.ConfigureAwait(false);
                     _waiting = null;
                 }
             } while (!_ended);
 
-            if (_waiting != null)
+            if (_waiting is not null)
             {
                 await _waiting.ConfigureAwait(false);
                 _waiting = null;
@@ -261,7 +261,7 @@ namespace AngleSharp.Html.Parser
                 var element = _openElements[i];
                 var last = i == 0;
 
-                if (last && _fragmentContext != null)
+                if (last && _fragmentContext is not null)
                 {
                     element = _fragmentContext;
                 }
@@ -330,7 +330,7 @@ namespace AngleSharp.Html.Parser
 
             Reset();
 
-            _tokenizer.IsAcceptingCharacterData = (AdjustedCurrentNode!.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember;
+            _tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.HtmlMember);
 
             IConstructableNode? contextNode = context;
 
@@ -344,7 +344,7 @@ namespace AngleSharp.Html.Parser
 
                 contextNode = contextNode.Parent;
             }
-            while (contextNode != null);
+            while (contextNode is not null);
 
             return Parse(options);
         }
@@ -356,12 +356,12 @@ namespace AngleSharp.Html.Parser
         private void Consume(ref StructHtmlToken token)
         {
             var node = AdjustedCurrentNode;
-
+            
             if (node is null || token.Type == HtmlTokenType.EndOfFile ||
-                (node.Flags & NodeFlags.HtmlMember) == NodeFlags.HtmlMember ||
-                ((node.Flags & NodeFlags.HtmlTip) == NodeFlags.HtmlTip && token.IsHtmlCompatible) ||
-                ((node.Flags & NodeFlags.MathTip) == NodeFlags.MathTip && token.IsMathCompatible) ||
-                ((node.Flags & NodeFlags.MathMember) == NodeFlags.MathMember && token.IsSvg &&
+                node.Flags.HasFlag(NodeFlags.HtmlMember) ||
+                (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
+                (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) ||
+                (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg &&
                  node.LocalName.Is(TagNames.AnnotationXml)))
             {
                 Home(ref token);
@@ -1032,7 +1032,7 @@ namespace AngleSharp.Html.Parser
             }
             else if (tagName.Is(TagNames.A))
             {
-                for (var i = _formattingElements.Count - 1; i >= 0 && _formattingElements[i] != null; i--)
+                for (var i = _formattingElements.Count - 1; i >= 0 && _formattingElements[i] is not null; i--)
                 {
                     if (_formattingElements[i].LocalName.Is(TagNames.A))
                     {
@@ -1513,7 +1513,7 @@ namespace AngleSharp.Html.Parser
                 var node = _currentFormElement;
                 _currentFormElement = null;
 
-                if (node != null && IsInScope(node.LocalName))
+                if (node is not null && IsInScope(node.LocalName))
                 {
                     GenerateImpliedEndTags();
 
@@ -3051,7 +3051,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
+                if (node.Flags.HasFlag(NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
                 {
                     break;
                 }
@@ -3086,7 +3086,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
+                if (node.Flags.HasFlag(NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
                 {
                     break;
                 }
@@ -3157,7 +3157,7 @@ namespace AngleSharp.Html.Parser
                 var index = 0;
                 var inner = 0;
 
-                for (var j = _formattingElements.Count - 1; j >= 0 && _formattingElements[j] != null; j--)
+                for (var j = _formattingElements.Count - 1; j >= 0 && _formattingElements[j] is not null; j--)
                 {
                     if (_formattingElements[j].LocalName.Is(tag.Name))
                     {
@@ -3197,7 +3197,7 @@ namespace AngleSharp.Html.Parser
 
                 for (var j = openIndex + 1; j < _openElements.Count; j++)
                 {
-                    if ((_openElements[j].Flags & NodeFlags.Special) == NodeFlags.Special)
+                    if (_openElements[j].Flags.HasFlag(NodeFlags.Special))
                     {
                         index = j;
                         furthestBlock = _openElements[j];
@@ -3331,7 +3331,7 @@ namespace AngleSharp.Html.Parser
             var index = _openElements.Count - 1;
             var node = CurrentNode;
 
-            while (node != null)
+            while (node is not null)
             {
                 if (node.LocalName.Is(tag.Name))
                 {
@@ -3345,7 +3345,7 @@ namespace AngleSharp.Html.Parser
                     CloseNodesFrom(index);
                     break;
                 }
-                else if ((node.Flags & NodeFlags.Special) == NodeFlags.Special)
+                else if (node.Flags.HasFlag(NodeFlags.Special))
                 {
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong, ref tag);
                     break;
@@ -3591,7 +3591,7 @@ namespace AngleSharp.Html.Parser
 
                         node = _openElements[i - 1];
 
-                        if ((node.Flags & NodeFlags.HtmlMember) == NodeFlags.HtmlMember)
+                        if (node.Flags.HasFlag(NodeFlags.HtmlMember))
                         {
                             Home(ref token);
                             break;
@@ -3621,7 +3621,7 @@ namespace AngleSharp.Html.Parser
         {
             var node = CreateForeignElementFrom(ref tag);
 
-            if (node != null)
+            if (node is not null)
             {
                 var selfClosing = tag.IsSelfClosing;
                 CurrentNode.AddNode(node);
@@ -3651,14 +3651,14 @@ namespace AngleSharp.Html.Parser
         /// <returns>The element or NULL if it is no MathML or SVG element.</returns>
         private IConstructableElement? CreateForeignElementFrom(ref StructHtmlToken tag)
         {
-            if ((AdjustedCurrentNode!.Flags & NodeFlags.MathMember) == NodeFlags.MathMember)
+            if (AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.MathMember))
             {
                 var tagName = tag.Name;
                 var element = _elementFactory.CreateMath(_document, tagName);
                 AuxiliarySetupSteps(element, ref tag);
                 return element.Setup(ref tag);
             }
-            else if ((AdjustedCurrentNode.Flags & NodeFlags.SvgMember) == NodeFlags.SvgMember)
+            else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
                 var tagName = tag.Name.SanatizeSvgTagName();
                 var element = _elementFactory.CreateSvg(_document, tagName);
@@ -3727,7 +3727,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.Scoped) == NodeFlags.Scoped)
+                else if (node.Flags.HasFlag(NodeFlags.Scoped))
                 {
                     return false;
                 }
@@ -3750,7 +3750,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.Scoped) == NodeFlags.Scoped)
+                else if (node.Flags.HasFlag(NodeFlags.Scoped))
                 {
                     return false;
                 }
@@ -3796,7 +3796,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if (((node.Flags & NodeFlags.Scoped) == NodeFlags.Scoped) || node.LocalName.Is(TagNames.Button))
+                else if (node.Flags.HasFlag(NodeFlags.Scoped) || node.LocalName.Is(TagNames.Button))
                 {
                     return false;
                 }
@@ -3819,7 +3819,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.HtmlTableScoped) == NodeFlags.HtmlTableScoped)
+                else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                 {
                     return false;
                 }
@@ -3843,7 +3843,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.HtmlTableScoped) == NodeFlags.HtmlTableScoped)
+                else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                 {
                     return false;
                 }
@@ -3867,7 +3867,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.HtmlSelectScoped) != NodeFlags.HtmlSelectScoped)
+                else if (!node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
                 {
                     return false;
                 }
@@ -3890,7 +3890,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         private void HandleScript(IConstructableScriptElement script)
         {
-            if (script != null)
+            if (script is not null)
             {
                 //Disable scripting for HTML fragments (security reasons)
                 if (IsFragmentCase)
@@ -3934,7 +3934,7 @@ namespace AngleSharp.Html.Parser
         {
             for (var i = 0; i < _openElements.Count; i++)
             {
-                if ((_openElements[i].Flags & NodeFlags.ImplicitlyClosed) != NodeFlags.ImplicitlyClosed)
+                if (!_openElements[i].Flags.HasFlag(NodeFlags.ImplicitlyClosed))
                 {
                     RaiseErrorOccurred(HtmlParseError.BodyClosedWrong, ref token);
                     break;
@@ -4051,7 +4051,7 @@ namespace AngleSharp.Html.Parser
             {
                 CloseNodeAt(_openElements.Count - 1);
                 var node = AdjustedCurrentNode;
-                _tokenizer.IsAcceptingCharacterData = node is not null && ((node.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember);
+                _tokenizer.IsAcceptingCharacterData = node is not null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
             }
         }
 
@@ -4134,7 +4134,7 @@ namespace AngleSharp.Html.Parser
             }
 
             _openElements.Add(element);
-            _tokenizer.IsAcceptingCharacterData = (element.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember;
+            _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
         }
 
         /// <summary>
@@ -4166,7 +4166,7 @@ namespace AngleSharp.Html.Parser
             var current = _openElements[index];
             var foster = current.Parent ?? _openElements[index + 1];
 
-            if (table && current.Parent != null)
+            if (table && current.Parent is not null)
             {
                 for (var i = 0; i < foster.ChildNodes.Length; i++)
 			    {
@@ -4229,7 +4229,7 @@ namespace AngleSharp.Html.Parser
 
             var foster = _openElements[index].Parent ?? _openElements[index + 1];
 
-            if (table && _openElements[index].Parent != null)
+            if (table && _openElements[index].Parent is not null)
             {
                 for (var i = 0; i < foster.ChildNodes.Length; i++)
                 {
@@ -4253,7 +4253,7 @@ namespace AngleSharp.Html.Parser
                 element.SourceReference = tag.ToHtmlToken();
             }
 
-            if (_options.OnCreated != null && element is IElement e)
+            if (_options.OnCreated is not null && element is IElement e)
             {
                 _options.OnCreated.Invoke(e, tag.Position);
             }
@@ -4271,7 +4271,7 @@ namespace AngleSharp.Html.Parser
         {
             var node = CurrentNode;
 
-            while (!node.LocalName.IsOneOf(tagName, TagNames.Html, TagNames.Template))
+            while (!node.LocalName.Is(tagName) && !(node is HtmlHtmlElement || node is HtmlTemplateElement))
             {
                 CloseCurrentNode();
                 node = CurrentNode;
@@ -4301,7 +4301,7 @@ namespace AngleSharp.Html.Parser
         {
             var node = CurrentNode;
 
-            while (((node.Flags & NodeFlags.ImpliedEnd) == NodeFlags.ImpliedEnd) && !node.LocalName.Is(tagName))
+            while (node.Flags.HasFlag(NodeFlags.ImpliedEnd) && !node.LocalName.Is(tagName))
             {
                 CloseCurrentNode();
                 node = CurrentNode;
@@ -4313,7 +4313,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         private void GenerateImpliedEndTags()
         {
-            while ((CurrentNode.Flags & NodeFlags.ImpliedEnd) == NodeFlags.ImpliedEnd)
+            while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd))
             {
                 CloseCurrentNode();
             }
@@ -4386,7 +4386,7 @@ namespace AngleSharp.Html.Parser
                 document: document,
                 maybeOptions: maybeOptions,
                 emitWhitespaceTextNodes: true,
-                shouldEnd: stopAt != null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null)
+                shouldEnd: stopAt is not null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null)
         {
         }
     }

@@ -53,15 +53,15 @@ namespace AngleSharp.Dom
         {
             get
             {
-                if (_baseUri != null)
+                if (_baseUri is not null)
                 {
                     return _baseUri;
                 }
-                else if (_parent != null)
+                else if (_parent is not null)
                 {
                     foreach (var ancestor in this.Ancestors<Node>())
                     {
-                        if (ancestor._baseUri != null)
+                        if (ancestor._baseUri is not null)
                         {
                             return ancestor._baseUri;
                         }
@@ -70,7 +70,7 @@ namespace AngleSharp.Dom
 
                 var document = Owner;
 
-                if (document != null)
+                if (document is not null)
                 {
                     return document._baseUri ?? document.DocumentUrl;
                 }
@@ -133,7 +133,7 @@ namespace AngleSharp.Dom
         {
             get
             {
-                if (_parent != null)
+                if (_parent is not null)
                 {
                     var n = _parent._children.Length;
 
@@ -154,7 +154,7 @@ namespace AngleSharp.Dom
         {
             get
             {
-                if (_parent != null)
+                if (_parent is not null)
                 {
                     var n = _parent._children.Length - 1;
 
@@ -208,7 +208,7 @@ namespace AngleSharp.Dom
 
                         descendantAndSelf._owner = value;
 
-                        if (oldDocument != null)
+                        if (oldDocument is not null)
                         {
                             NodeIsAdopted(oldDocument);
                         }
@@ -225,7 +225,7 @@ namespace AngleSharp.Dom
         {
             var document = Owner;
 
-            if (node != null)
+            if (node is not null)
             {
                 document.AdoptNode(node);
             }
@@ -235,7 +235,7 @@ namespace AngleSharp.Dom
 
             removedNodes.AddRange(_children);
 
-            if (node != null)
+            if (node is not null)
             {
                 if (node.NodeType == NodeType.DocumentFragment)
                 {
@@ -273,7 +273,7 @@ namespace AngleSharp.Dom
             var document = Owner;
             var count = newElement.NodeType == NodeType.DocumentFragment ? newElement.ChildNodes.Length : 1;
 
-            if (referenceElement != null && document != null)
+            if (referenceElement is not null && document is not null)
             {
                 var childIndex = referenceElement.Index();
                 foreach (var m in document.GetAttachedReferences<Range>())
@@ -330,7 +330,7 @@ namespace AngleSharp.Dom
                 NodeIsInserted(newElement);
             }
 
-            if (!suppressObservers && document != null)
+            if (!suppressObservers && document is not null)
             {
                 document.QueueMutation(MutationRecord.ChildList(
                     target: this,
@@ -347,7 +347,7 @@ namespace AngleSharp.Dom
             var document = Owner;
             var index = _children.Index(node);
 
-            if (document != null)
+            if (document is not null)
             {
                 foreach (var m in document.GetAttachedReferences<Range>())
                 {
@@ -372,7 +372,7 @@ namespace AngleSharp.Dom
 
             var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
 
-            if (!suppressObservers && document != null)
+            if (!suppressObservers && document is not null)
             {
                 var removedNodes = new NodeList { node };
 
@@ -432,7 +432,7 @@ namespace AngleSharp.Dom
                     addedNodes.Add(node);
                 }
 
-                if (!suppressObservers && document != null)
+                if (!suppressObservers && document is not null)
                 {
                     document.QueueMutation(MutationRecord.ChildList(
                         target: this,
@@ -684,6 +684,7 @@ namespace AngleSharp.Dom
                                     m.EndWith(text, length);
                                 }
                             }
+
                             length += sibling.Length;
                         }
 
@@ -821,7 +822,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         protected static Boolean IsNamespaceError(String? prefix, String? namespaceUri, String qualifiedName)
         {
-            return (prefix != null && namespaceUri is null) || (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
+            return (prefix is not null && namespaceUri is null) || (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
                 ((qualifiedName.Is(NamespaceNames.XmlNsPrefix) || prefix.Is(NamespaceNames.XmlNsPrefix)) && !namespaceUri.Is(NamespaceNames.XmlNsUri)) ||
                 (namespaceUri.Is(NamespaceNames.XmlNsUri) && (!qualifiedName.Is(NamespaceNames.XmlNsPrefix) && !prefix.Is(NamespaceNames.XmlNsPrefix)));
         }
@@ -888,7 +889,7 @@ namespace AngleSharp.Dom
             get => Parent;
             set
             {
-                if (value != null)
+                if (value is not null)
                 {
                     Parent = (Node)value;
                 }

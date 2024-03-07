@@ -33,7 +33,7 @@ namespace AngleSharp.Dom
                 .GetTypes()
                 .FirstOrDefault(m => !m.IsAbstract && m.GetInterfaces().Contains(typeof(TElement)));
 
-            if (type != null)
+            if (type is not null)
             {
                 var ctors = type.GetConstructors()
                     .OrderBy(m => m.GetParameters().Length);
@@ -51,7 +51,7 @@ namespace AngleSharp.Dom
 
                     var obj = ctor.Invoke(arguments);
 
-                    if (obj != null)
+                    if (obj is not null)
                     {
                         var element = (TElement)obj;
                         var baseElement = element as Element;
@@ -144,7 +144,7 @@ namespace AngleSharp.Dom
                         if (options.IsInvalid ||
                            (node != record.Target && !options.IsObservingSubtree) ||
                            (record.IsAttribute && !options.IsObservingAttributes) ||
-                           (record.IsAttribute && options.AttributeFilters != null && (!options.AttributeFilters.Contains(record.AttributeName) || record.AttributeNamespace != null)) ||
+                           (record.IsAttribute && options.AttributeFilters is not null && (!options.AttributeFilters.Contains(record.AttributeName) || record.AttributeNamespace is not null)) ||
                            (record.IsCharacterData && !options.IsObservingCharacterData) ||
                            (record.IsChildList && !options.IsObservingChildNodes))
                         {
@@ -158,7 +158,7 @@ namespace AngleSharp.Dom
                         }
                     }
 
-                    if (clearPreviousValue != null)
+                    if (clearPreviousValue is not null)
                     {
                         observer.Enqueue(record.Copy(clearPreviousValue.Value));
                     }

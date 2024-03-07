@@ -3,8 +3,10 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Io;
     using NUnit.Framework;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading;
@@ -334,6 +336,59 @@ namespace AngleSharp.Core.Tests.Library
                 var url = Url.Create(address);
                 var document = await context.OpenAsync(url, cts.Token);
                 Assert.IsNotNull(document);
+            }
+        }
+
+        [Test]
+        public async Task NullReferenceWithInvalidResponse_Issue1181()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var context = BrowsingContext.New(Configuration.Default
+                    .With(new InvalidRequester())
+                    .WithDefaultLoader());
+                var document = await context.OpenAsync("http://invalid");
+                Assert.IsNotNull(document);
+            }
+        }
+
+        sealed class InvalidRequester : IRequester
+        {
+            public event DomEventHandler Requesting;
+            public event DomEventHandler Requested;
+
+            public void AddEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
+            {
+            }
+
+            public Boolean Dispatch(Event ev)
+            {
+                return true;
+            }
+
+            public void InvokeEventListener(Event ev)
+            {
+            }
+
+            public void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
+            {
+            }
+
+            public Task<IResponse> RequestAsync(Request request, CancellationToken cancel)
+            {
+                Requested?.Invoke(this, new Event());
+                Requesting?.Invoke(this, new Event());
+
+                return Task.FromResult<IResponse>(new DefaultResponse
+                {
+                    Address = Url.Convert(request.Address),
+                    StatusCode = 0
+                });
+            }
+
+            public Boolean SupportsProtocol(String protocol)
+            {
+                return true;
             }
         }
     }

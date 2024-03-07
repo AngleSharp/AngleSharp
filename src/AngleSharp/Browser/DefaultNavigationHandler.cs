@@ -8,14 +8,9 @@ namespace AngleSharp.Browser
     using System.Threading;
     using System.Threading.Tasks;
 
-    sealed class DefaultNavigationHandler : INavigationHandler
+    sealed class DefaultNavigationHandler(IBrowsingContext context) : INavigationHandler
     {
-        private readonly IBrowsingContext _context;
-
-        public DefaultNavigationHandler(IBrowsingContext context)
-        {
-            _context = context;
-        }
+        private readonly IBrowsingContext _context = context;
 
         public async Task<IDocument> NavigateAsync(DocumentRequest request, CancellationToken cancel)
         {
@@ -23,13 +18,14 @@ namespace AngleSharp.Browser
             var context = _context.ResolveTargetContext(target);
             var loader = context.GetService<IDocumentLoader>();
 
-            if (loader != null)
+            if (loader is not null)
             {
                 var download = loader.FetchAsync(request);
                 cancel.Register(download.Cancel);
 
                 using var response = await download.Task.ConfigureAwait(false);
-                if (response != null)
+
+                if (response is not null)
                 {
                     return await context.OpenAsync(response, cancel).ConfigureAwait(false);
                 }

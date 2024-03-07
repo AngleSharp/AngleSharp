@@ -1,3 +1,10 @@
+# 1.1.2
+
+Released on Friday, March 8 2024.
+
+- Fixed exception when providing wrong response (#1181)
+- Fixed handling of various inputs leading to timeouts (#1180)
+
 # 1.1.1
 
 Released on Friday, March 1 2024.
