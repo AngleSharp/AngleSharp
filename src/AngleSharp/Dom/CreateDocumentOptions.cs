@@ -2,7 +2,7 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Io;
     using AngleSharp.Text;
-    using System;
+    using System.IO;
     using System.Text;
 
     /// <summary>
@@ -33,7 +33,7 @@ namespace AngleSharp.Dom
             var contentType = response.GetContentType(MimeTypeNames.Html);
             var charset = contentType.GetParameter(AttributeNames.Charset);
             var defaultEncoding = encoding ?? Encoding.UTF8;
-            var source = new TextSource(response.Content, defaultEncoding);
+            var source = new TextSource(response.Content ?? Stream.Null, defaultEncoding);
 
             if (charset is { Length: > 0 } && TextEncoding.IsSupported(charset))
             {
