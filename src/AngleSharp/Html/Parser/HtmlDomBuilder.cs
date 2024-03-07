@@ -4271,7 +4271,7 @@ namespace AngleSharp.Html.Parser
         {
             var node = CurrentNode;
 
-            while (!node.LocalName.IsOneOf(tagName, TagNames.Html, TagNames.Template))
+            while (!node.LocalName.Is(tagName) && !(node is HtmlHtmlElement || node is HtmlTemplateElement))
             {
                 CloseCurrentNode();
                 node = CurrentNode;
