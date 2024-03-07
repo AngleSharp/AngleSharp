@@ -1,8 +1,8 @@
-﻿namespace AngleSharp.Html.Construction;
+namespace AngleSharp.Html.Construction;
 
 using System;
+using AngleSharp.Common;
 using AngleSharp.Dom;
-using Common;
 
 /// <summary>
 /// Represents a constructable node. Lowest common denominator for all DOM nodes.

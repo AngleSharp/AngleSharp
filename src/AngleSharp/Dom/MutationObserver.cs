@@ -102,7 +102,7 @@ namespace AngleSharp.Dom
                 }
             }
 
-            return default(MutationOptions);
+            return default;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace AngleSharp.Dom
         {
             var obs = this[ancestor];
 
-            if (obs != null && obs.Options.IsObservingSubtree)
+            if (obs is not null && obs.Options.IsObservingSubtree)
             {
                 obs.TransientNodes.Add(node);
             }
@@ -278,21 +278,14 @@ namespace AngleSharp.Dom
             public Boolean IsExaminingOldAttributeValue;
             public IEnumerable<String>? AttributeFilters;
 
-            public Boolean IsInvalid => !IsObservingAttributes && !IsObservingCharacterData && !IsObservingChildNodes;
+            public readonly Boolean IsInvalid => !IsObservingAttributes && !IsObservingCharacterData && !IsObservingChildNodes;
         }
 
-        sealed class MutationObserving
+        sealed class MutationObserving(INode target, MutationOptions options)
         {
-            private readonly INode _target;
-            private readonly MutationOptions _options;
-            private readonly List<INode> _transientNodes;
-
-            public MutationObserving(INode target, MutationOptions options)
-            {
-                _target = target;
-                _options = options;
-                _transientNodes = [];
-            }
+            private readonly INode _target = target;
+            private readonly MutationOptions _options = options;
+            private readonly List<INode> _transientNodes = [];
 
             public INode Target => _target;
 

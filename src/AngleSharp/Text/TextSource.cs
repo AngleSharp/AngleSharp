@@ -2,12 +2,12 @@
 
 namespace AngleSharp.Text
 {
+    using AngleSharp.Common;
     using System;
     using System.IO;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Common;
 
     /// <summary>
     /// A stream abstraction to handle encoding and more.
@@ -89,7 +89,7 @@ namespace AngleSharp.Text
             get => _readOnlyTextSource.CurrentEncoding;
             set
             {
-                if (_writableSource != null)
+                if (_writableSource is not null)
                 {
                     _writableSource.CurrentEncoding = value;
                 }
@@ -117,10 +117,7 @@ namespace AngleSharp.Text
         /// any.
         /// </summary>
         /// <returns>The next character.</returns>
-        public Char ReadCharacter()
-        {
-            return _readOnlyTextSource.ReadCharacter();
-        }
+        public Char ReadCharacter() => _readOnlyTextSource.ReadCharacter();
 
         /// <summary>
         /// Reads the upcoming numbers of characters from the buffer or
@@ -128,16 +125,10 @@ namespace AngleSharp.Text
         /// </summary>
         /// <param name="characters">The number of characters to read.</param>
         /// <returns>The string with the next characters.</returns>
-        public String ReadCharacters(Int32 characters)
-        {
-            return _readOnlyTextSource.ReadCharacters(characters);
-        }
+        public String ReadCharacters(Int32 characters) => _readOnlyTextSource.ReadCharacters(characters);
 
         /// <inheritdoc/>
-        public StringOrMemory ReadMemory(Int32 characters)
-        {
-            return _readOnlyTextSource.ReadMemory(characters);
-        }
+        public StringOrMemory ReadMemory(Int32 characters) => _readOnlyTextSource.ReadMemory(characters);
 
         /// <summary>
         /// Prefetches the number of bytes by expanding the internal buffer.
@@ -145,30 +136,21 @@ namespace AngleSharp.Text
         /// <param name="length">The number of bytes to prefetch.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The awaitable task.</returns>
-        public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken)
-        {
-            return _readOnlyTextSource.PrefetchAsync(length, cancellationToken);
-        }
+        public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken) => _readOnlyTextSource.PrefetchAsync(length, cancellationToken);
 
         /// <summary>
         /// Prefetches the whole stream by expanding the internal buffer.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The awaitable task.</returns>
-        public Task PrefetchAllAsync(CancellationToken cancellationToken)
-        {
-            return _readOnlyTextSource.PrefetchAllAsync(cancellationToken);
-        }
+        public Task PrefetchAllAsync(CancellationToken cancellationToken) => _readOnlyTextSource.PrefetchAllAsync(cancellationToken);
 
         /// <summary>
         /// Gets the content length, if known.
         /// </summary>
         /// <param name="length">Found length if known</param>
         /// <returns>True if length is available</returns>
-        public Boolean TryGetContentLength(out Int32 length)
-        {
-            return _readOnlyTextSource.TryGetContentLength(out length);
-        }
+        public Boolean TryGetContentLength(out Int32 length) => _readOnlyTextSource.TryGetContentLength(out length);
 
         /// <summary>
         /// Inserts the given content at the current insertation mark. Moves the
@@ -177,7 +159,7 @@ namespace AngleSharp.Text
         /// <param name="content">The content to insert.</param>
         public void InsertText(String content)
         {
-            if (_writableSource == null)
+            if (_writableSource is null)
             {
                 throw new InvalidOperationException("Cannot insert text into a read-only text source.");
             }
@@ -188,18 +170,12 @@ namespace AngleSharp.Text
         /// <summary>
         /// Disposes the text source by freeing the underlying stream, if any.
         /// </summary>
-        public void Dispose()
-        {
-            _readOnlyTextSource.Dispose();
-        }
+        public void Dispose() => _readOnlyTextSource.Dispose();
 
         /// <summary>
         /// Gets underlying text source.
         /// </summary>
         /// <returns></returns>
-        public IReadOnlyTextSource GetUnderlyingTextSource()
-        {
-            return _readOnlyTextSource;
-        }
+        public IReadOnlyTextSource GetUnderlyingTextSource() => _readOnlyTextSource;
     }
 }

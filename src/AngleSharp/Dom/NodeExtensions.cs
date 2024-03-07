@@ -135,7 +135,7 @@ namespace AngleSharp.Dom
             {
                 var next = stack.Pop();
 
-                if (filter == null || filter(next, state))
+                if (filter is null || filter(next, state))
                 {
                     yield return next;
                 }
@@ -207,10 +207,7 @@ namespace AngleSharp.Dom
         /// </returns>
         public static IEnumerable<INode> GetInclusiveAncestors(this INode node)
         {
-            do
-            {
-                yield return node;
-            }
+            do yield return node;
             while ((node = node!.Parent!) is not null);
         }
 
