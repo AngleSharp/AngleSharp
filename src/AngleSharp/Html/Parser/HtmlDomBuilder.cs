@@ -330,7 +330,7 @@ namespace AngleSharp.Html.Parser
 
             Reset();
 
-            _tokenizer.IsAcceptingCharacterData = (AdjustedCurrentNode!.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember;
+            _tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.HtmlMember);
 
             IConstructableNode? contextNode = context;
 
@@ -3051,7 +3051,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
+                if (node.Flags.HasFlag(NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
                 {
                     break;
                 }
@@ -3086,7 +3086,7 @@ namespace AngleSharp.Html.Parser
                     break;
                 }
 
-                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
+                if (node.Flags.HasFlag(NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
                 {
                     break;
                 }
@@ -3197,7 +3197,7 @@ namespace AngleSharp.Html.Parser
 
                 for (var j = openIndex + 1; j < _openElements.Count; j++)
                 {
-                    if ((_openElements[j].Flags & NodeFlags.Special) == NodeFlags.Special)
+                    if (_openElements[j].Flags.HasFlag(NodeFlags.Special))
                     {
                         index = j;
                         furthestBlock = _openElements[j];
@@ -3345,7 +3345,7 @@ namespace AngleSharp.Html.Parser
                     CloseNodesFrom(index);
                     break;
                 }
-                else if ((node.Flags & NodeFlags.Special) == NodeFlags.Special)
+                else if (node.Flags.HasFlag(NodeFlags.Special))
                 {
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong, ref tag);
                     break;
@@ -3591,7 +3591,7 @@ namespace AngleSharp.Html.Parser
 
                         node = _openElements[i - 1];
 
-                        if ((node.Flags & NodeFlags.HtmlMember) == NodeFlags.HtmlMember)
+                        if (node.Flags.HasFlag(NodeFlags.HtmlMember))
                         {
                             Home(ref token);
                             break;
@@ -3651,14 +3651,14 @@ namespace AngleSharp.Html.Parser
         /// <returns>The element or NULL if it is no MathML or SVG element.</returns>
         private IConstructableElement? CreateForeignElementFrom(ref StructHtmlToken tag)
         {
-            if ((AdjustedCurrentNode!.Flags & NodeFlags.MathMember) == NodeFlags.MathMember)
+            if (AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.MathMember))
             {
                 var tagName = tag.Name;
                 var element = _elementFactory.CreateMath(_document, tagName);
                 AuxiliarySetupSteps(element, ref tag);
                 return element.Setup(ref tag);
             }
-            else if ((AdjustedCurrentNode.Flags & NodeFlags.SvgMember) == NodeFlags.SvgMember)
+            else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
                 var tagName = tag.Name.SanatizeSvgTagName();
                 var element = _elementFactory.CreateSvg(_document, tagName);
@@ -3727,7 +3727,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.Scoped) == NodeFlags.Scoped)
+                else if (node.Flags.HasFlag(NodeFlags.Scoped))
                 {
                     return false;
                 }
@@ -3750,7 +3750,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.Scoped) == NodeFlags.Scoped)
+                else if (node.Flags.HasFlag(NodeFlags.Scoped))
                 {
                     return false;
                 }
@@ -3796,7 +3796,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if (((node.Flags & NodeFlags.Scoped) == NodeFlags.Scoped) || node.LocalName.Is(TagNames.Button))
+                else if (node.Flags.HasFlag(NodeFlags.Scoped) || node.LocalName.Is(TagNames.Button))
                 {
                     return false;
                 }
@@ -3819,7 +3819,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.HtmlTableScoped) == NodeFlags.HtmlTableScoped)
+                else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                 {
                     return false;
                 }
@@ -3843,7 +3843,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.HtmlTableScoped) == NodeFlags.HtmlTableScoped)
+                else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                 {
                     return false;
                 }
@@ -3867,7 +3867,7 @@ namespace AngleSharp.Html.Parser
                 {
                     return true;
                 }
-                else if ((node.Flags & NodeFlags.HtmlSelectScoped) != NodeFlags.HtmlSelectScoped)
+                else if (!node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
                 {
                     return false;
                 }
@@ -3934,7 +3934,7 @@ namespace AngleSharp.Html.Parser
         {
             for (var i = 0; i < _openElements.Count; i++)
             {
-                if ((_openElements[i].Flags & NodeFlags.ImplicitlyClosed) != NodeFlags.ImplicitlyClosed)
+                if (!_openElements[i].Flags.HasFlag(NodeFlags.ImplicitlyClosed))
                 {
                     RaiseErrorOccurred(HtmlParseError.BodyClosedWrong, ref token);
                     break;
@@ -4051,7 +4051,7 @@ namespace AngleSharp.Html.Parser
             {
                 CloseNodeAt(_openElements.Count - 1);
                 var node = AdjustedCurrentNode;
-                _tokenizer.IsAcceptingCharacterData = node is not null && ((node.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember);
+                _tokenizer.IsAcceptingCharacterData = node is not null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
             }
         }
 
@@ -4134,7 +4134,7 @@ namespace AngleSharp.Html.Parser
             }
 
             _openElements.Add(element);
-            _tokenizer.IsAcceptingCharacterData = (element.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember;
+            _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
         }
 
         /// <summary>
@@ -4301,7 +4301,7 @@ namespace AngleSharp.Html.Parser
         {
             var node = CurrentNode;
 
-            while (((node.Flags & NodeFlags.ImpliedEnd) == NodeFlags.ImpliedEnd) && !node.LocalName.Is(tagName))
+            while (node.Flags.HasFlag(NodeFlags.ImpliedEnd) && !node.LocalName.Is(tagName))
             {
                 CloseCurrentNode();
                 node = CurrentNode;
@@ -4313,7 +4313,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         private void GenerateImpliedEndTags()
         {
-            while ((CurrentNode.Flags & NodeFlags.ImpliedEnd) == NodeFlags.ImpliedEnd)
+            while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd))
             {
                 CloseCurrentNode();
             }
