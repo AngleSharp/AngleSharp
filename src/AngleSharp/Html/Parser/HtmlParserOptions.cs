@@ -1,6 +1,7 @@
 namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
+    using AngleSharp.Html.Parser.Tokens;
     using AngleSharp.Text;
     using System;
 
@@ -70,6 +71,11 @@ namespace AngleSharp.Html.Parser
         /// Gets or sets the callback once a new element was created.
         /// </summary>
         public Action<IElement, TextPosition>? OnCreated { get; set; }
+
+        /// <summary>
+        /// Gets or sets the callback once a new token is read.
+        /// </summary>
+        public Action<HtmlToken, TextRange>? OnToken { get; set; }
 
         /// <summary>
         /// Prevents the tokenizer from tracking the position of elements.

@@ -211,6 +211,15 @@ namespace AngleSharp.Html.Parser
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the callback once a new token is read.
+        /// </summary>
+        public Action<HtmlToken, TextRange>? OnToken
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Methods
@@ -227,27 +236,9 @@ namespace AngleSharp.Html.Parser
         /// <returns>The next available token.</returns>
         public ref StructHtmlToken GetStructToken()
         {
-            var current = GetNext();
-            _position = GetCurrentPosition();
-
-            if (current != Symbols.EndOfFile)
-            {
-                switch (State)
-                {
-                    case HtmlParseMode.PCData:
-                        return ref Data(current);
-                    case HtmlParseMode.RCData:
-                        return ref RCData(current);
-                    case HtmlParseMode.Plaintext:
-                        return ref Plaintext(current);
-                    case HtmlParseMode.Rawtext:
-                        return ref Rawtext(current);
-                    case HtmlParseMode.Script:
-                        return ref ScriptData(current);
-                }
-            }
-
-            return ref NewEof(acceptable: true);
+            ref var token = ref GetNextStructToken();
+            OnToken?.Invoke(token.ToHtmlToken(), new TextRange(_position, GetCurrentPosition().After(Current)));
+            return ref token;
         }
 
         internal void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
@@ -2815,6 +2806,30 @@ namespace AngleSharp.Html.Parser
         #endregion
 
         #region Tokens
+		
+		private ref StructHtmlToken GetNextStructToken()
+        {
+            var current = GetNext();
+            _position = GetCurrentPosition();
+
+            if (current != Symbols.EndOfFile)
+            {
+                switch (State)
+                {
+                    case HtmlParseMode.PCData:
+                        return ref Data(current);
+                    case HtmlParseMode.RCData:
+                        return ref RCData(current);
+                    case HtmlParseMode.Plaintext:
+                        return ref Plaintext(current);
+                    case HtmlParseMode.Rawtext:
+                        return ref Rawtext(current);
+                    case HtmlParseMode.Script:
+                        return ref ScriptData(current);
+                }
+            }
+            return ref NewEof(acceptable: true);
+        }
 
         private ref StructHtmlToken NewSkippedContent(HtmlTokenType htmlTokenType = HtmlTokenType.Character)
         {
