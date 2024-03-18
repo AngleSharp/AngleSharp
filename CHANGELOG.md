@@ -1,3 +1,9 @@
+# 1.2.0
+
+Released on tbd.
+
+- Added new `OnToken` event for the tokenizer (#1153) @schaakverslaafd
+
 # 1.1.2
 
 Released on Friday, March 8 2024.
