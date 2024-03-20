@@ -31,6 +31,7 @@ namespace AngleSharp.Dom
             RegisterObserver<HtmlElement>(AttributeNames.DropZone, (element, value) => element.UpdateDropZone(value));
             RegisterObserver<HtmlBaseElement>(AttributeNames.Href, (element, value) => element.UpdateUrl(value));
             RegisterObserver<HtmlEmbedElement>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
+            RegisterObserver<HtmlLinkElement>(AttributeNames.Rel, (element, value) => element.UpdateRel(value));
             RegisterObserver<HtmlLinkElement>(AttributeNames.Sizes, (element, value) => element.UpdateSizes(value));
             RegisterObserver<HtmlLinkElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
             RegisterObserver<HtmlLinkElement>(AttributeNames.Disabled, (element, value) => element.UpdateDisabled(value));

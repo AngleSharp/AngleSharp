@@ -3,6 +3,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Dom;
     using AngleSharp.Html.LinkRels;
     using AngleSharp.Io;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -15,6 +16,9 @@ namespace AngleSharp.Html.Dom
         private BaseLinkRelation? _relation;
         private TokenList? _relList;
         private SettableTokenList? _sizes;
+
+        private String? _source;
+        private Boolean _relationLoaded;
 
         #endregion
 
@@ -175,17 +179,12 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
-        internal override void SetupElement()
+        internal void UpdateRel(String value)
         {
-            var rel = this.GetOwnAttribute(AttributeNames.Rel);
+            _relList?.Update(value);
+            _relation = CreateFirstLegalRelation();
 
-            if (rel != null)
-            {
-                _relList?.Update(rel);
-                _relation = CreateFirstLegalRelation();
-            }
-
-            base.SetupElement();
+            LoadRelation();
         }
 
         internal void UpdateSizes(String value)
@@ -215,7 +214,30 @@ namespace AngleSharp.Html.Dom
 
         internal void UpdateSource(String value)
         {
-            var task = _relation?.LoadAsync();
+            if (!value.Isi(_source))
+            {
+                _source = value;
+                _relationLoaded = false;
+            }
+        }
+
+        protected override void OnParentChanged()
+        {
+            base.OnParentChanged();
+
+            LoadRelation();
+        }
+
+        internal void LoadRelation()
+        {
+            if (_relationLoaded || _relation == null || Href == null)
+            {
+                return;
+            }
+
+            _relationLoaded = true;
+
+            var task = _relation.LoadAsync();
             Owner?.DelayLoad(task);
         }
 

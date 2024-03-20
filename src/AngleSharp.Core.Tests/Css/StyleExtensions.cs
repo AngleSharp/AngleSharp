@@ -1,6 +1,8 @@
 namespace AngleSharp.Core.Tests.Css
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading;
@@ -42,6 +44,35 @@ namespace AngleSharp.Core.Tests.Css
             thread.Start();
             thread.Join();
         }
+
+        [Test]
+        public async Task AppendingStylesheetLinkShouldLoadResource()
+        {
+            var request = default(Request);
+
+            var stylingService = new MockStylingService();
+            var cfg = Configuration.Default
+                                        .WithOnly<IStylingService>(stylingService)
+                                        .WithMockRequester(req => request = req );
+            var html = @"<!doctype html><head><link rel=stylesheet href=/mock-stylesheet-1.css /></head><body></body>";
+            var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
+
+            // test with link element in the initial HTML
+            Assert.IsNotNull(request);
+            Assert.AreEqual("/mock-stylesheet-1.css", request.Address.PathName);
+
+            request = default(Request);
+
+            // test with dynamically added link element
+            var link = document.CreateElement("link");
+            link.SetAttribute(AttributeNames.Rel, "stylesheet");
+            link.SetAttribute(AttributeNames.Href, "/mock-stylesheet-2.css");
+
+            document.Body.AppendChild(link);
+
+            Assert.IsNotNull(request);
+            Assert.AreEqual("/mock-stylesheet-2.css", request.Address.PathName);
+        }
     }
 
     internal class MockStylingService : IStylingService
@@ -58,10 +89,12 @@ namespace AngleSharp.Core.Tests.Css
     internal class MockStyleSheet : IStyleSheet
     {
         private readonly StyleOptions _options;
+        private readonly IMediaList _mediaList;
 
         public MockStyleSheet(StyleOptions options)
         {
             _options = options;
+            _mediaList = new MockMediaList();
         }
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
@@ -76,7 +109,7 @@ namespace AngleSharp.Core.Tests.Css
 
         public String Title { get; } = "";
 
-        public IMediaList Media { get; } = null;
+        public IMediaList Media { get => _mediaList; }
 
         public Boolean IsDisabled { get => _options.IsDisabled; set { } }
 
@@ -89,5 +122,36 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         public String LocateNamespace(String prefix) => null;
+    }
+
+    internal class MockMediaList : IMediaList
+    {
+        public String this[Int32 index] => "";
+
+        public String MediaText { get; set; } = "";
+
+        public Int32 Length => 0;
+
+        public void Add(String medium)
+        {
+        }
+
+        public IEnumerator<ICssMedium> GetEnumerator()
+        {
+            return default;
+        }
+
+        public void Remove(String medium)
+        {
+        }
+
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
+        {
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return default;
+        }
     }
 }
