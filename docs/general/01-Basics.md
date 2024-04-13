@@ -6,9 +6,9 @@ section: "AngleSharp.Core"
 
 ## Requirements
 
-AngleSharp comes currently in two flavors: on Windows for .NET 4.6.1 or newer and in general targeting .NET Standard 2.0 platforms.
+AngleSharp comes currently in two flavors: on Windows for .NET 4.6.2 or newer and in general targeting .NET Standard 2.0 platforms.
 
-Most of the features of the library do not require .NET 4.6.1, which means you could create your own fork and modify it to work with previous versions of the .NET-Framework.
+Most of the features of the library do not require .NET 4.6.2, which means you could create your own fork and modify it to work with previous versions of the .NET-Framework.
 
 ## Getting AngleSharp over NuGet
 
