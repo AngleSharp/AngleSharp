@@ -5,26 +5,14 @@ namespace AngleSharp.Core.Tests.External
     using System;
     using System.IO;
     using System.Net;
-    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
 
     sealed class PageRequester : BaseRequester
     {
         private readonly static DefaultHttpRequester _default = new DefaultHttpRequester();
-        private readonly static String _directory = GetResourceDirectory();
+        private readonly static String _directory = "Resources";
         private readonly static SiteMapping _mapping = new SiteMapping(Path.Combine(_directory, "content.xml"));
-
-        private static String GetResourceDirectory( [CallerFilePath] String fileName = null )
-        {
-            var directoryPath = Path.Combine(Path.GetDirectoryName(fileName), "..", "Resources");
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-
-            return directoryPath;
-        }
 
         public override Boolean SupportsProtocol(String protocol)
         {

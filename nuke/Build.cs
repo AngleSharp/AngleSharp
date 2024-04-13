@@ -100,7 +100,7 @@ class Build : NukeBuild
 
         Log.Information("Building version: {Version}", Version);
 
-        TargetProject = Solution.GetProject(SourceDirectory / TargetProjectName / $"{TargetLibName}.csproj" );
+        TargetProject = Solution.GetProject(TargetLibName);
         TargetProject.NotNull("TargetProject could not be loaded!");
 
         TargetFrameworks = TargetProject.GetTargetFrameworks();
@@ -113,7 +113,7 @@ class Build : NukeBuild
         .Before(Restore)
         .Executes(() =>
         {
-            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(x => x.DeleteDirectory());
         });
 
     Target Restore => _ => _
@@ -130,6 +130,7 @@ class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
+                .SetContinuousIntegrationBuild(IsServerBuild)
                 .EnableNoRestore());
         });
 
@@ -143,6 +144,7 @@ class Build : NukeBuild
                 .EnableNoRestore()
                 .EnableNoBuild()
                 .SetProcessEnvironmentVariable("prefetched", "false")
+                .When(GitHubActions.Instance is not null, x => x.SetLoggers("GitHubActions"))
             );
 
             DotNetTest(s => s
@@ -151,6 +153,7 @@ class Build : NukeBuild
                 .EnableNoRestore()
                 .EnableNoBuild()
                 .SetProcessEnvironmentVariable("prefetched", "true")
+                .When(GitHubActions.Instance is not null, x => x.SetLoggers("GitHubActions"))
             );
         });
 
@@ -183,9 +186,9 @@ class Build : NukeBuild
                 .SetTargetPath(nuspec)
                 .SetVersion(Version)
                 .SetOutputDirectory(NugetDirectory)
-                .SetSymbols(true)
-                .SetSymbolPackageFormat("snupkg")
-                .AddProperty("Configuration", Configuration)
+                .EnableSymbols()
+                .SetSymbolPackageFormat(NuGetSymbolPackageFormat.snupkg)
+                .SetConfiguration(Configuration)
             );
         });
 
@@ -202,7 +205,7 @@ class Build : NukeBuild
                 throw new BuildAbortedException("Could not resolve the NuGet API key.");
             }
 
-            foreach (var nupkg in GlobFiles(NugetDirectory, "*.nupkg"))
+            foreach (var nupkg in NugetDirectory.GlobFiles("*.nupkg"))
             {
                 NuGetPush(s => s
                     .SetTargetPath(nupkg)
