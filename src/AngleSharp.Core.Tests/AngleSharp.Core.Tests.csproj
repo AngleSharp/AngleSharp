@@ -16,7 +16,7 @@
     <PackageReference Include="NUnit" Version="3.14.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" Condition="'$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net461'" />
+    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))" />
   </ItemGroup>
 
   <ItemGroup>
