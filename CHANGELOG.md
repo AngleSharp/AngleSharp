@@ -1,7 +1,11 @@
 # 1.2.0
 
-Released on tbd.
+Released on Sunday, April 14 2024.
 
+- Fixed loading of link element source (#1184) @tomvanenckevort
+- Removed unnecessary references for .NET 6 and higher (#1187) @lahma
+- Removed support for .NET 4.6.1 (least version is 4.6.2)
+- Updated to NUKE 8 (#1188) @lahma
 - Added new `OnToken` event for the tokenizer (#1153) @schaakverslaafd
 
 # 1.1.2
