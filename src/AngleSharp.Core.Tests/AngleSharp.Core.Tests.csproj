@@ -38,4 +38,8 @@
   <ItemGroup>
     <None Remove="Html\BrokenMail.txt" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>
