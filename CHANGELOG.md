@@ -3,6 +3,7 @@
 Released on Sunday, April 14 2024.
 
 - Fixed loading of link element source (#1184) @tomvanenckevort
+- Fixed usage of outdated dependency (#1186)
 - Removed unnecessary references for .NET 6 and higher (#1187) @lahma
 - Removed support for .NET 4.6.1 (least version is 4.6.2)
 - Updated to NUKE 8 (#1188) @lahma
