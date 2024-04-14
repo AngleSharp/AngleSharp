@@ -25,6 +25,12 @@
       <group targetFramework="net472">
         <dependency id="System.Text.Encoding.CodePages" version="8.0.0" />
       </group>
+      <group targetFramework="net60">
+      </group>
+      <group targetFramework="net70">
+      </group>
+      <group targetFramework="net80">
+      </group>
     </dependencies>
   </metadata>
 </package>
