@@ -42,4 +42,5 @@
   <ItemGroup>
     <Content Include="Resources\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
 </Project>
