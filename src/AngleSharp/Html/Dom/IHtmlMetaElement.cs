@@ -16,6 +16,12 @@ namespace AngleSharp.Html.Dom
         String? Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the meta element.
+        /// </summary>
+        [DomName("property")]
+        String? Property { get; set; }
+
+        /// <summary>
         /// Gets or sets the value of the equivalent in a meta element, which
         /// is effective if the server doesn't send a corresponding real header.
         /// </summary>

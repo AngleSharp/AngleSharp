@@ -51,6 +51,12 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
+        public String? Property
+        {
+            get => this.GetOwnAttribute(AttributeNames.Property);
+            set => this.SetOwnAttribute(AttributeNames.Property, value);
+        }
+
         #endregion
 
         #region Methods

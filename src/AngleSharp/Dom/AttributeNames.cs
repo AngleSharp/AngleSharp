@@ -13,6 +13,11 @@ namespace AngleSharp.Dom
         public static readonly String Name = "name";
 
         /// <summary>
+        /// The prperty attribute.
+        /// </summary>
+        public static readonly String Property = "property";
+
+        /// <summary>
         /// The http-equiv attribute.
         /// </summary>
         public static readonly String HttpEquiv = "http-equiv";
