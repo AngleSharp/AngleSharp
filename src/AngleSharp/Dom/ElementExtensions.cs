@@ -1583,6 +1583,26 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Returns the property attribute. Widely used for meta tags for Open Graph protocols
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns>The value of property attribute</returns>
+        public static String? GetProperty(this IElement element)
+        {
+            return element.GetAttribute("property");
+        }
+
+        /// <summary>
+        /// Sets the property value
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="value"></param>
+        public static void SetProperty(this IElement element, String value)
+        {
+            element.SetAttribute("property", value);
+        }
+
+        /// <summary>
         /// Parses the HTML subtree of the given content in the context of
         /// the provided element.
         /// </summary>

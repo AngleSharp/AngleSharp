@@ -555,7 +555,7 @@ namespace AngleSharp.Core.Tests.Html
                     meta.Content = "changed";
                 }
 
-                if (meta.Property == "og:image")
+                if (meta.GetProperty() == "og:image")
                 {
                     meta.Content = "image1.jpg";
                 }
