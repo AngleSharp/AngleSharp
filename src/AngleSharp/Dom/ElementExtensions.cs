@@ -1587,7 +1587,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="element"></param>
         /// <returns>The value of property attribute</returns>
-        public static String? GetProperty(this IElement element)
+        public static String? GetProperty(this IHtmlMetaElement element)
         {
             return element.GetAttribute("property");
         }
@@ -1597,7 +1597,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="element"></param>
         /// <param name="value"></param>
-        public static void SetProperty(this IElement element, String value)
+        public static void SetProperty(this IHtmlMetaElement element, String value)
         {
             element.SetAttribute("property", value);
         }
