@@ -14,7 +14,7 @@ namespace AngleSharp.Text
         private static Int32 _count = 4;
         private static Int32 _limit = 85000;
         private static bool _isPoolingDisabled = false;
-        private static Int32 _defaultStringBuilderSize = 1024;
+        private static readonly Int32 _defaultStringBuilderSize = 1024;
 
         /// <summary>
         /// Gets or sets whether string builder pooling is disabled.  When disabled, Obtain() will always return a new instance.
