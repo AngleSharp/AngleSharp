@@ -13,15 +13,15 @@ namespace AngleSharp.Text
         private static readonly Object _lock = new();
         private static Int32 _count = 4;
         private static Int32 _limit = 85000;
-        private static bool _isPoolingDisabled = false;
-        private static readonly Int32 _defaultStringBuilderSize = 1024;
+        private static Boolean _isPoolingDisabled = false;
+        private const Int32 _defaultStringBuilderSize = 1024;
 
         /// <summary>
         /// Gets or sets whether string builder pooling is disabled.  When disabled, Obtain() will always return a new instance.
         /// Disabling will increase memory usage and GC pressure, but may improve performance in scenarios with high
         /// parallel processing.
         /// </summary>
-        public static bool DisablePooling
+        public static Boolean IsPoolingDisabled
         {
             get => _isPoolingDisabled;
             set => _isPoolingDisabled = value;
@@ -88,21 +88,24 @@ namespace AngleSharp.Text
         /// <param name="sb">The stringbuilder to recycle.</param>
         internal static void ReturnToPool(this StringBuilder sb)
         {
-            lock (_lock)
+            if (!_isPoolingDisabled)
             {
-                var current = _builder.Count;
+                lock (_lock)
+                {
+                    var current = _builder.Count;
 
-                if (sb.Capacity > _limit)
-                {
-                    // Drop large instances
-                }
-                else if (current == _count)
-                {
-                    DropMinimum(sb);
-                }
-                else if (current < Math.Min(2, _count) || _builder.Peek().Capacity < sb.Capacity)
-                {
-                    _builder.Push(sb);
+                    if (sb.Capacity > _limit)
+                    {
+                        // Drop large instances
+                    }
+                    else if (current == _count)
+                    {
+                        DropMinimum(sb);
+                    }
+                    else if (current < Math.Min(2, _count) || _builder.Peek().Capacity < sb.Capacity)
+                    {
+                        _builder.Push(sb);
+                    }
                 }
             }
         }

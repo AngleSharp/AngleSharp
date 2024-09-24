@@ -29,7 +29,7 @@ namespace AngleSharp.Core.Tests.Library
 
             StringBuilderPool.MaxCount = _defaultCount;
             StringBuilderPool.SizeLimit = _defaultLimit;
-            StringBuilderPool.DisablePooling = false;
+            StringBuilderPool.IsPoolingDisabled = false;
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void RecycleStringBuilderGetString_DisabledPooling()
         {
-            StringBuilderPool.DisablePooling = true;
+            StringBuilderPool.IsPoolingDisabled = true;
             var str = "Test";
             var sb1 = StringBuilderPool.Obtain();
             sb1.Append(str);
