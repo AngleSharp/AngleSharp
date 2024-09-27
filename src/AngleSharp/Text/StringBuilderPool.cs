@@ -46,14 +46,16 @@ namespace AngleSharp.Text
         }
 
         /// <summary>
-        /// Either creates a fresh stringbuilder or gets a (cleaned) used one.
+        /// Either creates a fresh stringbuilder or gets a (cleaned) used one.  If <see cref="IsPoolingDisabled"/> is set to true, a new instance is always returned."/>
         /// </summary>
         /// <returns>A stringbuilder to use.</returns>
         public static StringBuilder Obtain()
         {
+            StringBuilder result = null;
+
             if (_isPoolingDisabled)
             {
-                return new StringBuilder(_defaultStringBuilderSize);
+                result = CreateStringBuilder();
             }
             else
             {
@@ -61,12 +63,16 @@ namespace AngleSharp.Text
                 {
                     if (_builder.Count == 0)
                     {
-                        return new StringBuilder(_defaultStringBuilderSize);
+                        result = CreateStringBuilder();
                     }
-
-                    return _builder.Pop().Clear();
+                    else
+                    {
+                        result = _builder.Pop().Clear();
+                    }
                 }
             }
+
+            return result;
         }
 
         /// <summary>
@@ -81,6 +87,12 @@ namespace AngleSharp.Text
             ReturnToPool(sb);
             return result;
         }
+
+        /// <summary>
+        /// Creates a new StringBuilder with a default capacity of 1024.
+        /// </summary>
+        /// <returns>A StringBuilder instance.</returns>
+        internal static StringBuilder CreateStringBuilder() => new StringBuilder(1024);
 
         /// <summary>
         /// Returns the given stringbuilder to the pool.
