@@ -51,7 +51,7 @@ namespace AngleSharp.Text
         /// <returns>A stringbuilder to use.</returns>
         public static StringBuilder Obtain()
         {
-            StringBuilder result;
+            StringBuilder result = null;
 
             if (_isPoolingDisabled)
             {
