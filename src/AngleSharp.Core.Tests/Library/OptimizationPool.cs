@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Library
+namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Text;
     using NUnit.Framework;
@@ -29,6 +29,7 @@
 
             StringBuilderPool.MaxCount = _defaultCount;
             StringBuilderPool.SizeLimit = _defaultLimit;
+            StringBuilderPool.IsPoolingDisabled = false;
         }
 
         [Test]
@@ -55,6 +56,19 @@
             var sb2 = StringBuilderPool.Obtain();
             Assert.AreEqual(String.Empty, sb2.ToPool());
             Assert.AreSame(sb1, sb2);
+        }
+
+        [Test]
+        public void RecycleStringBuilderGetString_DisabledPooling()
+        {
+            StringBuilderPool.IsPoolingDisabled = true;
+            var str = "Test";
+            var sb1 = StringBuilderPool.Obtain();
+            sb1.Append(str);
+            Assert.AreEqual(str, sb1.ToPool());
+            var sb2 = StringBuilderPool.Obtain();
+            Assert.AreEqual(String.Empty, sb2.ToPool());
+            Assert.AreNotSame(sb1, sb2);
         }
 
         [Test]

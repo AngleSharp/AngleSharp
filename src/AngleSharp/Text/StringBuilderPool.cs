@@ -13,6 +13,19 @@ namespace AngleSharp.Text
         private static readonly Object _lock = new();
         private static Int32 _count = 4;
         private static Int32 _limit = 85000;
+        private static Boolean _isPoolingDisabled = false;
+        private const Int32 _defaultStringBuilderSize = 1024;
+
+        /// <summary>
+        /// Gets or sets whether string builder pooling is disabled.  When disabled, Obtain() will always return a new instance.
+        /// Disabling will increase memory usage and GC pressure, but may improve performance in scenarios with high
+        /// parallel processing.
+        /// </summary>
+        public static Boolean IsPoolingDisabled
+        {
+            get => _isPoolingDisabled;
+            set => _isPoolingDisabled = value;
+        }
 
         /// <summary>
         /// Gets or sets the maximum number of instances - at least 1.
@@ -33,20 +46,33 @@ namespace AngleSharp.Text
         }
 
         /// <summary>
-        /// Either creates a fresh stringbuilder or gets a (cleaned) used one.
+        /// Either creates a fresh stringbuilder or gets a (cleaned) used one.  If <see cref="IsPoolingDisabled"/> is set to true, a new instance is always returned."/>
         /// </summary>
         /// <returns>A stringbuilder to use.</returns>
         public static StringBuilder Obtain()
         {
-            lock (_lock)
-            {
-                if (_builder.Count == 0)
-                {
-                    return new StringBuilder(1024);
-                }
+            StringBuilder result;
 
-                return _builder.Pop().Clear();
+            if (_isPoolingDisabled)
+            {
+                result = CreateStringBuilder();
             }
+            else
+            {
+                lock (_lock)
+                {
+                    if (_builder.Count == 0)
+                    {
+                        result = CreateStringBuilder();
+                    }
+                    else
+                    {
+                        result = _builder.Pop().Clear();
+                    }
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -63,26 +89,35 @@ namespace AngleSharp.Text
         }
 
         /// <summary>
+        /// Creates a new StringBuilder with a default capacity of 1024.
+        /// </summary>
+        /// <returns>A StringBuilder instance.</returns>
+        internal static StringBuilder CreateStringBuilder() => new StringBuilder(1024);
+
+        /// <summary>
         /// Returns the given stringbuilder to the pool.
         /// </summary>
         /// <param name="sb">The stringbuilder to recycle.</param>
         internal static void ReturnToPool(this StringBuilder sb)
         {
-            lock (_lock)
+            if (!_isPoolingDisabled)
             {
-                var current = _builder.Count;
+                lock (_lock)
+                {
+                    var current = _builder.Count;
 
-                if (sb.Capacity > _limit)
-                {
-                    // Drop large instances
-                }
-                else if (current == _count)
-                {
-                    DropMinimum(sb);
-                }
-                else if (current < Math.Min(2, _count) || _builder.Peek().Capacity < sb.Capacity)
-                {
-                    _builder.Push(sb);
+                    if (sb.Capacity > _limit)
+                    {
+                        // Drop large instances
+                    }
+                    else if (current == _count)
+                    {
+                        DropMinimum(sb);
+                    }
+                    else if (current < Math.Min(2, _count) || _builder.Peek().Capacity < sb.Capacity)
+                    {
+                        _builder.Push(sb);
+                    }
                 }
             }
         }
