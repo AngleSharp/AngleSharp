@@ -1,11 +1,23 @@
 <Project>
-  <PropertyGroup>
-    <Description>AngleSharp is the ultimate angle brackets parser library. It parses HTML5, CSS3, and XML to construct a DOM based on the official W3C specification.</Description>
-    <Product>AngleSharp</Product>
-    <Version>1.2.0</Version>
-    <LangVersion>latest</LangVersion>
-    <SignAssembly>true</SignAssembly>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\Key.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Authors>Florian Rappl</Authors>
+        <Description>AngleSharp is the ultimate angle brackets parser library. It parses HTML5, CSS3, and XML to construct a DOM based on the official W3C specification.</Description>
+        <Product>AngleSharp</Product>
+        <Copyright>Copyright 2013-2024, AngleSharp.</Copyright>
+
+        <Version>1.2.0</Version>
+
+        <LangVersion>latest</LangVersion>
+        <SignAssembly>true</SignAssembly>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\Key.snk</AssemblyOriginatorKeyFile>
+        <ComVisible>false</ComVisible>
+
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://anglesharp.github.io</PackageProjectUrl>
+        <PackageTags>html html5 css css3 xml dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text headless browser</PackageTags>
+        <PackageIcon>logo.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReleaseNotes>https://github.com/AngleSharp/AngleSharp/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    </PropertyGroup>
 </Project>

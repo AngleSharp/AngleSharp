@@ -157,37 +157,15 @@ class Build : NukeBuild
             );
         });
 
-    Target CopyFiles => _ => _
-        .DependsOn(Compile)
-        .Executes(() =>
-        {
-            foreach (var item in TargetFrameworks)
-            {
-                var targetDir = NugetDirectory / "lib" / item;
-                var srcDir = BuildDirectory / item;
-
-                CopyFile(srcDir / $"{TargetProjectName}.dll", targetDir / $"{TargetProjectName}.dll", FileExistsPolicy.OverwriteIfNewer);
-                CopyFile(srcDir / $"{TargetProjectName}.pdb", targetDir / $"{TargetProjectName}.pdb", FileExistsPolicy.OverwriteIfNewer);
-                CopyFile(srcDir / $"{TargetProjectName}.xml", targetDir / $"{TargetProjectName}.xml", FileExistsPolicy.OverwriteIfNewer);
-            }
-
-            CopyFile(SourceDirectory / $"{TargetProjectName}.nuspec", NugetDirectory / $"{TargetProjectName}.nuspec", FileExistsPolicy.OverwriteIfNewer);
-            CopyFile(RootDirectory / "logo.png", NugetDirectory / "logo.png", FileExistsPolicy.OverwriteIfNewer);
-            CopyFile(RootDirectory / "README.md", NugetDirectory / "README.md", FileExistsPolicy.OverwriteIfNewer);
-        });
-
     Target CreatePackage => _ => _
-        .DependsOn(CopyFiles)
         .Executes(() =>
         {
-            var nuspec = NugetDirectory / $"{TargetProjectName}.nuspec";
-
-            NuGetPack(_ => _
-                .SetTargetPath(nuspec)
+            DotNetPack(_ => _
+                .SetProject(Solution)
                 .SetVersion(Version)
                 .SetOutputDirectory(NugetDirectory)
-                .EnableSymbols()
-                .SetSymbolPackageFormat(NuGetSymbolPackageFormat.snupkg)
+                .EnableIncludeSymbols()
+                .SetSymbolPackageFormat(DotNetSymbolPackageFormat.snupkg)
                 .SetConfiguration(Configuration)
             );
         });
