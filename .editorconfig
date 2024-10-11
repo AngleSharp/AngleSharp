@@ -20,3 +20,4 @@ csharp_prefer_braces = true:suggestion
 csharp_using_directive_placement = inside_namespace:suggestion
 csharp_style_var_for_built_in_types=true:suggestion
 csharp_style_var_when_type_is_apparent=true:suggestion
+csharp_new_line_before_open_brace = all
