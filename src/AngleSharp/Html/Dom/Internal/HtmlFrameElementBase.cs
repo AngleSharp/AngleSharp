@@ -50,7 +50,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Scrolling, value);
         }
 
-        public IDocument? ContentDocument => _request?.Document;
+        public IDocument? ContentDocument => _context?.Active;
 
         public String? LongDesc
         {
@@ -79,6 +79,7 @@ namespace AngleSharp.Html.Dom
         {
             base.SetupElement();
 
+            _context ??= NewChildContext();
             if (this.GetOwnAttribute(AttributeNames.Src) != null)
             {
                 UpdateSource();
@@ -104,7 +105,7 @@ namespace AngleSharp.Html.Dom
         private IBrowsingContext NewChildContext()
         {
             //TODO
-            var childContext = Context.CreateChild(null, Sandboxes.None);
+            var childContext = Context.CreateChild(Name, Sandboxes.None, true);
             Owner.AttachReference(childContext);
             return childContext;
         }
