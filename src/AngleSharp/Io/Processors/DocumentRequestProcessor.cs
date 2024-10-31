@@ -39,7 +39,7 @@ namespace AngleSharp.Io.Processors
 
         protected override async Task ProcessResponseAsync(IResponse response)
         {
-            var context = new BrowsingContext(_context, Sandboxes.None);
+            var context = new BrowsingContext(_context, Sandboxes.None, false);
             var encoding = _context.GetDefaultEncoding();
             var options = new CreateDocumentOptions(response, encoding, _parentDocument);
             var factory = _context.GetFactory<IDocumentFactory>();
