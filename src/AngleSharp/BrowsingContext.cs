@@ -18,6 +18,7 @@ namespace AngleSharp
         private readonly Sandboxes _security;
         private readonly IBrowsingContext? _parent;
         private readonly IDocument? _creator;
+        private readonly Boolean _isFrameContext;
         private readonly IHistory? _history;
         private readonly Dictionary<String, WeakReference<IBrowsingContext>> _children;
 
@@ -54,11 +55,12 @@ namespace AngleSharp
             _history = GetService<IHistory>();
         }
 
-        internal BrowsingContext(IBrowsingContext parent, Sandboxes security)
+        internal BrowsingContext(IBrowsingContext parent, Sandboxes security, Boolean isFrameContext)
             : this(parent.OriginalServices, security)
         {
             _parent = parent;
             _creator = _parent.Active;
+            _isFrameContext = isFrameContext;
         }
 
         #endregion
@@ -97,6 +99,13 @@ namespace AngleSharp
         /// documents.
         /// </summary>
         public IBrowsingContext? Parent => _parent;
+
+        /// <summary>
+        /// Determines if the current context is for a frame rather than
+        /// a window. Useful for properly determining the proper target
+        /// for `_top` and `_parent`.
+        ///</summary>
+        public Boolean IsFrame => _isFrameContext;
 
         /// <summary>
         /// Gets the session history of the given browsing context, if any.
@@ -181,10 +190,11 @@ namespace AngleSharp
         /// </summary>
         /// <param name="name">The name of the child context, if any.</param>
         /// <param name="security">The security flags to apply.</param>
+        /// <param name="isFrameContext">Whether the child context is for a frame.</param>
         /// <returns></returns>
-        public IBrowsingContext CreateChild(String? name, Sandboxes security)
+        public IBrowsingContext CreateChild(String? name, Sandboxes security, Boolean isFrameContext = false)
         {
-            var context = new BrowsingContext(this, security);
+            var context = new BrowsingContext(this, security, isFrameContext);
 
             if (name is { Length: > 0 })
             {

@@ -39,6 +39,13 @@ namespace AngleSharp
         IBrowsingContext? Parent { get; }
 
         /// <summary>
+        /// Determines if the current context is for a frame rather than
+        /// a window. Useful for properly determining the proper target
+        /// for `_top` and `_parent`.
+        ///</summary>
+        Boolean IsFrame { get; }
+
+        /// <summary>
         /// Gets the document that created the current context, if any. The
         /// creator is the active document of the parent at the time of
         /// creation.
@@ -70,8 +77,9 @@ namespace AngleSharp
         /// </summary>
         /// <param name="name">The name of the new context.</param>
         /// <param name="security">The sandboxing flag to use.</param>
+        /// <param name="isFrameContext">Whether the child context is for a frame.</param>
         /// <returns>The created browsing context.</returns>
-        IBrowsingContext CreateChild(String? name, Sandboxes security);
+        IBrowsingContext CreateChild(String? name, Sandboxes security, Boolean isFrameContext = false);
 
         /// <summary>
         /// Tries to find a browsing context with the given name.
