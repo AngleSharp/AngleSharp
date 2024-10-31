@@ -137,6 +137,61 @@ public class IframeTargets
     }
 
     [Test]
+    public async Task AnchorTargetsIframeNestedInUnnamedIframeInDocument()
+    {
+        var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
+        {
+            "https://localhost/inner-iframe.html" => CreateResponse(req.Address,
+                """
+                <html>
+                <body>
+                    <h1>iframe content</h1>
+                </body>
+                </html>
+                """u8
+            ),
+            "https://localhost/iframe.html" => CreateResponse(req.Address,
+                """
+                <html>
+                <body>
+                    <iframe id="inner-iframe" name="inner-iframe"></iframe>
+                </body>
+                </html>
+                """u8
+            ),
+            "https://localhost/" => CreateResponse(req.Address,
+                """
+                <html>
+                <body>
+                    <iframe id="iframe" src="iframe.html"></iframe>
+                    <a href="inner-iframe.html" id="link" target="inner-iframe">Load frame</a>
+                </body>
+                </html>
+                """u8
+            ),
+            _ => CreateNotFoundResponse(req.Address),
+        }));
+
+        var doc = await context.OpenAsync("https://localhost/");
+        var link = doc.GetElementById("link") as IHtmlAnchorElement;
+        Assert.IsNotNull(link);
+        link.DoClick();
+
+        await Task.Delay(1000);
+
+        var iframe = doc.GetElementById("iframe") as IHtmlInlineFrameElement;
+        Assert.IsNotNull(iframe?.ContentDocument);
+
+        var innerIframe = iframe.ContentDocument.GetElementById("inner-iframe") as IHtmlInlineFrameElement;
+        Assert.IsNotNull(innerIframe?.ContentDocument);
+
+        var headerTexts = innerIframe.ContentDocument.GetElementsByTagName("h1");
+        Assert.IsNotNull(headerTexts);
+        Assert.AreEqual(1, headerTexts.Length);
+        Assert.AreEqual("iframe content", headerTexts[0].InnerHtml);
+    }
+
+    [Test]
     public async Task AnchorTargetsSiblingIframeInIframe()
     {
         var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
