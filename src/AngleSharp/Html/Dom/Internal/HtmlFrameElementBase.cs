@@ -50,7 +50,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Scrolling, value);
         }
 
-        public IDocument? ContentDocument => _request?.Document;
+        public IDocument? ContentDocument => _context?.Active;
 
         public String? LongDesc
         {
@@ -79,6 +79,7 @@ namespace AngleSharp.Html.Dom
         {
             base.SetupElement();
 
+            _context ??= NewChildContext();
             if (this.GetOwnAttribute(AttributeNames.Src) != null)
             {
                 UpdateSource();
