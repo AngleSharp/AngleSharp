@@ -395,7 +395,7 @@ namespace AngleSharp.Core.Tests.Html
             element.RemoveAttribute("multiple");
             element.RemoveAttribute("checked");
             element.RemoveAttribute("selected");
-            element.SetAttribute("step", "");   // todo: default to 1
+            element.SetAttribute("step", "");
             element.Value = "1970-W01";
             Assert.AreEqual("week", element.Type);
             Assert.AreEqual(false, element.Validity.IsStepMismatch);
