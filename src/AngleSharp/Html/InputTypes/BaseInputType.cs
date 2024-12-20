@@ -142,9 +142,10 @@ namespace AngleSharp.Html.InputTypes
         protected Boolean IsStepMismatch()
         {
             var step = GetStep();
-            var value = ConvertToNumber(_input.Value);
+            var value = ConvertToNumber(_input.Value) ?? default;
             var offset = GetStepBase();
-            return step != 0.0 && (value - offset) % step != 0.0;
+
+            return step != 0.0 && Math.Floor((value - offset) % step) != 0.0;
         }
 
         /// <summary>
