@@ -673,14 +673,13 @@ namespace AngleSharp.Core.Tests.Html
             element.RemoveAttribute("selected");
             
             element.SetAttribute("min", "-124.763068");
-            element.SetAttribute("step", ".000001");
-            element.Value = "-117";
+            element.SetAttribute("step", ".000007");
+            element.Value = "-117.000012"; // valid
 
             Assert.AreEqual("number", element.Type);
             Assert.AreEqual(true, element.Validity.IsValid);
             Assert.AreEqual(false, element.Validity.IsStepMismatch);
         }
-
 
         [Test]
         public void TestStepmismatchInputNumber6()
@@ -702,7 +701,7 @@ namespace AngleSharp.Core.Tests.Html
 
             element.SetAttribute("min", "124.763");
             element.SetAttribute("step", ".002");
-            element.Value = "124";
+            element.Value = "124.764";  // invalid
 
             Assert.AreEqual("number", element.Type);
             Assert.AreEqual(false, element.Validity.IsValid);
