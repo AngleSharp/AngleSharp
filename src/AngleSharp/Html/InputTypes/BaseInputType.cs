@@ -141,11 +141,11 @@ namespace AngleSharp.Html.InputTypes
         /// </summary>
         protected Boolean IsStepMismatch()
         {
-            var step = GetStep();
-            var value = ConvertToNumber(_input.Value) ?? default;
-            var offset = GetStepBase();
+            var step = (Decimal)GetStep();
+            var value = (Decimal)(ConvertToNumber(_input.Value) ?? 0);
+            var offset = (Decimal)GetStepBase();
 
-            return step != 0.0 && Math.Floor((value - offset) % step) != 0.0;
+            return step != Decimal.Zero && (value - offset) % step != Decimal.Zero;
         }
 
         /// <summary>

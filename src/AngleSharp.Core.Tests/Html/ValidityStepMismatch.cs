@@ -673,7 +673,7 @@ namespace AngleSharp.Core.Tests.Html
             element.RemoveAttribute("selected");
             
             element.SetAttribute("min", "-124.763068");
-            element.SetAttribute("step", ".000007");
+            element.SetAttribute("step", "0.000007");
             element.Value = "-117.000012"; // valid
 
             Assert.AreEqual("number", element.Type);
@@ -700,7 +700,7 @@ namespace AngleSharp.Core.Tests.Html
             element.RemoveAttribute("selected");
 
             element.SetAttribute("min", "124.763");
-            element.SetAttribute("step", ".002");
+            element.SetAttribute("step", "0.002");
             element.Value = "124.764";  // invalid
 
             Assert.AreEqual("number", element.Type);
