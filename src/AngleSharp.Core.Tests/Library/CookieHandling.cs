@@ -81,6 +81,16 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public async Task CookieExpiredInGmtInterpretedAsLocaltime()
+        {
+            //This test must be executed in an environment where the local time is ahead of GMT.
+            var expires = DateTime.Now.AddMinutes(10).ToUniversalTime();
+            var document = await LoadDocumentAloneWithCookie("");
+            document.Cookie = $"ppkcookie2=yet yet another test; expires={expires.ToString("ddd, dd MMM yyyy HH:mm:ss", CultureInfo.InvariantCulture)} GMT; path=/";
+            Assert.AreEqual("ppkcookie2=yet yet another test", document.Cookie);
+        }
+
+        [Test]
         public async Task SettingTwoSimpleCookiesInRequestAppearsInDocument()
         {
             var cookie = await LoadDocumentWithCookie("UserID=Foo, Auth=bar");
