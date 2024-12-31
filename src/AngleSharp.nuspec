@@ -17,22 +17,19 @@
     <tags>html html5 css css3 xml dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text headless browser</tags>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="System.Text.Encoding.CodePages" version="7.0.0" />
+        <dependency id="System.Text.Encoding.CodePages" version="8.0.0" />
       </group>
-      <group targetFramework="net461">
-        <dependency id="System.Text.Encoding.CodePages" version="6.0.0" />
+      <group targetFramework="net462">
+        <dependency id="System.Text.Encoding.CodePages" version="8.0.0" />
       </group>
       <group targetFramework="net472">
-        <dependency id="System.Text.Encoding.CodePages" version="6.0.0" />
+        <dependency id="System.Text.Encoding.CodePages" version="8.0.0" />
       </group>
       <group targetFramework="net60">
-        <dependency id="System.Text.Encoding.CodePages" version="6.0.0" />
       </group>
       <group targetFramework="net70">
-        <dependency id="System.Text.Encoding.CodePages" version="7.0.0" />
       </group>
       <group targetFramework="net80">
-        <dependency id="System.Text.Encoding.CodePages" version="8.0.0" />
       </group>
     </dependencies>
   </metadata>

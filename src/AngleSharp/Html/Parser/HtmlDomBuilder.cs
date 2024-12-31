@@ -390,6 +390,7 @@ namespace AngleSharp.Html.Parser
             _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
             _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute!;
             _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
+            _tokenizer.OnToken = options.OnToken;
             _options = options;
         }
 

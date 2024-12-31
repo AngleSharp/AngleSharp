@@ -1,3 +1,19 @@
+# 1.2.0
+
+Released on Tuesday, December 31 2024.
+
+- Fixed loading of link element source (#1184) @tomvanenckevort
+- Fixed usage of outdated dependency (#1186)
+- Fixed cookie `Expires` recognized as local time (#1212) @noobow34
+- Fixed validation for problematic decimal step values (#1210) @rhuebner76
+- Removed unnecessary references for .NET 6 and higher (#1187) @lahma
+- Removed support for .NET 4.6.1 (least version is 4.6.2)
+- Updated to NUKE 8 (#1188) @lahma
+- Added new `OnToken` event for the tokenizer (#1153) @schaakverslaafd
+- Added new setting for disabling `StringBuilder` pooling (#1203) @micahbresette
+- Added context to extension methods (#1194) @memiamp
+- Added `property` attribute to meta tags (#1195) @hflexgrig
+
 # 1.1.2
 
 Released on Friday, March 8 2024.

@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		AngleSharp.nuspec = AngleSharp.nuspec
 		Directory.Build.props = Directory.Build.props
 		..\.editorconfig = ..\.editorconfig
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core.Tests", "AngleSharp.Core.Tests\AngleSharp.Core.Tests.csproj", "{C3074D7E-CA6C-4F2C-813D-BD97462DC3EB}"

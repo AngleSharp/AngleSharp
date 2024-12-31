@@ -70,7 +70,7 @@ Every collection in AngleSharp supports LINQ statements. AngleSharp also provide
 AngleSharp has been created as a .NET Standard 2.0 compatible library. This includes, but is not limited to:
 
 - .NET Core (2.0 and later)
-- .NET Framework (4.6.1 and later)
+- .NET Framework (4.6.2 and later)
 - Xamarin.Android (7.0 and 8.0)
 - Xamarin.iOS (10.0 and 10.14)
 - Xamarin.Mac (3.0 and 3.8)

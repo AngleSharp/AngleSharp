@@ -8,6 +8,7 @@ namespace AngleSharp.Core.Tests.Html
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -529,6 +530,41 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual(0, head.Attributes.Count());
             Assert.AreEqual("head", head.GetTagName());
             Assert.AreEqual(NodeType.Element, head.NodeType);
+        }
+
+        [Test]
+        public void HtmlSeoMetatags()
+        {
+            var content = @"<!doctype html>
+<html class=""no-js"" lang=""en"">
+<head>
+<meta property=""og:image"" content="""" />
+<meta name=""viewport"" content=""width=device-width, initial-scale=1"" />
+</head><body></body></html>";
+
+            var doc = content.ToHtmlDocument();
+
+            var head = doc.Head;
+
+            var metas = head.QuerySelectorAll<IHtmlMetaElement>("meta");
+
+            foreach (var meta in metas)
+            {
+                if (meta.Name == "viewport")
+                {
+                    meta.Content = "changed";
+                }
+
+                if (meta.GetProperty() == "og:image")
+                {
+                    meta.Content = "image1.jpg";
+                }
+            }
+
+            var resultHtml = doc.DocumentElement.OuterHtml;
+
+            Assert.IsTrue(Regex.IsMatch(resultHtml, "<meta property=\\\"og:image\\\" content=\\\"image1.jpg\\\">"));
+            Assert.IsTrue(Regex.IsMatch(resultHtml, "<meta name=\\\"viewport\\\" content=\\\"changed\\\">"));
         }
 
         [Test]

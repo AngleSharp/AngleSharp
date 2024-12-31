@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">net6.0;net7.0;net8.0</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net461;net472;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net462;net472</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies> <!-- https://github.com/Tyrrrz/GitHubActionsTestLogger/issues/5 -->
   </PropertyGroup>
@@ -12,11 +12,11 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.0.1" PrivateAssets="all" />
+    <PackageReference Include="GitHubActionsTestLogger" Version="2.3.3" PrivateAssets="all" />
     <PackageReference Include="NUnit" Version="3.14.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" Condition="'$(TargetFramework)' == 'net472' or '$(TargetFramework)' == 'net461'" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,5 +37,9 @@
 
   <ItemGroup>
     <None Remove="Html\BrokenMail.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

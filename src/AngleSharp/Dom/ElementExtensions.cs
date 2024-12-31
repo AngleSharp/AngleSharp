@@ -186,15 +186,16 @@ namespace AngleSharp.Dom
         public static String? GetCssNamespace(this IElement el, String prefix) => el.Owner?.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespaceFor(prefix);
 
         /// <summary>
-        /// Checks if the element is currently hovered.
+        /// Checks if the element is currently hovered. Not implemented, and
+        /// will always return false.
         /// </summary>
         /// <param name="element">The element to check.</param>
         /// <returns>True if the element is currently hovered, otherwise false.</returns>
-        public static Boolean IsHovered(this IElement element)
-        {
-            //TODO Connection to Visual Tree ?
-            return false;
-        }
+        /// <remarks>
+        /// Calls to this method will always return false as there is no renderer
+        /// and, therefore, the element can never be hovered.
+        /// </remarks>
+        public static Boolean IsHovered(this IElement element) => false;
 
         /// <summary>
         /// Checks if the element is the only of its type among the parent's children.
@@ -572,17 +573,27 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
-        /// Checks if the given element is currently active.
+        /// Checks if the given element is currently active. Not implemented, and
+        /// will always return false.
         /// </summary>
         /// <param name="element">The element to inspect.</param>
         /// <returns>True if the element is active, otherwise false.</returns>
+        /// <remarks>
+        /// Calls to this method will always return false as there is no renderer
+        /// and, therefore, the element is never active.
+        /// </remarks>
         private static Boolean CheckActive(IElement element) => false;
 
         /// <summary>
-        /// Checks if the given element was visited previously.
+        /// Checks if the given element was visited previously. Not implemented, and
+        /// will always return false.
         /// </summary>
         /// <param name="element">The element to inspect.</param>
         /// <returns>True if the element was previously visited, otherwise false.</returns>
+        /// <remarks>
+        /// Calls to this method will always return false as there is no renderer
+        /// and, therefore, the element can never have been visisted.
+        /// </remarks>
         private static Boolean CheckVisited(IElement element) => false;
 
         /// <summary>
@@ -642,15 +653,16 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
-        /// Checks if the element is visible on screen.
+        /// Checks if the element is visible on screen. Not implemented, and
+        /// will always return false.
         /// </summary>
         /// <param name="element">The element to check.</param>
         /// <returns>True if the element is visible, otherwise false.</returns>
-        public static Boolean IsVisible(this IElement element)
-        {
-            //TODO
-            return false;
-        }
+        /// <remarks>
+        /// Calls to this method will always return false as there is no renderer
+        /// and, therefore, the element is never visible.
+        /// </remarks>
+        public static Boolean IsVisible(this IElement element) => false;
 
         /// <summary>
         /// Checks if the element is required and must be filled out.
@@ -1580,6 +1592,26 @@ namespace AngleSharp.Dom
 
             // Return generated selector
             return path;
+        }
+
+        /// <summary>
+        /// Returns the property attribute. Widely used for meta tags for Open Graph protocols
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns>The value of property attribute</returns>
+        public static String? GetProperty(this IHtmlMetaElement element)
+        {
+            return element.GetAttribute("property");
+        }
+
+        /// <summary>
+        /// Sets the property value
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="value"></param>
+        public static void SetProperty(this IHtmlMetaElement element, String value)
+        {
+            element.SetAttribute("property", value);
         }
 
         /// <summary>
