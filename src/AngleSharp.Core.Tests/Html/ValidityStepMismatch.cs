@@ -653,5 +653,59 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual("number", element.Type);
             Assert.AreEqual(true, element.Validity.IsStepMismatch);
         }
+
+        [Test]
+        public void TestStepmismatchInputNumber5()
+        {
+            var document = ("").ToHtmlDocument();
+            var element = document.CreateElement("input") as HtmlInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+            
+            element.SetAttribute("min", "-124.763068");
+            element.SetAttribute("step", "0.000007");
+            element.Value = "-117.000012"; // valid
+
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(true, element.Validity.IsValid);
+            Assert.AreEqual(false, element.Validity.IsStepMismatch);
+        }
+
+        [Test]
+        public void TestStepmismatchInputNumber6()
+        {
+            var document = ("").ToHtmlDocument();
+            var element = document.CreateElement("input") as HtmlInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "number";
+            element.RemoveAttribute("required");
+            element.RemoveAttribute("pattern");
+            element.RemoveAttribute("step");
+            element.RemoveAttribute("max");
+            element.RemoveAttribute("min");
+            element.RemoveAttribute("maxlength");
+            element.RemoveAttribute("value");
+            element.RemoveAttribute("multiple");
+            element.RemoveAttribute("checked");
+            element.RemoveAttribute("selected");
+
+            element.SetAttribute("min", "124.763");
+            element.SetAttribute("step", "0.002");
+            element.Value = "124.764";  // invalid
+
+            Assert.AreEqual("number", element.Type);
+            Assert.AreEqual(false, element.Validity.IsValid);
+            Assert.AreEqual(true, element.Validity.IsStepMismatch);
+        }
     }
 }
