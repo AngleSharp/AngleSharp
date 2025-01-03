@@ -5,16 +5,7 @@ using AngleSharp.Io;
 using NUnit.Framework;
 using System;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-
-file static class HtmlExtensions
-{
-    public static String ToHtmlDataUri(this String html)
-    {
-        return $"data:text/html;charset=UTF-8;base64,{Convert.ToBase64String(Encoding.UTF8.GetBytes(html))}";
-    }
-}
 
 [TestFixture]
 public class IframeTargets
@@ -44,6 +35,7 @@ public class IframeTargets
         var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
         {
             "https://localhost/iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -53,6 +45,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -87,6 +80,7 @@ public class IframeTargets
         var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
         {
             "https://localhost/inner-iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -96,6 +90,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -105,6 +100,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -142,6 +138,7 @@ public class IframeTargets
         var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
         {
             "https://localhost/inner-iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -151,6 +148,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -160,6 +158,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -197,6 +196,7 @@ public class IframeTargets
         var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
         {
             "https://localhost/inner-iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -206,6 +206,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/source-iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -215,6 +216,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/target-iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -224,6 +226,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -265,6 +268,7 @@ public class IframeTargets
         var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
         {
             "https://localhost/inner-iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -274,6 +278,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/new-window.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -283,6 +288,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -327,6 +333,7 @@ public class IframeTargets
         var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
         {
             "https://localhost/inner-iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -336,6 +343,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/iframe.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -345,6 +353,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/new-window.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -354,6 +363,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -402,6 +412,7 @@ public class IframeTargets
         var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
         {
             "https://localhost/next-page.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -411,6 +422,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/new-window.html" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
@@ -420,6 +432,7 @@ public class IframeTargets
                 """u8
             ),
             "https://localhost/" => CreateResponse(req.Address,
+                // language=html
                 """
                 <html>
                 <body>
