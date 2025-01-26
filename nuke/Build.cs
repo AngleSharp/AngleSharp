@@ -15,10 +15,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Nuke.Common.Tooling;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
+
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.NuGet.NuGetTasks;
+
 using Project = Nuke.Common.ProjectModel.Project;
 
 class Build : NukeBuild
@@ -144,7 +144,7 @@ class Build : NukeBuild
                 .EnableNoRestore()
                 .EnableNoBuild()
                 .SetProcessEnvironmentVariable("prefetched", "false")
-                .When(GitHubActions.Instance is not null, x => x.SetLoggers("GitHubActions"))
+                .When(_ => GitHubActions.Instance is not null, x => x.SetLoggers("GitHubActions"))
             );
 
             DotNetTest(s => s
@@ -153,7 +153,7 @@ class Build : NukeBuild
                 .EnableNoRestore()
                 .EnableNoBuild()
                 .SetProcessEnvironmentVariable("prefetched", "true")
-                .When(GitHubActions.Instance is not null, x => x.SetLoggers("GitHubActions"))
+                .When(_ => GitHubActions.Instance is not null, x => x.SetLoggers("GitHubActions"))
             );
         });
 
@@ -166,14 +166,14 @@ class Build : NukeBuild
                 var targetDir = NugetDirectory / "lib" / item;
                 var srcDir = BuildDirectory / item;
 
-                CopyFile(srcDir / $"{TargetProjectName}.dll", targetDir / $"{TargetProjectName}.dll", FileExistsPolicy.OverwriteIfNewer);
-                CopyFile(srcDir / $"{TargetProjectName}.pdb", targetDir / $"{TargetProjectName}.pdb", FileExistsPolicy.OverwriteIfNewer);
-                CopyFile(srcDir / $"{TargetProjectName}.xml", targetDir / $"{TargetProjectName}.xml", FileExistsPolicy.OverwriteIfNewer);
+                (srcDir / $"{TargetProjectName}.dll").Copy(targetDir / $"{TargetProjectName}.dll", policy: ExistsPolicy.FileOverwriteIfNewer);
+                (srcDir / $"{TargetProjectName}.pdb").Copy(targetDir / $"{TargetProjectName}.pdb", policy: ExistsPolicy.FileOverwriteIfNewer);
+                (srcDir / $"{TargetProjectName}.xml").Copy(targetDir / $"{TargetProjectName}.xml", policy: ExistsPolicy.FileOverwriteIfNewer);
             }
 
-            CopyFile(SourceDirectory / $"{TargetProjectName}.nuspec", NugetDirectory / $"{TargetProjectName}.nuspec", FileExistsPolicy.OverwriteIfNewer);
-            CopyFile(RootDirectory / "logo.png", NugetDirectory / "logo.png", FileExistsPolicy.OverwriteIfNewer);
-            CopyFile(RootDirectory / "README.md", NugetDirectory / "README.md", FileExistsPolicy.OverwriteIfNewer);
+            (SourceDirectory / $"{TargetProjectName}.nuspec").Copy(NugetDirectory / $"{TargetProjectName}.nuspec", policy: ExistsPolicy.FileOverwriteIfNewer);
+            (RootDirectory / "logo.png").Copy(NugetDirectory / "logo.png", policy: ExistsPolicy.FileOverwriteIfNewer);
+            (RootDirectory / "README.md").Copy(NugetDirectory / "README.md", policy: ExistsPolicy.FileOverwriteIfNewer);
         });
 
     Target CreatePackage => _ => _
