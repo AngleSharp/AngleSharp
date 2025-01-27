@@ -218,6 +218,18 @@ namespace AngleSharp
                 reference.TryGetTarget(out context);
             }
 
+            if (context is null && Active is Document active)
+            {
+                foreach (var childContext in active.GetAttachedReferences<IBrowsingContext>())
+                {
+                    context = childContext.FindChild(name);
+                    if (context is not null)
+                    {
+                        break;
+                    }
+                }
+            }
+
             return context;
         }
 
