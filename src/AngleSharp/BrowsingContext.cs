@@ -211,6 +211,22 @@ namespace AngleSharp
         /// <returns>The found instance, if any.</returns>
         public IBrowsingContext? FindChild(String name)
         {
+            var excludedChild = default(IBrowsingContext);
+            var currentContext = this;
+            var foundChildContext = default(IBrowsingContext);
+            while (foundChildContext is null && currentContext is not null)
+            {
+                foundChildContext = currentContext.FindChildRecursive(name, excludedChild);
+                excludedChild = currentContext;
+                currentContext = currentContext.Parent as BrowsingContext;
+
+            }
+
+            return foundChildContext;
+        }
+
+        private IBrowsingContext? FindChildRecursive(String name, IBrowsingContext? excludedContext)
+        {
             var context = default(IBrowsingContext);
 
             if (!String.IsNullOrEmpty(name) && _children.TryGetValue(name, out var reference))
@@ -220,9 +236,13 @@ namespace AngleSharp
 
             if (context is null && Active is Document active)
             {
-                foreach (var childContext in active.GetAttachedReferences<IBrowsingContext>())
+                foreach (var childContext in active.GetAttachedReferences<BrowsingContext>())
                 {
-                    context = childContext.FindChild(name);
+                    if (childContext.Equals(excludedContext))
+                    {
+                        continue;
+                    }
+                    context = childContext.FindChildRecursive(name, null);
                     if (context is not null)
                     {
                         break;
