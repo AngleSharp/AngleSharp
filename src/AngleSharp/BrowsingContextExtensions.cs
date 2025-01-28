@@ -501,7 +501,7 @@ namespace AngleSharp
             else if (target is "_parent")
             {
                 // A frame context should always have a parent.
-                if (context.IsFrame)
+                if (context is BrowsingContext { IsFrame: true })
                 {
                     return context.Parent!;
                 }
@@ -516,7 +516,7 @@ namespace AngleSharp
                 // Given that it should not be possible to create a circular
                 // chain, and that a frame context cannot be created without
                 // a parent, this should be fine.
-                while (targetContext is { IsFrame: true })
+                while (targetContext is BrowsingContext { IsFrame: true })
                 {
                     targetContext = targetContext.Parent;
                 }

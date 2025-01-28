@@ -105,7 +105,7 @@ namespace AngleSharp
         /// a window. Useful for properly determining the proper target
         /// for `_top` and `_parent`.
         ///</summary>
-        public Boolean IsFrame => _isFrameContext;
+        internal Boolean IsFrame => _isFrameContext;
 
         /// <summary>
         /// Gets the session history of the given browsing context, if any.
@@ -190,9 +190,20 @@ namespace AngleSharp
         /// </summary>
         /// <param name="name">The name of the child context, if any.</param>
         /// <param name="security">The security flags to apply.</param>
+        /// <returns></returns>
+        public IBrowsingContext CreateChild(String? name, Sandboxes security)
+        {
+            return CreateChild(name, security, false);
+        }
+
+        /// <summary>
+        /// Creates a new named browsing context as child of the given parent.
+        /// </summary>
+        /// <param name="name">The name of the child context, if any.</param>
+        /// <param name="security">The security flags to apply.</param>
         /// <param name="isFrameContext">Whether the child context is for a frame.</param>
         /// <returns></returns>
-        public IBrowsingContext CreateChild(String? name, Sandboxes security, Boolean isFrameContext = false)
+        internal IBrowsingContext CreateChild(String? name, Sandboxes security, Boolean isFrameContext)
         {
             var context = new BrowsingContext(this, security, isFrameContext);
 

@@ -104,8 +104,15 @@ namespace AngleSharp.Html.Dom
 
         private IBrowsingContext NewChildContext()
         {
-            //TODO
-            var childContext = Context.CreateChild(Name, Sandboxes.None, true);
+            var childContext = default(IBrowsingContext);
+            if (Context is BrowsingContext context)
+            {
+                childContext  = context.CreateChild(Name, Sandboxes.None, true);
+            }
+            else
+            {
+                childContext  = Context.CreateChild(Name, Sandboxes.None);
+            }
             Owner.AttachReference(childContext);
             return childContext;
         }
