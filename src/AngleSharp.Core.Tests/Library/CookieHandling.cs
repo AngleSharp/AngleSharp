@@ -150,7 +150,7 @@ namespace AngleSharp.Core.Tests.Library
         public async Task SettingOneExpiredCookieAndAFutureCookieInRequestDoAppearInDocument()
         {
             var cookie = await LoadDocumentWithCookie(
-                "cookie=expiring; Expires=Tue, 10 Nov 2009 23:00:00 GMT, foo=bar; Expires=Tue, 28 Jan 2025 13:37:00 GMT");
+                "cookie=expiring; Expires=Tue, 10 Nov 2009 23:00:00 GMT, foo=bar; Expires=Tue, 28 Jan 2035 13:37:00 GMT");
             Assert.AreEqual("foo=bar", cookie);
         }
 
