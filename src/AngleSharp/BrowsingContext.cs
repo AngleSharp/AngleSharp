@@ -18,6 +18,7 @@ namespace AngleSharp
         private readonly Sandboxes _security;
         private readonly IBrowsingContext? _parent;
         private readonly IDocument? _creator;
+        private readonly Boolean _isFrameContext;
         private readonly IHistory? _history;
         private readonly Dictionary<String, WeakReference<IBrowsingContext>> _children;
 
@@ -54,11 +55,12 @@ namespace AngleSharp
             _history = GetService<IHistory>();
         }
 
-        internal BrowsingContext(IBrowsingContext parent, Sandboxes security)
+        internal BrowsingContext(IBrowsingContext parent, Sandboxes security, Boolean isFrameContext)
             : this(parent.OriginalServices, security)
         {
             _parent = parent;
             _creator = _parent.Active;
+            _isFrameContext = isFrameContext;
         }
 
         #endregion
@@ -97,6 +99,13 @@ namespace AngleSharp
         /// documents.
         /// </summary>
         public IBrowsingContext? Parent => _parent;
+
+        /// <summary>
+        /// Determines if the current context is for a frame rather than
+        /// a window. Useful for properly determining the proper target
+        /// for `_top` and `_parent`.
+        ///</summary>
+        internal Boolean IsFrame => _isFrameContext;
 
         /// <summary>
         /// Gets the session history of the given browsing context, if any.
@@ -184,7 +193,19 @@ namespace AngleSharp
         /// <returns></returns>
         public IBrowsingContext CreateChild(String? name, Sandboxes security)
         {
-            var context = new BrowsingContext(this, security);
+            return CreateChild(name, security, false);
+        }
+
+        /// <summary>
+        /// Creates a new named browsing context as child of the given parent.
+        /// </summary>
+        /// <param name="name">The name of the child context, if any.</param>
+        /// <param name="security">The security flags to apply.</param>
+        /// <param name="isFrameContext">Whether the child context is for a frame.</param>
+        /// <returns></returns>
+        internal IBrowsingContext CreateChild(String? name, Sandboxes security, Boolean isFrameContext)
+        {
+            var context = new BrowsingContext(this, security, isFrameContext);
 
             if (name is { Length: > 0 })
             {
@@ -201,11 +222,43 @@ namespace AngleSharp
         /// <returns>The found instance, if any.</returns>
         public IBrowsingContext? FindChild(String name)
         {
+            var excludedChild = default(IBrowsingContext);
+            var currentContext = this;
+            var foundChildContext = default(IBrowsingContext);
+            while (foundChildContext is null && currentContext is not null)
+            {
+                foundChildContext = currentContext.FindChildRecursive(name, excludedChild);
+                excludedChild = currentContext;
+                currentContext = currentContext.Parent as BrowsingContext;
+
+            }
+
+            return foundChildContext;
+        }
+
+        private IBrowsingContext? FindChildRecursive(String name, IBrowsingContext? excludedContext)
+        {
             var context = default(IBrowsingContext);
 
             if (!String.IsNullOrEmpty(name) && _children.TryGetValue(name, out var reference))
             {
                 reference.TryGetTarget(out context);
+            }
+
+            if (context is null && Active is Document active)
+            {
+                foreach (var childContext in active.GetAttachedReferences<BrowsingContext>())
+                {
+                    if (childContext.Equals(excludedContext))
+                    {
+                        continue;
+                    }
+                    context = childContext.FindChildRecursive(name, null);
+                    if (context is not null)
+                    {
+                        break;
+                    }
+                }
             }
 
             return context;
