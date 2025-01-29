@@ -1,3 +1,10 @@
+# 1.3.0
+
+Released on Friday, January 31 2025.
+
+- Updated to NUKE 9 and removed obsolete .NET 6 and 9 targets (#1216) @lahma
+- Added support for targetting iframes (#1205) @TheJayMann
+
 # 1.2.0
 
 Released on Tuesday, December 31 2024.

@@ -61,6 +61,7 @@ AngleSharp contains code written by (in order of first pull request / commit):
 * [noobow](https://github.com/noobow34)
 * [Martin Parkin](https://github.com/memiamp)
 * [Hakob Grigoryan](https://github.com/hflexgrig)
+* [TheJayMann](https://github.com/TheJayMann)
 
 Without these awesome people AngleSharp could not exist. Thanks to everyone for your contributions! :beers:
 
