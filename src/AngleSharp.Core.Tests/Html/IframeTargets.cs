@@ -263,7 +263,7 @@ public class IframeTargets
     }
 
     [Test]
-    public async Task AnchorTargetsIframeInDifferentWindow()
+    public async Task AnchorTargetsIframeFromDifferentWindow()
     {
         var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
         {
@@ -319,6 +319,71 @@ public class IframeTargets
         await Task.Delay(1000);
 
         var iframe = doc.GetElementById("iframe") as IHtmlInlineFrameElement;
+        Assert.IsNotNull(iframe?.ContentDocument);
+
+        var headerTexts = iframe.ContentDocument.GetElementsByTagName("h1");
+        Assert.IsNotNull(headerTexts);
+        Assert.AreEqual(1, headerTexts.Length);
+        Assert.AreEqual("iframe content", headerTexts[0].InnerHtml);
+    }
+
+    [Test]
+    public async Task AnchorTargetsIframeInDifferentWindow()
+    {
+        var context = BrowsingContext.New(Configuration.Default.WithVirtualRequester(req => req.Address.Href switch
+        {
+            "https://localhost/inner-iframe.html" => CreateResponse(req.Address,
+                // language=html
+                """
+                <html>
+                <body>
+                    <h1>iframe content</h1>
+                </body>
+                </html>
+                """u8
+            ),
+            "https://localhost/new-window.html" => CreateResponse(req.Address,
+                // language=html
+                """
+                <html>
+                <body>
+                    <iframe id="iframe" name="iframe"></iframe>
+                </body>
+                </html>
+                """u8
+            ),
+            "https://localhost/" => CreateResponse(req.Address,
+                // language=html
+                """
+                <html>
+                <body>
+                    <a href="inner-iframe.html" id="frame-link" target="iframe">Load frame</a>
+                    <a href="new-window.html" id="window-link" target="new-window">Load window</a>
+                </body>
+                </html>
+                """u8
+            ),
+            _ => CreateNotFoundResponse(req.Address),
+        }));
+
+        var doc = await context.OpenAsync("https://localhost/");
+
+        var newWindowLink = doc.GetElementById("window-link") as IHtmlAnchorElement;
+        Assert.IsNotNull(newWindowLink);
+        newWindowLink.DoClick();
+
+        await Task.Delay(1000);
+
+        var newWindowDoc = context.FindChild("new-window")?.Active;
+        Assert.IsNotNull(newWindowDoc);
+
+        var frameLink = doc.GetElementById("frame-link") as IHtmlAnchorElement;
+        Assert.IsNotNull(frameLink);
+        frameLink.DoClick();
+
+        await Task.Delay(1000);
+
+        var iframe = newWindowDoc.GetElementById("iframe") as IHtmlInlineFrameElement;
         Assert.IsNotNull(iframe?.ContentDocument);
 
         var headerTexts = iframe.ContentDocument.GetElementsByTagName("h1");
