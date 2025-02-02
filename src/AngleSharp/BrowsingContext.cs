@@ -21,6 +21,7 @@ namespace AngleSharp
         private readonly Boolean _isFrameContext;
         private readonly IHistory? _history;
         private readonly Dictionary<String, WeakReference<IBrowsingContext>> _children;
+        private readonly List<WeakReference<IBrowsingContext>> _contextGroup;
 
         #endregion
 
@@ -45,6 +46,7 @@ namespace AngleSharp
             _originalServices = _services;
             _security = security;
             _children = [];
+            _contextGroup = [];
         }
 
         internal BrowsingContext(IEnumerable<Object> services, Sandboxes security)
@@ -207,6 +209,19 @@ namespace AngleSharp
         {
             var context = new BrowsingContext(this, security, isFrameContext);
 
+            // if the new context is not a frame context, then it should be added
+            // to the top-most browsing context, as a new top-level auxilary
+            // browser context
+            if (!isFrameContext)
+            {
+                if (_contextGroup is null)
+                {
+                    // _parent should not be null if _contextGroup is null
+                    return _parent!.CreateChild(name, security);
+                }
+                _contextGroup.Add(new(context));
+            }
+
             if (name is { Length: > 0 })
             {
                 _children[name] = new WeakReference<IBrowsingContext>(context);
@@ -230,7 +245,26 @@ namespace AngleSharp
                 foundChildContext = currentContext.FindChildRecursive(name, excludedChild);
                 excludedChild = currentContext;
                 currentContext = currentContext.Parent as BrowsingContext;
+            }
 
+            if (foundChildContext is null && excludedChild is BrowsingContext { _contextGroup : not null and  var group })
+            {
+                // TODO
+                // if the initial browsing context was part of a top-level auxilary browsing context,
+                // it should be filtered out so that it is not searched again
+                foreach (var contextRef in group)
+                {
+                    if (!contextRef.TryGetTarget(out var c) || c is not BrowsingContext context)
+                    {
+                        continue;
+                    }
+
+                    foundChildContext = context.FindChildRecursive(name, null);
+
+                    if (foundChildContext is not null) {
+                        return foundChildContext;
+                    }
+                }
             }
 
             return foundChildContext;
