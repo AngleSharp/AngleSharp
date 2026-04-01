@@ -6,6 +6,9 @@ using AngleSharp.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if NET5_0_OR_GREATER
+using System.Runtime.InteropServices;
+#endif
 
 /// <summary>
 /// Extensions for performing QuerySelector operations.
@@ -74,7 +77,9 @@ public static class QueryExtensions
 
         if (sg is not null)
         {
-            return sg.MatchAll(nodes.OfType<IElement>(), scope);
+            var result = new List<IElement>();
+            nodes.QuerySelectorAll(sg, scope, result);
+            return new HtmlCollection<IElement>(result);
         }
 
         return new HtmlCollection<IElement>(Array.Empty<IElement>());
@@ -283,18 +288,57 @@ public static class QueryExtensions
     /// <param name="elements">The elements to take as source.</param>
     /// <param name="selector">A selector object.</param>
     /// <param name="result">A reference to the list where to store the results.</param>
-    public static void QuerySelectorAll<T>(this T elements, ISelector selector, List<IElement> result) where T : class, INodeList
+    public static void QuerySelectorAll<T>(this T elements, ISelector selector, List<IElement> result) where T : class, INodeList =>
+        elements.QuerySelectorAll(selector, null, result);
+
+    /// <summary>
+    /// Returns a list of the elements within the document (using depth-first pre-order traversal
+    /// of the document's nodes) that match the specified group of selectors.
+    /// </summary>
+    /// <param name="elements">The elements to take as source.</param>
+    /// <param name="selector">A selector object.</param>
+    /// <param name="scope">The optional scope element.</param>
+    /// <param name="result">A reference to the list where to store the results.</param>
+    public static void QuerySelectorAll<T>(this T elements, ISelector selector, IElement? scope, List<IElement> result) where T : class, INodeList
     {
+        var stack = new Stack<Element>();
+
         for (var i = 0; i < elements.Length; i++)
         {
-            if (elements[i] is IElement element)
+            if (elements[i] is Element rootElement)
             {
-                foreach (var descendantAndSelf in element.DescendantsAndSelf<IElement>())
+                stack.Push(rootElement);
+
+                while (stack.Count > 0)
                 {
-                    if (selector.Match(descendantAndSelf))
+                    var element = stack.Pop();
+
+                    if (selector.Match(element, scope))
                     {
-                        result.Add(descendantAndSelf);
+                        result.Add(element);
                     }
+
+#if NET5_0_OR_GREATER
+                    var entries = CollectionsMarshal.AsSpan(element.ChildNodes._entries);
+
+                    for (var j = entries.Length - 1; j >= 0; j--)
+                    {
+                        if (entries[j] is Element child)
+                        {
+                            stack.Push(child);
+                        }
+                    }
+#else
+                    var childNodes = element.ChildNodes;
+
+                    for (var j = childNodes.Length - 1; j >= 0; j--)
+                    {
+                        if (childNodes[j] is Element child)
+                        {
+                            stack.Push(child);
+                        }
+                    }
+#endif
                 }
             }
         }

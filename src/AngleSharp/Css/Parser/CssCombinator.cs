@@ -120,19 +120,18 @@ namespace AngleSharp.Css.Parser
             public DescendantCombinator()
             {
                 Delimiter = CombinatorSymbols.Descendant;
-                Transform = el =>
+                Transform = GetAncestors;
+            }
+
+            private static IEnumerable<IElement> GetAncestors(IElement el)
+            {
+                var parent = el.ParentElement;
+
+                while (parent != null)
                 {
-                    var parents = new List<IElement>();
-                    var parent = el.ParentElement;
-
-                    while (parent != null)
-                    {
-                        parents.Add(parent);
-                        parent = parent.ParentElement;
-                    }
-
-                    return parents;
-                };
+                    yield return parent;
+                    parent = parent.ParentElement;
+                }
             }
         }
 

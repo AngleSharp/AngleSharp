@@ -53,6 +53,11 @@ public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
         }
     }
 
+    /// <summary>
+    /// Gets the underlying memory buffer.
+    /// </summary>
+    internal ReadOnlyMemory<Char> Memory => _memory;
+
     /// <ihneritdoc />
     public Char this[Int32 index] => _content != null ? _content[index] : _memory.Span[index];
 

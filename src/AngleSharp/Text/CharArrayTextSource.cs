@@ -41,6 +41,11 @@ public sealed class CharArrayTextSource : IReadOnlyTextSource
         }
     }
 
+    /// <summary>
+    /// Gets the underlying character array.
+    /// </summary>
+    internal Char[] Array => _array;
+
     /// <ihneritdoc />
     public Char this[Int32 index] => _array[index];
 

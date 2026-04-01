@@ -4,6 +4,9 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+#if NET8_0_OR_GREATER
+    using System.Collections.Frozen;
+#endif
     using Common;
     using Construction;
     using Tokens.Struct;
@@ -14,7 +17,7 @@ namespace AngleSharp.Html.Parser
     static class HtmlForeignExtensions
     {
         #region Fields
-        private static readonly Dictionary<StringOrMemory, String> svgAttributeNames =
+        private static readonly Dictionary<StringOrMemory, String> _svgAttributeNamesDict =
             new(OrdinalStringOrMemoryComparer.Instance)
         {
             { "attributename", "attributeName" },
@@ -81,7 +84,7 @@ namespace AngleSharp.Html.Parser
             { "zoomandpan", "zoomAndPan" },
         };
 
-        private static readonly Dictionary<StringOrMemory, String> svgAdjustedTagNames =
+        private static readonly Dictionary<StringOrMemory, String> _svgAdjustedTagNamesDict =
             new(OrdinalStringOrMemoryComparer.Instance)
         {
              { "altglyph", "altGlyph" },
@@ -121,6 +124,14 @@ namespace AngleSharp.Html.Parser
              { "radialgradient", "radialGradient" },
              { "textpath", "textPath" }
         };
+
+#if NET8_0_OR_GREATER
+        private static readonly FrozenDictionary<StringOrMemory, String> svgAttributeNames = _svgAttributeNamesDict.ToFrozenDictionary(OrdinalStringOrMemoryComparer.Instance);
+        private static readonly FrozenDictionary<StringOrMemory, String> svgAdjustedTagNames = _svgAdjustedTagNamesDict.ToFrozenDictionary(OrdinalStringOrMemoryComparer.Instance);
+#else
+        private static readonly Dictionary<StringOrMemory, String> svgAttributeNames = _svgAttributeNamesDict;
+        private static readonly Dictionary<StringOrMemory, String> svgAdjustedTagNames = _svgAdjustedTagNamesDict;
+#endif
 
         #endregion
 
