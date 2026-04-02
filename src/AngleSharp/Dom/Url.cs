@@ -46,7 +46,6 @@ namespace AngleSharp.Dom
         private String? _username;
         private String? _password;
         private Boolean _relative;
-        private Boolean _hasPath;
         private String _schemeData;
         private UrlSearchParams? _params;
         private Boolean _error;
@@ -125,7 +124,6 @@ namespace AngleSharp.Dom
             _username = address._username;
             _password = address._password;
             _relative = address._relative;
-            _hasPath = address._hasPath;
             _schemeData = address._schemeData;
         }
 
@@ -341,20 +339,7 @@ namespace AngleSharp.Dom
         [DomName("pathname")]
         public String PathName
         {
-            get
-            {
-                if (!_relative)
-                {
-                    return _schemeData;
-                }
-
-                if (!_hasPath && !ProtocolNames.IsRelative(_scheme) && !String.IsNullOrEmpty(_scheme))
-                {
-                    return String.Empty;
-                }
-
-                return $"/{_path}";
-            }
+            get => $"/{_path}";
             set => Path = value;
         }
 
@@ -554,11 +539,11 @@ namespace AngleSharp.Dom
                 {
                     output.Append(Symbols.Solidus).Append(Symbols.Solidus);
 
-                    if (!String.IsNullOrEmpty(_username) || !String.IsNullOrEmpty(_password))
+                    if (!String.IsNullOrEmpty(_username) || _password != null)
                     {
                         output.Append(_username);
 
-                        if (!String.IsNullOrEmpty(_password))
+                        if (_password != null)
                         {
                             output.Append(Symbols.Colon).Append(_password);
                         }
@@ -573,10 +558,7 @@ namespace AngleSharp.Dom
                         output.Append(Symbols.Colon).Append(_port);
                     }
 
-                    if (_hasPath || ProtocolNames.IsRelative(_scheme) || String.IsNullOrEmpty(_scheme))
-                    {
-                        output.Append(Symbols.Solidus);
-                    }
+                    output.Append(Symbols.Solidus);
                 }
 
                 output.Append(_path);
@@ -619,9 +601,6 @@ namespace AngleSharp.Dom
             _path = baseUrl._path;
             _query = baseUrl._query;
             _port = baseUrl._port;
-            _username = baseUrl._username;
-            _password = baseUrl._password;
-            _hasPath = baseUrl._hasPath;
             _relative = ProtocolNames.IsRelative(_scheme);
         }
 
@@ -660,20 +639,8 @@ namespace AngleSharp.Dom
                                 _host = String.Empty;
                                 _port = String.Empty;
                                 _path = String.Empty;
-                                _hasPath = false;
                                 _query = null;
-
-                                var afterColon = index + 1;
-
-                                if (afterColon + 1 < length &&
-                                    input[afterColon] == Symbols.Solidus &&
-                                    input[afterColon + 1] == Symbols.Solidus)
-                                {
-                                    _relative = true;
-                                    return ParseAuthority(input, afterColon + 2, length);
-                                }
-
-                                return ParseSchemeData(input, afterColon, length);
+                                return ParseSchemeData(input, index + 1, length);
                             }
                             else if (_scheme.Is(originalScheme))
                             {
@@ -959,7 +926,7 @@ namespace AngleSharp.Dom
                             return false;
                         }
 
-                        var error = String.IsNullOrEmpty(_host) && ProtocolNames.IsRelative(_scheme);
+                        var error = String.IsNullOrEmpty(_host);
 
                         if (!onlyHost)
                         {
@@ -1030,7 +997,6 @@ namespace AngleSharp.Dom
 
         private Boolean ParsePath(String input, Int32 index, Int32 length, Boolean onlyPath = false)
         {
-            _hasPath = true;
             var init = index;
 
             if (index < length && (input[index] == Symbols.Solidus || input[index] == Symbols.ReverseSolidus))

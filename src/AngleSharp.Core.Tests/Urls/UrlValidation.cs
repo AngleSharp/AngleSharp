@@ -640,7 +640,7 @@ org");
             Assert.AreEqual("foo:", anchor.Protocol);
             Assert.AreEqual("", anchor.HostName);
             Assert.AreEqual("", anchor.Port);
-            Assert.AreEqual("", anchor.PathName);
+            Assert.AreEqual("//", anchor.PathName);
             Assert.AreEqual("", anchor.Search);
             Assert.AreEqual("", anchor.Hash);
             Assert.AreEqual("foo://", anchor.Href);
@@ -849,7 +849,7 @@ org");
             Assert.AreEqual("foo:", anchor.Protocol);
             Assert.AreEqual("", anchor.HostName);
             Assert.AreEqual("", anchor.Port);
-            Assert.AreEqual("///////", anchor.PathName);
+            Assert.AreEqual("/////////", anchor.PathName);
             Assert.AreEqual("", anchor.Search);
             Assert.AreEqual("", anchor.Hash);
             Assert.AreEqual("foo://///////", anchor.Href);
@@ -868,7 +868,7 @@ org");
             Assert.AreEqual("foo:", anchor.Protocol);
             Assert.AreEqual("", anchor.HostName);
             Assert.AreEqual("", anchor.Port);
-            Assert.AreEqual("///////bar.com/", anchor.PathName);
+            Assert.AreEqual("/////////bar.com/", anchor.PathName);
             Assert.AreEqual("", anchor.Search);
             Assert.AreEqual("", anchor.Hash);
             Assert.AreEqual("foo://///////bar.com/", anchor.Href);
@@ -887,7 +887,7 @@ org");
             Assert.AreEqual("foo:", anchor.Protocol);
             Assert.AreEqual("", anchor.HostName);
             Assert.AreEqual("", anchor.Port);
-            Assert.AreEqual("//://///", anchor.PathName);
+            Assert.AreEqual("////://///", anchor.PathName);
             Assert.AreEqual("", anchor.Search);
             Assert.AreEqual("", anchor.Hash);
             Assert.AreEqual("foo:////://///", anchor.Href);
@@ -2880,9 +2880,9 @@ org");
             var anchor = document.CreateElement<IHtmlAnchorElement>();
             anchor.SetAttribute("href", @"httpa://foo:80/");
             Assert.AreEqual("httpa:", anchor.Protocol);
-            Assert.AreEqual("foo", anchor.HostName);
-            Assert.AreEqual("80", anchor.Port);
-            Assert.AreEqual("/", anchor.PathName);
+            Assert.AreEqual("", anchor.HostName);
+            Assert.AreEqual("", anchor.Port);
+            Assert.AreEqual("//foo:80/", anchor.PathName);
             Assert.AreEqual("", anchor.Search);
             Assert.AreEqual("", anchor.Hash);
             Assert.AreEqual("httpa://foo:80/", anchor.Href);
@@ -3797,7 +3797,7 @@ org");
             Assert.AreEqual("/", anchor.PathName);
             Assert.AreEqual("", anchor.Search);
             Assert.AreEqual("", anchor.Hash);
-            Assert.AreEqual("http://a@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://a:@www.example.com/", anchor.Href);
             Assert.IsNotNull(document);
         }
 
@@ -3816,7 +3816,7 @@ org");
             Assert.AreEqual("/", anchor.PathName);
             Assert.AreEqual("", anchor.Search);
             Assert.AreEqual("", anchor.Hash);
-            Assert.AreEqual("http://a@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://a:@www.example.com/", anchor.Href);
             Assert.IsNotNull(document);
         }
 
@@ -3835,7 +3835,7 @@ org");
             Assert.AreEqual("/", anchor.PathName);
             Assert.AreEqual("", anchor.Search);
             Assert.AreEqual("", anchor.Hash);
-            Assert.AreEqual("http://a@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://a:@www.example.com/", anchor.Href);
             Assert.IsNotNull(document);
         }
 
@@ -3873,7 +3873,7 @@ org");
             Assert.AreEqual("/", anchor.PathName);
             Assert.AreEqual("", anchor.Search);
             Assert.AreEqual("", anchor.Hash);
-            Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.AreEqual("http://:@www.example.com/", anchor.Href);
             Assert.IsNotNull(document);
         }
 

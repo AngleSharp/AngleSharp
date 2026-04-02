@@ -50,6 +50,7 @@ namespace AngleSharp.Core.Tests.Urls
         [TestCaseSource(nameof(TestCases))]
         public void WptUrlParsing(WptUrlTestEntry entry)
         {
+            var mismatches = 0;
             Url result;
 
             if (entry.Base != null)
@@ -62,42 +63,42 @@ namespace AngleSharp.Core.Tests.Urls
                 result = new Url(entry.Input);
             }
 
+            void Check(bool condition, string message)
+            {
+                if (!condition)
+                {
+                    mismatches++;
+                    TestContext.WriteLine(message);
+                }
+            }
+
             if (entry.Failure)
             {
-                Warn.If(!result.IsInvalid,
-                    $"Expected failure for input: {entry.Input}");
+                Check(result.IsInvalid, $"Expected failure for input: {entry.Input}");
             }
             else
             {
-                Warn.If(result.IsInvalid,
-                    $"Expected success for input: {entry.Input}");
-
                 if (result.IsInvalid)
                 {
+                    TestContext.WriteLine($"Expected success for input: {entry.Input}");
+                    Assert.Warn($"1 mismatch for input: {entry.Input}");
                     return;
                 }
 
-                Warn.Unless(result.Href == entry.Href,
-                    $"Href mismatch: expected \"{entry.Href}\", got \"{result.Href}\"");
-                Warn.Unless(result.Protocol == entry.Protocol,
-                    $"Protocol mismatch: expected \"{entry.Protocol}\", got \"{result.Protocol}\"");
-                Warn.Unless(result.UserName == entry.Username,
-                    $"Username mismatch: expected \"{entry.Username}\", got \"{result.UserName}\"");
-                Warn.Unless(result.Password == entry.Password,
-                    $"Password mismatch: expected \"{entry.Password}\", got \"{result.Password}\"");
-                Warn.Unless(result.Host == entry.Host,
-                    $"Host mismatch: expected \"{entry.Host}\", got \"{result.Host}\"");
-                Warn.Unless(result.HostName == entry.Hostname,
-                    $"Hostname mismatch: expected \"{entry.Hostname}\", got \"{result.HostName}\"");
-                Warn.Unless(result.Port == entry.Port,
-                    $"Port mismatch: expected \"{entry.Port}\", got \"{result.Port}\"");
-                Warn.Unless(result.PathName == entry.Pathname,
-                    $"Pathname mismatch: expected \"{entry.Pathname}\", got \"{result.PathName}\"");
-                Warn.Unless(result.Search == entry.Search,
-                    $"Search mismatch: expected \"{entry.Search}\", got \"{result.Search}\"");
-                Warn.Unless(result.Hash == entry.Hash,
-                    $"Hash mismatch: expected \"{entry.Hash}\", got \"{result.Hash}\"");
+                Check(result.Href == entry.Href, $"Href mismatch: expected \"{entry.Href}\", got \"{result.Href}\"");
+                Check(result.Protocol == entry.Protocol, $"Protocol mismatch: expected \"{entry.Protocol}\", got \"{result.Protocol}\"");
+                Check(result.UserName == entry.Username, $"Username mismatch: expected \"{entry.Username}\", got \"{result.UserName}\"");
+                Check(result.Password == entry.Password, $"Password mismatch: expected \"{entry.Password}\", got \"{result.Password}\"");
+                Check(result.Host == entry.Host, $"Host mismatch: expected \"{entry.Host}\", got \"{result.Host}\"");
+                Check(result.HostName == entry.Hostname, $"Hostname mismatch: expected \"{entry.Hostname}\", got \"{result.HostName}\"");
+                Check(result.Port == entry.Port, $"Port mismatch: expected \"{entry.Port}\", got \"{result.Port}\"");
+                Check(result.PathName == entry.Pathname, $"Pathname mismatch: expected \"{entry.Pathname}\", got \"{result.PathName}\"");
+                Check(result.Search == entry.Search, $"Search mismatch: expected \"{entry.Search}\", got \"{result.Search}\"");
+                Check(result.Hash == entry.Hash, $"Hash mismatch: expected \"{entry.Hash}\", got \"{result.Hash}\"");
             }
+
+            if (mismatches > 0)
+                Assert.Warn($"{mismatches} mismatch(es) for input: {entry.Input}");
         }
 
     }
