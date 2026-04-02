@@ -35,7 +35,11 @@ namespace AngleSharp.Benchmarks
         public async Task<UrlTests> Include(String url)
         {
             var test = await UrlTest.For(url, _extension, _buffer).ConfigureAwait(false);
-            _tests.Add(test);
+            if (test != null)
+            {
+                _tests.Add(test);
+            }
+
             return this;
         }
     }

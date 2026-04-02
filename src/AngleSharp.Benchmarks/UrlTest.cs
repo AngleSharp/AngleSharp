@@ -10,7 +10,7 @@ namespace AngleSharp.Benchmarks
     {
         private static readonly HttpClient http = new();
 
-        private UrlTest(string name, string source)
+        private UrlTest(String name, String source)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -18,11 +18,11 @@ namespace AngleSharp.Benchmarks
             Source = source;
         }
 
-        internal static async Task<UrlTest> For(string url, string extension, bool withBuffer)
+        internal static async Task<UrlTest> For(String url, String extension, Boolean withBuffer)
         {
             try
             {
-                var source = string.Empty;
+                var source = String.Empty;
                 var uri = new Uri(url);
                 var name = uri.Host.Replace("www.", "").Replace(".com", "").Replace(".de", "").Replace(".org", "");
                 if (!Directory.Exists("temp"))
@@ -33,13 +33,52 @@ namespace AngleSharp.Benchmarks
 
                 if (!withBuffer || !File.Exists(fileName))
                 {
-                    http.DefaultRequestHeaders.UserAgent.Clear();
-                    http.DefaultRequestHeaders.UserAgent.ParseAdd(
-                        "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.27 Safari/537.36 OPR/26.0.1656.8 (Edition beta)");
-                    var content = await http.GetAsync(uri);
-                    source = await content.Content.ReadAsStringAsync();
+                    const Int32 maxRetries = 3;
+                    const Int32 minValidLength = 128;
 
-                    if (withBuffer)
+                    for (var attempt = 1; attempt <= maxRetries; attempt++)
+                    {
+                        using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+                        request.Headers.UserAgent.ParseAdd(
+                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+                        using var response = await http.SendAsync(request);
+
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            Console.WriteLine("Attempt {0}/{1} for \"{2}\" returned HTTP {3}, retrying...",
+                                attempt, maxRetries, url, (Int32)response.StatusCode);
+
+                            if (attempt < maxRetries)
+                            {
+                                await Task.Delay(1000 * attempt);
+                            }
+
+                            continue;
+                        }
+
+                        source = await response.Content.ReadAsStringAsync();
+
+                        if (source.Length >= minValidLength)
+                        {
+                            break;
+                        }
+
+                        Console.WriteLine("Attempt {0}/{1} for \"{2}\" returned only {3} chars, retrying...",
+                            attempt, maxRetries, url, source.Length);
+
+                        if (attempt < maxRetries)
+                        {
+                            await Task.Delay(1000 * attempt);
+                        }
+                    }
+
+                    if (source.Length < minValidLength)
+                    {
+                        Console.WriteLine("Warning: \"{0}\" returned only {1} chars after {2} attempts",
+                            url, source.Length, maxRetries);
+                    }
+
+                    if (withBuffer && source.Length >= minValidLength)
                     {
                         File.WriteAllText(fileName, source);
                     }
@@ -58,11 +97,11 @@ namespace AngleSharp.Benchmarks
             }
         }
 
-        public string Name { get; }
+        public String Name { get; }
 
-        public string Source { get; }
+        public String Source { get; }
 
-        public override string ToString()
+        public override String ToString()
         {
             return Name;
         }
