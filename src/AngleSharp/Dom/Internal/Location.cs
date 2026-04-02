@@ -130,11 +130,7 @@ namespace AngleSharp.Dom
 
         public String PathName
         {
-            get
-            {
-                var data = _url.Data;
-                return String.IsNullOrEmpty(data) ? "/" + _url.Path : data;
-            }
+            get => _url.PathName;
             set
             {
                 var old = _url.Href;
