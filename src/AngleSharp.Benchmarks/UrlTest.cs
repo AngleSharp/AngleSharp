@@ -49,7 +49,9 @@ namespace AngleSharp.Benchmarks
                                 attempt, maxRetries, url, (Int32)response.StatusCode);
 
                             if (attempt < maxRetries)
+                            {
                                 await Task.Delay(1000 * attempt);
+                            }
 
                             continue;
                         }
@@ -57,18 +59,24 @@ namespace AngleSharp.Benchmarks
                         source = await response.Content.ReadAsStringAsync();
 
                         if (source.Length >= minValidLength)
+                        {
                             break;
+                        }
 
                         Console.WriteLine("Attempt {0}/{1} for \"{2}\" returned only {3} chars, retrying...",
                             attempt, maxRetries, url, source.Length);
 
                         if (attempt < maxRetries)
+                        {
                             await Task.Delay(1000 * attempt);
+                        }
                     }
 
                     if (source.Length < minValidLength)
+                    {
                         Console.WriteLine("Warning: \"{0}\" returned only {1} chars after {2} attempts",
                             url, source.Length, maxRetries);
+                    }
 
                     if (withBuffer && source.Length >= minValidLength)
                     {
