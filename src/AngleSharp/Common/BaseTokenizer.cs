@@ -2,6 +2,7 @@ namespace AngleSharp.Common
 {
     using AngleSharp.Text;
     using System;
+    using System.Buffers;
     using System.Collections.Generic;
     using System.Text;
 
@@ -17,6 +18,7 @@ namespace AngleSharp.Common
         private readonly IReadOnlyTextSource _source;
         private readonly WritableTextSource? _wts;
         private readonly CharArrayTextSource? _cats;
+        private readonly ReadOnlyMemoryTextSource? _roms;
 
         private StringBuilder _stringBuilder;
         private IMutableCharBuffer _charBuffer;
@@ -59,6 +61,10 @@ namespace AngleSharp.Common
             else if (_source is CharArrayTextSource cats)
             {
                 _cats = cats;
+            }
+            else if (_source is ReadOnlyMemoryTextSource roms)
+            {
+                _roms = roms;
             }
 
             _current = Symbols.Null;
@@ -386,6 +392,92 @@ namespace AngleSharp.Common
             }
         }
 
+#if NET8_0_OR_GREATER
+        private static readonly SearchValues<Char> DataTextTerminators =
+            SearchValues.Create(['<', '&', '\0', '\r', '\n']);
+#endif
+
+        /// <summary>
+        /// Scans ahead in the underlying source for plain text runs,
+        /// bulk-appending characters until a DataText terminator is found.
+        /// Returns the next character that needs per-char handling.
+        /// </summary>
+        private protected Char ScanDataText()
+        {
+            ReadOnlySpan<Char> remaining;
+            Int32 index;
+
+            if (_cats is not null)
+            {
+                index = _cats.Index;
+                if (index >= _cats.Length) return GetNext();
+                remaining = _cats.Array.AsSpan(index, _cats.Length - index);
+            }
+            else if (_roms is not null)
+            {
+                index = _roms.Index;
+                if (index >= _roms.Length) return GetNext();
+                remaining = _roms.Memory.Span.Slice(index, _roms.Length - index);
+            }
+            else
+            {
+                return GetNext();
+            }
+
+#if NET8_0_OR_GREATER
+            var found = remaining.IndexOfAny(DataTextTerminators);
+#else
+            var found = remaining.IndexOfAny('<', '&', '\0');
+            var nlIdx = remaining.IndexOfAny('\r', '\n');
+            if (nlIdx >= 0 && (found < 0 || nlIdx < found))
+            {
+                found = nlIdx;
+            }
+#endif
+
+            var runLength = found <= 0 ? 0 : found;
+
+            if (runLength > 0)
+            {
+                var run = remaining.Slice(0, runLength);
+
+                if (_apb != null)
+                {
+                    _apb.Append(run);
+                }
+                else
+                {
+#if NETSTANDARD2_0 || NET462 || NET472
+                    for (var i = 0; i < run.Length; i++)
+                    {
+                        _sbb!._sb.Append(run[i]);
+                    }
+#else
+                    _sbb!._sb.Append(run);
+#endif
+                }
+
+                if (!_disableElementPositionTracking)
+                {
+                    _column += (UInt16)runLength;
+                }
+
+                var newIndex = index + runLength;
+                if (_cats is not null)
+                {
+                    _cats.Index = newIndex;
+                    _current = _cats.Array[newIndex - 1];
+                }
+                else
+                {
+                    _roms!.Index = newIndex;
+                    _current = _roms.Memory.Span[newIndex - 1];
+                }
+            }
+
+            return GetNext();
+        }
+
         #endregion
 
         #region Helpers
@@ -492,6 +584,11 @@ namespace AngleSharp.Common
             if (_cats is not null)
             {
                 return _cats.ReadCharacter();
+            }
+
+            if (_roms is not null)
+            {
+                return _roms.ReadCharacter();
             }
 
             return _source.ReadCharacter();

@@ -7,6 +7,9 @@ namespace AngleSharp.Css.Parser
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+#if NET8_0_OR_GREATER
+    using System.Collections.Frozen;
+#endif
     using System.Globalization;
     using System.Linq;
 
@@ -18,7 +21,7 @@ namespace AngleSharp.Css.Parser
     {
         #region Fields
 
-        private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoClassFunctions = new(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> _pseudoClassFunctionsDict = new(StringComparer.OrdinalIgnoreCase)
         {
             { PseudoClassNames.NthChild, ctx => new ChildFunctionState((step, offset, kind) => new FirstChildSelector(step, offset, kind), ctx, withOptionalSelector: true) },
             { PseudoClassNames.NthLastChild, ctx => new ChildFunctionState((step, offset, kind) => new LastChildSelector(step, offset, kind), ctx, withOptionalSelector: true) },
@@ -37,10 +40,18 @@ namespace AngleSharp.Css.Parser
             { PseudoClassNames.HostContext, ctx => new HostContextFunctionState(ctx) },
         };
 
-        private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoElementFunctions = new(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> _pseudoElementFunctionsDict = new(StringComparer.OrdinalIgnoreCase)
         {
             { PseudoElementNames.Picker, _ => new PickerFunctionState() },
         };
+
+#if NET8_0_OR_GREATER
+        private static readonly FrozenDictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoClassFunctions = _pseudoClassFunctionsDict.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
+        private static readonly FrozenDictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoElementFunctions = _pseudoElementFunctionsDict.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
+#else
+        private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoClassFunctions = _pseudoClassFunctionsDict;
+        private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoElementFunctions = _pseudoElementFunctionsDict;
+#endif
 
         private readonly CssTokenizer _tokenizer = tokenizer;
         private readonly Stack<CssCombinator> _combinators = new Stack<CssCombinator>();
