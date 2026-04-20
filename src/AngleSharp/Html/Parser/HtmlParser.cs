@@ -5,6 +5,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Html.Dom.Events;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Threading;
@@ -110,7 +111,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
-        public IHtmlDocument ParseDocument(String source)
+        public IHtmlDocument ParseDocument([StringSyntax("Html")] String source)
         {
             var document = CreateDocument(source);
             return Parse(document);
@@ -119,7 +120,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string and returns the head.
         /// </summary>
-        public IHtmlHeadElement? ParseHead(String source)
+        public IHtmlHeadElement? ParseHead([StringSyntax("Html")] String source)
         {
             var document = CreateDocument(source);
             return Parse(document, TagNames.Head).Head;
@@ -137,7 +138,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
-        public INodeList ParseFragment(String source, IElement contextElement)
+        public INodeList ParseFragment([StringSyntax("Html")] String source, IElement contextElement)
         {
             var document = CreateDocument(source);
             return ParseFragment(document, contextElement);
@@ -228,7 +229,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
-        public Task<IHtmlDocument> ParseDocumentAsync(String source, CancellationToken cancel)
+        public Task<IHtmlDocument> ParseDocumentAsync([StringSyntax("Html")] String source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
             return ParseAsync(document, cancel);
@@ -246,7 +247,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
-        public async Task<IHtmlHeadElement?> ParseHeadAsync(String source, CancellationToken cancel)
+        public async Task<IHtmlHeadElement?> ParseHeadAsync([StringSyntax("Html")] String source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
             var result = await ParseAsync(document, cancel, TagNames.Head).ConfigureAwait(false);

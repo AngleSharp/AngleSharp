@@ -4,6 +4,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
-        IHtmlDocument ParseDocument(String source);
+        IHtmlDocument ParseDocument([StringSyntax("Html")] String source);
 
         /// <summary>
         /// Parses the stream and returns the result.
@@ -28,7 +29,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
-        INodeList ParseFragment(String source, IElement contextElement);
+        INodeList ParseFragment([StringSyntax("Html")] String source, IElement contextElement);
 
         /// <summary>
         /// Parses the stream and returns the result.
@@ -38,7 +39,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string and returns the head.
         /// </summary>
-        IHtmlHeadElement? ParseHead(String source);
+        IHtmlHeadElement? ParseHead([StringSyntax("Html")] String source);
 
         /// <summary>
         /// Parses the stream and returns the head.
@@ -48,7 +49,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string asynchronously.
         /// </summary>
-        Task<IHtmlDocument> ParseDocumentAsync(String source, CancellationToken cancel);
+        Task<IHtmlDocument> ParseDocumentAsync([StringSyntax("Html")] String source, CancellationToken cancel);
 
         /// <summary>
         /// Parses the stream asynchronously.
@@ -58,7 +59,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string asynchronously.
         /// </summary>
-        Task<IHtmlHeadElement?> ParseHeadAsync(String source, CancellationToken cancel);
+        Task<IHtmlHeadElement?> ParseHeadAsync([StringSyntax("Html")] String source, CancellationToken cancel);
 
         /// <summary>
         /// Parses the stream asynchronously.

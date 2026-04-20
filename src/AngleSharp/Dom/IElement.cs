@@ -2,6 +2,7 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// The Element interface represents an object within a DOM document. 
@@ -65,7 +66,7 @@ namespace AngleSharp.Dom
         /// <param name="position">The relation to the current element.</param>
         /// <param name="html">The HTML code to generate elements for.</param>
         [DomName("insertAdjacentHTML")]
-        void Insert(AdjacentPosition position, String html);
+        void Insert(AdjacentPosition position, [StringSyntax("Html")] String html);
 
         /// <summary>
         /// Returns a boolean value indicating whether the specified element
@@ -231,6 +232,7 @@ namespace AngleSharp.Dom
         /// element.
         /// </summary>
         [DomName("innerHTML")]
+        [StringSyntax("Html")]
         String InnerHtml { get; set; }
 
         /// <summary>
@@ -238,6 +240,7 @@ namespace AngleSharp.Dom
         /// element.
         /// </summary>
         [DomName("outerHTML")]
+        [StringSyntax("Html")]
         String OuterHtml { get; set; }
 
         /// <summary>

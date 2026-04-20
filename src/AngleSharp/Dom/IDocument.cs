@@ -101,7 +101,7 @@ namespace AngleSharp.Dom
         /// The text to be written on the document.
         /// </param>
         [DomName("write")]
-        void Write(String content);
+        void Write([StringSyntax("Html")] String content);
 
         /// <summary>
         /// Writes a line of text to a document.
@@ -110,7 +110,7 @@ namespace AngleSharp.Dom
         /// The text to be written on the document.
         /// </param>
         [DomName("writeln")]
-        void WriteLine(String content);
+        void WriteLine([StringSyntax("Html")] String content);
 
         /// <summary>
         /// Loads the document content from the given url.

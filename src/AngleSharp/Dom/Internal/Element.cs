@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Dom.Events;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Common;
     using Html.Construction;
@@ -554,7 +555,7 @@ namespace AngleSharp.Dom
         public void Remove() => this.RemoveFromParent();
 
         /// <inheritdoc />
-        public void Insert(AdjacentPosition position, String html)
+        public void Insert(AdjacentPosition position, [StringSyntax("Html")] String html)
         {
             var useThis = position == AdjacentPosition.AfterBegin || position == AdjacentPosition.BeforeEnd;
             var context = useThis ? this : Parent as Element ?? throw new DomException("The element has no parent.");

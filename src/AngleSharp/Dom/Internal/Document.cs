@@ -995,7 +995,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void Write(String content)
+        public void Write([StringSyntax("Html")] String content)
         {
             if (IsReady)
             {
@@ -1013,7 +1013,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void WriteLine(String content) => Write(content + Symbols.LineFeed);
+        public void WriteLine([StringSyntax("Html")] String content) => Write(content + Symbols.LineFeed);
 
         /// <inheritdoc />
         public IHtmlCollection<IElement> GetElementsByName(String name)

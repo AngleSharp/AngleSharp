@@ -3,6 +3,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string asynchronously.
         /// </summary>
-        public static Task<IHtmlDocument> ParseDocumentAsync(this IHtmlParser parser, String source) => parser.ParseDocumentAsync(source, CancellationToken.None);
+        public static Task<IHtmlDocument> ParseDocumentAsync(this IHtmlParser parser, [StringSyntax("Html")] String source) => parser.ParseDocumentAsync(source, CancellationToken.None);
 
         /// <summary>
         /// Parses the stream asynchronously.
@@ -25,7 +26,7 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Parses the string asynchronously.
         /// </summary>
-        public static Task<IHtmlHeadElement?> ParseHeadAsync(this IHtmlParser parser, String source) => parser.ParseHeadAsync(source, CancellationToken.None);
+        public static Task<IHtmlHeadElement?> ParseHeadAsync(this IHtmlParser parser, [StringSyntax("Html")] String source) => parser.ParseHeadAsync(source, CancellationToken.None);
 
         /// <summary>
         /// Parses the stream asynchronously.

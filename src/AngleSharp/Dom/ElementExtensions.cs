@@ -12,6 +12,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -1023,7 +1024,7 @@ namespace AngleSharp.Dom
         /// The source code of the inner HTML to set.
         /// </param>
         /// <returns>The collection itself.</returns>
-        public static T Html<T>(this T elements, String html)
+        public static T Html<T>(this T elements, [StringSyntax("Html")] String html)
             where T : class, IEnumerable<IElement>
         {
             elements = elements ?? throw new ArgumentNullException(nameof(elements));
@@ -1153,7 +1154,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to iterate through.</param>
         /// <param name="html">The HTML code that generates the nodes.</param>
         /// <returns>The unchanged collection.</returns>
-        public static T Before<T>(this T elements, String html)
+        public static T Before<T>(this T elements, [StringSyntax("Html")] String html)
             where T : class, IEnumerable<IElement>
         {
             elements = elements ?? throw new ArgumentNullException(nameof(elements));
@@ -1180,7 +1181,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to iterate through.</param>
         /// <param name="html">The HTML code that generates the nodes.</param>
         /// <returns>The unchanged collection.</returns>
-        public static T After<T>(this T elements, String html)
+        public static T After<T>(this T elements, [StringSyntax("Html")] String html)
             where T : class, IEnumerable<IElement>
         {
             elements = elements ?? throw new ArgumentNullException(nameof(elements));
@@ -1207,7 +1208,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to iterate through.</param>
         /// <param name="html">The HTML code that generates the nodes.</param>
         /// <returns>The unchanged collection.</returns>
-        public static T Append<T>(this T elements, String html)
+        public static T Append<T>(this T elements, [StringSyntax("Html")] String html)
             where T : class, IEnumerable<IElement>
         {
             elements = elements ?? throw new ArgumentNullException(nameof(elements));
@@ -1229,7 +1230,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to iterate through.</param>
         /// <param name="html">The HTML code that generates the nodes.</param>
         /// <returns>The unchanged collection.</returns>
-        public static T Prepend<T>(this T elements, String html)
+        public static T Prepend<T>(this T elements, [StringSyntax("Html")] String html)
             where T : class, IEnumerable<IElement>
         {
             elements = elements ?? throw new ArgumentNullException(nameof(elements));
@@ -1251,7 +1252,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to iterate through.</param>
         /// <param name="html">The HTML code that generates the tree.</param>
         /// <returns>The unchanged collection.</returns>
-        public static T Wrap<T>(this T elements, String html)
+        public static T Wrap<T>(this T elements, [StringSyntax("Html")] String html)
             where T : class, IEnumerable<IElement>
         {
             elements = elements ?? throw new ArgumentNullException(nameof(elements));
@@ -1276,7 +1277,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to iterate through.</param>
         /// <param name="html">The HTML code that generates the tree.</param>
         /// <returns>The unchanged collection.</returns>
-        public static T WrapInner<T>(this T elements, String html)
+        public static T WrapInner<T>(this T elements, [StringSyntax("Html")] String html)
             where T : class, IEnumerable<IElement>
         {
             elements = elements ?? throw new ArgumentNullException(nameof(elements));
@@ -1307,7 +1308,7 @@ namespace AngleSharp.Dom
         /// <param name="elements">The elements to wrap.</param>
         /// <param name="html">The HTML code that generates the tree.</param>
         /// <returns>The unchanged collection.</returns>
-        public static T WrapAll<T>(this T elements, String html)
+        public static T WrapAll<T>(this T elements, [StringSyntax("Html")] String html)
             where T : class, IEnumerable<IElement>
         {
             elements = elements ?? throw new ArgumentNullException(nameof(elements));
@@ -1520,7 +1521,7 @@ namespace AngleSharp.Dom
         internal static void SetOwnAttribute(this Element element, String name, String? value, Boolean suppressCallbacks = false) =>
             element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value!), suppressCallbacks);
 
-        private static IDocumentFragment CreateFragment(this IElement context, String html)
+        private static IDocumentFragment CreateFragment(this IElement context, [StringSyntax("Html")] String html)
         {
             var contextElement = context as Element;
             var content = html ?? String.Empty;
@@ -1633,7 +1634,7 @@ namespace AngleSharp.Dom
         /// <param name="element">The element to use as context.</param>
         /// <param name="html">The HTML source for the subtree.</param>
         /// <returns>The root element of the HTML subtree.</returns>
-        internal static IElement ParseHtmlSubtree(this Element element, String html)
+        internal static IElement ParseHtmlSubtree(this Element element, [StringSyntax("Html")] String html)
         {
             var context = element.Context;
             var source = new TextSource(html);

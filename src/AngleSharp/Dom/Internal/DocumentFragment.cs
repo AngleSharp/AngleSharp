@@ -2,6 +2,7 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     /// <summary>
@@ -22,7 +23,7 @@ namespace AngleSharp.Dom
         {
         }
 
-        internal DocumentFragment(Element contextElement, String html)
+        internal DocumentFragment(Element contextElement, [StringSyntax("Html")] String html)
             : this(contextElement.Owner)
         {
             var root = contextElement.ParseSubtree(html);
