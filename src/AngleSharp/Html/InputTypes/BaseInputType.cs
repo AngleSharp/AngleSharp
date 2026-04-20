@@ -6,6 +6,7 @@ namespace AngleSharp.Html.InputTypes
     using AngleSharp.Text;
     using System;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Text.RegularExpressions;
 
@@ -301,7 +302,7 @@ namespace AngleSharp.Html.InputTypes
         /// <summary>
         /// Checks if the string does not follow the pattern.
         /// </summary>
-        protected static Boolean IsInvalidPattern(String? pattern, String? value)
+        protected static Boolean IsInvalidPattern([StringSyntax(StringSyntaxAttribute.Regex)] String? pattern, String? value)
         {
             if (!String.IsNullOrEmpty(pattern) && !String.IsNullOrEmpty(value))
             {

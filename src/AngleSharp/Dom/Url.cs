@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Text;
     using Common;
@@ -70,7 +71,7 @@ namespace AngleSharp.Dom
         /// <param name="url">The address to represent.</param>
         /// <param name="baseAddress">The base address, if any.</param>
         [DomConstructor]
-        public Url(String url, String baseAddress = null)
+        public Url([StringSyntax(StringSyntaxAttribute.Uri)] String url, [StringSyntax(StringSyntaxAttribute.Uri)] String baseAddress = null)
         {
             if (baseAddress is not null)
             {
@@ -87,7 +88,7 @@ namespace AngleSharp.Dom
         /// Creates a new Url from the given string.
         /// </summary>
         /// <param name="address">The address to represent.</param>
-        public Url(String address)
+        public Url([StringSyntax(StringSyntaxAttribute.Uri)] String address)
         {
             _error = ParseUrl(address);
         }
@@ -100,7 +101,7 @@ namespace AngleSharp.Dom
         /// <param name="relativeAddress">
         /// The relative address to represent.
         /// </param>
-        public Url(Url baseAddress, String relativeAddress)
+        public Url(Url baseAddress, [StringSyntax(StringSyntaxAttribute.Uri)] String relativeAddress)
         {
             _error = ParseUrl(relativeAddress, baseAddress);
         }
@@ -134,7 +135,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="address">The address to use.</param>
         /// <returns>The new Url.</returns>
-        public static Url Create(String address)
+        public static Url Create([StringSyntax(StringSyntaxAttribute.Uri)] String address)
         {
             return new Url(address);
         }

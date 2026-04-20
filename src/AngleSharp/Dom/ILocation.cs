@@ -2,6 +2,7 @@
 {
     using AngleSharp.Attributes;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// The Location interface represents the location of the object it is
@@ -16,7 +17,7 @@
         /// </summary>
         /// <param name="url">The path to the resource.</param>
         [DomName("assign")]
-        void Assign(String url);
+        void Assign([StringSyntax(StringSyntaxAttribute.Uri)] String url);
 
         /// <summary>
         /// Replaces the current resource with the one at the provided URL. The
@@ -28,7 +29,7 @@
         /// The path to the resource that should replace the current resource.
         /// </param>
         [DomName("replace")]
-        void Replace(String url);
+        void Replace([StringSyntax(StringSyntaxAttribute.Uri)] String url);
 
         /// <summary>
         /// Reloads the resource from the current URL.

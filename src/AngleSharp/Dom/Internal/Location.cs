@@ -23,7 +23,7 @@ namespace AngleSharp.Dom
 
         #region ctor
 
-        internal Location(String url)
+        internal Location([StringSyntax(StringSyntaxAttribute.Uri)] String url)
             : this(new Url(url))
         {
         }
@@ -196,7 +196,7 @@ namespace AngleSharp.Dom
 
         #region Methods
 
-        public void Assign(String url)
+        public void Assign([StringSyntax(StringSyntaxAttribute.Uri)] String url)
         {
             var old = _url.Href;
 
@@ -207,7 +207,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        public void Replace(String url)
+        public void Replace([StringSyntax(StringSyntaxAttribute.Uri)] String url)
         {
             var old = _url.Href;
 

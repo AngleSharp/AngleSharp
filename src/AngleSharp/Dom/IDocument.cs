@@ -5,6 +5,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Net;
 
     /// <summary>
@@ -116,7 +117,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="url">The url that hosts the content.</param>
         [DomName("load")]
-        void Load(String url);
+        void Load([StringSyntax(StringSyntaxAttribute.Uri)] String url);
 
         /// <summary>
         /// Gets the document type.

@@ -10,6 +10,7 @@ namespace AngleSharp
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Text;
@@ -104,7 +105,7 @@ namespace AngleSharp
         /// <param name="address">The address to load.</param>
         /// <param name="cancellation">The cancellation token (optional)</param>
         /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, String address, CancellationToken cancellation = default)
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, [StringSyntax(StringSyntaxAttribute.Uri)] String address, CancellationToken cancellation = default)
         {
             address = address ?? throw new ArgumentNullException(nameof(address));
             return context.OpenAsync(Url.Create(address), cancellation);

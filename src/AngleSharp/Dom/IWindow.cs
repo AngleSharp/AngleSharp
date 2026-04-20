@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Browser.Dom;
     using AngleSharp.Dom.Events;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// The interface for a browsing window element.
@@ -103,7 +104,7 @@ namespace AngleSharp.Dom
         /// session history.
         /// </param>
         /// <returns>The new or reused window.</returns>
-        IWindow Open(String url = "about:blank", String? name = null, String? features = null, String? replace = null);
+        IWindow Open([StringSyntax(StringSyntaxAttribute.Uri)] String url = "about:blank", String? name = null, String? features = null, String? replace = null);
 
         /// <summary>
         /// Stops the current document from being loaded.

@@ -7,6 +7,7 @@ namespace AngleSharp.Io
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Net;
 
@@ -80,7 +81,7 @@ namespace AngleSharp.Io
         /// </summary>
         /// <param name="address">The string to use as an url.</param>
         /// <returns>The current instance.</returns>
-        public VirtualResponse Address(String address)
+        public VirtualResponse Address([StringSyntax(StringSyntaxAttribute.Uri)] String address)
         {
             return Address(Url.Create(address ?? String.Empty));
         }

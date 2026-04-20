@@ -11,6 +11,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Net;
     using System.Threading;
@@ -983,7 +984,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public void Load(String url) => Location.Href = url;
+        public void Load([StringSyntax(StringSyntaxAttribute.Uri)] String url) => Location.Href = url;
 
         void IDocument.Close()
         {

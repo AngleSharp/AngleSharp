@@ -2,6 +2,7 @@
 {
     using AngleSharp.Attributes;
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A set of utilities to modify the navigator's behavior.
@@ -17,7 +18,7 @@
         /// <param name="url">The URI to the handler as a string.</param>
         /// <param name="title">The title of the handler presented to the user as a string.</param>
         [DomName("registerProtocolHandler")]
-        void RegisterProtocolHandler(String scheme, String url, String title);
+        void RegisterProtocolHandler(String scheme, [StringSyntax(StringSyntaxAttribute.Uri)] String url, String title);
 
         /// <summary>
         /// Allows web sites to register themselves as possible handlers for content of a particular MIME type.
@@ -26,7 +27,7 @@
         /// <param name="url">The URI to the handler as a string.</param>
         /// <param name="title">The title of the handler presented to the user as a string.</param>
         [DomName("registerContentHandler")]
-        void RegisterContentHandler(String mimeType, String url, String title);
+        void RegisterContentHandler(String mimeType, [StringSyntax(StringSyntaxAttribute.Uri)] String url, String title);
 
         /// <summary>
         /// Checks if any handler is registered at the given URI for the specified scheme.
@@ -35,7 +36,7 @@
         /// <param name="url">The URI to the handler.</param>
         /// <returns>True if a handler is registered, otherwise false.</returns>
         [DomName("isProtocolHandlerRegistered")]
-        Boolean IsProtocolHandlerRegistered(String scheme, String url);
+        Boolean IsProtocolHandlerRegistered(String scheme, [StringSyntax(StringSyntaxAttribute.Uri)] String url);
 
         /// <summary>
         /// Checks if any handler is registered at the given URI for the specified mime-type.
@@ -44,7 +45,7 @@
         /// <param name="url">The URI to the handler.</param>
         /// <returns>True if a handler is registered, otherwise false.</returns>
         [DomName("isContentHandlerRegistered")]
-        Boolean IsContentHandlerRegistered(String mimeType, String url);
+        Boolean IsContentHandlerRegistered(String mimeType, [StringSyntax(StringSyntaxAttribute.Uri)] String url);
 
         /// <summary>
         /// Removes the specified protocol handler, if any.
@@ -52,7 +53,7 @@
         /// <param name="scheme">The name of the handled scheme to remove.</param>
         /// <param name="url">The URI to the handler of the scheme.</param>
         [DomName("unregisterProtocolHandler")]
-        void UnregisterProtocolHandler(String scheme, String url);
+        void UnregisterProtocolHandler(String scheme, [StringSyntax(StringSyntaxAttribute.Uri)] String url);
 
         /// <summary>
         /// Removes the specified content handler, if any.
@@ -60,6 +61,6 @@
         /// <param name="mimeType">The name of the handled mime-type to remove.</param>
         /// <param name="url">The URI to the handler of the mime-type.</param>
         [DomName("unregisterContentHandler")]
-        void UnregisterContentHandler(String mimeType, String url);
+        void UnregisterContentHandler(String mimeType, [StringSyntax(StringSyntaxAttribute.Uri)] String url);
     }
 }
