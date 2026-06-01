@@ -22,6 +22,15 @@ namespace AngleSharp.Io
         }
 
         /// <summary>
+        /// Creates a new cookie service with a specific <see cref="CookieContainer"/>.
+        /// </summary>
+        /// <param name="container">The cookie container to associate with this cookie service.</param>
+        public MemoryCookieProvider(CookieContainer container)
+        {
+            _container = container ?? throw new ArgumentNullException(nameof(container));
+        }
+
+        /// <summary>
         /// Gets the associated cookie container.
         /// </summary>
         public CookieContainer Container => _container;
