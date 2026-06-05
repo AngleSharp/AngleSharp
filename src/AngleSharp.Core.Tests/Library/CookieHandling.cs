@@ -483,6 +483,36 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(mcp.GetCookie(url), cookie);
         }
 
+        [Test]
+        public void ImportedCookieContainerReadsCorrectly_Issue1249()
+        {
+            var mcp = new MemoryCookieProvider();
+            var url = Url.Create("http://www.example.com");
+            var cookie = "A=A";
+            mcp.SetCookie(url,
+                $"{cookie}; expires={DateTime.UtcNow.AddHours(1):R}");
+            Assert.AreEqual(mcp.GetCookie(url), cookie);
+            var initialContainer = mcp.Container;
+            var manualMcp = new MemoryCookieProvider(initialContainer);
+            Assert.AreSame(initialContainer, manualMcp.Container);
+            Assert.AreEqual(manualMcp.GetCookie(url), cookie);
+        }
+
+        [Test]
+        public void ImportedCookieContainerWritesCorrectly_Issue1249()
+        {
+            var mcp = new MemoryCookieProvider();
+            var url = Url.Create("http://www.example.com");
+            var cookie = "A=A";
+            var initialContainer = mcp.Container;
+            var manualMcp = new MemoryCookieProvider(initialContainer);
+            Assert.AreSame(initialContainer, manualMcp.Container);
+            manualMcp.SetCookie(url,
+                $"{cookie}; expires={DateTime.UtcNow.AddHours(1):R}");
+            Assert.AreEqual(mcp.GetCookie(url), cookie);
+            Assert.AreEqual(manualMcp.GetCookie(url), cookie);
+        }
+
         private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse,
             Func<Request, IResponse> onRequest)
         {
