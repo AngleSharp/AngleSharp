@@ -6,13 +6,13 @@
 [![GitHub Tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/releases)
 [![NuGet Count](https://img.shields.io/nuget/dt/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
 [![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
-[![Gitter Chat](http://img.shields.io/badge/gitter-AngleSharp/AngleSharp-blue.svg?style=flat-square)](https://gitter.im/AngleSharp/AngleSharp)
+<!-- [![Gitter Chat](http://img.shields.io/badge/gitter-AngleSharp/AngleSharp-blue.svg?style=flat-square)](https://gitter.im/AngleSharp/AngleSharp) -->
 [![StackOverflow Questions](https://img.shields.io/stackexchange/stackoverflow/t/anglesharp.svg?style=flat-square)](https://stackoverflow.com/tags/anglesharp)
 [![CLA Assistant](https://cla-assistant.io/readme/badge/AngleSharp/AngleSharp?style=flat-square)](https://cla-assistant.io/AngleSharp/AngleSharp)
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The included parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code and ensures compatibility with results in evergreen browsers. Also standard DOM features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
-:zap::zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10 or later** (incl. 1.0)? Look at our [migration documentation](docs/tutorials/05-Migration.md). :zap::zap:
+:zap: **Migrating from AngleSharp 0.9 to AngleSharp 0.10 or later** (incl. 1.0)? Look at our [migration documentation](docs/tutorials/05-Migration.md). :zap:
 
 ## Key Features
 
@@ -133,9 +133,11 @@ For more information see the [.NET Foundation Code of Conduct](https://dotnetfou
 
 If you use AngleSharp frequently, but you do not have the time to support the project by active participation you may still be interested to ensure that the AngleSharp projects keeps the lights on.
 
-Therefore we created a backing model via [Bountysource](https://salt.bountysource.com/teams/anglesharp). Any donation is welcome and much appreciated. We will mostly spend the money on dedicated development time to improve AngleSharp where it needs to be improved, plus invest in the web utility eco-system in .NET (e.g., in JavaScript engines, other parsers, or a renderer for AngleSharp to mention some outstanding projects).
+- [Donate via GitHub sponsors](https://github.com/sponsors/FlorianRappl)
+- [Buy me a coffee](https://buymeacoffee.com/florianrappl)
+- [Use PayPal for donations](https://www.paypal.com/paypalme/FlorianRappl)
 
-> Visit [Bountysource](https://salt.bountysource.com/teams/anglesharp) for more details.
+See [the related GitHub issue](https://github.com/AngleSharp/AngleSharp/issues/1163) for more information.
 
 ## Development
 

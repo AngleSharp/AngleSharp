@@ -1,3 +1,12 @@
+# 1.5.0
+
+Released on Saturday, June 6 2026
+
+- Fixed vulnerability via annoation-xml elements (GHSA-pgww-w46g-26qg)
+- Updated benchmarks (#1246) @jafin
+- Added ability to pass in cookie container to `MemoryCookieProvider` (#1249) @riina
+- Added HTML parser selector optimizations (#1245) @jafin
+
 # 1.4.1
 
 Released on Saturday, November 15 2025.

@@ -65,6 +65,8 @@ AngleSharp contains code written by (in order of first pull request / commit):
 * [arekdygas](https://github.com/arekdygas)
 * [RedZone908](https://github.com/RedZone908)
 * [Shimmy Weitzhandler](https://github.com/weitzhandler)
+* [Jason Finch](https://github.com/jafin)
+* [riina](https://github.com/riina)
 
 Without these awesome people AngleSharp could not exist. Thanks to everyone for your contributions! :beers:
 

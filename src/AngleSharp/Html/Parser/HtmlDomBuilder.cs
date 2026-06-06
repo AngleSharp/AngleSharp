@@ -359,7 +359,7 @@ namespace AngleSharp.Html.Parser
             
             if (node is null || token.Type == HtmlTokenType.EndOfFile ||
                 node.Flags.HasFlag(NodeFlags.HtmlMember) ||
-                (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
+                (token.IsHtmlCompatible && IsHtmlTip(node)) ||
                 (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) ||
                 (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg &&
                  node.LocalName.Is(TagNames.AnnotationXml)))
@@ -3965,6 +3965,29 @@ namespace AngleSharp.Html.Parser
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Checks if the given element is actually an HTML Text Insertation Point.
+        /// </summary>
+        private static Boolean IsHtmlTip(IConstructableElement node)
+        {
+            if (!node.Flags.HasFlag(NodeFlags.HtmlTip))
+            {
+                if (node.Flags.HasFlag(NodeFlags.MathMember) && node.LocalName.Is(TagNames.AnnotationXml))
+                {
+                    var encoding = node.Attributes["encoding"]?.Value;
+                    
+                    if (encoding == MimeTypeNames.Html || encoding == MimeTypeNames.ApplicationXHtml)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Checks if the given tag name should be considered as a "custom element everywhere".
