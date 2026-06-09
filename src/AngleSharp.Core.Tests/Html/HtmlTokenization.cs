@@ -6,6 +6,7 @@ namespace AngleSharp.Core.Tests.Html
     using AngleSharp.Text;
     using NUnit.Framework;
     using System;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -69,6 +70,43 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual(HtmlTokenType.EndOfFile, eof.Type);
             Assert.AreEqual("\nThis is test 1", tokenP1data.Data);
             Assert.AreEqual(" \nThis is test 2", tokenP2data.Data);
+        }
+
+        [Test]
+        public void TokenizationLargePlainTextRunReadOnlyMemoryIsLinear()
+            => AssertLargePlainTextRunIsLinear(text => new TextSource(new ReadOnlyMemoryTextSource(text)));
+
+        [Test]
+        public void TokenizationLargePlainTextRunCharArrayIsLinear()
+            => AssertLargePlainTextRunIsLinear(text => new TextSource(new CharArrayTextSource(text.ToCharArray(), text.Length)));
+
+        private static void AssertLargePlainTextRunIsLinear(Func<String, TextSource> sourceFactory)
+        {
+            // Regression test for the O(n^2) ScanDataText bug.
+            // A long plain-text run with no DataText terminators ('<', '&', '\0', '\r', '\n')
+            // must be bulk-appended in a single pass. BaseTokenizer.ScanDataText folded the
+            // "no terminator found" result (IndexOfAny returns -1) into a zero-length run, so
+            // the tokenizer re-scanned the entire remaining buffer for every character.
+            // 2 MB of plain text took ~70 s before the fix and a few ms after.
+            const Int32 length = 2 * 1024 * 1024;
+            var text = new String('a', length);
+            var source = sourceFactory(text);
+            var tokenizer = CreateTokenizer(source);
+
+            var stopwatch = Stopwatch.StartNew();
+            var token = tokenizer.Get();
+            stopwatch.Stop();
+
+            // Correctness: the whole run is emitted as a single, complete Character token.
+            Assert.AreEqual(HtmlTokenType.Character, token.Type);
+            Assert.AreEqual(length, token.Data.Length);
+            Assert.AreEqual(text, token.Data);
+            Assert.AreEqual(HtmlTokenType.EndOfFile, tokenizer.Get().Type);
+
+            // Performance guard: a quadratic regression turns this into tens of seconds.
+            // The bound is deliberately generous (linear parse is a few ms) to avoid flakiness.
+            Assert.That(stopwatch.Elapsed, Is.LessThan(TimeSpan.FromSeconds(10)),
+                $"Tokenizing a {length / (1024 * 1024)} MB plain-text run took {stopwatch.Elapsed.TotalSeconds:F1}s; the O(n^2) ScanDataText regression has likely returned.");
         }
 
         [Test]
