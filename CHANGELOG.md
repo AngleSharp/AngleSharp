@@ -1,3 +1,9 @@
+# 1.5.1
+
+Released on Saturday, June 13 2026
+
+- Fixed tokenization of large plain-text contents (#1251) @SimonCropp
+
 # 1.5.0
 
 Released on Saturday, June 6 2026
