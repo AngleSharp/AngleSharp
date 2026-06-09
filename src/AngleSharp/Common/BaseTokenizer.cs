@@ -435,7 +435,7 @@ namespace AngleSharp.Common
             }
 #endif
 
-            var runLength = found <= 0 ? 0 : found;
+            var runLength = found < 0 ? remaining.Length : found;
 
             if (runLength > 0)
             {
