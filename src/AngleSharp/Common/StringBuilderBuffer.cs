@@ -56,7 +56,7 @@ internal sealed class StringBuilderBuffer : IMutableCharBuffer
 
     public IMutableCharBuffer Append(ReadOnlySpan<Char> str)
     {
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
+#if NET8_0_OR_GREATER
         _sb.Append(str);
 #else
         foreach (var c in str)

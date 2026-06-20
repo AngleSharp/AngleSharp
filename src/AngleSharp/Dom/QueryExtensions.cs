@@ -6,7 +6,7 @@ using AngleSharp.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if NET5_0_OR_GREATER
+#if NET8_0_OR_GREATER
 using System.Runtime.InteropServices;
 #endif
 
@@ -318,7 +318,7 @@ public static class QueryExtensions
                         result.Add(element);
                     }
 
-#if NET5_0_OR_GREATER
+#if NET8_0_OR_GREATER
                     var entries = CollectionsMarshal.AsSpan(element.ChildNodes._entries);
 
                     for (var j = entries.Length - 1; j >= 0; j--)

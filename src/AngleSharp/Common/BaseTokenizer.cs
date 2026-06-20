@@ -447,13 +447,13 @@ namespace AngleSharp.Common
                 }
                 else
                 {
-#if NETSTANDARD2_0 || NET462 || NET472
+#if NET8_0_OR_GREATER
+                    _sbb!._sb.Append(run);
+#else
                     for (var i = 0; i < run.Length; i++)
                     {
                         _sbb!._sb.Append(run[i]);
                     }
-#else
-                    _sbb!._sb.Append(run);
 #endif
                 }
 

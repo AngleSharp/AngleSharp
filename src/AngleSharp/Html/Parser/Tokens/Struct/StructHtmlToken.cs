@@ -414,7 +414,7 @@ public struct StructHtmlToken
     /// <returns>The trimmed characters.</returns>
     public void CleanStart()
     {
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
+#if NET8_0_OR_GREATER
         var newData = _name.Memory.TrimStart(Spaces);
         if (newData.Length != _name.Length)
         {
