@@ -6,7 +6,6 @@ namespace AngleSharp.Html.Parser
     using Dom.Events;
     using Text;
     using System;
-    using System.Buffers;
     using System.Collections.Generic;
     using Tokens;
     using Tokens.Struct;

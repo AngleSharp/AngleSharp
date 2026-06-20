@@ -1,7 +1,6 @@
 namespace AngleSharp.Html
 {
     using AngleSharp.Text;
-    using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;

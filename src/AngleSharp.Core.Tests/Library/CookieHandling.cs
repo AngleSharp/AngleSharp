@@ -10,7 +10,6 @@ namespace AngleSharp.Core.Tests.Library
     using System;
     using System.Globalization;
     using System.Linq;
-    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 

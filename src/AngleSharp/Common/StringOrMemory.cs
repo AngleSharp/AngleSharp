@@ -1,8 +1,6 @@
-﻿namespace AngleSharp.Common;
+namespace AngleSharp.Common;
 
 using System;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 /// <summary>
 /// Represents a string and equivalent memory representation of this string.

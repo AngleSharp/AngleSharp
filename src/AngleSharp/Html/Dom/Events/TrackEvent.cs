@@ -3,7 +3,6 @@ namespace AngleSharp.Html.Dom.Events
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Represents a track that provides an additional track information.

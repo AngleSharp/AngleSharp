@@ -2,7 +2,6 @@ namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Text;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Contains some useful extension methods for the StringSource

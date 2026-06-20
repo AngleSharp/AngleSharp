@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using AngleSharp.Html.Parser;
-using AngleSharp.Text;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 
