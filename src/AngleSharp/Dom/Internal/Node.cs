@@ -5,8 +5,6 @@ namespace AngleSharp.Dom
     using System.IO;
     using Common;
     using Html.Construction;
-    using Html.Parser.Tokens;
-    using Html.Parser.Tokens.Struct;
 
     /// <summary>
     /// Represents a node in the generated tree.

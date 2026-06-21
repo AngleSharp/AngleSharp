@@ -1,6 +1,5 @@
 namespace AngleSharp.Core.Tests.Html
 {
-    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using NUnit.Framework;
 

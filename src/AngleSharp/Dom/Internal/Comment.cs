@@ -1,7 +1,6 @@
 namespace AngleSharp.Dom
 {
     using System;
-    using System.IO;
 
     /// <summary>
     /// Represents a node that contains a comment.

@@ -6,7 +6,6 @@ namespace AngleSharp.Core.Tests.Library
     using NUnit.Framework;
     using System;
     using System.Linq;
-    using System.Net.Http;
     using System.Threading.Tasks;
 
     [TestFixture]

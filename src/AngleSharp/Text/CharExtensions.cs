@@ -2,7 +2,6 @@ namespace AngleSharp.Text
 {
     using System;
     using System.Runtime.CompilerServices;
-    using Common;
 
     /// <summary>
     /// Useful methods for chars.
