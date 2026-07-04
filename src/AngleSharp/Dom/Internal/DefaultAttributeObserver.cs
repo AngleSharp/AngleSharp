@@ -1,6 +1,7 @@
 namespace AngleSharp.Dom
 {
     using AngleSharp.Html.Dom;
+    using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace AngleSharp.Dom
             RegisterObserver<HtmlUrlBaseElement>(AttributeNames.Ping, (element, value) => element.UpdatePing(value));
             RegisterObserver<HtmlTableCellElement>(AttributeNames.Headers, (element, value) => element.UpdateHeaders(value));
             RegisterObserver<HtmlStyleElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
+            RegisterObserver<SvgStyleElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
             RegisterObserver<HtmlSelectElement>(AttributeNames.Value, (element, value) => element.UpdateValue(value));
             RegisterObserver<HtmlOutputElement>(AttributeNames.For, (element, value) => element.UpdateFor(value));
             RegisterObserver<HtmlObjectElement>(AttributeNames.Data, (element, value) => element.UpdateSource(value));

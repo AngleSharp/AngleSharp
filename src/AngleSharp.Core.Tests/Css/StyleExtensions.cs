@@ -115,6 +115,23 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsNotNull(style);
             Assert.AreEqual(style.Sheet.OwnerNode.TextContent, "circle { fill: gold; }");
         }
+
+        [Test]
+        public async Task SvgStyleMediaAttributeShouldUpdateStyleSheetMedia()
+        {
+            var stylingService = new MockStylingService();
+            var cfg = Configuration.Default.WithOnly<IStylingService>(stylingService);
+            var svg = @"<svg><style>circle { fill: gold; }</style></svg>";
+            var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(svg));
+
+            var style = document.QuerySelector("svg > style");
+            var sheet = ((ILinkStyle)style).Sheet;
+            Assert.IsNotNull(sheet);
+
+            style.SetAttribute(AttributeNames.Media, "print");
+
+            Assert.AreEqual("print", sheet.Media.MediaText);
+        }
     }
 
     internal class MockStylingService : IStylingService
