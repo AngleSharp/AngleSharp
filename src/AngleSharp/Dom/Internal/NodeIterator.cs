@@ -59,7 +59,9 @@ namespace AngleSharp.Dom
             {
                 if (IsBeforeReference)
                 {
-                    var next = Root.GetDescendants().FirstOrDefault(m => !m.IsInclusiveDescendantOf(node));
+                    var next = Root.GetDescendants()
+                        .SkipWhile(m => !Object.ReferenceEquals(m, node))
+                        .FirstOrDefault(m => !m.IsInclusiveDescendantOf(node));
 
                     if (next is not null)
                     {

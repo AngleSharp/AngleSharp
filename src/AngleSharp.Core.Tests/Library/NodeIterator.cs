@@ -237,5 +237,53 @@
             Assert.AreEqual(inner1, node2);
             Assert.AreEqual(inner2, node3);
         }
+
+        [Test]
+        public void NodeIteratorShouldMoveReferenceToFollowingNodeOnRemoval()
+        {
+            var doc = "<div id='root'><div id='a'></div><div id='b'><div id='c'></div></div><div id='d'></div></div>".ToHtmlDocument();
+            var root = doc.GetElementById("root");
+            var b = doc.GetElementById("b");
+            var c = doc.GetElementById("c");
+            var d = doc.GetElementById("d");
+            var iterator = doc.CreateNodeIterator(root, FilterSettings.Element);
+
+            iterator.Next(); // root
+            iterator.Next(); // a
+            iterator.Next(); // b
+            iterator.Next(); // c
+            Assert.AreEqual(c, iterator.Previous());
+            Assert.IsTrue(iterator.IsBeforeReference);
+
+            b.Parent.RemoveChild(b);
+
+            Assert.AreEqual(d, iterator.Reference);
+            Assert.AreEqual(d, iterator.Next());
+        }
+
+        [Test]
+        public void NodeIteratorShouldNotRevisitNodesWhenReferenceParentIsRemoved()
+        {
+            var doc = "<div id='root'><div id='first'></div><div id='second'><div id='third'></div></div></div>".ToHtmlDocument();
+            var root = doc.GetElementById("root");
+            var first = doc.GetElementById("first");
+            var second = doc.GetElementById("second");
+            var third = doc.GetElementById("third");
+            var iterator = doc.CreateNodeIterator(root, FilterSettings.Element);
+
+            Assert.AreEqual(root, iterator.Next());
+            Assert.AreEqual(first, iterator.Next());
+            Assert.AreEqual(second, iterator.Next());
+            Assert.AreEqual(third, iterator.Next());
+            Assert.AreEqual(third, iterator.Previous());
+
+            second.Parent.RemoveChild(second);
+
+            Assert.AreEqual(first, iterator.Reference);
+            Assert.IsFalse(iterator.IsBeforeReference);
+            Assert.AreEqual(null, iterator.Next());
+            Assert.AreEqual(first, iterator.Previous());
+            Assert.AreEqual(root, iterator.Previous());
+        }
     }
 }
