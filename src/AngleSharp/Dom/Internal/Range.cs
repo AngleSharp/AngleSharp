@@ -692,12 +692,12 @@ namespace AngleSharp.Dom
                     break;
 
                 case RangeType.EndToEnd:
-                    thisPoint = _start;
+                    thisPoint = _end;
                     otherPoint = new Boundary(sourceRange.Tail, sourceRange.End);
                     break;
 
                 case RangeType.EndToStart:
-                    thisPoint = _end;
+                    thisPoint = _start;
                     otherPoint = new Boundary(sourceRange.Tail, sourceRange.End);
                     break;
 
