@@ -502,10 +502,12 @@ namespace AngleSharp.Dom
                     }
 
                     var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
-                        commonAncestor.GetNodes<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
+                        commonAncestor.ChildNodes.FirstOrDefault(IsPartiallyContained) : null;
                     var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
-                        commonAncestor.GetNodes<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
-                    var containedChildren = commonAncestor.GetNodes<INode>(predicate: Intersects).ToList();
+                        commonAncestor.ChildNodes.LastOrDefault(IsPartiallyContained) : null;
+                    var containedChildren = commonAncestor.ChildNodes
+                        .Where(m => new Boundary(m, 0) > originalStart && new Boundary(m, GetNodeLength(m)) < originalEnd)
+                        .ToList();
 
                     if (containedChildren.OfType<IDocumentType>().Any())
                     {
@@ -523,11 +525,11 @@ namespace AngleSharp.Dom
                     }
                     else if (firstPartiallyContainedChild != null)
                     {
-                        var clone = firstPartiallyContainedChild.Clone();
+                        var clone = firstPartiallyContainedChild.Clone(false);
                         fragment.AppendChild(clone);
                         var subrange = new Range(originalStart, new Boundary(firstPartiallyContainedChild, firstPartiallyContainedChild.ChildNodes.Length));
                         var subfragment = subrange.CopyContent();
-                        fragment.AppendChild(subfragment);
+                        clone.AppendChild(subfragment);
                     }
 
                     foreach (var child in containedChildren)
@@ -544,11 +546,11 @@ namespace AngleSharp.Dom
                     }
                     else if (lastPartiallyContainedchild != null)
                     {
-                        var clone = lastPartiallyContainedchild.Clone();
+                        var clone = lastPartiallyContainedchild.Clone(false);
                         fragment.AppendChild(clone);
                         var subrange = new Range(new Boundary(lastPartiallyContainedchild, 0), originalEnd);
                         var subfragment = subrange.CopyContent();
-                        fragment.AppendChild(subfragment);
+                        clone.AppendChild(subfragment);
                     }
                 }
             }
