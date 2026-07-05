@@ -402,10 +402,12 @@ namespace AngleSharp.Dom
                     }
 
                     var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
-                        commonAncestor.GetNodes<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
+                        commonAncestor.ChildNodes.FirstOrDefault(IsPartiallyContained) : null;
                     var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
-                        commonAncestor.GetNodes<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
-                    var containedChildren = commonAncestor.GetNodes<INode>(predicate: Intersects).ToList();
+                        commonAncestor.ChildNodes.LastOrDefault(IsPartiallyContained) : null;
+                    var containedChildren = commonAncestor.ChildNodes
+                        .Where(m => new Boundary(m, 0) > originalStart && new Boundary(m, GetNodeLength(m)) < originalEnd)
+                        .ToList();
 
                     if (containedChildren.OfType<IDocumentType>().Any())
                     {
@@ -416,12 +418,12 @@ namespace AngleSharp.Dom
                     {
                         var referenceNode = originalStart.Node;
 
-                        while (referenceNode.Parent != null && !referenceNode.IsInclusiveAncestorOf(originalEnd.Node))
+                        while (referenceNode.Parent != null && !referenceNode.Parent.IsInclusiveAncestorOf(originalEnd.Node))
                         {
                             referenceNode = referenceNode.Parent;
                         }
 
-                        newBoundary = new Boundary(referenceNode, referenceNode.Parent!.ChildNodes.Index(referenceNode) + 1);
+                        newBoundary = new Boundary(referenceNode.Parent!, referenceNode.Index() + 1);
                     }
 
                     if (firstPartiallyContainedChild is ICharacterData)
@@ -436,11 +438,11 @@ namespace AngleSharp.Dom
                     }
                     else if (firstPartiallyContainedChild != null)
                     {
-                        var clone = firstPartiallyContainedChild.Clone();
+                        var clone = firstPartiallyContainedChild.Clone(false);
                         fragment.AppendChild(clone);
                         var subrange = new Range(originalStart, new Boundary(firstPartiallyContainedChild, firstPartiallyContainedChild.ChildNodes.Length));
                         var subfragment = subrange.ExtractContent();
-                        fragment.AppendChild(subfragment);
+                        clone.AppendChild(subfragment);
                     }
 
                     foreach (var child in containedChildren)
@@ -458,11 +460,11 @@ namespace AngleSharp.Dom
                     }
                     else if (lastPartiallyContainedchild != null)
                     {
-                        var clone = lastPartiallyContainedchild.Clone();
+                        var clone = lastPartiallyContainedchild.Clone(false);
                         fragment.AppendChild(clone);
                         var subrange = new Range(new Boundary(lastPartiallyContainedchild, 0), originalEnd);
                         var subfragment = subrange.ExtractContent();
-                        fragment.AppendChild(subfragment);
+                        clone.AppendChild(subfragment);
                     }
 
                     _start = newBoundary;
