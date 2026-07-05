@@ -210,6 +210,40 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void CanCopyContentWithPartiallyContainedTextNodes()
+        {
+            var document = "<p>abc<b>def</b>ghi</p>".ToHtmlDocument();
+            var p = document.QuerySelector("p");
+            var range = document.CreateRange();
+            range.StartWith(p.ChildNodes[0], 1);
+            range.EndWith(p.ChildNodes[2], 2);
+
+            var fragment = range.CopyContent();
+            var div = document.CreateElement("div");
+            div.AppendChild(fragment);
+
+            Assert.AreEqual("bc<b>def</b>gh", div.InnerHtml);
+            Assert.AreEqual("abc<b>def</b>ghi", p.InnerHtml);
+        }
+
+        [Test]
+        public void CanCopyContentWithPartiallyContainedElements()
+        {
+            var document = "<div id=host><a>abc</a><b>def</b></div>".ToHtmlDocument();
+            var host = document.QuerySelector("#host");
+            var range = document.CreateRange();
+            range.StartWith(document.QuerySelector("a").FirstChild, 1);
+            range.EndWith(document.QuerySelector("b").FirstChild, 1);
+
+            var fragment = range.CopyContent();
+            var div = document.CreateElement("div");
+            div.AppendChild(fragment);
+
+            Assert.AreEqual("<a>bc</a><b>d</b>", div.InnerHtml);
+            Assert.AreEqual("<a>abc</a><b>def</b>", host.InnerHtml);
+        }
+
+        [Test]
         public void CanClearContent()
         {
             var document = @"
