@@ -1,5 +1,6 @@
 namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Dom;
     using NUnit.Framework;
 
     [TestFixture]
@@ -118,6 +119,33 @@ namespace AngleSharp.Core.Tests.Library
 
             Assert.AreEqual(p1, range1.CommonAncestor);
             Assert.AreEqual(document.Body, range2.CommonAncestor);
+        }
+
+        [Test]
+        public void CanCompareBoundaryPointsOfOverlappingRanges()
+        {
+            var document = "<p>abc<b>def</b>ghi</p>".ToHtmlDocument();
+            var p = document.QuerySelector("p");
+            var outer = document.CreateRange();
+            outer.StartWith(p, 0);
+            outer.EndWith(p, 3);
+            var inner = document.CreateRange();
+            inner.StartWith(p, 1);
+            inner.EndWith(p, 2);
+
+            // START_TO_START compares this start (p,0) to source start (p,1)
+            Assert.AreEqual(RangePosition.Before, outer.CompareBoundaryTo(RangeType.StartToStart, inner));
+            // START_TO_END compares this end (p,3) to source start (p,1)
+            Assert.AreEqual(RangePosition.After, outer.CompareBoundaryTo(RangeType.StartToEnd, inner));
+            // END_TO_END compares this end (p,3) to source end (p,2)
+            Assert.AreEqual(RangePosition.After, outer.CompareBoundaryTo(RangeType.EndToEnd, inner));
+            // END_TO_START compares this start (p,0) to source end (p,2)
+            Assert.AreEqual(RangePosition.Before, outer.CompareBoundaryTo(RangeType.EndToStart, inner));
+
+            Assert.AreEqual(RangePosition.After, inner.CompareBoundaryTo(RangeType.StartToStart, outer));
+            Assert.AreEqual(RangePosition.After, inner.CompareBoundaryTo(RangeType.StartToEnd, outer));
+            Assert.AreEqual(RangePosition.Before, inner.CompareBoundaryTo(RangeType.EndToEnd, outer));
+            Assert.AreEqual(RangePosition.Before, inner.CompareBoundaryTo(RangeType.EndToStart, outer));
         }
 
         [Test]
