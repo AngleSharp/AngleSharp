@@ -36,6 +36,25 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void RangeWithDifferentOffsetsInSameNodeIsNotCollapsed()
+        {
+            var document = "<p>abc<b>def</b>ghi</p>".ToHtmlDocument();
+            var p = document.QuerySelector("p");
+            var range = document.CreateRange();
+            range.Select(p.QuerySelector("b"));
+
+            Assert.AreEqual(p, range.Head);
+            Assert.AreEqual(1, range.Start);
+            Assert.AreEqual(p, range.Tail);
+            Assert.AreEqual(2, range.End);
+            Assert.IsFalse(range.IsCollapsed);
+
+            range.Collapse(true);
+
+            Assert.IsTrue(range.IsCollapsed);
+        }
+
+        [Test]
         public void CanSelectSomeRange_Issue1119()
         {
             var document = "<body><p><em>Text1</em>Text2</p></body>".ToHtmlDocument();

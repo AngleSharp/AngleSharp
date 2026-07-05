@@ -48,7 +48,7 @@ namespace AngleSharp.Dom
 
         public Int32 End => _end.Offset;
 
-        public Boolean IsCollapsed => _start.Node == _end.Node;
+        public Boolean IsCollapsed => _start.Node == _end.Node && _start.Offset == _end.Offset;
 
         public INode CommonAncestor
         {
