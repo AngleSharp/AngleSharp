@@ -1,3 +1,14 @@
+# 1.5.2
+
+Released on Sunday, July 5 2026
+
+- Fixed `NodeIterator` pre-removing steps to use the first following node (#1260) @ivandrofly
+- Fixed `Range.IsCollapsed` to also compare offsets (#1259) @ivandrofly
+- Fixed swapped comparison in `Range.CompareBoundaryTo` (#1258) @ivandrofly
+- Fixed `Range.CopyContent` to follow the DOM Standard (#1257) @ivandrofly
+- Fixed `Range.ExtractContent` to follow the DOM Standard (#1256) @ivandrofly
+- Added missing media attribute change detection on SVG style elements (#1261) @ivandrofly
+
 # 1.5.1
 
 Released on Saturday, June 13 2026
