@@ -14,9 +14,6 @@ using HtmlAgilityPack;
 namespace AngleSharp.Benchmarks
 {
     using System;
-    using System.Linq;
-    using Html;
-    using Text;
 
     [MemoryDiagnoser, GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByParams), ShortRunJob]
     public class ParserBenchmark
@@ -111,52 +108,5 @@ namespace AngleSharp.Benchmarks
         {
             using var _ = angleSharpParser.ParseDocument(UrlTest.Source.AsMemory());
         }
-    }
-
-    [MemoryDiagnoser, ShortRunJob]
-    public class ScanDataTextBenchmark
-    {
-        [Params(100, 1_000, 10_000)]
-        public Int32 Repeats { get; set; }
-        private String html;
-        private Char[] chars;
-
-        [GlobalSetup]
-        public void Setup()
-        {
-            html = String.Concat(Enumerable.Repeat("<p>Hello World.<br>How are you?<br/>All good<br /> Ok, bye.</p>", Repeats));
-            chars = html.ToCharArray();
-        }
-
-        [Benchmark]
-        public Int32 StringSource() => Go(new TextSource(html));
-
-        [Benchmark]
-        public Int32 CharSource() => Go(new TextSource(new CharArrayTextSource(chars, chars.Length)));
-
-        [Benchmark]
-        public Int32 MemSource() => Go(new TextSource(new ReadOnlyMemoryTextSource(html.AsMemory())));
-
-        private static Int32 Go(TextSource source)
-        {
-            var tokenizer = new HtmlTokenizer(source, HtmlEntityProvider.Resolver)
-            {
-                DisableElementPositionTracking = true
-            };
-
-            var tokens = 0;
-            while (true)
-            {
-                ref var token = ref tokenizer.GetStructToken();
-                if (token.Type == HtmlTokenType.EndOfFile)
-                {
-                    break;
-                }
-                tokens++;
-            }
-
-            return tokens;
-        }
-
     }
 }
