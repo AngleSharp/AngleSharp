@@ -1,3 +1,9 @@
+# 1.5.3
+
+Released on ???
+
+- Improved performance for text tokenization (#1262) @dv00d00
+
 # 1.5.2
 
 Released on Sunday, July 5 2026
