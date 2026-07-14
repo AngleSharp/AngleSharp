@@ -7,6 +7,8 @@ namespace AngleSharp.Html.Parser
     using Text;
     using System;
     using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Tokens;
     using Tokens.Struct;
     using AttributeName = System.ReadOnlyMemory<System.Char>;
@@ -46,7 +48,7 @@ namespace AngleSharp.Html.Parser
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    public sealed class HtmlTokenizer : BaseTokenizer
+    public sealed class HtmlTokenizer : BaseTokenizer, IHtmlTokenSource
     {
         #region Fields
 
@@ -240,6 +242,14 @@ namespace AngleSharp.Html.Parser
             return ref token;
         }
 
+        Boolean IHtmlTokenSource.TryGetStructToken(out StructHtmlToken token)
+        {
+            token = GetStructToken();
+            return true;
+        }
+
+        Task IHtmlTokenSource.WaitForInputAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
         internal void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
         {
             var handler = Error;
@@ -255,6 +265,9 @@ namespace AngleSharp.Html.Parser
                 handler.Invoke(this, errorEvent);
             }
         }
+
+        void IHtmlTokenSource.RaiseErrorOccurred(HtmlParseError code, TextPosition position) =>
+            RaiseErrorOccurred(code, position);
 
         #endregion
 
