@@ -185,6 +185,10 @@ AngleSharp will therefore try to implement the second approach. The `TextSource`
 
 The idea is to provide a real asynchronous method, i.e. a method that makes use of the async methods provided in `TextSource`. This will eventually result in a lot of copy / paste with only a few changes, but it is worth the duplication. Of course, some techniques to reduce duplication have to be used to minimize maintenance.
 
+The concrete `HtmlParser` also provides an opt-in `HtmlStreamSourceMode.Streaming` mode. It decodes a byte stream incrementally into pooled buffers, retains a bounded tokenizer lookback window, and supports BOM or `<meta charset>` detection during a restartable 1024-byte prelude. The existing stream overload remains buffered for compatibility.
+
+Streaming mode does not retain the complete source text. Parsing can still fall back to a synchronous refill when a token exceeds the asynchronously prefetched window, and scripting uses the buffered source because source insertion requires mutable retained input.
+
 As an important hint here: Any `await` call should be only used with `ConfigureAwait(false)`. This is required to ensure that calling the method synchronously will not result in any deadlocks regardless of the environment.
 
 *Status*: Implemented and the parser is also internally awaiting further tasks such as script execution or stylesheet resolution.
