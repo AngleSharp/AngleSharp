@@ -170,6 +170,11 @@ internal sealed class StreamingTextSource : IReadOnlyTextSource
     /// <inheritdoc />
     public Char ReadCharacter()
     {
+        if (_index < Length)
+        {
+            return _chars[_index++ - _bufferStart];
+        }
+
         EnsureAvailable(1, allowFreeze: true);
         if (_index >= Length)
         {
@@ -192,36 +197,95 @@ internal sealed class StreamingTextSource : IReadOnlyTextSource
             return String.Empty;
         }
 
-        var result = new Char[characters];
-        var written = 0;
-        while (written < result.Length)
+        var available = Math.Max(0, Length - _index);
+        if (characters > available && !_finished)
         {
-            var value = ReadCharacter();
-            if (value == Symbols.EndOfFile)
+            var contiguous = Math.Min(characters, GetMaximumContiguousRead());
+            EnsureAvailable(contiguous, allowFreeze: true);
+            available = Math.Max(0, Length - _index);
+        }
+
+        if (characters <= available || _finished)
+        {
+            var count = Math.Min(characters, available);
+            var result = new String(_chars, _index - _bufferStart, count);
+            AdvanceAfterRead(characters, count);
+            return result;
+        }
+
+        var buffer = new Char[characters];
+        var written = 0;
+        while (written < buffer.Length)
+        {
+            var remaining = buffer.Length - written;
+            EnsureAvailable(Math.Min(remaining, GetMaximumContiguousRead()), allowFreeze: true);
+            available = Math.Max(0, Length - _index);
+            if (available == 0)
             {
+                _index++;
                 break;
             }
 
-            result[written++] = value;
+            var count = Math.Min(remaining, available);
+            Array.Copy(_chars, _index - _bufferStart, buffer, written, count);
+            _index += count;
+            written += count;
         }
-        return new String(result, 0, written);
+        return new String(buffer, 0, written);
     }
 
     /// <inheritdoc />
-    public StringOrMemory ReadMemory(Int32 characters) => new(ReadCharacters(characters));
+    public StringOrMemory ReadMemory(Int32 characters)
+    {
+        if (characters < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(characters));
+        }
+
+        if (characters == 0)
+        {
+            return StringOrMemory.Empty;
+        }
+
+        if (characters <= GetMaximumContiguousRead())
+        {
+            var available = Math.Max(0, Length - _index);
+            if (characters > available && !_finished)
+            {
+                EnsureAvailable(characters, allowFreeze: true);
+                available = Math.Max(0, Length - _index);
+            }
+
+            if (characters <= available || _finished)
+            {
+                var count = Math.Min(characters, available);
+                if (count > 0)
+                {
+                    var memory = new ReadOnlyMemory<Char>(_chars, _index - _bufferStart, count);
+                    AdvanceAfterRead(characters, count);
+                    return memory;
+                }
+
+                AdvanceAfterRead(characters, count);
+                return StringOrMemory.Empty;
+            }
+        }
+
+        return new StringOrMemory(ReadCharacters(characters));
+    }
 
     /// <inheritdoc />
-    public async Task PrefetchAsync(Int32 length, CancellationToken cancellationToken)
+    public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken)
     {
         if (length < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(length));
         }
 
-        await EnsureAvailableAsync(
+        return EnsureAvailableAsync(
             Math.Min(length, _decodeChunkSize * 2),
             allowFreeze: false,
-            cancellationToken).ConfigureAwait(false);
+            cancellationToken);
     }
 
     /// <summary>
@@ -253,6 +317,17 @@ internal sealed class StreamingTextSource : IReadOnlyTextSource
         _chars = null!;
     }
 
+    private Int32 GetMaximumContiguousRead() => Math.Max(1, _chars.Length - _lookback - 2);
+
+    private void AdvanceAfterRead(Int32 requested, Int32 actual)
+    {
+        _index += actual;
+        if (actual < requested)
+        {
+            _index++;
+        }
+    }
+
     private void EnsureAvailable(Int32 count, Boolean allowFreeze)
     {
         Initialize();
@@ -261,6 +336,7 @@ internal sealed class StreamingTextSource : IReadOnlyTextSource
         {
             FreezeEncoding();
         }
+
         while (Length < target && !_finished)
         {
             if (IsAtProvisionalBoundary())
@@ -306,11 +382,17 @@ internal sealed class StreamingTextSource : IReadOnlyTextSource
             cancellationToken.ThrowIfCancellationRequested();
             if (_byteOffset >= _byteCount && !_streamEnded)
             {
+#if NET8_0_OR_GREATER
+                _byteCount = await _stream.ReadAsync(
+                    _bytes.AsMemory(0, _decodeChunkSize),
+                    cancellationToken).ConfigureAwait(false);
+#else
                 _byteCount = await _stream.ReadAsync(
                     _bytes,
                     0,
                     _decodeChunkSize,
                     cancellationToken).ConfigureAwait(false);
+#endif
                 _byteOffset = 0;
                 _streamEnded = _byteCount == 0;
             }
@@ -373,11 +455,17 @@ internal sealed class StreamingTextSource : IReadOnlyTextSource
     {
         while (_byteCount < EncodingPreludeSize)
         {
+#if NET8_0_OR_GREATER
+            var read = await _stream.ReadAsync(
+                _bytes.AsMemory(_byteCount, EncodingPreludeSize - _byteCount),
+                cancellationToken).ConfigureAwait(false);
+#else
             var read = await _stream.ReadAsync(
                 _bytes,
                 _byteCount,
                 EncodingPreludeSize - _byteCount,
                 cancellationToken).ConfigureAwait(false);
+#endif
 
             if (read == 0)
             {
@@ -436,11 +524,10 @@ internal sealed class StreamingTextSource : IReadOnlyTextSource
                 replacement,
                 0,
                 _streamEnded);
-            var prefixMatches = _index <= replacementLength && _index <= _bufferLength;
-            for (var i = 0; prefixMatches && i < _index; i++)
-            {
-                prefixMatches = _chars[i] == replacement[i];
-            }
+            var prefixMatches = _index <= replacementLength &&
+                _index <= _bufferLength &&
+                new ReadOnlySpan<Char>(_chars, 0, _index).SequenceEqual(
+                    new ReadOnlySpan<Char>(replacement, 0, _index));
 
             _encoding = encoding;
             _decoder = decoder;
