@@ -9,7 +9,7 @@ using BenchmarkDotNet.Attributes;
 namespace AngleSharp.Benchmarks;
 
 [MemoryDiagnoser, ShortRunJob]
-public class Utf8StreamingTextSourceBenchmark
+public class StreamingTextSourceBenchmark
 {
     private const Int32 BufferSize = 4096;
     private readonly HtmlParser _parser = new();
@@ -32,7 +32,18 @@ public class Utf8StreamingTextSourceBenchmark
         using var stream = new NetworkReadStream(_utf8, BufferSize);
         using var document = await _parser.ParseDocumentAsync(
             stream,
-            HtmlStreamSourceMode.Utf8Streaming).ConfigureAwait(false);
+            HtmlStreamSourceMode.Streaming,
+            System.Text.Encoding.UTF8).ConfigureAwait(false);
+        return document.DocumentElement.ChildElementCount;
+    }
+
+    [Benchmark]
+    public async Task<Int32> AutomaticBoundedSource()
+    {
+        using var stream = new NetworkReadStream(_utf8, BufferSize);
+        using var document = await _parser.ParseDocumentAsync(
+            stream,
+            HtmlStreamSourceMode.Streaming).ConfigureAwait(false);
         return document.DocumentElement.ChildElementCount;
     }
 

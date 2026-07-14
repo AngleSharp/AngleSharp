@@ -23,14 +23,6 @@ namespace AngleSharp.Html.Parser
         public static Task<IHtmlDocument> ParseDocumentAsync(this IHtmlParser parser, Stream source) => parser.ParseDocumentAsync(source, CancellationToken.None);
 
         /// <summary>
-        /// Parses the stream asynchronously using the selected source mode.
-        /// </summary>
-        public static Task<IHtmlDocument> ParseDocumentAsync(
-            this HtmlParser parser,
-            Stream source,
-            HtmlStreamSourceMode sourceMode) => parser.ParseDocumentAsync(source, CancellationToken.None, sourceMode);
-
-        /// <summary>
         /// Parses the string asynchronously.
         /// </summary>
         public static Task<IHtmlHeadElement?> ParseHeadAsync(this IHtmlParser parser, String source) => parser.ParseHeadAsync(source, CancellationToken.None);

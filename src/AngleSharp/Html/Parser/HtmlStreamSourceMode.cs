@@ -11,8 +11,8 @@ namespace AngleSharp.Html.Parser
         Buffered,
 
         /// <summary>
-        /// Decodes explicitly UTF-8 input through a bounded character window.
+        /// Allows parser-driven encoding restart within a 1024-byte prelude, then uses a bounded character window.
         /// </summary>
-        Utf8Streaming,
+        Streaming,
     }
 }

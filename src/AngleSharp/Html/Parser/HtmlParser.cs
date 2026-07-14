@@ -11,6 +11,7 @@ namespace AngleSharp.Html.Parser
     using System.Threading.Tasks;
     using Construction;
     using System.Runtime.CompilerServices;
+    using System.Text;
 
     /// <summary>
     /// Creates an instance of the HTML parser front-end.
@@ -247,18 +248,19 @@ namespace AngleSharp.Html.Parser
         /// Parses the stream asynchronously using the selected source mode.
         /// </summary>
         /// <param name="source">The byte stream to parse.</param>
-        /// <param name="cancel">The cancellation token.</param>
         /// <param name="sourceMode">The decoding and retention strategy.</param>
-        /// <exception cref="NotSupportedException">
-        /// Thrown when bounded UTF-8 streaming is combined with scripting source insertion.
-        /// </exception>
+        /// <param name="encoding">
+        /// The authoritative encoding, or null to use automatic encoding detection.
+        /// </param>
+        /// <param name="cancel">The cancellation token.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown for an unknown source mode.</exception>
         public Task<IHtmlDocument> ParseDocumentAsync(
             Stream source,
-            CancellationToken cancel,
-            HtmlStreamSourceMode sourceMode)
+            HtmlStreamSourceMode sourceMode,
+            Encoding? encoding = null,
+            CancellationToken cancel = default)
         {
-            var document = CreateDocument(source, sourceMode);
+            var document = CreateDocument(source, sourceMode, encoding);
             return ParseAsync(document, cancel);
         }
 
@@ -313,25 +315,24 @@ namespace AngleSharp.Html.Parser
             return CreateDocument(textSource);
         }
 
-        private HtmlDocument CreateDocument(Stream source, HtmlStreamSourceMode sourceMode)
+        private HtmlDocument CreateDocument(Stream source, HtmlStreamSourceMode sourceMode, Encoding? encoding)
         {
-            if (sourceMode == HtmlStreamSourceMode.Buffered)
+            if (sourceMode is not HtmlStreamSourceMode.Buffered and not HtmlStreamSourceMode.Streaming)
             {
-                return CreateDocument(source);
+                throw new ArgumentOutOfRangeException(nameof(sourceMode));
             }
 
-            if (sourceMode == HtmlStreamSourceMode.Utf8Streaming)
-            {
-                if (_options.IsScripting)
-                {
-                    throw new NotSupportedException("Bounded UTF-8 streaming does not support scripting source insertion.");
-                }
+            var sourceModeInternal = sourceMode == HtmlStreamSourceMode.Streaming && !_options.IsScripting
+                ? StreamTextSourceMode.Bounded
+                : StreamTextSourceMode.Accumulating;
 
-                var streamingSource = new Utf8StreamingTextSource(source);
-                return CreateDocument(new TextSource(streamingSource));
-            }
+            var textSource = new TextSource(
+                source,
+                encoding ?? _context.GetDefaultEncoding(),
+                sourceModeInternal,
+                encodingIsCertain: encoding is not null);
 
-            throw new ArgumentOutOfRangeException(nameof(sourceMode));
+            return CreateDocument(textSource);
         }
 
         private HtmlDocument CreateDocument(ReadOnlyMemory<Char> chars)

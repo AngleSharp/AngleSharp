@@ -39,9 +39,33 @@ namespace AngleSharp.Text
         /// The initial encoding. Otherwise UTF-8.
         /// </param>
         public TextSource(Stream baseStream, Encoding encoding = null)
+            : this(baseStream, encoding, StreamTextSourceMode.Accumulating, encodingIsCertain: false)
         {
-            _writableSource = new WritableTextSource(baseStream, encoding);
-            _readOnlyTextSource = _writableSource;
+        }
+
+        internal TextSource(
+            Stream baseStream,
+            Encoding encoding,
+            StreamTextSourceMode sourceMode,
+            Boolean encodingIsCertain)
+        {
+            if (sourceMode == StreamTextSourceMode.Accumulating)
+            {
+                _writableSource = new WritableTextSource(baseStream, encoding, encodingIsCertain);
+                _readOnlyTextSource = _writableSource;
+            }
+            else if (sourceMode == StreamTextSourceMode.Bounded)
+            {
+                _writableSource = null;
+                _readOnlyTextSource = new StreamingTextSource(
+                    baseStream,
+                    encoding,
+                    allowEncodingRestart: !encodingIsCertain);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceMode));
+            }
         }
 
         /// <summary>
@@ -53,6 +77,17 @@ namespace AngleSharp.Text
             _readOnlyTextSource = source;
         }
 
+#if NET8_0_OR_GREATER
+        /// <summary>
+        /// Creates a text source over an immutable byte buffer.
+        /// </summary>
+        public TextSource(ReadOnlyByteTextSource source)
+        {
+            _writableSource = null;
+            _readOnlyTextSource = source ?? throw new ArgumentNullException(nameof(source));
+        }
+#endif
+
         /// <summary>
         /// Creates a new immutable text source from a <see cref="CharArrayTextSource"/>. No underlying stream will be used
         /// </summary>
@@ -60,16 +95,6 @@ namespace AngleSharp.Text
         {
             _writableSource = null;
             _readOnlyTextSource = source;
-        }
-
-        /// <summary>
-        /// Creates a text source over the supplied bounded UTF-8 source.
-        /// </summary>
-        /// <param name="source">The underlying source.</param>
-        internal TextSource(Utf8StreamingTextSource source)
-        {
-            _writableSource = null;
-            _readOnlyTextSource = source ?? throw new ArgumentNullException(nameof(source));
         }
 
         /// <summary>
@@ -97,13 +122,7 @@ namespace AngleSharp.Text
         public Encoding CurrentEncoding
         {
             get => _readOnlyTextSource.CurrentEncoding;
-            set
-            {
-                if (_writableSource is not null)
-                {
-                    _writableSource.CurrentEncoding = value;
-                }
-            }
+            set => _readOnlyTextSource.CurrentEncoding = value;
         }
 
         /// <summary>
