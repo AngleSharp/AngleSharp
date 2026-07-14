@@ -1,4 +1,3 @@
-#if NET8_0_OR_GREATER
 using System;
 using System.IO;
 using System.Threading;
@@ -16,7 +15,7 @@ public class StreamingTextSourceBenchmark
     private Byte[] _utf8 = null!;
 
     [GlobalSetup]
-    public void Setup() => _utf8 = File.ReadAllBytes("page.html");
+    public void Setup() => _utf8 = File.ReadAllBytes(FindPagePath());
 
     [Benchmark(Baseline = true)]
     public async Task<Int32> AccumulatingSource()
@@ -47,6 +46,22 @@ public class StreamingTextSourceBenchmark
         return document.DocumentElement.ChildElementCount;
     }
 
+    private static String FindPagePath()
+    {
+        for (var directory = new DirectoryInfo(AppContext.BaseDirectory);
+             directory is not null;
+             directory = directory.Parent)
+        {
+            var path = Path.Combine(directory.FullName, "page.html");
+            if (File.Exists(path))
+            {
+                return path;
+            }
+        }
+
+        throw new FileNotFoundException("Could not locate the page.html benchmark fixture.");
+    }
+
     private sealed class NetworkReadStream(Byte[] source, Int32 maxReadSize) : Stream
     {
         private Int32 _position;
@@ -61,11 +76,29 @@ public class StreamingTextSourceBenchmark
             set => throw new NotSupportedException();
         }
 
-        public override Int32 Read(Byte[] buffer, Int32 offset, Int32 count) => Read(buffer.AsSpan(offset, count));
+        public override Int32 Read(Byte[] buffer, Int32 offset, Int32 count)
+        {
+            var length = GetReadLength(count);
+            if (length <= 0)
+            {
+                return 0;
+            }
 
+            Array.Copy(source, _position, buffer, offset, length);
+            _position += length;
+            return length;
+        }
+
+        public override Task<Int32> ReadAsync(
+            Byte[] buffer,
+            Int32 offset,
+            Int32 count,
+            CancellationToken cancellationToken) => Task.FromResult(Read(buffer, offset, count));
+
+#if NET8_0_OR_GREATER
         public override Int32 Read(Span<Byte> buffer)
         {
-            var length = Math.Min(Math.Min(buffer.Length, maxReadSize), source.Length - _position);
+            var length = GetReadLength(buffer.Length);
             if (length <= 0)
             {
                 return 0;
@@ -79,6 +112,10 @@ public class StreamingTextSourceBenchmark
         public override ValueTask<Int32> ReadAsync(
             Memory<Byte> buffer,
             CancellationToken cancellationToken = default) => ValueTask.FromResult(Read(buffer.Span));
+#endif
+
+        private Int32 GetReadLength(Int32 requested) =>
+            Math.Min(Math.Min(requested, maxReadSize), source.Length - _position);
 
         public override void Flush() { }
         public override Int64 Seek(Int64 offset, SeekOrigin origin) => throw new NotSupportedException();
@@ -86,4 +123,3 @@ public class StreamingTextSourceBenchmark
         public override void Write(Byte[] buffer, Int32 offset, Int32 count) => throw new NotSupportedException();
     }
 }
-#endif
