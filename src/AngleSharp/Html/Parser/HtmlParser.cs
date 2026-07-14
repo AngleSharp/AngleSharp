@@ -244,6 +244,25 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses the stream asynchronously using the selected source mode.
+        /// </summary>
+        /// <param name="source">The byte stream to parse.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <param name="sourceMode">The decoding and retention strategy.</param>
+        /// <exception cref="NotSupportedException">
+        /// Thrown when bounded UTF-8 streaming is combined with scripting source insertion.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown for an unknown source mode.</exception>
+        public Task<IHtmlDocument> ParseDocumentAsync(
+            Stream source,
+            CancellationToken cancel,
+            HtmlStreamSourceMode sourceMode)
+        {
+            var document = CreateDocument(source, sourceMode);
+            return ParseAsync(document, cancel);
+        }
+
+        /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
         public async Task<IHtmlHeadElement?> ParseHeadAsync(String source, CancellationToken cancel)
@@ -292,6 +311,27 @@ namespace AngleSharp.Html.Parser
             var encoding = _context.GetDefaultEncoding();
             var textSource = new TextSource(source, encoding);
             return CreateDocument(textSource);
+        }
+
+        private HtmlDocument CreateDocument(Stream source, HtmlStreamSourceMode sourceMode)
+        {
+            if (sourceMode == HtmlStreamSourceMode.Buffered)
+            {
+                return CreateDocument(source);
+            }
+
+            if (sourceMode == HtmlStreamSourceMode.Utf8Streaming)
+            {
+                if (_options.IsScripting)
+                {
+                    throw new NotSupportedException("Bounded UTF-8 streaming does not support scripting source insertion.");
+                }
+
+                var streamingSource = new Utf8StreamingTextSource(source);
+                return CreateDocument(new TextSource(streamingSource));
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(sourceMode));
         }
 
         private HtmlDocument CreateDocument(ReadOnlyMemory<Char> chars)

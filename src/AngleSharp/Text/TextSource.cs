@@ -63,6 +63,16 @@ namespace AngleSharp.Text
         }
 
         /// <summary>
+        /// Creates a text source over the supplied bounded UTF-8 source.
+        /// </summary>
+        /// <param name="source">The underlying source.</param>
+        internal TextSource(Utf8StreamingTextSource source)
+        {
+            _writableSource = null;
+            _readOnlyTextSource = source ?? throw new ArgumentNullException(nameof(source));
+        }
+
+        /// <summary>
         /// Creates a new immutable text source from a <see cref="StringTextSource"/>. No underlying stream will be used
         /// </summary>
         public TextSource(StringTextSource source)
