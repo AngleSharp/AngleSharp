@@ -25,7 +25,8 @@ namespace AngleSharp.Html.Parser
         #region Fields
 
         private readonly TokenConsumer _consumeAsDelegate;
-        private readonly HtmlTokenizer _tokenizer;
+        private readonly IHtmlTokenSource _tokenizer;
+        private readonly HtmlTokenizer? _synchronousTokenizer;
         private readonly TDocument _document;
         private readonly List<IConstructableElement> _openElements;
         private readonly List<IConstructableElement> _formattingElements;
@@ -43,11 +44,13 @@ namespace AngleSharp.Html.Parser
         private Boolean _foster;
         private Boolean _frameset;
         private Boolean _ended;
+        private Boolean _shouldPreventNewLine;
 
         private Func<IConstructableElement, Boolean>? _shouldEnd;
         private readonly IDomConstructionElementFactory<TDocument, TElement> _elementFactory;
         private Task? _waiting;
         private readonly Boolean _emitWhitespaceTextNodes;
+        private readonly Boolean _usesDocumentSource;
 
         #endregion
 
@@ -68,11 +71,16 @@ namespace AngleSharp.Html.Parser
             TDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
             Boolean emitWhitespaceTextNodes = false,
-            Func<IConstructableElement, Boolean>? shouldEnd = null)
+            Func<IConstructableElement, Boolean>? shouldEnd = null,
+            IHtmlTokenSource? tokenSource = null)
         {
             _shouldEnd = shouldEnd;
             _elementFactory = elementFactory;
-            _tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended);
+            _usesDocumentSource = tokenSource is null;
+            _synchronousTokenizer = tokenSource is null
+                ? new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended)
+                : null;
+            _tokenizer = tokenSource ?? _synchronousTokenizer!;
             _document = document;
             _openElements = [];
             _templateModes = new Stack<HtmlTreeMode>();
@@ -143,7 +151,7 @@ namespace AngleSharp.Html.Parser
 
             do
             {
-                ref var token = ref _tokenizer.GetStructToken();
+                ref var token = ref _synchronousTokenizer!.GetStructToken();
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
                     Consume(ref token);
@@ -190,13 +198,25 @@ namespace AngleSharp.Html.Parser
 
             do
             {
-                if (source.Length - source.Index < 1024)
+                if (_usesDocumentSource && source.Length - source.Index < 1024)
                 {
                     await source.PrefetchAsync(8192, cancelToken).ConfigureAwait(false);
                 }
                 cancelToken.ThrowIfCancellationRequested();
 
-                var @break = Worker(middleware);
+                StructHtmlToken token;
+                if (_synchronousTokenizer is not null)
+                {
+                    token = _synchronousTokenizer.GetStructToken();
+                }
+                else if (!_tokenizer.TryGetStructToken(out token))
+                {
+                    await _tokenizer.WaitForInputAsync(cancelToken).ConfigureAwait(false);
+                    continue;
+                }
+                PreventNewLineIfNeeded(ref token);
+
+                var @break = Worker(middleware, ref token);
                 if (@break) { break; }
 
                 if (_waiting is not null)
@@ -214,9 +234,8 @@ namespace AngleSharp.Html.Parser
 
             return _document;
 
-            Boolean Worker(TokenizerMiddleware middleware)
+            Boolean Worker(TokenizerMiddleware middleware, ref StructHtmlToken token)
             {
-                var token = _tokenizer.GetStructToken();
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
                     Consume(ref token);
@@ -4074,14 +4093,31 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         private void PreventNewLine()
         {
-            var temp = _tokenizer.GetStructToken();
+            if (_synchronousTokenizer is null)
+            {
+                _shouldPreventNewLine = true;
+                return;
+            }
 
+            var temp = _synchronousTokenizer.GetStructToken();
             if (temp.Type == HtmlTokenType.Character)
             {
                 temp.RemoveNewLine();
             }
 
             Home(ref temp);
+        }
+
+        private void PreventNewLineIfNeeded(ref StructHtmlToken token)
+        {
+            if (_shouldPreventNewLine)
+            {
+                _shouldPreventNewLine = false;
+                if (token.Type == HtmlTokenType.Character)
+                {
+                    token.RemoveNewLine();
+                }
+            }
         }
 
         /// <summary>
@@ -4489,13 +4525,15 @@ namespace AngleSharp.Html.Parser
             IHtmlElementConstructionFactory elementFactory,
             HtmlDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
-            String? stopAt = null)
+            String? stopAt = null,
+            IHtmlTokenSource? tokenSource = null)
             : base(
                 elementFactory: elementFactory,
                 document: document,
                 maybeOptions: maybeOptions,
                 emitWhitespaceTextNodes: true,
-                shouldEnd: stopAt is not null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null)
+                shouldEnd: stopAt is not null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null,
+                tokenSource: tokenSource)
         {
         }
     }
