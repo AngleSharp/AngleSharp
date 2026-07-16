@@ -97,3 +97,21 @@ public interface IReadOnlyTextSource : IDisposable
     /// <returns>True if length is available</returns>
     Boolean TryGetContentLength(out Int32 length);
 }
+
+/// <summary>
+/// Represents a text source that can expose its immediately available characters
+/// as one contiguous window.
+/// </summary>
+/// <remarks>
+/// The returned span starts at <see cref="IReadOnlyTextSource.Index"/>. Consumers
+/// advance the source by updating that property.
+/// </remarks>
+public interface IContiguousTextSource : IReadOnlyTextSource
+{
+    /// <summary>
+    /// Tries to get the characters immediately available at the current index.
+    /// </summary>
+    /// <param name="remaining">The contiguous characters, if any are available.</param>
+    /// <returns>True if a non-empty window is available; otherwise false.</returns>
+    Boolean TryGetRemainingSpan(out ReadOnlySpan<Char> remaining);
+}

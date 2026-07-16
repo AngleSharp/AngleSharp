@@ -15,7 +15,7 @@ public static class Utf8NameHash
     {
         foreach (var character in value)
         {
-            hash = Append(hash, character);
+            hash = (hash ^ character) * Prime;
         }
 
         return hash;

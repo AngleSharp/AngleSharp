@@ -163,7 +163,9 @@ namespace AngleSharp.Html.Parser
         /// <param name="options">The options to use for parsing.</param>
         /// <param name="middleware"></param>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        public async Task<TDocument> ParseAsync(HtmlParserOptions options, TokenizerMiddleware? middleware = null,
+        public async Task<TDocument> ParseAsync(
+            HtmlParserOptions options,
+            TokenizerMiddleware? middleware = null,
             CancellationToken cancelToken = default)
         {
             var source = _document.Source;
@@ -182,20 +184,22 @@ namespace AngleSharp.Html.Parser
                 }
                 cancelToken.ThrowIfCancellationRequested();
 
-                StructHtmlToken token;
                 if (_synchronousTokenizer is not null)
                 {
-                    token = _synchronousTokenizer.GetStructToken();
+                    if (ProcessSynchronousToken())
+                    {
+                        break;
+                    }
                 }
-                else if (!_tokenizer.TryGetStructToken(out token))
+                else if (!_tokenizer.TryMoveNext())
                 {
                     await _tokenizer.WaitForInputAsync(cancelToken).ConfigureAwait(false);
                     continue;
                 }
-                PreventNewLineIfNeeded(ref token);
-
-                var @break = Worker(middleware, ref token);
-                if (@break) { break; }
+                else if (ProcessCurrentToken())
+                {
+                    break;
+                }
 
                 if (_waiting is not null)
                 {
@@ -211,6 +215,24 @@ namespace AngleSharp.Html.Parser
             }
 
             return _document;
+
+            Boolean ProcessSynchronousToken()
+            {
+                ref var token = ref _synchronousTokenizer!.GetStructToken();
+                return ProcessToken(ref token);
+            }
+
+            Boolean ProcessCurrentToken()
+            {
+                ref var token = ref _tokenizer.Current;
+                return ProcessToken(ref token);
+            }
+
+            Boolean ProcessToken(ref StructHtmlToken token)
+            {
+                PreventNewLineIfNeeded(ref token);
+                return Worker(middleware, ref token);
+            }
 
             Boolean Worker(TokenizerMiddleware middleware, ref StructHtmlToken token)
             {
@@ -353,7 +375,7 @@ namespace AngleSharp.Html.Parser
         private void Consume(ref StructHtmlToken token)
         {
             var node = AdjustedCurrentNode;
-            
+
             if (node is null || token.Type == HtmlTokenType.EndOfFile ||
                 node.Flags.HasFlag(NodeFlags.HtmlMember) ||
                 (token.IsHtmlCompatible && IsHtmlTip(node)) ||
@@ -3957,7 +3979,7 @@ namespace AngleSharp.Html.Parser
                 if (node.Flags.HasFlag(NodeFlags.MathMember) && node.LocalName.Is(TagNames.AnnotationXml))
                 {
                     var encoding = node.Attributes["encoding"]?.Value;
-                    
+
                     if (encoding == MimeTypeNames.Html || encoding == MimeTypeNames.ApplicationXHtml)
                     {
                         return true;

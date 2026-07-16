@@ -9,6 +9,8 @@ using AngleSharp.Text;
 
 internal sealed class HtmlTokenizerTokenSource(HtmlTokenizer tokenizer) : IHtmlTokenSource
 {
+    private StructHtmlToken _current;
+
     public void Configure(
         HtmlTokenizerOptions options,
         Action<HtmlToken, TextRange>? onToken,
@@ -36,11 +38,13 @@ internal sealed class HtmlTokenizerTokenSource(HtmlTokenizer tokenizer) : IHtmlT
 
     public void SetAcceptingCharacterData(Boolean value) => tokenizer.IsAcceptingCharacterData = value;
 
-    public Boolean TryGetStructToken(out StructHtmlToken token)
+    public Boolean TryMoveNext()
     {
-        token = tokenizer.GetStructToken();
+        _current = tokenizer.GetStructToken();
         return true;
     }
+
+    public ref StructHtmlToken Current => ref _current;
 
     public Task WaitForInputAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 }

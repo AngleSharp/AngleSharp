@@ -2592,6 +2592,9 @@ namespace AngleSharp.Html
             return null;
         }
 
+        internal static String? GetSymbol(ReadOnlySpan<Byte> name) =>
+            Utf8EntityLookupHolder.Instance.GetSymbol(name);
+
         /// <summary>
         /// Gets the name of a symbol specified by its value. In case of
         /// ambiguity the first name (alphabetically ordered) will be
@@ -2797,6 +2800,121 @@ namespace AngleSharp.Html
         #endregion
 
         #region Helper
+
+        private static class Utf8EntityLookupHolder
+        {
+            static Utf8EntityLookupHolder()
+            {
+            }
+
+            public static readonly Utf8EntityLookup Instance = new (HtmlEntityProvider.Instance._entities);
+        }
+
+        private sealed class Utf8EntityLookup
+        {
+            private const UInt64 Offset = 14695981039346656037UL;
+            private const UInt64 Prime = 1099511628211UL;
+
+            private readonly Dictionary<UInt64, Int32> _heads;
+            private readonly Utf8EntityEntry[] _entries;
+
+            public Utf8EntityLookup(Dictionary<Char, Dictionary<StringOrMemory, String>> entities)
+            {
+                var entries = new List<Utf8EntityEntry>(entities.Sum(m => m.Value.Count));
+                _heads = new Dictionary<UInt64, Int32>(entries.Capacity);
+
+                foreach (var symbols in entities.Values)
+                {
+                    foreach (var entity in symbols)
+                    {
+                        var hash = Hash(entity.Key.Memory.Span);
+                        var next = _heads.TryGetValue(hash, out var head) ? head : -1;
+                        _heads[hash] = entries.Count;
+                        entries.Add(new Utf8EntityEntry(entity.Key, entity.Value, next));
+                    }
+                }
+
+                _entries = entries.ToArray();
+            }
+
+            public String? GetSymbol(ReadOnlySpan<Byte> name)
+            {
+                if (name.IsEmpty || !_heads.TryGetValue(Hash(name), out var index))
+                {
+                    return null;
+                }
+
+                do
+                {
+                    ref readonly var entry = ref _entries[index];
+                    if (EqualsAscii(name, entry.Name.Memory.Span))
+                    {
+                        return entry.Symbol;
+                    }
+
+                    index = entry.Next;
+                }
+                while (index >= 0);
+
+                return null;
+            }
+
+            private static UInt64 Hash(ReadOnlySpan<Byte> name)
+            {
+                var hash = Offset;
+                for (var index = 0; index < name.Length; index++)
+                {
+                    hash = unchecked((hash ^ name[index]) * Prime);
+                }
+
+                return hash;
+            }
+
+            private static UInt64 Hash(ReadOnlySpan<Char> name)
+            {
+                var hash = Offset;
+                for (var index = 0; index < name.Length; index++)
+                {
+                    hash = unchecked((hash ^ name[index]) * Prime);
+                }
+
+                return hash;
+            }
+
+            private static Boolean EqualsAscii(ReadOnlySpan<Byte> bytes, ReadOnlySpan<Char> chars)
+            {
+                if (bytes.Length != chars.Length)
+                {
+                    return false;
+                }
+
+                for (var index = 0; index < bytes.Length; index++)
+                {
+                    if (bytes[index] != chars[index])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            private readonly struct Utf8EntityEntry
+            {
+                public Utf8EntityEntry(StringOrMemory name, String symbol, Int32 next)
+                {
+                    Name = name;
+                    Symbol = symbol;
+                    Next = next;
+                }
+
+                public StringOrMemory Name { get; }
+
+                public String Symbol { get; }
+
+                public Int32 Next { get; }
+            }
+        }
 
         private static void AddSingle(Dictionary<String, String> symbols, String key, String value) =>
             symbols.Add(key, value);

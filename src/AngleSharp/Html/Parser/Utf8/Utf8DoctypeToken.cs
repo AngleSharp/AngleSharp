@@ -1,4 +1,6 @@
-﻿using System;
+#pragma warning disable CS1591 // Experimental API surface; shape is intentionally unsettled.
+
+using System;
 
 namespace AngleSharp.Html.Parser.Utf8;
 

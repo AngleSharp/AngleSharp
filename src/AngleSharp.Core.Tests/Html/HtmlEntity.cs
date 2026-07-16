@@ -4,6 +4,8 @@ namespace AngleSharp.Core.Tests.Html
     using AngleSharp.Html;
     using AngleSharp.Html.Parser;
     using NUnit.Framework;
+    using System;
+    using System.Text;
 
      /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -13,6 +15,21 @@ namespace AngleSharp.Core.Tests.Html
     [TestFixture]
     public class HtmlEntityTests
     {
+        [TestCase("amp;")]
+        [TestCase("amp")]
+        [TestCase("CounterClockwiseContourIntegral;")]
+        [TestCase("NotEqualTilde;")]
+        [TestCase("AMP;")]
+        [TestCase("not-an-entity;")]
+        public void Utf8LookupMatchesExistingResolver(String name)
+        {
+            var bytes = Encoding.ASCII.GetBytes(name);
+
+            Assert.AreEqual(
+                HtmlEntityProvider.Resolver.GetSymbol(name),
+                HtmlEntityProvider.GetSymbol(bytes));
+        }
+
         [Test]
         public void EntityValidFullGt()
         {

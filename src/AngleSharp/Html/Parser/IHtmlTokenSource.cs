@@ -21,8 +21,11 @@ internal interface IHtmlTokenSource
     /// <summary>Changes whether character data tokens are currently accepted.</summary>
     void SetAcceptingCharacterData(Boolean value);
 
-    /// <summary>Attempts to get the next currently available token.</summary>
-    Boolean TryGetStructToken(out StructHtmlToken token);
+    /// <summary>Attempts to move to the next currently available token.</summary>
+    Boolean TryMoveNext();
+
+    /// <summary>Gets the current token. The reference remains valid until the next move.</summary>
+    ref StructHtmlToken Current { get; }
 
     /// <summary>Waits until more input may be available.</summary>
     Task WaitForInputAsync(CancellationToken cancellationToken);
