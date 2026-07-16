@@ -2,6 +2,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AngleSharp.Common;
@@ -14,8 +15,8 @@ namespace AngleSharp.Html.Parser.Utf8;
 using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
-/// Adapts the borrowed UTF-8 tokenizer to the existing token-at-a-time tree constructor without allocating strings
-/// for intermediate token payloads.
+/// Adapts the borrowed UTF-8 tokenizer to the existing token-at-a-time tree constructor.
+/// Payloads are decoded directly to the strings ultimately retained by the mutable DOM.
 /// </summary>
 internal sealed class Utf8HtmlTokenSource :
     IHtmlTokenSource,
@@ -26,7 +27,6 @@ internal sealed class Utf8HtmlTokenSource :
 
     private readonly IAsyncEnumerator<ReadOnlyMemory<Byte>> _input;
     private readonly Utf8HtmlTokenizer _tokenizer;
-    private readonly Utf16TokenArena _arena = new();
     private readonly PooledByteBuffer _text = new();
     private TokenBuffer _tokens;
     private ReadyBuffer _ready;
@@ -209,7 +209,7 @@ internal sealed class Utf8HtmlTokenSource :
         var decodedName = _pendingAttributeNameIsDecoded
             ? new StringOrMemory(_pendingAttributeName)
             : DecodeAttributeName(name);
-        GetStartTag().AddAttribute(decodedName, _arena.Decode(value));
+        GetStartTag().AddAttribute(decodedName, Decode(value));
         _pendingAttributeName = default;
         _pendingAttributeNameIsDecoded = false;
     }
@@ -233,7 +233,7 @@ internal sealed class Utf8HtmlTokenSource :
         if (!_options.SkipComments)
         {
             var slot = ReserveSlot();
-            _tokens[slot] = StructHtmlToken.Comment(_arena.Decode(utf8), default);
+            _tokens[slot] = StructHtmlToken.Comment(Decode(utf8), default);
             Enqueue(slot);
             _tokenizer.RequestYield();
         }
@@ -243,7 +243,7 @@ internal sealed class Utf8HtmlTokenSource :
     {
         FlushText();
         var token = StructHtmlToken.Doctype(quirksForced: false, default);
-        token.Name = _arena.Decode(utf8);
+        token.Name = Decode(utf8);
         var slot = ReserveSlot();
         _tokens[slot] = token;
         Enqueue(slot);
@@ -254,14 +254,14 @@ internal sealed class Utf8HtmlTokenSource :
     {
         FlushText();
         var token = StructHtmlToken.Doctype(doctype.IsQuirksForced, default);
-        token.Name = _arena.Decode(doctype.Name);
+        token.Name = Decode(doctype.Name);
         if (!doctype.IsPublicIdentifierMissing)
         {
-            token.PublicIdentifier = _arena.Decode(doctype.PublicIdentifier);
+            token.PublicIdentifier = Decode(doctype.PublicIdentifier);
         }
         if (!doctype.IsSystemIdentifierMissing)
         {
-            token.SystemIdentifier = _arena.Decode(doctype.SystemIdentifier);
+            token.SystemIdentifier = Decode(doctype.SystemIdentifier);
         }
         var slot = ReserveSlot();
         _tokens[slot] = token;
@@ -288,10 +288,13 @@ internal sealed class Utf8HtmlTokenSource :
     }
 
     private StringOrMemory DecodeTagName(ReadOnlySpan<Byte> name, UInt64 hash) =>
-        Utf8CanonicalNameProvider.TryGetTag(name, hash, out var canonical) ? canonical : _arena.Decode(name);
+        Utf8CanonicalNameProvider.TryGetTag(name, hash, out var canonical) ? canonical : Decode(name);
 
     private StringOrMemory DecodeAttributeName(ReadOnlySpan<Byte> name) =>
-        Utf8CanonicalNameProvider.TryGetAttribute(name, out var canonical) ? canonical : _arena.Decode(name);
+        Utf8CanonicalNameProvider.TryGetAttribute(name, out var canonical) ? canonical : Decode(name);
+
+    private static StringOrMemory Decode(ReadOnlySpan<Byte> utf8) =>
+        utf8.IsEmpty ? StringOrMemory.Empty : Encoding.UTF8.GetString(utf8);
 
     private void FlushText()
     {
@@ -301,7 +304,7 @@ internal sealed class Utf8HtmlTokenSource :
         }
 
         var slot = ReserveSlot();
-        _tokens[slot] = StructHtmlToken.Character(_arena.Decode(_text.WrittenSpan), default);
+        _tokens[slot] = StructHtmlToken.Character(Decode(_text.WrittenSpan), default);
         Enqueue(slot);
         _text.Clear();
     }
@@ -378,7 +381,6 @@ internal sealed class Utf8HtmlTokenSource :
         _ready = default;
         _lastStartTagName = default;
         _pendingAttributeName = default;
-        _arena.Dispose();
         await _input.DisposeAsync().ConfigureAwait(false);
     }
 

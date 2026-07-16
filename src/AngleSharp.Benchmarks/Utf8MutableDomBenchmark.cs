@@ -69,7 +69,7 @@ public class Utf8MutableDomBenchmark
     }
 
     [Benchmark, BenchmarkCategory("Network4K")]
-    public async Task<Int32> ArenaUtf8Network4K()
+    public async Task<Int32> NativeUtf8Network4K()
     {
         using var document = await ParseUtf8Async(NetworkChunks(_utf8, NetworkBufferSize)).ConfigureAwait(false);
         return document.All.Length;
