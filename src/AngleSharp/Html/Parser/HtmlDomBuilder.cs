@@ -56,11 +56,7 @@ namespace AngleSharp.Html.Parser
 
         #region Events
 
-        public event EventHandler<HtmlErrorEvent> Error
-        {
-            add { _tokenizer.Error += value; }
-            remove { _tokenizer.Error -= value; }
-        }
+        public event EventHandler<HtmlErrorEvent>? Error;
 
         #endregion
 
@@ -80,7 +76,7 @@ namespace AngleSharp.Html.Parser
             _synchronousTokenizer = tokenSource is null
                 ? new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended)
                 : null;
-            _tokenizer = tokenSource ?? _synchronousTokenizer!;
+            _tokenizer = tokenSource ?? new HtmlTokenizerTokenSource(_synchronousTokenizer!);
             _document = document;
             _openElements = [];
             _templateModes = new Stack<HtmlTreeMode>();
@@ -94,25 +90,7 @@ namespace AngleSharp.Html.Parser
 
             if (maybeOptions.HasValue)
             {
-                var options = maybeOptions.Value;
-
-                _tokenizer.IsStrictMode = options.IsStrictMode;
-                _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
-                _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
-                _tokenizer.IsPreservingAttributeNames = options.IsPreservingAttributeNames;
-                _tokenizer.SkipRawText = options.SkipRawText;
-                _tokenizer.SkipScriptText = options.SkipScriptText;
-                _tokenizer.SkipDataText = options.SkipDataText;
-                _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute;
-                _tokenizer.SkipDataText = options.SkipDataText;
-                _tokenizer.SkipScriptText = options.SkipScriptText;
-                _tokenizer.SkipRawText = options.SkipRawText;
-                _tokenizer.SkipComments = options.SkipComments;
-                _tokenizer.SkipPlaintext = options.SkipPlaintext;
-                _tokenizer.SkipRCDataText = options.SkipRCDataText;
-                _tokenizer.SkipCDATA = options.SkipCDATA;
-                _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
-                _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
+                _tokenizer.Configure(maybeOptions.Value, onToken: null, ReportError);
             }
         }
 
@@ -259,7 +237,7 @@ namespace AngleSharp.Html.Parser
         private void Restart()
         {
             _currentMode = HtmlTreeMode.Initial;
-            _tokenizer.State = HtmlParseMode.PCData;
+            _tokenizer.SetState(HtmlParseMode.PCData);
             _document.Clear();
             _ended = false;
             _frameset = true;
@@ -313,28 +291,28 @@ namespace AngleSharp.Html.Parser
 
             if (tagName.IsOneOf(TagNames.Title, TagNames.Textarea))
             {
-                _tokenizer.State = HtmlParseMode.RCData;
+                _tokenizer.SetState(HtmlParseMode.RCData);
             }
             else if (tagName.IsOneOf(TagNames.Style, TagNames.Xmp, TagNames.Iframe, TagNames.NoEmbed))
             {
-                _tokenizer.State = HtmlParseMode.Rawtext;
+                _tokenizer.SetState(HtmlParseMode.Rawtext);
             }
             else if (tagName.Is(TagNames.Script))
             {
-                _tokenizer.State = HtmlParseMode.Script;
+                _tokenizer.SetState(HtmlParseMode.Script);
             }
             else if (tagName.Is(TagNames.Plaintext))
             {
-                _tokenizer.State = HtmlParseMode.Plaintext;
+                _tokenizer.SetState(HtmlParseMode.Plaintext);
             }
             else if (tagName.Is(TagNames.NoScript) &&
                      (options.IsScripting || context.Flags.HasFlag(NodeFlags.LiteralText)))
             {
-                _tokenizer.State = HtmlParseMode.Rawtext;
+                _tokenizer.SetState(HtmlParseMode.Rawtext);
             }
             else if (tagName.Is(TagNames.NoFrames) && !options.IsNotSupportingFrames)
             {
-                _tokenizer.State = HtmlParseMode.Rawtext;
+                _tokenizer.SetState(HtmlParseMode.Rawtext);
             }
 
             var root = _elementFactory.Create(_document, TagNames.Html);
@@ -349,7 +327,7 @@ namespace AngleSharp.Html.Parser
 
             Reset();
 
-            _tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.HtmlMember);
+            _tokenizer.SetAcceptingCharacterData(!AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.HtmlMember));
 
             IConstructableNode? contextNode = context;
 
@@ -393,24 +371,8 @@ namespace AngleSharp.Html.Parser
 
         private void SetOptions(HtmlParserOptions options)
         {
-            _tokenizer.IsStrictMode = options.IsStrictMode;
-            _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
-            _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
-            _tokenizer.IsPreservingAttributeNames = options.IsPreservingAttributeNames;
-            _tokenizer.SkipRawText = options.SkipRawText;
-            _tokenizer.SkipScriptText = options.SkipScriptText;
-            _tokenizer.SkipDataText = options.SkipDataText;
-            _tokenizer.SkipScriptText = options.SkipScriptText;
-            _tokenizer.SkipRawText = options.SkipRawText;
-            _tokenizer.SkipComments = options.SkipComments;
-            _tokenizer.SkipPlaintext = options.SkipPlaintext;
-            _tokenizer.SkipRCDataText = options.SkipRCDataText;
-            _tokenizer.SkipCDATA = options.SkipCDATA;
-            _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
-            _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute!;
-            _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
-            _tokenizer.OnToken = options.OnToken;
             _options = options;
+            _tokenizer.Configure(new HtmlTokenizerOptions(options), options.OnToken, ReportError);
         }
 
         #endregion
@@ -797,7 +759,7 @@ namespace AngleSharp.Html.Parser
                     {
                         var script = _elementFactory.CreateScript(_document, parserInserted: true, started: IsFragmentCase);
                         AddElement(script, ref token);
-                        _tokenizer.State = HtmlParseMode.Script;
+                        _tokenizer.SetState(HtmlParseMode.Script);
                         _previousMode = _currentMode;
                         _currentMode = HtmlTreeMode.Text;
                         return;
@@ -1229,7 +1191,7 @@ namespace AngleSharp.Html.Parser
             {
                 var textarea = _elementFactory.Create(_document, TagNames.Textarea);
                 AddElement(textarea, ref tag);
-                _tokenizer.State = HtmlParseMode.RCData;
+                _tokenizer.SetState(HtmlParseMode.RCData);
                 _previousMode = _currentMode;
                 _frameset = false;
                 _currentMode = HtmlTreeMode.Text;
@@ -1382,7 +1344,7 @@ namespace AngleSharp.Html.Parser
                 }
 
                 AddElement(ref tag);
-                _tokenizer.State = HtmlParseMode.Plaintext;
+                _tokenizer.SetState(HtmlParseMode.Plaintext);
             }
             else if (tagName.Is(TagNames.Frameset))
             {
@@ -3122,7 +3084,7 @@ namespace AngleSharp.Html.Parser
         {
             _previousMode = _currentMode;
             _currentMode = HtmlTreeMode.Text;
-            _tokenizer.State = HtmlParseMode.Rawtext;
+            _tokenizer.SetState(HtmlParseMode.Rawtext);
         }
 
         /// <summary>
@@ -3134,7 +3096,7 @@ namespace AngleSharp.Html.Parser
             AddElement(ref tag);
             _previousMode = _currentMode;
             _currentMode = HtmlTreeMode.Text;
-            _tokenizer.State = HtmlParseMode.RCData;
+            _tokenizer.SetState(HtmlParseMode.RCData);
         }
 
         /// <summary>
@@ -3739,7 +3701,7 @@ namespace AngleSharp.Html.Parser
                 if (!selfClosing)
                 {
                     _openElements.Add(node);
-                    _tokenizer.IsAcceptingCharacterData = true;
+                    _tokenizer.SetAcceptingCharacterData(true);
                 }
                 else if (tag.Name.Is(TagNames.Script))
                 {
@@ -4150,7 +4112,7 @@ namespace AngleSharp.Html.Parser
             _document.AddNode(element);
             SetupElement(element, ref tag, false);
             _openElements.Add(element);
-            _tokenizer.IsAcceptingCharacterData = false;
+            _tokenizer.SetAcceptingCharacterData(false);
             _document.ApplyManifest();
         }
 
@@ -4196,7 +4158,7 @@ namespace AngleSharp.Html.Parser
             {
                 CloseNodeAt(_openElements.Count - 1);
                 var node = AdjustedCurrentNode;
-                _tokenizer.IsAcceptingCharacterData = node is not null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
+                _tokenizer.SetAcceptingCharacterData(node is not null && !node.Flags.HasFlag(NodeFlags.HtmlMember));
             }
         }
 
@@ -4279,7 +4241,7 @@ namespace AngleSharp.Html.Parser
             }
 
             _openElements.Add(element);
-            _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
+            _tokenizer.SetAcceptingCharacterData(!element.Flags.HasFlag(NodeFlags.HtmlMember));
         }
 
         /// <summary>
@@ -4509,13 +4471,25 @@ namespace AngleSharp.Html.Parser
 
         #region Handlers
 
-        private void RaiseErrorOccurred(HtmlParseError code, ref StructHtmlToken token) => _tokenizer.RaiseErrorOccurred(code, token.Position);
+        private void RaiseErrorOccurred(HtmlParseError code, ref StructHtmlToken token) =>
+            ReportError(code, token.Position);
+
+        private void ReportError(HtmlParseError code, TextPosition position)
+        {
+            if (_options.IsStrictMode)
+            {
+                const String message = "Error while parsing the provided HTML document.";
+                throw new HtmlParseException(code.GetCode(), message, position);
+            }
+
+            Error?.Invoke(this, new HtmlErrorEvent(code, position));
+        }
 
         #endregion
 
         public void Dispose()
         {
-            _tokenizer.Dispose();
+            _synchronousTokenizer?.Dispose();
         }
     }
 

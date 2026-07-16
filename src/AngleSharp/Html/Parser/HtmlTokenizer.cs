@@ -7,8 +7,6 @@ namespace AngleSharp.Html.Parser
     using Text;
     using System;
     using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Tokens;
     using Tokens.Struct;
     using AttributeName = System.ReadOnlyMemory<System.Char>;
@@ -48,7 +46,7 @@ namespace AngleSharp.Html.Parser
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    public sealed class HtmlTokenizer : BaseTokenizer, IHtmlTokenSource
+    public sealed class HtmlTokenizer : BaseTokenizer
     {
         #region Fields
 
@@ -56,6 +54,7 @@ namespace AngleSharp.Html.Parser
         private StringOrMemory _lastStartTag;
         private TextPosition _position;
         private StructHtmlToken _token;
+        private Action<HtmlParseError, TextPosition>? _errorSink;
         private ShouldEmitAttribute _shouldEmitAttribute = static Boolean (ref StructHtmlToken _, AttributeName _) => true;
         private Char[]? _characterReferenceBuffer;
 
@@ -242,13 +241,11 @@ namespace AngleSharp.Html.Parser
             return ref token;
         }
 
-        Boolean IHtmlTokenSource.TryGetStructToken(out StructHtmlToken token)
+        internal Action<HtmlParseError, TextPosition>? ErrorSink
         {
-            token = GetStructToken();
-            return true;
+            get => _errorSink;
+            set => _errorSink = value;
         }
-
-        Task IHtmlTokenSource.WaitForInputAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
         internal void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
         {
@@ -264,10 +261,8 @@ namespace AngleSharp.Html.Parser
                 var errorEvent = new HtmlErrorEvent(code, position);
                 handler.Invoke(this, errorEvent);
             }
+            _errorSink?.Invoke(code, position);
         }
-
-        void IHtmlTokenSource.RaiseErrorOccurred(HtmlParseError code, TextPosition position) =>
-            RaiseErrorOccurred(code, position);
 
         #endregion
 

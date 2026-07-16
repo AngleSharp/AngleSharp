@@ -4,7 +4,6 @@ namespace AngleSharp.Core.Tests.Html
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using AngleSharp.Html.Dom.Events;
     using AngleSharp.Html.Parser;
     using AngleSharp.Html.Parser.Tokens;
     using AngleSharp.Html.Parser.Tokens.Struct;
@@ -31,7 +30,20 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual(3, source.WaitCount);
         }
 
-        private sealed class SegmentedTokenSource : IHtmlTokenSource
+        [Test]
+        public async Task CallerRetainsOwnershipOfAlternativeTokenSource()
+        {
+            var source = new SegmentedTokenSource(StructHtmlToken.EndOfFile(default));
+            var document = await new HtmlParser().ParseDocumentAsync(source);
+
+            document.Dispose();
+
+            Assert.IsFalse(source.IsDisposed);
+            source.Dispose();
+            Assert.IsTrue(source.IsDisposed);
+        }
+
+        private sealed class SegmentedTokenSource : IHtmlTokenSource, IDisposable
         {
             private readonly Queue<StructHtmlToken> _tokens;
             private Boolean _available = true;
@@ -39,27 +51,22 @@ namespace AngleSharp.Core.Tests.Html
             public SegmentedTokenSource(params StructHtmlToken[] tokens) => _tokens = new(tokens);
 
             public Int32 WaitCount { get; private set; }
+            public Boolean IsDisposed { get; private set; }
 
-            public event EventHandler<HtmlErrorEvent> Error;
+            public void Configure(
+                HtmlTokenizerOptions options,
+                Action<HtmlToken, TextRange> onToken,
+                Action<HtmlParseError, TextPosition> reportError)
+            {
+            }
 
-            public HtmlParseMode State { get; set; }
-            public Boolean IsAcceptingCharacterData { get; set; }
-            public Boolean IsStrictMode { get; set; }
-            public Boolean IsSupportingProcessingInstructions { get; set; }
-            public Boolean IsNotConsumingCharacterReferences { get; set; }
-            public Boolean IsPreservingAttributeNames { get; set; }
-            public Boolean SkipRawText { get; set; }
-            public Boolean SkipScriptText { get; set; }
-            public Boolean SkipDataText { get; set; }
-            public Boolean SkipComments { get; set; }
-            public Boolean SkipPlaintext { get; set; }
-            public Boolean SkipRCDataText { get; set; }
-            public Boolean SkipCDATA { get; set; }
-            public Boolean SkipProcessingInstructions { get; set; }
-            public Boolean DisableElementPositionTracking { get; set; }
-            public ShouldEmitAttribute ShouldEmitAttribute { get; set; } =
-                static (ref StructHtmlToken _, ReadOnlyMemory<Char> _) => true;
-            public Action<HtmlToken, TextRange> OnToken { get; set; }
+            public void SetState(HtmlParseMode state)
+            {
+            }
+
+            public void SetAcceptingCharacterData(Boolean value)
+            {
+            }
 
             public Boolean TryGetStructToken(out StructHtmlToken token)
             {
@@ -82,10 +89,7 @@ namespace AngleSharp.Core.Tests.Html
                 _available = true;
             }
 
-            public void RaiseErrorOccurred(HtmlParseError code, TextPosition position) =>
-                Error?.Invoke(this, new HtmlErrorEvent(code, position));
-
-            public void Dispose() { }
+            public void Dispose() => IsDisposed = true;
         }
     }
 }
