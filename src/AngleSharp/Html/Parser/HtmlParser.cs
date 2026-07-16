@@ -11,6 +11,7 @@ namespace AngleSharp.Html.Parser
     using System.Threading.Tasks;
     using Construction;
     using System.Runtime.CompilerServices;
+    using System.Text;
 
     /// <summary>
     /// Creates an instance of the HTML parser front-end.
@@ -244,6 +245,26 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses the stream asynchronously using the selected source mode.
+        /// </summary>
+        /// <param name="source">The byte stream to parse.</param>
+        /// <param name="sourceMode">The decoding and retention strategy.</param>
+        /// <param name="encoding">
+        /// The authoritative encoding, or null to use automatic encoding detection.
+        /// </param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown for an unknown source mode.</exception>
+        public Task<IHtmlDocument> ParseDocumentAsync(
+            Stream source,
+            HtmlStreamSourceMode sourceMode,
+            Encoding? encoding = null,
+            CancellationToken cancel = default)
+        {
+            var document = CreateDocument(source, sourceMode, encoding);
+            return ParseAsync(document, cancel);
+        }
+
+        /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
         public async Task<IHtmlHeadElement?> ParseHeadAsync(String source, CancellationToken cancel)
@@ -291,6 +312,26 @@ namespace AngleSharp.Html.Parser
         {
             var encoding = _context.GetDefaultEncoding();
             var textSource = new TextSource(source, encoding);
+            return CreateDocument(textSource);
+        }
+
+        private HtmlDocument CreateDocument(Stream source, HtmlStreamSourceMode sourceMode, Encoding? encoding)
+        {
+            if (sourceMode is not HtmlStreamSourceMode.Buffered and not HtmlStreamSourceMode.Streaming)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceMode));
+            }
+
+            var sourceModeInternal = sourceMode == HtmlStreamSourceMode.Streaming && !_options.IsScripting
+                ? StreamTextSourceMode.Bounded
+                : StreamTextSourceMode.Accumulating;
+
+            var textSource = new TextSource(
+                source,
+                encoding ?? _context.GetDefaultEncoding(),
+                sourceModeInternal,
+                encodingIsCertain: encoding is not null);
+
             return CreateDocument(textSource);
         }
 

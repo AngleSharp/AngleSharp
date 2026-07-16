@@ -19,6 +19,7 @@ internal sealed class WritableTextSource : ITextSource
     private readonly MemoryStream _raw;
     private readonly Byte[] _buffer;
     private readonly Char[] _chars;
+    private readonly Boolean _detectByteOrderMark;
 
     private StringBuilder _content;
     private EncodingConfidence _confidence;
@@ -38,7 +39,7 @@ internal sealed class WritableTextSource : ITextSource
             _buffer = new Byte[BufferSize];
             _chars = new Char[BufferSize + 1];
         }
-        
+
         _raw = new MemoryStream();
         _index = 0;
         _encoding = encoding ?? TextEncoding.Utf8;
@@ -69,11 +70,17 @@ internal sealed class WritableTextSource : ITextSource
     /// The initial encoding. Otherwise UTF-8.
     /// </param>
     public WritableTextSource(Stream baseStream, Encoding encoding = null)
+        : this(baseStream, encoding, encodingIsCertain: false)
+    {
+    }
+
+    internal WritableTextSource(Stream baseStream, Encoding encoding, Boolean encodingIsCertain)
         : this(encoding, allocateBuffers: baseStream != null)
     {
         _baseStream = baseStream;
         _content = StringBuilderPool.Obtain();
-        _confidence = EncodingConfidence.Tentative;
+        _detectByteOrderMark = !encodingIsCertain;
+        _confidence = encodingIsCertain ? EncodingConfidence.Certain : EncodingConfidence.Tentative;
     }
 
     #endregion
@@ -249,7 +256,7 @@ internal sealed class WritableTextSource : ITextSource
     /// <returns>The awaitable task.</returns>
     public async Task PrefetchAllAsync(CancellationToken cancellationToken)
     {
-        if (_baseStream != null && _content!.Length == 0)
+        if (_baseStream != null && _content!.Length == 0 && _detectByteOrderMark)
         {
             await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
         }
@@ -299,46 +306,40 @@ internal sealed class WritableTextSource : ITextSource
 
     private async Task DetectByteOrderMarkAsync(CancellationToken cancellationToken)
     {
-        var count = await _baseStream!.ReadAsync(_buffer, 0, BufferSize).ConfigureAwait(false);
-        var offset = 0;
+        var count = 0;
+        var reachedEnd = false;
+        while (count < 4)
+        {
+            var read = await _baseStream!.ReadAsync(
+                _buffer,
+                count,
+                BufferSize - count,
+                cancellationToken).ConfigureAwait(false);
+            if (read == 0)
+            {
+                reachedEnd = true;
+                break;
+            }
 
-        if (count > 2 && _buffer[0] == 0xef && _buffer[1] == 0xbb && _buffer[2] == 0xbf)
-        {
-            _encoding = TextEncoding.Utf8;
-            offset = 3;
-        }
-        else if (count > 3 && _buffer[0] == 0xff && _buffer[1] == 0xfe && _buffer[2] == 0x0 && _buffer[3] == 0x0)
-        {
-            _encoding = TextEncoding.Utf32Le;
-            offset = 4;
-        }
-        else if (count > 3 && _buffer[0] == 0x0 && _buffer[1] == 0x0 && _buffer[2] == 0xfe && _buffer[3] == 0xff)
-        {
-            _encoding = TextEncoding.Utf32Be;
-            offset = 4;
-        }
-        else if (count > 1 && _buffer[0] == 0xfe && _buffer[1] == 0xff)
-        {
-            _encoding = TextEncoding.Utf16Be;
-            offset = 2;
-        }
-        else if (count > 1 && _buffer[0] == 0xff && _buffer[1] == 0xfe)
-        {
-            _encoding = TextEncoding.Utf16Le;
-            offset = 2;
-        }
-        else if (count > 3 && _buffer[0] == 0x84 && _buffer[1] == 0x31 && _buffer[2] == 0x95 && _buffer[3] == 0x33)
-        {
-            _encoding = TextEncoding.Gb18030;
-            offset = 4;
+            count += read;
         }
 
-        if (offset > 0)
+        if (ByteOrderMark.TryDetect(_buffer, count, out var encoding, out var preambleLength))
         {
-            count -= offset;
-            Array.Copy(_buffer, offset, _buffer, 0, count);
-            _decoder = _encoding.GetDecoder();
+            _encoding = encoding;
+            count -= preambleLength;
+            Array.Copy(_buffer, preambleLength, _buffer, 0, count);
+            _decoder = encoding.GetDecoder();
             _confidence = EncodingConfidence.Certain;
+        }
+
+        if (count == 0 && !reachedEnd)
+        {
+            count = await _baseStream!.ReadAsync(
+                _buffer,
+                0,
+                BufferSize,
+                cancellationToken).ConfigureAwait(false);
         }
 
         AppendContentFromBuffer(count);
@@ -346,7 +347,7 @@ internal sealed class WritableTextSource : ITextSource
 
     private async Task ExpandBufferAsync(Int64 size, CancellationToken cancellationToken)
     {
-        if (!_finished && _content!.Length == 0)
+        if (!_finished && _content!.Length == 0 && _detectByteOrderMark)
         {
             await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
         }
@@ -365,7 +366,7 @@ internal sealed class WritableTextSource : ITextSource
 
     private void ExpandBuffer(Int64 size)
     {
-        if (!_finished && _content!.Length == 0)
+        if (!_finished && _content!.Length == 0 && _detectByteOrderMark)
         {
             DetectByteOrderMarkAsync(CancellationToken.None).Wait();
         }
