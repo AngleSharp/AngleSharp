@@ -265,17 +265,6 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
-        /// Parses the supplied text source asynchronously with option to cancel.
-        /// </summary>
-        /// <param name="source">The source to parse.</param>
-        /// <param name="cancel">The cancellation token.</param>
-        public Task<IHtmlDocument> ParseDocumentAsync(TextSource source, CancellationToken cancel)
-        {
-            var document = CreateDocument(source);
-            return ParseAsync(document, cancel);
-        }
-
-        /// <summary>
         /// Parses tokens supplied by an alternative token source asynchronously.
         /// </summary>
         /// <param name="tokenSource">The token source to consume. The caller retains ownership of the source.</param>
