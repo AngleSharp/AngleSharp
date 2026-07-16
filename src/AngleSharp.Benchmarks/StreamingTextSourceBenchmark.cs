@@ -29,10 +29,9 @@ public class StreamingTextSourceBenchmark
     public async Task<Int32> BoundedSource()
     {
         using var stream = new NetworkReadStream(_utf8, BufferSize);
-        using var document = await _parser.ParseDocumentAsync(
-            stream,
-            HtmlStreamSourceMode.Streaming,
-            System.Text.Encoding.UTF8).ConfigureAwait(false);
+        using var document = await _parser
+            .ParseDocumentAsync(stream, HtmlStreamSourceMode.Streaming, System.Text.Encoding.UTF8)
+            .ConfigureAwait(false);
         return document.DocumentElement.ChildElementCount;
     }
 
@@ -40,9 +39,9 @@ public class StreamingTextSourceBenchmark
     public async Task<Int32> AutomaticBoundedSource()
     {
         using var stream = new NetworkReadStream(_utf8, BufferSize);
-        using var document = await _parser.ParseDocumentAsync(
-            stream,
-            HtmlStreamSourceMode.Streaming).ConfigureAwait(false);
+        using var document = await _parser
+            .ParseDocumentAsync(stream, HtmlStreamSourceMode.Streaming)
+            .ConfigureAwait(false);
         return document.DocumentElement.ChildElementCount;
     }
 
