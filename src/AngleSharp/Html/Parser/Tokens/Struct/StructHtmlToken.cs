@@ -56,8 +56,7 @@ public struct StructHtmlToken
     internal static StructHtmlToken Skipped(HtmlTokenType htmlTokenType, TextPosition position) =>
         new(htmlTokenType, position);
 
-    /// <summary>Creates a document type token.</summary>
-    public static StructHtmlToken Doctype(Boolean quirksForced, TextPosition position) =>
+    internal static StructHtmlToken Doctype(Boolean quirksForced, TextPosition position) =>
         new(HtmlTokenType.Doctype, position)
         {
             _structTokenDoctypeData = new StructTokenDoctypeData()
@@ -69,23 +68,19 @@ public struct StructHtmlToken
     internal static StructHtmlToken TagOpen(TextPosition position) =>
         new(HtmlTokenType.StartTag, position);
 
-    /// <summary>Creates a start-tag token.</summary>
-    public static StructHtmlToken Open(StringOrMemory name) =>
+    internal static StructHtmlToken Open(StringOrMemory name) =>
         new(HtmlTokenType.StartTag, TextPosition.Empty, name);
 
     internal static StructHtmlToken TagClose(TextPosition position) =>
         new(HtmlTokenType.EndTag, position);
 
-    /// <summary>Creates an end-tag token.</summary>
-    public static StructHtmlToken Close(StringOrMemory s) =>
+    internal static StructHtmlToken Close(StringOrMemory s) =>
         new(HtmlTokenType.EndTag, TextPosition.Empty, s);
 
-    /// <summary>Creates a character token.</summary>
-    public static StructHtmlToken Character(StringOrMemory name, TextPosition position) =>
+    internal static StructHtmlToken Character(StringOrMemory name, TextPosition position) =>
         new(HtmlTokenType.Character, position, name);
 
-    /// <summary>Creates a comment token.</summary>
-    public static StructHtmlToken Comment(StringOrMemory name, TextPosition position) =>
+    internal static StructHtmlToken Comment(StringOrMemory name, TextPosition position) =>
         new(HtmlTokenType.Comment, position, name);
 
     internal static StructHtmlToken ProcessingInstruction(StringOrMemory name, TextPosition position) =>
@@ -94,8 +89,7 @@ public struct StructHtmlToken
             IsProcessingInstruction = true
         };
 
-    /// <summary>Creates an end-of-file token.</summary>
-    public static StructHtmlToken EndOfFile(TextPosition position) =>
+    internal static StructHtmlToken EndOfFile(TextPosition position) =>
         new(HtmlTokenType.EndOfFile, position);
 
     #endregion

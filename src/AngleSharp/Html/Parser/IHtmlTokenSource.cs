@@ -7,14 +7,7 @@ using AngleSharp.Html.Parser.Tokens;
 using AngleSharp.Html.Parser.Tokens.Struct;
 using AngleSharp.Text;
 
-/// <summary>
-/// Represents a token source consumed by the HTML tree constructor.
-/// </summary>
-/// <remarks>
-/// Implement this contract to feed an alternative tokenizer into
-/// <see cref="HtmlParser.ParseDocumentAsync(IHtmlTokenSource, CancellationToken)"/>.
-/// </remarks>
-public interface IHtmlTokenSource
+internal interface IHtmlTokenSource
 {
     /// <summary>Configures tokenization before input is consumed.</summary>
     void Configure(
