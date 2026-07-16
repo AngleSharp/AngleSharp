@@ -1,16 +1,12 @@
 namespace AngleSharp.Html.Parser;
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using AngleSharp.Html.Parser.Tokens;
 using AngleSharp.Html.Parser.Tokens.Struct;
 using AngleSharp.Text;
 
 internal sealed class HtmlTokenizerTokenSource(HtmlTokenizer tokenizer) : IHtmlTokenSource
 {
-    private StructHtmlToken _current;
-
     public void Configure(
         HtmlTokenizerOptions options,
         Action<HtmlToken, TextRange>? onToken,
@@ -40,11 +36,9 @@ internal sealed class HtmlTokenizerTokenSource(HtmlTokenizer tokenizer) : IHtmlT
 
     public Boolean TryMoveNext()
     {
-        _current = tokenizer.GetStructToken();
+        tokenizer.GetStructToken();
         return true;
     }
 
-    public ref StructHtmlToken Current => ref _current;
-
-    public Task WaitForInputAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+    public ref StructHtmlToken Current => ref tokenizer.CurrentToken;
 }

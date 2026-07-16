@@ -135,7 +135,7 @@ public sealed class Utf8HtmlTokenizer
     private Boolean _captureAttributeValue = true;
     private readonly Int32 _maximumBufferedTokenBytesAllowed;
     private readonly Int64 _maximumInputBytesAllowed;
-    private readonly IOptimizedUtf8HtmlTokenSink _sink;
+    private readonly IUtf8HtmlTokenSink _sink;
 
     public Utf8HtmlTokenizer(IUtf8HtmlTokenSink sink)
         : this(sink, null, HtmlStreamingLimits.Default, countInputBytes: true) { }
@@ -564,28 +564,24 @@ public sealed class Utf8HtmlTokenizer
         return tokenizer.Counters;
     }
 
-    private static IOptimizedUtf8HtmlTokenSink Adapt(IUtf8HtmlTokenSink sink)
+    private static IUtf8HtmlTokenSink Adapt(IUtf8HtmlTokenSink sink)
     {
         ArgumentNullException.ThrowIfNull(sink);
-        return sink as IOptimizedUtf8HtmlTokenSink ?? new BasicSinkAdapter(sink);
+        return sink as IUtf8HtmlTokenSink ?? new BasicSinkAdapter(sink);
     }
 
-    private sealed class BasicSinkAdapter(IUtf8HtmlTokenSink sink) : IOptimizedUtf8HtmlTokenSink
+    private sealed class BasicSinkAdapter(IUtf8HtmlTokenSink sink) : IUtf8HtmlTokenSink
     {
         public void Text(ReadOnlySpan<Byte> utf8) => sink.Text(utf8);
 
-        public void StartTag(ReadOnlySpan<Byte> name) => sink.StartTag(name);
-
-        public void StartTag(ReadOnlySpan<Byte> name, UInt64 hash) => sink.StartTag(name);
+        public void StartTag(ReadOnlySpan<Byte> name, UInt64 hash) => sink.StartTag(name, hash);
 
         public void Attribute(ReadOnlySpan<Byte> name, ReadOnlySpan<Byte> value) =>
             sink.Attribute(name, value);
 
         public void StartTagEnd(Boolean selfClosing) => sink.StartTagEnd(selfClosing);
 
-        public void EndTag(ReadOnlySpan<Byte> name) => sink.EndTag(name);
-
-        public void EndTag(ReadOnlySpan<Byte> name, UInt64 hash) => sink.EndTag(name);
+        public void EndTag(ReadOnlySpan<Byte> name, UInt64 hash) => sink.EndTag(name, hash);
 
         public Boolean WantsAttribute(ReadOnlySpan<Byte> name) => true;
 

@@ -12,19 +12,21 @@ public interface IUtf8HtmlTokenSink
 {
     void Text(ReadOnlySpan<Byte> utf8);
 
-    void StartTag(ReadOnlySpan<Byte> name);
+    void StartTag(ReadOnlySpan<Byte> name, UInt64 hash);
 
     void Attribute(ReadOnlySpan<Byte> name, ReadOnlySpan<Byte> value);
 
     void StartTagEnd(Boolean selfClosing);
 
-    void EndTag(ReadOnlySpan<Byte> name);
+    void EndTag(ReadOnlySpan<Byte> name, UInt64 hash);
 
     void Comment(ReadOnlySpan<Byte> utf8) { }
 
     void Doctype(ReadOnlySpan<Byte> utf8) { }
 
     void Doctype(in Utf8DoctypeToken token) => Doctype(token.Name);
+
+    Boolean WantsAttribute(ReadOnlySpan<Byte> name);
 
     void EndOfFile() { }
 }

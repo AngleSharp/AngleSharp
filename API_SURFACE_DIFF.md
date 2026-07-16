@@ -72,13 +72,13 @@ ApiCompat currently reports **13 added public types versus `origin/main`**, not 
 + public class AngleSharp.Html.Parser.Utf8.HtmlStreamingLimits
 ```
 
-### `AngleSharp.Html.Parser.Utf8.IOptimizedUtf8HtmlTokenSink`
+### `AngleSharp.Html.Parser.Utf8.IUtf8HtmlTokenSink`
 
 ```diff
 + public bool WantsAttribute(System.ReadOnlySpan<byte> name);
 + public void EndTag(System.ReadOnlySpan<byte> name, ulong hash);
 + public void StartTag(System.ReadOnlySpan<byte> name, ulong hash);
-+ public interface AngleSharp.Html.Parser.Utf8.IOptimizedUtf8HtmlTokenSink
++ public interface AngleSharp.Html.Parser.Utf8.IUtf8HtmlTokenSink
 ```
 
 ### `AngleSharp.Html.Parser.Utf8.IUtf8HtmlTokenSink`
@@ -257,13 +257,13 @@ ApiCompat currently reports **13 added public types versus `origin/main`**, not 
 + public class AngleSharp.Html.Parser.Utf8.HtmlStreamingLimits
 ```
 
-### `AngleSharp.Html.Parser.Utf8.IOptimizedUtf8HtmlTokenSink`
+### `AngleSharp.Html.Parser.Utf8.IUtf8HtmlTokenSink`
 
 ```diff
 + public bool WantsAttribute(System.ReadOnlySpan<byte> name);
 + public void EndTag(System.ReadOnlySpan<byte> name, ulong hash);
 + public void StartTag(System.ReadOnlySpan<byte> name, ulong hash);
-+ public interface AngleSharp.Html.Parser.Utf8.IOptimizedUtf8HtmlTokenSink
++ public interface AngleSharp.Html.Parser.Utf8.IUtf8HtmlTokenSink
 ```
 
 ### `AngleSharp.Html.Parser.Utf8.IUtf8HtmlTokenSink`

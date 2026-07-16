@@ -6,6 +6,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Common;
@@ -25,8 +26,12 @@ namespace AngleSharp.Html.Parser
         #region Fields
 
         private readonly TokenConsumer _consumeAsDelegate;
-        private readonly IHtmlTokenSource _tokenizer;
-        private readonly HtmlTokenizer? _synchronousTokenizer;
+        private readonly IHtmlTokenCursor _tokens;
+        private readonly IHtmlTokenizerConfiguration _tokenizerConfiguration;
+        private readonly IHtmlTokenizerFeedback _tokenizerFeedback;
+        private readonly HtmlTokenizerTokenSource? _synchronousTokens;
+        private readonly IHtmlTokenAvailability? _tokenAvailability;
+        private readonly IDisposable? _tokenizerLifetime;
         private readonly TDocument _document;
         private readonly List<IConstructableElement> _openElements;
         private readonly List<IConstructableElement> _formattingElements;
@@ -73,10 +78,17 @@ namespace AngleSharp.Html.Parser
             _shouldEnd = shouldEnd;
             _elementFactory = elementFactory;
             _usesDocumentSource = tokenSource is null;
-            _synchronousTokenizer = tokenSource is null
-                ? new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended)
-                : null;
-            _tokenizer = tokenSource ?? new HtmlTokenizerTokenSource(_synchronousTokenizer!);
+            if (tokenSource is null)
+            {
+                var tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended);
+                _synchronousTokens = new HtmlTokenizerTokenSource(tokenizer);
+                tokenSource = _synchronousTokens;
+                _tokenizerLifetime = tokenizer;
+            }
+            _tokens = tokenSource;
+            _tokenizerConfiguration = tokenSource;
+            _tokenizerFeedback = tokenSource;
+            _tokenAvailability = tokenSource as IHtmlTokenAvailability;
             _document = document;
             _openElements = [];
             _templateModes = new Stack<HtmlTreeMode>();
@@ -90,7 +102,7 @@ namespace AngleSharp.Html.Parser
 
             if (maybeOptions.HasValue)
             {
-                _tokenizer.Configure(maybeOptions.Value, onToken: null, ReportError);
+                _tokenizerConfiguration.Configure(maybeOptions.Value, onToken: null, ReportError);
             }
         }
 
@@ -129,7 +141,13 @@ namespace AngleSharp.Html.Parser
 
             do
             {
-                ref var token = ref _synchronousTokenizer!.GetStructToken();
+                if (_synchronousTokens is null)
+                {
+                    ThrowAsyncSourceRequiresAsyncParse();
+                }
+
+                _synchronousTokens.TryMoveNext();
+                ref var token = ref _synchronousTokens.Current;
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
                     Consume(ref token);
@@ -184,16 +202,23 @@ namespace AngleSharp.Html.Parser
                 }
                 cancelToken.ThrowIfCancellationRequested();
 
-                if (_synchronousTokenizer is not null)
+                if (_synchronousTokens is not null)
                 {
-                    if (ProcessSynchronousToken())
+                    _synchronousTokens.TryMoveNext();
+                    ref var token = ref _synchronousTokens.Current;
+                    if (ProcessToken(ref token))
                     {
                         break;
                     }
                 }
-                else if (!_tokenizer.TryMoveNext())
+                else if (!_tokens.TryMoveNext())
                 {
-                    await _tokenizer.WaitForInputAsync(cancelToken).ConfigureAwait(false);
+                    if (_tokenAvailability is null)
+                    {
+                        ThrowSynchronousSourceExhausted();
+                    }
+
+                    await _tokenAvailability.WaitForInputAsync(cancelToken).ConfigureAwait(false);
                     continue;
                 }
                 else if (ProcessCurrentToken())
@@ -216,15 +241,9 @@ namespace AngleSharp.Html.Parser
 
             return _document;
 
-            Boolean ProcessSynchronousToken()
-            {
-                ref var token = ref _synchronousTokenizer!.GetStructToken();
-                return ProcessToken(ref token);
-            }
-
             Boolean ProcessCurrentToken()
             {
-                ref var token = ref _tokenizer.Current;
+                ref var token = ref _tokens.Current;
                 return ProcessToken(ref token);
             }
 
@@ -253,13 +272,21 @@ namespace AngleSharp.Html.Parser
             }
         }
 
+        [DoesNotReturn]
+        private static void ThrowSynchronousSourceExhausted() =>
+            throw new InvalidOperationException("A synchronous HTML token source returned no token.");
+
+        [DoesNotReturn]
+        private static void ThrowAsyncSourceRequiresAsyncParse() =>
+            throw new InvalidOperationException("An asynchronous HTML token source requires asynchronous parsing.");
+
         /// <summary>
         /// Restarts the parser by resetting the internal state.
         /// </summary>
         private void Restart()
         {
             _currentMode = HtmlTreeMode.Initial;
-            _tokenizer.SetState(HtmlParseMode.PCData);
+            _tokenizerFeedback.SetState(HtmlParseMode.PCData);
             _document.Clear();
             _ended = false;
             _frameset = true;
@@ -313,28 +340,28 @@ namespace AngleSharp.Html.Parser
 
             if (tagName.IsOneOf(TagNames.Title, TagNames.Textarea))
             {
-                _tokenizer.SetState(HtmlParseMode.RCData);
+                _tokenizerFeedback.SetState(HtmlParseMode.RCData);
             }
             else if (tagName.IsOneOf(TagNames.Style, TagNames.Xmp, TagNames.Iframe, TagNames.NoEmbed))
             {
-                _tokenizer.SetState(HtmlParseMode.Rawtext);
+                _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
             }
             else if (tagName.Is(TagNames.Script))
             {
-                _tokenizer.SetState(HtmlParseMode.Script);
+                _tokenizerFeedback.SetState(HtmlParseMode.Script);
             }
             else if (tagName.Is(TagNames.Plaintext))
             {
-                _tokenizer.SetState(HtmlParseMode.Plaintext);
+                _tokenizerFeedback.SetState(HtmlParseMode.Plaintext);
             }
             else if (tagName.Is(TagNames.NoScript) &&
                      (options.IsScripting || context.Flags.HasFlag(NodeFlags.LiteralText)))
             {
-                _tokenizer.SetState(HtmlParseMode.Rawtext);
+                _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
             }
             else if (tagName.Is(TagNames.NoFrames) && !options.IsNotSupportingFrames)
             {
-                _tokenizer.SetState(HtmlParseMode.Rawtext);
+                _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
             }
 
             var root = _elementFactory.Create(_document, TagNames.Html);
@@ -349,7 +376,7 @@ namespace AngleSharp.Html.Parser
 
             Reset();
 
-            _tokenizer.SetAcceptingCharacterData(!AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.HtmlMember));
+            _tokenizerFeedback.SetAcceptingCharacterData(!AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.HtmlMember));
 
             IConstructableNode? contextNode = context;
 
@@ -394,7 +421,7 @@ namespace AngleSharp.Html.Parser
         private void SetOptions(HtmlParserOptions options)
         {
             _options = options;
-            _tokenizer.Configure(new HtmlTokenizerOptions(options), options.OnToken, ReportError);
+            _tokenizerConfiguration.Configure(new HtmlTokenizerOptions(options), options.OnToken, ReportError);
         }
 
         #endregion
@@ -781,7 +808,7 @@ namespace AngleSharp.Html.Parser
                     {
                         var script = _elementFactory.CreateScript(_document, parserInserted: true, started: IsFragmentCase);
                         AddElement(script, ref token);
-                        _tokenizer.SetState(HtmlParseMode.Script);
+                        _tokenizerFeedback.SetState(HtmlParseMode.Script);
                         _previousMode = _currentMode;
                         _currentMode = HtmlTreeMode.Text;
                         return;
@@ -1213,7 +1240,7 @@ namespace AngleSharp.Html.Parser
             {
                 var textarea = _elementFactory.Create(_document, TagNames.Textarea);
                 AddElement(textarea, ref tag);
-                _tokenizer.SetState(HtmlParseMode.RCData);
+                _tokenizerFeedback.SetState(HtmlParseMode.RCData);
                 _previousMode = _currentMode;
                 _frameset = false;
                 _currentMode = HtmlTreeMode.Text;
@@ -1366,7 +1393,7 @@ namespace AngleSharp.Html.Parser
                 }
 
                 AddElement(ref tag);
-                _tokenizer.SetState(HtmlParseMode.Plaintext);
+                _tokenizerFeedback.SetState(HtmlParseMode.Plaintext);
             }
             else if (tagName.Is(TagNames.Frameset))
             {
@@ -3106,7 +3133,7 @@ namespace AngleSharp.Html.Parser
         {
             _previousMode = _currentMode;
             _currentMode = HtmlTreeMode.Text;
-            _tokenizer.SetState(HtmlParseMode.Rawtext);
+            _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
         }
 
         /// <summary>
@@ -3118,7 +3145,7 @@ namespace AngleSharp.Html.Parser
             AddElement(ref tag);
             _previousMode = _currentMode;
             _currentMode = HtmlTreeMode.Text;
-            _tokenizer.SetState(HtmlParseMode.RCData);
+            _tokenizerFeedback.SetState(HtmlParseMode.RCData);
         }
 
         /// <summary>
@@ -3723,7 +3750,7 @@ namespace AngleSharp.Html.Parser
                 if (!selfClosing)
                 {
                     _openElements.Add(node);
-                    _tokenizer.SetAcceptingCharacterData(true);
+                    _tokenizerFeedback.SetAcceptingCharacterData(true);
                 }
                 else if (tag.Name.Is(TagNames.Script))
                 {
@@ -4077,13 +4104,14 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         private void PreventNewLine()
         {
-            if (_synchronousTokenizer is null)
+            if (_synchronousTokens is null)
             {
                 _shouldPreventNewLine = true;
                 return;
             }
 
-            var temp = _synchronousTokenizer.GetStructToken();
+            _synchronousTokens.TryMoveNext();
+            var temp = _synchronousTokens.Current;
             if (temp.Type == HtmlTokenType.Character)
             {
                 temp.RemoveNewLine();
@@ -4134,7 +4162,7 @@ namespace AngleSharp.Html.Parser
             _document.AddNode(element);
             SetupElement(element, ref tag, false);
             _openElements.Add(element);
-            _tokenizer.SetAcceptingCharacterData(false);
+            _tokenizerFeedback.SetAcceptingCharacterData(false);
             _document.ApplyManifest();
         }
 
@@ -4180,7 +4208,7 @@ namespace AngleSharp.Html.Parser
             {
                 CloseNodeAt(_openElements.Count - 1);
                 var node = AdjustedCurrentNode;
-                _tokenizer.SetAcceptingCharacterData(node is not null && !node.Flags.HasFlag(NodeFlags.HtmlMember));
+                _tokenizerFeedback.SetAcceptingCharacterData(node is not null && !node.Flags.HasFlag(NodeFlags.HtmlMember));
             }
         }
 
@@ -4263,7 +4291,7 @@ namespace AngleSharp.Html.Parser
             }
 
             _openElements.Add(element);
-            _tokenizer.SetAcceptingCharacterData(!element.Flags.HasFlag(NodeFlags.HtmlMember));
+            _tokenizerFeedback.SetAcceptingCharacterData(!element.Flags.HasFlag(NodeFlags.HtmlMember));
         }
 
         /// <summary>
@@ -4511,7 +4539,7 @@ namespace AngleSharp.Html.Parser
 
         public void Dispose()
         {
-            _synchronousTokenizer?.Dispose();
+            _tokenizerLifetime?.Dispose();
         }
     }
 

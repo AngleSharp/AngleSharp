@@ -242,6 +242,8 @@ namespace AngleSharp.Html.Parser
             return ref token;
         }
 
+        internal ref StructHtmlToken CurrentToken => ref _token;
+
         internal Action<HtmlParseError, TextPosition>? ErrorSink
         {
             get => _errorSink;

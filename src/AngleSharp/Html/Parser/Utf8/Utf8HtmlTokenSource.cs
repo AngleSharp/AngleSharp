@@ -19,8 +19,8 @@ using System.Diagnostics.CodeAnalysis;
 /// Payloads are decoded directly to the strings ultimately retained by the mutable DOM.
 /// </summary>
 internal sealed class Utf8HtmlTokenSource :
-    IHtmlTokenSource,
-    IOptimizedUtf8HtmlTokenSink,
+    IAsyncHtmlTokenSource,
+    IUtf8HtmlTokenSink,
     IAsyncDisposable
 {
     private const Int32 TokenCapacity = 3;
