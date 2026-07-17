@@ -114,6 +114,10 @@ public class Utf8TokenizerLayerBenchmark
         RunNativeAdapter(NetworkChunks(_utf8, SegmentSize), new HtmlParserOptions());
 
     [Benchmark]
+    public Task<Int32> NativeAdaptedTokenSourceNetwork32K() =>
+        RunNativeAdapter(NetworkChunks(_utf8, 32 * 1024), new HtmlParserOptions());
+
+    [Benchmark]
     public Task<Int32> NativeAdaptedTokenSourceSingleChunk() =>
         RunNativeAdapter(SingleChunk(_utf8), new HtmlParserOptions());
 

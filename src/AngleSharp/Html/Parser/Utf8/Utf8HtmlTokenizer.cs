@@ -312,6 +312,35 @@ public sealed class Utf8HtmlTokenizer
                 break;
             }
 
+#if NET8_0_OR_GREATER
+            var remainingUtf8 = utf8[index..];
+            var completeLength = CompleteUtf8PrefixLength(remainingUtf8);
+            if (
+                completeLength != 0
+                && System.Text.Unicode.Utf8.IsValid(remainingUtf8[..completeLength])
+            )
+            {
+                var bulkConsumed = WriteValidUtf8(
+                    remainingUtf8[..completeLength],
+                    yieldOnRequest
+                );
+                index += bulkConsumed;
+                if (bulkConsumed != completeLength)
+                {
+                    _bytesConsumed = SaturatingAdd(previousBytesConsumed, index);
+                    return index;
+                }
+
+                if (completeLength != remainingUtf8.Length)
+                {
+                    remainingUtf8[completeLength..].CopyTo(_utf8Carry);
+                    _utf8CarryLength = remainingUtf8.Length - completeLength;
+                    index = utf8.Length;
+                }
+                continue;
+            }
+#endif
+
             var status = Rune.DecodeFromUtf8(utf8[index..], out _, out var consumed);
             if (status == OperationStatus.Done)
             {
@@ -327,6 +356,7 @@ public sealed class Utf8HtmlTokenizer
             {
                 utf8[index..].CopyTo(_utf8Carry);
                 _utf8CarryLength = utf8.Length - index;
+                index = utf8.Length;
                 break;
             }
         }

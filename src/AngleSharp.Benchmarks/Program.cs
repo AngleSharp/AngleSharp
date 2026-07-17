@@ -19,6 +19,15 @@ namespace AngleSharp.Benchmarks
                 Utf8NameHashBenchmark.PrintCollisionReport();
                 return;
             }
+
+            if (
+                args.Length == 1
+                && args[0].Equals("--utf8-adapter-accounting", StringComparison.OrdinalIgnoreCase)
+            )
+            {
+                Utf8AdapterSeamAccounting.RunAsync().GetAwaiter().GetResult();
+                return;
+            }
 #endif
 
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);

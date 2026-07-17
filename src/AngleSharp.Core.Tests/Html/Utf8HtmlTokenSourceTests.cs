@@ -150,6 +150,23 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public async Task MultibyteTextSplitAtEveryByteBoundaryMatchesMatureParser()
+        {
+            const String html = "<main>Ж🙂é界</main>";
+            using var expected = new HtmlParser().ParseDocument(html);
+
+            for (var segmentSize = 1; segmentSize <= Encoding.UTF8.GetByteCount(html); segmentSize++)
+            {
+                using var actual = await ParseUtf8Async(SegmentUtf8(html, segmentSize));
+                Assert.That(
+                    actual.DocumentElement.OuterHtml,
+                    Is.EqualTo(expected.DocumentElement.OuterHtml),
+                    $"UTF-8 segment size {segmentSize}"
+                );
+            }
+        }
+
+        [Test]
         public void CanonicalNameProviderReusesKnownTagAndRejectsUnknownName()
         {
             var cache = default(Utf8HtmlNameHashCache);

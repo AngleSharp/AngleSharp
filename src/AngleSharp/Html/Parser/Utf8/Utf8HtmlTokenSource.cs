@@ -54,6 +54,8 @@ internal sealed class Utf8HtmlTokenSource :
         _tokenizer = new Utf8HtmlTokenizer(this) { IsModeControlledExternally = true };
     }
 
+    internal Utf8HtmlTokenizerCounters TokenizerCounters => _tokenizer.Counters;
+
     public void Configure(
         HtmlTokenizerOptions options,
         Action<HtmlToken, TextRange>? onToken,
@@ -299,8 +301,24 @@ internal sealed class Utf8HtmlTokenSource :
             : DecodeSemantic(name.Verbatim);
     }
 
-    private static StringOrMemory Decode(ReadOnlySpan<Byte> utf8) =>
-        utf8.IsEmpty ? StringOrMemory.Empty : Encoding.UTF8.GetString(utf8);
+    private static StringOrMemory Decode(ReadOnlySpan<Byte> utf8)
+    {
+        if (utf8.IsEmpty)
+        {
+            return StringOrMemory.Empty;
+        }
+
+#if NET8_0_OR_GREATER
+        if (utf8.Length <= 64)
+        {
+            Span<Char> characters = stackalloc Char[utf8.Length];
+            var written = Encoding.UTF8.GetChars(utf8, characters);
+            return new String(characters[..written]);
+        }
+#endif
+
+        return Encoding.UTF8.GetString(utf8);
+    }
 
     private static StringOrMemory DecodeSemantic(ReadOnlySpan<Byte> utf8)
     {
