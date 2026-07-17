@@ -241,7 +241,7 @@ public class Utf8NameHashBenchmark
         return value ^ (value >> 33);
     }
 
-    private static Byte[][] ExtractPageTags()
+    internal static Byte[][] ExtractPageTags()
     {
         var html = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "page.html"));
         var names = new List<Byte[]>();
@@ -281,7 +281,7 @@ public class Utf8NameHashBenchmark
         return names.ToArray();
     }
 
-    private static Byte[][] StandardVocabulary() =>
+    internal static Byte[][] StandardVocabulary() =>
         (
             "a abbr address area article aside audio b base bdi bdo blockquote body br button canvas caption cite "
             + "code col colgroup data datalist dd del details dfn dialog div dl dt em embed fieldset figcaption figure "
@@ -314,7 +314,7 @@ public class Utf8NameHashBenchmark
         return names;
     }
 
-    private static Byte[][] RepeatToBatch(Byte[][] source)
+    internal static Byte[][] RepeatToBatch(Byte[][] source)
     {
         if (source.Length == 0)
         {

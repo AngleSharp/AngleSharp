@@ -14,7 +14,6 @@ using AngleSharp.Html.Parser;
 using AngleSharp.Html.Parser.Utf8;
 using AngleSharp.Text;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
 
 namespace AngleSharp.Benchmarks;
 
@@ -22,7 +21,7 @@ namespace AngleSharp.Benchmarks;
 /// Compares mutable DOM construction from raw UTF-8 using the mature decoder/tokenizer and the arena-backed native
 /// UTF-8 token adapter. All lanes publish the same ordinary mutable AngleSharp DOM.
 /// </summary>
-[MemoryDiagnoser, ShortRunJob]
+[MemoryDiagnoser]
 public class Utf8MutableDomBenchmark
 {
     private const Int32 NetworkBufferSize = 4096;

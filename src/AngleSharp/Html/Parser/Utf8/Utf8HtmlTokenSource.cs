@@ -183,12 +183,10 @@ internal sealed class Utf8HtmlTokenSource :
         }
     }
 
-    public void StartTag(ReadOnlySpan<Byte> name) => StartTag(name, Utf8NameHash.Compute(name));
-
-    public void StartTag(ReadOnlySpan<Byte> name, UInt64 hash)
+    public void StartTag(Utf8HtmlName name)
     {
         FlushText();
-        var decoded = DecodeTagName(name, hash);
+        var decoded = DecodeTagName(name);
         _lastStartTagName = decoded.Memory;
         _startTagSlot = ReserveSlot();
         _tokens[_startTagSlot] = StructHtmlToken.Open(decoded);
@@ -196,7 +194,7 @@ internal sealed class Utf8HtmlTokenSource :
         _pendingAttributeNameIsDecoded = false;
     }
 
-    public Boolean WantsAttribute(ReadOnlySpan<Byte> name)
+    public Boolean WantsAttribute(Utf8HtmlName name)
     {
         var decoded = DecodeAttributeName(name);
         _pendingAttributeName = decoded.Memory;
@@ -204,7 +202,7 @@ internal sealed class Utf8HtmlTokenSource :
         return _options.ShouldEmitAttribute(ref GetStartTag(), _pendingAttributeName);
     }
 
-    public void Attribute(ReadOnlySpan<Byte> name, ReadOnlySpan<Byte> value)
+    public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value)
     {
         var decodedName = _pendingAttributeNameIsDecoded
             ? new StringOrMemory(_pendingAttributeName)
@@ -222,10 +220,7 @@ internal sealed class Utf8HtmlTokenSource :
         _tokenizer.RequestYield();
     }
 
-    public void EndTag(ReadOnlySpan<Byte> name) => EndTag(name, Utf8NameHash.Compute(name));
-
-    public void EndTag(ReadOnlySpan<Byte> name, UInt64 hash) =>
-        EnqueueEndTag(name, hash);
+    public void EndTag(Utf8HtmlName name) => EnqueueEndTag(name);
 
     public void Comment(ReadOnlySpan<Byte> utf8)
     {
@@ -278,23 +273,72 @@ internal sealed class Utf8HtmlTokenSource :
         _tokenizer.RequestYield();
     }
 
-    private void EnqueueEndTag(ReadOnlySpan<Byte> name, UInt64 hash)
+    private void EnqueueEndTag(Utf8HtmlName name)
     {
         FlushText();
         var slot = ReserveSlot();
-        _tokens[slot] = StructHtmlToken.Close(DecodeTagName(name, hash));
+        _tokens[slot] = StructHtmlToken.Close(DecodeTagName(name));
         Enqueue(slot);
         _tokenizer.RequestYield();
     }
 
-    private StringOrMemory DecodeTagName(ReadOnlySpan<Byte> name, UInt64 hash) =>
-        Utf8CanonicalNameProvider.TryGetTag(name, hash, out var canonical) ? canonical : Decode(name);
+    private StringOrMemory DecodeTagName(Utf8HtmlName name) =>
+        Utf8CanonicalNameProvider.TryGetTag(name, out var canonical)
+            ? canonical
+            : DecodeSemantic(name.Verbatim);
 
-    private StringOrMemory DecodeAttributeName(ReadOnlySpan<Byte> name) =>
-        Utf8CanonicalNameProvider.TryGetAttribute(name, out var canonical) ? canonical : Decode(name);
+    private StringOrMemory DecodeAttributeName(Utf8HtmlName name)
+    {
+        if (_options.IsPreservingAttributeNames)
+        {
+            return Decode(name.Verbatim);
+        }
+
+        return Utf8CanonicalNameProvider.TryGetAttribute(name, out var canonical)
+            ? canonical
+            : DecodeSemantic(name.Verbatim);
+    }
 
     private static StringOrMemory Decode(ReadOnlySpan<Byte> utf8) =>
         utf8.IsEmpty ? StringOrMemory.Empty : Encoding.UTF8.GetString(utf8);
+
+    private static StringOrMemory DecodeSemantic(ReadOnlySpan<Byte> utf8)
+    {
+        var containsUppercaseAscii = false;
+        foreach (var value in utf8)
+        {
+            if ((UInt32)(value - 'A') <= 'Z' - 'A')
+            {
+                containsUppercaseAscii = true;
+                break;
+            }
+        }
+
+        if (!containsUppercaseAscii)
+        {
+            return Decode(utf8);
+        }
+
+        var characterCount = Encoding.UTF8.GetCharCount(utf8);
+        var characters = ArrayPool<Char>.Shared.Rent(characterCount);
+        try
+        {
+            var written = Encoding.UTF8.GetChars(utf8, characters);
+            for (var index = 0; index < written; index++)
+            {
+                if (characters[index] is >= 'A' and <= 'Z')
+                {
+                    characters[index] = (Char)(characters[index] + 0x20);
+                }
+            }
+
+            return new String(characters, 0, written);
+        }
+        finally
+        {
+            ArrayPool<Char>.Shared.Return(characters);
+        }
+    }
 
     private void FlushText()
     {

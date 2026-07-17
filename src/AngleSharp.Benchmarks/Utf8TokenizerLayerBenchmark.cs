@@ -281,19 +281,19 @@ public class Utf8TokenizerLayerBenchmark
 
         public void Text(ReadOnlySpan<Byte> utf8) => Tokens++;
 
-        public void StartTag(ReadOnlySpan<Byte> name, UInt64 hash) => Tokens++;
+        public void StartTag(Utf8HtmlName name) => Tokens++;
 
-        public void Attribute(ReadOnlySpan<Byte> name, ReadOnlySpan<Byte> value) { }
+        public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) { }
 
         public void StartTagEnd(Boolean selfClosing) { }
 
-        public void EndTag(ReadOnlySpan<Byte> name, UInt64 hash) => Tokens++;
+        public void EndTag(Utf8HtmlName name) => Tokens++;
 
         public void Comment(ReadOnlySpan<Byte> value) => Tokens++;
 
         public void Doctype(in Utf8DoctypeToken doctype) => Tokens++;
 
-        public Boolean WantsAttribute(ReadOnlySpan<Byte> name) => true;
+        public Boolean WantsAttribute(Utf8HtmlName name) => true;
 
         public void EndOfFile() => Tokens++;
     }
@@ -308,13 +308,13 @@ public class Utf8TokenizerLayerBenchmark
 
         public void Text(ReadOnlySpan<Byte> utf8) => Tokens++;
 
-        public void StartTag(ReadOnlySpan<Byte> name, UInt64 hash) => Tokens++;
+        public void StartTag(Utf8HtmlName name) => Tokens++;
 
-        public void Attribute(ReadOnlySpan<Byte> name, ReadOnlySpan<Byte> value) { }
+        public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) { }
 
         public void StartTagEnd(Boolean selfClosing) => Tokenizer.RequestYield();
 
-        public void EndTag(ReadOnlySpan<Byte> name, UInt64 hash)
+        public void EndTag(Utf8HtmlName name)
         {
             Tokens++;
             Tokenizer.RequestYield();
@@ -332,7 +332,7 @@ public class Utf8TokenizerLayerBenchmark
             Tokenizer.RequestYield();
         }
 
-        public Boolean WantsAttribute(ReadOnlySpan<Byte> name) => true;
+        public Boolean WantsAttribute(Utf8HtmlName name) => true;
 
         public void EndOfFile() => Tokens++;
     }
