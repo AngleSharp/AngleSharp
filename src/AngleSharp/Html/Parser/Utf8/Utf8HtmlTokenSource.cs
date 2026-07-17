@@ -191,7 +191,7 @@ internal sealed class Utf8HtmlTokenSource :
         var decoded = DecodeTagName(name);
         _lastStartTagName = decoded.Memory;
         _startTagSlot = ReserveSlot();
-        _tokens[_startTagSlot] = StructHtmlToken.Open(decoded);
+        _tokens[_startTagSlot].InitializeStartTag(decoded);
         _pendingAttributeName = default;
         _pendingAttributeNameIsDecoded = false;
     }
@@ -230,7 +230,7 @@ internal sealed class Utf8HtmlTokenSource :
         if (!_options.SkipComments)
         {
             var slot = ReserveSlot();
-            _tokens[slot] = StructHtmlToken.Comment(Decode(utf8), default);
+            _tokens[slot].InitializeComment(Decode(utf8), default);
             Enqueue(slot);
             _tokenizer.RequestYield();
         }
@@ -270,7 +270,7 @@ internal sealed class Utf8HtmlTokenSource :
     {
         FlushText();
         var slot = ReserveSlot();
-        _tokens[slot] = StructHtmlToken.EndOfFile(default);
+        _tokens[slot].InitializeEndOfFile(default);
         Enqueue(slot);
         _tokenizer.RequestYield();
     }
@@ -279,7 +279,7 @@ internal sealed class Utf8HtmlTokenSource :
     {
         FlushText();
         var slot = ReserveSlot();
-        _tokens[slot] = StructHtmlToken.Close(DecodeTagName(name));
+        _tokens[slot].InitializeEndTag(DecodeTagName(name));
         Enqueue(slot);
         _tokenizer.RequestYield();
     }
@@ -366,7 +366,7 @@ internal sealed class Utf8HtmlTokenSource :
         }
 
         var slot = ReserveSlot();
-        _tokens[slot] = StructHtmlToken.Character(Decode(_text.WrittenSpan), default);
+        _tokens[slot].InitializeCharacter(Decode(_text.WrittenSpan), default);
         Enqueue(slot);
         _text.Clear();
     }

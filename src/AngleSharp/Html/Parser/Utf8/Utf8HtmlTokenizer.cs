@@ -7,18 +7,9 @@ using System.IO.Pipelines;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AngleSharp.Common;
 
 namespace AngleSharp.Html.Parser.Utf8;
 
-/// <summary>
-/// Experimental monotonic UTF-8 tokenizer kernel for read-only construction. HTML syntax is scanned as ASCII bytes;
-/// source text is passed directly to the sink and only token parts crossing callbacks use reusable buffers.
-/// </summary>
-/// <remarks>
-/// Token shapes are covered by the pinned html5lib tokenizer corpus across contiguous and segmented UTF-8 input.
-/// Parse-error reporting and source positions remain separate conformance work.
-/// </remarks>
 public sealed class Utf8HtmlTokenizer
 {
     private enum State : byte
@@ -95,9 +86,7 @@ public sealed class Utf8HtmlTokenizer
         Bogus,
     }
 
-    private static readonly SearchValues<Byte> DataTextTerminators = SearchValues.Create(
-        "<&\0\r"u8
-    );
+    private static readonly SearchValues<Byte> DataTextTerminators = SearchValues.Create("<&\0\r"u8);
     private static readonly SearchValues<Byte> RawTextTerminators = SearchValues.Create("<\0\r"u8);
 
     private readonly Utf8HtmlTokenizerStateMetrics? _stateMetrics;
@@ -155,8 +144,9 @@ public sealed class Utf8HtmlTokenizer
     )
     {
         ArgumentNullException.ThrowIfNull(limits);
+        ArgumentNullException.ThrowIfNull(sink);
 
-        _sink = Adapt(sink);
+        _sink = sink;
         _stateMetrics = stateMetrics;
         _maximumBufferedTokenBytesAllowed = limits.MaximumBufferedTokenBytes;
         _maximumInputBytesAllowed = countInputBytes ? limits.MaximumInputBytes : Int64.MaxValue;
@@ -593,36 +583,6 @@ public sealed class Utf8HtmlTokenizer
         }
         tokenizer.Complete();
         return tokenizer.Counters;
-    }
-
-    private static IUtf8HtmlTokenSink Adapt(IUtf8HtmlTokenSink sink)
-    {
-        ArgumentNullException.ThrowIfNull(sink);
-        return sink as IUtf8HtmlTokenSink ?? new BasicSinkAdapter(sink);
-    }
-
-    private sealed class BasicSinkAdapter(IUtf8HtmlTokenSink sink) : IUtf8HtmlTokenSink
-    {
-        public void Text(ReadOnlySpan<Byte> utf8) => sink.Text(utf8);
-
-        public void StartTag(Utf8HtmlName name) => sink.StartTag(name);
-
-        public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) =>
-            sink.Attribute(name, value);
-
-        public void StartTagEnd(Boolean selfClosing) => sink.StartTagEnd(selfClosing);
-
-        public void EndTag(Utf8HtmlName name) => sink.EndTag(name);
-
-        public Boolean WantsAttribute(Utf8HtmlName name) => true;
-
-        public void Comment(ReadOnlySpan<Byte> utf8) => sink.Comment(utf8);
-
-        public void Doctype(ReadOnlySpan<Byte> utf8) => sink.Doctype(utf8);
-
-        public void Doctype(in Utf8DoctypeToken token) => sink.Doctype(token);
-
-        public void EndOfFile() => sink.EndOfFile();
     }
 
     private void Process(Byte value)
@@ -1409,13 +1369,6 @@ public sealed class Utf8HtmlTokenizer
         Clear(_candidate);
     }
 
-    private void EmitCharacterReferenceFallback()
-    {
-        AppendCharacterReferenceResult("&"u8);
-        AppendCharacterReferenceResult(_candidate.WrittenSpan);
-        Clear(_candidate);
-    }
-
     private void AppendCharacterReferenceResult(ReadOnlySpan<Byte> utf8)
     {
         if (_returnState is State.Data or State.RawText)
@@ -1814,11 +1767,7 @@ public sealed class Utf8HtmlTokenizer
         Clear(_doctypeSystem);
     }
 
-    private void AppendReplacedNull(
-        ArrayBufferWriter<Byte> destination,
-        Byte value,
-        Boolean lowerAscii
-    )
+    private void AppendReplacedNull(ArrayBufferWriter<Byte> destination, Byte value, Boolean lowerAscii)
     {
         if (value == 0)
         {
@@ -1830,16 +1779,10 @@ public sealed class Utf8HtmlTokenizer
         }
     }
 
-    private static Boolean ConsumeKeyword(
-        ReadOnlySpan<Byte> source,
-        ref Int32 index,
-        ReadOnlySpan<Byte> keyword
-    )
+    private static Boolean ConsumeKeyword(ReadOnlySpan<Byte> source, ref Int32 index, ReadOnlySpan<Byte> keyword)
     {
-        if (
-            source.Length - index < keyword.Length
-            || !StartsWithAsciiIgnoreCase(source.Slice(index, keyword.Length), keyword)
-        )
+        if (source.Length - index < keyword.Length
+            || !StartsWithAsciiIgnoreCase(source.Slice(index, keyword.Length), keyword))
         {
             return false;
         }
@@ -2166,7 +2109,10 @@ public sealed class Utf8HtmlTokenizer
         {
             EmitTagStart();
             _sink.StartTagEnd(selfClosing);
-            if (!selfClosing && !IsModeControlledExternally)
+            // In HTML, the trailing solidus does not make a non-void element self-closing.
+            // Tree construction controls the mode in the DOM path; the standalone path must
+            // therefore still infer text modes for e.g. <textarea/> and <plaintext/>.
+            if (!IsModeControlledExternally)
             {
                 var name = CurrentTagName();
                 if (name.SemanticEquals("title"u8))
@@ -2475,23 +2421,6 @@ public sealed class Utf8HtmlTokenizer
             }
         }
         return true;
-    }
-
-    private static ReadOnlySpan<Byte> TrimAsciiWhitespace(ReadOnlySpan<Byte> value)
-    {
-        var start = 0;
-        var end = value.Length;
-        while (start < end && IsSpace(value[start]))
-        {
-            start++;
-        }
-
-        while (end > start && IsSpace(value[end - 1]))
-        {
-            end--;
-        }
-
-        return value[start..end];
     }
 
     private static Boolean IsSpace(Byte value) => value is 0x09 or 0x0A or 0x0C or 0x0D or 0x20;

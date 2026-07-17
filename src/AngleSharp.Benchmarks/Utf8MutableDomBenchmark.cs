@@ -32,10 +32,13 @@ public class Utf8MutableDomBenchmark
     private Byte[] _utf8 = null!;
     private String _expectedMarkup = null!;
 
+    [Params("page.html", "nbc.html", "utf8_edu.bin")]
+    public String CorpusFile { get; set; } = null!;
+
     [GlobalSetup]
     public async Task Setup()
     {
-        _utf8 = File.ReadAllBytes("page.html");
+        _utf8 = File.ReadAllBytes(CorpusFile);
         _context = BrowsingContext.New(Configuration.Default);
         _factory = _context.GetService<IHtmlElementConstructionFactory>() ?? HtmlDomConstructionFactory.Instance;
         _parser = new HtmlParser(_context);

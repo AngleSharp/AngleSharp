@@ -15,7 +15,10 @@ internal interface IHtmlTokenCursor
     /// <summary>Attempts to move to the next currently available token.</summary>
     Boolean TryMoveNext();
 
-    /// <summary>Gets the current token. The reference remains valid until the next move.</summary>
+    /// <summary>
+    /// Gets the current token. The reference remains valid until the next move.
+    /// Consumers should bind it to a ref local; reading it by value copies the complete token carrier.
+    /// </summary>
     ref StructHtmlToken Current { get; }
 }
 

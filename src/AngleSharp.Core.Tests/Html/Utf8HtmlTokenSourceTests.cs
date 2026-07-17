@@ -67,6 +67,18 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public async Task ReusedTokenSlotsDoNotExposeDiscardedAttributes()
+        {
+            const String html = "<main a='1' b='2' c='3' d='4' e='5'></main>"
+                + "<p x='6'></p><span></span>";
+            using var actual = await ParseUtf8Async(SegmentUtf8(html, 1));
+
+            Assert.That(actual.QuerySelector("main")!.Attributes.Length, Is.EqualTo(5));
+            Assert.That(actual.QuerySelector("p")!.Attributes.Length, Is.EqualTo(1));
+            Assert.That(actual.QuerySelector("span")!.Attributes.Length, Is.Zero);
+        }
+
+        [Test]
         public async Task ContiguousWindowYieldsBeforeTreeBuilderControlledContent()
         {
             const String html = "<title>&amp;<b>x</b></title>"
@@ -124,6 +136,47 @@ namespace AngleSharp.Core.Tests.Html
             Assert.That(sink.AttributeWantedHash, Is.EqualTo(Utf8NameHash.ComputeSemantic("data-x"u8)));
             Assert.That(sink.AttributeHash, Is.EqualTo(sink.AttributeWantedHash));
             Assert.That(sink.EndTagHash, Is.EqualTo(sink.StartTagHash));
+        }
+
+        [TestCase(
+            "<script/><b>x</b></script>",
+            new[] { "S:script:/", "T:<b>x</b>", "E:script", "EOF" }
+        )]
+        [TestCase(
+            "<textarea/><b>x</b></textarea>",
+            new[] { "S:textarea:/", "T:<b>x</b>", "E:textarea", "EOF" }
+        )]
+        [TestCase(
+            "<plaintext/><b>x</b>",
+            new[] { "S:plaintext:/", "T:<b>x</b>", "EOF" }
+        )]
+        public void StandaloneTokenizerIgnoresTrailingSolidusForHtmlTextElements(
+            String html,
+            String[] expected
+        ) => Assert.That(TokenizeStandalone(html), Is.EqualTo(expected));
+
+        [Test]
+        public void StandaloneTokenizerRejectsFalseRcDataEndTagCandidate()
+        {
+            var actual = TokenizeStandalone("<title>x</not-title>y</title>");
+
+            Assert.That(
+                actual,
+                Is.EqualTo(new[] { "S:title", "T:x</not-title>y", "E:title", "EOF" })
+            );
+        }
+
+        [Test]
+        public void StandaloneTokenizerTextModeInferenceIsLexicalWithoutForeignContext()
+        {
+            var actual = TokenizeStandalone("<svg><title><b>x</b></title></svg>");
+
+            Assert.That(
+                actual,
+                Is.EqualTo(
+                    new[] { "S:svg", "S:title", "T:<b>x</b>", "E:title", "E:svg", "EOF" }
+                )
+            );
         }
 
         [Test]
@@ -328,6 +381,54 @@ namespace AngleSharp.Core.Tests.Html
                 await Task.Yield();
                 yield return utf8.AsMemory(offset, Math.Min(segmentSize, utf8.Length - offset));
             }
+        }
+
+        private static IReadOnlyList<String> TokenizeStandalone(String html)
+        {
+            var sink = new TokenRecordingSink();
+            var tokenizer = new Utf8HtmlTokenizer(sink);
+            tokenizer.Write(Encoding.UTF8.GetBytes(html));
+            tokenizer.Complete();
+            return sink.Events;
+        }
+
+        private sealed class TokenRecordingSink : IUtf8HtmlTokenSink
+        {
+            private readonly List<String> _events = [];
+            private String _pendingStartTag = null!;
+
+            public IReadOnlyList<String> Events => _events;
+
+            public void Text(ReadOnlySpan<Byte> utf8)
+            {
+                var text = Encoding.UTF8.GetString(utf8);
+                if (_events.Count != 0 && _events[^1].StartsWith("T:", StringComparison.Ordinal))
+                {
+                    _events[^1] += text;
+                }
+                else
+                {
+                    _events.Add("T:" + text);
+                }
+            }
+
+            public void StartTag(Utf8HtmlName name) =>
+                _pendingStartTag = Encoding.UTF8.GetString(name.Verbatim);
+
+            public Boolean WantsAttribute(Utf8HtmlName name) => false;
+
+            public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) { }
+
+            public void StartTagEnd(Boolean selfClosing)
+            {
+                _events.Add("S:" + _pendingStartTag + (selfClosing ? ":/" : String.Empty));
+                _pendingStartTag = null!;
+            }
+
+            public void EndTag(Utf8HtmlName name) =>
+                _events.Add("E:" + Encoding.UTF8.GetString(name.Verbatim));
+
+            public void EndOfFile() => _events.Add("EOF");
         }
 
         private sealed class NameRecordingSink : IUtf8HtmlTokenSink

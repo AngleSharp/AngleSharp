@@ -227,15 +227,9 @@ internal static class Utf8AdapterSeamAccounting
         }
     }
 
-    private sealed class SeamMetrics
+    private sealed class SeamMetrics(Object sourceText = null)
     {
         private static readonly HashSet<Object> KnownStaticStrings = CreateKnownStaticStrings();
-        private readonly Object _sourceText;
-
-        public SeamMetrics(Object sourceText = null)
-        {
-            _sourceText = sourceText;
-        }
 
         public Int64 MoveCalls;
         public Int64 SuccessfulMoves;
@@ -270,7 +264,7 @@ internal static class Utf8AdapterSeamAccounting
                     if (
                         backing is String
                         && !ReferenceEquals(backing, String.Empty)
-                        && !ReferenceEquals(backing, _sourceText)
+                        && !ReferenceEquals(backing, sourceText)
                         && !KnownStaticStrings.Contains(backing)
                     )
                     {
