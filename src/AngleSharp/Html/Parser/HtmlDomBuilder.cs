@@ -1466,9 +1466,10 @@ namespace AngleSharp.Html.Parser
                     var input = StructHtmlToken.Open(TagNames.Input);
                     input.AddAttribute(AttributeNames.Name, TagNames.IsIndex);
 
-                    for (var i = 0; i < tag.Attributes.Count; i++)
+                    ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref tag);
+                    for (var i = 0; i < attributes.Count; i++)
                     {
-                        var attr = tag.Attributes[i];
+                        var attr = attributes[i];
 
                         if (!attr.Name.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt))
                         {
@@ -3659,9 +3660,10 @@ namespace AngleSharp.Html.Parser
 
                     if (tagName.Is(TagNames.Font))
                     {
-                        for (var i = 0; i != token.Attributes.Count; i++)
+                        ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref token);
+                        for (var i = 0; i != attributes.Count; i++)
                         {
-                            if (token.Attributes[i].Name.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
+                            if (attributes[i].Name.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
                             {
                                 ForeignNormalTag(ref token);
                                 return;
@@ -4227,7 +4229,7 @@ namespace AngleSharp.Html.Parser
             }
 
             AuxiliarySetupSteps(element, ref tag);
-            element.SetAttributes(tag.Attributes);
+            element.SetTokenAttributes(ref tag);
         }
 
         /// <summary>

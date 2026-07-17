@@ -28,10 +28,13 @@ public class Utf8TokenizerLayerBenchmark
     private readonly YieldingSink _yieldingSink = new();
     private Byte[] _utf8 = null!;
 
+    [Params("page.html", "nbc.html")]
+    public String Corpus { get; set; } = null!;
+
     [GlobalSetup]
     public async Task Setup()
     {
-        _utf8 = File.ReadAllBytes("page.html");
+        _utf8 = File.ReadAllBytes(Corpus);
 
         var mature = MatureBoundedTokenizerNetwork4K();
         var adapted = await NativeAdaptedTokenSourceNetwork4K().ConfigureAwait(false);
@@ -70,6 +73,33 @@ public class Utf8TokenizerLayerBenchmark
 
     [Benchmark]
     public Int32 NativeBorrowedTokenizerNetwork4K()
+    {
+        _sink.CaptureAttributes = true;
+        _sink.Reset();
+        var tokenizer = new Utf8HtmlTokenizer(_sink);
+        for (var offset = 0; offset < _utf8.Length; offset += SegmentSize)
+        {
+            tokenizer.Write(_utf8.AsSpan(offset, Math.Min(SegmentSize, _utf8.Length - offset)));
+        }
+        tokenizer.Complete();
+        return _sink.Tokens;
+    }
+
+    [Benchmark]
+    public Int32 NativeBorrowedWithAttributesNetwork4K()
+    {
+        _sink.CaptureAttributes = true;
+        return RunBorrowedTokenizer();
+    }
+
+    [Benchmark]
+    public Int32 NativeBorrowedWithoutAttributesNetwork4K()
+    {
+        _sink.CaptureAttributes = false;
+        return RunBorrowedTokenizer();
+    }
+
+    private Int32 RunBorrowedTokenizer()
     {
         _sink.Reset();
         var tokenizer = new Utf8HtmlTokenizer(_sink);
@@ -111,6 +141,10 @@ public class Utf8TokenizerLayerBenchmark
 
     [Benchmark]
     public Task<Int32> NativeAdaptedTokenSourceNetwork4K() =>
+        RunNativeAdapter(NetworkChunks(_utf8, SegmentSize), new HtmlParserOptions());
+
+    [Benchmark]
+    public Task<Int32> NativeAdaptedWithAttributesNetwork4K() =>
         RunNativeAdapter(NetworkChunks(_utf8, SegmentSize), new HtmlParserOptions());
 
     [Benchmark]
@@ -279,6 +313,8 @@ public class Utf8TokenizerLayerBenchmark
 
     private sealed class CountingSink : IUtf8HtmlTokenSink
     {
+        public Boolean CaptureAttributes { private get; set; } = true;
+
         public Int32 Tokens { get; private set; }
 
         public void Reset() => Tokens = 0;
@@ -297,7 +333,7 @@ public class Utf8TokenizerLayerBenchmark
 
         public void Doctype(in Utf8DoctypeToken doctype) => Tokens++;
 
-        public Boolean WantsAttribute(Utf8HtmlName name) => true;
+        public Boolean WantsAttribute(Utf8HtmlName name) => CaptureAttributes;
 
         public void EndOfFile() => Tokens++;
     }

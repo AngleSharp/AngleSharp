@@ -32,7 +32,7 @@ public class Utf8MutableDomBenchmark
     private Byte[] _utf8 = null!;
     private String _expectedMarkup = null!;
 
-    [Params("page.html", "nbc.html", "utf8_edu.bin")]
+    [Params("page.html", "nbc.html", "utf8_edu.bin", "spiegel.html")]
     public String CorpusFile { get; set; } = null!;
 
     [GlobalSetup]

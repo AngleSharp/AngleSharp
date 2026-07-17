@@ -21,13 +21,16 @@ using System.Diagnostics.CodeAnalysis;
 internal sealed class Utf8HtmlTokenSource :
     IAsyncHtmlTokenSource,
     IUtf8HtmlTokenSink,
+    IUtf8HtmlUnvalidatedTextSink,
+    IUtf8HtmlStreamingCommentSink,
     IAsyncDisposable
 {
     private const Int32 TokenCapacity = 3;
 
     private readonly IAsyncEnumerator<ReadOnlyMemory<Byte>> _input;
     private readonly Utf8HtmlTokenizer _tokenizer;
-    private readonly PooledByteBuffer _text = new();
+    private readonly Utf8TextAccumulator _text = new();
+    private readonly Utf8TextAccumulator _comment = new();
     private TokenBuffer _tokens;
     private ReadyBuffer _ready;
     private ReadOnlyMemory<Byte> _segment;
@@ -110,7 +113,7 @@ internal sealed class Utf8HtmlTokenSource :
 
         while (_segmentOffset < _segment.Length)
         {
-            var remaining = _segment.Span[_segmentOffset..];
+            var remaining = _segment.Span.Slice(_segmentOffset);
             var consumed = _tokenizer.WriteUntilYield(remaining);
 
             if (consumed <= 0)
@@ -185,6 +188,8 @@ internal sealed class Utf8HtmlTokenSource :
         }
     }
 
+    void IUtf8HtmlUnvalidatedTextSink.TextUnvalidated(ReadOnlySpan<Byte> utf8) => Text(utf8);
+
     public void StartTag(Utf8HtmlName name)
     {
         FlushText();
@@ -234,6 +239,25 @@ internal sealed class Utf8HtmlTokenSource :
             Enqueue(slot);
             _tokenizer.RequestYield();
         }
+    }
+
+    Boolean IUtf8HtmlStreamingCommentSink.BeginComment() => !_options.SkipComments;
+
+    void IUtf8HtmlStreamingCommentSink.CommentChunk(ReadOnlySpan<Byte> utf8) =>
+        _comment.Append(utf8);
+
+    void IUtf8HtmlStreamingCommentSink.EndComment()
+    {
+        FlushText();
+        if (_options.SkipComments)
+        {
+            return;
+        }
+
+        var slot = ReserveSlot();
+        _tokens[slot].InitializeComment(_comment.Materialize(), default);
+        Enqueue(slot);
+        _tokenizer.RequestYield();
     }
 
     public void Doctype(ReadOnlySpan<Byte> utf8)
@@ -366,9 +390,8 @@ internal sealed class Utf8HtmlTokenSource :
         }
 
         var slot = ReserveSlot();
-        _tokens[slot].InitializeCharacter(Decode(_text.WrittenSpan), default);
+        _tokens[slot].InitializeCharacter(_text.Materialize(), default);
         Enqueue(slot);
-        _text.Clear();
     }
 
     private ref StructHtmlToken GetStartTag()
@@ -439,6 +462,7 @@ internal sealed class Utf8HtmlTokenSource :
 
         _disposed = true;
         _text.Dispose();
+        _comment.Dispose();
         _tokens = default;
         _ready = default;
         _lastStartTagName = default;
@@ -454,6 +478,8 @@ internal sealed class Utf8HtmlTokenSource :
         private Int32 _written;
 
         public Boolean IsEmpty => _written == 0;
+
+        public Int32 WrittenCount => _written;
 
         public ReadOnlySpan<Byte> WrittenSpan => _buffer.AsSpan(0, _written);
 
@@ -493,6 +519,156 @@ internal sealed class Utf8HtmlTokenSource :
                 _buffer = null;
             }
             _written = 0;
+        }
+    }
+
+    private sealed class Utf8TextAccumulator : IDisposable
+    {
+        // Stay below the LOH threshold on the ordinary byte-buffer path.
+        private const Int32 StreamingThreshold = 64 * 1024;
+
+        private readonly PooledByteBuffer _utf8 = new();
+        private readonly PooledByteSequence _sequence = new();
+
+        public Boolean IsEmpty => _sequence.IsEmpty && _utf8.IsEmpty;
+
+        public void Append(ReadOnlySpan<Byte> utf8)
+        {
+            if (utf8.IsEmpty)
+            {
+                return;
+            }
+
+            if (
+                _sequence.IsEmpty
+                && utf8.Length <= StreamingThreshold - _utf8.WrittenCount
+            )
+            {
+                _utf8.Append(utf8);
+                return;
+            }
+
+            EnsureSegmented();
+            _sequence.Append(utf8);
+        }
+
+        public StringOrMemory Materialize()
+        {
+            if (_sequence.IsEmpty)
+            {
+                var result = DecodeUtf8(_utf8.WrittenSpan);
+                _utf8.Clear();
+                return result;
+            }
+
+            var sequence = _sequence.WrittenSequence;
+            var text = Encoding.UTF8.GetString(in sequence);
+            _sequence.Clear();
+            return text;
+        }
+
+        private void EnsureSegmented()
+        {
+            if (!_sequence.IsEmpty)
+            {
+                return;
+            }
+
+            _sequence.Append(_utf8.WrittenSpan);
+            _utf8.Dispose();
+        }
+
+        private static StringOrMemory DecodeUtf8(ReadOnlySpan<Byte> utf8) =>
+            Utf8HtmlTokenSource.Decode(utf8);
+
+        public void Dispose()
+        {
+            _utf8.Dispose();
+            _sequence.Dispose();
+        }
+    }
+
+    private sealed class PooledByteSequence : IDisposable
+    {
+        private const Int32 SegmentSize = 64 * 1024;
+
+        private Segment? _first;
+        private Segment? _last;
+
+        public Boolean IsEmpty => _first is null;
+
+        public ReadOnlySequence<Byte> WrittenSequence =>
+            _first is null
+                ? ReadOnlySequence<Byte>.Empty
+                : new ReadOnlySequence<Byte>(_first, 0, _last!, _last!.WrittenCount);
+
+        public void Append(ReadOnlySpan<Byte> value)
+        {
+            while (!value.IsEmpty)
+            {
+                if (_last is null || _last.Available == 0)
+                {
+                    AddSegment();
+                }
+
+                var written = _last!.Append(value);
+                value = value.Slice(written);
+            }
+        }
+
+        private void AddSegment()
+        {
+            var segment = new Segment(ArrayPool<Byte>.Shared.Rent(SegmentSize));
+            if (_last is null)
+            {
+                _first = segment;
+            }
+            else
+            {
+                _last.SetNext(segment);
+            }
+            _last = segment;
+        }
+
+        public void Clear()
+        {
+            var segment = _first;
+            while (segment is not null)
+            {
+                var next = segment.NextSegment;
+                ArrayPool<Byte>.Shared.Return(segment.Buffer);
+                segment = next;
+            }
+            _first = null;
+            _last = null;
+        }
+
+        public void Dispose() => Clear();
+
+        private sealed class Segment(Byte[] buffer) : ReadOnlySequenceSegment<Byte>
+        {
+            public Byte[] Buffer { get; } = buffer;
+
+            public Int32 WrittenCount { get; private set; }
+
+            public Int32 Available => Buffer.Length - WrittenCount;
+
+            public Segment? NextSegment => (Segment?)Next;
+
+            public Int32 Append(ReadOnlySpan<Byte> value)
+            {
+                var length = Math.Min(Available, value.Length);
+                value.Slice(0, length).CopyTo(Buffer.AsSpan(WrittenCount));
+                WrittenCount += length;
+                Memory = Buffer.AsMemory(0, WrittenCount);
+                return length;
+            }
+
+            public void SetNext(Segment next)
+            {
+                next.RunningIndex = RunningIndex + WrittenCount;
+                Next = next;
+            }
         }
     }
 

@@ -26,9 +26,9 @@ internal static class Utf8AdapterSeamAccounting
 {
     private const Int32 NetworkBufferSize = 4096;
 
-    public static async Task RunAsync()
+    public static async Task RunAsync(String corpus)
     {
-        var utf8 = await File.ReadAllBytesAsync("page.html").ConfigureAwait(false);
+        var utf8 = await File.ReadAllBytesAsync(corpus).ConfigureAwait(false);
         var html = Encoding.UTF8.GetString(utf8);
         var context = BrowsingContext.New(Configuration.Default);
         var factory = context.GetService<IHtmlElementConstructionFactory>() ?? HtmlDomConstructionFactory.Instance;

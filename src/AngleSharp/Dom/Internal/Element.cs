@@ -13,7 +13,7 @@ namespace AngleSharp.Dom
     /// <summary>
     /// Represents an element node.
     /// </summary>
-    public abstract class Element : Node, IElement, IConstructableElement
+    public abstract class Element : Node, IElement, IConstructableElement, IConstructableElementAttributesByRef
     {
         #region Fields
 
@@ -689,6 +689,16 @@ namespace AngleSharp.Dom
         }
 
         void IConstructableElement.SetAttributes(StructAttributes tagAttributes)
+        {
+            SetAttributesCore(in tagAttributes);
+        }
+
+        void IConstructableElementAttributesByRef.SetAttributes(in StructAttributes tagAttributes)
+        {
+            SetAttributesCore(in tagAttributes);
+        }
+
+        private void SetAttributesCore(in StructAttributes tagAttributes)
         {
             var container = Attributes;
 

@@ -160,11 +160,12 @@ namespace AngleSharp.Html.Parser
         /// <returns>The finished element.</returns>
         public static IConstructableMathElement Setup(this IConstructableMathElement element, ref StructHtmlToken tag)
         {
-            var count = tag.Attributes.Count;
+            ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref tag);
+            var count = attributes.Count;
 
             for (var i = 0; i < count; i++)
             {
-                var attr = tag.Attributes[i];
+                var attr = attributes[i];
                 var name = attr.Name;
                 var value = attr.Value;
                 element.AdjustAttribute(name.AdjustToMathAttribute(), value);
@@ -181,11 +182,12 @@ namespace AngleSharp.Html.Parser
         /// <returns>The finished element.</returns>
         public static IConstructableSvgElement Setup(this IConstructableSvgElement element, ref StructHtmlToken tag)
         {
-            var count = tag.Attributes.Count;
+            ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref tag);
+            var count = attributes.Count;
 
             for (var i = 0; i < count; i++)
             {
-                var attr = tag.Attributes[i];
+                var attr = attributes[i];
                 var name = attr.Name;
                 var value = attr.Value;
                 element.AdjustAttribute(name.AdjustToSvgAttribute(), value);

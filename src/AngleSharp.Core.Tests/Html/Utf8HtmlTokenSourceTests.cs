@@ -220,6 +220,183 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public async Task MalformedUtf8MatchesMatureReplacementAcrossNearbySegmentBoundaries()
+        {
+            var malformedSequences = new[]
+            {
+                new Byte[] { 0xFF },
+                new Byte[] { 0x80 },
+                new Byte[] { 0xC0, 0xAF },
+                new Byte[] { 0xE2, 0x82 },
+                new Byte[] { 0xED, 0xA0, 0x80 },
+                new Byte[] { 0xF4, 0x90, 0x80, 0x80 },
+            };
+            var contexts = new[]
+            {
+                ("<main>Ж", "🙂</main>"),
+                ("<x data-", "='v'>text</x>"),
+                ("<x a='Ж", "🙂'>text</x>"),
+                ("<title>Ж", "</not-title>🙂</title>"),
+                ("<style>Ж", "</not-style>🙂</style>"),
+                ("<script>Ж", "</not-script>🙂</script>"),
+                ("<plaintext>Ж", "<b>🙂</b>"),
+            };
+
+            foreach (var malformed in malformedSequences)
+            {
+                foreach (var (prefix, suffix) in contexts)
+                {
+                    var prefixBytes = Encoding.UTF8.GetBytes(prefix);
+                    var utf8 = prefixBytes
+                        .Concat(malformed)
+                        .Concat(Encoding.UTF8.GetBytes(suffix))
+                        .ToArray();
+                    using var expected = new HtmlParser().ParseDocument(Encoding.UTF8.GetString(utf8));
+
+                    var firstSplit = Math.Max(0, prefixBytes.Length - 3);
+                    var lastSplit = Math.Min(utf8.Length, prefixBytes.Length + malformed.Length + 3);
+                    for (var split = firstSplit; split <= lastSplit; split++)
+                    {
+                        using var actual = await ParseUtf8Async(SplitUtf8(utf8, split));
+                        Assert.That(
+                            actual.DocumentElement.OuterHtml,
+                            Is.EqualTo(expected.DocumentElement.OuterHtml),
+                            $"malformed {Convert.ToHexString(malformed)}, split {split}, context {prefix}"
+                        );
+                    }
+
+                    using var byteByByte = await ParseUtf8Async(SegmentUtf8(utf8, 1));
+                    Assert.That(
+                        byteByByte.DocumentElement.OuterHtml,
+                        Is.EqualTo(expected.DocumentElement.OuterHtml),
+                        $"malformed {Convert.ToHexString(malformed)}, byte-by-byte, context {prefix}"
+                    );
+                }
+            }
+        }
+
+        [Test]
+        public void BorrowedSinkStillReceivesValidatedUtf8WhenInputTextIsMalformed()
+        {
+            var utf8 = new Byte[]
+            {
+                (Byte)'a',
+                0xFF,
+                0xC0,
+                0xAF,
+                0xE2,
+                0x82,
+                0xD0,
+                0x96,
+                (Byte)'z',
+            };
+            var sink = new ValidatingTextSink();
+            var tokenizer = new Utf8HtmlTokenizer(sink);
+
+            foreach (var value in utf8)
+            {
+                tokenizer.Write(new ReadOnlySpan<Byte>(in value));
+            }
+            tokenizer.Complete();
+
+            Assert.That(sink.DecodedText, Is.EqualTo(Encoding.UTF8.GetString(utf8)));
+        }
+
+        [Test]
+        public async Task PromotedAttributeIndexPreservesFirstMixedCaseAttributeAcrossSegments()
+        {
+            var html = new StringBuilder("<x");
+            for (var index = 0; index < 40; index++)
+            {
+                var name = index % 2 == 0 ? $"DATA-{index:D2}" : $"data-{index:D2}";
+                html.Append(' ').Append(name).Append("='").Append(index).Append("'");
+            }
+            html.Append(" data-00='duplicate' DATA-17='duplicate'></x><y");
+            for (var index = 39; index >= 0; index--)
+            {
+                html.Append(" item-").Append(index.ToString("D2")).Append("='").Append(index).Append("'");
+            }
+            html.Append(" ITEM-39='duplicate'></y>");
+
+            using var expected = new HtmlParser().ParseDocument(html.ToString());
+            for (var segmentSize = 1; segmentSize <= 17; segmentSize++)
+            {
+                using var actual = await ParseUtf8Async(SegmentUtf8(html.ToString(), segmentSize));
+                Assert.That(
+                    actual.DocumentElement.OuterHtml,
+                    Is.EqualTo(expected.DocumentElement.OuterHtml),
+                    $"UTF-8 segment size {segmentSize}"
+                );
+                Assert.That(actual.QuerySelector("x")!.Attributes.Length, Is.EqualTo(40));
+                Assert.That(actual.QuerySelector("x")!.GetAttribute("data-00"), Is.EqualTo("0"));
+                Assert.That(actual.QuerySelector("x")!.GetAttribute("data-17"), Is.EqualTo("17"));
+                Assert.That(actual.QuerySelector("y")!.Attributes.Length, Is.EqualTo(40));
+                Assert.That(actual.QuerySelector("y")!.GetAttribute("item-39"), Is.EqualTo("39"));
+            }
+        }
+
+        [Test]
+        public void PromotedAttributeIndexTracksNamesRejectedByConsumer()
+        {
+            var html = new StringBuilder("<x");
+            for (var index = 0; index < 20; index++)
+            {
+                html.Append(" a").Append(index.ToString("D2")).Append("='rejected'");
+            }
+            html.Append(" A00='duplicate' fresh='kept'>");
+
+            var sink = new RejectThenAcceptAttributeSink(rejectedCount: 20);
+            var tokenizer = new Utf8HtmlTokenizer(sink);
+            tokenizer.Write(Encoding.UTF8.GetBytes(html.ToString()));
+            tokenizer.Complete();
+
+            Assert.That(sink.WantsCalls, Is.EqualTo(22));
+            Assert.That(sink.Attributes, Is.EqualTo(new[] { "fresh=kept" }));
+        }
+
+        [Test]
+        public void AttributeIndexConfirmsBytesWhenSemanticHashesCollide()
+        {
+            var seen = "alpha\0beta\0"u8.ToArray();
+            Utf8AttributeNameIndex.Entry[] index = null;
+            try
+            {
+                Utf8AttributeNameIndex.Initialize(ref index, seen, 1);
+
+                var alphaCache = default(Utf8HtmlNameHashCache);
+                var alpha = new Utf8HtmlName("alpha"u8, ref alphaCache);
+                Assert.That(Utf8AttributeNameIndex.Contains(index, alpha, seen), Is.True);
+
+                var betaCache = default(Utf8HtmlNameHashCache);
+                Unsafe.As<Utf8HtmlNameHashCache, UInt64>(ref betaCache) = alpha.SemanticHash;
+                var betaWithForcedCollision = new Utf8HtmlName("beta"u8, ref betaCache);
+                Assert.That(
+                    Utf8AttributeNameIndex.Contains(index, betaWithForcedCollision, seen),
+                    Is.False
+                );
+
+                Utf8AttributeNameIndex.Add(ref index, betaWithForcedCollision.SemanticHash, 6);
+                Assert.That(Utf8AttributeNameIndex.Contains(index, alpha, seen), Is.True);
+                Assert.That(
+                    Utf8AttributeNameIndex.Contains(index, betaWithForcedCollision, seen),
+                    Is.True
+                );
+
+                var uppercaseCache = default(Utf8HtmlNameHashCache);
+                var uppercaseAlpha = new Utf8HtmlName("ALPHA"u8, ref uppercaseCache);
+                Assert.That(
+                    Utf8AttributeNameIndex.Contains(index, uppercaseAlpha, seen),
+                    Is.True
+                );
+            }
+            finally
+            {
+                Utf8AttributeNameIndex.Reset(ref index);
+            }
+            Assert.That(index, Is.Null);
+        }
+
+        [Test]
         public void CanonicalNameProviderReusesKnownTagAndRejectsUnknownName()
         {
             var cache = default(Utf8HtmlNameHashCache);
@@ -373,13 +550,29 @@ namespace AngleSharp.Core.Tests.Html
 
         private delegate Boolean CanonicalLookup(ReadOnlySpan<Byte> name, out String canonical);
 
-        private static async IAsyncEnumerable<ReadOnlyMemory<Byte>> SegmentUtf8(String html, Int32 segmentSize)
+        private static IAsyncEnumerable<ReadOnlyMemory<Byte>> SegmentUtf8(String html, Int32 segmentSize) =>
+            SegmentUtf8(Encoding.UTF8.GetBytes(html), segmentSize);
+
+        private static async IAsyncEnumerable<ReadOnlyMemory<Byte>> SegmentUtf8(Byte[] utf8, Int32 segmentSize)
         {
-            var utf8 = Encoding.UTF8.GetBytes(html);
             for (var offset = 0; offset < utf8.Length; offset += segmentSize)
             {
                 await Task.Yield();
                 yield return utf8.AsMemory(offset, Math.Min(segmentSize, utf8.Length - offset));
+            }
+        }
+
+        private static async IAsyncEnumerable<ReadOnlyMemory<Byte>> SplitUtf8(Byte[] utf8, Int32 split)
+        {
+            if (split != 0)
+            {
+                await Task.Yield();
+                yield return utf8.AsMemory(0, split);
+            }
+            if (split != utf8.Length)
+            {
+                await Task.Yield();
+                yield return utf8.AsMemory(split);
             }
         }
 
@@ -431,6 +624,29 @@ namespace AngleSharp.Core.Tests.Html
             public void EndOfFile() => _events.Add("EOF");
         }
 
+        private sealed class ValidatingTextSink : IUtf8HtmlTokenSink
+        {
+            private readonly StringBuilder _text = new();
+
+            public String DecodedText => _text.ToString();
+
+            public void Text(ReadOnlySpan<Byte> utf8)
+            {
+                Assert.That(System.Text.Unicode.Utf8.IsValid(utf8), Is.True);
+                _text.Append(Encoding.UTF8.GetString(utf8));
+            }
+
+            public void StartTag(Utf8HtmlName name) { }
+
+            public Boolean WantsAttribute(Utf8HtmlName name) => false;
+
+            public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) { }
+
+            public void StartTagEnd(Boolean selfClosing) { }
+
+            public void EndTag(Utf8HtmlName name) { }
+        }
+
         private sealed class NameRecordingSink : IUtf8HtmlTokenSink
         {
             public String StartTagVerbatim { get; private set; } = null!;
@@ -477,6 +693,30 @@ namespace AngleSharp.Core.Tests.Html
                 EndTagVerbatim = Encoding.UTF8.GetString(name.Verbatim);
                 EndTagHash = name.SemanticHash;
             }
+        }
+
+        private sealed class RejectThenAcceptAttributeSink(Int32 rejectedCount) : IUtf8HtmlTokenSink
+        {
+            private readonly List<String> _attributes = [];
+
+            public Int32 WantsCalls { get; private set; }
+
+            public IReadOnlyList<String> Attributes => _attributes;
+
+            public void Text(ReadOnlySpan<Byte> utf8) { }
+
+            public void StartTag(Utf8HtmlName name) { }
+
+            public Boolean WantsAttribute(Utf8HtmlName name) => ++WantsCalls > rejectedCount;
+
+            public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) =>
+                _attributes.Add(
+                    Encoding.UTF8.GetString(name.Verbatim) + "=" + Encoding.UTF8.GetString(value)
+                );
+
+            public void StartTagEnd(Boolean selfClosing) { }
+
+            public void EndTag(Utf8HtmlName name) { }
         }
     }
 }

@@ -89,15 +89,33 @@ namespace AngleSharp.Html.Parser
         public static void SetUniqueAttributes<TElement>(this TElement element, ref StructHtmlToken token)
             where TElement: class, IConstructableElement
         {
-            for (var i = token.Attributes.Count - 1; i >= 0; i--)
+            ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref token);
+            for (var i = attributes.Count - 1; i >= 0; i--)
             {
-                if (element.HasAttribute(token.Attributes[i].Name))
+                if (element.HasAttribute(attributes[i].Name))
                 {
                     token.RemoveAttributeAt(i);
                 }
             }
 
-            element.SetAttributes(token.Attributes);
+            element.SetTokenAttributes(ref token);
+        }
+
+        internal static void SetTokenAttributes<TElement>(
+            this TElement element,
+            ref StructHtmlToken token
+        )
+            where TElement : class, IConstructableElement
+        {
+            if (element is IConstructableElementAttributesByRef byRef)
+            {
+                ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref token);
+                byRef.SetAttributes(in attributes);
+            }
+            else
+            {
+                element.SetAttributes(token.Attributes);
+            }
         }
 
         public static void AddFormatting(this List<Element> formatting, Element element)
