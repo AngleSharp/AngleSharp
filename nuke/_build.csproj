@@ -18,4 +18,8 @@
     <PackageDownload Include="NuGet.CommandLine" Version="[6.12.2]" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\src\AngleSharp\AngleSharp.Core.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -99,20 +99,17 @@ public sealed class Utf8HtmlTokenizer
     private readonly ArrayBufferWriter<Byte> _candidate = new(64);
     private readonly ArrayBufferWriter<Byte> _doctypePublic = new(64);
     private readonly ArrayBufferWriter<Byte> _doctypeSystem = new(64);
-    private readonly Byte[] _utf8Carry = new Byte[4];
+    private Utf8RuneValidator _validator;
     private State _state;
     private State _returnState;
     private Boolean _isEndTag;
     private Boolean _startTagEmitted;
     private Boolean _pendingCarriageReturn;
     private String? _rawEndTag;
-    private Int64 _bytesConsumed;
     private Int64 _segments;
     private Int64 _reconsumes;
     private Int64 _bufferedTokenBytes;
     private Int32 _maximumBufferedTokenBytes;
-    private Int32 _validatedAsciiPrefixLength;
-    private Int32 _utf8CarryLength;
     private Int32 _textUtf8CarryLength;
     private Int32 _textUtf8ExpectedLength;
     private UInt32 _textUtf8Carry;
@@ -127,9 +124,7 @@ public sealed class Utf8HtmlTokenizer
     private Boolean _attributeCaptureDecided;
     private Boolean _captureAttributeValue = true;
     private readonly Int32 _maximumBufferedTokenBytesAllowed;
-    private readonly Int64 _maximumInputBytesAllowed;
     private readonly IUtf8HtmlTokenSink _sink;
-    private readonly IUtf8HtmlUnvalidatedTextSink? _unvalidatedTextSink;
     private readonly IUtf8HtmlStreamingCommentSink? _streamingCommentSink;
     private Boolean _streamingCommentStarted;
     private Boolean _captureStreamingComment;
@@ -140,6 +135,16 @@ public sealed class Utf8HtmlTokenizer
     public Utf8HtmlTokenizer(IUtf8HtmlTokenSink sink, HtmlStreamingLimits limits)
         : this(sink, null, limits, countInputBytes: true) { }
 
+    public Utf8HtmlTokenizer(IUtf8HtmlTokenSink sink, Utf8InputContract inputContract)
+        : this(sink, null, HtmlStreamingLimits.Default, countInputBytes: true, inputContract) { }
+
+    public Utf8HtmlTokenizer(
+        IUtf8HtmlTokenSink sink,
+        HtmlStreamingLimits limits,
+        Utf8InputContract inputContract
+    )
+        : this(sink, null, limits, countInputBytes: true, inputContract) { }
+
     public Utf8HtmlTokenizer(IUtf8HtmlTokenSink sink, Utf8HtmlTokenizerStateMetrics? stateMetrics)
         : this(sink, stateMetrics, HtmlStreamingLimits.Default, countInputBytes: true) { }
 
@@ -149,16 +154,33 @@ public sealed class Utf8HtmlTokenizer
         HtmlStreamingLimits limits,
         Boolean countInputBytes
     )
+        : this(
+            sink,
+            stateMetrics,
+            limits,
+            countInputBytes,
+            Utf8InputContract.ArbitraryBytes
+        ) { }
+
+    public Utf8HtmlTokenizer(
+        IUtf8HtmlTokenSink sink,
+        Utf8HtmlTokenizerStateMetrics? stateMetrics,
+        HtmlStreamingLimits limits,
+        Boolean countInputBytes,
+        Utf8InputContract inputContract
+    )
     {
         ArgumentNullException.ThrowIfNull(limits);
         ArgumentNullException.ThrowIfNull(sink);
 
         _sink = sink;
-        _unvalidatedTextSink = sink as IUtf8HtmlUnvalidatedTextSink;
         _streamingCommentSink = sink as IUtf8HtmlStreamingCommentSink;
         _stateMetrics = stateMetrics;
         _maximumBufferedTokenBytesAllowed = limits.MaximumBufferedTokenBytes;
-        _maximumInputBytesAllowed = countInputBytes ? limits.MaximumInputBytes : Int64.MaxValue;
+        _validator = new Utf8RuneValidator(
+            countInputBytes ? limits.MaximumInputBytes : Int64.MaxValue,
+            inputContract
+        );
     }
 
     public static Int32 StateCount => Enum.GetValues<State>().Length;
@@ -167,7 +189,7 @@ public sealed class Utf8HtmlTokenizer
         _stateMetrics?.Snapshot(Enum.GetNames<State>()) ?? [];
 
     public Utf8HtmlTokenizerCounters Counters =>
-        new(_bytesConsumed, _segments, _reconsumes, 0, _maximumBufferedTokenBytes);
+        new(_validator.BytesConsumed, _segments, _reconsumes, 0, _maximumBufferedTokenBytes);
 
     /// <summary>
     /// Applies the tokenizer state selected by an external tree constructor.
@@ -225,250 +247,12 @@ public sealed class Utf8HtmlTokenizer
     private Int32 WriteCore(ReadOnlySpan<Byte> utf8, Boolean yieldOnRequest)
     {
         ThrowIfCompleted();
-        var previousBytesConsumed = _bytesConsumed;
-        var observedInputBytes = SaturatingAdd(_bytesConsumed, utf8.Length);
-        if (observedInputBytes > _maximumInputBytesAllowed)
-        {
-            ThrowLimitExceeded(
-                HtmlStreamingLimit.InputBytes,
-                _maximumInputBytesAllowed,
-                observedInputBytes
-            );
-        }
-
-        _bytesConsumed = observedInputBytes;
-        var index = 0;
-        while (_utf8CarryLength != 0)
-        {
-            var status = Rune.DecodeFromUtf8(
-                _utf8Carry.AsSpan(0, _utf8CarryLength),
-                out _,
-                out var consumed
-            );
-            if (status == OperationStatus.Done)
-            {
-                WriteValidUtf8(_utf8Carry.AsSpan(0, consumed), yieldOnRequest);
-                _utf8CarryLength = 0;
-                break;
-            }
-            if (status == OperationStatus.InvalidData)
-            {
-                WriteValidUtf8("\uFFFD"u8, yieldOnRequest);
-                ShiftUtf8Carry(Math.Max(consumed, 1));
-                continue;
-            }
-            if (index == utf8.Length)
-            {
-                return index;
-            }
-
-            _utf8Carry[_utf8CarryLength++] = utf8[index++];
-        }
-
-        while (index < utf8.Length)
-        {
-            var asciiStart = index;
-            var usedValidatedPrefix = _validatedAsciiPrefixLength != 0;
-            if (usedValidatedPrefix)
-            {
-                index += Math.Min(_validatedAsciiPrefixLength, utf8.Length - index);
-            }
-            else
-            {
-                var remaining = utf8.Slice(index);
-                var nonAscii = remaining.IndexOfAnyExceptInRange((Byte)0x00, (Byte)0x7F);
-                if (nonAscii < 0)
-                {
-                    nonAscii = remaining.Length;
-                }
-
-                index += nonAscii;
-            }
-
-            if (index != asciiStart)
-            {
-                var asciiLength = index - asciiStart;
-                var asciiConsumed = WriteValidUtf8(utf8[asciiStart..index], yieldOnRequest);
-                if (usedValidatedPrefix)
-                {
-                    _validatedAsciiPrefixLength -= asciiConsumed;
-                }
-                else if (asciiConsumed != asciiLength)
-                {
-                    _validatedAsciiPrefixLength = asciiLength - asciiConsumed;
-                }
-
-                if (asciiConsumed != asciiLength)
-                {
-                    index = asciiStart + asciiConsumed;
-                    _bytesConsumed = SaturatingAdd(previousBytesConsumed, index);
-                    return index;
-                }
-            }
-
-            if (index == utf8.Length)
-            {
-                break;
-            }
-
-            if (
-                _unvalidatedTextSink is not null
-                && yieldOnRequest
-                && _yieldRequested
-            )
-            {
-                _bytesConsumed = SaturatingAdd(previousBytesConsumed, index);
-                return index;
-            }
-
-            if (
-                _unvalidatedTextSink is not null
-                && _state is State.Data or State.RawText or State.ScriptData or State.Plaintext
-                && !_pendingCarriageReturn
-                && _textUtf8CarryLength == 0
-            )
-            {
-                var remainingText = utf8.Slice(index);
-                var run =
-                    _state == State.Plaintext
-                        ? FindPlaintextTerminator(remainingText)
-                        : FindTextTerminator(
-                            remainingText,
-                            _state == State.Data || IsRcData()
-                        );
-                if (run > 0)
-                {
-                    _stateMetrics?.Record((Int32)_state, run);
-                    _unvalidatedTextSink.TextUnvalidated(remainingText.Slice(0, run));
-                    index += run;
-                    continue;
-                }
-            }
-
-#if NET8_0_OR_GREATER
-            var remainingUtf8 = utf8.Slice(index);
-            var completeLength = CompleteUtf8PrefixLength(remainingUtf8);
-            if (
-                completeLength != 0
-                && System.Text.Unicode.Utf8.IsValid(remainingUtf8.Slice(0, completeLength))
-            )
-            {
-                var bulkConsumed = WriteValidUtf8(
-                    remainingUtf8.Slice(0, completeLength),
-                    yieldOnRequest
-                );
-                index += bulkConsumed;
-                if (bulkConsumed != completeLength)
-                {
-                    _bytesConsumed = SaturatingAdd(previousBytesConsumed, index);
-                    return index;
-                }
-
-                if (completeLength != remainingUtf8.Length)
-                {
-                    remainingUtf8.Slice(completeLength).CopyTo(_utf8Carry);
-                    _utf8CarryLength = remainingUtf8.Length - completeLength;
-                    index = utf8.Length;
-                }
-                continue;
-            }
-
-            if (completeLength != 0)
-            {
-                var malformedConsumed = WriteMalformedUtf8(
-                    remainingUtf8.Slice(0, completeLength),
-                    yieldOnRequest
-                );
-                index += malformedConsumed;
-                if (
-                    malformedConsumed != completeLength
-                    || (yieldOnRequest && _yieldRequested)
-                )
-                {
-                    _bytesConsumed = SaturatingAdd(previousBytesConsumed, index);
-                    return index;
-                }
-
-                if (completeLength != remainingUtf8.Length)
-                {
-                    remainingUtf8.Slice(completeLength).CopyTo(_utf8Carry);
-                    _utf8CarryLength = remainingUtf8.Length - completeLength;
-                    index = utf8.Length;
-                }
-                continue;
-            }
-#endif
-
-            var status = Rune.DecodeFromUtf8(utf8.Slice(index), out _, out var consumed);
-            if (status == OperationStatus.Done)
-            {
-                WriteValidUtf8(utf8.Slice(index, consumed), yieldOnRequest);
-                index += consumed;
-            }
-            else if (status == OperationStatus.InvalidData)
-            {
-                WriteValidUtf8("\uFFFD"u8, yieldOnRequest);
-                index += Math.Max(consumed, 1);
-            }
-            else
-            {
-                utf8.Slice(index).CopyTo(_utf8Carry);
-                _utf8CarryLength = utf8.Length - index;
-                index = utf8.Length;
-                break;
-            }
-        }
-
-        return index;
+        return _validator.Write(this, utf8, yieldOnRequest);
     }
 
-#if NET8_0_OR_GREATER
-    private Int32 WriteMalformedUtf8(ReadOnlySpan<Byte> utf8, Boolean yieldOnRequest)
-    {
-        var index = 0;
-        var validStart = 0;
-        while (index < utf8.Length)
-        {
-            var status = Rune.DecodeFromUtf8(utf8.Slice(index), out _, out var consumed);
-            if (status == OperationStatus.Done)
-            {
-                index += consumed;
-                continue;
-            }
+    internal Boolean IsYieldRequested => _yieldRequested;
 
-            if (index != validStart)
-            {
-                var validConsumed = WriteValidUtf8(
-                    utf8.Slice(validStart, index - validStart),
-                    yieldOnRequest
-                );
-                validStart += validConsumed;
-                if (validStart != index || (yieldOnRequest && _yieldRequested))
-                {
-                    return validStart;
-                }
-            }
-
-            WriteValidUtf8("\uFFFD"u8, yieldOnRequest);
-            if (status == OperationStatus.NeedMoreData)
-            {
-                return utf8.Length;
-            }
-
-            index += Math.Max(consumed, 1);
-            validStart = index;
-        }
-
-        if (index != validStart)
-        {
-            validStart += WriteValidUtf8(utf8.Slice(validStart), yieldOnRequest);
-        }
-
-        return validStart;
-    }
-#endif
-
-    private Int32 WriteValidUtf8(ReadOnlySpan<Byte> utf8, Boolean yieldOnRequest)
+    internal Int32 WriteNormalizedUtf8(ReadOnlySpan<Byte> utf8, Boolean yieldOnRequest)
     {
         var index = 0;
         while (index < utf8.Length)
@@ -521,18 +305,7 @@ public sealed class Utf8HtmlTokenizer
                 {
                     _stateMetrics?.Record((Int32)_state, run);
                     var text = utf8.Slice(index, run);
-                    var safeLength =
-                        run == utf8.Length - index ? CompleteUtf8PrefixLength(text) : run;
-                    if (safeLength > 0)
-                    {
-                        _sink.Text(text[..safeLength]);
-                    }
-
-                    if (safeLength != run)
-                    {
-                        text.Slice(safeLength).CopyTo(_utf8Carry);
-                        _utf8CarryLength = run - safeLength;
-                    }
+                    _sink.Text(text);
                     index += run;
                     continue;
                 }
@@ -616,11 +389,7 @@ public sealed class Utf8HtmlTokenizer
             return;
         }
 
-        if (_utf8CarryLength != 0)
-        {
-            EmitReplacementCharacter();
-            _utf8CarryLength = 0;
-        }
+        _validator.Complete(this);
         Utf8AttributeNameIndex.Reset(ref _seenAttributeIndex);
         switch (_state)
         {
@@ -2523,29 +2292,6 @@ public sealed class Utf8HtmlTokenizer
         Int64 allowed,
         Int64 observed
     ) => throw new HtmlStreamingLimitExceededException(limit, allowed, observed);
-
-    private void ShiftUtf8Carry(Int32 consumed)
-    {
-        _utf8Carry.AsSpan(consumed, _utf8CarryLength - consumed).CopyTo(_utf8Carry);
-        _utf8CarryLength -= consumed;
-    }
-
-    private static Int32 CompleteUtf8PrefixLength(ReadOnlySpan<Byte> value)
-    {
-        if (value.IsEmpty)
-        {
-            return 0;
-        }
-
-        var lead = value.Length - 1;
-        while (lead > 0 && value[lead] is >= 0x80 and <= 0xBF && value.Length - lead < 4)
-        {
-            lead--;
-        }
-
-        var expected = Utf8SequenceLength(value[lead]);
-        return expected > 1 && value.Length - lead < expected ? lead : value.Length;
-    }
 
     private static Int32 Utf8SequenceLength(Byte lead) =>
         lead switch

@@ -303,6 +303,28 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void WellFormedInputContractMatchesDefaultAcrossEveryByteBoundary()
+        {
+            var utf8 = Encoding.UTF8.GetBytes("<div>ASCII Ж 🙂 text</div>");
+            var expectedSink = new TokenRecordingSink();
+            var actualSink = new TokenRecordingSink();
+            var expected = new Utf8HtmlTokenizer(expectedSink);
+            var actual = new Utf8HtmlTokenizer(actualSink, Utf8InputContract.WellFormedUtf8);
+
+            foreach (var value in utf8)
+            {
+                var next = new ReadOnlySpan<Byte>(in value);
+                expected.Write(next);
+                actual.Write(next);
+            }
+            expected.Complete();
+            actual.Complete();
+
+            Assert.That(actualSink.Events, Is.EqualTo(expectedSink.Events));
+            Assert.That(actual.Counters.BytesConsumed, Is.EqualTo(utf8.Length));
+        }
+
+        [Test]
         public async Task PromotedAttributeIndexPreservesFirstMixedCaseAttributeAcrossSegments()
         {
             var html = new StringBuilder("<x");

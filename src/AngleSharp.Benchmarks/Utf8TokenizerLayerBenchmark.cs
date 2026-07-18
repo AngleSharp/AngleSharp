@@ -99,6 +99,20 @@ public class Utf8TokenizerLayerBenchmark
         return RunBorrowedTokenizer();
     }
 
+    [Benchmark]
+    public Int32 NativeBorrowedWellFormedNetwork4K()
+    {
+        _sink.CaptureAttributes = true;
+        _sink.Reset();
+        var tokenizer = new Utf8HtmlTokenizer(_sink, Utf8InputContract.WellFormedUtf8);
+        for (var offset = 0; offset < _utf8.Length; offset += SegmentSize)
+        {
+            tokenizer.Write(_utf8.AsSpan(offset, Math.Min(SegmentSize, _utf8.Length - offset)));
+        }
+        tokenizer.Complete();
+        return _sink.Tokens;
+    }
+
     private Int32 RunBorrowedTokenizer()
     {
         _sink.Reset();

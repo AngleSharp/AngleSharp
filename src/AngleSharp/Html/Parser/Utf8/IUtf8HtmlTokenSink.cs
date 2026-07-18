@@ -32,15 +32,6 @@ public interface IUtf8HtmlTokenSink
 }
 
 /// <summary>
-/// Internal compatibility-lane capability: text bytes may cross segment boundaries or contain malformed UTF-8.
-/// The sink owns replacement semantics when it materializes the accumulated text.
-/// </summary>
-internal interface IUtf8HtmlUnvalidatedTextSink
-{
-    void TextUnvalidated(ReadOnlySpan<Byte> utf8);
-}
-
-/// <summary>
 /// Internal compatibility-lane capability for comments whose payload should not be materialized
 /// in the tokenizer's contiguous scratch buffer.
 /// </summary>

@@ -21,7 +21,6 @@ using System.Diagnostics.CodeAnalysis;
 internal sealed class Utf8HtmlTokenSource :
     IAsyncHtmlTokenSource,
     IUtf8HtmlTokenSink,
-    IUtf8HtmlUnvalidatedTextSink,
     IUtf8HtmlStreamingCommentSink,
     IAsyncDisposable
 {
@@ -187,8 +186,6 @@ internal sealed class Utf8HtmlTokenSource :
             _text.Append(utf8);
         }
     }
-
-    void IUtf8HtmlUnvalidatedTextSink.TextUnvalidated(ReadOnlySpan<Byte> utf8) => Text(utf8);
 
     public void StartTag(Utf8HtmlName name)
     {

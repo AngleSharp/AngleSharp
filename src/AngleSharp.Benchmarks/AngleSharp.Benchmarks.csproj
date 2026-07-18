@@ -19,14 +19,4 @@
     <PackageReference Include="System.IO.Hashing" Version="10.0.7" Condition=" '$(TargetFramework)' == 'net10.0' " />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="page.html" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\AngleSharp.Core.Tests\Pages\nbc.html" Link="nbc.html" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\AngleSharp.Core.Tests\Resources\utf8_edu.bin" Link="utf8_edu.bin" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\..\temp\en.wikipedia.html" Link="en.wikipedia.html" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\..\temp\stackoverflow.html" Link="stackoverflow.html" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\..\temp\youtube.html" Link="youtube.html" CopyToOutputDirectory="PreserveNewest" />
-    <None Include="..\..\temp\spiegel.html" Link="spiegel.html" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
 </Project>
