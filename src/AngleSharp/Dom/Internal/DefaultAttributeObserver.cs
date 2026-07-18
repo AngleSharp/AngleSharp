@@ -12,14 +12,14 @@ namespace AngleSharp.Dom
     /// </summary>
     public class DefaultAttributeObserver : IAttributeObserver
     {
-        private readonly List<AttributeObserver> _actions;
+        private readonly Dictionary<String, List<AttributeObserver>> _actions;
 
         /// <summary>
         /// Creates a new instance.
         /// </summary>
         public DefaultAttributeObserver()
         {
-            _actions = [];
+            _actions = new Dictionary<String, List<AttributeObserver>>(StringComparer.Ordinal);
             RegisterStandardObservers();
         }
 
@@ -66,9 +66,15 @@ namespace AngleSharp.Dom
         public void RegisterObserver<TElement>(String expectedName, Action<TElement, String> callback)
             where TElement : IElement
         {
-            _actions.Add((element, actualName, value) =>
+            if (!_actions.TryGetValue(expectedName, out var actions))
             {
-                if (element is TElement tEl && actualName.Is(expectedName))
+                actions = [];
+                _actions.Add(expectedName, actions);
+            }
+
+            actions.Add((element, _, value) =>
+            {
+                if (element is TElement tEl)
                 {
                     callback.Invoke(tEl, value);
                 }
@@ -77,7 +83,12 @@ namespace AngleSharp.Dom
 
         void IAttributeObserver.NotifyChange(IElement host, String name, String? value)
         {
-            foreach (var action in _actions)
+            if (!_actions.TryGetValue(name, out var actions))
+            {
+                return;
+            }
+
+            foreach (var action in actions)
             {
                 action.Invoke(host, name, value!);
             }
