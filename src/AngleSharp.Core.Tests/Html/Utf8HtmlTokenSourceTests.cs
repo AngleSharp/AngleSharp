@@ -121,6 +121,55 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public async Task SkippedTextModesMatchMatureParser()
+        {
+            const String html = "<body><b>data<div>block</div></b><title>rcdata</title>"
+                + "after title<textarea>more rcdata</textarea>after textarea"
+                + "<style>raw</style>after style<script>script</script>after script"
+                + "<plaintext>plain";
+            var optionSets = new[]
+            {
+                new HtmlParserOptions { SkipDataText = true },
+                new HtmlParserOptions { SkipRCDataText = true },
+                new HtmlParserOptions { SkipRawText = true },
+                new HtmlParserOptions { SkipScriptText = true },
+                new HtmlParserOptions { SkipPlaintext = true },
+            };
+
+            foreach (var options in optionSets)
+            {
+                using var expected = new HtmlParser(options).ParseDocument(html);
+                for (var segmentSize = 1; segmentSize <= 11; segmentSize++)
+                {
+                    using var actual = await ParseUtf8Async(SegmentUtf8(html, segmentSize), options);
+                    Assert.That(
+                        actual.DocumentElement.OuterHtml,
+                        Is.EqualTo(expected.DocumentElement.OuterHtml),
+                        $"UTF-8 segment size {segmentSize}"
+                    );
+                }
+            }
+        }
+
+        [Test]
+        public async Task SkippedCommentsRetainMatureParserTreeShape()
+        {
+            const String html = "<body>before<!--one--><table><!--two--><tr><td>x</td></tr></table>after";
+            var options = new HtmlParserOptions { SkipComments = true };
+            using var expected = new HtmlParser(options).ParseDocument(html);
+
+            for (var segmentSize = 1; segmentSize <= 11; segmentSize++)
+            {
+                using var actual = await ParseUtf8Async(SegmentUtf8(html, segmentSize), options);
+                Assert.That(
+                    actual.DocumentElement.OuterHtml,
+                    Is.EqualTo(expected.DocumentElement.OuterHtml),
+                    $"UTF-8 segment size {segmentSize}"
+                );
+            }
+        }
+
+        [Test]
         public void BorrowedNamesExposeVerbatimBytesAndSharedSemanticIdentity()
         {
             var sink = new NameRecordingSink();

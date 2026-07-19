@@ -21,10 +21,8 @@ public struct HtmlTokenizerOptions
         SkipRawText = htmlParserOptions.SkipRawText;
         SkipScriptText = htmlParserOptions.SkipScriptText;
         SkipDataText = htmlParserOptions.SkipDataText;
+        EmitsAllAttributes = htmlParserOptions.ShouldEmitAttribute is null;
         ShouldEmitAttribute = htmlParserOptions.ShouldEmitAttribute ?? (static (ref StructHtmlToken _, ReadOnlyMemory<Char> _) => true);
-        SkipDataText = htmlParserOptions.SkipDataText;
-        SkipScriptText = htmlParserOptions.SkipScriptText;
-        SkipRawText = htmlParserOptions.SkipRawText;
         SkipComments = htmlParserOptions.SkipComments;
         SkipPlaintext = htmlParserOptions.SkipPlaintext;
         SkipRCDataText = htmlParserOptions.SkipRCDataText;
@@ -67,6 +65,8 @@ public struct HtmlTokenizerOptions
     /// Gets or set the delegate which determines if an attribute should be emitted.
     /// </summary>
     public ShouldEmitAttribute ShouldEmitAttribute { get; set; }
+
+    internal Boolean EmitsAllAttributes { get; }
 
     /// <summary>
     /// Should the tokenizer skip data text tokens.

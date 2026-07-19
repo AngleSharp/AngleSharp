@@ -25,11 +25,12 @@ internal sealed class Utf8HtmlTokenSource :
     IAsyncDisposable
 {
     private const Int32 TokenCapacity = 3;
+    private const Int32 StackDecodeThreshold = 512;
 
     private readonly IAsyncEnumerator<ReadOnlyMemory<Byte>> _input;
     private readonly Utf8HtmlTokenizer _tokenizer;
     private readonly Utf8TextAccumulator _text = new();
-    private readonly Utf8TextAccumulator _comment = new();
+    private Utf8TextAccumulator? _comment;
     private TokenBuffer _tokens;
     private ReadyBuffer _ready;
     private ReadOnlyMemory<Byte> _segment;
@@ -45,15 +46,28 @@ internal sealed class Utf8HtmlTokenSource :
     private Boolean _inputCompleted;
     private Boolean _disposed;
     private Boolean _hasCurrent;
+    private Boolean _hasSkippedText;
     private Boolean _pendingAttributeNameIsDecoded;
+
+    private Utf8TextAccumulator CommentAccumulator => _comment ??= new();
 
     public Utf8HtmlTokenSource(
         IAsyncEnumerable<ReadOnlyMemory<Byte>> input,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    ) : this(input, Utf8InputContract.ArbitraryBytes, cancellationToken) { }
+
+    public Utf8HtmlTokenSource(
+        IAsyncEnumerable<ReadOnlyMemory<Byte>> input,
+        Utf8InputContract inputContract,
+        CancellationToken cancellationToken = default
+    )
     {
         ArgumentNullException.ThrowIfNull(input);
         _input = input.GetAsyncEnumerator(cancellationToken);
-        _tokenizer = new Utf8HtmlTokenizer(this) { IsModeControlledExternally = true };
+        _tokenizer = new Utf8HtmlTokenizer(this, inputContract)
+        {
+            IsModeControlledExternally = true,
+        };
     }
 
     internal Utf8HtmlTokenizerCounters TokenizerCounters => _tokenizer.Counters;
@@ -181,7 +195,11 @@ internal sealed class Utf8HtmlTokenSource :
 
     public void Text(ReadOnlySpan<Byte> utf8)
     {
-        if (!ShouldSkipText())
+        if (ShouldSkipText())
+        {
+            _hasSkippedText |= !utf8.IsEmpty;
+        }
+        else
         {
             _text.Append(utf8);
         }
@@ -200,6 +218,11 @@ internal sealed class Utf8HtmlTokenSource :
 
     public Boolean WantsAttribute(Utf8HtmlName name)
     {
+        if (_options.EmitsAllAttributes)
+        {
+            return true;
+        }
+
         var decoded = DecodeAttributeName(name);
         _pendingAttributeName = decoded.Memory;
         _pendingAttributeNameIsDecoded = true;
@@ -229,30 +252,30 @@ internal sealed class Utf8HtmlTokenSource :
     public void Comment(ReadOnlySpan<Byte> utf8)
     {
         FlushText();
-        if (!_options.SkipComments)
-        {
-            var slot = ReserveSlot();
-            _tokens[slot].InitializeComment(Decode(utf8), default);
-            Enqueue(slot);
-            _tokenizer.RequestYield();
-        }
+        var slot = ReserveSlot();
+        _tokens[slot].InitializeComment(
+            _options.SkipComments ? StringOrMemory.Empty : Decode(utf8),
+            default
+        );
+        Enqueue(slot);
+        _tokenizer.RequestYield();
     }
 
     Boolean IUtf8HtmlStreamingCommentSink.BeginComment() => !_options.SkipComments;
 
     void IUtf8HtmlStreamingCommentSink.CommentChunk(ReadOnlySpan<Byte> utf8) =>
-        _comment.Append(utf8);
+        CommentAccumulator.Append(utf8);
 
     void IUtf8HtmlStreamingCommentSink.EndComment()
     {
         FlushText();
-        if (_options.SkipComments)
-        {
-            return;
-        }
-
         var slot = ReserveSlot();
-        _tokens[slot].InitializeComment(_comment.Materialize(), default);
+        _tokens[slot].InitializeComment(
+            _options.SkipComments
+                ? StringOrMemory.Empty
+                : _comment?.Materialize() ?? StringOrMemory.Empty,
+            default
+        );
         Enqueue(slot);
         _tokenizer.RequestYield();
     }
@@ -299,6 +322,10 @@ internal sealed class Utf8HtmlTokenSource :
     private void EnqueueEndTag(Utf8HtmlName name)
     {
         FlushText();
+        if (_state is HtmlParseMode.RCData or HtmlParseMode.Rawtext or HtmlParseMode.Script)
+        {
+            _state = HtmlParseMode.PCData;
+        }
         var slot = ReserveSlot();
         _tokens[slot].InitializeEndTag(DecodeTagName(name));
         Enqueue(slot);
@@ -330,7 +357,7 @@ internal sealed class Utf8HtmlTokenSource :
         }
 
 #if NET8_0_OR_GREATER
-        if (utf8.Length <= 64)
+        if (utf8.Length <= StackDecodeThreshold)
         {
             Span<Char> characters = stackalloc Char[utf8.Length];
             var written = Encoding.UTF8.GetChars(utf8, characters);
@@ -358,29 +385,50 @@ internal sealed class Utf8HtmlTokenSource :
             return Decode(utf8);
         }
 
-        var characterCount = Encoding.UTF8.GetCharCount(utf8);
-        var characters = ArrayPool<Char>.Shared.Rent(characterCount);
+        if (utf8.Length <= StackDecodeThreshold)
+        {
+            Span<Byte> normalized = stackalloc Byte[utf8.Length];
+            utf8.CopyTo(normalized);
+            LowerAsciiInPlace(normalized);
+            return Decode(normalized);
+        }
+
+        var bytes = ArrayPool<Byte>.Shared.Rent(utf8.Length);
         try
         {
-            var written = Encoding.UTF8.GetChars(utf8, characters);
-            for (var index = 0; index < written; index++)
-            {
-                if (characters[index] is >= 'A' and <= 'Z')
-                {
-                    characters[index] = (Char)(characters[index] + 0x20);
-                }
-            }
-
-            return new String(characters, 0, written);
+            var normalized = bytes.AsSpan(0, utf8.Length);
+            utf8.CopyTo(normalized);
+            LowerAsciiInPlace(normalized);
+            return Decode(normalized);
         }
         finally
         {
-            ArrayPool<Char>.Shared.Return(characters);
+            ArrayPool<Byte>.Shared.Return(bytes);
+        }
+    }
+
+    private static void LowerAsciiInPlace(Span<Byte> utf8)
+    {
+        for (var index = 0; index < utf8.Length; index++)
+        {
+            if ((UInt32)(utf8[index] - 'A') <= 'Z' - 'A')
+            {
+                utf8[index] += (Byte)('a' - 'A');
+            }
         }
     }
 
     private void FlushText()
     {
+        if (_hasSkippedText)
+        {
+            var skippedSlot = ReserveSlot();
+            _tokens[skippedSlot].InitializeCharacter(StringOrMemory.Empty, default);
+            Enqueue(skippedSlot);
+            _hasSkippedText = false;
+            return;
+        }
+
         if (_text.IsEmpty)
         {
             return;
@@ -459,7 +507,7 @@ internal sealed class Utf8HtmlTokenSource :
 
         _disposed = true;
         _text.Dispose();
-        _comment.Dispose();
+        _comment?.Dispose();
         _tokens = default;
         _ready = default;
         _lastStartTagName = default;
@@ -467,7 +515,7 @@ internal sealed class Utf8HtmlTokenSource :
         await _input.DisposeAsync().ConfigureAwait(false);
     }
 
-    private sealed class PooledByteBuffer : IDisposable
+    private struct PooledByteBuffer : IDisposable
     {
         private const Int32 MinimumBufferSize = 4096;
 
@@ -524,10 +572,10 @@ internal sealed class Utf8HtmlTokenSource :
         // Stay below the LOH threshold on the ordinary byte-buffer path.
         private const Int32 StreamingThreshold = 64 * 1024;
 
-        private readonly PooledByteBuffer _utf8 = new();
-        private readonly PooledByteSequence _sequence = new();
+        private PooledByteBuffer _utf8;
+        private PooledByteSequence? _sequence;
 
-        public Boolean IsEmpty => _sequence.IsEmpty && _utf8.IsEmpty;
+        public Boolean IsEmpty => (_sequence?.IsEmpty ?? true) && _utf8.IsEmpty;
 
         public void Append(ReadOnlySpan<Byte> utf8)
         {
@@ -537,7 +585,7 @@ internal sealed class Utf8HtmlTokenSource :
             }
 
             if (
-                _sequence.IsEmpty
+                (_sequence?.IsEmpty ?? true)
                 && utf8.Length <= StreamingThreshold - _utf8.WrittenCount
             )
             {
@@ -546,31 +594,33 @@ internal sealed class Utf8HtmlTokenSource :
             }
 
             EnsureSegmented();
-            _sequence.Append(utf8);
+            _sequence!.Append(utf8);
         }
 
         public StringOrMemory Materialize()
         {
-            if (_sequence.IsEmpty)
+            if (_sequence?.IsEmpty ?? true)
             {
                 var result = DecodeUtf8(_utf8.WrittenSpan);
                 _utf8.Clear();
                 return result;
             }
 
-            var sequence = _sequence.WrittenSequence;
+            var sequenceBuffer = _sequence!;
+            var sequence = sequenceBuffer.WrittenSequence;
             var text = Encoding.UTF8.GetString(in sequence);
-            _sequence.Clear();
+            sequenceBuffer.Clear();
             return text;
         }
 
         private void EnsureSegmented()
         {
-            if (!_sequence.IsEmpty)
+            if (!(_sequence?.IsEmpty ?? true))
             {
                 return;
             }
 
+            _sequence ??= new PooledByteSequence();
             _sequence.Append(_utf8.WrittenSpan);
             _utf8.Dispose();
         }
@@ -581,7 +631,7 @@ internal sealed class Utf8HtmlTokenSource :
         public void Dispose()
         {
             _utf8.Dispose();
-            _sequence.Dispose();
+            _sequence?.Dispose();
         }
     }
 

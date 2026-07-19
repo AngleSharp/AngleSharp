@@ -5,6 +5,7 @@ namespace AngleSharp.Html
     using System.Collections.Generic;
     using Common;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Represents the list of all Html entities.
@@ -2592,6 +2593,12 @@ namespace AngleSharp.Html
             return null;
         }
 
+        internal static Int32 WriteLongestSymbolUtf8(
+            ReadOnlySpan<Byte> source,
+            Span<Byte> destination,
+            out Int32 matchedLength
+        ) => Utf8EntityLookupHolder.Instance.WriteLongestSymbol(source, destination, out matchedLength);
+
         internal static String? GetSymbol(ReadOnlySpan<Byte> name) =>
             Utf8EntityLookupHolder.Instance.GetSymbol(name);
 
@@ -2680,80 +2687,49 @@ namespace AngleSharp.Html
         /// <returns>The character wrapped in a string.</returns>
         public static String? GetSymbolFromTable(Int32 code)
         {
-            switch (code)
-            {
-                case 0x00:
-                    return Convert(0xfffd);
-                case 0x0D:
-                    return Convert(0xd);
-                case 0x80:
-                    return Convert(0x20ac);
-                case 0x81:
-                    return Convert(0x81);
-                case 0x82:
-                    return Convert(0x201a);
-                case 0x83:
-                    return Convert(0x192);
-                case 0x84:
-                    return Convert(0x201e);
-                case 0x85:
-                    return Convert(0x2026);
-                case 0x86:
-                    return Convert(0x2020);
-                case 0x87:
-                    return Convert(0x2021);
-                case 0x88:
-                    return Convert(0x02C6);
-                case 0x89:
-                    return Convert(0x2030);
-                case 0x8A:
-                    return Convert(0x0160);
-                case 0x8B:
-                    return Convert(0x2039);
-                case 0x8C:
-                    return Convert(0x0152);
-                case 0x8D:
-                    return Convert(0x008D);
-                case 0x8E:
-                    return Convert(0x017D);
-                case 0x8F:
-                    return Convert(0x008F);
-                case 0x90:
-                    return Convert(0x0090);
-                case 0x91:
-                    return Convert(0x2018);
-                case 0x92:
-                    return Convert(0x2019);
-                case 0x93:
-                    return Convert(0x201C);
-                case 0x94:
-                    return Convert(0x201D);
-                case 0x95:
-                    return Convert(0x2022);
-                case 0x96:
-                    return Convert(0x2013);
-                case 0x97:
-                    return Convert(0x2014);
-                case 0x98:
-                    return Convert(0x02DC);
-                case 0x99:
-                    return Convert(0x2122);
-                case 0x9A:
-                    return Convert(0x0161);
-                case 0x9B:
-                    return Convert(0x203A);
-                case 0x9C:
-                    return Convert(0x0153);
-                case 0x9D:
-                    return Convert(0x009D);
-                case 0x9E:
-                    return Convert(0x017E);
-                case 0x9F:
-                    return Convert(0x0178);
-                default:
-                    return null;
-            }
+            var symbol = GetSymbolCodeFromTable(code);
+            return symbol < 0 ? null : Convert(symbol);
         }
+
+        internal static Int32 GetSymbolCodeFromTable(Int32 code) =>
+            code switch
+            {
+                0x00 => 0xFFFD,
+                0x0D => 0x0D,
+                0x80 => 0x20AC,
+                0x81 => 0x81,
+                0x82 => 0x201A,
+                0x83 => 0x192,
+                0x84 => 0x201E,
+                0x85 => 0x2026,
+                0x86 => 0x2020,
+                0x87 => 0x2021,
+                0x88 => 0x02C6,
+                0x89 => 0x2030,
+                0x8A => 0x0160,
+                0x8B => 0x2039,
+                0x8C => 0x0152,
+                0x8D => 0x008D,
+                0x8E => 0x017D,
+                0x8F => 0x008F,
+                0x90 => 0x0090,
+                0x91 => 0x2018,
+                0x92 => 0x2019,
+                0x93 => 0x201C,
+                0x94 => 0x201D,
+                0x95 => 0x2022,
+                0x96 => 0x2013,
+                0x97 => 0x2014,
+                0x98 => 0x02DC,
+                0x99 => 0x2122,
+                0x9A => 0x0161,
+                0x9B => 0x203A,
+                0x9C => 0x0153,
+                0x9D => 0x009D,
+                0x9E => 0x017E,
+                0x9F => 0x0178,
+                _ => -1,
+            };
 
         /// <summary>
         /// Determines if the code is within an invalid range.
@@ -2837,11 +2813,52 @@ namespace AngleSharp.Html
                 _entries = entries.ToArray();
             }
 
+            public Int32 WriteLongestSymbol(
+                ReadOnlySpan<Byte> source,
+                Span<Byte> destination,
+                out Int32 matchedLength
+            )
+            {
+                var hash = Offset;
+                var match = -1;
+                matchedLength = 0;
+                for (var length = 1; length <= source.Length; length++)
+                {
+                    hash = unchecked((hash ^ source[length - 1]) * Prime);
+                    if (!_heads.TryGetValue(hash, out var index))
+                    {
+                        continue;
+                    }
+
+                    do
+                    {
+                        ref readonly var entry = ref _entries[index];
+                        if (EqualsAscii(source[..length], entry.Name.Memory.Span))
+                        {
+                            match = index;
+                            matchedLength = length;
+                            break;
+                        }
+
+                        index = entry.Next;
+                    }
+                    while (index >= 0);
+                }
+
+                return match < 0 ? 0 : _entries[match].WriteSymbol(destination);
+            }
+
             public String? GetSymbol(ReadOnlySpan<Byte> name)
+            {
+                var index = Find(name);
+                return index < 0 ? null : _entries[index].Symbol;
+            }
+
+            private Int32 Find(ReadOnlySpan<Byte> name)
             {
                 if (name.IsEmpty || !_heads.TryGetValue(Hash(name), out var index))
                 {
-                    return null;
+                    return -1;
                 }
 
                 do
@@ -2849,14 +2866,14 @@ namespace AngleSharp.Html
                     ref readonly var entry = ref _entries[index];
                     if (EqualsAscii(name, entry.Name.Memory.Span))
                     {
-                        return entry.Symbol;
+                        return index;
                     }
 
                     index = entry.Next;
                 }
                 while (index >= 0);
 
-                return null;
+                return -1;
             }
 
             private static UInt64 Hash(ReadOnlySpan<Byte> name)
@@ -2905,6 +2922,14 @@ namespace AngleSharp.Html
                 {
                     Name = name;
                     Symbol = symbol;
+                    Span<Byte> bytes = stackalloc Byte[sizeof(UInt64)];
+                    SymbolLength = (Byte)Encoding.UTF8.GetBytes(symbol, bytes);
+                    UInt64 symbolUtf8 = 0;
+                    for (var index = 0; index < SymbolLength; index++)
+                    {
+                        symbolUtf8 |= (UInt64)bytes[index] << (index * 8);
+                    }
+                    SymbolUtf8 = symbolUtf8;
                     Next = next;
                 }
 
@@ -2912,7 +2937,20 @@ namespace AngleSharp.Html
 
                 public String Symbol { get; }
 
+                private UInt64 SymbolUtf8 { get; }
+
+                private Byte SymbolLength { get; }
+
                 public Int32 Next { get; }
+
+                public Int32 WriteSymbol(Span<Byte> destination)
+                {
+                    for (var index = 0; index < SymbolLength; index++)
+                    {
+                        destination[index] = (Byte)(SymbolUtf8 >> (index * 8));
+                    }
+                    return SymbolLength;
+                }
             }
         }
 

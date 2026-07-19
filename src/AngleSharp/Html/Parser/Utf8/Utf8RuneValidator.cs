@@ -60,7 +60,10 @@ internal struct Utf8RuneValidator
         var index = 0;
         if (_carryLength != 0)
         {
-            index = DrainCarry(tokenizer, utf8, yieldOnRequest);
+            index =
+                _contract == Utf8InputContract.WellFormedUtf8
+                    ? DrainWellFormedCarry(tokenizer, utf8, yieldOnRequest)
+                    : DrainCarry(tokenizer, utf8, yieldOnRequest);
             if (_carryLength != 0)
             {
                 if (yieldOnRequest && tokenizer.IsYieldRequested)
@@ -160,6 +163,30 @@ internal struct Utf8RuneValidator
         return index;
     }
 
+    private Int32 DrainWellFormedCarry(
+        Utf8HtmlTokenizer tokenizer,
+        ReadOnlySpan<Byte> utf8,
+        Boolean yieldOnRequest
+    )
+    {
+        var expectedLength = Utf8SequenceLength((Byte)_carry);
+        var index = 0;
+        while (_carryLength < expectedLength && index < utf8.Length)
+        {
+            AppendCarry(utf8[index++]);
+        }
+
+        if (_carryLength == expectedLength)
+        {
+            Span<Byte> scalar = stackalloc Byte[4];
+            CopyCarryTo(scalar);
+            tokenizer.WriteNormalizedUtf8(scalar[..expectedLength], yieldOnRequest);
+            ClearCarry();
+        }
+
+        return index;
+    }
+
     private Int32 DrainCarry(
         Utf8HtmlTokenizer tokenizer,
         ReadOnlySpan<Byte> utf8,
@@ -170,7 +197,6 @@ internal struct Utf8RuneValidator
         var index = 0;
         while (_carryLength != 0)
         {
-            candidate.Clear();
             CopyCarryTo(candidate);
             var status = Rune.DecodeFromUtf8(candidate[.._carryLength], out _, out var consumed);
             if (status == OperationStatus.Done)
