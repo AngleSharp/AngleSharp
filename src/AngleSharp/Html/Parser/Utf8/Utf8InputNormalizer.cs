@@ -22,7 +22,7 @@ public enum Utf8InputContract : byte
 /// Owns UTF-8 framing, validation, malformed-input replacement, and source-byte accounting before bytes reach the
 /// HTML tokenizer state machine.
 /// </summary>
-internal struct Utf8RuneValidator
+internal struct Utf8InputNormalizer
 {
     private readonly Int64 _maximumInputBytesAllowed;
     private readonly Utf8InputContract _contract;
@@ -31,7 +31,7 @@ internal struct Utf8RuneValidator
     private Int32 _validatedPrefixLength;
     private Byte _carryLength;
 
-    internal Utf8RuneValidator(Int64 maximumInputBytesAllowed, Utf8InputContract contract)
+    internal Utf8InputNormalizer(Int64 maximumInputBytesAllowed, Utf8InputContract contract)
     {
         _maximumInputBytesAllowed = maximumInputBytesAllowed;
         _contract = contract;
@@ -89,7 +89,7 @@ internal struct Utf8RuneValidator
             if (_validatedPrefixLength != 0)
             {
                 var available = Math.Min(_validatedPrefixLength, utf8.Length - index);
-                var consumed = tokenizer.WriteNormalizedUtf8(
+                var consumed = tokenizer.WriteTrustedUtf8(
                     utf8.Slice(index, available),
                     yieldOnRequest
                 );
@@ -180,7 +180,7 @@ internal struct Utf8RuneValidator
         {
             Span<Byte> scalar = stackalloc Byte[4];
             CopyCarryTo(scalar);
-            tokenizer.WriteNormalizedUtf8(scalar[..expectedLength], yieldOnRequest);
+            tokenizer.WriteTrustedUtf8(scalar[..expectedLength], yieldOnRequest);
             ClearCarry();
         }
 
@@ -201,13 +201,13 @@ internal struct Utf8RuneValidator
             var status = Rune.DecodeFromUtf8(candidate[.._carryLength], out _, out var consumed);
             if (status == OperationStatus.Done)
             {
-                tokenizer.WriteNormalizedUtf8(candidate[..consumed], yieldOnRequest);
+                tokenizer.WriteTrustedUtf8(candidate[..consumed], yieldOnRequest);
                 ClearCarry();
                 return index;
             }
             if (status == OperationStatus.InvalidData)
             {
-                tokenizer.WriteNormalizedUtf8("\uFFFD"u8, yieldOnRequest);
+                tokenizer.WriteTrustedUtf8("\uFFFD"u8, yieldOnRequest);
                 ShiftCarry(Math.Max(consumed, 1));
                 if (yieldOnRequest && tokenizer.IsYieldRequested)
                 {
@@ -233,7 +233,7 @@ internal struct Utf8RuneValidator
             return;
         }
 
-        tokenizer.WriteNormalizedUtf8("\uFFFD"u8, yieldOnRequest: false);
+        tokenizer.WriteTrustedUtf8("\uFFFD"u8, yieldOnRequest: false);
         ClearCarry();
     }
 
@@ -249,7 +249,7 @@ internal struct Utf8RuneValidator
         var completeLength = CompleteUtf8PrefixLength(remaining);
         if (completeLength != 0)
         {
-            var consumed = tokenizer.WriteNormalizedUtf8(remaining[..completeLength], yieldOnRequest);
+            var consumed = tokenizer.WriteTrustedUtf8(remaining[..completeLength], yieldOnRequest);
             index += consumed;
             if (consumed != completeLength)
             {
@@ -286,7 +286,7 @@ internal struct Utf8RuneValidator
 
             if (index != validStart)
             {
-                var validConsumed = tokenizer.WriteNormalizedUtf8(
+                var validConsumed = tokenizer.WriteTrustedUtf8(
                     utf8.Slice(validStart, index - validStart),
                     yieldOnRequest
                 );
@@ -297,7 +297,7 @@ internal struct Utf8RuneValidator
                 }
             }
 
-            tokenizer.WriteNormalizedUtf8("\uFFFD"u8, yieldOnRequest);
+            tokenizer.WriteTrustedUtf8("\uFFFD"u8, yieldOnRequest);
             if (status == OperationStatus.NeedMoreData)
             {
                 return utf8.Length;
@@ -309,7 +309,7 @@ internal struct Utf8RuneValidator
 
         if (index != validStart)
         {
-            validStart += tokenizer.WriteNormalizedUtf8(utf8[validStart..], yieldOnRequest);
+            validStart += tokenizer.WriteTrustedUtf8(utf8[validStart..], yieldOnRequest);
         }
 
         return validStart;

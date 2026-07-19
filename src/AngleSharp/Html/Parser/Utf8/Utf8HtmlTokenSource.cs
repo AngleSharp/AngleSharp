@@ -36,6 +36,7 @@ internal sealed class Utf8HtmlTokenSource :
 
     private readonly IAsyncEnumerator<ReadOnlyMemory<Byte>> _input;
     private readonly Utf8HtmlTokenizer _tokenizer;
+    private readonly Utf8HtmlTokenizerInput _tokenizerInput;
     private readonly Utf8TextAccumulator _text = new();
     private Utf8TextAccumulator? _comment;
     private TokenBuffer _tokens;
@@ -71,13 +72,14 @@ internal sealed class Utf8HtmlTokenSource :
     {
         ArgumentNullException.ThrowIfNull(input);
         _input = input.GetAsyncEnumerator(cancellationToken);
-        _tokenizer = new Utf8HtmlTokenizer(this, inputContract)
+        _tokenizer = new Utf8HtmlTokenizer(this)
         {
             IsModeControlledExternally = true,
         };
+        _tokenizerInput = new Utf8HtmlTokenizerInput(_tokenizer, inputContract);
     }
 
-    internal Utf8HtmlTokenizerCounters TokenizerCounters => _tokenizer.Counters;
+    internal Utf8HtmlTokenizerCounters TokenizerCounters => _tokenizerInput.Counters;
 
     internal Utf8AttributePrefilter? AttributePrefilter { get; set; }
 
@@ -136,7 +138,7 @@ internal sealed class Utf8HtmlTokenSource :
         while (_segmentOffset < _segment.Length)
         {
             var remaining = _segment.Span.Slice(_segmentOffset);
-            var consumed = _tokenizer.WriteUntilYield(remaining);
+            var consumed = _tokenizerInput.WriteUntilYield(remaining);
 
             if (consumed <= 0)
             {
@@ -193,7 +195,7 @@ internal sealed class Utf8HtmlTokenSource :
         if (!hasInput)
         {
             _inputCompleted = true;
-            _tokenizer.Complete();
+            _tokenizerInput.Complete();
             return true;
         }
 

@@ -341,31 +341,30 @@ namespace AngleSharp.Core.Tests.Html
             };
             var sink = new ValidatingTextSink();
             var tokenizer = new Utf8HtmlTokenizer(sink);
+            var input = new Utf8HtmlTokenizerInput(tokenizer);
 
             foreach (var value in utf8)
             {
-                tokenizer.Write(new ReadOnlySpan<Byte>(in value));
+                input.Write(new ReadOnlySpan<Byte>(in value));
             }
-            tokenizer.Complete();
+            input.Complete();
 
             Assert.That(sink.DecodedText, Is.EqualTo(Encoding.UTF8.GetString(utf8)));
         }
 
         [Test]
-        public void WellFormedInputContractMatchesDefaultAcrossEveryByteBoundary()
+        public void TrustedTokenizerMatchesValidatingInputAcrossEveryByteBoundary()
         {
             var utf8 = Encoding.UTF8.GetBytes("<div>ASCII Ж 🙂 text</div>");
             var expectedSink = new TokenRecordingSink();
             var actualSink = new TokenRecordingSink();
-            var expected = new Utf8HtmlTokenizer(expectedSink);
-            var actual = new Utf8HtmlTokenizer(actualSink, Utf8InputContract.WellFormedUtf8);
+            var expectedTokenizer = new Utf8HtmlTokenizer(expectedSink);
+            var expected = new Utf8HtmlTokenizerInput(expectedTokenizer);
+            var actual = new Utf8HtmlTokenizer(actualSink);
 
             foreach (var value in utf8)
-            {
-                var next = new ReadOnlySpan<Byte>(in value);
-                expected.Write(next);
-                actual.Write(next);
-            }
+                expected.Write(new ReadOnlySpan<Byte>(in value));
+            actual.Write(utf8);
             expected.Complete();
             actual.Complete();
 

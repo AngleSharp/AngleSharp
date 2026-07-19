@@ -2833,7 +2833,7 @@ namespace AngleSharp.Html
                     do
                     {
                         ref readonly var entry = ref _entries[index];
-                        if (EqualsAscii(source[..length], entry.Name.Memory.Span))
+                        if (EqualsAscii(source.Slice(0, length), entry.Name.Memory.Span))
                         {
                             match = index;
                             matchedLength = length;
@@ -2922,8 +2922,13 @@ namespace AngleSharp.Html
                 {
                     Name = name;
                     Symbol = symbol;
+#if NET8_0_OR_GREATER
                     Span<Byte> bytes = stackalloc Byte[sizeof(UInt64)];
-                    SymbolLength = (Byte)Encoding.UTF8.GetBytes(symbol, bytes);
+                    bytes = bytes.Slice(0, Encoding.UTF8.GetBytes(symbol, bytes));
+#else
+                    ReadOnlySpan<Byte> bytes = Encoding.UTF8.GetBytes(symbol);
+#endif
+                    SymbolLength = (Byte)bytes.Length;
                     UInt64 symbolUtf8 = 0;
                     for (var index = 0; index < SymbolLength; index++)
                     {

@@ -123,7 +123,6 @@ public sealed class Utf8HtmlTokenizer
     private readonly ArrayBufferWriter<Byte> _candidate = new(64);
     private ArrayBufferWriter<Byte>? _doctypePublic;
     private ArrayBufferWriter<Byte>? _doctypeSystem;
-    private Utf8RuneValidator _validator;
     private State _state;
     private State _returnState;
     private Boolean _isEndTag;
@@ -150,12 +149,14 @@ public sealed class Utf8HtmlTokenizer
     private Int32 _seenAttributeCount;
     private AttributeCapture _attributeCapture;
     private readonly Int32 _maximumBufferedTokenBytesAllowed;
+    private readonly Int64 _maximumInputBytesAllowed;
     private readonly IUtf8HtmlTokenSink _sink;
     private readonly IUtf8HtmlStreamingCommentSink? _streamingCommentSink;
     private readonly IUtf8HtmlStartTagSourceRangeSink? _startTagSourceRangeSink;
     private Boolean _streamingCommentStarted;
     private Boolean _captureStreamingComment;
     private Int64 _normalizedBytesConsumed;
+    private Int64 _inputBytesConsumed;
     private Int64 _currentSourceOffset;
     private Int64 _lastLessThanSourceOffset;
     private Int64 _currentTagSourceOffset;
@@ -172,16 +173,6 @@ public sealed class Utf8HtmlTokenizer
     public Utf8HtmlTokenizer(IUtf8HtmlTokenSink sink, HtmlStreamingLimits limits)
         : this(sink, null, limits, countInputBytes: true) { }
 
-    public Utf8HtmlTokenizer(IUtf8HtmlTokenSink sink, Utf8InputContract inputContract)
-        : this(sink, null, HtmlStreamingLimits.Default, countInputBytes: true, inputContract) { }
-
-    public Utf8HtmlTokenizer(
-        IUtf8HtmlTokenSink sink,
-        HtmlStreamingLimits limits,
-        Utf8InputContract inputContract
-    )
-        : this(sink, null, limits, countInputBytes: true, inputContract) { }
-
     public Utf8HtmlTokenizer(IUtf8HtmlTokenSink sink, Utf8HtmlTokenizerStateMetrics? stateMetrics)
         : this(sink, stateMetrics, HtmlStreamingLimits.Default, countInputBytes: true) { }
 
@@ -190,21 +181,6 @@ public sealed class Utf8HtmlTokenizer
         Utf8HtmlTokenizerStateMetrics? stateMetrics,
         HtmlStreamingLimits limits,
         Boolean countInputBytes
-    )
-        : this(
-            sink,
-            stateMetrics,
-            limits,
-            countInputBytes,
-            Utf8InputContract.ArbitraryBytes
-        ) { }
-
-    public Utf8HtmlTokenizer(
-        IUtf8HtmlTokenSink sink,
-        Utf8HtmlTokenizerStateMetrics? stateMetrics,
-        HtmlStreamingLimits limits,
-        Boolean countInputBytes,
-        Utf8InputContract inputContract
     )
     {
         ArgumentNullException.ThrowIfNull(limits);
@@ -219,10 +195,7 @@ public sealed class Utf8HtmlTokenizer
                 : null;
         _stateMetrics = stateMetrics;
         _maximumBufferedTokenBytesAllowed = limits.MaximumBufferedTokenBytes;
-        _validator = new Utf8RuneValidator(
-            countInputBytes ? limits.MaximumInputBytes : Int64.MaxValue,
-            inputContract
-        );
+        _maximumInputBytesAllowed = countInputBytes ? limits.MaximumInputBytes : Int64.MaxValue;
     }
 
     public static Int32 StateCount => StateNames.Length;
@@ -231,7 +204,10 @@ public sealed class Utf8HtmlTokenizer
         _stateMetrics?.Snapshot(StateNames) ?? [];
 
     public Utf8HtmlTokenizerCounters Counters =>
-        new(_validator.BytesConsumed, _segments, _reconsumes, 0, _maximumBufferedTokenBytes);
+        GetCounters(_inputBytesConsumed);
+
+    internal Utf8HtmlTokenizerCounters GetCounters(Int64 sourceBytesConsumed) =>
+        new(sourceBytesConsumed, _segments, _reconsumes, 0, _maximumBufferedTokenBytes);
 
     /// <summary>
     /// Applies the tokenizer state selected by an external tree constructor.
@@ -264,14 +240,22 @@ public sealed class Utf8HtmlTokenizer
     /// </summary>
     public void EnterCDataSection() => _state = State.CDataSection;
 
+    /// <summary>
+    /// Consumes complete, well-formed UTF-8. Use <see cref="Utf8HtmlTokenizerInput"/> for arbitrary
+    /// byte chunks or malformed-input replacement.
+    /// </summary>
     public void Write(ReadOnlyMemory<Byte> utf8)
     {
-        ThrowIfCompleted();
-        _segments++;
-        _validator.Write(this, utf8.Span, yieldOnRequest: false);
+        RecordInputSegment();
+        WriteCore(utf8.Span, yieldOnRequest: false);
     }
 
-    public void Write(ReadOnlySpan<Byte> utf8) => WriteCore(utf8, yieldOnRequest: false);
+    /// <inheritdoc cref="Write(ReadOnlyMemory{Byte})"/>
+    public void Write(ReadOnlySpan<Byte> utf8)
+    {
+        RecordInputSegment();
+        WriteCore(utf8, yieldOnRequest: false);
+    }
 
     /// <summary>
     /// Consumes input until the sink requests a yield. The caller must resubmit the unconsumed suffix before offering
@@ -280,21 +264,38 @@ public sealed class Utf8HtmlTokenizer
     /// <returns>The number of bytes consumed from <paramref name="utf8"/>.</returns>
     internal Int32 WriteUntilYield(ReadOnlySpan<Byte> utf8)
     {
-        _yieldRequested = false;
+        ResetYieldRequest();
         return WriteCore(utf8, yieldOnRequest: true);
     }
 
     internal void RequestYield() => _yieldRequested = true;
 
+    internal void ResetYieldRequest() => _yieldRequested = false;
+
+    internal void RecordInputSegment() => _segments++;
+
     private Int32 WriteCore(ReadOnlySpan<Byte> utf8, Boolean yieldOnRequest)
     {
         ThrowIfCompleted();
-        return _validator.Write(this, utf8, yieldOnRequest);
+        var previousBytesConsumed = _inputBytesConsumed;
+        var observedInputBytes = SaturatingAdd(previousBytesConsumed, utf8.Length);
+        if (observedInputBytes > _maximumInputBytesAllowed)
+        {
+            throw new HtmlStreamingLimitExceededException(
+                HtmlStreamingLimit.InputBytes,
+                _maximumInputBytesAllowed,
+                observedInputBytes
+            );
+        }
+
+        var consumed = WriteTrustedUtf8(utf8, yieldOnRequest);
+        _inputBytesConsumed = SaturatingAdd(previousBytesConsumed, consumed);
+        return consumed;
     }
 
     internal Boolean IsYieldRequested => _yieldRequested;
 
-    internal Int32 WriteNormalizedUtf8(ReadOnlySpan<Byte> utf8, Boolean yieldOnRequest)
+    internal Int32 WriteTrustedUtf8(ReadOnlySpan<Byte> utf8, Boolean yieldOnRequest)
     {
         var trackSourceRanges = _startTagSourceRangeSink is not null;
         var sourceBase = trackSourceRanges ? _normalizedBytesConsumed : 0;
@@ -485,7 +486,6 @@ public sealed class Utf8HtmlTokenizer
             return;
         }
 
-        _validator.Complete(this);
         Utf8AttributeNameIndex.Reset(ref _seenAttributeIndex);
         switch (_state)
         {
@@ -552,7 +552,9 @@ public sealed class Utf8HtmlTokenizer
     )
     {
         ArgumentNullException.ThrowIfNull(reader);
-        var tokenizer = new Utf8HtmlTokenizer(sink, limits ?? HtmlStreamingLimits.Default);
+        var effectiveLimits = limits ?? HtmlStreamingLimits.Default;
+        var tokenizer = new Utf8HtmlTokenizer(sink, effectiveLimits);
+        var input = new Utf8HtmlTokenizerInput(tokenizer, limits: effectiveLimits);
         while (true)
         {
             var result = await reader.ReadAsync(cancellationToken).ConfigureAwait(false);
@@ -566,7 +568,7 @@ public sealed class Utf8HtmlTokenizer
             {
                 foreach (var segment in buffer)
                 {
-                    tokenizer.Write(segment);
+                    input.Write(segment);
                 }
             }
             finally
@@ -578,8 +580,8 @@ public sealed class Utf8HtmlTokenizer
                 break;
             }
         }
-        tokenizer.Complete();
-        return tokenizer.Counters;
+        input.Complete();
+        return input.Counters;
     }
 
     private void Process(Byte value)
