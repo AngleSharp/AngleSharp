@@ -112,6 +112,8 @@ public sealed class Utf8HtmlTokenizer
         SearchValues.Create("\0&>\t\n\f\r "u8);
     private static readonly SearchValues<Byte> DiscardedUnquotedAttributeValueTerminators =
         SearchValues.Create(">\t\n\f\r "u8);
+    private static readonly SearchValues<Byte> EscapedScriptTextTerminators =
+        SearchValues.Create("<-\0\r"u8);
     private static readonly SearchValues<Byte> CommentTerminators = SearchValues.Create("<-\0\r"u8);
     private static readonly String[] StateNames = Enum.GetNames<State>();
 
@@ -461,7 +463,14 @@ public sealed class Utf8HtmlTokenizer
                 _pendingCarriageReturn = true;
                 value = (Byte)'\n';
             }
-            Process(value);
+            if (IsScriptState(_state))
+            {
+                ProcessScriptInput(value, utf8, ref index);
+            }
+            else
+            {
+                Process(value);
+            }
                 if (yieldOnRequest && _yieldRequested)
                 {
                     return index;
@@ -591,11 +600,6 @@ public sealed class Utf8HtmlTokenizer
         {
             reconsume = false;
             _stateMetrics?.Record((Int32)_state, 1);
-            if (IsScriptState(_state))
-            {
-                ProcessScript(value, ref reconsume);
-                continue;
-            }
             switch (_state)
             {
                 case State.Data:
@@ -2137,6 +2141,46 @@ public sealed class Utf8HtmlTokenizer
                 }
                 break;
         }
+    }
+
+    private void ProcessScriptInput(Byte value, ReadOnlySpan<Byte> utf8, ref Int32 index)
+    {
+        var reconsume = true;
+        while (reconsume)
+        {
+            reconsume = false;
+            _stateMetrics?.Record((Int32)_state, 1);
+            ProcessScript(value, ref reconsume);
+        }
+
+        if (
+            _state is not (State.ScriptEscaped or State.ScriptDoubleEscaped)
+            || _pendingCarriageReturn
+            || _textUtf8CarryLength != 0
+        )
+        {
+            return;
+        }
+
+        var remaining = utf8[index..];
+        var run = _captureText
+            ? remaining.IndexOfAny(EscapedScriptTextTerminators)
+            : remaining.IndexOfAny((Byte)'<', (Byte)'-');
+        if (run < 0)
+        {
+            run = remaining.Length;
+        }
+        if (run == 0)
+        {
+            return;
+        }
+
+        _stateMetrics?.Record((Int32)_state, run);
+        if (_captureText)
+        {
+            EmitText(remaining[..run]);
+        }
+        index += run;
     }
 
     private void BeginScriptEndTag(State state)
