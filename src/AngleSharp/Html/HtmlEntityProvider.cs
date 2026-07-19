@@ -2788,25 +2788,80 @@ namespace AngleSharp.Html
 
         private sealed class Utf8EntityLookup
         {
-            private const UInt64 Offset = 14695981039346656037UL;
-            private const UInt64 Prime = 1099511628211UL;
+            private const Int32 AsciiCount = 128;
 
-            private readonly Dictionary<UInt64, Int32> _heads;
+            private readonly Int32[] _root;
+            private readonly Utf8EntityNode[] _nodes;
+            private readonly Utf8EntityEdge[] _edges;
             private readonly Utf8EntityEntry[] _entries;
 
             public Utf8EntityLookup(Dictionary<Char, Dictionary<StringOrMemory, String>> entities)
             {
                 var entries = new List<Utf8EntityEntry>(entities.Sum(m => m.Value.Count));
-                _heads = new Dictionary<UInt64, Int32>(entries.Capacity);
+                var builders = new List<Utf8EntityNodeBuilder>(entries.Capacity * 4)
+                {
+                    new Utf8EntityNodeBuilder(),
+                };
 
                 foreach (var symbols in entities.Values)
                 {
                     foreach (var entity in symbols)
                     {
-                        var hash = Hash(entity.Key.Memory.Span);
-                        var next = _heads.TryGetValue(hash, out var head) ? head : -1;
-                        _heads[hash] = entries.Count;
-                        entries.Add(new Utf8EntityEntry(entity.Key, entity.Value, next));
+                        var entryIndex = entries.Count;
+                        entries.Add(new Utf8EntityEntry(entity.Value));
+                        var nodeIndex = 0;
+                        foreach (var character in entity.Key.Memory.Span)
+                        {
+                            if (character >= AsciiCount)
+                            {
+                                throw new InvalidOperationException("HTML entity names must be ASCII.");
+                            }
+
+                            var value = (Byte)character;
+                            var builder = builders[nodeIndex];
+                            if (!builder.Children.TryGetValue(value, out var next))
+                            {
+                                next = builders.Count;
+                                builder.Children.Add(value, next);
+                                builders.Add(new Utf8EntityNodeBuilder());
+                            }
+                            nodeIndex = next;
+                        }
+                        builders[nodeIndex].EntryIndex = entryIndex;
+                    }
+                }
+
+                _root = new Int32[AsciiCount];
+                for (var index = 0; index < _root.Length; index++)
+                {
+                    _root[index] = -1;
+                }
+                foreach (var edge in builders[0].Children)
+                {
+                    _root[edge.Key] = edge.Value;
+                }
+
+                var edgeCount = 0;
+                for (var index = 1; index < builders.Count; index++)
+                {
+                    edgeCount += builders[index].Children.Count;
+                }
+
+                _nodes = new Utf8EntityNode[builders.Count];
+                _edges = new Utf8EntityEdge[edgeCount];
+                var edgeOffset = 0;
+                for (var index = 1; index < builders.Count; index++)
+                {
+                    var children = builders[index].Children.ToArray();
+                    Array.Sort(children, static (left, right) => left.Key.CompareTo(right.Key));
+                    _nodes[index] = new Utf8EntityNode(
+                        edgeOffset,
+                        children.Length,
+                        builders[index].EntryIndex
+                    );
+                    foreach (var edge in children)
+                    {
+                        _edges[edgeOffset++] = new Utf8EntityEdge(edge.Key, edge.Value);
                     }
                 }
 
@@ -2819,30 +2874,24 @@ namespace AngleSharp.Html
                 out Int32 matchedLength
             )
             {
-                var hash = Offset;
                 var match = -1;
                 matchedLength = 0;
-                for (var length = 1; length <= source.Length; length++)
+                if (source.IsEmpty || source[0] >= _root.Length)
                 {
-                    hash = unchecked((hash ^ source[length - 1]) * Prime);
-                    if (!_heads.TryGetValue(hash, out var index))
+                    return 0;
+                }
+
+                var nodeIndex = _root[source[0]];
+                for (var length = 1; nodeIndex >= 0; length++)
+                {
+                    var entryIndex = _nodes[nodeIndex].EntryIndex;
+                    if (entryIndex >= 0)
                     {
-                        continue;
+                        match = entryIndex;
+                        matchedLength = length;
                     }
 
-                    do
-                    {
-                        ref readonly var entry = ref _entries[index];
-                        if (EqualsAscii(source.Slice(0, length), entry.Name.Memory.Span))
-                        {
-                            match = index;
-                            matchedLength = length;
-                            break;
-                        }
-
-                        index = entry.Next;
-                    }
-                    while (index >= 0);
+                    nodeIndex = length < source.Length ? FindNext(nodeIndex, source[length]) : -1;
                 }
 
                 return match < 0 ? 0 : _entries[match].WriteSymbol(destination);
@@ -2856,71 +2905,80 @@ namespace AngleSharp.Html
 
             private Int32 Find(ReadOnlySpan<Byte> name)
             {
-                if (name.IsEmpty || !_heads.TryGetValue(Hash(name), out var index))
+                if (name.IsEmpty || name[0] >= _root.Length)
                 {
                     return -1;
                 }
 
-                do
+                var nodeIndex = _root[name[0]];
+                for (var index = 1; nodeIndex >= 0 && index < name.Length; index++)
                 {
-                    ref readonly var entry = ref _entries[index];
-                    if (EqualsAscii(name, entry.Name.Memory.Span))
-                    {
-                        return index;
-                    }
-
-                    index = entry.Next;
+                    nodeIndex = FindNext(nodeIndex, name[index]);
                 }
-                while (index >= 0);
+
+                return nodeIndex < 0 ? -1 : _nodes[nodeIndex].EntryIndex;
+            }
+
+            private Int32 FindNext(Int32 nodeIndex, Byte value)
+            {
+                ref readonly var node = ref _nodes[nodeIndex];
+                var end = node.EdgeOffset + node.EdgeCount;
+                for (var index = node.EdgeOffset; index < end; index++)
+                {
+                    ref readonly var edge = ref _edges[index];
+                    if (edge.Value == value)
+                    {
+                        return edge.Next;
+                    }
+                    if (edge.Value > value)
+                    {
+                        break;
+                    }
+                }
 
                 return -1;
             }
 
-            private static UInt64 Hash(ReadOnlySpan<Byte> name)
+            private sealed class Utf8EntityNodeBuilder
             {
-                var hash = Offset;
-                for (var index = 0; index < name.Length; index++)
-                {
-                    hash = unchecked((hash ^ name[index]) * Prime);
-                }
+                public Dictionary<Byte, Int32> Children { get; } = new ();
 
-                return hash;
+                public Int32 EntryIndex { get; set; } = -1;
             }
 
-            private static UInt64 Hash(ReadOnlySpan<Char> name)
+            private readonly struct Utf8EntityNode
             {
-                var hash = Offset;
-                for (var index = 0; index < name.Length; index++)
+                public Utf8EntityNode(Int32 edgeOffset, Int32 edgeCount, Int32 entryIndex)
                 {
-                    hash = unchecked((hash ^ name[index]) * Prime);
+                    EdgeOffset = edgeOffset;
+                    EdgeCount = edgeCount;
+                    EntryIndex = entryIndex;
                 }
 
-                return hash;
+                public Int32 EdgeOffset { get; }
+
+                public Int32 EdgeCount { get; }
+
+                public Int32 EntryIndex { get; }
             }
 
-            private static Boolean EqualsAscii(ReadOnlySpan<Byte> bytes, ReadOnlySpan<Char> chars)
+            private readonly struct Utf8EntityEdge
             {
-                if (bytes.Length != chars.Length)
+                public Utf8EntityEdge(Byte value, Int32 next)
                 {
-                    return false;
+                    Value = value;
+                    Next = next;
                 }
 
-                for (var index = 0; index < bytes.Length; index++)
-                {
-                    if (bytes[index] != chars[index])
-                    {
-                        return false;
-                    }
-                }
+                public Byte Value { get; }
 
-                return true;
+                public Int32 Next { get; }
             }
 
             private readonly struct Utf8EntityEntry
             {
-                public Utf8EntityEntry(StringOrMemory name, String symbol, Int32 next)
+                public Utf8EntityEntry(String symbol)
                 {
-                    Name = name;
                     Symbol = symbol;
 #if NET8_0_OR_GREATER
                     Span<Byte> bytes = stackalloc Byte[sizeof(UInt64)];
@@ -2935,18 +2993,13 @@ namespace AngleSharp.Html
                         symbolUtf8 |= (UInt64)bytes[index] << (index * 8);
                     }
                     SymbolUtf8 = symbolUtf8;
-                    Next = next;
                 }
-
-                public StringOrMemory Name { get; }
 
                 public String Symbol { get; }
 
                 private UInt64 SymbolUtf8 { get; }
 
                 private Byte SymbolLength { get; }
-
-                public Int32 Next { get; }
 
                 public Int32 WriteSymbol(Span<Byte> destination)
                 {
