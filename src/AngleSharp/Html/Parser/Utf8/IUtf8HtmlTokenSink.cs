@@ -59,14 +59,17 @@ public interface IUtf8HtmlStartTagSourceRangeSink
 }
 
 /// <summary>
-/// Internal compatibility-lane capability for comments whose payload should not be materialized
-/// in the tokenizer's contiguous scratch buffer.
+/// Optional streaming comment capability. Implement this interface to consume comment payloads incrementally or to
+/// decline them from <see cref="BeginComment"/> without materializing the complete payload in tokenizer scratch.
 /// </summary>
-internal interface IUtf8HtmlStreamingCommentSink
+public interface IUtf8HtmlStreamingCommentSink
 {
+    /// <summary>Returns whether the payload of the next comment should be delivered.</summary>
     Boolean BeginComment();
 
+    /// <summary>Consumes one complete, callback-scoped UTF-8 comment payload chunk.</summary>
     void CommentChunk(ReadOnlySpan<Byte> utf8);
 
+    /// <summary>Completes the current comment.</summary>
     void EndComment();
 }
