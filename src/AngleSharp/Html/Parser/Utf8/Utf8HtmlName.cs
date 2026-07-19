@@ -27,6 +27,57 @@ public readonly ref struct Utf8HtmlName
         get => _cache.GetOrCompute(Verbatim);
     }
 
+    /// <summary>
+    /// Tries to encode an ASCII-alpha tag name, optionally containing digits 1 through 6,
+    /// into an exact case-insensitive key. Returns false when the name must instead be
+    /// compared using its verbatim bytes.
+    /// </summary>
+    public Boolean TryGetCompactKey(out UInt64 key) => TryGetCompactKey(Verbatim, out key);
+
+    /// <summary>
+    /// Tries to encode an ASCII-alpha tag name, optionally containing digits 1 through 6,
+    /// into an exact case-insensitive key.
+    /// </summary>
+    public static Boolean TryGetCompactKey(ReadOnlySpan<Byte> name, out UInt64 key)
+    {
+        var value = 0UL;
+        if (name.IsEmpty || name.Length > 12 || !IsAsciiAlpha(name[0]))
+        {
+            key = 0;
+            return false;
+        }
+
+        for (var index = 0; index < name.Length; index++)
+        {
+            if ((value >> 59) != 0)
+            {
+                key = 0;
+                return false;
+            }
+
+            var input = name[index];
+            UInt64 symbol;
+            if (IsAsciiAlpha(input))
+            {
+                symbol = ((UInt64)input & 0x1FUL) + 5;
+            }
+            else if (input is >= (Byte)'1' and <= (Byte)'6')
+            {
+                symbol = (UInt64)(input - (Byte)'1');
+            }
+            else
+            {
+                key = 0;
+                return false;
+            }
+
+            value = (value << 5) | symbol;
+        }
+
+        key = value;
+        return true;
+    }
+
     /// <summary>Compares this name using HTML ASCII case-insensitive semantics.</summary>
     public Boolean SemanticEquals(ReadOnlySpan<Byte> expected) =>
         EqualsAsciiIgnoreCase(Verbatim, expected);
@@ -48,6 +99,9 @@ public readonly ref struct Utf8HtmlName
 
         return true;
     }
+
+    private static Boolean IsAsciiAlpha(Byte value) =>
+        (UInt32)((value | 0x20) - (Byte)'a') <= (Byte)'z' - (Byte)'a';
 }
 
 internal struct Utf8HtmlNameHashCache

@@ -242,6 +242,25 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void CompactTagKeyIsExactCaseInsensitiveAndFallsBackOutsideItsAlphabet()
+        {
+            Assert.That(Utf8HtmlName.TryGetCompactKey("div"u8, out var div), Is.True);
+            Assert.That(div, Is.EqualTo(9691UL));
+            Assert.That(Utf8HtmlName.TryGetCompactKey("DiV"u8, out var mixedCase), Is.True);
+            Assert.That(mixedCase, Is.EqualTo(div));
+
+            Assert.That(Utf8HtmlName.TryGetCompactKey("h1"u8, out var h1), Is.True);
+            Assert.That(Utf8HtmlName.TryGetCompactKey("h2"u8, out var h2), Is.True);
+            Assert.That(h2, Is.Not.EqualTo(h1));
+            Assert.That(Utf8HtmlName.TryGetCompactKey("abcdefghijkl"u8, out _), Is.True);
+
+            Assert.That(Utf8HtmlName.TryGetCompactKey("abcdefghijklm"u8, out _), Is.False);
+            Assert.That(Utf8HtmlName.TryGetCompactKey("custom-element"u8, out _), Is.False);
+            Assert.That(Utf8HtmlName.TryGetCompactKey("h7"u8, out _), Is.False);
+            Assert.That(Utf8HtmlName.TryGetCompactKey("1div"u8, out _), Is.False);
+        }
+
+        [Test]
         public async Task ValidatedAsciiPrefixSurvivesRepeatedYieldsBeforeNonAsciiInput()
         {
             var html = String.Concat(System.Linq.Enumerable.Repeat("<div><b>x</b></div>", 256)) + "<p>héllø</p>";
