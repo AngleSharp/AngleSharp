@@ -12,6 +12,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Construction;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
+using AngleSharp.Html.Parser.Tokens.Struct;
 using AngleSharp.Html.Parser.Utf8;
 using AngleSharp.Text;
 using BenchmarkDotNet.Attributes;
@@ -90,6 +91,17 @@ public class Utf8MutableDomBenchmark
         yield return "utf8_edu.bin";
         yield return "html5test-no-payload.html";
 
+        if (String.Equals(
+            Environment.GetEnvironmentVariable("ANGLE_UTF8_CORPUS_SET"),
+            "prefilter",
+            StringComparison.OrdinalIgnoreCase
+        ))
+        {
+            yield return Path.Combine("temp", "qq.html");
+            yield return Path.Combine("temp", "youtube.html");
+            yield break;
+        }
+
         var cachedPages = Directory
             .EnumerateFiles(ResolveCorpusDirectory("temp"), "*.html")
             .OrderBy(Path.GetFileName, StringComparer.Ordinal)
@@ -159,6 +171,20 @@ public class Utf8MutableDomBenchmark
                 nameof(StructureIdClassOptions)
             )
             .ConfigureAwait(false);
+        await VerifyReducedDomAsync(
+                _queryAttributeParser,
+                QueryAttributeOptions,
+                "QueryAttributeUtf8Prefilter",
+                QueryAttributePrefilter
+            )
+            .ConfigureAwait(false);
+        await VerifyReducedDomAsync(
+                _structureIdClassParser,
+                StructureIdClassOptions,
+                "StructureIdClassUtf8Prefilter",
+                IdClassAttributePrefilter
+            )
+            .ConfigureAwait(false);
     }
 
     [Benchmark, BenchmarkCategory("Network4K")]
@@ -210,6 +236,10 @@ public class Utf8MutableDomBenchmark
     public Task<Int32> NativeUtf8QueryAttributesNetwork4K() =>
         ParseNativeUtf8Async(QueryAttributeOptions);
 
+    [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture", "Utf8AttributePrefilter")]
+    public Task<Int32> NativeUtf8QueryAttributesPrefilterNetwork4K() =>
+        ParseNativeUtf8Async(QueryAttributeOptions, QueryAttributePrefilter);
+
     [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture")]
     public Task<Int32> BoundedUtf16StructureOnlyNetwork4K() =>
         ParseBoundedUtf16Async(_structureOnlyParser);
@@ -225,6 +255,10 @@ public class Utf8MutableDomBenchmark
     [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture", "StructureIdClass", "PageSet")]
     public Task<Int32> NativeUtf8StructureIdClassNetwork4K() =>
         ParseNativeUtf8Async(StructureIdClassOptions);
+
+    [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture", "StructureIdClass", "Utf8AttributePrefilter")]
+    public Task<Int32> NativeUtf8StructureIdClassPrefilterNetwork4K() =>
+        ParseNativeUtf8Async(StructureIdClassOptions, IdClassAttributePrefilter);
 
     [Benchmark, BenchmarkCategory("Network4K")]
     public async Task<Int32> TrustedUtf8Network4K()
@@ -254,11 +288,13 @@ public class Utf8MutableDomBenchmark
     private async Task<IDocument> ParseUtf8Async(
         IAsyncEnumerable<ReadOnlyMemory<Byte>> input,
         Utf8InputContract inputContract = Utf8InputContract.ArbitraryBytes,
-        HtmlParserOptions options = default
+        HtmlParserOptions options = default,
+        Utf8AttributePrefilter attributePrefilter = null
     )
     {
         var document = new HtmlDocument(_context, new TextSource(String.Empty));
         await using var tokenSource = new Utf8HtmlTokenSource(input, inputContract);
+        tokenSource.AttributePrefilter = attributePrefilter;
         using var builder = new HtmlDomBuilder(_factory, document, tokenSource: tokenSource);
         return await builder.ParseAsync(options).ConfigureAwait(false);
     }
@@ -272,11 +308,15 @@ public class Utf8MutableDomBenchmark
         return document.All.Length;
     }
 
-    private async Task<Int32> ParseNativeUtf8Async(HtmlParserOptions options)
+    private async Task<Int32> ParseNativeUtf8Async(
+        HtmlParserOptions options,
+        Utf8AttributePrefilter attributePrefilter = null
+    )
     {
         using var document = await ParseUtf8Async(
                 NetworkChunks(_utf8, NetworkBufferSize),
-                options: options
+                options: options,
+                attributePrefilter: attributePrefilter
             )
             .ConfigureAwait(false);
         return document.All.Length;
@@ -285,7 +325,8 @@ public class Utf8MutableDomBenchmark
     private async Task VerifyReducedDomAsync(
         HtmlParser matureParser,
         HtmlParserOptions options,
-        String lane)
+        String lane,
+        Utf8AttributePrefilter attributePrefilter = null)
     {
         using var matureStream = new NetworkReadStream(_utf8, NetworkBufferSize);
         using var mature = await matureParser
@@ -293,7 +334,8 @@ public class Utf8MutableDomBenchmark
             .ConfigureAwait(false);
         using var native = await ParseUtf8Async(
                 NetworkChunks(_utf8, NetworkBufferSize),
-                options: options
+                options: options,
+                attributePrefilter: attributePrefilter
             )
             .ConfigureAwait(false);
         var nativeMarkup = native.DocumentElement.OuterHtml;
@@ -306,12 +348,35 @@ public class Utf8MutableDomBenchmark
             );
         }
 
-        if (String.Equals(lane, nameof(StructureIdClassOptions), StringComparison.Ordinal))
+        if (lane.StartsWith("StructureIdClass", StringComparison.Ordinal))
         {
             VerifyOnlyIdAndClassAttributes(mature, $"mature {lane}");
             VerifyOnlyIdAndClassAttributes(native, $"native {lane}");
         }
     }
+
+    private static Boolean QueryAttributePrefilter(
+        ref StructHtmlToken _,
+        Utf8HtmlName name
+    ) => name.Verbatim.Length switch
+    {
+        3 => name.SemanticEquals("alt"u8) || name.SemanticEquals("src"u8),
+        4 => name.SemanticEquals("href"u8),
+        5 => name.SemanticEquals("class"u8),
+        6 => name.SemanticEquals("dt-eid"u8),
+        9 => name.SemanticEquals("dt-params"u8),
+        _ => false,
+    };
+
+    private static Boolean IdClassAttributePrefilter(
+        ref StructHtmlToken _,
+        Utf8HtmlName name
+    ) => name.Verbatim.Length switch
+    {
+        2 => name.SemanticEquals("id"u8),
+        5 => name.SemanticEquals("class"u8),
+        _ => false,
+    };
 
     private static void VerifyOnlyIdAndClassAttributes(IDocument document, String lane)
     {

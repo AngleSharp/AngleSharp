@@ -14,6 +14,11 @@ namespace AngleSharp.Html.Parser.Utf8;
 
 using System.Diagnostics.CodeAnalysis;
 
+internal delegate Boolean Utf8AttributePrefilter(
+    ref StructHtmlToken token,
+    Utf8HtmlName attributeName
+);
+
 /// <summary>
 /// Adapts the borrowed UTF-8 tokenizer to the existing token-at-a-time tree constructor.
 /// Payloads are decoded directly to the strings ultimately retained by the mutable DOM.
@@ -73,6 +78,8 @@ internal sealed class Utf8HtmlTokenSource :
     }
 
     internal Utf8HtmlTokenizerCounters TokenizerCounters => _tokenizer.Counters;
+
+    internal Utf8AttributePrefilter? AttributePrefilter { get; set; }
 
     public void Configure(
         HtmlTokenizerOptions options,
@@ -224,6 +231,11 @@ internal sealed class Utf8HtmlTokenSource :
         if (_options.EmitsAllAttributes)
         {
             return true;
+        }
+
+        if (AttributePrefilter is not null && !AttributePrefilter(ref GetStartTag(), name))
+        {
+            return false;
         }
 
         var decoded = DecodeAttributeName(name);
