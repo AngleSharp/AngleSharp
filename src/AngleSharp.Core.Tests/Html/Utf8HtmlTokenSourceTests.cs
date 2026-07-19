@@ -374,6 +374,39 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void StructureOnlyCaptureSkipsTextAndPreservesRawTextBoundariesBytewise()
+        {
+            var html = Encoding.UTF8.GetBytes(
+                "outside&amp;\0<main><script>if (a < b) x='&';</script>"
+                    + "<textarea>&amp;</textarea><span>x</span></main>tail&amp;"
+            );
+            var sink = new StructureOnlySink();
+            var tokenizer = new Utf8HtmlTokenizer(sink);
+
+            foreach (var value in html)
+                tokenizer.Write(new ReadOnlySpan<Byte>(in value));
+            tokenizer.Complete();
+
+            Assert.That(
+                sink.Events,
+                Is.EqualTo(
+                    new[]
+                    {
+                        "S:main",
+                        "S:script",
+                        "E:script",
+                        "S:textarea",
+                        "E:textarea",
+                        "S:span",
+                        "E:span",
+                        "E:main",
+                        "EOF",
+                    }
+                )
+            );
+        }
+
+        [Test]
         public async Task PromotedAttributeIndexPreservesFirstMixedCaseAttributeAcrossSegments()
         {
             var html = new StringBuilder("<x");
@@ -658,6 +691,8 @@ namespace AngleSharp.Core.Tests.Html
 
         private sealed class TokenRecordingSink : IUtf8HtmlTokenSink
         {
+            public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.Text;
+
             private readonly List<String> _events = [];
             private String _pendingStartTag = null!;
 
@@ -700,6 +735,8 @@ namespace AngleSharp.Core.Tests.Html
 
         private sealed class ValidatingTextSink : IUtf8HtmlTokenSink
         {
+            public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.Text;
+
             private readonly StringBuilder _text = new();
 
             public String DecodedText => _text.ToString();
@@ -722,8 +759,41 @@ namespace AngleSharp.Core.Tests.Html
             public void EndTag(Utf8HtmlName name) { }
         }
 
+        private sealed class StructureOnlySink : IUtf8HtmlTokenSink
+        {
+            private readonly List<String> _events = [];
+            private String _pendingStartTag = null!;
+
+            public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.None;
+
+            public IReadOnlyList<String> Events => _events;
+
+            public void Text(ReadOnlySpan<Byte> utf8) =>
+                throw new InvalidOperationException("Text must not be emitted without capture interest.");
+
+            public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
+            {
+                _pendingStartTag = Encoding.UTF8.GetString(name.Verbatim);
+                return Utf8HtmlStartTagCapture.None;
+            }
+
+            public Boolean WantsAttribute(Utf8HtmlName name) => false;
+
+            public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) { }
+
+            public void StartTagEnd(Boolean selfClosing) =>
+                _events.Add("S:" + _pendingStartTag);
+
+            public void EndTag(Utf8HtmlName name) =>
+                _events.Add("E:" + Encoding.UTF8.GetString(name.Verbatim));
+
+            public void EndOfFile() => _events.Add("EOF");
+        }
+
         private sealed class NameRecordingSink : IUtf8HtmlTokenSink
         {
+            public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.None;
+
             public String StartTagVerbatim { get; private set; } = null!;
 
             public UInt64 StartTagHash { get; private set; }
@@ -773,6 +843,8 @@ namespace AngleSharp.Core.Tests.Html
 
         private sealed class RejectThenAcceptAttributeSink(Int32 rejectedCount) : IUtf8HtmlTokenSink
         {
+            public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.None;
+
             private readonly List<String> _attributes = [];
 
             public Int32 WantsCalls { get; private set; }

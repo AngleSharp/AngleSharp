@@ -11,12 +11,21 @@ public enum Utf8HtmlStartTagCapture : byte
     Attributes = 1,
 }
 
+[Flags]
+public enum Utf8HtmlTokenCapture : byte
+{
+    None = 0,
+    Text = 1,
+}
+
 /// <summary>
 /// Synchronous borrowed views over tokenizer-owned or PipeReader-owned UTF-8. Every span is valid only for the duration
 /// of its callback. The split start-tag callbacks let a construction sink collect only attributes it needs.
 /// </summary>
 public interface IUtf8HtmlTokenSink
 {
+    Utf8HtmlTokenCapture Capture { get; }
+
     void Text(ReadOnlySpan<Byte> utf8);
 
     Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name);

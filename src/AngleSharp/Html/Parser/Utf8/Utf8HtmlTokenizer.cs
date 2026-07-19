@@ -127,6 +127,7 @@ public sealed class Utf8HtmlTokenizer
     private Boolean _isEndTag;
     private Boolean _startTagEmitted;
     private Boolean _captureStartTagAttributes;
+    private Boolean _captureText;
     private Boolean _pendingCarriageReturn;
     private String? _rawEndTag;
     private Int64 _segments;
@@ -208,6 +209,7 @@ public sealed class Utf8HtmlTokenizer
         ArgumentNullException.ThrowIfNull(sink);
 
         _sink = sink;
+        RefreshCapture();
         _streamingCommentSink = sink as IUtf8HtmlStreamingCommentSink;
         _startTagSourceRangeSink =
             sink is IUtf8HtmlStartTagSourceRangeSink { WantsStartTagSourceRanges: true } sourceRangeSink
@@ -336,15 +338,25 @@ public sealed class Utf8HtmlTokenizer
                 && _textUtf8CarryLength == 0
             )
             {
-                var run =
-                    _state == State.Plaintext
-                        ? FindPlaintextTerminator(utf8.Slice(index))
-                        : FindTextTerminator(utf8.Slice(index), _state == State.Data || IsRcData());
+                var remaining = utf8.Slice(index);
+                var run = !_captureText
+                    ? _state == State.Plaintext
+                        ? remaining.Length
+                        : remaining.IndexOf((Byte)'<')
+                    : _state == State.Plaintext
+                        ? FindPlaintextTerminator(remaining)
+                        : FindTextTerminator(remaining, _state == State.Data || IsRcData());
+                if (run < 0)
+                {
+                    run = remaining.Length;
+                }
                 if (run > 0)
                 {
                     _stateMetrics?.Record((Int32)_state, run);
-                    var text = utf8.Slice(index, run);
-                    _sink.Text(text);
+                    if (_captureText)
+                    {
+                        EmitText(utf8.Slice(index, run));
+                    }
                     index += run;
                     continue;
                 }
@@ -455,24 +467,24 @@ public sealed class Utf8HtmlTokenizer
         switch (_state)
         {
             case State.TagOpen:
-                _sink.Text("<"u8);
+                EmitText("<"u8);
                 break;
             case State.EndTagOpen:
-                _sink.Text("</"u8);
+                EmitText("</"u8);
                 break;
             case State.CharacterReference:
                 ResolveCharacterReference();
                 break;
             case State.CDataSectionBracket:
-                _sink.Text("]"u8);
+                EmitText("]"u8);
                 break;
             case State.CDataSectionEnd:
-                _sink.Text("]]"u8);
+                EmitText("]]"u8);
                 break;
             case State.RawLessThan:
             case State.RawEndTagOpen:
             case State.RawEndTagName:
-                _sink.Text(_candidate.WrittenSpan);
+                EmitText(_candidate.WrittenSpan);
                 break;
             case State.CommentStart:
             case State.CommentStartDash:
@@ -566,11 +578,11 @@ public sealed class Utf8HtmlTokenizer
                     {
                         _state = State.TagOpen;
                     }
-                    else if (value == (Byte)'&')
+                    else if (value == (Byte)'&' && _captureText)
                     {
                         BeginCharacterReference(State.Data);
                     }
-                    else
+                    else if (_captureText)
                     {
                         EmitByte(value);
                     }
@@ -609,7 +621,7 @@ public sealed class Utf8HtmlTokenizer
                     }
                     else
                     {
-                        _sink.Text("<"u8);
+                        EmitText("<"u8);
                         Reconsume(ref reconsume, State.Data);
                     }
                     break;
@@ -1007,14 +1019,14 @@ public sealed class Utf8HtmlTokenizer
                     }
                     else
                     {
-                        _sink.Text("]"u8);
+                        EmitText("]"u8);
                         Reconsume(ref reconsume, State.CDataSection);
                     }
                     break;
                 case State.CDataSectionEnd:
                     if (value == (Byte)']')
                     {
-                    _sink.Text("]"u8);
+                        EmitText("]"u8);
                     }
                     else if (value == (Byte)'>')
                     {
@@ -1022,7 +1034,7 @@ public sealed class Utf8HtmlTokenizer
                     }
                     else
                     {
-                        _sink.Text("]]"u8);
+                        EmitText("]]"u8);
                         Reconsume(ref reconsume, State.CDataSection);
                     }
                     break;
@@ -1033,7 +1045,7 @@ public sealed class Utf8HtmlTokenizer
                         Append(_candidate, value);
                         _state = State.RawLessThan;
                     }
-                    else if (value == (Byte)'&' && IsRcData())
+                    else if (value == (Byte)'&' && _captureText && IsRcData())
                     {
                         BeginCharacterReference(State.RawText);
                     }
@@ -1055,7 +1067,7 @@ public sealed class Utf8HtmlTokenizer
                     }
                     else
                     {
-                        _sink.Text(_candidate.WrittenSpan);
+                        EmitText(_candidate.WrittenSpan);
                         Clear(_candidate);
                         Reconsume(ref reconsume, State.RawText);
                     }
@@ -1094,7 +1106,7 @@ public sealed class Utf8HtmlTokenizer
                     }
                     else
                     {
-                        _sink.Text(_candidate.WrittenSpan);
+                        EmitText(_candidate.WrittenSpan);
                         Clear(_candidate);
                         Reconsume(ref reconsume, State.RawText);
                     }
@@ -1403,7 +1415,7 @@ public sealed class Utf8HtmlTokenizer
     {
         if (_returnState is State.Data or State.RawText)
         {
-            _sink.Text(utf8);
+            EmitText(utf8);
         }
         else if (_attributeCapture == AttributeCapture.Capture)
         {
@@ -1883,12 +1895,12 @@ public sealed class Utf8HtmlTokenizer
                 }
                 else if (value == '!')
                 {
-                    _sink.Text("<!"u8);
+                    EmitText("<!"u8);
                     _state = State.ScriptEscapeStart;
                 }
                 else
                 {
-                    _sink.Text("<"u8);
+                    EmitText("<"u8);
                     Reconsume(ref reconsume, State.ScriptData);
                 }
                 break;
@@ -1975,7 +1987,7 @@ public sealed class Utf8HtmlTokenizer
                 }
                 else if (IsAsciiLetter(value))
                 {
-                    _sink.Text("<"u8);
+                    EmitText("<"u8);
                     Clear(_candidate);
                     Append(_candidate, AsciiLower(value));
                     EmitByte(value);
@@ -1983,7 +1995,7 @@ public sealed class Utf8HtmlTokenizer
                 }
                 else
                 {
-                    _sink.Text("<"u8);
+                    EmitText("<"u8);
                     Reconsume(ref reconsume, State.ScriptEscaped);
                 }
                 break;
@@ -2140,7 +2152,7 @@ public sealed class Utf8HtmlTokenizer
 
             return;
         }
-        _sink.Text(_candidate.WrittenSpan);
+        EmitText(_candidate.WrittenSpan);
         Clear(_candidate);
         Reconsume(ref reconsume, fallback);
     }
@@ -2190,6 +2202,7 @@ public sealed class Utf8HtmlTokenizer
         if (_isEndTag)
         {
             _sink.EndTag(CurrentTagName());
+            RefreshCapture();
             _rawEndTag = null;
         }
         else
@@ -2197,6 +2210,7 @@ public sealed class Utf8HtmlTokenizer
             EmitTagStart();
             _startTagSourceRangeSink?.StartTagSourceRange(_currentTagSourceOffset, _currentSourceOffset);
             _sink.StartTagEnd(selfClosing);
+            RefreshCapture();
             // In HTML, the trailing solidus does not make a non-void element self-closing.
             // Tree construction controls the mode in the DOM path; the standalone path must
             // therefore still infer text modes for e.g. <textarea/> and <plaintext/>.
@@ -2281,10 +2295,25 @@ public sealed class Utf8HtmlTokenizer
     private Boolean IsRcData() =>
         _rawEndTag?.StartsWith("rcdata:", StringComparison.Ordinal) == true;
 
-    private void EmitReplacementCharacter() => _sink.Text("\uFFFD"u8);
+    private void RefreshCapture() =>
+        _captureText = (_sink.Capture & Utf8HtmlTokenCapture.Text) != 0;
+
+    private void EmitText(ReadOnlySpan<Byte> utf8)
+    {
+        if (_captureText)
+        {
+            _sink.Text(utf8);
+        }
+    }
+
+    private void EmitReplacementCharacter() => EmitText("\uFFFD"u8);
 
     private void EmitByte(Byte value)
     {
+        if (!_captureText)
+        {
+            return;
+        }
         if (_textUtf8CarryLength != 0)
         {
             _textUtf8Carry |= (UInt32)value << (_textUtf8CarryLength++ * 8);
@@ -2296,7 +2325,7 @@ public sealed class Utf8HtmlTokenizer
                     scalar[index] = (Byte)(_textUtf8Carry >> (index * 8));
                 }
 
-                _sink.Text(scalar[.._textUtf8CarryLength]);
+                EmitText(scalar[.._textUtf8CarryLength]);
                 _textUtf8Carry = 0;
                 _textUtf8CarryLength = 0;
                 _textUtf8ExpectedLength = 0;
@@ -2312,7 +2341,7 @@ public sealed class Utf8HtmlTokenizer
         }
         Span<Byte> single = stackalloc Byte[1];
         single[0] = value;
-        _sink.Text(single);
+        EmitText(single);
     }
 
     private void Reconsume(ref Boolean reconsume, State state)

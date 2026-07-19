@@ -327,6 +327,8 @@ public class Utf8TokenizerLayerBenchmark
 
     private sealed class CountingSink : IUtf8HtmlTokenSink
     {
+        public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.Text;
+
         public Boolean CaptureAttributes { private get; set; } = true;
 
         public Int32 Tokens { get; private set; }
@@ -360,6 +362,8 @@ public class Utf8TokenizerLayerBenchmark
 
     private sealed class YieldingSink : IUtf8HtmlTokenSink
     {
+        public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.Text;
+
         public Utf8HtmlTokenizer Tokenizer { private get; set; } = null!;
 
         public Int32 Tokens { get; private set; }

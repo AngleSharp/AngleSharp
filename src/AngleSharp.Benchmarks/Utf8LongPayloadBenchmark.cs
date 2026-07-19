@@ -250,6 +250,8 @@ public class Utf8LongPayloadBenchmark
 
     private class CountingSink : IUtf8HtmlTokenSink
     {
+        public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.Text;
+
         public Int32 Checksum { get; protected set; }
 
         public void Reset() => Checksum = 0;

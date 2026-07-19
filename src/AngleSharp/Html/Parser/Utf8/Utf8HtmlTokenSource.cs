@@ -27,6 +27,8 @@ internal sealed class Utf8HtmlTokenSource :
     private const Int32 TokenCapacity = 3;
     private const Int32 StackDecodeThreshold = 512;
 
+    public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.Text;
+
     private readonly IAsyncEnumerator<ReadOnlyMemory<Byte>> _input;
     private readonly Utf8HtmlTokenizer _tokenizer;
     private readonly Utf8TextAccumulator _text = new();

@@ -316,6 +316,8 @@ internal static class TokenizerProfileHost
 
     private sealed class CountingSink : IUtf8HtmlTokenSink
     {
+        public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.Text;
+
         private Int32 _checksum;
 
         public Int32 Checksum => _checksum;
