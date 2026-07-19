@@ -256,7 +256,11 @@ public class Utf8LongPayloadBenchmark
 
         public void Text(ReadOnlySpan<Byte> utf8) => Fold(1, utf8.Length);
 
-        public void StartTag(Utf8HtmlName name) => Fold(2, name.Verbatim.Length);
+        public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
+        {
+            Fold(2, name.Verbatim.Length);
+            return Utf8HtmlStartTagCapture.Attributes;
+        }
 
         public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) =>
             Fold(name.Verbatim.Length, value.Length);

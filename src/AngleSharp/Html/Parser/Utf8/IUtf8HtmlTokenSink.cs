@@ -4,6 +4,13 @@ using System;
 
 namespace AngleSharp.Html.Parser.Utf8;
 
+[Flags]
+public enum Utf8HtmlStartTagCapture : byte
+{
+    None = 0,
+    Attributes = 1,
+}
+
 /// <summary>
 /// Synchronous borrowed views over tokenizer-owned or PipeReader-owned UTF-8. Every span is valid only for the duration
 /// of its callback. The split start-tag callbacks let a construction sink collect only attributes it needs.
@@ -12,7 +19,7 @@ public interface IUtf8HtmlTokenSink
 {
     void Text(ReadOnlySpan<Byte> utf8);
 
-    void StartTag(Utf8HtmlName name);
+    Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name);
 
     void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value);
 
@@ -29,6 +36,17 @@ public interface IUtf8HtmlTokenSink
     Boolean WantsAttribute(Utf8HtmlName name);
 
     void EndOfFile() { }
+}
+
+/// <summary>
+/// Opt-in capability for sinks that need the half-open normalized UTF-8 byte range of each start tag.
+/// The range callback immediately precedes <see cref="IUtf8HtmlTokenSink.StartTagEnd"/>.
+/// </summary>
+public interface IUtf8HtmlStartTagSourceRangeSink
+{
+    Boolean WantsStartTagSourceRanges { get; }
+
+    void StartTagSourceRange(Int64 sourceStart, Int64 sourceEnd);
 }
 
 /// <summary>

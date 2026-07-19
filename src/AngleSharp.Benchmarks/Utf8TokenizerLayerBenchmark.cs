@@ -335,7 +335,13 @@ public class Utf8TokenizerLayerBenchmark
 
         public void Text(ReadOnlySpan<Byte> utf8) => Tokens++;
 
-        public void StartTag(Utf8HtmlName name) => Tokens++;
+        public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
+        {
+            Tokens++;
+            return CaptureAttributes
+                ? Utf8HtmlStartTagCapture.Attributes
+                : Utf8HtmlStartTagCapture.None;
+        }
 
         public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) { }
 
@@ -362,7 +368,11 @@ public class Utf8TokenizerLayerBenchmark
 
         public void Text(ReadOnlySpan<Byte> utf8) => Tokens++;
 
-        public void StartTag(Utf8HtmlName name) => Tokens++;
+        public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
+        {
+            Tokens++;
+            return Utf8HtmlStartTagCapture.Attributes;
+        }
 
         public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) { }
 

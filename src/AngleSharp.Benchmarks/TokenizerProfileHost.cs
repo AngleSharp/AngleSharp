@@ -322,7 +322,11 @@ internal static class TokenizerProfileHost
 
         public void Text(ReadOnlySpan<Byte> utf8) => Fold(1, utf8);
 
-        public void StartTag(Utf8HtmlName name) => Fold(2, name.Verbatim);
+        public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
+        {
+            Fold(2, name.Verbatim);
+            return Utf8HtmlStartTagCapture.Attributes;
+        }
 
         public Boolean WantsAttribute(Utf8HtmlName name)
         {

@@ -205,7 +205,7 @@ internal sealed class Utf8HtmlTokenSource :
         }
     }
 
-    public void StartTag(Utf8HtmlName name)
+    public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
     {
         FlushText();
         var decoded = DecodeTagName(name);
@@ -214,6 +214,7 @@ internal sealed class Utf8HtmlTokenSource :
         _tokens[_startTagSlot].InitializeStartTag(decoded);
         _pendingAttributeName = default;
         _pendingAttributeNameIsDecoded = false;
+        return Utf8HtmlStartTagCapture.Attributes;
     }
 
     public Boolean WantsAttribute(Utf8HtmlName name)

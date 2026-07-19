@@ -676,8 +676,11 @@ namespace AngleSharp.Core.Tests.Html
                 }
             }
 
-            public void StartTag(Utf8HtmlName name) =>
+            public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
+            {
                 _pendingStartTag = Encoding.UTF8.GetString(name.Verbatim);
+                return Utf8HtmlStartTagCapture.None;
+            }
 
             public Boolean WantsAttribute(Utf8HtmlName name) => false;
 
@@ -707,7 +710,8 @@ namespace AngleSharp.Core.Tests.Html
                 _text.Append(Encoding.UTF8.GetString(utf8));
             }
 
-            public void StartTag(Utf8HtmlName name) { }
+            public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name) =>
+                Utf8HtmlStartTagCapture.None;
 
             public Boolean WantsAttribute(Utf8HtmlName name) => false;
 
@@ -738,10 +742,11 @@ namespace AngleSharp.Core.Tests.Html
 
             public void Text(ReadOnlySpan<Byte> utf8) { }
 
-            public void StartTag(Utf8HtmlName name)
+            public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
             {
                 StartTagVerbatim = Encoding.UTF8.GetString(name.Verbatim);
                 StartTagHash = name.SemanticHash;
+                return Utf8HtmlStartTagCapture.Attributes;
             }
 
             public Boolean WantsAttribute(Utf8HtmlName name)
@@ -776,7 +781,8 @@ namespace AngleSharp.Core.Tests.Html
 
             public void Text(ReadOnlySpan<Byte> utf8) { }
 
-            public void StartTag(Utf8HtmlName name) { }
+            public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name) =>
+                Utf8HtmlStartTagCapture.Attributes;
 
             public Boolean WantsAttribute(Utf8HtmlName name) => ++WantsCalls > rejectedCount;
 
