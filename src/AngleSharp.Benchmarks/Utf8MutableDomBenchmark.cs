@@ -3,6 +3,7 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -22,7 +23,7 @@ namespace AngleSharp.Benchmarks;
 /// UTF-8 token adapter. Full-payload lanes publish the same ordinary mutable AngleSharp DOM. Payload-capture lanes
 /// publish the same intentionally reduced mutable DOM from both tokenizers.
 /// </summary>
-[MemoryDiagnoser]
+[MemoryDiagnoser, ShortRunJob]
 public class Utf8MutableDomBenchmark
 {
     private const Int32 NetworkBufferSize = 4096;
@@ -56,6 +57,19 @@ public class Utf8MutableDomBenchmark
         ShouldEmitAttribute = static (ref _, _) => false,
     };
 
+    private static readonly HtmlParserOptions StructureIdClassOptions = new()
+    {
+        SkipComments = true,
+        SkipPlaintext = true,
+        SkipRCDataText = true,
+        SkipCDATA = true,
+        SkipProcessingInstructions = true,
+        SkipDataText = true,
+        SkipScriptText = true,
+        SkipRawText = true,
+        ShouldEmitAttribute = static (ref _, name) => name.Span is "id" or "class",
+    };
+
     private IBrowsingContext _context = null!;
     private IHtmlElementConstructionFactory _factory = null!;
     private HtmlParser _parser = null!;
@@ -63,11 +77,36 @@ public class Utf8MutableDomBenchmark
     private HtmlParser _skipRCDataTextParser = null!;
     private HtmlParser _queryAttributeParser = null!;
     private HtmlParser _structureOnlyParser = null!;
+    private HtmlParser _structureIdClassParser = null!;
     private Byte[] _utf8 = null!;
     private String _expectedMarkup = null!;
 
-    [Params("page.html", "nbc.html", "utf8_edu.bin")]
+    [ParamsSource(nameof(GetCorpusFiles))]
     public String CorpusFile { get; set; } = null!;
+
+    public static IEnumerable<String> GetCorpusFiles()
+    {
+        yield return "page.html";
+        yield return "utf8_edu.bin";
+        yield return "html5test-no-payload.html";
+
+        var cachedPages = Directory
+            .EnumerateFiles(ResolveCorpusDirectory("temp"), "*.html")
+            .OrderBy(Path.GetFileName, StringComparer.Ordinal)
+            .ToArray();
+        const Int32 ExpectedCachedPageCount = 42;
+        if (cachedPages.Length != ExpectedCachedPageCount)
+        {
+            throw new InvalidOperationException(
+                $"Expected {ExpectedCachedPageCount} cached ParserBenchmark pages, found {cachedPages.Length}."
+            );
+        }
+
+        foreach (var cachedPage in cachedPages)
+        {
+            yield return Path.Combine("temp", Path.GetFileName(cachedPage));
+        }
+    }
 
     [GlobalSetup]
     public async Task Setup()
@@ -80,6 +119,7 @@ public class Utf8MutableDomBenchmark
         _skipRCDataTextParser = new HtmlParser(SkipRCDataTextOptions, _context);
         _queryAttributeParser = new HtmlParser(QueryAttributeOptions, _context);
         _structureOnlyParser = new HtmlParser(StructureOnlyOptions, _context);
+        _structureIdClassParser = new HtmlParser(StructureIdClassOptions, _context);
 
         using var expected = _parser.ParseDocument(Encoding.UTF8.GetString(_utf8));
         _expectedMarkup = expected.DocumentElement.OuterHtml;
@@ -113,9 +153,15 @@ public class Utf8MutableDomBenchmark
                 nameof(StructureOnlyOptions)
             )
             .ConfigureAwait(false);
+        await VerifyReducedDomAsync(
+                _structureIdClassParser,
+                StructureIdClassOptions,
+                nameof(StructureIdClassOptions)
+            )
+            .ConfigureAwait(false);
     }
 
-    [Benchmark(Baseline = true), BenchmarkCategory("Network4K")]
+    [Benchmark, BenchmarkCategory("Network4K")]
     public async Task<Int32> AccumulatingUtf16Network4K()
     {
         using var stream = new NetworkReadStream(_utf8, NetworkBufferSize);
@@ -123,7 +169,7 @@ public class Utf8MutableDomBenchmark
         return document.All.Length;
     }
 
-    [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture")]
+    [Benchmark(Baseline = true), BenchmarkCategory("Network4K", "PayloadCapture", "PageSet")]
     public async Task<Int32> BoundedUtf16Network4K()
     {
         using var stream = new NetworkReadStream(_utf8, NetworkBufferSize);
@@ -133,7 +179,7 @@ public class Utf8MutableDomBenchmark
         return document.All.Length;
     }
 
-    [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture")]
+    [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture", "PageSet")]
     public async Task<Int32> NativeUtf8Network4K()
     {
         using var document = await ParseUtf8Async(NetworkChunks(_utf8, NetworkBufferSize)).ConfigureAwait(false);
@@ -171,6 +217,14 @@ public class Utf8MutableDomBenchmark
     [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture")]
     public Task<Int32> NativeUtf8StructureOnlyNetwork4K() =>
         ParseNativeUtf8Async(StructureOnlyOptions);
+
+    [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture", "StructureIdClass", "PageSet")]
+    public Task<Int32> BoundedUtf16StructureIdClassNetwork4K() =>
+        ParseBoundedUtf16Async(_structureIdClassParser);
+
+    [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture", "StructureIdClass", "PageSet")]
+    public Task<Int32> NativeUtf8StructureIdClassNetwork4K() =>
+        ParseNativeUtf8Async(StructureIdClassOptions);
 
     [Benchmark, BenchmarkCategory("Network4K")]
     public async Task<Int32> TrustedUtf8Network4K()
@@ -251,6 +305,28 @@ public class Utf8MutableDomBenchmark
                     + DescribeDifference(matureMarkup, nativeMarkup)
             );
         }
+
+        if (String.Equals(lane, nameof(StructureIdClassOptions), StringComparison.Ordinal))
+        {
+            VerifyOnlyIdAndClassAttributes(mature, $"mature {lane}");
+            VerifyOnlyIdAndClassAttributes(native, $"native {lane}");
+        }
+    }
+
+    private static void VerifyOnlyIdAndClassAttributes(IDocument document, String lane)
+    {
+        foreach (var element in document.All)
+        {
+            foreach (var attribute in element.Attributes)
+            {
+                if (attribute.LocalName is not ("id" or "class"))
+                {
+                    throw new InvalidOperationException(
+                        $"Unexpected attribute '{attribute.LocalName}' in {lane}."
+                    );
+                }
+            }
+        }
     }
 
     private static String DescribeDifference(String mature, String native)
@@ -279,9 +355,25 @@ public class Utf8MutableDomBenchmark
 
     private static String ResolveCorpusPath(String fileName)
     {
+        if (fileName.StartsWith($"temp{Path.DirectorySeparatorChar}", StringComparison.Ordinal))
+        {
+            var cachedPage = Path.Combine(ResolveRepositoryRoot(), fileName);
+            if (File.Exists(cachedPage))
+            {
+                return cachedPage;
+            }
+
+            throw new FileNotFoundException($"Could not locate cached ParserBenchmark page '{fileName}'.");
+        }
+
         var relativePath = fileName switch
         {
             "page.html" => Path.Combine("src", "AngleSharp.Benchmarks", fileName),
+            "html5test-no-payload.html" => Path.Combine(
+                "src",
+                "AngleSharp.Benchmarks",
+                fileName
+            ),
             "nbc.html" => Path.Combine("src", "AngleSharp.Core.Tests", "Pages", fileName),
             "utf8_edu.bin" => Path.Combine(
                 "src",
@@ -305,6 +397,39 @@ public class Utf8MutableDomBenchmark
         }
 
         throw new FileNotFoundException($"Could not locate UTF-8 benchmark corpus '{fileName}'.");
+    }
+
+    private static String ResolveCorpusDirectory(String directoryName)
+    {
+        var candidate = Path.Combine(ResolveRepositoryRoot(), directoryName);
+        if (Directory.Exists(candidate))
+        {
+            return candidate;
+        }
+
+        throw new DirectoryNotFoundException(
+            $"Could not locate UTF-8 benchmark corpus directory '{directoryName}'."
+        );
+    }
+
+    private static String ResolveRepositoryRoot()
+    {
+        for (
+            var directory = new DirectoryInfo(AppContext.BaseDirectory);
+            directory is not null;
+            directory = directory.Parent
+        )
+        {
+            var gitPath = Path.Combine(directory.FullName, ".git");
+            if (Directory.Exists(gitPath) || File.Exists(gitPath))
+            {
+                return directory.FullName;
+            }
+        }
+
+        throw new DirectoryNotFoundException(
+            "Could not locate the repository root containing the UTF-8 benchmark corpus."
+        );
     }
 
     private static async IAsyncEnumerable<ReadOnlyMemory<Byte>> NetworkChunks(

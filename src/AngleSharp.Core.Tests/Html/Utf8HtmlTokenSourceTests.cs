@@ -407,6 +407,51 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void DiscardedTagTailScannerMatchesFullAttributeLexerAcrossEveryByteBoundary()
+        {
+            var html = Encoding.UTF8.GetBytes(
+                "<main plain weird\"name=x quoted='1>2' unquoted=three c = \"four\" />"
+                    + "<x nul=\0 line=one\r\ntwo></x ignored='>'>"
+                    + "<script data-x='>'>if (a < b) x='&';</script><tail/>"
+            );
+            var expected = TokenizeStructuralEvents(html, captureTagAttributes: true, split: -1);
+
+            for (var split = 0; split <= html.Length; split++)
+            {
+                var actual = TokenizeStructuralEvents(html, captureTagAttributes: false, split);
+                Assert.That(actual, Is.EqualTo(expected), $"split={split}");
+            }
+
+            var bytewiseSink = new StructuralEventSink(captureTagAttributes: false);
+            var bytewiseTokenizer = new Utf8HtmlTokenizer(bytewiseSink);
+            foreach (var value in html)
+                bytewiseTokenizer.Write(new ReadOnlySpan<Byte>(in value));
+            bytewiseTokenizer.Complete();
+            Assert.That(bytewiseSink.Events, Is.EqualTo(expected), "bytewise");
+        }
+
+        private static IReadOnlyList<String> TokenizeStructuralEvents(
+            Byte[] html,
+            Boolean captureTagAttributes,
+            Int32 split
+        )
+        {
+            var sink = new StructuralEventSink(captureTagAttributes);
+            var tokenizer = new Utf8HtmlTokenizer(sink);
+            if (split < 0)
+            {
+                tokenizer.Write(html);
+            }
+            else
+            {
+                tokenizer.Write(html.AsSpan(0, split));
+                tokenizer.Write(html.AsSpan(split));
+            }
+            tokenizer.Complete();
+            return sink.Events;
+        }
+
+        [Test]
         public async Task PromotedAttributeIndexPreservesFirstMixedCaseAttributeAcrossSegments()
         {
             var html = new StringBuilder("<x");
@@ -783,6 +828,39 @@ namespace AngleSharp.Core.Tests.Html
 
             public void StartTagEnd(Boolean selfClosing) =>
                 _events.Add("S:" + _pendingStartTag);
+
+            public void EndTag(Utf8HtmlName name) =>
+                _events.Add("E:" + Encoding.UTF8.GetString(name.Verbatim));
+
+            public void EndOfFile() => _events.Add("EOF");
+        }
+
+        private sealed class StructuralEventSink(Boolean captureTagAttributes) : IUtf8HtmlTokenSink
+        {
+            private readonly List<String> _events = [];
+            private String _pendingStartTag = null!;
+
+            public Utf8HtmlTokenCapture Capture => Utf8HtmlTokenCapture.None;
+
+            public IReadOnlyList<String> Events => _events;
+
+            public void Text(ReadOnlySpan<Byte> utf8) =>
+                throw new InvalidOperationException("Text must not be emitted without capture interest.");
+
+            public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
+            {
+                _pendingStartTag = Encoding.UTF8.GetString(name.Verbatim);
+                return captureTagAttributes
+                    ? Utf8HtmlStartTagCapture.Attributes
+                    : Utf8HtmlStartTagCapture.None;
+            }
+
+            public Boolean WantsAttribute(Utf8HtmlName name) => false;
+
+            public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) { }
+
+            public void StartTagEnd(Boolean selfClosing) =>
+                _events.Add($"S:{_pendingStartTag}:{selfClosing}");
 
             public void EndTag(Utf8HtmlName name) =>
                 _events.Add("E:" + Encoding.UTF8.GetString(name.Verbatim));
