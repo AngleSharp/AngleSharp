@@ -10,9 +10,9 @@ namespace AngleSharp.Html.Parser.Utf8;
 /// </summary>
 public readonly ref struct Utf8HtmlName
 {
-    private readonly ref Utf8HtmlNameHashCache _cache;
+    private readonly ref Utf8HtmlNameIdentityCache _cache;
 
-    internal Utf8HtmlName(ReadOnlySpan<Byte> verbatim, ref Utf8HtmlNameHashCache cache)
+    internal Utf8HtmlName(ReadOnlySpan<Byte> verbatim, ref Utf8HtmlNameIdentityCache cache)
     {
         Verbatim = verbatim;
         _cache = ref cache;
@@ -32,7 +32,7 @@ public readonly ref struct Utf8HtmlName
     /// into an exact case-insensitive key. Returns false when the name must instead be
     /// compared using its verbatim bytes.
     /// </summary>
-    public Boolean TryGetCompactKey(out UInt64 key) => TryGetCompactKey(Verbatim, out key);
+    public Boolean TryGetCompactKey(out UInt64 key) => _cache.TryGetCompactKey(Verbatim, out key);
 
     /// <summary>
     /// Tries to encode an ASCII-alpha tag name, optionally containing digits 1 through 6,
@@ -91,7 +91,18 @@ public readonly ref struct Utf8HtmlName
 
         for (var index = 0; index < left.Length; index++)
         {
-            if (Utf8NameHash.ToLowerAscii(left[index]) != Utf8NameHash.ToLowerAscii(right[index]))
+            var leftValue = left[index];
+            var rightValue = right[index];
+            if (leftValue == rightValue)
+            {
+                continue;
+            }
+
+            var leftFolded = (Byte)(leftValue | 0x20);
+            if (
+                (UInt32)(leftFolded - (Byte)'a') > (Byte)'z' - (Byte)'a'
+                || leftFolded != (Byte)(rightValue | 0x20)
+            )
             {
                 return false;
             }
@@ -104,11 +115,15 @@ public readonly ref struct Utf8HtmlName
         (UInt32)((value | 0x20) - (Byte)'a') <= (Byte)'z' - (Byte)'a';
 }
 
-internal struct Utf8HtmlNameHashCache
+internal struct Utf8HtmlNameIdentityCache
 {
+    private const UInt64 UnavailableCompactKey = UInt64.MaxValue;
     private UInt64 _semanticHash;
+    private UInt64 _compactKey;
 
     public readonly UInt64 Value => _semanticHash;
+
+    internal readonly UInt64 CompactValue => _compactKey;
 
     public UInt64 GetOrCompute(ReadOnlySpan<Byte> verbatim)
     {
@@ -120,5 +135,22 @@ internal struct Utf8HtmlNameHashCache
         return _semanticHash;
     }
 
-    public void Reset() => _semanticHash = 0;
+    public Boolean TryGetCompactKey(ReadOnlySpan<Byte> verbatim, out UInt64 key)
+    {
+        if (_compactKey == 0)
+        {
+            _compactKey = Utf8HtmlName.TryGetCompactKey(verbatim, out key)
+                ? key
+                : UnavailableCompactKey;
+        }
+
+        key = _compactKey;
+        return key != UnavailableCompactKey;
+    }
+
+    public void Reset()
+    {
+        _semanticHash = 0;
+        _compactKey = 0;
+    }
 }

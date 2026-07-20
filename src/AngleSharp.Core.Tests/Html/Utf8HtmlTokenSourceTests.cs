@@ -22,13 +22,17 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public async Task ArenaBackedTokensBuildEquivalentMutableDomAcrossSegments()
         {
-            const String html = "<!doctype html><title>x&amp;y</title><body><main DATA-X='a&amp;b' data-x='ignored'>"
+            const String html =
+                "<!doctype html><title>x&amp;y</title><body><main DATA-X='a&amp;b' data-x='ignored'>"
                 + "hé &amp; <b>bold</b><textarea>a&amp;b</textarea>"
                 + "<svg><title><b>x</b></title></svg><!--c--></main>";
             using var expected = new HtmlParser().ParseDocument(html);
             using var actual = await ParseUtf8Async(SegmentUtf8(html, 3));
 
-            Assert.That(actual.DocumentElement.OuterHtml, Is.EqualTo(expected.DocumentElement.OuterHtml));
+            Assert.That(
+                actual.DocumentElement.OuterHtml,
+                Is.EqualTo(expected.DocumentElement.OuterHtml)
+            );
         }
 
         [TestCase("text<!--unfinished")]
@@ -40,20 +44,27 @@ namespace AngleSharp.Core.Tests.Html
         {
             using var expected = new HtmlParser().ParseDocument(html);
 
-            for (var segmentSize = 1; segmentSize <= Math.Max(1, Encoding.UTF8.GetByteCount(html)); segmentSize++)
+            for (
+                var segmentSize = 1;
+                segmentSize <= Math.Max(1, Encoding.UTF8.GetByteCount(html));
+                segmentSize++
+            )
             {
                 using var actual = await ParseUtf8Async(SegmentUtf8(html, segmentSize));
                 Assert.That(
                     actual.DocumentElement.OuterHtml,
                     Is.EqualTo(expected.DocumentElement.OuterHtml),
-                    $"UTF-8 segment size {segmentSize}");
+                    $"UTF-8 segment size {segmentSize}"
+                );
             }
         }
 
         [Test]
         public async Task FixedTokenBufferHandlesDenseMarkupAcrossSegments()
         {
-            var html = String.Concat(System.Linq.Enumerable.Repeat("text<b a='1'>x</b><!--c-->", 64));
+            var html = String.Concat(
+                System.Linq.Enumerable.Repeat("text<b a='1'>x</b><!--c-->", 64)
+            );
             using var expected = new HtmlParser().ParseDocument(html);
 
             for (var segmentSize = 1; segmentSize <= 17; segmentSize++)
@@ -62,15 +73,16 @@ namespace AngleSharp.Core.Tests.Html
                 Assert.That(
                     actual.DocumentElement.OuterHtml,
                     Is.EqualTo(expected.DocumentElement.OuterHtml),
-                    $"UTF-8 segment size {segmentSize}");
+                    $"UTF-8 segment size {segmentSize}"
+                );
             }
         }
 
         [Test]
         public async Task ReusedTokenSlotsDoNotExposeDiscardedAttributes()
         {
-            const String html = "<main a='1' b='2' c='3' d='4' e='5'></main>"
-                + "<p x='6'></p><span></span>";
+            const String html =
+                "<main a='1' b='2' c='3' d='4' e='5'></main>" + "<p x='6'></p><span></span>";
             using var actual = await ParseUtf8Async(SegmentUtf8(html, 1));
 
             Assert.That(actual.QuerySelector("main")!.Attributes.Length, Is.EqualTo(5));
@@ -81,20 +93,27 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public async Task ContiguousWindowYieldsBeforeTreeBuilderControlledContent()
         {
-            const String html = "<title>&amp;<b>x</b></title>"
+            const String html =
+                "<title>&amp;<b>x</b></title>"
                 + "<style>.x::before{content:'<b>&amp;</b>'}</style>"
                 + "<script>if (a < b) document.write('<b>&amp;</b>')</script>"
                 + "<textarea>&amp;<b>x</b></textarea><p>after</p>";
             using var expected = new HtmlParser().ParseDocument(html);
-            using var actual = await ParseUtf8Async(SegmentUtf8(html, Encoding.UTF8.GetByteCount(html)));
+            using var actual = await ParseUtf8Async(
+                SegmentUtf8(html, Encoding.UTF8.GetByteCount(html))
+            );
 
-            Assert.That(actual.DocumentElement.OuterHtml, Is.EqualTo(expected.DocumentElement.OuterHtml));
+            Assert.That(
+                actual.DocumentElement.OuterHtml,
+                Is.EqualTo(expected.DocumentElement.OuterHtml)
+            );
         }
 
         [Test]
         public async Task UppercaseRawTextEndTagsMatchMatureParser()
         {
-            const String html = "<TITLE>x&amp;y</TiTlE><STYLE>x<y</StYlE>"
+            const String html =
+                "<TITLE>x&amp;y</TiTlE><STYLE>x<y</StYlE>"
                 + "<SCRIPT>if (a < b) x = '</not-script>';</ScRiPt>"
                 + "<TEXTAREA>x&amp;y</TeXtArEa><p>after</p>";
             using var expected = new HtmlParser().ParseDocument(html);
@@ -105,7 +124,8 @@ namespace AngleSharp.Core.Tests.Html
                 Assert.That(
                     actual.DocumentElement.OuterHtml,
                     Is.EqualTo(expected.DocumentElement.OuterHtml),
-                    $"UTF-8 segment size {segmentSize}");
+                    $"UTF-8 segment size {segmentSize}"
+                );
             }
         }
 
@@ -117,13 +137,17 @@ namespace AngleSharp.Core.Tests.Html
             using var expected = new HtmlParser(options).ParseDocument(html);
             using var actual = await ParseUtf8Async(SegmentUtf8(html, 2), options);
 
-            Assert.That(actual.DocumentElement.OuterHtml, Is.EqualTo(expected.DocumentElement.OuterHtml));
+            Assert.That(
+                actual.DocumentElement.OuterHtml,
+                Is.EqualTo(expected.DocumentElement.OuterHtml)
+            );
         }
 
         [Test]
         public async Task SkippedTextModesMatchMatureParser()
         {
-            const String html = "<body><b>data<div>block</div></b><title>rcdata</title>"
+            const String html =
+                "<body><b>data<div>block</div></b><title>rcdata</title>"
                 + "after title<textarea>more rcdata</textarea>after textarea"
                 + "<style>raw</style>after style<script>script</script>after script"
                 + "<plaintext>plain";
@@ -141,7 +165,10 @@ namespace AngleSharp.Core.Tests.Html
                 using var expected = new HtmlParser(options).ParseDocument(html);
                 for (var segmentSize = 1; segmentSize <= 11; segmentSize++)
                 {
-                    using var actual = await ParseUtf8Async(SegmentUtf8(html, segmentSize), options);
+                    using var actual = await ParseUtf8Async(
+                        SegmentUtf8(html, segmentSize),
+                        options
+                    );
                     Assert.That(
                         actual.DocumentElement.OuterHtml,
                         Is.EqualTo(expected.DocumentElement.OuterHtml),
@@ -154,7 +181,8 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public async Task SkippedCommentsRetainMatureParserTreeShape()
         {
-            const String html = "<body>before<!--one--><table><!--two--><tr><td>x</td></tr></table>after";
+            const String html =
+                "<body>before<!--one--><table><!--two--><tr><td>x</td></tr></table>after";
             var options = new HtmlParserOptions { SkipComments = true };
             using var expected = new HtmlParser(options).ParseDocument(html);
 
@@ -182,7 +210,10 @@ namespace AngleSharp.Core.Tests.Html
             Assert.That(sink.AttributeVerbatim, Is.EqualTo("DaTa-X"));
             Assert.That(sink.EndTagVerbatim, Is.EqualTo("dIv"));
             Assert.That(sink.StartTagHash, Is.EqualTo(Utf8NameHash.ComputeSemantic("div"u8)));
-            Assert.That(sink.AttributeWantedHash, Is.EqualTo(Utf8NameHash.ComputeSemantic("data-x"u8)));
+            Assert.That(
+                sink.AttributeWantedHash,
+                Is.EqualTo(Utf8NameHash.ComputeSemantic("data-x"u8))
+            );
             Assert.That(sink.AttributeHash, Is.EqualTo(sink.AttributeWantedHash));
             Assert.That(sink.EndTagHash, Is.EqualTo(sink.StartTagHash));
         }
@@ -195,10 +226,7 @@ namespace AngleSharp.Core.Tests.Html
             "<textarea/><b>x</b></textarea>",
             new[] { "S:textarea:/", "T:<b>x</b>", "E:textarea", "EOF" }
         )]
-        [TestCase(
-            "<plaintext/><b>x</b>",
-            new[] { "S:plaintext:/", "T:<b>x</b>", "EOF" }
-        )]
+        [TestCase("<plaintext/><b>x</b>", new[] { "S:plaintext:/", "T:<b>x</b>", "EOF" })]
         public void StandaloneTokenizerIgnoresTrailingSolidusForHtmlTextElements(
             String html,
             String[] expected
@@ -222,23 +250,34 @@ namespace AngleSharp.Core.Tests.Html
 
             Assert.That(
                 actual,
-                Is.EqualTo(
-                    new[] { "S:svg", "S:title", "T:<b>x</b>", "E:title", "E:svg", "EOF" }
-                )
+                Is.EqualTo(new[] { "S:svg", "S:title", "T:<b>x</b>", "E:title", "E:svg", "EOF" })
             );
         }
 
         [Test]
-        public void SemanticHashIsLazyAndCachedInSingleField()
+        public void SemanticHashAndCompactIdentityAreLazyAndCachedIndependently()
         {
-            var cache = default(Utf8HtmlNameHashCache);
-            var name = new Utf8HtmlName("DaTa-X"u8, ref cache);
+            var cache = default(Utf8HtmlNameIdentityCache);
+            var name = new Utf8HtmlName("ArTiClE"u8, ref cache);
 
             Assert.That(cache.Value, Is.Zero);
+            Assert.That(cache.CompactValue, Is.Zero);
+            Assert.That(name.TryGetCompactKey(out var key), Is.True);
+            Assert.That(Utf8HtmlName.TryGetCompactKey("article"u8, out var expected), Is.True);
+            Assert.That(key, Is.EqualTo(expected));
+            Assert.That(cache.Value, Is.Zero);
+            Assert.That(cache.CompactValue, Is.EqualTo(key));
+            Assert.That(name.TryGetCompactKey(out var cachedKey), Is.True);
+            Assert.That(cachedKey, Is.EqualTo(key));
+
             var hash = name.SemanticHash;
-            Assert.That(hash, Is.EqualTo(Utf8NameHash.ComputeSemantic("data-x"u8)));
+            Assert.That(hash, Is.EqualTo(Utf8NameHash.ComputeSemantic("article"u8)));
             Assert.That(cache.Value, Is.EqualTo(hash));
             Assert.That(name.SemanticHash, Is.EqualTo(hash));
+
+            cache.Reset();
+            Assert.That(cache.Value, Is.Zero);
+            Assert.That(cache.CompactValue, Is.Zero);
         }
 
         [Test]
@@ -261,13 +300,37 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void SemanticNameEqualityFoldsOnlyMismatchedAsciiLetters()
+        {
+            var cache = default(Utf8HtmlNameIdentityCache);
+            var ascii = new Utf8HtmlName("DaTa-X"u8, ref cache);
+            Assert.That(ascii.SemanticEquals("data-x"u8), Is.True);
+            Assert.That(ascii.SemanticEquals("data-y"u8), Is.False);
+            Assert.That(ascii.SemanticEquals("dATA]x"u8), Is.False);
+
+            cache.Reset();
+            ReadOnlySpan<Byte> nonAscii = [(Byte)'d', 0xC3, 0xA9];
+            var exactNonAscii = new Utf8HtmlName(nonAscii, ref cache);
+            Assert.That(exactNonAscii.SemanticEquals(nonAscii), Is.True);
+            ReadOnlySpan<Byte> differentNonAscii = [(Byte)'d', 0xC3, 0xA8];
+            Assert.That(exactNonAscii.SemanticEquals(differentNonAscii), Is.False);
+        }
+
+        [Test]
         public async Task ValidatedAsciiPrefixSurvivesRepeatedYieldsBeforeNonAsciiInput()
         {
-            var html = String.Concat(System.Linq.Enumerable.Repeat("<div><b>x</b></div>", 256)) + "<p>héllø</p>";
+            var html =
+                String.Concat(System.Linq.Enumerable.Repeat("<div><b>x</b></div>", 256))
+                + "<p>héllø</p>";
             using var expected = new HtmlParser().ParseDocument(html);
-            using var actual = await ParseUtf8Async(SegmentUtf8(html, Encoding.UTF8.GetByteCount(html)));
+            using var actual = await ParseUtf8Async(
+                SegmentUtf8(html, Encoding.UTF8.GetByteCount(html))
+            );
 
-            Assert.That(actual.DocumentElement.OuterHtml, Is.EqualTo(expected.DocumentElement.OuterHtml));
+            Assert.That(
+                actual.DocumentElement.OuterHtml,
+                Is.EqualTo(expected.DocumentElement.OuterHtml)
+            );
         }
 
         [Test]
@@ -276,7 +339,11 @@ namespace AngleSharp.Core.Tests.Html
             const String html = "<main>Ж🙂é界</main>";
             using var expected = new HtmlParser().ParseDocument(html);
 
-            for (var segmentSize = 1; segmentSize <= Encoding.UTF8.GetByteCount(html); segmentSize++)
+            for (
+                var segmentSize = 1;
+                segmentSize <= Encoding.UTF8.GetByteCount(html);
+                segmentSize++
+            )
             {
                 using var actual = await ParseUtf8Async(SegmentUtf8(html, segmentSize));
                 Assert.That(
@@ -319,10 +386,15 @@ namespace AngleSharp.Core.Tests.Html
                         .Concat(malformed)
                         .Concat(Encoding.UTF8.GetBytes(suffix))
                         .ToArray();
-                    using var expected = new HtmlParser().ParseDocument(Encoding.UTF8.GetString(utf8));
+                    using var expected = new HtmlParser().ParseDocument(
+                        Encoding.UTF8.GetString(utf8)
+                    );
 
                     var firstSplit = Math.Max(0, prefixBytes.Length - 3);
-                    var lastSplit = Math.Min(utf8.Length, prefixBytes.Length + malformed.Length + 3);
+                    var lastSplit = Math.Min(
+                        utf8.Length,
+                        prefixBytes.Length + malformed.Length + 3
+                    );
                     for (var split = firstSplit; split <= lastSplit; split++)
                     {
                         using var actual = await ParseUtf8Async(SplitUtf8(utf8, split));
@@ -481,7 +553,11 @@ namespace AngleSharp.Core.Tests.Html
             html.Append(" data-00='duplicate' DATA-17='duplicate'></x><y");
             for (var index = 39; index >= 0; index--)
             {
-                html.Append(" item-").Append(index.ToString("D2")).Append("='").Append(index).Append("'");
+                html.Append(" item-")
+                    .Append(index.ToString("D2"))
+                    .Append("='")
+                    .Append(index)
+                    .Append("'");
             }
             html.Append(" ITEM-39='duplicate'></y>");
 
@@ -499,6 +575,29 @@ namespace AngleSharp.Core.Tests.Html
                 Assert.That(actual.QuerySelector("x")!.GetAttribute("data-17"), Is.EqualTo("17"));
                 Assert.That(actual.QuerySelector("y")!.Attributes.Length, Is.EqualTo(40));
                 Assert.That(actual.QuerySelector("y")!.GetAttribute("item-39"), Is.EqualTo("39"));
+            }
+        }
+
+        [Test]
+        public async Task CompactAttributeNamesPreserveFirstMixedCaseAttributeAcrossSegments()
+        {
+            const String html =
+                "<x ID='0' CLASS='1' HREF='2' NAME='3' TITLE='4' ALT='5' SRC='6' COLSPAN='7' "
+                + "STYLE='8' TYPE='9' HEIGHT='10' LANG='11' WIDTH='12' REL='13' VALUE='14' "
+                + "CONTENT='15' id='duplicate' Class='duplicate'></x>";
+            using var expected = new HtmlParser().ParseDocument(html);
+
+            for (var segmentSize = 1; segmentSize <= 17; segmentSize++)
+            {
+                using var actual = await ParseUtf8Async(SegmentUtf8(html, segmentSize));
+                Assert.That(
+                    actual.DocumentElement.OuterHtml,
+                    Is.EqualTo(expected.DocumentElement.OuterHtml),
+                    $"UTF-8 segment size {segmentSize}"
+                );
+                Assert.That(actual.QuerySelector("x")!.Attributes.Length, Is.EqualTo(16));
+                Assert.That(actual.QuerySelector("x")!.GetAttribute("id"), Is.EqualTo("0"));
+                Assert.That(actual.QuerySelector("x")!.GetAttribute("class"), Is.EqualTo("1"));
             }
         }
 
@@ -530,12 +629,12 @@ namespace AngleSharp.Core.Tests.Html
             {
                 Utf8AttributeNameIndex.Initialize(ref index, seen, 1);
 
-                var alphaCache = default(Utf8HtmlNameHashCache);
+                var alphaCache = default(Utf8HtmlNameIdentityCache);
                 var alpha = new Utf8HtmlName("alpha"u8, ref alphaCache);
                 Assert.That(Utf8AttributeNameIndex.Contains(index, alpha, seen), Is.True);
 
-                var betaCache = default(Utf8HtmlNameHashCache);
-                Unsafe.As<Utf8HtmlNameHashCache, UInt64>(ref betaCache) = alpha.SemanticHash;
+                var betaCache = default(Utf8HtmlNameIdentityCache);
+                Unsafe.As<Utf8HtmlNameIdentityCache, UInt64>(ref betaCache) = alpha.SemanticHash;
                 var betaWithForcedCollision = new Utf8HtmlName("beta"u8, ref betaCache);
                 Assert.That(
                     Utf8AttributeNameIndex.Contains(index, betaWithForcedCollision, seen),
@@ -549,12 +648,9 @@ namespace AngleSharp.Core.Tests.Html
                     Is.True
                 );
 
-                var uppercaseCache = default(Utf8HtmlNameHashCache);
+                var uppercaseCache = default(Utf8HtmlNameIdentityCache);
                 var uppercaseAlpha = new Utf8HtmlName("ALPHA"u8, ref uppercaseCache);
-                Assert.That(
-                    Utf8AttributeNameIndex.Contains(index, uppercaseAlpha, seen),
-                    Is.True
-                );
+                Assert.That(Utf8AttributeNameIndex.Contains(index, uppercaseAlpha, seen), Is.True);
             }
             finally
             {
@@ -566,7 +662,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void CanonicalNameProviderReusesKnownTagAndRejectsUnknownName()
         {
-            var cache = default(Utf8HtmlNameHashCache);
+            var cache = default(Utf8HtmlNameIdentityCache);
             var div = new Utf8HtmlName("DiV"u8, ref cache);
 
             Assert.That(Utf8CanonicalNameProvider.TryGetTag(div, out var canonical), Is.True);
@@ -580,25 +676,67 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void CanonicalNameProviderReusesKnownAttributeAndRejectsUnknownName()
         {
-            Assert.That(Utf8CanonicalNameProvider.TryGetAttribute("class"u8, out var canonical), Is.True);
-            Assert.That(canonical, Is.SameAs(AttributeNames.Class));
-            Assert.That(Utf8CanonicalNameProvider.TryGetAttribute("data-custom"u8, out _), Is.False);
+            var expected = new[]
+            {
+                AttributeNames.Alt,
+                AttributeNames.Class,
+                AttributeNames.ColSpan,
+                AttributeNames.Content,
+                AttributeNames.Height,
+                AttributeNames.Href,
+                AttributeNames.Id,
+                AttributeNames.Lang,
+                AttributeNames.Name,
+                AttributeNames.Rel,
+                AttributeNames.Src,
+                AttributeNames.Style,
+                AttributeNames.Title,
+                AttributeNames.Type,
+                AttributeNames.Value,
+                AttributeNames.Width,
+            };
+            foreach (var attribute in expected)
+            {
+                var mixedCase = MixedCaseUtf8(attribute);
+                Assert.That(
+                    Utf8CanonicalNameProvider.TryGetAttribute(mixedCase, out var canonical),
+                    Is.True,
+                    attribute
+                );
+                Assert.That(canonical, Is.SameAs(attribute), attribute);
+            }
+
+            Assert.That(
+                Utf8CanonicalNameProvider.TryGetAttribute("data-custom"u8, out _),
+                Is.False
+            );
         }
 
         [Test]
         public void CanonicalNameProviderCoversEveryHtmlTagWithEquivalentLookupPaths()
         {
-            foreach (var field in GetTagFields().Where(static field => !NonHtmlTagFields.Contains(field.Name)))
+            foreach (
+                var field in GetTagFields()
+                    .Where(static field => !NonHtmlTagFields.Contains(field.Name))
+            )
             {
                 var canonical = (String)field.GetValue(null)!;
                 var mixedCase = MixedCaseUtf8(canonical);
-                Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag(mixedCase, out var direct), Is.True, field.Name);
+                Assert.That(
+                    Utf8CanonicalNameProvider.TryGetHtmlTag(mixedCase, out var direct),
+                    Is.True,
+                    field.Name
+                );
                 Assert.That(direct, Is.SameAs(canonical), field.Name);
 
-                var cache = default(Utf8HtmlNameHashCache);
+                var cache = default(Utf8HtmlNameIdentityCache);
                 var name = new Utf8HtmlName(mixedCase, ref cache);
                 _ = name.SemanticHash;
-                Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag(name, out var prehashed), Is.True, field.Name);
+                Assert.That(
+                    Utf8CanonicalNameProvider.TryGetHtmlTag(name, out var prehashed),
+                    Is.True,
+                    field.Name
+                );
                 Assert.That(prehashed, Is.SameAs(direct), field.Name);
             }
         }
@@ -609,30 +747,54 @@ namespace AngleSharp.Core.Tests.Html
             AssertCategory(MathMlTagFields, Utf8CanonicalNameProvider.TryGetMathMlTag);
             AssertCategory(SvgTagFields, Utf8CanonicalNameProvider.TryGetSvgTag);
 
-            Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag("foreignobject"u8, out _), Is.False);
-            Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag("annotation-xml"u8, out _), Is.False);
+            Assert.That(
+                Utf8CanonicalNameProvider.TryGetHtmlTag("foreignobject"u8, out _),
+                Is.False
+            );
+            Assert.That(
+                Utf8CanonicalNameProvider.TryGetHtmlTag("annotation-xml"u8, out _),
+                Is.False
+            );
         }
 
         [Test]
         public void CanonicalNameProviderRejectsMissesWrongHashesAndNonAsciiBytes()
         {
-            Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag(ReadOnlySpan<Byte>.Empty, out _), Is.False);
-            Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag("sixteen-byte-name"u8, out _), Is.False);
-            Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag("custom-element"u8, out _), Is.False);
+            Assert.That(
+                Utf8CanonicalNameProvider.TryGetHtmlTag(ReadOnlySpan<Byte>.Empty, out _),
+                Is.False
+            );
+            Assert.That(
+                Utf8CanonicalNameProvider.TryGetHtmlTag("sixteen-byte-name"u8, out _),
+                Is.False
+            );
+            Assert.That(
+                Utf8CanonicalNameProvider.TryGetHtmlTag("custom-element"u8, out _),
+                Is.False
+            );
 
-            var cache = default(Utf8HtmlNameHashCache);
-            Unsafe.As<Utf8HtmlNameHashCache, UInt64>(ref cache) = Utf8NameHash.ComputeSemantic("div"u8);
+            var cache = default(Utf8HtmlNameIdentityCache);
+            Unsafe.As<Utf8HtmlNameIdentityCache, UInt64>(ref cache) = Utf8NameHash.ComputeSemantic(
+                "div"u8
+            );
             var wrongHash = new Utf8HtmlName("dix"u8, ref cache);
             Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag(wrongHash, out _), Is.False);
 
             cache.Reset();
-            Unsafe.As<Utf8HtmlNameHashCache, UInt64>(ref cache) = Utf8NameHash.ComputeSemantic("dir"u8);
+            Unsafe.As<Utf8HtmlNameIdentityCache, UInt64>(ref cache) = Utf8NameHash.ComputeSemantic(
+                "dir"u8
+            );
             var hashIndependent = new Utf8HtmlName("div"u8, ref cache);
-            Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag(hashIndependent, out var div), Is.True);
+            Assert.That(
+                Utf8CanonicalNameProvider.TryGetHtmlTag(hashIndependent, out var div),
+                Is.True
+            );
             Assert.That(div, Is.SameAs(TagNames.Div));
 
             cache.Reset();
-            Unsafe.As<Utf8HtmlNameHashCache, UInt64>(ref cache) = Utf8NameHash.ComputeSemantic("div"u8);
+            Unsafe.As<Utf8HtmlNameIdentityCache, UInt64>(ref cache) = Utf8NameHash.ComputeSemantic(
+                "div"u8
+            );
             ReadOnlySpan<Byte> nonAscii = [(Byte)'d', 0xFF, (Byte)'v'];
             var invalidName = new Utf8HtmlName(nonAscii, ref cache);
             Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag(invalidName, out _), Is.False);
@@ -640,11 +802,14 @@ namespace AngleSharp.Core.Tests.Html
 
         private static async Task<IDocument> ParseUtf8Async(
             IAsyncEnumerable<ReadOnlyMemory<Byte>> input,
-            HtmlParserOptions? options = null)
+            HtmlParserOptions? options = null
+        )
         {
             var context = BrowsingContext.New(Configuration.Default);
             var document = new HtmlDocument(context, new TextSource(String.Empty));
-            var factory = context.GetService<IHtmlElementConstructionFactory>() ?? HtmlDomConstructionFactory.Instance;
+            var factory =
+                context.GetService<IHtmlElementConstructionFactory>()
+                ?? HtmlDomConstructionFactory.Instance;
             await using var tokenSource = new Utf8HtmlTokenSource(input);
             using var builder = new HtmlDomBuilder(factory, document, tokenSource: tokenSource);
             return await builder.ParseAsync(options ?? new HtmlParserOptions());
@@ -689,9 +854,7 @@ namespace AngleSharp.Core.Tests.Html
         private static FieldInfo[] GetTagFields() =>
             typeof(TagNames).GetFields(BindingFlags.Public | BindingFlags.Static);
 
-        private static void AssertCategory(
-            IEnumerable<String> fieldNames,
-            CanonicalLookup lookup)
+        private static void AssertCategory(IEnumerable<String> fieldNames, CanonicalLookup lookup)
         {
             foreach (var fieldName in fieldNames)
             {
@@ -717,10 +880,15 @@ namespace AngleSharp.Core.Tests.Html
 
         private delegate Boolean CanonicalLookup(ReadOnlySpan<Byte> name, out String canonical);
 
-        private static IAsyncEnumerable<ReadOnlyMemory<Byte>> SegmentUtf8(String html, Int32 segmentSize) =>
-            SegmentUtf8(Encoding.UTF8.GetBytes(html), segmentSize);
+        private static IAsyncEnumerable<ReadOnlyMemory<Byte>> SegmentUtf8(
+            String html,
+            Int32 segmentSize
+        ) => SegmentUtf8(Encoding.UTF8.GetBytes(html), segmentSize);
 
-        private static async IAsyncEnumerable<ReadOnlyMemory<Byte>> SegmentUtf8(Byte[] utf8, Int32 segmentSize)
+        private static async IAsyncEnumerable<ReadOnlyMemory<Byte>> SegmentUtf8(
+            Byte[] utf8,
+            Int32 segmentSize
+        )
         {
             for (var offset = 0; offset < utf8.Length; offset += segmentSize)
             {
@@ -729,7 +897,10 @@ namespace AngleSharp.Core.Tests.Html
             }
         }
 
-        private static async IAsyncEnumerable<ReadOnlyMemory<Byte>> SplitUtf8(Byte[] utf8, Int32 split)
+        private static async IAsyncEnumerable<ReadOnlyMemory<Byte>> SplitUtf8(
+            Byte[] utf8,
+            Int32 split
+        )
         {
             if (split != 0)
             {
@@ -832,7 +1003,9 @@ namespace AngleSharp.Core.Tests.Html
             public IReadOnlyList<String> Events => _events;
 
             public void Text(ReadOnlySpan<Byte> utf8) =>
-                throw new InvalidOperationException("Text must not be emitted without capture interest.");
+                throw new InvalidOperationException(
+                    "Text must not be emitted without capture interest."
+                );
 
             public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
             {
@@ -844,8 +1017,7 @@ namespace AngleSharp.Core.Tests.Html
 
             public void Attribute(Utf8HtmlName name, ReadOnlySpan<Byte> value) { }
 
-            public void StartTagEnd(Boolean selfClosing) =>
-                _events.Add("S:" + _pendingStartTag);
+            public void StartTagEnd(Boolean selfClosing) => _events.Add("S:" + _pendingStartTag);
 
             public void EndTag(Utf8HtmlName name) =>
                 _events.Add("E:" + Encoding.UTF8.GetString(name.Verbatim));
@@ -863,7 +1035,9 @@ namespace AngleSharp.Core.Tests.Html
             public IReadOnlyList<String> Events => _events;
 
             public void Text(ReadOnlySpan<Byte> utf8) =>
-                throw new InvalidOperationException("Text must not be emitted without capture interest.");
+                throw new InvalidOperationException(
+                    "Text must not be emitted without capture interest."
+                );
 
             public Utf8HtmlStartTagCapture StartTag(Utf8HtmlName name)
             {

@@ -9,59 +9,61 @@ namespace AngleSharp.Html.Parser.Utf8;
 /// </summary>
 internal static partial class Utf8CanonicalNameProvider
 {
+    private const UInt64 Alt = 0x0000000000001A39UL;
+    private const UInt64 Class = 0x0000000000889B18UL;
+    private const UInt64 ColSpan = 0x00000002291C54D3UL;
+    private const UInt64 Content = 0x00000002293CAA79UL;
+    private const UInt64 Height = 0x000000001AA731B9UL;
+    private const UInt64 Href = 0x000000000006DD4BUL;
+    private const UInt64 Id = 0x00000000000001C9UL;
+    private const UInt64 Lang = 0x0000000000089A6CUL;
+    private const UInt64 Name = 0x0000000000099A4AUL;
+    private const UInt64 Rel = 0x0000000000005D51UL;
+    private const UInt64 Src = 0x00000000000062E8UL;
+    private const UInt64 Style = 0x00000000018CFA2AUL;
+    private const UInt64 Title = 0x000000000197662AUL;
+    private const UInt64 Type = 0x00000000000CFAAAUL;
+    private const UInt64 Value = 0x0000000001B3474AUL;
+    private const UInt64 Width = 0x0000000001C7272DUL;
+
     public static Boolean TryGetTag(Utf8HtmlName name, out String canonical) =>
         TryGetHtmlTag(name, out canonical);
 
     public static Boolean TryGetAttribute(ReadOnlySpan<Byte> name, out String canonical)
     {
-        var cache = default(Utf8HtmlNameHashCache);
+        var cache = default(Utf8HtmlNameIdentityCache);
         return TryGetAttribute(new Utf8HtmlName(name, ref cache), out canonical);
     }
 
     public static Boolean TryGetAttribute(Utf8HtmlName name, out String canonical)
     {
-        canonical = name.SemanticHash switch
+        if (!name.TryGetCompactKey(out var key))
         {
-            0xD11655952FCBAB9FUL => AttributeNames.Class,
-            0x9AB8EDCC20799138UL => AttributeNames.Href,
-            0xC4BCADBA8E631B86UL => AttributeNames.Name,
-            0xDA31296C0C1B6029UL => AttributeNames.Title,
-            0xE6F0A3190519E83CUL => AttributeNames.Alt,
-            0x825994195CFB21C9UL => AttributeNames.Src,
-            0xAFDCEBFFFA777F55UL => AttributeNames.ColSpan,
-            0xBF7282ADBC7013F6UL => AttributeNames.Style,
-            0x08B72E07B55C3AC0UL => AttributeNames.Id,
-            0xA79439EF7BFA9C2DUL => AttributeNames.Type,
-            0x17720BF67D347222UL => AttributeNames.Height,
-            0x0460DFAD9060B275UL => AttributeNames.Lang,
-            0xDBDACD932FD1E9BFUL => AttributeNames.Width,
-            0x89E9C61960F4CFB4UL => AttributeNames.Rel,
-            0x7CE4FD9430E80CEAUL => AttributeNames.Value,
-            0x420C75B526B35282UL => AttributeNames.Content,
-            _ => null!,
-        };
-
-        return canonical is not null && SemanticEquals(name.Verbatim, canonical);
-    }
-
-    private static Boolean SemanticEquals(ReadOnlySpan<Byte> verbatim, String semantic)
-    {
-        if (verbatim.Length != semantic.Length)
-        {
+            canonical = null!;
             return false;
         }
 
-        for (var index = 0; index < verbatim.Length; index++)
+        canonical = key switch
         {
-            if (
-                Utf8NameHash.ToLowerAscii(verbatim[index])
-                != Utf8NameHash.ToLowerAscii((Byte)semantic[index])
-            )
-            {
-                return false;
-            }
-        }
+            Class => AttributeNames.Class,
+            Href => AttributeNames.Href,
+            Name => AttributeNames.Name,
+            Title => AttributeNames.Title,
+            Alt => AttributeNames.Alt,
+            Src => AttributeNames.Src,
+            ColSpan => AttributeNames.ColSpan,
+            Style => AttributeNames.Style,
+            Id => AttributeNames.Id,
+            Type => AttributeNames.Type,
+            Height => AttributeNames.Height,
+            Lang => AttributeNames.Lang,
+            Width => AttributeNames.Width,
+            Rel => AttributeNames.Rel,
+            Value => AttributeNames.Value,
+            Content => AttributeNames.Content,
+            _ => null!,
+        };
 
-        return true;
+        return canonical is not null;
     }
 }

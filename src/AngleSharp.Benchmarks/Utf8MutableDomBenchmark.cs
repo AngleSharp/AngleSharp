@@ -29,10 +29,7 @@ public class Utf8MutableDomBenchmark
 {
     private const Int32 NetworkBufferSize = 4096;
 
-    private static readonly HtmlParserOptions SkipDataTextOptions = new()
-    {
-        SkipDataText = true,
-    };
+    private static readonly HtmlParserOptions SkipDataTextOptions = new() { SkipDataText = true };
 
     private static readonly HtmlParserOptions SkipRCDataTextOptions = new()
     {
@@ -87,15 +84,45 @@ public class Utf8MutableDomBenchmark
 
     public static IEnumerable<String> GetCorpusFiles()
     {
+        var index = 0;
+        foreach (var path in GetCorpusPaths())
+        {
+            yield return $"{index++:D2}|{path}";
+        }
+    }
+
+    private static IEnumerable<String> GetCorpusPaths()
+    {
+        var corpusSet = Environment.GetEnvironmentVariable("ANGLE_UTF8_CORPUS_SET");
+        if (String.Equals(corpusSet, "identity", StringComparison.OrdinalIgnoreCase))
+        {
+            yield return "compact-names.synthetic.html";
+            yield return "fallback-names.synthetic.html";
+            yield return "mixed-name-duplicates.synthetic.html";
+            yield break;
+        }
+        if (String.Equals(corpusSet, "representative", StringComparison.OrdinalIgnoreCase))
+        {
+            yield return "page.html";
+            yield return "utf8_edu.bin";
+            yield return "html5test-no-payload.html";
+            yield return Path.Combine("temp", "en.wikipedia.html");
+            yield return Path.Combine("temp", "html5test.html");
+            yield return Path.Combine("temp", "nbc.html");
+            yield return Path.Combine("temp", "qq.html");
+            yield return Path.Combine("temp", "spiegel.html");
+            yield return Path.Combine("temp", "youtube.html");
+            yield break;
+        }
+
         yield return "page.html";
         yield return "utf8_edu.bin";
         yield return "html5test-no-payload.html";
+        yield return "compact-names.synthetic.html";
+        yield return "fallback-names.synthetic.html";
+        yield return "mixed-name-duplicates.synthetic.html";
 
-        if (String.Equals(
-            Environment.GetEnvironmentVariable("ANGLE_UTF8_CORPUS_SET"),
-            "prefilter",
-            StringComparison.OrdinalIgnoreCase
-        ))
+        if (String.Equals(corpusSet, "prefilter", StringComparison.OrdinalIgnoreCase))
         {
             yield return Path.Combine("temp", "qq.html");
             yield return Path.Combine("temp", "youtube.html");
@@ -123,9 +150,13 @@ public class Utf8MutableDomBenchmark
     [GlobalSetup]
     public async Task Setup()
     {
-        _utf8 = File.ReadAllBytes(ResolveCorpusPath(CorpusFile));
+        var corpusPath = CorpusFile[(CorpusFile.IndexOf('|') + 1)..];
+        _utf8 =
+            CreateSyntheticCorpus(corpusPath) ?? File.ReadAllBytes(ResolveCorpusPath(corpusPath));
         _context = BrowsingContext.New(Configuration.Default);
-        _factory = _context.GetService<IHtmlElementConstructionFactory>() ?? HtmlDomConstructionFactory.Instance;
+        _factory =
+            _context.GetService<IHtmlElementConstructionFactory>()
+            ?? HtmlDomConstructionFactory.Instance;
         _parser = new HtmlParser(_context);
         _skipDataTextParser = new HtmlParser(SkipDataTextOptions, _context);
         _skipRCDataTextParser = new HtmlParser(SkipRCDataTextOptions, _context);
@@ -136,9 +167,17 @@ public class Utf8MutableDomBenchmark
         using var expected = _parser.ParseDocument(Encoding.UTF8.GetString(_utf8));
         _expectedMarkup = expected.DocumentElement.OuterHtml;
         using var actual = await ParseUtf8Async(SingleChunk(_utf8)).ConfigureAwait(false);
-        if (!String.Equals(actual.DocumentElement.OuterHtml, _expectedMarkup, StringComparison.Ordinal))
+        if (
+            !String.Equals(
+                actual.DocumentElement.OuterHtml,
+                _expectedMarkup,
+                StringComparison.Ordinal
+            )
+        )
         {
-            throw new InvalidOperationException("Arena-backed UTF-8 mutable DOM differs from the mature parser.");
+            throw new InvalidOperationException(
+                "Arena-backed UTF-8 mutable DOM differs from the mature parser."
+            );
         }
 
         await VerifyReducedDomAsync(
@@ -191,7 +230,9 @@ public class Utf8MutableDomBenchmark
     public async Task<Int32> AccumulatingUtf16Network4K()
     {
         using var stream = new NetworkReadStream(_utf8, NetworkBufferSize);
-        using var document = await _parser.ParseDocumentAsync(stream, default).ConfigureAwait(false);
+        using var document = await _parser
+            .ParseDocumentAsync(stream, default)
+            .ConfigureAwait(false);
         return document.All.Length;
     }
 
@@ -208,7 +249,8 @@ public class Utf8MutableDomBenchmark
     [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture", "PageSet")]
     public async Task<Int32> NativeUtf8Network4K()
     {
-        using var document = await ParseUtf8Async(NetworkChunks(_utf8, NetworkBufferSize)).ConfigureAwait(false);
+        using var document = await ParseUtf8Async(NetworkChunks(_utf8, NetworkBufferSize))
+            .ConfigureAwait(false);
         return document.All.Length;
     }
 
@@ -256,7 +298,15 @@ public class Utf8MutableDomBenchmark
     public Task<Int32> NativeUtf8StructureIdClassNetwork4K() =>
         ParseNativeUtf8Async(StructureIdClassOptions);
 
-    [Benchmark, BenchmarkCategory("Network4K", "PayloadCapture", "StructureIdClass", "Utf8AttributePrefilter")]
+    [
+        Benchmark,
+        BenchmarkCategory(
+            "Network4K",
+            "PayloadCapture",
+            "StructureIdClass",
+            "Utf8AttributePrefilter"
+        )
+    ]
     public Task<Int32> NativeUtf8StructureIdClassPrefilterNetwork4K() =>
         ParseNativeUtf8Async(StructureIdClassOptions, IdClassAttributePrefilter);
 
@@ -326,7 +376,8 @@ public class Utf8MutableDomBenchmark
         HtmlParser matureParser,
         HtmlParserOptions options,
         String lane,
-        Utf8AttributePrefilter attributePrefilter = null)
+        Utf8AttributePrefilter attributePrefilter = null
+    )
     {
         using var matureStream = new NetworkReadStream(_utf8, NetworkBufferSize);
         using var mature = await matureParser
@@ -355,28 +406,24 @@ public class Utf8MutableDomBenchmark
         }
     }
 
-    private static Boolean QueryAttributePrefilter(
-        ref StructHtmlToken _,
-        Utf8HtmlName name
-    ) => name.Verbatim.Length switch
-    {
-        3 => name.SemanticEquals("alt"u8) || name.SemanticEquals("src"u8),
-        4 => name.SemanticEquals("href"u8),
-        5 => name.SemanticEquals("class"u8),
-        6 => name.SemanticEquals("dt-eid"u8),
-        9 => name.SemanticEquals("dt-params"u8),
-        _ => false,
-    };
+    private static Boolean QueryAttributePrefilter(ref StructHtmlToken _, Utf8HtmlName name) =>
+        name.Verbatim.Length switch
+        {
+            3 => name.SemanticEquals("alt"u8) || name.SemanticEquals("src"u8),
+            4 => name.SemanticEquals("href"u8),
+            5 => name.SemanticEquals("class"u8),
+            6 => name.SemanticEquals("dt-eid"u8),
+            9 => name.SemanticEquals("dt-params"u8),
+            _ => false,
+        };
 
-    private static Boolean IdClassAttributePrefilter(
-        ref StructHtmlToken _,
-        Utf8HtmlName name
-    ) => name.Verbatim.Length switch
-    {
-        2 => name.SemanticEquals("id"u8),
-        5 => name.SemanticEquals("class"u8),
-        _ => false,
-    };
+    private static Boolean IdClassAttributePrefilter(ref StructHtmlToken _, Utf8HtmlName name) =>
+        name.Verbatim.Length switch
+        {
+            2 => name.SemanticEquals("id"u8),
+            5 => name.SemanticEquals("class"u8),
+            _ => false,
+        };
 
     private static void VerifyOnlyIdAndClassAttributes(IDocument document, String lane)
     {
@@ -428,24 +475,17 @@ public class Utf8MutableDomBenchmark
                 return cachedPage;
             }
 
-            throw new FileNotFoundException($"Could not locate cached ParserBenchmark page '{fileName}'.");
+            throw new FileNotFoundException(
+                $"Could not locate cached ParserBenchmark page '{fileName}'."
+            );
         }
 
         var relativePath = fileName switch
         {
             "page.html" => Path.Combine("src", "AngleSharp.Benchmarks", fileName),
-            "html5test-no-payload.html" => Path.Combine(
-                "src",
-                "AngleSharp.Benchmarks",
-                fileName
-            ),
+            "html5test-no-payload.html" => Path.Combine("src", "AngleSharp.Benchmarks", fileName),
             "nbc.html" => Path.Combine("src", "AngleSharp.Core.Tests", "Pages", fileName),
-            "utf8_edu.bin" => Path.Combine(
-                "src",
-                "AngleSharp.Core.Tests",
-                "Resources",
-                fileName
-            ),
+            "utf8_edu.bin" => Path.Combine("src", "AngleSharp.Core.Tests", "Resources", fileName),
             _ => fileName,
         };
         for (
@@ -462,6 +502,40 @@ public class Utf8MutableDomBenchmark
         }
 
         throw new FileNotFoundException($"Could not locate UTF-8 benchmark corpus '{fileName}'.");
+    }
+
+    private static Byte[] CreateSyntheticCorpus(String fileName)
+    {
+        var fragment = fileName switch
+        {
+            "compact-names.synthetic.html" =>
+                "<article id='item' class='card' href='/item' src='image' alt='preview' title='measured' "
+                    + "name='entry' type='example' lang='en' width='320' height='200' rel='next' value='42' "
+                    + "content='payload'>ordinary text</article>",
+            "fallback-names.synthetic.html" =>
+                "<custom-element data-record='1' aria-label='item' http-equiv='refresh' accept-charset='utf-8' "
+                    + "data-alpha='a' data-beta='b' data-gamma='c' data-delta='d' data-epsilon='e' "
+                    + "data-zeta='f' data-eta='g' data-theta='h' data-iota='i' data-kappa='j' "
+                    + "data-lambda='k' data-mu='l' data-nu='m' data-xi='n'>ordinary text</custom-element>",
+            "mixed-name-duplicates.synthetic.html" =>
+                "<ArTiClE ID='first' id='ignored' CLASS='card' class='ignored' "
+                    + "DaTa-Key='one' data-key='ignored' TITLE='title' title='ignored'>ordinary text</ArTiClE>",
+            _ => null,
+        };
+        if (fragment is null)
+        {
+            return null;
+        }
+
+        const Int32 TargetBytes = 256 * 1024;
+        var source = Encoding.UTF8.GetBytes(fragment);
+        var copies = Math.Max(1, TargetBytes / source.Length);
+        var output = new Byte[source.Length * copies];
+        for (var offset = 0; offset < output.Length; offset += source.Length)
+        {
+            source.CopyTo(output, offset);
+        }
+        return output;
     }
 
     private static String ResolveCorpusDirectory(String directoryName)
@@ -500,12 +574,13 @@ public class Utf8MutableDomBenchmark
     private static async IAsyncEnumerable<ReadOnlyMemory<Byte>> NetworkChunks(
         Byte[] source,
         Int32 bufferSize,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        [EnumeratorCancellation] CancellationToken cancellationToken = default
+    )
     {
         var buffer = ArrayPool<Byte>.Shared.Rent(bufferSize);
         try
         {
-            for (var offset = 0; offset < source.Length;)
+            for (var offset = 0; offset < source.Length; )
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var length = Math.Min(bufferSize, source.Length - offset);
@@ -534,7 +609,8 @@ public class Utf8MutableDomBenchmark
             set => throw new NotSupportedException();
         }
 
-        public override Int32 Read(Byte[] buffer, Int32 offset, Int32 count) => Read(buffer.AsSpan(offset, count));
+        public override Int32 Read(Byte[] buffer, Int32 offset, Int32 count) =>
+            Read(buffer.AsSpan(offset, count));
 
         public override Int32 Read(Span<Byte> buffer)
         {
@@ -553,16 +629,23 @@ public class Utf8MutableDomBenchmark
             Byte[] buffer,
             Int32 offset,
             Int32 count,
-            CancellationToken cancellationToken) => Task.FromResult(Read(buffer, offset, count));
+            CancellationToken cancellationToken
+        ) => Task.FromResult(Read(buffer, offset, count));
 
         public override ValueTask<Int32> ReadAsync(
             Memory<Byte> buffer,
-            CancellationToken cancellationToken = default) => ValueTask.FromResult(Read(buffer.Span));
+            CancellationToken cancellationToken = default
+        ) => ValueTask.FromResult(Read(buffer.Span));
 
         public override void Flush() { }
-        public override Int64 Seek(Int64 offset, SeekOrigin origin) => throw new NotSupportedException();
+
+        public override Int64 Seek(Int64 offset, SeekOrigin origin) =>
+            throw new NotSupportedException();
+
         public override void SetLength(Int64 value) => throw new NotSupportedException();
-        public override void Write(Byte[] buffer, Int32 offset, Int32 count) => throw new NotSupportedException();
+
+        public override void Write(Byte[] buffer, Int32 offset, Int32 count) =>
+            throw new NotSupportedException();
     }
 }
 #endif
