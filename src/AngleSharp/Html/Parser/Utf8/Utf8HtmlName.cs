@@ -1,6 +1,10 @@
 #pragma warning disable CS1591 // Experimental API surface; shape is intentionally unsettled.
 
 using System;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.X86;
 
 namespace AngleSharp.Html.Parser.Utf8;
 
@@ -80,7 +84,9 @@ public readonly ref struct Utf8HtmlName
 
     /// <summary>Compares this name using HTML ASCII case-insensitive semantics.</summary>
     public Boolean SemanticEquals(ReadOnlySpan<Byte> expected) =>
-        EqualsAsciiIgnoreCase(Verbatim, expected);
+        Verbatim.Length < Vector128<Byte>.Count
+            ? EqualsAsciiIgnoreCaseScalar(Verbatim, expected, 0)
+            : EqualsAsciiIgnoreCase(Verbatim, expected);
 
     private static Boolean EqualsAsciiIgnoreCase(ReadOnlySpan<Byte> left, ReadOnlySpan<Byte> right)
     {
@@ -89,7 +95,41 @@ public readonly ref struct Utf8HtmlName
             return false;
         }
 
-        for (var index = 0; index < left.Length; index++)
+        var index = 0;
+        if (Sse2.IsSupported)
+        {
+            var leftFirst = left[0];
+            var rightFirst = right[0];
+            if (leftFirst != rightFirst)
+            {
+                var leftFirstFolded = (Byte)(leftFirst | 0x20);
+                if (
+                    (UInt32)(leftFirstFolded - (Byte)'a') > (Byte)'z' - (Byte)'a'
+                    || leftFirstFolded != (Byte)(rightFirst | 0x20)
+                )
+                    return false;
+            }
+
+            index = CompareVector128(left, right);
+            if (index < 0)
+                return false;
+        }
+
+        return EqualsAsciiIgnoreCaseScalar(left, right, index);
+    }
+
+    private static Boolean EqualsAsciiIgnoreCaseScalar(
+        ReadOnlySpan<Byte> left,
+        ReadOnlySpan<Byte> right,
+        Int32 index
+    )
+    {
+        if (left.Length != right.Length)
+        {
+            return false;
+        }
+
+        for (; index < left.Length; index++)
         {
             var leftValue = left[index];
             var rightValue = right[index];
@@ -109,6 +149,43 @@ public readonly ref struct Utf8HtmlName
         }
 
         return true;
+    }
+
+    // Keep the intrinsic block out of the inlineable scalar path used by short HTML names.
+    // A negative result denotes a mismatch; otherwise it is the first unprocessed byte.
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static Int32 CompareVector128(ReadOnlySpan<Byte> left, ReadOnlySpan<Byte> right)
+    {
+        var exactDifference = Vector128<Byte>.Zero;
+        var asciiCaseDifference = Vector128.Create((Byte)0x20);
+        var belowA = Vector128.Create((SByte)('a' - 1));
+        var aboveZ = Vector128.Create((SByte)('z' + 1));
+        ref var leftReference = ref MemoryMarshal.GetReference(left);
+        ref var rightReference = ref MemoryMarshal.GetReference(right);
+        var vectorEnd = left.Length - Vector128<Byte>.Count;
+        var index = 0;
+
+        do
+        {
+            var leftVector = Vector128.LoadUnsafe(ref leftReference, (UIntPtr)index);
+            var rightVector = Vector128.LoadUnsafe(ref rightReference, (UIntPtr)index);
+            var difference = Sse2.Xor(leftVector, rightVector);
+            var exact = Sse2.CompareEqual(difference, exactDifference);
+            var differsOnlyByCase = Sse2.CompareEqual(difference, asciiCaseDifference);
+            var foldedLeft = Sse2.Or(leftVector, asciiCaseDifference).AsSByte();
+            var atLeastA = Sse2.CompareGreaterThan(foldedLeft, belowA);
+            var atMostZ = Sse2.CompareGreaterThan(aboveZ, foldedLeft);
+            var validCaseDifference = Sse2.And(
+                differsOnlyByCase,
+                Sse2.And(atLeastA, atMostZ).AsByte()
+            );
+            if (Sse2.MoveMask(Sse2.Or(exact, validCaseDifference)) != 0xFFFF)
+                return -1;
+
+            index += Vector128<Byte>.Count;
+        } while (index <= vectorEnd);
+
+        return index;
     }
 
     private static Boolean IsAsciiAlpha(Byte value) =>

@@ -420,6 +420,65 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void SemanticNameEqualityMatchesScalarReferenceAcrossVectorBoundaries()
+        {
+            var random = new Random(0x51A1D);
+            foreach (var length in new[] { 0, 1, 15, 16, 17, 31, 32, 33, 63, 64, 65 })
+            {
+                for (var iteration = 0; iteration < 512; iteration++)
+                {
+                    var left = new Byte[length];
+                    var right = new Byte[length];
+                    random.NextBytes(left);
+                    left.CopyTo(right, 0);
+
+                    for (var index = 0; index < right.Length; index++)
+                    {
+                        if (random.Next(4) == 0 && IsAsciiLetter(right[index]))
+                            right[index] ^= 0x20;
+                    }
+
+                    if (right.Length != 0 && random.Next(2) == 0)
+                        right[random.Next(right.Length)] = (Byte)random.Next(256);
+
+                    var cache = default(Utf8HtmlNameIdentityCache);
+                    var name = new Utf8HtmlName(left, ref cache);
+                    Assert.That(
+                        name.SemanticEquals(right),
+                        Is.EqualTo(ScalarAsciiEquals(left, right)),
+                        $"length={length}, iteration={iteration}"
+                    );
+                }
+            }
+        }
+
+        private static Boolean ScalarAsciiEquals(ReadOnlySpan<Byte> left, ReadOnlySpan<Byte> right)
+        {
+            if (left.Length != right.Length)
+                return false;
+
+            for (var index = 0; index < left.Length; index++)
+            {
+                var leftValue = left[index];
+                var rightValue = right[index];
+                if (leftValue == rightValue)
+                    continue;
+
+                var leftFolded = (Byte)(leftValue | 0x20);
+                if (
+                    (UInt32)(leftFolded - (Byte)'a') > (Byte)'z' - (Byte)'a'
+                    || leftFolded != (Byte)(rightValue | 0x20)
+                )
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static Boolean IsAsciiLetter(Byte value) =>
+            (UInt32)((value | 0x20) - (Byte)'a') <= (Byte)'z' - (Byte)'a';
+
+        [Test]
         public async Task ValidatedAsciiPrefixSurvivesRepeatedYieldsBeforeNonAsciiInput()
         {
             var html =
