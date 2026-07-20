@@ -27,6 +27,7 @@ internal sealed class Utf8HtmlTokenSource :
     IAsyncHtmlTokenSource,
     IUtf8HtmlTokenSink,
     IUtf8HtmlStreamingCommentSink,
+    IUtf8HtmlStartTagSourceRangeSink,
     IAsyncDisposable
 {
     private const Int32 TokenCapacity = 3;
@@ -38,9 +39,9 @@ internal sealed class Utf8HtmlTokenSource :
     private readonly Utf8HtmlTokenizer _tokenizer;
     private readonly Utf8HtmlTokenizerInput _tokenizerInput;
     private readonly Utf8TextAccumulator _text = new();
-    private Utf8TextAccumulator? _comment;
     private TokenBuffer _tokens;
     private ReadyBuffer _ready;
+    private SourcePositionTracker? _sourcePositionTracker;
     private ReadOnlyMemory<Byte> _segment;
     private ReadOnlyMemory<Char> _lastStartTagName;
     private ReadOnlyMemory<Char> _pendingAttributeName;
@@ -56,8 +57,6 @@ internal sealed class Utf8HtmlTokenSource :
     private Boolean _hasCurrent;
     private Boolean _hasSkippedText;
     private Boolean _pendingAttributeNameIsDecoded;
-
-    private Utf8TextAccumulator CommentAccumulator => _comment ??= new();
 
     public Utf8HtmlTokenSource(
         IAsyncEnumerable<ReadOnlyMemory<Byte>> input,
@@ -89,6 +88,15 @@ internal sealed class Utf8HtmlTokenSource :
         Action<HtmlParseError, TextPosition> reportError)
     {
         _options = options;
+        _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
+        _tokenizer.IsSupportingProcessingInstructions =
+            options.IsSupportingProcessingInstructions;
+        _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
+        _tokenizer.SkipCDATA = options.SkipCDATA;
+        _sourcePositionTracker = options.IsTrackingElementPositions
+            ? new SourcePositionTracker(!options.DisableElementPositionTracking)
+            : null;
+        _tokenizer.RefreshStartTagSourceRangeSink();
     }
 
     public void SetState(HtmlParseMode state)
@@ -266,6 +274,27 @@ internal sealed class Utf8HtmlTokenSource :
 
     public void EndTag(Utf8HtmlName name) => EnqueueEndTag(name);
 
+    Boolean IUtf8HtmlStartTagSourceRangeSink.WantsStartTagSourceRanges =>
+        _sourcePositionTracker is not null;
+
+    void IUtf8HtmlStartTagSourceRangeSink.ObserveNormalizedUtf8(
+        Int64 sourceStart,
+        ReadOnlySpan<Byte> utf8
+    ) => _sourcePositionTracker!.Observe(sourceStart, utf8);
+
+    void IUtf8HtmlStartTagSourceRangeSink.StartTagSourceRange(
+        Int64 sourceStart,
+        Int64 sourceEnd
+    )
+    {
+        if (
+            _sourcePositionTracker?.TryTake(sourceStart, out var position) == true
+        )
+        {
+            GetStartTag().SetPosition(position);
+        }
+    }
+
     public void Comment(ReadOnlySpan<Byte> utf8)
     {
         FlushText();
@@ -278,19 +307,39 @@ internal sealed class Utf8HtmlTokenSource :
         _tokenizer.RequestYield();
     }
 
-    Boolean IUtf8HtmlStreamingCommentSink.BeginComment() => !_options.SkipComments;
+    public void ProcessingInstruction(ReadOnlySpan<Byte> utf8)
+    {
+        FlushText();
+        var slot = ReserveSlot();
+        if (_options.SkipProcessingInstructions)
+        {
+            _tokens[slot].InitializeComment(StringOrMemory.Empty, default);
+        }
+        else
+        {
+            _tokens[slot].InitializeComment(Decode(utf8), default);
+            _tokens[slot].IsProcessingInstruction = true;
+        }
+        Enqueue(slot);
+        _tokenizer.RequestYield();
+    }
+
+    Boolean IUtf8HtmlStreamingCommentSink.BeginComment()
+    {
+        FlushText();
+        return !_options.SkipComments;
+    }
 
     void IUtf8HtmlStreamingCommentSink.CommentChunk(ReadOnlySpan<Byte> utf8) =>
-        CommentAccumulator.Append(utf8);
+        _text.Append(utf8);
 
     void IUtf8HtmlStreamingCommentSink.EndComment()
     {
-        FlushText();
         var slot = ReserveSlot();
         _tokens[slot].InitializeComment(
             _options.SkipComments
                 ? StringOrMemory.Empty
-                : _comment?.Materialize() ?? StringOrMemory.Empty,
+                : _text.Materialize(),
             default
         );
         Enqueue(slot);
@@ -347,6 +396,139 @@ internal sealed class Utf8HtmlTokenSource :
         _tokens[slot].InitializeEndTag(DecodeTagName(name));
         Enqueue(slot);
         _tokenizer.RequestYield();
+    }
+
+    private readonly record struct SourcePositionEntry(Int64 Offset, TextPosition Position);
+
+    private sealed class SourcePositionTracker(Boolean trackLineColumns)
+    {
+        private readonly Queue<SourcePositionEntry> _lessThanPositions = new();
+        private Int64 _normalizedByteOffset;
+        private Int32 _position = 1;
+        private UInt16 _line = 1;
+        private UInt16 _column = 1;
+        private Boolean _pendingCarriageReturn;
+
+        public void Observe(Int64 sourceStart, ReadOnlySpan<Byte> utf8)
+        {
+            var overlap = _normalizedByteOffset - sourceStart;
+            if (overlap >= utf8.Length)
+            {
+                return;
+            }
+            if (overlap < 0)
+            {
+                throw new InvalidOperationException("Normalized UTF-8 observations are not contiguous.");
+            }
+            if (overlap != 0)
+            {
+                utf8 = utf8[(Int32)overlap..];
+            }
+
+            while (!utf8.IsEmpty)
+            {
+                var status = Rune.DecodeFromUtf8(
+                    utf8,
+                    out var rune,
+                    out var consumed
+                );
+                if (status != OperationStatus.Done)
+                {
+                    throw new InvalidOperationException("The tokenizer received unnormalized UTF-8.");
+                }
+
+                AdvanceRune(rune, consumed);
+                utf8 = utf8[consumed..];
+            }
+        }
+
+        public Boolean TryTake(Int64 sourceOffset, out TextPosition position)
+        {
+            while (_lessThanPositions.Count != 0)
+            {
+                var candidate = _lessThanPositions.Peek();
+                if (candidate.Offset < sourceOffset)
+                {
+                    _lessThanPositions.Dequeue();
+                    continue;
+                }
+                if (candidate.Offset == sourceOffset)
+                {
+                    position = candidate.Position;
+                    _lessThanPositions.Dequeue();
+                    return true;
+                }
+                break;
+            }
+
+            position = default;
+            return false;
+        }
+
+        private TextPosition Current =>
+            trackLineColumns
+                ? new TextPosition(_line, _column, _position)
+                : new TextPosition(1, 0, _position);
+
+        private void AdvanceRune(Rune rune, Int32 utf8Length)
+        {
+            if (rune.Value == '<')
+            {
+                _lessThanPositions.Enqueue(
+                    new SourcePositionEntry(_normalizedByteOffset, Current)
+                );
+            }
+
+            _normalizedByteOffset += utf8Length;
+            if (rune.IsAscii)
+            {
+                AdvanceAscii((Byte)rune.Value);
+            }
+            else
+            {
+                Advance(rune.Utf16SequenceLength);
+            }
+        }
+
+        private void AdvanceAscii(Byte value)
+        {
+            _position++;
+            if (!trackLineColumns)
+            {
+                return;
+            }
+
+            if (value == (Byte)'\n')
+            {
+                if (!_pendingCarriageReturn)
+                {
+                    _line++;
+                    _column = 1;
+                }
+                _pendingCarriageReturn = false;
+            }
+            else if (value == (Byte)'\r')
+            {
+                _line++;
+                _column = 1;
+                _pendingCarriageReturn = true;
+            }
+            else
+            {
+                _pendingCarriageReturn = false;
+                _column++;
+            }
+        }
+
+        private void Advance(Int32 utf16Length)
+        {
+            _position += utf16Length;
+            if (trackLineColumns)
+            {
+                _pendingCarriageReturn = false;
+                _column += (UInt16)utf16Length;
+            }
+        }
     }
 
     private StringOrMemory DecodeTagName(Utf8HtmlName name) =>
@@ -524,7 +706,6 @@ internal sealed class Utf8HtmlTokenSource :
 
         _disposed = true;
         _text.Dispose();
-        _comment?.Dispose();
         _tokens = default;
         _ready = default;
         _lastStartTagName = default;

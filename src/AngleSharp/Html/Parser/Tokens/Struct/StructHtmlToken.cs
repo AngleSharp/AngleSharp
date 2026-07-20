@@ -110,6 +110,8 @@ public struct StructHtmlToken
     internal void InitializeEndOfFile(TextPosition position) =>
         Initialize(HtmlTokenType.EndOfFile, position, default);
 
+    internal void SetPosition(TextPosition position) => _position = position;
+
     private void Initialize(HtmlTokenType type, TextPosition position, StringOrMemory name)
     {
         _attributes.ResetForReuse();

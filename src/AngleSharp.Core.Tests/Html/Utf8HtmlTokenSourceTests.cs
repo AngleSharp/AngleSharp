@@ -19,6 +19,22 @@ namespace AngleSharp.Core.Tests.Html
     [TestFixture]
     public class Utf8HtmlTokenSourceTests
     {
+        [TestCase("plain &amp; text <b a=1 a=2>x</b>")]
+        [TestCase("<!doctype html><title>x&amp;y</title><p>after")]
+        [TestCase("<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN' 'about:legacy-compat'><p>x")]
+        [TestCase("<!--a<!--b--!><main>x</main>")]
+        [TestCase("<textarea>x&amp;y</not-textarea></TEXTAREA><p>after")]
+        [TestCase("<style>a<b>&amp;</b></STYLE><p>after")]
+        [TestCase("<script><!--<script>double escaped</script>--></SCRIPT><p>after")]
+        [TestCase("<svg><![CDATA[a<b>&amp;</b>]]><foreignObject><p>x</p></foreignObject></svg>")]
+        [TestCase("<table>before<tr><td>x</td></tr>after</table>")]
+        [TestCase("<template><table><tr><td>x</template><p>after")]
+        [TestCase("<p><b><i>x</b>y</i>z")]
+        [TestCase("<main A='1' a='2' data-x='&amp;' empty disabled></main>")]
+        public async Task DefaultMutableDomMatchesMatureParserAcrossTokenizerStateClusters(
+            String html
+        ) => await AssertMutableDomParityAcrossSegments(html, default, maximumSegmentSize: 7);
+
         [Test]
         public async Task ArenaBackedTokensBuildEquivalentMutableDomAcrossSegments()
         {
@@ -193,6 +209,93 @@ namespace AngleSharp.Core.Tests.Html
                     actual.DocumentElement.OuterHtml,
                     Is.EqualTo(expected.DocumentElement.OuterHtml),
                     $"UTF-8 segment size {segmentSize}"
+                );
+            }
+        }
+
+        [Test]
+        public async Task CharacterReferenceSuppressionMatchesMatureParserAcrossSegments()
+        {
+            const String html =
+                "<main title='&amp;&#x1f642;&unknown;'>&amp;&#169;&unknown;"
+                + "<textarea>&amp;&#x3c;</textarea></main>";
+            var options = new HtmlParserOptions
+            {
+                IsNotConsumingCharacterReferences = true,
+            };
+            await AssertMutableDomParityAcrossSegments(html, options, maximumSegmentSize: 9);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ProcessingInstructionOptionsMatchMatureParserAcrossSegments(
+            Boolean skipProcessingInstructions
+        )
+        {
+            const String html = "<?xml version='1.0'?><?target data><main>x</main>";
+            var options = new HtmlParserOptions
+            {
+                IsSupportingProcessingInstructions = true,
+                SkipProcessingInstructions = skipProcessingInstructions,
+            };
+            await AssertMutableDomParityAcrossSegments(html, options, maximumSegmentSize: 9);
+        }
+
+        [Test]
+        public async Task SkippedCDataMatchesMatureParserAcrossSegments()
+        {
+            const String html =
+                "<svg><![CDATA[one & two < three]]><g><![CDATA[🙂\r\ntext]]></g></svg>"
+                + "<main><![CDATA[bogus-comment]]></main>";
+            var options = new HtmlParserOptions { SkipCDATA = true };
+            await AssertMutableDomParityAcrossSegments(html, options, maximumSegmentSize: 9);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task ExplicitElementPositionsMatchMatureParserAcrossSegments(
+            Boolean disableElementPositionTracking
+        )
+        {
+            const String html =
+                "<!doctype html>\r\n<main data-track='main'>🙂\n"
+                + "<section data-track='section'><span data-track='span'>x</span></section>"
+                + "</main>";
+            var expectedPositions = new Dictionary<String, TextPosition>();
+            var actualPositions = new Dictionary<String, TextPosition>();
+            var expectedOptions = CreatePositionOptions(
+                expectedPositions,
+                disableElementPositionTracking
+            );
+            using var expected = new HtmlParser(expectedOptions).ParseDocument(html);
+            var expectedSourcePositions = GetTrackedSourcePositions(expected);
+
+            for (var segmentSize = 1; segmentSize <= 9; segmentSize++)
+            {
+                actualPositions.Clear();
+                var actualOptions = CreatePositionOptions(
+                    actualPositions,
+                    disableElementPositionTracking
+                );
+                using var actual = await ParseUtf8Async(
+                    SegmentUtf8(html, segmentSize),
+                    actualOptions
+                );
+
+                Assert.That(
+                    actual.DocumentElement.OuterHtml,
+                    Is.EqualTo(expected.DocumentElement.OuterHtml),
+                    $"DOM at UTF-8 segment size {segmentSize}"
+                );
+                Assert.That(
+                    actualPositions,
+                    Is.EqualTo(expectedPositions),
+                    $"positions at UTF-8 segment size {segmentSize}"
+                );
+                Assert.That(
+                    GetTrackedSourcePositions(actual),
+                    Is.EqualTo(expectedSourcePositions),
+                    $"source references at UTF-8 segment size {segmentSize}"
                 );
             }
         }
@@ -799,6 +902,55 @@ namespace AngleSharp.Core.Tests.Html
             var invalidName = new Utf8HtmlName(nonAscii, ref cache);
             Assert.That(Utf8CanonicalNameProvider.TryGetHtmlTag(invalidName, out _), Is.False);
         }
+
+        private static async Task AssertMutableDomParityAcrossSegments(
+            String html,
+            HtmlParserOptions options,
+            Int32 maximumSegmentSize
+        )
+        {
+            using var expected = new HtmlParser(options).ParseDocument(html);
+            for (var segmentSize = 1; segmentSize <= maximumSegmentSize; segmentSize++)
+            {
+                using var actual = await ParseUtf8Async(
+                    SegmentUtf8(html, segmentSize),
+                    options
+                );
+                Assert.That(
+                    actual.DocumentElement.OuterHtml,
+                    Is.EqualTo(expected.DocumentElement.OuterHtml),
+                    $"UTF-8 segment size {segmentSize}"
+                );
+            }
+        }
+
+        private static HtmlParserOptions CreatePositionOptions(
+            IDictionary<String, TextPosition> positions,
+            Boolean disableElementPositionTracking
+        ) =>
+            new()
+            {
+                DisableElementPositionTracking = disableElementPositionTracking,
+                IsKeepingSourceReferences = true,
+                OnCreated = (element, position) =>
+                {
+                    var key = element.GetAttribute("data-track");
+                    if (key is not null)
+                    {
+                        positions[key] = position;
+                    }
+                },
+            };
+
+        private static Dictionary<String, TextPosition> GetTrackedSourcePositions(
+            IDocument document
+        ) =>
+            document
+                .QuerySelectorAll("[data-track]")
+                .ToDictionary(
+                    element => element.GetAttribute("data-track")!,
+                    element => element.SourceReference!.Position
+                );
 
         private static async Task<IDocument> ParseUtf8Async(
             IAsyncEnumerable<ReadOnlyMemory<Byte>> input,

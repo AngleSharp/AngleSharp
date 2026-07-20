@@ -29,12 +29,17 @@ public struct HtmlTokenizerOptions
         SkipCDATA = htmlParserOptions.SkipCDATA;
         SkipProcessingInstructions = htmlParserOptions.SkipProcessingInstructions;
         DisableElementPositionTracking = htmlParserOptions.DisableElementPositionTracking;
+        IsTrackingElementPositions =
+            htmlParserOptions.OnCreated is not null
+            || htmlParserOptions.IsKeepingSourceReferences;
     }
 
     /// <summary>
     /// Prevents the tokenizer from tracking the position of elements.
     /// </summary>
     public Boolean DisableElementPositionTracking { get; set; }
+
+    internal Boolean IsTrackingElementPositions { get; set; }
 
     /// <summary>
     /// Should the tokenizer skip comment tokens.

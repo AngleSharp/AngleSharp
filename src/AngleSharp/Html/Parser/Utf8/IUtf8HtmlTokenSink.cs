@@ -38,6 +38,8 @@ public interface IUtf8HtmlTokenSink
 
     void Comment(ReadOnlySpan<Byte> utf8) { }
 
+    void ProcessingInstruction(ReadOnlySpan<Byte> utf8) => Comment(utf8);
+
     void Doctype(ReadOnlySpan<Byte> utf8) { }
 
     void Doctype(in Utf8DoctypeToken token) => Doctype(token.Name);
@@ -54,6 +56,8 @@ public interface IUtf8HtmlTokenSink
 public interface IUtf8HtmlStartTagSourceRangeSink
 {
     Boolean WantsStartTagSourceRanges { get; }
+
+    void ObserveNormalizedUtf8(Int64 sourceStart, ReadOnlySpan<Byte> utf8) { }
 
     void StartTagSourceRange(Int64 sourceStart, Int64 sourceEnd);
 }

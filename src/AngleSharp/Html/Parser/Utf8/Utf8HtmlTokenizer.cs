@@ -50,6 +50,7 @@ public sealed class Utf8HtmlTokenizer
         CommentEnd,
         CommentEndBang,
         BogusComment,
+        ProcessingInstruction,
         Doctype,
         CharacterReference,
         CDataSection,
@@ -169,7 +170,7 @@ public sealed class Utf8HtmlTokenizer
     private readonly Int64 _maximumInputBytesAllowed;
     private readonly IUtf8HtmlTokenSink _sink;
     private readonly IUtf8HtmlStreamingCommentSink? _streamingCommentSink;
-    private readonly IUtf8HtmlStartTagSourceRangeSink? _startTagSourceRangeSink;
+    private IUtf8HtmlStartTagSourceRangeSink? _startTagSourceRangeSink;
     private Boolean _streamingCommentStarted;
     private Boolean _captureStreamingComment;
     private Int64 _normalizedBytesConsumed;
@@ -206,10 +207,7 @@ public sealed class Utf8HtmlTokenizer
         _sink = sink;
         RefreshCapture();
         _streamingCommentSink = sink as IUtf8HtmlStreamingCommentSink;
-        _startTagSourceRangeSink = sink
-            is IUtf8HtmlStartTagSourceRangeSink { WantsStartTagSourceRanges: true } sourceRangeSink
-            ? sourceRangeSink
-            : null;
+        RefreshStartTagSourceRangeSink();
         _stateMetrics = stateMetrics;
         _maximumBufferedTokenBytesAllowed = limits.MaximumBufferedTokenBytes;
         _maximumInputBytesAllowed = countInputBytes ? limits.MaximumInputBytes : Int64.MaxValue;
@@ -250,6 +248,21 @@ public sealed class Utf8HtmlTokenizer
     public Boolean IsAcceptingCharacterData { get; set; }
 
     public Boolean IsModeControlledExternally { get; set; }
+
+    public Boolean IsNotConsumingCharacterReferences { get; set; }
+
+    public Boolean IsSupportingProcessingInstructions { get; set; }
+
+    public Boolean SkipProcessingInstructions { get; set; }
+
+    public Boolean SkipCDATA { get; set; }
+
+    internal void RefreshStartTagSourceRangeSink() =>
+        _startTagSourceRangeSink =
+            _sink
+                is IUtf8HtmlStartTagSourceRangeSink { WantsStartTagSourceRanges: true } sourceRangeSink
+                ? sourceRangeSink
+                : null;
 
     /// <summary>
     /// Enters the CDATA section state after the tree constructor accepts a CDATA declaration in foreign content.
@@ -315,6 +328,10 @@ public sealed class Utf8HtmlTokenizer
     {
         var trackSourceRanges = _startTagSourceRangeSink is not null;
         var sourceBase = trackSourceRanges ? _normalizedBytesConsumed : 0;
+        if (trackSourceRanges)
+        {
+            _startTagSourceRangeSink!.ObserveNormalizedUtf8(sourceBase, utf8);
+        }
         var index = 0;
         try
         {
@@ -522,10 +539,10 @@ public sealed class Utf8HtmlTokenizer
                 ResolveCharacterReference();
                 break;
             case State.CDataSectionBracket:
-                EmitText("]"u8);
+                EmitCDataText("]"u8);
                 break;
             case State.CDataSectionEnd:
-                EmitText("]]"u8);
+                EmitCDataText("]]"u8);
                 break;
             case State.RawLessThan:
             case State.RawEndTagOpen:
@@ -545,6 +562,9 @@ public sealed class Utf8HtmlTokenizer
             case State.BogusComment:
             case State.MarkupDeclaration:
                 EmitComment();
+                break;
+            case State.ProcessingInstruction:
+                EmitProcessingInstruction();
                 break;
             case State.Doctype:
                 EmitDoctype(forceEofQuirks: true);
@@ -621,7 +641,11 @@ public sealed class Utf8HtmlTokenizer
                     {
                         _state = State.TagOpen;
                     }
-                    else if (value == (Byte)'&' && _captureText)
+                    else if (
+                        value == (Byte)'&'
+                        && _captureText
+                        && !IsNotConsumingCharacterReferences
+                    )
                     {
                         BeginCharacterReference(State.Data);
                     }
@@ -651,6 +675,15 @@ public sealed class Utf8HtmlTokenizer
                     {
                         Clear(_candidate);
                         _state = State.MarkupDeclaration;
+                    }
+                    else if (value == (Byte)'?' && IsSupportingProcessingInstructions)
+                    {
+                        Clear(_candidate);
+                        if (!SkipProcessingInstructions)
+                        {
+                            Append(_candidate, value);
+                        }
+                        _state = State.ProcessingInstruction;
                     }
                     else if (value == (Byte)'?')
                     {
@@ -804,7 +837,11 @@ public sealed class Utf8HtmlTokenizer
                     {
                         _state = State.AfterAttributeValueQuoted;
                     }
-                    else if (value == (Byte)'&' && _attributeCapture == AttributeCapture.Capture)
+                    else if (
+                        value == (Byte)'&'
+                        && _attributeCapture == AttributeCapture.Capture
+                        && !IsNotConsumingCharacterReferences
+                    )
                     {
                         BeginCharacterReference(_state);
                     }
@@ -822,7 +859,11 @@ public sealed class Utf8HtmlTokenizer
                         CommitAttribute();
                         _state = State.BeforeAttributeName;
                     }
-                    else if (value == (Byte)'&' && _attributeCapture == AttributeCapture.Capture)
+                    else if (
+                        value == (Byte)'&'
+                        && _attributeCapture == AttributeCapture.Capture
+                        && !IsNotConsumingCharacterReferences
+                    )
                     {
                         BeginCharacterReference(_state);
                     }
@@ -1023,6 +1064,16 @@ public sealed class Utf8HtmlTokenizer
                     }
 
                     break;
+                case State.ProcessingInstruction:
+                    if (value == (Byte)'>')
+                    {
+                        EmitProcessingInstruction();
+                    }
+                    else if (!SkipProcessingInstructions)
+                    {
+                        AppendReplacedNull(_candidate, value, lowerAscii: false);
+                    }
+                    break;
                 case State.Doctype:
                     if (value == (Byte)'>')
                     {
@@ -1045,7 +1096,7 @@ public sealed class Utf8HtmlTokenizer
                     }
                     else
                     {
-                        EmitByte(value);
+                        EmitCDataByte(value);
                     }
 
                     break;
@@ -1056,14 +1107,14 @@ public sealed class Utf8HtmlTokenizer
                     }
                     else
                     {
-                        EmitText("]"u8);
+                        EmitCDataText("]"u8);
                         Reconsume(ref reconsume, State.CDataSection);
                     }
                     break;
                 case State.CDataSectionEnd:
                     if (value == (Byte)']')
                     {
-                        EmitText("]"u8);
+                        EmitCDataText("]"u8);
                     }
                     else if (value == (Byte)'>')
                     {
@@ -1071,7 +1122,7 @@ public sealed class Utf8HtmlTokenizer
                     }
                     else
                     {
-                        EmitText("]]"u8);
+                        EmitCDataText("]]"u8);
                         Reconsume(ref reconsume, State.CDataSection);
                     }
                     break;
@@ -1082,7 +1133,12 @@ public sealed class Utf8HtmlTokenizer
                         Append(_candidate, value);
                         _state = State.RawLessThan;
                     }
-                    else if (value == (Byte)'&' && _captureText && IsRcData())
+                    else if (
+                        value == (Byte)'&'
+                        && _captureText
+                        && IsRcData()
+                        && !IsNotConsumingCharacterReferences
+                    )
                     {
                         BeginCharacterReference(State.RawText);
                     }
@@ -1205,6 +1261,13 @@ public sealed class Utf8HtmlTokenizer
             _streamingCommentStarted = false;
             _captureStreamingComment = false;
         }
+        Clear(_candidate);
+        _state = State.Data;
+    }
+
+    private void EmitProcessingInstruction()
+    {
+        _sink.ProcessingInstruction(_candidate.WrittenSpan);
         Clear(_candidate);
         _state = State.Data;
     }
@@ -2404,6 +2467,22 @@ public sealed class Utf8HtmlTokenizer
     }
 
     private void EmitReplacementCharacter() => EmitText("\uFFFD"u8);
+
+    private void EmitCDataText(ReadOnlySpan<Byte> utf8)
+    {
+        if (!SkipCDATA)
+        {
+            EmitText(utf8);
+        }
+    }
+
+    private void EmitCDataByte(Byte value)
+    {
+        if (!SkipCDATA)
+        {
+            EmitByte(value);
+        }
+    }
 
     private void EmitByte(Byte value)
     {

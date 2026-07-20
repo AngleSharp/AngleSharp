@@ -38,12 +38,14 @@ public class Utf8MutableDomBenchmark
 
     private static readonly HtmlParserOptions QueryAttributeOptions = new()
     {
+        DisableElementPositionTracking = true,
         ShouldEmitAttribute = static (ref _, name) =>
             name.Span is "class" or "dt-eid" or "dt-params" or "href" or "src" or "alt",
     };
 
     private static readonly HtmlParserOptions StructureOnlyOptions = new()
     {
+        DisableElementPositionTracking = true,
         SkipComments = true,
         SkipPlaintext = true,
         SkipRCDataText = true,
@@ -57,6 +59,7 @@ public class Utf8MutableDomBenchmark
 
     private static readonly HtmlParserOptions StructureIdClassOptions = new()
     {
+        DisableElementPositionTracking = true,
         SkipComments = true,
         SkipPlaintext = true,
         SkipRCDataText = true,
