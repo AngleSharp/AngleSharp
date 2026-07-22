@@ -216,6 +216,28 @@ namespace AngleSharp.Core.Tests.Urls
             Assert.IsTrue(url.IsInvalid);
         }
 
+        [TestCase("http://2130706433/", "http://127.0.0.1/")]
+        [TestCase("http://0177.0.0.1/", "http://127.0.0.1/")]
+        [TestCase("http://0x7f.0.0.1/", "http://127.0.0.1/")]
+        [TestCase("http://127.1/", "http://127.0.0.1/")]
+        [TestCase("http://0xc0.0250.01/", "http://192.168.0.1/")]
+        public void NumericIpv4RepresentationsAreNormalized(String input, String expected)
+        {
+            var url = new Url(input);
+            Assert.IsFalse(url.IsInvalid);
+            Assert.AreEqual(expected, url.Href);
+        }
+
+        [TestCase("http://09/")]
+        [TestCase("http://1.2.3.0x100/")]
+        [TestCase("http://999999999999/")]
+        [TestCase("http://256.256.256.256/")]
+        public void InvalidNumericIpv4RepresentationsAreRejected(String input)
+        {
+            var url = new Url(input);
+            Assert.IsTrue(url.IsInvalid);
+        }
+
         [Test]
         public void InvalidRelativeUrlAsDifferentProtocolScheme()
         {

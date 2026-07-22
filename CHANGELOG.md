@@ -6,6 +6,7 @@ Released on Sunday, July 26 2026
 - Improved observer dispatch during HTML parsing (#1266) @dv00d00
 - Added API enhancements to expose asynchronous HTML token source (#1265) @dv00d00
 - Added bounded stream parsing mode (#1263) @dv00d00
+- Added canonicalization of decimal, octal, or hexadecimal IPv4 literals in `Url`
 
 # 1.5.2
 

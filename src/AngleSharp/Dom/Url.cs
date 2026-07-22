@@ -1372,7 +1372,186 @@ namespace AngleSharp.Dom
 
             sanatizedHostName = buffer.ToPool();
 
-            // TODO: IPv4 parsing
+            if (EndsInNumber(sanatizedHostName))
+            {
+                if (!TryParseIpv4Address(sanatizedHostName, out sanatizedHostName))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static Boolean EndsInNumber(String host)
+        {
+            var parts = host.Split(Symbols.Dot);
+            var count = parts.Length;
+
+            if (count > 1 && parts[count - 1].Length == 0)
+            {
+                count--;
+            }
+
+            if (count == 0)
+            {
+                return false;
+            }
+
+            var last = parts[count - 1];
+
+            if (TryParseIpv4Number(last, out _))
+            {
+                return true;
+            }
+
+            if (last.Length == 0)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < last.Length; i++)
+            {
+                if (!last[i].IsDigit())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static Boolean TryParseIpv4Address(String host, out String parsedHost)
+        {
+            var parts = host.Split(Symbols.Dot);
+            var count = parts.Length;
+
+            if (count > 1 && parts[count - 1].Length == 0)
+            {
+                count--;
+            }
+
+            if (count == 0 || count > 4)
+            {
+                parsedHost = host;
+                return false;
+            }
+
+            var numbers = new UInt32[count];
+
+            for (var i = 0; i < count; i++)
+            {
+                if (!TryParseIpv4Number(parts[i], out numbers[i]))
+                {
+                    parsedHost = host;
+                    return false;
+                }
+            }
+
+            for (var i = 0; i < count - 1; i++)
+            {
+                if (numbers[i] > 255)
+                {
+                    parsedHost = host;
+                    return false;
+                }
+            }
+
+            var maxLastPart = 1UL << (8 * (5 - count));
+
+            if (numbers[count - 1] >= maxLastPart)
+            {
+                parsedHost = host;
+                return false;
+            }
+
+            UInt64 address = numbers[count - 1];
+
+            for (var i = 0; i < count - 1; i++)
+            {
+                address += (UInt64)numbers[i] << (8 * (3 - i));
+            }
+
+            parsedHost = String.Concat(
+                ((address >> 24) & 0xFF).ToString(CultureInfo.InvariantCulture), ".",
+                ((address >> 16) & 0xFF).ToString(CultureInfo.InvariantCulture), ".",
+                ((address >> 8) & 0xFF).ToString(CultureInfo.InvariantCulture), ".",
+                (address & 0xFF).ToString(CultureInfo.InvariantCulture));
+            return true;
+        }
+
+        private static Boolean TryParseIpv4Number(String value, out UInt32 parsedValue)
+        {
+            if (String.IsNullOrEmpty(value))
+            {
+                parsedValue = 0;
+                return false;
+            }
+
+            var index = 0;
+            var @base = 10;
+
+            if (value.Length >= 2 && value[0] == '0')
+            {
+                if (value[1] is 'x' or 'X')
+                {
+                    @base = 16;
+                    index = 2;
+                }
+                else
+                {
+                    @base = 8;
+                    index = 1;
+                }
+            }
+
+            if (index == value.Length)
+            {
+                parsedValue = 0;
+                return true;
+            }
+
+            UInt64 number = 0;
+
+            for (var i = index; i < value.Length; i++)
+            {
+                var digit = value[i];
+                Int32 weight;
+
+                if (digit.IsDigit())
+                {
+                    weight = digit - '0';
+                }
+                else if (digit.IsInRange('a', 'f'))
+                {
+                    weight = digit - 'a' + 10;
+                }
+                else if (digit.IsInRange('A', 'F'))
+                {
+                    weight = digit - 'A' + 10;
+                }
+                else
+                {
+                    parsedValue = 0;
+                    return false;
+                }
+
+                if (weight >= @base)
+                {
+                    parsedValue = 0;
+                    return false;
+                }
+
+                number = number * (UInt32)@base + (UInt32)weight;
+
+                if (number > UInt32.MaxValue)
+                {
+                    parsedValue = 0;
+                    return false;
+                }
+            }
+
+            parsedValue = (UInt32)number;
             return true;
         }
 
