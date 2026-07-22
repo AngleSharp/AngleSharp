@@ -14,6 +14,7 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private readonly ImageRequestProcessor _request;
+        private Boolean _isSettingUp;
 
         #endregion
 
@@ -99,11 +100,30 @@ namespace AngleSharp.Html.Dom
 
         internal override void SetupElement()
         {
-            base.SetupElement();
-            UpdateSource();
+            _isSettingUp = true;
+            try
+            {
+                base.SetupElement();
+            }
+            finally
+            {
+                _isSettingUp = false;
+            }
+
+            UpdateSourceCore();
         }
 
         internal void UpdateSource()
+        {
+            if (_isSettingUp)
+            {
+                return;
+            }
+
+            UpdateSourceCore();
+        }
+
+        private void UpdateSourceCore()
         {
             var url = this.GetImageCandidate();
 

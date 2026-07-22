@@ -598,7 +598,7 @@ namespace AngleSharp.Dom
 
             if (attrs.Length > 0)
             {
-                var observers = Context.GetServices<IAttributeObserver>();
+                var observers = Owner.AttributeObservers;
 
                 foreach (var attr in attrs)
                 {
@@ -617,7 +617,7 @@ namespace AngleSharp.Dom
         {
             if (namespaceUri is null)
             {
-                var observers = Context.GetServices<IAttributeObserver>();
+                var observers = Owner.AttributeObservers;
 
                 foreach (var observer in observers)
                 {
