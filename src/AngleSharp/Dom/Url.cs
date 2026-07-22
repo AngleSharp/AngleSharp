@@ -5,6 +5,8 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.Globalization;
+    using System.Net;
+    using System.Net.Sockets;
     using System.Text;
     using Common;
 
@@ -1313,11 +1315,18 @@ namespace AngleSharp.Dom
                 return true;
             }
 
-            // TODO: IPv6 Parsing
             if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
             {
+                var literal = hostName.Substring(start + 1, length - 2);
+
+                if (TryParseIpv6Address(literal, out var normalizedLiteral))
+                {
+                    sanatizedHostName = String.Concat("[", normalizedLiteral, "]");
+                    return true;
+                }
+
                 sanatizedHostName = hostName.Substring(start, length);
-                return true;
+                return false;
             }
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.4
@@ -1419,6 +1428,25 @@ namespace AngleSharp.Dom
             }
 
             return true;
+        }
+
+        private static Boolean TryParseIpv6Address(String value, out String parsedValue)
+        {
+            // Zone identifiers are not part of URL host parser IPv6 address literals.
+            if (value.IndexOf(Symbols.Percent) >= 0)
+            {
+                parsedValue = value;
+                return false;
+            }
+
+            if (IPAddress.TryParse(value, out var address) && address.AddressFamily == AddressFamily.InterNetworkV6)
+            {
+                parsedValue = address.ToString().ToLowerInvariant();
+                return true;
+            }
+
+            parsedValue = value;
+            return false;
         }
 
         private static Boolean TryParseIpv4Address(String host, out String parsedHost)

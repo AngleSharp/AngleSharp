@@ -238,6 +238,26 @@ namespace AngleSharp.Core.Tests.Urls
             Assert.IsTrue(url.IsInvalid);
         }
 
+        [TestCase("http://[2001:0DB8:0000:0000:0000:FF00:0042:8329]/", "http://[2001:db8::ff00:42:8329]/")]
+        [TestCase("http://[::1]/", "http://[::1]/")]
+        public void Ipv6LiteralsAreValidatedAndNormalized(String input, String expected)
+        {
+            var url = new Url(input);
+            Assert.IsFalse(url.IsInvalid);
+            Assert.AreEqual(expected, url.Href);
+        }
+
+        [TestCase("http://[2001:::1]/")]
+        [TestCase("http://[2001::1::1]/")]
+        [TestCase("http://[2001:db8]/")]
+        [TestCase("http://[%5D]/")]
+        [TestCase("http://[fe80::1%25eth0]/")]
+        public void InvalidIpv6LiteralsAreRejected(String input)
+        {
+            var url = new Url(input);
+            Assert.IsTrue(url.IsInvalid);
+        }
+
         [Test]
         public void InvalidRelativeUrlAsDifferentProtocolScheme()
         {

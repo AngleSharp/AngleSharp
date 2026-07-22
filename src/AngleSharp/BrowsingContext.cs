@@ -249,9 +249,7 @@ namespace AngleSharp
 
             if (foundChildContext is null && excludedChild is BrowsingContext { _contextGroup : not null and  var group })
             {
-                // TODO
-                // if the initial browsing context was part of a top-level auxilary browsing context,
-                // it should be filtered out so that it is not searched again
+                //TODO - if the initial browsing context was part of a top-level auxilary browsing context, it should be filtered out so that it is not searched again
                 foreach (var contextRef in group)
                 {
                     if (!contextRef.TryGetTarget(out var c) || c is not BrowsingContext context)
