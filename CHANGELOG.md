@@ -8,6 +8,7 @@ Released on Sunday, July 26 2026
 - Added bounded stream parsing mode (#1263) @dv00d00
 - Added canonicalization of decimal, octal, or hexadecimal IPv4 literals in `Url`
 - Added support for the CSS column combinator (`||`) selector syntax
+- Added correct identification of `CurrentSource` in `CssMediaElement`
 
 # 1.5.2
 
