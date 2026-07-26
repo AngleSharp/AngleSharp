@@ -902,6 +902,29 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         }
 
         [Test]
+        public void CaseInsensitiveSelector_WithUppercaseFlag_ShouldBeAccepted()
+        {
+            var source = @"<span style='display: none'>foo</span>";
+
+            var document = source.ToHtmlDocument();
+            var hiddens = document.QuerySelectorAll("*[style*='display: none' I]");
+
+            Assert.AreEqual(1, hiddens.Length);
+        }
+
+        [Test]
+        public void CaseSensitiveSelector_WithSFlag_ShouldOverrideDefaultInsensitiveTypeMatching()
+        {
+            var source = @"<input type='teXt'><input type='text'>";
+
+            var document = source.ToHtmlDocument();
+            var exact = document.QuerySelectorAll("input[type='text' s]");
+
+            Assert.AreEqual(1, exact.Length);
+            Assert.AreEqual("text", exact[0].GetAttribute("type"));
+        }
+
+        [Test]
         public void MaximumRecursionDepth_Issue763()
         {
             var depth = 10000;

@@ -1,5 +1,6 @@
 namespace AngleSharp.Css.Parser
 {
+    using AngleSharp.Css;
     using AngleSharp.Common;
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
@@ -65,7 +66,7 @@ namespace AngleSharp.Css.Parser
         private ComplexSelector? _complex;
         private String? _attrName;
         private String? _attrValue;
-        private Boolean _attrInsensitive = false;
+        private AttributeSelectorCaseSensitivity _attrCaseSensitivity = AttributeSelectorCaseSensitivity.Auto;
         private String _attrOp = String.Empty;
         private String? _attrNs;
         private Boolean _valid = true;
@@ -182,6 +183,7 @@ namespace AngleSharp.Css.Parser
                     _attrValue = null;
                     _attrOp = String.Empty;
                     _attrNs = null;
+                    _attrCaseSensitivity = AttributeSelectorCaseSensitivity.Auto;
                     _state = State.Attribute;
                     _ready = false;
                     break;
@@ -322,19 +324,33 @@ namespace AngleSharp.Css.Parser
 
         private void OnAttributeEnd(CssSelectorToken token)
         {
-            if (!_attrInsensitive && token.Type == CssTokenType.Ident && token.Data is "i")
+            if (_attrCaseSensitivity == AttributeSelectorCaseSensitivity.Auto && token.Type == CssTokenType.Ident)
             {
-                _attrInsensitive = true;
+                if (token.Data.Isi("i"))
+                {
+                    _attrCaseSensitivity = AttributeSelectorCaseSensitivity.CaseInsensitive;
+                    return;
+                }
+
+                if (token.Data.Isi("s"))
+                {
+                    _attrCaseSensitivity = AttributeSelectorCaseSensitivity.CaseSensitive;
+                    return;
+                }
             }
-            else if (token.Type != CssTokenType.Whitespace)
+
+            if (token.Type != CssTokenType.Whitespace)
             {
                 _state = State.Data;
                 _ready = true;
 
                 if (token.Type == CssTokenType.SquareBracketClose)
                 {
-                    var selector = _attributeSelector.Create(_attrOp, _attrName!, _attrValue!, _attrNs, _attrInsensitive);
-                    _attrInsensitive = false;
+                    var selector = _attributeSelector is IAttributeSelectorFactory2 selectorFactory
+                        ? selectorFactory.Create(_attrOp, _attrName!, _attrValue!, _attrNs, _attrCaseSensitivity)
+                        : _attributeSelector.Create(_attrOp, _attrName!, _attrValue!, _attrNs, _attrCaseSensitivity == AttributeSelectorCaseSensitivity.CaseInsensitive);
+
+                    _attrCaseSensitivity = AttributeSelectorCaseSensitivity.Auto;
                     Insert(selector);
                 }
                 else

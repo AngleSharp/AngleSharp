@@ -8,7 +8,7 @@ namespace AngleSharp.Css
     /// <summary>
     /// Provides string to CSS attribute selector instance mappings.
     /// </summary>
-    public class DefaultAttributeSelectorFactory : IAttributeSelectorFactory
+    public class DefaultAttributeSelectorFactory : IAttributeSelectorFactory, IAttributeSelectorFactory2
     {
         // see https://html.spec.whatwg.org/multipage/semantics-other.html#case-sensitivity-of-selectors
         private static readonly HashSet<String> insensitiveAttributes =
@@ -127,11 +127,21 @@ namespace AngleSharp.Css
         /// <returns>The associated selector.</returns>
         public ISelector Create(String combinator, String name, String value, String? prefix, Boolean insensitive)
         {
-            if (!insensitive && insensitiveAttributes.Contains(name))
+            var caseSensitivity = insensitive ? AttributeSelectorCaseSensitivity.CaseInsensitive : AttributeSelectorCaseSensitivity.Auto;
+            return CreateSelector(combinator, name, value, prefix, caseSensitivity);
+        }
+
+        ISelector IAttributeSelectorFactory2.Create(String combinator, String name, String value, String? prefix, AttributeSelectorCaseSensitivity caseSensitivity)
+            => CreateSelector(combinator, name, value, prefix, caseSensitivity);
+
+        private ISelector CreateSelector(String combinator, String name, String value, String? prefix, AttributeSelectorCaseSensitivity caseSensitivity)
+        {
+            var insensitive = caseSensitivity switch
             {
-                // for some known attributes we need to force insensitive
-                insensitive = true;
-            }
+                AttributeSelectorCaseSensitivity.CaseInsensitive => true,
+                AttributeSelectorCaseSensitivity.CaseSensitive => false,
+                _ => insensitiveAttributes.Contains(name),
+            };
 
             if (_creators.TryGetValue(combinator, out var creator))
             {
