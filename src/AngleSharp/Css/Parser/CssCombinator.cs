@@ -149,32 +149,18 @@ namespace AngleSharp.Css.Parser
             public SiblingCombinator()
             {
                 Delimiter = CombinatorSymbols.Sibling;
-                Transform = el =>
+                Transform = GetPreviousSiblings;
+            }
+
+            private static IEnumerable<IElement> GetPreviousSiblings(IElement element)
+            {
+                var sibling = element.PreviousElementSibling;
+
+                while (sibling != null)
                 {
-                    var parent = el.ParentElement;
-
-                    if (parent != null)
-                    {
-                        var siblings = new List<IElement>();
-
-                        foreach (var child in parent.ChildNodes)
-                        {
-                            if (child is IElement element)
-                            {
-                                if (Object.ReferenceEquals(element, el))
-                                {
-                                    break;
-                                }
-
-                                siblings.Add(element);
-                            }
-                        }
-
-                        return siblings;
-                    }
-
-                    return Array.Empty<IElement>();
-                };
+                    yield return sibling;
+                    sibling = sibling.PreviousElementSibling;
+                }
             }
         }
 

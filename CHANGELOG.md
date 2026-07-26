@@ -3,6 +3,7 @@
 Released on Sunday, July 26 2026
 
 - Improved performance for text tokenization (#1262) @dv00d00
+- Improved CSS selector performance
 - Improved observer dispatch during HTML parsing (#1266) @dv00d00
 - Improved declaration of unsupported pseudo elements
 - Fixed inconsistent behavior and segfaults on Android Release build (#1252) @DevGitPit
