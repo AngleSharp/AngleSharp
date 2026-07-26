@@ -17,6 +17,12 @@
         BreakAll,
 
         /// <summary>
+        /// Word breaks may be inserted between any
+        /// word for non-CJK (Chinese/Japanese/Korean) text.
+        /// </summary>
+        BreakWord,
+
+        /// <summary>
         /// Don't allow word breaks for CJK text.
         /// Non-CJK text behavior is the same as for normal.
         /// </summary>
