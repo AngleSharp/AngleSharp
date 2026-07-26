@@ -428,7 +428,8 @@ namespace AngleSharp.Common
             var found = remaining.IndexOfAny(DataTextTerminators);
 #else
             var found = remaining.IndexOfAny('<', '&', '\0');
-            var nlIdx = remaining.IndexOfAny('\r', '\n');
+            var nlSearchSpace = found < 0 ? remaining : remaining.Slice(0, found);
+            var nlIdx = nlSearchSpace.IndexOfAny('\r', '\n');
             if (nlIdx >= 0 && (found < 0 || nlIdx < found))
             {
                 found = nlIdx;

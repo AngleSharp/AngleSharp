@@ -1,3 +1,20 @@
+# 1.6.0
+
+Released on Sunday, July 26 2026
+
+- Improved performance for text tokenization (#1262) @dv00d00
+- Improved CSS selector performance
+- Improved observer dispatch during HTML parsing (#1266) @dv00d00
+- Improved declaration of unsupported pseudo elements
+- Fixed inconsistent behavior and segfaults on Android Release build (#1252) @DevGitPit
+- Fixed CSS attribute selector modifier handling for `i` / `I` (case-insensitive) and `s` / `S` (case-sensitive)
+- Added API enhancements to expose asynchronous HTML token source (#1265) @dv00d00
+- Added bounded stream parsing mode (#1263) @dv00d00
+- Added canonicalization of decimal, octal, or hexadecimal IPv4 literals in `Url`
+- Added parsing of / checks for IPv6 literals in `Url`
+- Added support for the CSS column combinator (`||`) selector syntax
+- Added correct identification of `CurrentSource` in `CssMediaElement`
+
 # 1.5.2
 
 Released on Sunday, July 5 2026

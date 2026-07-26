@@ -13,6 +13,6 @@
         /// </summary>
         /// <param name="name">The name of the pseudo-element.</param>
         /// <returns>The created selector, if any.</returns>
-        ISelector Create(String name);
+        ISelector? Create(String name);
     }
 }

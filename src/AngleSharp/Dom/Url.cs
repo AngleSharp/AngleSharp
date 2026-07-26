@@ -5,6 +5,8 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.Globalization;
+    using System.Net;
+    using System.Net.Sockets;
     using System.Text;
     using Common;
 
@@ -33,7 +35,7 @@ namespace AngleSharp.Dom
         // > UseSTD3ASCIIRules set to beStrict
         // But if UseStd3AsciiRules it set to true, _ (underscore) will be considered invalid in host name
         // Set to false here to do loose validation
-        private static readonly IdnMapping DefaultIdnMapping = new () { AllowUnassigned = false, UseStd3AsciiRules = false };
+        private static readonly IdnMapping DefaultIdnMapping = new() { AllowUnassigned = false, UseStd3AsciiRules = false };
 
         private String? _fragment;
         private String? _query;
@@ -122,7 +124,7 @@ namespace AngleSharp.Dom
             _username = address._username;
             _password = address._password;
              _relative = address._relative;
-            _schemeData = address._schemeData;;
+            _schemeData = address._schemeData;
         }
 
         #endregion
@@ -386,7 +388,7 @@ namespace AngleSharp.Dom
             get => _query;
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     _query = null;
                     _params?.Reset();
@@ -440,12 +442,12 @@ namespace AngleSharp.Dom
         {
             unchecked
             {
-                var hashCode =  _fragment != null ? StringComparer.Ordinal.GetHashCode(_fragment) : 0;
+                var hashCode = _fragment != null ? StringComparer.Ordinal.GetHashCode(_fragment) : 0;
                 hashCode = (hashCode * 397) ^ (_query != null ? StringComparer.Ordinal.GetHashCode(_query) : 0);
                 hashCode = (hashCode * 397) ^ (_path != null ? StringComparer.Ordinal.GetHashCode(_path) : 0);
                 hashCode = (hashCode * 397) ^ (_scheme != null ? StringComparer.OrdinalIgnoreCase.GetHashCode(_scheme) : 0);
                 hashCode = (hashCode * 397) ^ (_port != null ? StringComparer.Ordinal.GetHashCode(_port) : 0);
-                hashCode = (hashCode * 397) ^ (_host != null ?  StringComparer.OrdinalIgnoreCase.GetHashCode(_host) : 0);
+                hashCode = (hashCode * 397) ^ (_host != null ? StringComparer.OrdinalIgnoreCase.GetHashCode(_host) : 0);
                 hashCode = (hashCode * 397) ^ (_username != null ? StringComparer.Ordinal.GetHashCode(_username) : 0);
                 hashCode = (hashCode * 397) ^ (_password != null ? StringComparer.Ordinal.GetHashCode(_password) : 0);
                 hashCode = (hashCode * 397) ^ (_schemeData != null ? StringComparer.Ordinal.GetHashCode(_schemeData) : 0);
@@ -789,6 +791,8 @@ namespace AngleSharp.Dom
             var buffer = StringBuilderPool.Obtain();
             var user = default(String);
             var pass = default(String);
+            _username = null;
+            _password = null;
 
             while (index < length)
             {
@@ -844,6 +848,8 @@ namespace AngleSharp.Dom
         {
             var start = index;
             _path = String.Empty;
+            _username = null;
+            _password = null;
 
             while (index < length)
             {
@@ -1313,11 +1319,18 @@ namespace AngleSharp.Dom
                 return true;
             }
 
-            // TODO: IPv6 Parsing
             if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
             {
+                var literal = hostName.Substring(start + 1, length - 2);
+
+                if (TryParseIpv6Address(literal, out var normalizedLiteral))
+                {
+                    sanatizedHostName = String.Concat("[", normalizedLiteral, "]");
+                    return true;
+                }
+
                 sanatizedHostName = hostName.Substring(start, length);
-                return true;
+                return false;
             }
 
             // https://anglesharp.github.io/Specification-Url/#host-parsing 3.5.4
@@ -1372,7 +1385,205 @@ namespace AngleSharp.Dom
 
             sanatizedHostName = buffer.ToPool();
 
-            // TODO: IPv4 parsing
+            if (EndsInNumber(sanatizedHostName))
+            {
+                if (!TryParseIpv4Address(sanatizedHostName, out sanatizedHostName))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static Boolean EndsInNumber(String host)
+        {
+            var parts = host.Split(Symbols.Dot);
+            var count = parts.Length;
+
+            if (count > 1 && parts[count - 1].Length == 0)
+            {
+                count--;
+            }
+
+            if (count == 0)
+            {
+                return false;
+            }
+
+            var last = parts[count - 1];
+
+            if (TryParseIpv4Number(last, out _))
+            {
+                return true;
+            }
+
+            if (last.Length == 0)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < last.Length; i++)
+            {
+                if (!last[i].IsDigit())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static Boolean TryParseIpv6Address(String value, out String parsedValue)
+        {
+            // Zone identifiers are not part of URL host parser IPv6 address literals.
+            if (value.IndexOf(Symbols.Percent) >= 0)
+            {
+                parsedValue = value;
+                return false;
+            }
+
+            if (IPAddress.TryParse(value, out var address) && address.AddressFamily == AddressFamily.InterNetworkV6)
+            {
+                parsedValue = address.ToString().ToLowerInvariant();
+                return true;
+            }
+
+            parsedValue = value;
+            return false;
+        }
+
+        private static Boolean TryParseIpv4Address(String host, out String parsedHost)
+        {
+            var parts = host.Split(Symbols.Dot);
+            var count = parts.Length;
+
+            if (count > 1 && parts[count - 1].Length == 0)
+            {
+                count--;
+            }
+
+            if (count == 0 || count > 4)
+            {
+                parsedHost = host;
+                return false;
+            }
+
+            var numbers = new UInt32[count];
+
+            for (var i = 0; i < count; i++)
+            {
+                if (!TryParseIpv4Number(parts[i], out numbers[i]))
+                {
+                    parsedHost = host;
+                    return false;
+                }
+            }
+
+            for (var i = 0; i < count - 1; i++)
+            {
+                if (numbers[i] > 255)
+                {
+                    parsedHost = host;
+                    return false;
+                }
+            }
+
+            var maxLastPart = 1UL << (8 * (5 - count));
+
+            if (numbers[count - 1] >= maxLastPart)
+            {
+                parsedHost = host;
+                return false;
+            }
+
+            UInt64 address = numbers[count - 1];
+
+            for (var i = 0; i < count - 1; i++)
+            {
+                address += (UInt64)numbers[i] << (8 * (3 - i));
+            }
+
+            parsedHost = String.Concat(
+                ((address >> 24) & 0xFF).ToString(CultureInfo.InvariantCulture), ".",
+                ((address >> 16) & 0xFF).ToString(CultureInfo.InvariantCulture), ".",
+                ((address >> 8) & 0xFF).ToString(CultureInfo.InvariantCulture), ".",
+                (address & 0xFF).ToString(CultureInfo.InvariantCulture));
+            return true;
+        }
+
+        private static Boolean TryParseIpv4Number(String value, out UInt32 parsedValue)
+        {
+            if (String.IsNullOrEmpty(value))
+            {
+                parsedValue = 0;
+                return false;
+            }
+
+            var index = 0;
+            var @base = 10;
+
+            if (value.Length >= 2 && value[0] == '0')
+            {
+                if (value[1] is 'x' or 'X')
+                {
+                    @base = 16;
+                    index = 2;
+                }
+                else
+                {
+                    @base = 8;
+                    index = 1;
+                }
+            }
+
+            if (index == value.Length)
+            {
+                parsedValue = 0;
+                return true;
+            }
+
+            UInt64 number = 0;
+
+            for (var i = index; i < value.Length; i++)
+            {
+                var digit = value[i];
+                Int32 weight;
+
+                if (digit.IsDigit())
+                {
+                    weight = digit - '0';
+                }
+                else if (digit.IsInRange('a', 'f'))
+                {
+                    weight = digit - 'a' + 10;
+                }
+                else if (digit.IsInRange('A', 'F'))
+                {
+                    weight = digit - 'A' + 10;
+                }
+                else
+                {
+                    parsedValue = 0;
+                    return false;
+                }
+
+                if (weight >= @base)
+                {
+                    parsedValue = 0;
+                    return false;
+                }
+
+                number = number * (UInt32)@base + (UInt32)weight;
+
+                if (number > UInt32.MaxValue)
+                {
+                    parsedValue = 0;
+                    return false;
+                }
+            }
+
+            parsedValue = (UInt32)number;
             return true;
         }
 

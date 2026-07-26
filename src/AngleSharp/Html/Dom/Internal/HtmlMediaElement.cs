@@ -71,9 +71,28 @@ namespace AngleSharp.Html.Dom
             protected set;
         }
 
-        public String? CurrentSource =>
-                //TODO Check for Source elements
-                Source;
+        public String? CurrentSource
+        {
+            get
+            {
+                var source = Source;
+
+                if (!String.IsNullOrEmpty(source))
+                {
+                    return source;
+                }
+
+                for (var i = 0; i < ChildElementCount; i++)
+                {
+                    if (Children[i] is IHtmlSourceElement childSource && !String.IsNullOrEmpty(childSource.Source))
+                    {
+                        return childSource.Source;
+                    }
+                }
+
+                return source;
+            }
+        }
 
         public Double Duration => Controller?.Duration ?? 0.0;
 

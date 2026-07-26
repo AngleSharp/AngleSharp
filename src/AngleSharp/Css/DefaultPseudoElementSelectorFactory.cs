@@ -12,20 +12,21 @@ namespace AngleSharp.Css
     {
         private readonly Dictionary<String, ISelector> _selectors = new(StringComparer.OrdinalIgnoreCase)
         {
-            //TODO
-            //- some lack implementation (selection, content, footnote-call, footnote-marker, ...),
-            //- some implementations are dubious (first-line, first-letter, ...)
-            { PseudoElementNames.Before, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.Before), PseudoElementNames.Before) },
-            { PseudoElementNames.After, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.After), PseudoElementNames.After) },
-            { PseudoElementNames.Selection, new PseudoElementSelector(_ => false, PseudoElementNames.Selection) },
-            { PseudoElementNames.FootnoteCall, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.FootnoteCall), PseudoElementNames.FootnoteCall) },
-            { PseudoElementNames.FootnoteMarker, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.FootnoteMarker), PseudoElementNames.FootnoteMarker) },
-            { PseudoElementNames.FirstLine, new PseudoElementSelector(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text, PseudoElementNames.FirstLine) },
-            { PseudoElementNames.FirstLetter, new PseudoElementSelector(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text && el.ChildNodes[0].TextContent.Length > 0, PseudoElementNames.FirstLetter) },
-            { PseudoElementNames.Content, new PseudoElementSelector(_ => false, PseudoElementNames.Content) },
-            { PseudoElementNames.Checkmark, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.Checkmark), PseudoElementNames.Checkmark) },
-            { PseudoElementNames.PickerIcon, new PseudoElementSelector(el => el.IsPseudo(PseudoElementNames.PickerIcon), PseudoElementNames.PickerIcon) },
+            { PseudoElementNames.Before, CreatePseudoElementSelector(PseudoElementNames.Before) },
+            { PseudoElementNames.After, CreatePseudoElementSelector(PseudoElementNames.After) },
+            { PseudoElementNames.Selection, CreateUnsupportedPseudoElementSelector(PseudoElementNames.Selection) },
+            { PseudoElementNames.FootnoteCall, CreateUnsupportedPseudoElementSelector(PseudoElementNames.FootnoteCall) },
+            { PseudoElementNames.FootnoteMarker, CreateUnsupportedPseudoElementSelector(PseudoElementNames.FootnoteMarker) },
+            { PseudoElementNames.FirstLine, CreateUnsupportedPseudoElementSelector(PseudoElementNames.FirstLine) },
+            { PseudoElementNames.FirstLetter, CreateUnsupportedPseudoElementSelector(PseudoElementNames.FirstLetter) },
+            { PseudoElementNames.Content, CreateUnsupportedPseudoElementSelector(PseudoElementNames.Content) },
+            { PseudoElementNames.Checkmark, CreatePseudoElementSelector(PseudoElementNames.Checkmark) },
+            { PseudoElementNames.PickerIcon, CreatePseudoElementSelector(PseudoElementNames.PickerIcon) },
         };
+
+        private static ISelector CreatePseudoElementSelector(String name) => new PseudoElementSelector(el => el.IsPseudo(name), name);
+
+        private static ISelector CreateUnsupportedPseudoElementSelector(String name) => new PseudoElementSelector(_ => false, name);
 
         /// <summary>
         /// Registers a new selector for the specified name.
@@ -57,14 +58,14 @@ namespace AngleSharp.Css
         /// </summary>
         /// <param name="name">The name of the CSS pseudo class.</param>
         /// <returns>The selector with the given name.</returns>
-        protected virtual ISelector CreateDefault(String name) => null!;
+        protected virtual ISelector? CreateDefault(String name) => null;
 
         /// <summary>
         /// Creates or gets the associated CSS pseudo element selector.
         /// </summary>
         /// <param name="name">The name of the CSS pseudo element.</param>
         /// <returns>The associated selector.</returns>
-        public ISelector Create(String name)
+        public ISelector? Create(String name)
         {
             if (_selectors.TryGetValue(name, out var selector))
             {

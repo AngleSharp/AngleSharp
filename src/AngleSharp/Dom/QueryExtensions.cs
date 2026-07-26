@@ -360,6 +360,20 @@ public static class QueryExtensions
     /// <returns>True if the string contained all tokens, otherwise false.</returns>
     public static Boolean Contains<T>(this T list, String[] tokens) where T : class, ITokenList
     {
+        // Workaround for #1252 (Android AoT issues)
+        if (list is TokenList concreteList)
+        {
+            for (var i = 0; i < tokens.Length; i++)
+            {
+                if (!concreteList.Contains(tokens[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         for (var i = 0; i < tokens.Length; i++)
         {
             if (!list.Contains(tokens[i]))
@@ -385,7 +399,6 @@ public static class QueryExtensions
     {
         for (var i = 0; i < elements.Length; i++)
         {
-
             if (elements[i] is IElement element)
             {
                 if (element.ClassList.Contains(classNames))

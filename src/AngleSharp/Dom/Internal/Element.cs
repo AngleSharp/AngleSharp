@@ -9,6 +9,7 @@ namespace AngleSharp.Dom
     using Html.Construction;
     using Html.Parser;
     using Html.Parser.Tokens.Struct;
+    using System.Threading;
 
     /// <summary>
     /// Represents an element node.
@@ -108,13 +109,17 @@ namespace AngleSharp.Dom
         {
             get
             {
-                if (_classList is null)
+                var classList = Volatile.Read(ref _classList);
+
+                if (classList is null)
                 {
-                    _classList = new TokenList(this.GetOwnAttribute(AttributeNames.Class));
-                    _classList.Changed += value => UpdateAttribute(AttributeNames.Class, value);
+                    var list = new TokenList(this.GetOwnAttribute(AttributeNames.Class));
+                    list.Changed += value => UpdateAttribute(AttributeNames.Class, value);
+                    var current = Interlocked.CompareExchange(ref _classList, list, null);
+                    classList = current ?? list;
                 }
 
-                return _classList;
+                return classList;
             }
         }
 
@@ -598,7 +603,7 @@ namespace AngleSharp.Dom
 
             if (attrs.Length > 0)
             {
-                var observers = Context.GetServices<IAttributeObserver>();
+                var observers = Owner.AttributeObservers;
 
                 foreach (var attr in attrs)
                 {
@@ -617,7 +622,7 @@ namespace AngleSharp.Dom
         {
             if (namespaceUri is null)
             {
-                var observers = Context.GetServices<IAttributeObserver>();
+                var observers = Owner.AttributeObservers;
 
                 foreach (var observer in observers)
                 {

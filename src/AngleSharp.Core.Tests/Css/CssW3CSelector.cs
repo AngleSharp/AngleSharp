@@ -560,7 +560,7 @@ should be green.</div>";
             var selector1 = doc.QuerySelectorAll("div");
             Assert.AreEqual(1, selector1.Length);
             var selector2 = doc.QuerySelectorAll("p:not(:first-line)");
-            Assert.AreEqual(0, selector2.Length);
+            Assert.AreEqual(1, selector2.Length);
             var selector3 = doc.QuerySelectorAll("p:not(:after)");
             Assert.AreEqual(1, selector3.Length);
         }
@@ -1898,7 +1898,7 @@ This div contains 3 addresses above this sentence.</div>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-line");
-	        Assert.AreEqual(1, selector1.Length);
+          Assert.AreEqual(0, selector1.Length);
         }
 
         /// <summary>
@@ -1931,7 +1931,7 @@ text. Dummy text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-letter");
-	        Assert.AreEqual(1, selector1.Length);
+          Assert.AreEqual(0, selector1.Length);
         }
 
         /// <summary>
@@ -1964,7 +1964,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-letter");
-	        Assert.AreEqual(1, selector1.Length);
+          Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:before");
 	        Assert.AreEqual(0, selector2.Length);
         }
@@ -1999,7 +1999,7 @@ text. Dummy text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-letter");
-	        Assert.AreEqual(1, selector1.Length);
+          Assert.AreEqual(0, selector1.Length);
         }
 
         /// <summary>
@@ -2032,7 +2032,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-letter");
-	        Assert.AreEqual(1, selector1.Length);
+          Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p::before");
 	        Assert.AreEqual(0, selector2.Length);
         }
@@ -6408,9 +6408,9 @@ This div should have three addresses above it.</div>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-letter");
-	        Assert.AreEqual(1, selector1.Length);
+          Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p::first-letter");
-	        Assert.AreEqual(1, selector2.Length);
+          Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -6423,9 +6423,9 @@ This div should have three addresses above it.</div>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-letter");
-	        Assert.AreEqual(1, selector1.Length);
+          Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:first-letter");
-	        Assert.AreEqual(1, selector2.Length);
+          Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -6438,9 +6438,9 @@ This div should have three addresses above it.</div>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p:first-line");
-	        Assert.AreEqual(1, selector1.Length);
+          Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p::first-line");
-	        Assert.AreEqual(1, selector2.Length);
+          Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -6453,9 +6453,9 @@ This div should have three addresses above it.</div>";
 	        var doc = source.ToHtmlDocument();
 	        
 	        var selector1 = doc.QuerySelectorAll("p::first-line");
-	        Assert.AreEqual(1, selector1.Length);
+          Assert.AreEqual(0, selector1.Length);
 	        var selector2 = doc.QuerySelectorAll("p:first-line");
-	        Assert.AreEqual(1, selector2.Length);
+          Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>

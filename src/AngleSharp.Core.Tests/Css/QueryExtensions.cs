@@ -139,5 +139,28 @@
             Assert.AreEqual("4", items.Skip(1).First().TextContent);
             Assert.AreEqual("Last", items.Skip(2).First().TextContent);
         }
+
+        [Test]
+        public void QuerySelectorAllWithCompoundNthChildShouldYieldExpectedMatches()
+        {
+            var document = "<div><p>a</p><span>x</span><p>b</p><p>c</p><p>d</p></div>".ToHtmlDocument();
+            var items = document.QuerySelectorAll("p:nth-child(2n+1)");
+
+            Assert.AreEqual(3, items.Length);
+            Assert.AreEqual("a", items[0].TextContent);
+            Assert.AreEqual("b", items[1].TextContent);
+            Assert.AreEqual("d", items[2].TextContent);
+        }
+
+        [Test]
+        public void QuerySelectorAllWithDuplicateIdsShouldReturnAllMatches()
+        {
+            var document = "<div id='dup'>one</div><section><div id='dup'>two</div></section>".ToHtmlDocument();
+            var items = document.QuerySelectorAll("#dup");
+
+            Assert.AreEqual(2, items.Length);
+            Assert.AreEqual("one", items[0].TextContent);
+            Assert.AreEqual("two", items[1].TextContent);
+        }
     }
 }

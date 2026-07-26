@@ -149,32 +149,18 @@ namespace AngleSharp.Css.Parser
             public SiblingCombinator()
             {
                 Delimiter = CombinatorSymbols.Sibling;
-                Transform = el =>
+                Transform = GetPreviousSiblings;
+            }
+
+            private static IEnumerable<IElement> GetPreviousSiblings(IElement element)
+            {
+                var sibling = element.PreviousElementSibling;
+
+                while (sibling != null)
                 {
-                    var parent = el.ParentElement;
-
-                    if (parent != null)
-                    {
-                        var siblings = new List<IElement>();
-
-                        foreach (var child in parent.ChildNodes)
-                        {
-                            if (child is IElement element)
-                            {
-                                if (Object.ReferenceEquals(element, el))
-                                {
-                                    break;
-                                }
-
-                                siblings.Add(element);
-                            }
-                        }
-
-                        return siblings;
-                    }
-
-                    return Array.Empty<IElement>();
-                };
+                    yield return sibling;
+                    sibling = sibling.PreviousElementSibling;
+                }
             }
         }
 
@@ -203,8 +189,166 @@ namespace AngleSharp.Css.Parser
             public ColumnCombinator()
             {
                 Delimiter = CombinatorSymbols.Column;
-                //TODO no real implementation yet
-                //see: http://dev.w3.org/csswg/selectors-4/#the-column-combinator
+                Transform = el =>
+                {
+                    var cells = new List<IElement>();
+                    var table = GetContainingTable(el);
+                    
+                    if (table != null)
+                    {
+                        var columnIndex = GetColumnIndex(el);
+                        
+                        if (columnIndex >= 0)
+                        {
+                            var rows = GetTableRows(table);
+                            
+                            foreach (var row in rows)
+                            {
+                                var cell = GetCellAtColumn(row, columnIndex);
+                                if (cell != null)
+                                {
+                                    cells.Add(cell);
+                                }
+                            }
+                        }
+                    }
+                    
+                    return cells;
+                };
+            }
+
+            private static IElement? GetContainingTable(IElement element)
+            {
+                var current = element.ParentElement;
+                
+                while (current != null)
+                {
+                    if (current.LocalName == "table")
+                    {
+                        return current;
+                    }
+                    
+                    current = current.ParentElement;
+                }
+                
+                return null;
+            }
+
+            private static int GetColumnIndex(IElement cell)
+            {
+                var tagName = cell.LocalName;
+                if (tagName != "td" && tagName != "th")
+                {
+                    return -1;
+                }
+
+                var row = cell.ParentElement;
+                if (row == null)
+                {
+                    return -1;
+                }
+
+                int columnIndex = 0;
+                
+                foreach (var child in row.ChildNodes)
+                {
+                    if (child is IElement childElement)
+                    {
+                        var childTagName = childElement.LocalName;
+                        if (childTagName == "td" || childTagName == "th")
+                        {
+                            if (Object.ReferenceEquals(childElement, cell))
+                            {
+                                return columnIndex;
+                            }
+
+                            var colspanAttr = childElement.GetAttribute("colspan");
+                            var colspan = 1;
+                            
+                            if (!String.IsNullOrEmpty(colspanAttr) && Int32.TryParse(colspanAttr, out var parsedColspan) && parsedColspan > 0)
+                            {
+                                colspan = parsedColspan;
+                            }
+
+                            columnIndex += colspan;
+                        }
+                    }
+                }
+
+                return -1;
+            }
+
+            private static IElement? GetCellAtColumn(IElement row, int columnIndex)
+            {
+                var tagName = row.LocalName;
+                if (tagName != "tr")
+                {
+                    return null;
+                }
+
+                int currentIndex = 0;
+                
+                foreach (var child in row.ChildNodes)
+                {
+                    if (child is IElement childElement)
+                    {
+                        var childTagName = childElement.LocalName;
+                        if (childTagName == "td" || childTagName == "th")
+                        {
+                            if (currentIndex == columnIndex)
+                            {
+                                return childElement;
+                            }
+
+                            var colspanAttr = childElement.GetAttribute("colspan");
+                            var colspan = 1;
+                            
+                            if (!String.IsNullOrEmpty(colspanAttr) && Int32.TryParse(colspanAttr, out var parsedColspan) && parsedColspan > 0)
+                            {
+                                colspan = parsedColspan;
+                            }
+
+                            currentIndex += colspan;
+                        }
+                    }
+                }
+
+                return null;
+            }
+
+            private static List<IElement> GetTableRows(IElement table)
+            {
+                var rows = new List<IElement>();
+                
+                // Direct tr children
+                foreach (var child in table.ChildNodes)
+                {
+                    if (child is IElement element && element.LocalName == "tr")
+                    {
+                        rows.Add(element);
+                    }
+                }
+                
+                // tr children within thead, tbody, tfoot
+                var sections = new[] { "thead", "tbody", "tfoot" };
+                foreach (var section in sections)
+                {
+                    foreach (var child in table.ChildNodes)
+                    {
+                        if (child is IElement sectionElement && sectionElement.LocalName == section)
+                        {
+                            foreach (var sectionChild in sectionElement.ChildNodes)
+                            {
+                                if (sectionChild is IElement rowElement && rowElement.LocalName == "tr")
+                                {
+                                    rows.Add(rowElement);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                return rows;
             }
         }
 

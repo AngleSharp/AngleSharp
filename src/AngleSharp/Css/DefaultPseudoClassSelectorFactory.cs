@@ -51,8 +51,8 @@ namespace AngleSharp.Css
             { PseudoClassNames.Shadow, new PseudoClassSelector(el => el.IsShadow(), PseudoClassNames.Shadow) },
             { PseudoElementNames.Before, new PseudoClassSelector(el => el.IsPseudo(PseudoElementNames.Before), PseudoElementNames.Before) },
             { PseudoElementNames.After, new PseudoClassSelector(el => el.IsPseudo(PseudoElementNames.After), PseudoElementNames.After) },
-            { PseudoElementNames.FirstLine, new PseudoClassSelector(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text, PseudoElementNames.FirstLine) },
-            { PseudoElementNames.FirstLetter, new PseudoClassSelector(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text && el.ChildNodes[0].TextContent.Length > 0, PseudoElementNames.FirstLetter) },
+            { PseudoElementNames.FirstLine, new PseudoClassSelector(_ => false, PseudoElementNames.FirstLine) },
+            { PseudoElementNames.FirstLetter, new PseudoClassSelector(_ => false, PseudoElementNames.FirstLetter) },
         };
 
         /// <summary>

@@ -39,9 +39,33 @@ namespace AngleSharp.Text
         /// The initial encoding. Otherwise UTF-8.
         /// </param>
         public TextSource(Stream baseStream, Encoding encoding = null)
+            : this(baseStream, encoding, StreamTextSourceMode.Accumulating, encodingIsCertain: false)
         {
-            _writableSource = new WritableTextSource(baseStream, encoding);
-            _readOnlyTextSource = _writableSource;
+        }
+
+        internal TextSource(
+            Stream baseStream,
+            Encoding encoding,
+            StreamTextSourceMode sourceMode,
+            Boolean encodingIsCertain)
+        {
+            if (sourceMode == StreamTextSourceMode.Accumulating)
+            {
+                _writableSource = new WritableTextSource(baseStream, encoding, encodingIsCertain);
+                _readOnlyTextSource = _writableSource;
+            }
+            else if (sourceMode == StreamTextSourceMode.Bounded)
+            {
+                _writableSource = null;
+                _readOnlyTextSource = new StreamingTextSource(
+                    baseStream,
+                    encoding,
+                    allowEncodingRestart: !encodingIsCertain);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(sourceMode));
+            }
         }
 
         /// <summary>
@@ -87,13 +111,7 @@ namespace AngleSharp.Text
         public Encoding CurrentEncoding
         {
             get => _readOnlyTextSource.CurrentEncoding;
-            set
-            {
-                if (_writableSource is not null)
-                {
-                    _writableSource.CurrentEncoding = value;
-                }
-            }
+            set => _readOnlyTextSource.CurrentEncoding = value;
         }
 
         /// <summary>
