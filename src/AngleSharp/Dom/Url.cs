@@ -35,7 +35,7 @@ namespace AngleSharp.Dom
         // > UseSTD3ASCIIRules set to beStrict
         // But if UseStd3AsciiRules it set to true, _ (underscore) will be considered invalid in host name
         // Set to false here to do loose validation
-        private static readonly IdnMapping DefaultIdnMapping = new () { AllowUnassigned = false, UseStd3AsciiRules = false };
+        private static readonly IdnMapping DefaultIdnMapping = new() { AllowUnassigned = false, UseStd3AsciiRules = false };
 
         private String? _fragment;
         private String? _query;
@@ -124,7 +124,7 @@ namespace AngleSharp.Dom
             _username = address._username;
             _password = address._password;
              _relative = address._relative;
-            _schemeData = address._schemeData;;
+            _schemeData = address._schemeData;
         }
 
         #endregion
@@ -388,7 +388,7 @@ namespace AngleSharp.Dom
             get => _query;
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     _query = null;
                     _params?.Reset();
@@ -442,12 +442,12 @@ namespace AngleSharp.Dom
         {
             unchecked
             {
-                var hashCode =  _fragment != null ? StringComparer.Ordinal.GetHashCode(_fragment) : 0;
+                var hashCode = _fragment != null ? StringComparer.Ordinal.GetHashCode(_fragment) : 0;
                 hashCode = (hashCode * 397) ^ (_query != null ? StringComparer.Ordinal.GetHashCode(_query) : 0);
                 hashCode = (hashCode * 397) ^ (_path != null ? StringComparer.Ordinal.GetHashCode(_path) : 0);
                 hashCode = (hashCode * 397) ^ (_scheme != null ? StringComparer.OrdinalIgnoreCase.GetHashCode(_scheme) : 0);
                 hashCode = (hashCode * 397) ^ (_port != null ? StringComparer.Ordinal.GetHashCode(_port) : 0);
-                hashCode = (hashCode * 397) ^ (_host != null ?  StringComparer.OrdinalIgnoreCase.GetHashCode(_host) : 0);
+                hashCode = (hashCode * 397) ^ (_host != null ? StringComparer.OrdinalIgnoreCase.GetHashCode(_host) : 0);
                 hashCode = (hashCode * 397) ^ (_username != null ? StringComparer.Ordinal.GetHashCode(_username) : 0);
                 hashCode = (hashCode * 397) ^ (_password != null ? StringComparer.Ordinal.GetHashCode(_password) : 0);
                 hashCode = (hashCode * 397) ^ (_schemeData != null ? StringComparer.Ordinal.GetHashCode(_schemeData) : 0);
@@ -791,6 +791,8 @@ namespace AngleSharp.Dom
             var buffer = StringBuilderPool.Obtain();
             var user = default(String);
             var pass = default(String);
+            _username = null;
+            _password = null;
 
             while (index < length)
             {
@@ -846,6 +848,8 @@ namespace AngleSharp.Dom
         {
             var start = index;
             _path = String.Empty;
+            _username = null;
+            _password = null;
 
             while (index < length)
             {
