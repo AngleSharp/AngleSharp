@@ -16,9 +16,6 @@ namespace AngleSharp.Common
         private readonly Stack<UInt16> _columns;
 
         private readonly IReadOnlyTextSource _source;
-        private readonly WritableTextSource? _wts;
-        private readonly CharArrayTextSource? _cats;
-        private readonly ReadOnlyMemoryTextSource? _roms;
         private readonly IContiguousTextSource? _contiguousSource;
 
         private StringBuilder _stringBuilder;
@@ -55,19 +52,6 @@ namespace AngleSharp.Common
 
             _source = source.GetUnderlyingTextSource();
             _contiguousSource = _source as IContiguousTextSource;
-
-            if (_source is WritableTextSource wts)
-            {
-                _wts = wts;
-            }
-            else if (_source is CharArrayTextSource cats)
-            {
-                _cats = cats;
-            }
-            else if (_source is ReadOnlyMemoryTextSource roms)
-            {
-                _roms = roms;
-            }
             _current = Symbols.Null;
             _column = 0;
             _row = 1;
@@ -557,7 +541,7 @@ namespace AngleSharp.Common
                 Track();
             }
 
-            var c = ReadCharFromSource();
+            var c = _source.ReadCharacter();
             _current = NormalizeForward(c);
         }
 
@@ -610,7 +594,7 @@ namespace AngleSharp.Common
                 _normalized = false;
                 return p;
             }
-            else if (ReadCharFromSource() != Symbols.LineFeed)
+            else if (_source.ReadCharacter() != Symbols.LineFeed)
             {
                 _source.Index--;
             }
@@ -640,26 +624,6 @@ namespace AngleSharp.Common
             }
 
             return Symbols.LineFeed;
-        }
-
-        private Char ReadCharFromSource()
-        {
-            if (_wts is not null)
-            {
-                return _wts.ReadCharacter();
-            }
-
-            if (_cats is not null)
-            {
-                return _cats.ReadCharacter();
-            }
-
-            if (_roms is not null)
-            {
-                return _roms.ReadCharacter();
-            }
-
-            return _source.ReadCharacter();
         }
 
         #endregion
