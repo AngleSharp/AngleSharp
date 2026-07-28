@@ -9,7 +9,7 @@ using Common;
 /// <summary>
 /// Represents a fully loaded immutable text source.
 /// </summary>
-public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
+public sealed class ReadOnlyMemoryTextSource : IContiguousTextSource
 {
     private Int32 _index;
     private String? _content;
@@ -51,11 +51,6 @@ public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
             return _content ??= _memory.Span.ToString();
         }
     }
-
-    /// <summary>
-    /// Gets the underlying memory buffer.
-    /// </summary>
-    internal ReadOnlyMemory<Char> Memory => _memory;
 
     /// <ihneritdoc />
     public Char this[Int32 index] => _content != null ? _content[index] : _memory.Span[index];
@@ -142,6 +137,19 @@ public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
     {
         length = _length;
         return true;
+    }
+
+    /// <inheritdoc />
+    Boolean IContiguousTextSource.TryGetRemainingSpan(out ReadOnlySpan<Char> remaining)
+    {
+        if ((UInt32)_index < (UInt32)_length)
+        {
+            remaining = _memory.Span.Slice(_index, _length - _index);
+            return true;
+        }
+
+        remaining = default;
+        return false;
     }
 
     #endregion
