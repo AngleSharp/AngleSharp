@@ -138,26 +138,42 @@ internal sealed class WritableTextSource : ITextSource
             _encoding = value;
             _decoder = value.GetDecoder();
 
-            var raw = _raw.ToArray();
-            var raw_chars = new Char[_encoding.GetMaxCharCount(raw.Length)];
-            var charLength = _decoder.GetChars(raw, 0, raw.Length, raw_chars, 0);
-            var content = new String(raw_chars, 0, charLength);
-            var index = Math.Min(_index, content.Length);
+            var buffer = _raw.GetBuffer();
+            var raw_chars = new Char[_encoding.GetMaxCharCount((Int32)_raw.Length)];
+            var charLength = _decoder.GetChars(buffer, 0, (Int32)_raw.Length, raw_chars, 0);
 
-            if (content.Substring(0, index).Is(_content!.ToString(0, index)))
+            var carriesPosition = _index <= charLength && _index <= _content.Length &&
+                                  PrefixMatches(_content, raw_chars, _index);
+
+            if (carriesPosition)
             {
                 //If everything seems to fit up to this point, do an
                 //instant switch
                 _confidence = EncodingConfidence.Certain;
-                _content.Remove(index, _content.Length - index);
-                _content.Append(content.Substring(index));
+                _content.Remove(_index, _content.Length - _index);
+                _content.Append(raw_chars, _index, charLength - _index);
             }
             else
             {
                 //Otherwise consider restart from beginning ...
                 _index = 0;
-                _content.Clear().Append(content);
+                _content.Clear().Append(raw_chars, 0, charLength);
                 throw new NotSupportedException();
+            }
+
+            return;
+
+            static Boolean PrefixMatches(StringBuilder builder, Char[] content, Int32 length)
+            {
+                for (var i = 0; i < length; i++)
+                {
+                    if (builder[i] != content[i])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
         }
     }
