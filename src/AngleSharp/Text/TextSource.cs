@@ -77,6 +77,18 @@ namespace AngleSharp.Text
             _readOnlyTextSource = source;
         }
 
+#if NET8_0_OR_GREATER
+        /// <summary>
+        /// Creates a new immutable text source from a <see cref="ReadOnlyByteTextSource"/>.
+        /// No underlying stream will be used.
+        /// </summary>
+        public TextSource(ReadOnlyByteTextSource source)
+        {
+            _writableSource = null;
+            _readOnlyTextSource = source;
+        }
+#endif
+
         /// <summary>
         /// Creates a new immutable text source from a <see cref="CharArrayTextSource"/>. No underlying stream will be used
         /// </summary>

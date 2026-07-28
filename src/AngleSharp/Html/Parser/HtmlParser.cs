@@ -218,6 +218,44 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses a stream asynchronously into a custom constructable document.
+        /// </summary>
+        /// <remarks>
+        /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
+        /// </remarks>
+        public async Task<TDocument> ParseDocumentAsync<TDocument, TElement>(
+            Stream source,
+            HtmlStreamSourceMode sourceMode,
+            Encoding? encoding = null,
+            TokenizerMiddleware? middleware = null,
+            CancellationToken cancel = default)
+             where TDocument : class, IConstructableDocument
+             where TElement : class, IConstructableElement
+        {
+            var factory = _context.GetService<IDomConstructionElementFactory<TDocument, TElement>>()
+                          ?? throw new InvalidOperationException("No read-only construction factory found.");
+            var textSource = CreateTextSource(source, sourceMode, encoding);
+            var document = factory.CreateDocument(textSource, _context);
+            var builder = new HtmlDomBuilder<TDocument, TElement>(factory, document);
+
+            if (HasEventListener(EventNames.Error))
+            {
+                builder.Error += (_, ev) => InvokeEventListener(ev);
+            }
+
+            try
+            {
+                return await builder.ParseAsync(_options, middleware, cancel).ConfigureAwait(false);
+            }
+            catch
+            {
+                builder.Dispose();
+                textSource.Dispose();
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Parses the stream and returns the head.
         /// </summary>
         public IHtmlHeadElement? ParseHead(Stream source)
@@ -317,6 +355,11 @@ namespace AngleSharp.Html.Parser
 
         private HtmlDocument CreateDocument(Stream source, HtmlStreamSourceMode sourceMode, Encoding? encoding)
         {
+            return CreateDocument(CreateTextSource(source, sourceMode, encoding));
+        }
+
+        private TextSource CreateTextSource(Stream source, HtmlStreamSourceMode sourceMode, Encoding? encoding)
+        {
             if (sourceMode is not HtmlStreamSourceMode.Buffered and not HtmlStreamSourceMode.Streaming)
             {
                 throw new ArgumentOutOfRangeException(nameof(sourceMode));
@@ -332,7 +375,7 @@ namespace AngleSharp.Html.Parser
                 sourceModeInternal,
                 encodingIsCertain: encoding is not null);
 
-            return CreateDocument(textSource);
+            return textSource;
         }
 
         private HtmlDocument CreateDocument(ReadOnlyMemory<Char> chars)
