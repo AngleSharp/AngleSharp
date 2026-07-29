@@ -1,3 +1,9 @@
+# 1.7.0
+
+Released on Friday, July 31 2026
+
+- Improved CSS selector performance (#1270, #929) @lahma
+
 # 1.6.0
 
 Released on Sunday, July 26 2026
