@@ -37,5 +37,27 @@ namespace AngleSharp.Core.Tests.Css
             Assert.NotNull(second);
             Assert.AreNotSame(first, second);
         }
+
+        [Test]
+        public void ParseSelector_WithHostPseudoClass_ReturnsSelector()
+        {
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(":host");
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(":host", selector!.Text);
+        }
+
+        [Test]
+        public void ParseSelector_WithHostContextFunction_ReturnsSelector()
+        {
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(":host-context(.card)");
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(":host-context(.card)", selector!.Text);
+        }
     }
 }

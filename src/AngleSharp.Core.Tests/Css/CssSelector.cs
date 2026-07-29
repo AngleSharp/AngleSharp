@@ -30,6 +30,34 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
+        public void PseudoSelectorHostDoesNotMatchInDocumentQuery()
+        {
+            var document = "<div id='host'></div><div id='other'></div>".ToHtmlDocument();
+            var host = document.QuerySelector("#host");
+
+            host.AttachShadow(mode: ShadowRootMode.Open);
+
+            var result = document.QuerySelectorAll(":host");
+
+            Assert.AreEqual(0, result.Length);
+        }
+
+        [Test]
+        public void PseudoSelectorHostMatchesWhenHostIsScope()
+        {
+            var document = "<div id='host'></div>".ToHtmlDocument();
+            var host = document.QuerySelector("#host");
+            var parser = new CssSelectorParser();
+
+            host.AttachShadow(mode: ShadowRootMode.Open);
+
+            var selector = parser.ParseSelector(":host");
+
+            Assert.NotNull(selector);
+            Assert.IsTrue(selector!.Match(host, host));
+        }
+
+        [Test]
         public void StrangeDashSelector()
         {
             var source = @"<ul>
