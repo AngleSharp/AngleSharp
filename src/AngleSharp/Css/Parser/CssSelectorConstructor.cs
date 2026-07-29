@@ -957,7 +957,8 @@ namespace AngleSharp.Css.Parser
                 if (_valid && _value is not null)
                 {
                     var code = PseudoClassNames.Contains.CssFunction(_value);
-                    return new PseudoClassSelector(el => el.TextContent.Contains(_value), code);
+                    var matcher = new TextContainsMatcher(_value);
+                    return new PseudoClassSelector(matcher.Matches, code);
                 }
 
                 return null;
