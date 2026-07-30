@@ -6,7 +6,6 @@ using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitHub;
-using Nuke.Common.Tools.NuGet;
 using Nuke.Common.Utilities.Collections;
 using Octokit;
 using Octokit.Internal;
@@ -17,7 +16,6 @@ using System.IO;
 using System.Linq;
 
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.NuGet.NuGetTasks;
 
 using Project = Nuke.Common.ProjectModel.Project;
 
@@ -45,8 +43,6 @@ class Build : NukeBuild
     string TargetLibName => $"{TargetProjectName}.Core";
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
-
-    AbsolutePath BuildDirectory => SourceDirectory / TargetProjectName / "bin" / Configuration;
 
     AbsolutePath ResultDirectory => RootDirectory / "bin" / Version;
 
@@ -130,6 +126,7 @@ class Build : NukeBuild
             DotNetBuild(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
+                .SetVersion(Version)
                 .SetContinuousIntegrationBuild(IsServerBuild)
                 .EnableNoRestore());
         });
@@ -157,39 +154,20 @@ class Build : NukeBuild
             );
         });
 
-    Target CopyFiles => _ => _
+    // The package is produced by `dotnet pack` straight from the project, so the dependency
+    // groups follow the actual TargetFrameworks instead of a hand-maintained nuspec.
+    Target CreatePackage => _ => _
         .DependsOn(Compile)
         .Executes(() =>
         {
-            foreach (var item in TargetFrameworks)
-            {
-                var targetDir = NugetDirectory / "lib" / item;
-                var srcDir = BuildDirectory / item;
-
-                (srcDir / $"{TargetProjectName}.dll").Copy(targetDir / $"{TargetProjectName}.dll", policy: ExistsPolicy.FileOverwriteIfNewer);
-                (srcDir / $"{TargetProjectName}.pdb").Copy(targetDir / $"{TargetProjectName}.pdb", policy: ExistsPolicy.FileOverwriteIfNewer);
-                (srcDir / $"{TargetProjectName}.xml").Copy(targetDir / $"{TargetProjectName}.xml", policy: ExistsPolicy.FileOverwriteIfNewer);
-            }
-
-            (SourceDirectory / $"{TargetProjectName}.nuspec").Copy(NugetDirectory / $"{TargetProjectName}.nuspec", policy: ExistsPolicy.FileOverwriteIfNewer);
-            (RootDirectory / "logo.png").Copy(NugetDirectory / "logo.png", policy: ExistsPolicy.FileOverwriteIfNewer);
-            (RootDirectory / "README.md").Copy(NugetDirectory / "README.md", policy: ExistsPolicy.FileOverwriteIfNewer);
-        });
-
-    Target CreatePackage => _ => _
-        .DependsOn(CopyFiles)
-        .Executes(() =>
-        {
-            var nuspec = NugetDirectory / $"{TargetProjectName}.nuspec";
-
-            NuGetPack(_ => _
-                .SetTargetPath(nuspec)
+            DotNetPack(s => s
+                .SetProject(TargetProject)
+                .SetConfiguration(Configuration)
                 .SetVersion(Version)
                 .SetOutputDirectory(NugetDirectory)
-                .EnableSymbols()
-                .SetSymbolPackageFormat(NuGetSymbolPackageFormat.snupkg)
-                .SetConfiguration(Configuration)
-            );
+                .SetContinuousIntegrationBuild(IsServerBuild)
+                .EnableNoRestore()
+                .EnableNoBuild());
         });
 
     Target PublishPackage => _ => _
@@ -205,9 +183,10 @@ class Build : NukeBuild
                 throw new BuildAbortedException("Could not resolve the NuGet API key.");
             }
 
+            // Pushing the .nupkg also uploads the matching .snupkg next to it.
             foreach (var nupkg in NugetDirectory.GlobFiles("*.nupkg"))
             {
-                NuGetPush(s => s
+                DotNetNuGetPush(s => s
                     .SetTargetPath(nupkg)
                     .SetSource("https://api.nuget.org/v3/index.json")
                     .SetApiKey(apiKey));
