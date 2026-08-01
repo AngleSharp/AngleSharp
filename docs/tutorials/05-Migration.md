@@ -4,6 +4,12 @@ section: "AngleSharp.Core"
 ---
 # Migration Guide
 
+This page is intentionally historical. For current package scope, supported target frameworks, and companion libraries, prefer the main [README](../../README.md) and the [roadmap and ecosystem page](../general/03-Upcoming.md).
+
+## Current Targets
+
+AngleSharp.Core currently targets `netstandard2.0`, `net8.0`, and `net10.0`, with additional `net462` and `net472` targets on Windows builds.
+
 ## 0.17 to 1.0
 
 From an API perspective the two versions are compatible, however, the ABI is not compatible as some constructors changed (adding new optional arguments etc.). Therefore, a recompilation is necessary before dynamically using 1.0.
@@ -181,11 +187,11 @@ Normally, a `BrowsingContext` instance already exists thus making the access muc
 
 ### Scripting
 
-:warn: Currently, `AngleSharp.Scripting.Js` is incompatible with AngleSharp v0.10.
+`AngleSharp.Scripting.Js` is legacy guidance from the pre-1.0 period.
 
-We plan to deprecate this package and release `AngleSharp.Js` instead. In the meantime there is no replacement.
+For JavaScript integration use `AngleSharp.Js`, which is maintained as a separate companion project.
 
-> Recommendation: Stay at AngleSharp pre-v0.10 for the moment and wait until AngleSharp.Js is released. Sorry for inconvenience!
+If you need browser-like scripting behavior, wire it in through the configuration system instead of expecting it from `AngleSharp.Core` alone.
 
 ### Namespaces
 

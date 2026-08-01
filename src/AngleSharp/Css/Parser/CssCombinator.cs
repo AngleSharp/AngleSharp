@@ -154,12 +154,41 @@ namespace AngleSharp.Css.Parser
 
             private static IEnumerable<IElement> GetPreviousSiblings(IElement element)
             {
-                var sibling = element.PreviousElementSibling;
-
-                while (sibling != null)
+                // Walking PreviousElementSibling repeatedly is quadratic, since each step
+                // has to locate the element in its parent again. Scan the child list once.
+                if (element is Node node && node.Parent is Node parent)
                 {
-                    yield return sibling;
-                    sibling = sibling.PreviousElementSibling;
+                    var children = parent.ChildNodes;
+                    var index = -1;
+
+                    for (var i = 0; i < children.Length; i++)
+                    {
+                        if (Object.ReferenceEquals(children[i], node))
+                        {
+                            index = i;
+                            break;
+                        }
+                    }
+
+                    for (var i = index - 1; i >= 0; i--)
+                    {
+                        var child = children[i];
+
+                        if (child.NodeType == NodeType.Element)
+                        {
+                            yield return (Element)child;
+                        }
+                    }
+                }
+                else
+                {
+                    var sibling = element.PreviousElementSibling;
+
+                    while (sibling != null)
+                    {
+                        yield return sibling;
+                        sibling = sibling.PreviousElementSibling;
+                    }
                 }
             }
         }

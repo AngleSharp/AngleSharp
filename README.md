@@ -6,8 +6,6 @@
 [![GitHub Tag](https://img.shields.io/github/tag/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/releases)
 [![NuGet Count](https://img.shields.io/nuget/dt/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
 [![Issues Open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
-<!-- [![Gitter Chat](http://img.shields.io/badge/gitter-AngleSharp/AngleSharp-blue.svg?style=flat-square)](https://gitter.im/AngleSharp/AngleSharp) -->
-[![StackOverflow Questions](https://img.shields.io/stackexchange/stackoverflow/t/anglesharp.svg?style=flat-square)](https://stackoverflow.com/tags/anglesharp)
 [![CLA Assistant](https://cla-assistant.io/readme/badge/AngleSharp/AngleSharp?style=flat-square)](https://cla-assistant.io/AngleSharp/AngleSharp)
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The included parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code and ensures compatibility with results in evergreen browsers. Also standard DOM features such as `querySelector` or `querySelectorAll` work for tree traversal.
@@ -67,22 +65,27 @@ Every collection in AngleSharp supports LINQ statements. AngleSharp also provide
 
 ## Supported Platforms
 
-AngleSharp has been created as a .NET Standard 2.0 compatible library. This includes, but is not limited to:
+AngleSharp ships for `netstandard2.0`, `net8.0`, and `net10.0`. On Windows the build also targets `net462` and `net472`.
 
-- .NET Core (2.0 and later)
-- .NET Framework (4.6.2 and later)
-- Xamarin.Android (7.0 and 8.0)
-- Xamarin.iOS (10.0 and 10.14)
-- Xamarin.Mac (3.0 and 3.8)
-- Mono (4.6 and 5.4)
-- UWP (10.0 and 10.0.16299)
-- Unity (2018.1)
+In practice this keeps the library broadly consumable while still allowing newer runtimes to take advantage of runtime and BCL improvements.
 
 ## Documentation
 
 The documentation of AngleSharp is located [in the docs folder](docs/README.md). More examples, best-practices, and general information can be found there. The documentation also contains a list of [frequently asked questions](docs/tutorials/06-Questions.md).
 
-More information is also available by following some of the hyper references mentioned in the Wiki. In-depth articles will be published on the CodeProject, with links being placed in the Wiki at GitHub.
+## AngleSharp Ecosystem
+
+AngleSharp.Core is the foundation. Additional repositories provide higher-level services and integrations:
+
+| Project | Purpose | Repository |
+|---|---|---|
+| AngleSharp.Css | Full CSS parser, CSSOM, and styling services | https://github.com/AngleSharp/AngleSharp.Css |
+| AngleSharp.Js | JavaScript integration for browsing contexts | https://github.com/AngleSharp/AngleSharp.Js |
+| AngleSharp.Wasm | WebAssembly-oriented integration work for AngleSharp | https://github.com/AngleSharp/AngleSharp.Wasm |
+| AngleSharp.Xml | XML, XHTML, and related XML-oriented parsing support | https://github.com/AngleSharp/AngleSharp.Xml |
+| AngleSharp.Renderer | Rendering-focused companion project | https://github.com/AngleSharp/AngleSharp.Renderer |
+| AngleSharp.Diffing | DOM and markup diffing utilities | https://github.com/AngleSharp/AngleSharp.Diffing |
+| AngleSharp.XPath | XPath support on top of the AngleSharp DOM | https://github.com/AngleSharp/AngleSharp.XPath |
 
 ## Use-Cases
 
@@ -121,7 +124,7 @@ If you have an idea how to improve the API (or what is missing) then posts / mes
 
 The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active.
 
-Live discussions can take place in our [Gitter chat](https://gitter.im/AngleSharp/AngleSharp), which supports using GitHub accounts.
+Discussion and issue tracking happen on GitHub.
 
 More information is found in the [contribution guidelines](.github/CONTRIBUTING.md). All contributors can be found [in the CONTRIBUTORS](CONTRIBUTORS.md) file.
 
@@ -141,7 +144,7 @@ See [the related GitHub issue](https://github.com/AngleSharp/AngleSharp/issues/1
 
 ## Development
 
-AngleSharp is written in the most recent version of C# and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2019+ is recommended on Windows. Alternatively, VSCode (with OmniSharp or another suitable Language Server Protocol implementation) should be the tool of choice on other platforms.
+AngleSharp is written in the most recent version of C# and thus requires Roslyn as a compiler. Using an IDE like Visual Studio 2022+ is recommended on Windows. Alternatively, VS Code with the C# extension or another suitable Language Server Protocol implementation works well on other platforms.
 
 The code tries to be as clean as possible. Notably the following rules are used:
 

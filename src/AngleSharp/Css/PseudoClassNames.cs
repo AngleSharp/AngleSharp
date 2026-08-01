@@ -243,6 +243,11 @@ namespace AngleSharp.Css
         public static readonly String Where = "where";
 
         /// <summary>
+        /// The host pseudo class.
+        /// </summary>
+        public static readonly String Host = "host";
+
+        /// <summary>
         /// The host-context pseudo function.
         /// </summary>
         public static readonly String HostContext = "host-context";
