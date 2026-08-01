@@ -218,6 +218,34 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses into a construction backend whose nodes are represented by value-type identities.
+        /// </summary>
+        /// <typeparam name="TDocument">The construction document type.</typeparam>
+        /// <typeparam name="TNode">The backend's stable node identity.</typeparam>
+        /// <param name="source">The text source to parse.</param>
+        /// <param name="factory">The handle-oriented construction backend.</param>
+        /// <param name="middleware">Optional tokenizer middleware.</param>
+        /// <returns>The constructed document.</returns>
+        public TDocument ParseDocument<TDocument, TNode>(
+            TextSource source,
+            IHtmlTreeConstructionFactory<TDocument, TNode> factory,
+            TokenizerMiddleware? middleware = null)
+            where TDocument : class, IConstructableDocument
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
+        {
+            var document = factory.CreateDocument(source, _context);
+            var builder = new HtmlTreeBuilder<TDocument, TNode>(factory, document);
+
+            if (HasEventListener(EventNames.Error))
+            {
+                builder.Error += (_, ev) => InvokeEventListener(ev);
+            }
+
+            builder.Parse(_options, middleware);
+            return document;
+        }
+
+        /// <summary>
         /// Parses a stream asynchronously into a custom constructable document.
         /// </summary>
         public async Task<TDocument> ParseDocumentAsync<TDocument, TElement>(
@@ -234,6 +262,40 @@ namespace AngleSharp.Html.Parser
             var textSource = CreateTextSource(source, sourceMode, encoding);
             var document = factory.CreateDocument(textSource, _context);
             var builder = new HtmlDomBuilder<TDocument, TElement>(factory, document);
+
+            if (HasEventListener(EventNames.Error))
+            {
+                builder.Error += (_, ev) => InvokeEventListener(ev);
+            }
+
+            try
+            {
+                return await builder.ParseAsync(_options, middleware, cancel).ConfigureAwait(false);
+            }
+            catch
+            {
+                builder.Dispose();
+                textSource.Dispose();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Parses a stream asynchronously into a handle-oriented construction backend.
+        /// </summary>
+        public async Task<TDocument> ParseDocumentAsync<TDocument, TNode>(
+            Stream source,
+            HtmlStreamSourceMode sourceMode,
+            IHtmlTreeConstructionFactory<TDocument, TNode> factory,
+            Encoding? encoding = null,
+            TokenizerMiddleware? middleware = null,
+            CancellationToken cancel = default)
+            where TDocument : class, IConstructableDocument
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
+        {
+            var textSource = CreateTextSource(source, sourceMode, encoding);
+            var document = factory.CreateDocument(textSource, _context);
+            var builder = new HtmlTreeBuilder<TDocument, TNode>(factory, document);
 
             if (HasEventListener(EventNames.Error))
             {
