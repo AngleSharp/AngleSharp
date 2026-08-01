@@ -216,6 +216,48 @@ namespace AngleSharp.Core.Tests.Urls
             Assert.IsTrue(url.IsInvalid);
         }
 
+        [TestCase("http://2130706433/", "http://127.0.0.1/")]
+        [TestCase("http://0177.0.0.1/", "http://127.0.0.1/")]
+        [TestCase("http://0x7f.0.0.1/", "http://127.0.0.1/")]
+        [TestCase("http://127.1/", "http://127.0.0.1/")]
+        [TestCase("http://0xc0.0250.01/", "http://192.168.0.1/")]
+        public void NumericIpv4RepresentationsAreNormalized(String input, String expected)
+        {
+            var url = new Url(input);
+            Assert.IsFalse(url.IsInvalid);
+            Assert.AreEqual(expected, url.Href);
+        }
+
+        [TestCase("http://09/")]
+        [TestCase("http://1.2.3.0x100/")]
+        [TestCase("http://999999999999/")]
+        [TestCase("http://256.256.256.256/")]
+        public void InvalidNumericIpv4RepresentationsAreRejected(String input)
+        {
+            var url = new Url(input);
+            Assert.IsTrue(url.IsInvalid);
+        }
+
+        [TestCase("http://[2001:0DB8:0000:0000:0000:FF00:0042:8329]/", "http://[2001:db8::ff00:42:8329]/")]
+        [TestCase("http://[::1]/", "http://[::1]/")]
+        public void Ipv6LiteralsAreValidatedAndNormalized(String input, String expected)
+        {
+            var url = new Url(input);
+            Assert.IsFalse(url.IsInvalid);
+            Assert.AreEqual(expected, url.Href);
+        }
+
+        [TestCase("http://[2001:::1]/")]
+        [TestCase("http://[2001::1::1]/")]
+        [TestCase("http://[2001:db8]/")]
+        [TestCase("http://[%5D]/")]
+        [TestCase("http://[fe80::1%25eth0]/")]
+        public void InvalidIpv6LiteralsAreRejected(String input)
+        {
+            var url = new Url(input);
+            Assert.IsTrue(url.IsInvalid);
+        }
+
         [Test]
         public void InvalidRelativeUrlAsDifferentProtocolScheme()
         {

@@ -44,7 +44,7 @@ namespace AngleSharp.Css.Dom
 
             for (var i = nodes.Length - 1; i >= 0; i--)
             {
-                if (nodes[i] is IElement child && (matchAll || kind.Match(child, scope)))
+                if (nodes.TryGetElement(i, out var child) && (matchAll || kind.Match(child, scope)))
                 {
                     k += 1;
 

@@ -9,6 +9,7 @@ namespace AngleSharp.Dom
     using Html.Construction;
     using Html.Parser;
     using Html.Parser.Tokens.Struct;
+    using System.Threading;
 
     /// <summary>
     /// Represents an element node.
@@ -88,12 +89,7 @@ namespace AngleSharp.Dom
             get
             {
                 var sb = StringBuilderPool.Obtain();
-
-                foreach (var child in this.GetDescendants().OfType<IText>())
-                {
-                    sb.Append(child.Data);
-                }
-
+                AppendText(this, sb);
                 return sb.ToPool();
             }
             set
@@ -108,13 +104,17 @@ namespace AngleSharp.Dom
         {
             get
             {
-                if (_classList is null)
+                var classList = Volatile.Read(ref _classList);
+
+                if (classList is null)
                 {
-                    _classList = new TokenList(this.GetOwnAttribute(AttributeNames.Class));
-                    _classList.Changed += value => UpdateAttribute(AttributeNames.Class, value);
+                    var list = new TokenList(this.GetOwnAttribute(AttributeNames.Class));
+                    list.Changed += value => UpdateAttribute(AttributeNames.Class, value);
+                    var current = Interlocked.CompareExchange(ref _classList, list, null);
+                    classList = current ?? list;
                 }
 
-                return _classList;
+                return classList;
             }
         }
 
@@ -145,19 +145,28 @@ namespace AngleSharp.Dom
             {
                 var parent = Parent;
 
-                if (parent != null)
+                if (parent is not null)
                 {
+                    var children = parent.ChildNodes;
                     var found = false;
 
-                    for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
+                    // Scanning backwards matters: the preceding element sibling is usually
+                    // right next to this node, so the loop normally ends shortly after the
+                    // node is located. A forward scan would always pay the full prefix.
+                    for (var i = children.Length - 1; i >= 0; i--)
                     {
-                        if (Object.ReferenceEquals(parent.ChildNodes[i], this))
+                        var node = children[i];
+
+                        if (found)
+                        {
+                            if (node.NodeType == NodeType.Element)
+                            {
+                                return (Element)node;
+                            }
+                        }
+                        else if (Object.ReferenceEquals(node, this))
                         {
                             found = true;
-                        }
-                        else if (found && parent.ChildNodes[i] is IElement previousElementSibling)
-                        {
-                            return previousElementSibling;
                         }
                     }
                 }
@@ -173,20 +182,26 @@ namespace AngleSharp.Dom
             {
                 var parent = Parent;
 
-                if (parent != null)
+                if (parent is not null)
                 {
-                    var n = parent.ChildNodes.Length;
+                    var children = parent.ChildNodes;
+                    var n = children.Length;
                     var found = false;
 
                     for (var i = 0; i < n; i++)
                     {
-                        if (Object.ReferenceEquals(parent.ChildNodes[i], this))
+                        var node = children[i];
+
+                        if (found)
+                        {
+                            if (node.NodeType == NodeType.Element)
+                            {
+                                return (Element)node;
+                            }
+                        }
+                        else if (Object.ReferenceEquals(node, this))
                         {
                             found = true;
-                        }
-                        else if (found && parent.ChildNodes[i] is IElement childEl)
-                        {
-                            return childEl;
                         }
                     }
                 }
@@ -598,7 +613,7 @@ namespace AngleSharp.Dom
 
             if (attrs.Length > 0)
             {
-                var observers = Context.GetServices<IAttributeObserver>();
+                var observers = Owner.AttributeObservers;
 
                 foreach (var attr in attrs)
                 {
@@ -617,7 +632,7 @@ namespace AngleSharp.Dom
         {
             if (namespaceUri is null)
             {
-                var observers = Context.GetServices<IAttributeObserver>();
+                var observers = Owner.AttributeObservers;
 
                 foreach (var observer in observers)
                 {
@@ -637,6 +652,30 @@ namespace AngleSharp.Dom
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Appends the data of every descendant text node, in tree order. Equivalent to
+        /// iterating GetDescendants().OfType&lt;IText&gt;(), without the nested iterators.
+        /// </summary>
+        private static void AppendText(Node parent, System.Text.StringBuilder sb)
+        {
+            var children = parent.ChildNodes;
+            var n = children.Length;
+
+            for (var i = 0; i < n; i++)
+            {
+                var child = children[i];
+
+                if (child is IText text)
+                {
+                    sb.Append(text.Data);
+                }
+                else if (child.HasChildNodes)
+                {
+                    AppendText(child, sb);
+                }
+            }
+        }
 
         /// <inheritdoc />
         protected void UpdateAttribute(String name, String value) => this.SetOwnAttribute(name, value, suppressCallbacks: true);

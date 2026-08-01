@@ -36,6 +36,7 @@ namespace AngleSharp.Dom
         private readonly Location _location;
         private readonly TextSource _source;
         private readonly Object _importedUrisLock = new();
+        private IAttributeObserver[]? _attributeObservers;
 
         private QuirksMode _quirksMode;
         private Sandboxes _sandbox;
@@ -772,6 +773,9 @@ namespace AngleSharp.Dom
 
         /// <inheritdoc />
         public IBrowsingContext Context => _context;
+
+        internal IReadOnlyList<IAttributeObserver> AttributeObservers =>
+            _attributeObservers ??= _context.GetServices<IAttributeObserver>().ToArray();
 
         /// <inheritdoc />
         public HttpStatusCode StatusCode

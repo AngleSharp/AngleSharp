@@ -116,7 +116,16 @@ namespace AngleSharp.Dom
         INode? INode.Parent => _parent;
 
         /// <inheritdoc />
-        public IElement? ParentElement => _parent as IElement;
+        public IElement? ParentElement
+        {
+            get
+            {
+                // Avoids the interface cast helper, which is hot for descendant and
+                // child combinators walking the ancestor chain of every candidate.
+                var parent = _parent;
+                return parent is not null && parent.NodeType == NodeType.Element ? (Element)parent : null;
+            }
+        }
 
         INodeList INode.ChildNodes => _children;
 

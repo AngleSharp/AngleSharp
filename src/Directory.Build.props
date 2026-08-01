@@ -1,11 +1,22 @@
 <Project>
-  <PropertyGroup>
-    <Description>AngleSharp is the ultimate angle brackets parser library. It parses HTML5, CSS3, and XML to construct a DOM based on the official W3C specification.</Description>
+  <PropertyGroup Label="Identity">
     <Product>AngleSharp</Product>
-    <Version>1.5.3</Version>
+    <Description>AngleSharp is the ultimate angle brackets parser library. It parses HTML5, CSS3, and XML to construct a DOM based on the official W3C specification.</Description>
+    <Authors>AngleSharp</Authors>
+    <Copyright>Copyright 2013-2026, AngleSharp.</Copyright>
+  </PropertyGroup>
+
+  <!-- Fallback for builds that bypass the NUKE script. A release takes its version from the top
+       entry of CHANGELOG.md, which nuke/Build.cs passes in as -p:Version, so this value only
+       affects a plain `dotnet build` and no longer needs bumping for a release. -->
+  <PropertyGroup Label="Versioning">
+    <Version>1.7.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Compilation">
     <LangVersion>latest</LangVersion>
-    <SignAssembly>true</SignAssembly>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)\Key.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 </Project>

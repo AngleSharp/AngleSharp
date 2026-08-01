@@ -18,6 +18,17 @@ namespace AngleSharp.Css.Dom
 
         public void Accept(ISelectorVisitor visitor) => visitor.Class(_cls);
 
-        public Boolean Match(IElement element, IElement? scope) => element.ClassList.Contains(_cls);
+        public Boolean Match(IElement element, IElement? scope)
+        {
+            // Workaround for #1252 (Android AoT issues)
+            var list = element.ClassList;
+
+            if (list is TokenList concreteList)
+            {
+                return concreteList.Contains(_cls);
+            }
+
+            return list.Contains(_cls);
+        }
     }
 }

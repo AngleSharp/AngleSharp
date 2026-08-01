@@ -104,9 +104,9 @@ namespace AngleSharp.Core.Tests.Library
 
         private static string Utf8StreamToString(Stream s)
         {
-            byte[] data = new byte[s.Length];
-            s.Read(data, 0, data.Length);
-            return Encoding.UTF8.GetString(data);
+            using var ms = new MemoryStream();
+            s.CopyTo(ms);
+            return Encoding.UTF8.GetString(ms.ToArray());
         }
 
         [Test]

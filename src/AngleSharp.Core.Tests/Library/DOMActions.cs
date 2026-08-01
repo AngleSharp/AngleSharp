@@ -78,6 +78,36 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void AudioCurrentSourceFallsBackToFirstSourceElement()
+        {
+            var document = CreateEmpty("http://localhost");
+            var audio = document.CreateElement<IHtmlAudioElement>();
+            var emptySource = document.CreateElement<IHtmlSourceElement>();
+            var secondSource = document.CreateElement<IHtmlSourceElement>();
+
+            secondSource.Source = "fallback.mp3";
+
+            audio.AppendChild(emptySource);
+            audio.AppendChild(secondSource);
+
+            Assert.AreEqual("http://localhost/fallback.mp3", audio.CurrentSource);
+        }
+
+        [Test]
+        public void VideoCurrentSourcePrefersOwnSourceOverSourceElement()
+        {
+            var document = CreateEmpty("http://localhost");
+            var video = document.CreateElement<IHtmlVideoElement>();
+            var source = document.CreateElement<IHtmlSourceElement>();
+
+            video.Source = "primary.mp4";
+            source.Source = "fallback.mp4";
+            video.AppendChild(source);
+
+            Assert.AreEqual("http://localhost/primary.mp4", video.CurrentSource);
+        }
+
+        [Test]
         public void ChangeObjectSourceResultsInUpdatedAbsoluteUrl()
         {
             var document = CreateEmpty("http://localhost");

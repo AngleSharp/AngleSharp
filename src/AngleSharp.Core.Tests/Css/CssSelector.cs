@@ -30,6 +30,34 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
+        public void PseudoSelectorHostDoesNotMatchInDocumentQuery()
+        {
+            var document = "<div id='host'></div><div id='other'></div>".ToHtmlDocument();
+            var host = document.QuerySelector("#host");
+
+            host.AttachShadow(mode: ShadowRootMode.Open);
+
+            var result = document.QuerySelectorAll(":host");
+
+            Assert.AreEqual(0, result.Length);
+        }
+
+        [Test]
+        public void PseudoSelectorHostMatchesWhenHostIsScope()
+        {
+            var document = "<div id='host'></div>".ToHtmlDocument();
+            var host = document.QuerySelector("#host");
+            var parser = new CssSelectorParser();
+
+            host.AttachShadow(mode: ShadowRootMode.Open);
+
+            var selector = parser.ParseSelector(":host");
+
+            Assert.NotNull(selector);
+            Assert.IsTrue(selector!.Match(host, host));
+        }
+
+        [Test]
         public void StrangeDashSelector()
         {
             var source = @"<ul>
@@ -902,6 +930,29 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
         }
 
         [Test]
+        public void CaseInsensitiveSelector_WithUppercaseFlag_ShouldBeAccepted()
+        {
+            var source = @"<span style='display: none'>foo</span>";
+
+            var document = source.ToHtmlDocument();
+            var hiddens = document.QuerySelectorAll("*[style*='display: none' I]");
+
+            Assert.AreEqual(1, hiddens.Length);
+        }
+
+        [Test]
+        public void CaseSensitiveSelector_WithSFlag_ShouldOverrideDefaultInsensitiveTypeMatching()
+        {
+            var source = @"<input type='teXt'><input type='text'>";
+
+            var document = source.ToHtmlDocument();
+            var exact = document.QuerySelectorAll("input[type='text' s]");
+
+            Assert.AreEqual(1, exact.Length);
+            Assert.AreEqual("text", exact[0].GetAttribute("type"));
+        }
+
+        [Test]
         public void MaximumRecursionDepth_Issue763()
         {
             var depth = 10000;
@@ -1394,6 +1445,276 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
 
             Assert.AreEqual("foo:focus-within", selector.Text);
             Assert.AreEqual(expected, selector.Specificity);
+        }
+
+        [Test]
+        public void ColumnCombinator_BasicTableSelection()
+        {
+            var html = @"<table>
+                <tr>
+                    <td id='cell-1-1'>A1</td>
+                    <td id='cell-1-2'>B1</td>
+                    <td id='cell-1-3'>C1</td>
+                </tr>
+                <tr>
+                    <td id='cell-2-1'>A2</td>
+                    <td id='cell-2-2'>B2</td>
+                    <td id='cell-2-3'>C2</td>
+                </tr>
+                <tr>
+                    <td id='cell-3-1'>A3</td>
+                    <td id='cell-3-2'>B3</td>
+                    <td id='cell-3-3'>C3</td>
+                </tr>
+            </table>";
+            var document = html.ToHtmlDocument();
+
+            var result = RunQuery(document, "td:nth-child(2) || td");
+            Assert.AreEqual(3, result.Length);
+            Assert.AreEqual("cell-1-2", result[0].GetAttribute("id"));
+            Assert.AreEqual("cell-2-2", result[1].GetAttribute("id"));
+            Assert.AreEqual("cell-3-2", result[2].GetAttribute("id"));
+        }
+
+        [Test]
+        public void ColumnCombinator_FirstColumn()
+        {
+            var html = @"<table>
+                <tr>
+                    <td id='cell-1-1'>A1</td>
+                    <td id='cell-1-2'>B1</td>
+                </tr>
+                <tr>
+                    <td id='cell-2-1'>A2</td>
+                    <td id='cell-2-2'>B2</td>
+                </tr>
+            </table>";
+            var document = html.ToHtmlDocument();
+
+            var result = RunQuery(document, "td:first-child || td");
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual("cell-1-1", result[0].GetAttribute("id"));
+            Assert.AreEqual("cell-2-1", result[1].GetAttribute("id"));
+        }
+
+        [Test]
+        public void ColumnCombinator_LastColumn()
+        {
+            var html = @"<table>
+                <tr>
+                    <td id='cell-1-1'>A1</td>
+                    <td id='cell-1-2'>B1</td>
+                </tr>
+                <tr>
+                    <td id='cell-2-1'>A2</td>
+                    <td id='cell-2-2'>B2</td>
+                </tr>
+            </table>";
+            var document = html.ToHtmlDocument();
+
+            var result = RunQuery(document, "td:last-child || td");
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual("cell-1-2", result[0].GetAttribute("id"));
+            Assert.AreEqual("cell-2-2", result[1].GetAttribute("id"));
+        }
+
+        [Test]
+        public void ColumnCombinator_WithThead()
+        {
+            var html = @"<table>
+                <thead>
+                    <tr>
+                        <th id='header-1'>Header 1</th>
+                        <th id='header-2'>Header 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id='cell-1-1'>A1</td>
+                        <td id='cell-1-2'>B1</td>
+                    </tr>
+                    <tr>
+                        <td id='cell-2-1'>A2</td>
+                        <td id='cell-2-2'>B2</td>
+                    </tr>
+                </tbody>
+            </table>";
+            var document = html.ToHtmlDocument();
+
+            var result = RunQuery(document, "th:nth-child(1) || td");
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual("cell-1-1", result[0].GetAttribute("id"));
+            Assert.AreEqual("cell-2-1", result[1].GetAttribute("id"));
+        }
+
+        [Test]
+        public void ColumnCombinator_WithColspan()
+        {
+            var html = @"<table>
+                <tr>
+                    <td id='cell-1-1' colspan='2'>A1-B1</td>
+                    <td id='cell-1-3'>C1</td>
+                </tr>
+                <tr>
+                    <td id='cell-2-1'>A2</td>
+                    <td id='cell-2-2'>B2</td>
+                    <td id='cell-2-3'>C2</td>
+                </tr>
+            </table>";
+            var document = html.ToHtmlDocument();
+
+            var result = RunQuery(document, "td:nth-child(3) || td");
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual("cell-1-3", result[0].GetAttribute("id"));
+            Assert.AreEqual("cell-2-3", result[1].GetAttribute("id"));
+        }
+
+        [Test]
+        public void ColumnCombinator_SelectingFromMiddleColumn()
+        {
+            var html = @"<table>
+                <tr>
+                    <td id='cell-1-1'>A1</td>
+                    <td id='cell-1-2'>B1</td>
+                    <td id='cell-1-3'>C1</td>
+                    <td id='cell-1-4'>D1</td>
+                </tr>
+                <tr>
+                    <td id='cell-2-1'>A2</td>
+                    <td id='cell-2-2'>B2</td>
+                    <td id='cell-2-3'>C2</td>
+                    <td id='cell-2-4'>D2</td>
+                </tr>
+            </table>";
+            var document = html.ToHtmlDocument();
+
+            var result = RunQuery(document, "td:nth-child(3) || td");
+            Assert.AreEqual(2, result.Length);
+            Assert.AreEqual("cell-1-3", result[0].GetAttribute("id"));
+            Assert.AreEqual("cell-2-3", result[1].GetAttribute("id"));
+        }
+
+        [Test]
+        public void ColumnCombinator_EmptyResult()
+        {
+            var html = @"<table>
+                <tr>
+                    <td id='cell-1-1'>A1</td>
+                    <td id='cell-1-2'>B1</td>
+                </tr>
+            </table>";
+            var document = html.ToHtmlDocument();
+
+            var result = RunQuery(document, "th || td");
+            Assert.AreEqual(0, result.Length);
+        }
+
+        [Test]
+        public void ColumnCombinator_MultipleTablesIsolated()
+        {
+            var html = @"<div>
+                <table id='table-1'>
+                    <tr>
+                        <td id='t1-cell-1-1'>A1</td>
+                        <td id='t1-cell-1-2'>B1</td>
+                    </tr>
+                </table>
+                <table id='table-2'>
+                    <tr>
+                        <td id='t2-cell-1-1'>A1</td>
+                        <td id='t2-cell-1-2'>B1</td>
+                    </tr>
+                    <tr>
+                        <td id='t2-cell-2-1'>A2</td>
+                        <td id='t2-cell-2-2'>B2</td>
+                    </tr>
+                </table>
+            </div>";
+            var document = html.ToHtmlDocument();
+
+            var result = RunQuery(document, "td:nth-child(2) || td");
+            // Should match cells from both tables
+            Assert.GreaterOrEqual(result.Length, 2);
+        }
+
+        [Test]
+        public void ContainsMatchesTextInASingleTextNode()
+        {
+            var document = "<p id='a'>Climbing Directory</p><p id='b'>Something else</p>".ToHtmlDocument();
+            var result = RunQuery(document, "p:contains(Climbing Directory)");
+
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual("a", result[0].Id);
+        }
+
+        [Test]
+        public void ContainsMatchesTextSpanningChildElements()
+        {
+            // TextContent concatenates descendants, so the match has to be found even
+            // though no single text node contains it.
+            var document = "<p id='a'>Climb<b>ing</b> Directory</p>".ToHtmlDocument();
+            var result = RunQuery(document, "p:contains(Climbing Directory)");
+
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual("a", result[0].Id);
+        }
+
+        [Test]
+        public void ContainsMatchesTextSpanningDeeplyNestedElements()
+        {
+            var document = "<div id='a'>A<span>B<em>C</em></span><i>D</i>E</div>".ToHtmlDocument();
+
+            Assert.AreEqual(1, RunQuery(document, "div:contains(ABCDE)").Length);
+            Assert.AreEqual(0, RunQuery(document, "div:contains(ABCED)").Length);
+        }
+
+        [Test]
+        public void ContainsRestartsCorrectlyOnPartialMatch()
+        {
+            // A naive streaming matcher that resets on mismatch would miss the overlap.
+            var document = "<p id='a'>aaab</p>".ToHtmlDocument();
+
+            Assert.AreEqual(1, RunQuery(document, "p:contains(aab)").Length);
+            Assert.AreEqual(0, RunQuery(document, "p:contains(aabb)").Length);
+        }
+
+        [Test]
+        public void ContainsRestartsCorrectlyAcrossNodeBoundary()
+        {
+            var document = "<p id='a'>aa<b>a</b>b</p>".ToHtmlDocument();
+
+            Assert.AreEqual(1, RunQuery(document, "p:contains(aaab)").Length);
+            Assert.AreEqual(1, RunQuery(document, "p:contains(aab)").Length);
+        }
+
+        [Test]
+        public void ContainsIsCaseSensitiveAndMatchesNothingWhenAbsent()
+        {
+            var document = "<p id='a'>Climbing Directory</p>".ToHtmlDocument();
+
+            Assert.AreEqual(0, RunQuery(document, "p:contains(climbing)").Length);
+            Assert.AreEqual(0, RunQuery(document, "p:contains(Nowhere)").Length);
+        }
+
+        [Test]
+        public void QuerySelectorFindsSameElementAsQuerySelectorAllFirst()
+        {
+            var document = Assets.selectors.ToHtmlDocument();
+
+            foreach (var query in new[] { "div", "div p", "div ~ p", "p:nth-child(2n+1)", "p:only-child", ".note", "#title" })
+            {
+                var all = document.QuerySelectorAll(query);
+                var first = document.QuerySelector(query);
+
+                if (all.Length == 0)
+                {
+                    Assert.IsNull(first, query);
+                }
+                else
+                {
+                    Assert.AreSame(all[0], first, query);
+                }
+            }
         }
     }
 }

@@ -6,9 +6,6 @@ using AngleSharp.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if NET5_0_OR_GREATER
-using System.Runtime.InteropServices;
-#endif
 
 /// <summary>
 /// Extensions for performing QuerySelector operations.
@@ -301,44 +298,20 @@ public static class QueryExtensions
     /// <param name="result">A reference to the list where to store the results.</param>
     public static void QuerySelectorAll<T>(this T elements, ISelector selector, IElement? scope, List<IElement> result) where T : class, INodeList
     {
-        var stack = new Stack<Element>();
-
         for (var i = 0; i < elements.Length; i++)
         {
             if (elements[i] is Element rootElement)
             {
-                stack.Push(rootElement);
+                var walker = new ElementTreeEnumerator(rootElement);
 
-                while (stack.Count > 0)
+                while (walker.MoveNext())
                 {
-                    var element = stack.Pop();
+                    var element = walker.Current;
 
                     if (selector.Match(element, scope))
                     {
                         result.Add(element);
                     }
-
-#if NET5_0_OR_GREATER
-                    var entries = CollectionsMarshal.AsSpan(element.ChildNodes._entries);
-
-                    for (var j = entries.Length - 1; j >= 0; j--)
-                    {
-                        if (entries[j] is Element child)
-                        {
-                            stack.Push(child);
-                        }
-                    }
-#else
-                    var childNodes = element.ChildNodes;
-
-                    for (var j = childNodes.Length - 1; j >= 0; j--)
-                    {
-                        if (childNodes[j] is Element child)
-                        {
-                            stack.Push(child);
-                        }
-                    }
-#endif
                 }
             }
         }
@@ -360,6 +333,20 @@ public static class QueryExtensions
     /// <returns>True if the string contained all tokens, otherwise false.</returns>
     public static Boolean Contains<T>(this T list, String[] tokens) where T : class, ITokenList
     {
+        // Workaround for #1252 (Android AoT issues)
+        if (list is TokenList concreteList)
+        {
+            for (var i = 0; i < tokens.Length; i++)
+            {
+                if (!concreteList.Contains(tokens[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         for (var i = 0; i < tokens.Length; i++)
         {
             if (!list.Contains(tokens[i]))
@@ -385,7 +372,6 @@ public static class QueryExtensions
     {
         for (var i = 0; i < elements.Length; i++)
         {
-
             if (elements[i] is IElement element)
             {
                 if (element.ClassList.Contains(classNames))

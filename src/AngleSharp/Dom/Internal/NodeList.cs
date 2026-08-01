@@ -116,6 +116,13 @@ namespace AngleSharp.Dom
     {
         Int32 Length { get; }
         INode this[Int32 index] { get; }
+
+        /// <summary>
+        /// Gets the node at the given index if it is an element. Preferred over an
+        /// "is IElement" test on the indexer, which goes through the interface cast
+        /// helper on every child of every candidate.
+        /// </summary>
+        Boolean TryGetElement(Int32 index, out IElement element);
     }
 
     internal readonly struct ConcreteNodeListAccessor : INodeListAccessor
@@ -138,6 +145,21 @@ namespace AngleSharp.Dom
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => _nodeList[index];
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Boolean TryGetElement(Int32 index, out IElement element)
+        {
+            var node = _nodeList[index];
+
+            if (node.NodeType == NodeType.Element)
+            {
+                element = (Element)node;
+                return true;
+            }
+
+            element = null!;
+            return false;
+        }
     }
 
     internal readonly struct InterfaceNodeListAccessor : INodeListAccessor
@@ -159,6 +181,19 @@ namespace AngleSharp.Dom
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => _nodeList[index];
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Boolean TryGetElement(Int32 index, out IElement element)
+        {
+            if (_nodeList[index] is IElement child)
+            {
+                element = child;
+                return true;
+            }
+
+            element = null!;
+            return false;
         }
     }
 }
