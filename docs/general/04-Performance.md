@@ -4,6 +4,8 @@ section: "AngleSharp.Core"
 ---
 # Performance Evaluations
 
+This page contains historical benchmark snapshots and qualitative guidance. For current numbers, rerun the benchmark projects in `src/AngleSharp.Benchmarks`, since parser performance and .NET runtime behavior change over time.
+
 ## General Considerations
 
 The library is not small (it's not huge either), which makes preloading or "warming-up" (or using NGen) a candidate for productive usage. The first runs will always be slower than the following. This is a property of C# / the MSIL (or the JIT process in general), which has nothing to do with AngleSharp.

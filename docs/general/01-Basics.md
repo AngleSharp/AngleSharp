@@ -6,9 +6,9 @@ section: "AngleSharp.Core"
 
 ## Requirements
 
-AngleSharp comes currently in two flavors: on Windows for .NET 4.6.2 or newer and in general targeting .NET Standard 2.0 platforms.
+AngleSharp.Core currently targets `netstandard2.0`, `net8.0`, and `net10.0`. On Windows the package also targets `net462` and `net472`.
 
-Most of the features of the library do not require .NET 4.6.2, which means you could create your own fork and modify it to work with previous versions of the .NET-Framework.
+Most consumers can reference the package through the `netstandard2.0` target. The newer TFMs exist to unlock newer runtime and BCL optimizations without changing the public API.
 
 ## Getting AngleSharp over NuGet
 
@@ -16,6 +16,12 @@ The simplest way of integrating AngleSharp to your project is by using NuGet. Yo
 
 ```ps1
 Install-Package AngleSharp
+```
+
+If you are using the .NET CLI, the equivalent command is:
+
+```bash
+dotnet add package AngleSharp
 ```
 
 You can also use the graphical library package manager ("Manage NuGet Packages for Solution"). Searching for "AngleSharp" in the official NuGet online feed will find this library.
@@ -26,11 +32,13 @@ In the most simple case you have already a document source and want it to be par
 
 ```c#
 using System;
+using System.Threading.Tasks;
 using AngleSharp;
+using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
 
 class MyClass {
-    static async Task Main() {
+    public static async Task Main() {
         //Use the default configuration for AngleSharp
         IConfiguration config = Configuration.Default;
 
@@ -77,6 +85,8 @@ IDocument document = parser.ParseDocument(source);
 ### Parsers
 
 So what is the `IHtmlParser`? This is a class that represents the HTML5 parser front-end. It has methods to create an instance of `IHtmlDocument`, which carries the parsed DOM. Since HTML is quite relaxed about possible errors, there is nothing like exceptions. We only might get some error messages. These messages can be received via a special interface and should be treated like warnings.
+
+For CSSOM, XML, or JavaScript integration you typically compose additional services from companion packages such as `AngleSharp.Css`, `AngleSharp.Xml`, or `AngleSharp.Js` into the configuration.
 
 ## Exploring the Web
 
@@ -136,7 +146,7 @@ Finally, AngleSharp also brings some very helpful extension methods that try to 
 // using AngleSharp;
 
 //Create a new browsing context for hosting the document
-IBrowsingContext context = Browsing.New(Configuration.Default);
+IBrowsingContext context = BrowsingContext.New(Configuration.Default);
 
 //Generate HTML DOM for the following source code
 IDocument document = await context.OpenAsync(req => req.Content("<ul><li>First element<li>Second element<li>third<li class=bla>Last"));
