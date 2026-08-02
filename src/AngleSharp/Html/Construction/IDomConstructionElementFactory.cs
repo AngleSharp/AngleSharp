@@ -11,7 +11,7 @@ using Text;
 /// <typeparam name="TDocument">Type of the document, should implement <see cref="IConstructableDocument"/></typeparam>
 /// <typeparam name="TElement">Type of the element, should implement <see cref="IConstructableElement"/></typeparam>
 public interface IDomConstructionElementFactory<TDocument, TElement>
-    where TDocument: class, IConstructableDocument
+    where TDocument: class, IConstructableDocumentNode
     where TElement: class, IConstructableElement
 {
     /// <summary>

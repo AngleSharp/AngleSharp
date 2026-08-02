@@ -1,4 +1,4 @@
-namespace AngleSharp.Html.Parser
+﻿namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom.Events;
@@ -20,7 +20,7 @@ namespace AngleSharp.Html.Parser
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
     class HtmlTreeBuilder<TDocument, TNode> : IDisposable
-        where TDocument : class, IConstructableDocument
+        where TDocument : class, IConstructableDocumentState
         where TNode : struct, IHtmlTreeConstructionNode<TNode>
     {
         #region Fields
@@ -33,6 +33,13 @@ namespace AngleSharp.Html.Parser
         private readonly IHtmlTokenAvailability? _tokenAvailability;
         private readonly IDisposable? _tokenizerLifetime;
         private readonly TDocument _document;
+
+        /// <summary>
+        /// The browsing-host lifecycle of <see cref="_document"/>, or null when the construction
+        /// backend does not execute scripts or load resources. Resolved once so the lifecycle steps
+        /// cost a null check rather than a type test.
+        /// </summary>
+        private readonly IConstructableDocumentHost? _host;
         private readonly List<TNode> _openElements;
         private readonly List<TNode> _formattingElements;
         private readonly Stack<HtmlTreeMode> _templateModes;
@@ -90,6 +97,7 @@ namespace AngleSharp.Html.Parser
             _tokenizerFeedback = tokenSource;
             _tokenAvailability = tokenSource as IHtmlTokenAvailability;
             _document = document;
+            _host = document as IConstructableDocumentHost;
             _openElements = [];
             _templateModes = new Stack<HtmlTreeMode>();
             _formattingElements = [];
@@ -843,7 +851,7 @@ namespace AngleSharp.Html.Parser
                         CloseCurrentNode();
 
                         _currentMode = HtmlTreeMode.AfterHead;
-                        _waiting = _document.WaitForReadyAsync(CancellationToken.None);
+                        _waiting = _host?.WaitForReadyAsync(CancellationToken.None);
                         return;
                     }
                     else if (tagName.Is(TagNames.Template))
@@ -4052,8 +4060,8 @@ namespace AngleSharp.Html.Parser
                 }
                 else
                 {
-                    _document.PerformMicrotaskCheckpoint();
-                    _document.ProvideStableState();
+                    _host?.PerformMicrotaskCheckpoint();
+                    _host?.ProvideStableState();
                     CloseCurrentNode();
                     _currentMode = _previousMode;
 
@@ -4071,7 +4079,11 @@ namespace AngleSharp.Html.Parser
         /// <returns>The task waiting for the document to be ready.</returns>
         private async Task RunScript(TNode script)
         {
-            await _document.WaitForReadyAsync(CancellationToken.None).ConfigureAwait(false);
+            if (_host is not null)
+            {
+                await _host.WaitForReadyAsync(CancellationToken.None).ConfigureAwait(false);
+            }
+
             await script.RunScriptAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
@@ -4155,9 +4167,9 @@ namespace AngleSharp.Html.Parser
                 CloseCurrentNode();
             }
 
-            if (_document.IsLoading)
+            if (_host is { IsLoading: true })
             {
-                _waiting = _document.FinishLoadingAsync();
+                _waiting = _host.FinishLoadingAsync();
             }
         }
 
@@ -4176,7 +4188,7 @@ namespace AngleSharp.Html.Parser
             SetupElement(element, ref tag, false);
             _openElements.Add(element);
             _tokenizerFeedback.SetAcceptingCharacterData(false);
-            _document.ApplyManifest();
+            _host?.ApplyManifest();
         }
 
         private void CheckEnded(TNode element)
@@ -4569,7 +4581,7 @@ namespace AngleSharp.Html.Parser
     }
 
     class HtmlDomBuilder<TDocument, TElement> : HtmlTreeBuilder<TDocument, ConstructableDomNode>
-        where TDocument : class, IConstructableDocument
+        where TDocument : class, IConstructableDocumentNode
         where TElement : class, IConstructableElement
     {
         public HtmlDomBuilder(

@@ -1,4 +1,4 @@
-namespace AngleSharp.Html.Construction;
+﻿namespace AngleSharp.Html.Construction;
 
 using System;
 using System.Threading;

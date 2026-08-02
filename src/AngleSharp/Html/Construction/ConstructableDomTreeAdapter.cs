@@ -1,4 +1,4 @@
-namespace AngleSharp.Html.Construction;
+﻿namespace AngleSharp.Html.Construction;
 
 using System;
 using System.Threading;
@@ -91,8 +91,10 @@ internal readonly struct ConstructableDomNode : IHtmlTreeConstructionNode<Constr
 
     public void HandleMeta() => ((IConstructableMetaElement)_node!).Handle();
 
-    public Boolean PrepareScript(IConstructableDocument document) =>
-        ((IConstructableScriptElement)_node!).Prepare(document);
+    public Boolean PrepareScript(IConstructableDocumentState document) =>
+        // Script execution needs a full browsing-host document; a backend that only implements the
+        // node facet has no lifecycle to run a script against, so it never prepares one.
+        document is IConstructableDocument host && ((IConstructableScriptElement)_node!).Prepare(host);
 
     public Task RunScriptAsync(CancellationToken cancel) =>
         ((IConstructableScriptElement)_node!).RunAsync(cancel);
@@ -110,7 +112,7 @@ internal readonly struct ConstructableDomNode : IHtmlTreeConstructionNode<Constr
 
 internal sealed class ConstructableDomTreeFactory<TDocument, TElement>
     : IHtmlTreeConstructionFactory<TDocument, ConstructableDomNode>
-    where TDocument : class, IConstructableDocument
+    where TDocument : class, IConstructableDocumentNode
     where TElement : class, IConstructableElement
 {
     private readonly IDomConstructionElementFactory<TDocument, TElement> _factory;

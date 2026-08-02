@@ -9,7 +9,7 @@ using AngleSharp.Text;
 /// Creates value-type node identities for the HTML tree-construction algorithm.
 /// </summary>
 public interface IHtmlTreeConstructionFactory<TDocument, TNode>
-    where TDocument : class, IConstructableDocument
+    where TDocument : class, IConstructableDocumentState
     where TNode : struct, IHtmlTreeConstructionNode<TNode>
 {
     /// <summary>Creates a normal HTML element.</summary>

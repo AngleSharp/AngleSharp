@@ -1,4 +1,4 @@
-namespace AngleSharp.Html.Dom
+﻿namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using AngleSharp.Io;

@@ -1,4 +1,4 @@
-namespace AngleSharp.Html.Construction;
+﻿namespace AngleSharp.Html.Construction;
 
 using System;
 using System.Threading;
@@ -116,7 +116,7 @@ public interface IHtmlTreeConstructionNode<TSelf> : IEquatable<TSelf>
     void HandleMeta();
 
     /// <summary>Prepares a script element for execution.</summary>
-    Boolean PrepareScript(IConstructableDocument document);
+    Boolean PrepareScript(IConstructableDocumentState document);
 
     /// <summary>Runs a prepared script element.</summary>
     Task RunScriptAsync(CancellationToken cancel);

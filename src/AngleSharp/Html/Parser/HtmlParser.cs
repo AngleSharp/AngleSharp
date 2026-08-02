@@ -1,4 +1,4 @@
-namespace AngleSharp.Html.Parser
+﻿namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
@@ -197,7 +197,7 @@ namespace AngleSharp.Html.Parser
         /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
         /// </remarks>
         public TDocument ParseDocument<TDocument, TElement>(TextSource source, TokenizerMiddleware? middleware = null)
-             where TDocument : class, IConstructableDocument
+             where TDocument : class, IConstructableDocumentNode
              where TElement : class, IConstructableElement
         {
             var factory = _context.GetService<IDomConstructionElementFactory<TDocument, TElement>>()
@@ -230,7 +230,7 @@ namespace AngleSharp.Html.Parser
             TextSource source,
             IHtmlTreeConstructionFactory<TDocument, TNode> factory,
             TokenizerMiddleware? middleware = null)
-            where TDocument : class, IConstructableDocument
+            where TDocument : class, IConstructableDocumentState
             where TNode : struct, IHtmlTreeConstructionNode<TNode>
         {
             var document = factory.CreateDocument(source, _context);
@@ -254,7 +254,7 @@ namespace AngleSharp.Html.Parser
             Encoding? encoding = null,
             TokenizerMiddleware? middleware = null,
             CancellationToken cancel = default)
-             where TDocument : class, IConstructableDocument
+             where TDocument : class, IConstructableDocumentNode
              where TElement : class, IConstructableElement
         {
             var factory = _context.GetService<IDomConstructionElementFactory<TDocument, TElement>>()
@@ -290,7 +290,7 @@ namespace AngleSharp.Html.Parser
             Encoding? encoding = null,
             TokenizerMiddleware? middleware = null,
             CancellationToken cancel = default)
-            where TDocument : class, IConstructableDocument
+            where TDocument : class, IConstructableDocumentState
             where TNode : struct, IHtmlTreeConstructionNode<TNode>
         {
             var textSource = CreateTextSource(source, sourceMode, encoding);

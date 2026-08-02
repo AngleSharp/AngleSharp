@@ -1,4 +1,4 @@
-namespace AngleSharp.Html.Parser
+﻿namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Browser;
     using AngleSharp.Dom;
@@ -100,7 +100,7 @@ namespace AngleSharp.Html.Parser
         /// This method is intended for use with custom <see cref="IDomConstructionElementFactory{TDocument,TElement}"/> implementations.
         /// </remarks>
         TDocument ParseDocument<TDocument, TElement>(TextSource source, TokenizerMiddleware? middleware = null)
-            where TDocument : class, IConstructableDocument
+            where TDocument : class, IConstructableDocumentNode
             where TElement : class, IConstructableElement;
     }
 }
