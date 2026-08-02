@@ -86,6 +86,13 @@ public sealed class ReadOnlyByteTextSource : IContiguousTextSource
             return;
         }
 
+        // A document that is already known to be UTF-16 ignores a declared encoding outright
+        if (_encoding.IsUnicode())
+        {
+            _encodingCertain = true;
+            return;
+        }
+
         if (encoding.IsUnicode())
         {
             encoding = TextEncoding.Utf8;
@@ -99,6 +106,11 @@ public sealed class ReadOnlyByteTextSource : IContiguousTextSource
 
         var replacement = Decode(encoding, out var replacementLength);
 
+        // Position only carries over if the consumed prefix decoded identically; re-decoding
+        // shifts offsets, forcing a re-tokenize via the NotSupportedException below.
+        var carriesPosition = _index <= _charLength && _index <= replacementLength &&
+            _chars.AsSpan(0, _index).SequenceEqual(replacement.AsSpan(0, _index));
+
         var previous = _chars;
         _encoding = encoding;
         _encodingCertain = true;
@@ -106,6 +118,12 @@ public sealed class ReadOnlyByteTextSource : IContiguousTextSource
         _charLength = replacementLength;
         _text = null;
         ArrayPool<Char>.Shared.Return(previous);
+
+        if (!carriesPosition)
+        {
+            _index = 0;
+            throw new NotSupportedException();
+        }
     }
 
     /// <inheritdoc />

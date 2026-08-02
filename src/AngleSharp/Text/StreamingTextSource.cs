@@ -124,6 +124,13 @@ internal sealed class StreamingTextSource : IContiguousTextSource
                 return;
             }
 
+            // A document already known to be UTF-16 ignores a declared encoding.
+            if (_encoding.IsUnicode())
+            {
+                FreezeEncoding();
+                return;
+            }
+
             var encoding = NormalizeEncoding(value);
             if (encoding.CodePage == _encoding.CodePage)
             {
