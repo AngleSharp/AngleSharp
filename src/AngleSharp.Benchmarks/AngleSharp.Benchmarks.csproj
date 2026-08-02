@@ -2,8 +2,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net472;net8.0;net10.0</TargetFrameworks>
-    <SignAssembly Condition="'$(TargetFramework)' != 'net10.0'">false</SignAssembly>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
+    <NoWarn>$(NoWarn);CS8002</NoWarn>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -12,16 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
-    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.15.8" />
-    <PackageReference Include="CsQuery" Version="1.3.5-beta5" Condition=" '$(TargetFramework)' == 'net472' " />
-    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.IO.Hashing" Version="10.0.7" Condition=" '$(TargetFramework)' == 'net10.0' " />
     <PackageReference Include="BenchmarkDotNet" />
+    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" />
+
     <PackageReference Include="CsQuery" Condition=" '$(TargetFramework)' == 'net472' " />
     <PackageReference Include="HtmlAgilityPack" />
-    <PackageReference Include="System.Net.Http" />
-  </ItemGroup>
 
+    <PackageReference Include="System.Net.Http"  />
+  </ItemGroup>
 </Project>

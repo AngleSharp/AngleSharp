@@ -21,15 +21,6 @@ namespace AngleSharp.Benchmarks
             }
 
             if (
-                args.Length == 1
-                && args[0].Equals("--utf8-name-hash-collisions", StringComparison.OrdinalIgnoreCase)
-            )
-            {
-                Utf8NameHashBenchmark.PrintCollisionReport();
-                return;
-            }
-
-            if (
                 args.Length is 1 or 2
                 && args[0].Equals("--utf8-adapter-accounting", StringComparison.OrdinalIgnoreCase)
             )
