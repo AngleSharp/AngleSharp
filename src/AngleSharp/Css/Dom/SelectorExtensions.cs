@@ -19,19 +19,30 @@ namespace AngleSharp.Css.Dom
         /// <returns>The resulting element or null.</returns>
         public static IElement? MatchAny(this ISelector selector, IEnumerable<IElement> elements, IElement? scope)
         {
-            var stack = new Stack<INode>();
             foreach (var element in elements)
             {
-                stack.Clear();
-                var nodes = element.GetDescendantsAndSelf(
-                    stack,
-                    filter: static (node, state) => node is IElement e && state.Selector.Match(e, state.Scope),
-                    state: new SelectorState(selector, scope));
-
-                var enumerator = nodes.GetEnumerator();
-                if (enumerator.MoveNext())
+                if (element is Element root)
                 {
-                    return (IElement?) enumerator.Current;
+                    var walker = new ElementTreeEnumerator(root);
+
+                    while (walker.MoveNext())
+                    {
+                        var current = walker.Current;
+
+                        if (selector.Match(current, scope))
+                        {
+                            return current;
+                        }
+                    }
+                }
+                else
+                {
+                    var match = MatchAnyCore(selector, element, scope);
+
+                    if (match is not null)
+                    {
+                        return match;
+                    }
                 }
             }
 
@@ -64,31 +75,73 @@ namespace AngleSharp.Css.Dom
 
         private static void MatchAll(this ISelector selector, IEnumerable<IElement> elements, IElement? scope, List<IElement> result)
         {
-            var stack = new Stack<INode>();
             foreach (var element in elements)
             {
-                stack.Clear();
-                var nodes = element.GetDescendantsAndSelf(
-                    stack,
-                    filter: static (node, state) => node is IElement e && state.Selector.Match(e, state.Scope),
-                    state: new SelectorState(selector, scope));
-
-                foreach (var descendantAndSelf in nodes)
+                if (element is Element root)
                 {
-                    result.Add((IElement) descendantAndSelf);
+                    var walker = new ElementTreeEnumerator(root);
+
+                    while (walker.MoveNext())
+                    {
+                        var current = walker.Current;
+
+                        if (selector.Match(current, scope))
+                        {
+                            result.Add(current);
+                        }
+                    }
+                }
+                else
+                {
+                    MatchAllCore(selector, element, scope, result);
                 }
             }
         }
 
-        private readonly struct SelectorState
+        /// <summary>
+        /// Fallback for <see cref="IElement"/> implementations that do not derive from
+        /// <see cref="Element"/>, where the concrete node list is not available.
+        /// </summary>
+        private static IElement? MatchAnyCore(ISelector selector, IElement element, IElement? scope)
         {
-            public readonly ISelector Selector;
-            public readonly IElement? Scope;
-
-            public SelectorState(ISelector selector, IElement? scope)
+            if (selector.Match(element, scope))
             {
-                Selector = selector;
-                Scope = scope;
+                return element;
+            }
+
+            var children = element.ChildNodes;
+
+            for (var i = 0; i < children.Length; i++)
+            {
+                if (children[i] is IElement child)
+                {
+                    var match = MatchAnyCore(selector, child, scope);
+
+                    if (match is not null)
+                    {
+                        return match;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private static void MatchAllCore(ISelector selector, IElement element, IElement? scope, List<IElement> result)
+        {
+            if (selector.Match(element, scope))
+            {
+                result.Add(element);
+            }
+
+            var children = element.ChildNodes;
+
+            for (var i = 0; i < children.Length; i++)
+            {
+                if (children[i] is IElement child)
+                {
+                    MatchAllCore(selector, child, scope, result);
+                }
             }
         }
     }

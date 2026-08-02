@@ -49,6 +49,7 @@ namespace AngleSharp.Css
             { PseudoClassNames.FocusVisible, new PseudoClassSelector(el => el.IsFocused && el.IsVisible(), PseudoClassNames.FocusVisible) },
             { PseudoClassNames.FocusWithin, new PseudoClassSelector(el => el.GetDescendantsAndSelf().OfType<IElement>().Any(m => m.IsFocused), PseudoClassNames.FocusWithin) },
             { PseudoClassNames.Shadow, new PseudoClassSelector(el => el.IsShadow(), PseudoClassNames.Shadow) },
+            { PseudoClassNames.Host, new PseudoClassSelector((el, scope) => Object.ReferenceEquals(el, scope) && el.ShadowRoot is not null, PseudoClassNames.Host) },
             { PseudoElementNames.Before, new PseudoClassSelector(el => el.IsPseudo(PseudoElementNames.Before), PseudoElementNames.Before) },
             { PseudoElementNames.After, new PseudoClassSelector(el => el.IsPseudo(PseudoElementNames.After), PseudoElementNames.After) },
             { PseudoElementNames.FirstLine, new PseudoClassSelector(_ => false, PseudoElementNames.FirstLine) },

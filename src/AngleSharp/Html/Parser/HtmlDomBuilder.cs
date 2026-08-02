@@ -6,6 +6,7 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Common;
@@ -18,61 +19,76 @@ namespace AngleSharp.Html.Parser
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    class HtmlDomBuilder<TDocument, TElement> : IDisposable
-        where TElement : class, IConstructableElement
+    class HtmlTreeBuilder<TDocument, TNode> : IDisposable
         where TDocument : class, IConstructableDocument
+        where TNode : struct, IHtmlTreeConstructionNode<TNode>
     {
         #region Fields
 
         private readonly TokenConsumer _consumeAsDelegate;
-        private readonly HtmlTokenizer _tokenizer;
+        private readonly IHtmlTokenCursor _tokens;
+        private readonly IHtmlTokenizerConfiguration _tokenizerConfiguration;
+        private readonly IHtmlTokenizerFeedback _tokenizerFeedback;
+        private readonly HtmlTokenizerTokenSource? _synchronousTokens;
+        private readonly IHtmlTokenAvailability? _tokenAvailability;
+        private readonly IDisposable? _tokenizerLifetime;
         private readonly TDocument _document;
-        private readonly List<IConstructableElement> _openElements;
-        private readonly List<IConstructableElement> _formattingElements;
+        private readonly List<TNode> _openElements;
+        private readonly List<TNode> _formattingElements;
         private readonly Stack<HtmlTreeMode> _templateModes;
 
-        private IConstructableElement? _currentFormElement;
+        private TNode _currentFormElement;
 
         private HtmlTreeMode _currentMode;
         private HtmlTreeMode _previousMode;
 
         private HtmlParserOptions _options;
 
-        private IConstructableElement? _fragmentContext;
+        private TNode _fragmentContext;
 
         private Boolean _foster;
         private Boolean _frameset;
         private Boolean _ended;
+        private Boolean _shouldPreventNewLine;
 
-        private Func<IConstructableElement, Boolean>? _shouldEnd;
-        private readonly IDomConstructionElementFactory<TDocument, TElement> _elementFactory;
+        private Func<TNode, Boolean>? _shouldEnd;
+        private readonly IHtmlTreeConstructionFactory<TDocument, TNode> _elementFactory;
         private Task? _waiting;
         private readonly Boolean _emitWhitespaceTextNodes;
+        private readonly Boolean _usesDocumentSource;
 
         #endregion
 
         #region Events
 
-        public event EventHandler<HtmlErrorEvent> Error
-        {
-            add { _tokenizer.Error += value; }
-            remove { _tokenizer.Error -= value; }
-        }
+        public event EventHandler<HtmlErrorEvent>? Error;
 
         #endregion
 
         #region ctor
 
-        public HtmlDomBuilder(
-            IDomConstructionElementFactory<TDocument, TElement> elementFactory,
+        public HtmlTreeBuilder(
+            IHtmlTreeConstructionFactory<TDocument, TNode> elementFactory,
             TDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
             Boolean emitWhitespaceTextNodes = false,
-            Func<IConstructableElement, Boolean>? shouldEnd = null)
+            Func<TNode, Boolean>? shouldEnd = null,
+            IHtmlTokenSource? tokenSource = null)
         {
             _shouldEnd = shouldEnd;
             _elementFactory = elementFactory;
-            _tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended);
+            _usesDocumentSource = tokenSource is null;
+            if (tokenSource is null)
+            {
+                var tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended);
+                _synchronousTokens = new HtmlTokenizerTokenSource(tokenizer);
+                tokenSource = _synchronousTokens;
+                _tokenizerLifetime = tokenizer;
+            }
+            _tokens = tokenSource;
+            _tokenizerConfiguration = tokenSource;
+            _tokenizerFeedback = tokenSource;
+            _tokenAvailability = tokenSource as IHtmlTokenAvailability;
             _document = document;
             _openElements = [];
             _templateModes = new Stack<HtmlTreeMode>();
@@ -86,25 +102,7 @@ namespace AngleSharp.Html.Parser
 
             if (maybeOptions.HasValue)
             {
-                var options = maybeOptions.Value;
-
-                _tokenizer.IsStrictMode = options.IsStrictMode;
-                _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
-                _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
-                _tokenizer.IsPreservingAttributeNames = options.IsPreservingAttributeNames;
-                _tokenizer.SkipRawText = options.SkipRawText;
-                _tokenizer.SkipScriptText = options.SkipScriptText;
-                _tokenizer.SkipDataText = options.SkipDataText;
-                _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute;
-                _tokenizer.SkipDataText = options.SkipDataText;
-                _tokenizer.SkipScriptText = options.SkipScriptText;
-                _tokenizer.SkipRawText = options.SkipRawText;
-                _tokenizer.SkipComments = options.SkipComments;
-                _tokenizer.SkipPlaintext = options.SkipPlaintext;
-                _tokenizer.SkipRCDataText = options.SkipRCDataText;
-                _tokenizer.SkipCDATA = options.SkipCDATA;
-                _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
-                _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
+                _tokenizerConfiguration.Configure(maybeOptions.Value, onToken: null, ReportError);
             }
         }
 
@@ -115,18 +113,18 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Gets if the tree builder has been created for parsing fragments.
         /// </summary>
-        public Boolean IsFragmentCase => _fragmentContext is not null;
+        public Boolean IsFragmentCase => !_fragmentContext.IsNull;
 
         /// <summary>
         /// Gets the adjusted current node.
         /// </summary>
-        public IConstructableElement? AdjustedCurrentNode =>
-            (_fragmentContext is not null && _openElements.Count == 1) ? _fragmentContext : CurrentNode;
+        public TNode AdjustedCurrentNode =>
+            (!_fragmentContext.IsNull && _openElements.Count == 1) ? _fragmentContext : CurrentNode;
 
         /// <summary>
         /// Gets the current node.
         /// </summary>
-        public IConstructableElement CurrentNode => _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null!;
+        public TNode CurrentNode => _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : default;
 
         #endregion
 
@@ -143,7 +141,13 @@ namespace AngleSharp.Html.Parser
 
             do
             {
-                ref var token = ref _tokenizer.GetStructToken();
+                if (_synchronousTokens is null)
+                {
+                    ThrowAsyncSourceRequiresAsyncParse();
+                }
+
+                _synchronousTokens.TryMoveNext();
+                ref var token = ref _synchronousTokens.Current;
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
                     Consume(ref token);
@@ -177,7 +181,9 @@ namespace AngleSharp.Html.Parser
         /// <param name="options">The options to use for parsing.</param>
         /// <param name="middleware"></param>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        public async Task<TDocument> ParseAsync(HtmlParserOptions options, TokenizerMiddleware? middleware = null,
+        public async Task<TDocument> ParseAsync(
+            HtmlParserOptions options,
+            TokenizerMiddleware? middleware = null,
             CancellationToken cancelToken = default)
         {
             var source = _document.Source;
@@ -190,14 +196,35 @@ namespace AngleSharp.Html.Parser
 
             do
             {
-                if (source.Length - source.Index < 1024)
+                if (_usesDocumentSource && source.Length - source.Index < 1024)
                 {
                     await source.PrefetchAsync(8192, cancelToken).ConfigureAwait(false);
                 }
                 cancelToken.ThrowIfCancellationRequested();
 
-                var @break = Worker(middleware);
-                if (@break) { break; }
+                if (_synchronousTokens is not null)
+                {
+                    _synchronousTokens.TryMoveNext();
+                    ref var token = ref _synchronousTokens.Current;
+                    if (ProcessToken(ref token))
+                    {
+                        break;
+                    }
+                }
+                else if (!_tokens.TryMoveNext())
+                {
+                    if (_tokenAvailability is null)
+                    {
+                        ThrowSynchronousSourceExhausted();
+                    }
+
+                    await _tokenAvailability.WaitForInputAsync(cancelToken).ConfigureAwait(false);
+                    continue;
+                }
+                else if (ProcessCurrentToken())
+                {
+                    break;
+                }
 
                 if (_waiting is not null)
                 {
@@ -214,9 +241,20 @@ namespace AngleSharp.Html.Parser
 
             return _document;
 
-            Boolean Worker(TokenizerMiddleware middleware)
+            Boolean ProcessCurrentToken()
             {
-                var token = _tokenizer.GetStructToken();
+                ref var token = ref _tokens.Current;
+                return ProcessToken(ref token);
+            }
+
+            Boolean ProcessToken(ref StructHtmlToken token)
+            {
+                PreventNewLineIfNeeded(ref token);
+                return Worker(middleware, ref token);
+            }
+
+            Boolean Worker(TokenizerMiddleware middleware, ref StructHtmlToken token)
+            {
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
                     Consume(ref token);
@@ -234,14 +272,22 @@ namespace AngleSharp.Html.Parser
             }
         }
 
+        [DoesNotReturn]
+        private static void ThrowSynchronousSourceExhausted() =>
+            throw new InvalidOperationException("A synchronous HTML token source returned no token.");
+
+        [DoesNotReturn]
+        private static void ThrowAsyncSourceRequiresAsyncParse() =>
+            throw new InvalidOperationException("An asynchronous HTML token source requires asynchronous parsing.");
+
         /// <summary>
         /// Restarts the parser by resetting the internal state.
         /// </summary>
         private void Restart()
         {
             _currentMode = HtmlTreeMode.Initial;
-            _tokenizer.State = HtmlParseMode.PCData;
-            _document.Clear();
+            _tokenizerFeedback.SetState(HtmlParseMode.PCData);
+            _elementFactory.GetDocumentNode(_document).ClearChildren();
             _ended = false;
             _frameset = true;
             _openElements.Clear();
@@ -261,7 +307,7 @@ namespace AngleSharp.Html.Parser
                 var element = _openElements[i];
                 var last = i == 0;
 
-                if (last && _fragmentContext is not null)
+                if (last && !_fragmentContext.IsNull)
                 {
                     element = _fragmentContext;
                 }
@@ -284,9 +330,12 @@ namespace AngleSharp.Html.Parser
         /// <param name="context">
         /// The context element where the algorithm is applied to.
         /// </param>
-        public TDocument ParseFragment(HtmlParserOptions options, TElement context)
+        public TDocument ParseFragment(HtmlParserOptions options, TNode context)
         {
-            context = context ?? throw new ArgumentNullException(nameof(context));
+            if (context.IsNull)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
 
             _fragmentContext = context;
 
@@ -294,57 +343,57 @@ namespace AngleSharp.Html.Parser
 
             if (tagName.IsOneOf(TagNames.Title, TagNames.Textarea))
             {
-                _tokenizer.State = HtmlParseMode.RCData;
+                _tokenizerFeedback.SetState(HtmlParseMode.RCData);
             }
             else if (tagName.IsOneOf(TagNames.Style, TagNames.Xmp, TagNames.Iframe, TagNames.NoEmbed))
             {
-                _tokenizer.State = HtmlParseMode.Rawtext;
+                _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
             }
             else if (tagName.Is(TagNames.Script))
             {
-                _tokenizer.State = HtmlParseMode.Script;
+                _tokenizerFeedback.SetState(HtmlParseMode.Script);
             }
             else if (tagName.Is(TagNames.Plaintext))
             {
-                _tokenizer.State = HtmlParseMode.Plaintext;
+                _tokenizerFeedback.SetState(HtmlParseMode.Plaintext);
             }
             else if (tagName.Is(TagNames.NoScript) &&
                      (options.IsScripting || context.Flags.HasFlag(NodeFlags.LiteralText)))
             {
-                _tokenizer.State = HtmlParseMode.Rawtext;
+                _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
             }
             else if (tagName.Is(TagNames.NoFrames) && !options.IsNotSupportingFrames)
             {
-                _tokenizer.State = HtmlParseMode.Rawtext;
+                _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
             }
 
             var root = _elementFactory.Create(_document, TagNames.Html);
 
-            _document.AddNode(root);
+            _elementFactory.GetDocumentNode(_document).AddNode(root);
             _openElements.Add(root);
 
-            if (context is IConstructableTemplateElement)
+            if (context.IsTemplate)
             {
                 _templateModes.Push(HtmlTreeMode.InTemplate);
             }
 
             Reset();
 
-            _tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.HtmlMember);
+            _tokenizerFeedback.SetAcceptingCharacterData(!AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember));
 
-            IConstructableNode? contextNode = context;
+            var contextNode = context;
 
             do
             {
-                if (contextNode is IConstructableFormElement formEl)
+                if (contextNode.IsForm)
                 {
-                    _currentFormElement = formEl;
+                    _currentFormElement = contextNode;
                     break;
                 }
 
                 contextNode = contextNode.Parent;
             }
-            while (contextNode is not null);
+            while (!contextNode.IsNull);
 
             return Parse(options);
         }
@@ -356,8 +405,8 @@ namespace AngleSharp.Html.Parser
         private void Consume(ref StructHtmlToken token)
         {
             var node = AdjustedCurrentNode;
-            
-            if (node is null || token.Type == HtmlTokenType.EndOfFile ||
+
+            if (node.IsNull || token.Type == HtmlTokenType.EndOfFile ||
                 node.Flags.HasFlag(NodeFlags.HtmlMember) ||
                 (token.IsHtmlCompatible && IsHtmlTip(node)) ||
                 (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) ||
@@ -374,24 +423,8 @@ namespace AngleSharp.Html.Parser
 
         private void SetOptions(HtmlParserOptions options)
         {
-            _tokenizer.IsStrictMode = options.IsStrictMode;
-            _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
-            _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
-            _tokenizer.IsPreservingAttributeNames = options.IsPreservingAttributeNames;
-            _tokenizer.SkipRawText = options.SkipRawText;
-            _tokenizer.SkipScriptText = options.SkipScriptText;
-            _tokenizer.SkipDataText = options.SkipDataText;
-            _tokenizer.SkipScriptText = options.SkipScriptText;
-            _tokenizer.SkipRawText = options.SkipRawText;
-            _tokenizer.SkipComments = options.SkipComments;
-            _tokenizer.SkipPlaintext = options.SkipPlaintext;
-            _tokenizer.SkipRCDataText = options.SkipRCDataText;
-            _tokenizer.SkipCDATA = options.SkipCDATA;
-            _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
-            _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute!;
-            _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
-            _tokenizer.OnToken = options.OnToken;
             _options = options;
+            _tokenizerConfiguration.Configure(new HtmlTokenizerOptions(options), options.OnToken, ReportError);
         }
 
         #endregion
@@ -514,7 +547,7 @@ namespace AngleSharp.Html.Parser
                     var doctype = _elementFactory.CreateDocumentType(_document, token.Name, token.PublicIdentifier,
                         token.SystemIdentifier);
 
-                    _document.AddNode(doctype);
+                    _elementFactory.GetDocumentNode(_document).AddNode(doctype);
 
                     _document.QuirksMode = token.GetQuirksMode();
                     _currentMode = HtmlTreeMode.BeforeHtml;
@@ -717,7 +750,7 @@ namespace AngleSharp.Html.Parser
 
                         try
                         {
-                            element.Handle();
+                            element.HandleMeta();
                         }
                         catch (NotSupportedException ex)
                         {
@@ -778,7 +811,7 @@ namespace AngleSharp.Html.Parser
                     {
                         var script = _elementFactory.CreateScript(_document, parserInserted: true, started: IsFragmentCase);
                         AddElement(script, ref token);
-                        _tokenizer.State = HtmlParseMode.Script;
+                        _tokenizerFeedback.SetState(HtmlParseMode.Script);
                         _previousMode = _currentMode;
                         _currentMode = HtmlTreeMode.Text;
                         return;
@@ -984,10 +1017,10 @@ namespace AngleSharp.Html.Parser
                     else if (TagNames.AllHeadNoTemplate.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagMustBeInHead, ref token);
-                        var head = _document.Head;
-                        _openElements.Add(head!);
+                        var head = _elementFactory.GetHead(_document);
+                        _openElements.Add(head);
                         InHead(ref token);
-                        CloseNode(head!);
+                        CloseNode(head);
                     }
                     else if (tagName.Is(TagNames.Head))
                     {
@@ -1033,7 +1066,7 @@ namespace AngleSharp.Html.Parser
             }
             else if (tagName.Is(TagNames.A))
             {
-                for (var i = _formattingElements.Count - 1; i >= 0 && _formattingElements[i] is not null; i--)
+                for (var i = _formattingElements.Count - 1; i >= 0 && !_formattingElements[i].IsNull; i--)
                 {
                     if (_formattingElements[i].LocalName.Is(TagNames.A))
                     {
@@ -1113,7 +1146,7 @@ namespace AngleSharp.Html.Parser
             }
             else if (tagName.Is(TagNames.Form))
             {
-                if (_currentFormElement is null)
+                if (_currentFormElement.IsNull)
                 {
                     if (IsInButtonScope())
                     {
@@ -1210,7 +1243,7 @@ namespace AngleSharp.Html.Parser
             {
                 var textarea = _elementFactory.Create(_document, TagNames.Textarea);
                 AddElement(textarea, ref tag);
-                _tokenizer.State = HtmlParseMode.RCData;
+                _tokenizerFeedback.SetState(HtmlParseMode.RCData);
                 _previousMode = _currentMode;
                 _frameset = false;
                 _currentMode = HtmlTreeMode.Text;
@@ -1337,7 +1370,7 @@ namespace AngleSharp.Html.Parser
             {
                 var element = _elementFactory.CreateMath(_document, tagName);
                 ReconstructFormatting();
-                AddElement(element.Setup(ref tag));
+                AddElement(element.SetupMath(ref tag));
 
                 if (tag.IsSelfClosing)
                 {
@@ -1348,7 +1381,7 @@ namespace AngleSharp.Html.Parser
             {
                 var element = _elementFactory.CreateSvg(_document, tagName);
                 ReconstructFormatting();
-                AddElement(element.Setup(ref tag));
+                AddElement(element.SetupSvg(ref tag));
 
                 if (tag.IsSelfClosing)
                 {
@@ -1363,7 +1396,7 @@ namespace AngleSharp.Html.Parser
                 }
 
                 AddElement(ref tag);
-                _tokenizer.State = HtmlParseMode.Plaintext;
+                _tokenizerFeedback.SetState(HtmlParseMode.Plaintext);
             }
             else if (tagName.Is(TagNames.Frameset))
             {
@@ -1406,14 +1439,14 @@ namespace AngleSharp.Html.Parser
             {
                 RaiseErrorOccurred(HtmlParseError.TagInappropriate, ref tag);
 
-                if (_currentFormElement is null)
+                if (_currentFormElement.IsNull)
                 {
                     var temp = StructHtmlToken.Open(TagNames.Form);
                     InBody(ref temp);
 
                     if (tag.GetAttribute(AttributeNames.Action).Length > 0)
                     {
-                        _currentFormElement!.SetAttribute(
+                        _currentFormElement.SetAttribute(
                             null,
                             AttributeNames.Action,
                             tag.GetAttribute(AttributeNames.Action));
@@ -1436,9 +1469,10 @@ namespace AngleSharp.Html.Parser
                     var input = StructHtmlToken.Open(TagNames.Input);
                     input.AddAttribute(AttributeNames.Name, TagNames.IsIndex);
 
-                    for (var i = 0; i < tag.Attributes.Count; i++)
+                    ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref tag);
+                    for (var i = 0; i < attributes.Count; i++)
                     {
-                        var attr = tag.Attributes[i];
+                        var attr = attributes[i];
 
                         if (!attr.Name.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt))
                         {
@@ -1512,13 +1546,13 @@ namespace AngleSharp.Html.Parser
             else if (tagName.Is(TagNames.Form))
             {
                 var node = _currentFormElement;
-                _currentFormElement = null;
+                _currentFormElement = default;
 
-                if (node is not null && IsInScope(node.LocalName))
+                if (!node.IsNull && IsInScope(node.LocalName))
                 {
                     GenerateImpliedEndTags();
 
-                    if (CurrentNode != node)
+                    if (!CurrentNode.Equals(node))
                     {
                         RaiseErrorOccurred(HtmlParseError.FormClosedWrong, ref tag);
                     }
@@ -1690,7 +1724,7 @@ namespace AngleSharp.Html.Parser
                     }
                     else
                     {
-                        HandleScript((IConstructableScriptElement)CurrentNode);
+                        HandleScript(CurrentNode);
                     }
 
                     return;
@@ -1792,7 +1826,7 @@ namespace AngleSharp.Html.Parser
                     {
                         RaiseErrorOccurred(HtmlParseError.FormInappropriate, ref token);
 
-                        if (_currentFormElement is null)
+                        if (_currentFormElement.IsNull)
                         {
                             _currentFormElement = _elementFactory.CreateForm(_document);
                             AddElement(_currentFormElement, ref token);
@@ -2729,7 +2763,7 @@ namespace AngleSharp.Html.Parser
                 {
                     if (token.Name.Is(TagNames.Frameset))
                     {
-                        if (CurrentNode != _openElements[0])
+                        if (!CurrentNode.Equals(_openElements[0]))
                         {
                             CloseCurrentNode();
 
@@ -2750,7 +2784,7 @@ namespace AngleSharp.Html.Parser
                 }
                 case HtmlTokenType.EndOfFile:
                 {
-                    if (CurrentNode != _document.DocumentElement)
+                    if (!CurrentNode.Equals(_elementFactory.GetDocumentElement(_document)))
                     {
                         RaiseErrorOccurred(HtmlParseError.CurrentNodeIsNotRoot, ref token);
                     }
@@ -2979,9 +3013,9 @@ namespace AngleSharp.Html.Parser
                 var currentNode = CurrentNode;
                 CloseCurrentNode();
 
-                if (currentNode is IConstructableTemplateElement template)
+                if (currentNode.IsTemplate)
                 {
-                    template.PopulateFragment();
+                    currentNode.PopulateFragment();
                     break;
                 }
             }
@@ -3103,7 +3137,7 @@ namespace AngleSharp.Html.Parser
         {
             _previousMode = _currentMode;
             _currentMode = HtmlTreeMode.Text;
-            _tokenizer.State = HtmlParseMode.Rawtext;
+            _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
         }
 
         /// <summary>
@@ -3115,7 +3149,7 @@ namespace AngleSharp.Html.Parser
             AddElement(ref tag);
             _previousMode = _currentMode;
             _currentMode = HtmlTreeMode.Text;
-            _tokenizer.State = HtmlParseMode.RCData;
+            _tokenizerFeedback.SetState(HtmlParseMode.RCData);
         }
 
         /// <summary>
@@ -3238,12 +3272,12 @@ namespace AngleSharp.Html.Parser
 
             for (var outer = 0; outer < 8; outer++)
             {
-                var formattingElement = default(IConstructableElement);
-                var furthestBlock = default(IConstructableElement);
+                var formattingElement = default(TNode);
+                var furthestBlock = default(TNode);
                 var index = 0;
                 var inner = 0;
 
-                for (var j = _formattingElements.Count - 1; j >= 0 && _formattingElements[j] is not null; j--)
+                for (var j = _formattingElements.Count - 1; j >= 0 && !_formattingElements[j].IsNull; j--)
                 {
                     if (_formattingElements[j].LocalName.Is(tag.Name))
                     {
@@ -3253,7 +3287,7 @@ namespace AngleSharp.Html.Parser
                     }
                 }
 
-                if (formattingElement is null)
+                if (formattingElement.IsNull)
                 {
                     InBodyEndTagAnythingElse(ref tag);
                     break;
@@ -3291,14 +3325,14 @@ namespace AngleSharp.Html.Parser
                     }
                 }
 
-                if (furthestBlock is null)
+                if (furthestBlock.IsNull)
                 {
                     do
                     {
                         furthestBlock = CurrentNode;
                         CloseCurrentNode();
                     }
-                    while (furthestBlock != formattingElement);
+                    while (!furthestBlock.Equals(formattingElement));
 
                     _formattingElements.Remove(formattingElement);
                     break;
@@ -3312,7 +3346,7 @@ namespace AngleSharp.Html.Parser
                     inner++;
                     var node = _openElements[--index];
 
-                    if (node == formattingElement)
+                    if (node.Equals(formattingElement))
                     {
                         break;
                     }
@@ -3334,7 +3368,7 @@ namespace AngleSharp.Html.Parser
 
                     for (var l = 0; l != _formattingElements.Count; l++)
                     {
-                        if (_formattingElements[l] == node)
+                        if (_formattingElements[l].Equals(node))
                         {
                             _formattingElements[l] = newElement;
                             break;
@@ -3343,17 +3377,25 @@ namespace AngleSharp.Html.Parser
 
                     node = newElement;
 
-                    if (lastNode == furthestBlock)
+                    if (lastNode.Equals(furthestBlock))
                     {
                         bookmark++;
                     }
 
-                    lastNode.Parent?.RemoveChild(lastNode);
+                    var lastParent = lastNode.Parent;
+                    if (!lastParent.IsNull)
+                    {
+                        lastParent.RemoveChild(lastNode);
+                    }
                     node.AddNode(lastNode);
                     lastNode = node;
                 }
 
-                lastNode.Parent?.RemoveChild(lastNode);
+                var parent = lastNode.Parent;
+                if (!parent.IsNull)
+                {
+                    parent.RemoveChild(lastNode);
+                }
 
                 if (!TagNames.AllTableMajor.Contains(commonAncestor.LocalName))
                 {
@@ -3366,9 +3408,9 @@ namespace AngleSharp.Html.Parser
 
                 var element = CopyElement(formattingElement);
 
-                while (furthestBlock.ChildNodes.Length > 0)
+                while (furthestBlock.ChildCount > 0)
                 {
-                    var childNode = furthestBlock.ChildNodes[0];
+                    var childNode = furthestBlock.ChildAt(0);
                     furthestBlock.RemoveNode(0, childNode);
                     element.AddNode(childNode);
                 }
@@ -3392,9 +3434,9 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="element">The old element (source).</param>
         /// <returns>The new element (target).</returns>
-        private IConstructableElement CopyElement(IConstructableElement element)
+        private static TNode CopyElement(TNode element)
         {
-            return (IConstructableElement)element.ShallowCopy();
+            return element.ShallowCopy();
         }
 
         /// <summary>
@@ -3417,7 +3459,7 @@ namespace AngleSharp.Html.Parser
             var index = _openElements.Count - 1;
             var node = CurrentNode;
 
-            while (node is not null)
+            while (!node.IsNull)
             {
                 if (node.LocalName.Is(tag.Name))
                 {
@@ -3629,9 +3671,10 @@ namespace AngleSharp.Html.Parser
 
                     if (tagName.Is(TagNames.Font))
                     {
-                        for (var i = 0; i != token.Attributes.Count; i++)
+                        ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref token);
+                        for (var i = 0; i != attributes.Count; i++)
                         {
-                            if (token.Attributes[i].Name.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
+                            if (attributes[i].Name.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
                             {
                                 ForeignNormalTag(ref token);
                                 return;
@@ -3656,9 +3699,9 @@ namespace AngleSharp.Html.Parser
                     var tagName = token.Name;
                     var node = CurrentNode;
 
-                    if (node is IConstructableScriptElement script)
+                    if (node.IsScript)
                     {
-                        HandleScript(script);
+                        HandleScript(node);
                         return;
                     }
 
@@ -3707,7 +3750,7 @@ namespace AngleSharp.Html.Parser
         {
             var node = CreateForeignElementFrom(ref tag);
 
-            if (node is not null)
+            if (!node.IsNull)
             {
                 var selfClosing = tag.IsSelfClosing;
                 CurrentNode.AddNode(node);
@@ -3720,7 +3763,7 @@ namespace AngleSharp.Html.Parser
                 if (!selfClosing)
                 {
                     _openElements.Add(node);
-                    _tokenizer.IsAcceptingCharacterData = true;
+                    _tokenizerFeedback.SetAcceptingCharacterData(true);
                 }
                 else if (tag.Name.Is(TagNames.Script))
                 {
@@ -3735,24 +3778,24 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="tag">The tag of the foreign element.</param>
         /// <returns>The element or NULL if it is no MathML or SVG element.</returns>
-        private IConstructableElement? CreateForeignElementFrom(ref StructHtmlToken tag)
+        private TNode CreateForeignElementFrom(ref StructHtmlToken tag)
         {
-            if (AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.MathMember))
+            if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
                 var tagName = tag.Name;
                 var element = _elementFactory.CreateMath(_document, tagName);
                 AuxiliarySetupSteps(element, ref tag);
-                return element.Setup(ref tag);
+                return element.SetupMath(ref tag);
             }
             else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
                 var tagName = tag.Name.SanatizeSvgTagName();
                 var element = _elementFactory.CreateSvg(_document, tagName);
                 AuxiliarySetupSteps(element, ref tag);
-                return element.Setup(ref tag);
+                return element.SetupSvg(ref tag);
             }
 
-            return null;
+            return default;
         }
 
         /// <summary>
@@ -3969,14 +4012,14 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Checks if the given element is actually an HTML Text Insertation Point.
         /// </summary>
-        private static Boolean IsHtmlTip(IConstructableElement node)
+        private static Boolean IsHtmlTip(TNode node)
         {
             if (!node.Flags.HasFlag(NodeFlags.HtmlTip))
             {
                 if (node.Flags.HasFlag(NodeFlags.MathMember) && node.LocalName.Is(TagNames.AnnotationXml))
                 {
-                    var encoding = node.Attributes["encoding"]?.Value;
-                    
+                    var encoding = node.GetAttribute(default, "encoding");
+
                     if (encoding == MimeTypeNames.Html || encoding == MimeTypeNames.ApplicationXHtml)
                     {
                         return true;
@@ -3997,9 +4040,9 @@ namespace AngleSharp.Html.Parser
         /// <summary>
         /// Runs a script given by the current node.
         /// </summary>
-        private void HandleScript(IConstructableScriptElement script)
+        private void HandleScript(TNode script)
         {
-            if (script is not null)
+            if (!script.IsNull)
             {
                 //Disable scripting for HTML fragments (security reasons)
                 if (IsFragmentCase)
@@ -4014,7 +4057,7 @@ namespace AngleSharp.Html.Parser
                     CloseCurrentNode();
                     _currentMode = _previousMode;
 
-                    if (script.Prepare(_document))
+                    if (script.PrepareScript(_document))
                     {
                         _waiting = RunScript(script);
                     }
@@ -4026,10 +4069,10 @@ namespace AngleSharp.Html.Parser
         /// Runs the current script element, if there is one.
         /// </summary>
         /// <returns>The task waiting for the document to be ready.</returns>
-        private async Task RunScript(IConstructableScriptElement script)
+        private async Task RunScript(TNode script)
         {
             await _document.WaitForReadyAsync(CancellationToken.None).ConfigureAwait(false);
-            await script.RunAsync(CancellationToken.None).ConfigureAwait(false);
+            await script.RunScriptAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -4074,14 +4117,32 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         private void PreventNewLine()
         {
-            var temp = _tokenizer.GetStructToken();
+            if (_synchronousTokens is null)
+            {
+                _shouldPreventNewLine = true;
+                return;
+            }
 
+            _synchronousTokens.TryMoveNext();
+            var temp = _synchronousTokens.Current;
             if (temp.Type == HtmlTokenType.Character)
             {
                 temp.RemoveNewLine();
             }
 
             Home(ref temp);
+        }
+
+        private void PreventNewLineIfNeeded(ref StructHtmlToken token)
+        {
+            if (_shouldPreventNewLine)
+            {
+                _shouldPreventNewLine = false;
+                if (token.Type == HtmlTokenType.Character)
+                {
+                    token.RemoveNewLine();
+                }
+            }
         }
 
         /// <summary>
@@ -4111,14 +4172,14 @@ namespace AngleSharp.Html.Parser
         private void AddRoot(ref StructHtmlToken tag)
         {
             var element = _elementFactory.Create(_document, TagNames.Html);
-            _document.AddNode(element);
+            _elementFactory.GetDocumentNode(_document).AddNode(element);
             SetupElement(element, ref tag, false);
             _openElements.Add(element);
-            _tokenizer.IsAcceptingCharacterData = false;
+            _tokenizerFeedback.SetAcceptingCharacterData(false);
             _document.ApplyManifest();
         }
 
-        private void CheckEnded(IConstructableElement element)
+        private void CheckEnded(TNode element)
         {
             if (_shouldEnd?.Invoke(element) ?? false)
             {
@@ -4134,7 +4195,7 @@ namespace AngleSharp.Html.Parser
             CheckEnded(openElement);
         }
 
-        private void CloseNode(IConstructableElement element)
+        private void CloseNode(TNode element)
         {
             element.SetupElement();
             _openElements.Remove(element);
@@ -4160,7 +4221,7 @@ namespace AngleSharp.Html.Parser
             {
                 CloseNodeAt(_openElements.Count - 1);
                 var node = AdjustedCurrentNode;
-                _tokenizer.IsAcceptingCharacterData = node is not null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
+                _tokenizerFeedback.SetAcceptingCharacterData(!node.IsNull && !node.Flags.HasFlag(NodeFlags.HtmlMember));
             }
         }
 
@@ -4171,7 +4232,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="element">The node which will be added to the list.</param>
         /// <param name="tag">The associated tag token.</param>
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        private void SetupElement(IConstructableElement element, ref StructHtmlToken tag, Boolean acknowledgeSelfClosing)
+        private void SetupElement(TNode element, ref StructHtmlToken tag, Boolean acknowledgeSelfClosing)
         {
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
             {
@@ -4179,7 +4240,7 @@ namespace AngleSharp.Html.Parser
             }
 
             AuxiliarySetupSteps(element, ref tag);
-            element.SetAttributes(tag.Attributes);
+            element.SetTokenAttributes(ref tag);
         }
 
         /// <summary>
@@ -4189,7 +4250,7 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         /// <param name="tag">The associated tag token.</param>
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        private TElement AddElement(ref StructHtmlToken tag, Boolean acknowledgeSelfClosing = false)
+        private TNode AddElement(ref StructHtmlToken tag, Boolean acknowledgeSelfClosing = false)
         {
             var element = _elementFactory.Create(_document, tag.Name);
             SetupElement(element, ref tag, acknowledgeSelfClosing);
@@ -4219,7 +4280,7 @@ namespace AngleSharp.Html.Parser
         /// <param name="element">The node which will be added to the list.</param>
         /// <param name="tag">The associated tag token.</param>
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        private void AddElement(IConstructableElement element, ref StructHtmlToken tag, Boolean acknowledgeSelfClosing = false)
+        private void AddElement(TNode element, ref StructHtmlToken tag, Boolean acknowledgeSelfClosing = false)
         {
             SetupElement(element, ref tag, acknowledgeSelfClosing);
             AddElement(element);
@@ -4229,7 +4290,7 @@ namespace AngleSharp.Html.Parser
         /// Appends a configured node to the current node.
         /// </summary>
         /// <param name="element">The node which will be added to the list.</param>
-        private void AddElement(IConstructableElement element)
+        private void AddElement(TNode element)
         {
             var node = CurrentNode;
 
@@ -4243,7 +4304,7 @@ namespace AngleSharp.Html.Parser
             }
 
             _openElements.Add(element);
-            _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
+            _tokenizerFeedback.SetAcceptingCharacterData(!element.Flags.HasFlag(NodeFlags.HtmlMember));
         }
 
         /// <summary>
@@ -4251,7 +4312,7 @@ namespace AngleSharp.Html.Parser
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#foster-parent
         /// </summary>
         /// <param name="element">The node which will be added to the list.</param>
-        private void AddElementWithFoster(IConstructableElement element)
+        private void AddElementWithFoster(TNode element)
         {
             var table = false;
             var index = _openElements.Count;
@@ -4260,12 +4321,12 @@ namespace AngleSharp.Html.Parser
             {
                 var el = _openElements[index];
 
-                if (el is HtmlTemplateElement)
+                if (el.IsTemplate)
                 {
                     el.AddNode(element);
                     return;
                 }
-                else if (el is HtmlTableElement)
+                else if (el.Flags.HasFlag(NodeFlags.HtmlMember) && el.LocalName.Is(TagNames.Table))
                 {
                     table = true;
                     break;
@@ -4273,13 +4334,17 @@ namespace AngleSharp.Html.Parser
             }
 
             var current = _openElements[index];
-            var foster = current.Parent ?? _openElements[index + 1];
-
-            if (table && current.Parent is not null)
+            var foster = current.Parent;
+            if (foster.IsNull)
             {
-                for (var i = 0; i < foster.ChildNodes.Length; i++)
+                foster = _openElements[index + 1];
+            }
+
+            if (table && !current.Parent.IsNull)
+            {
+				for (var i = 0; i < foster.ChildCount; i++)
 			    {
-                    if (foster.ChildNodes[i] == current)
+                    if (foster.ChildAt(i).Equals(current))
                     {
                         foster.InsertNode(i, element);
                         break;
@@ -4336,13 +4401,17 @@ namespace AngleSharp.Html.Parser
                 }
             }
 
-            var foster = _openElements[index].Parent ?? _openElements[index + 1];
-
-            if (table && _openElements[index].Parent is not null)
+            var foster = _openElements[index].Parent;
+            if (foster.IsNull)
             {
-                for (var i = 0; i < foster.ChildNodes.Length; i++)
+                foster = _openElements[index + 1];
+            }
+
+            if (table && !_openElements[index].Parent.IsNull)
+            {
+                for (var i = 0; i < foster.ChildCount; i++)
                 {
-                    if (foster.ChildNodes[i] == _openElements[index])
+                    if (foster.ChildAt(i).Equals(_openElements[index]))
                     {
                         foster.InsertText(i, text, _emitWhitespaceTextNodes);
                         break;
@@ -4355,14 +4424,14 @@ namespace AngleSharp.Html.Parser
             }
         }
 
-        private void AuxiliarySetupSteps(IConstructableElement element, ref StructHtmlToken tag)
+        private void AuxiliarySetupSteps(TNode element, ref StructHtmlToken tag)
         {
             if (_options.IsKeepingSourceReferences)
             {
-                element.SourceReference = tag.ToHtmlToken();
+                element.SetSourceReference(tag.ToHtmlToken());
             }
 
-            if (_options.OnCreated is not null && element is IElement e)
+            if (_options.OnCreated is not null && element.AsDomElement is { } e)
             {
                 _options.OnCreated.Invoke(e, tag.Position);
             }
@@ -4380,7 +4449,11 @@ namespace AngleSharp.Html.Parser
         {
             var node = CurrentNode;
 
-            while (!node.LocalName.Is(tagName) && !(node is HtmlHtmlElement || node is HtmlTemplateElement))
+            while (
+                !node.LocalName.Is(tagName)
+                && !(node.Flags.HasFlag(NodeFlags.HtmlMember) && node.LocalName.Is(TagNames.Html))
+                && !node.IsTemplate
+            )
             {
                 CloseCurrentNode();
                 node = CurrentNode;
@@ -4445,7 +4518,7 @@ namespace AngleSharp.Html.Parser
             var index = _formattingElements.Count - 1;
             var entry = _formattingElements[index];
 
-            if (entry is null || _openElements.Contains(entry))
+            if (entry.IsNull || _openElements.Contains(entry))
             {
                 return;
             }
@@ -4454,7 +4527,7 @@ namespace AngleSharp.Html.Parser
             {
                 entry = _formattingElements[--index];
 
-                if (entry is null || _openElements.Contains(entry))
+                if (entry.IsNull || _openElements.Contains(entry))
                 {
                     index++;
                     break;
@@ -4473,14 +4546,51 @@ namespace AngleSharp.Html.Parser
 
         #region Handlers
 
-        private void RaiseErrorOccurred(HtmlParseError code, ref StructHtmlToken token) => _tokenizer.RaiseErrorOccurred(code, token.Position);
+        private void RaiseErrorOccurred(HtmlParseError code, ref StructHtmlToken token) =>
+            ReportError(code, token.Position);
+
+        private void ReportError(HtmlParseError code, TextPosition position)
+        {
+            if (_options.IsStrictMode)
+            {
+                const String message = "Error while parsing the provided HTML document.";
+                throw new HtmlParseException(code.GetCode(), message, position);
+            }
+
+            Error?.Invoke(this, new HtmlErrorEvent(code, position));
+        }
 
         #endregion
 
         public void Dispose()
         {
-            _tokenizer.Dispose();
+            _tokenizerLifetime?.Dispose();
         }
+    }
+
+    class HtmlDomBuilder<TDocument, TElement> : HtmlTreeBuilder<TDocument, ConstructableDomNode>
+        where TDocument : class, IConstructableDocument
+        where TElement : class, IConstructableElement
+    {
+        public HtmlDomBuilder(
+            IDomConstructionElementFactory<TDocument, TElement> elementFactory,
+            TDocument document,
+            HtmlTokenizerOptions? maybeOptions = null,
+            Boolean emitWhitespaceTextNodes = false,
+            Func<IConstructableElement, Boolean>? shouldEnd = null,
+            IHtmlTokenSource? tokenSource = null)
+            : base(
+                new ConstructableDomTreeFactory<TDocument, TElement>(elementFactory),
+                document,
+                maybeOptions,
+                emitWhitespaceTextNodes,
+                shouldEnd is null ? null : node => shouldEnd(node.ConstructableElement),
+                tokenSource)
+        {
+        }
+
+        public TDocument ParseFragment(HtmlParserOptions options, TElement context) =>
+            base.ParseFragment(options, new ConstructableDomNode(context));
     }
 
     sealed class HtmlDomBuilder : HtmlDomBuilder<Document, Element>
@@ -4489,13 +4599,15 @@ namespace AngleSharp.Html.Parser
             IHtmlElementConstructionFactory elementFactory,
             HtmlDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
-            String? stopAt = null)
+            String? stopAt = null,
+            IHtmlTokenSource? tokenSource = null)
             : base(
                 elementFactory: elementFactory,
                 document: document,
                 maybeOptions: maybeOptions,
                 emitWhitespaceTextNodes: true,
-                shouldEnd: stopAt is not null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null)
+                shouldEnd: stopAt is not null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null,
+                tokenSource: tokenSource)
         {
         }
     }

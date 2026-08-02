@@ -45,8 +45,21 @@
             var ms = new MemoryStream();
             _content.Position = start;
             var buffer = new Byte[Math.Max(0, Math.Min(end, _content.Length) - start)];
-            _content.Read(buffer, 0, buffer.Length);
-            ms.Write(buffer, 0, buffer.Length);
+            var offset = 0;
+
+            while (offset < buffer.Length)
+            {
+                var read = _content.Read(buffer, offset, buffer.Length - offset);
+
+                if (read == 0)
+                {
+                    break;
+                }
+
+                offset += read;
+            }
+
+            ms.Write(buffer, 0, offset);
             _content.Position = 0;
             return new FileEntry(_fileName, ms);
         }
