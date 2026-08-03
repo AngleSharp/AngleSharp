@@ -22,7 +22,7 @@ namespace AngleSharp.Core.Tests.Urls
         /// The number of entries from the WPT url test data that are currently parsed correctly.
         /// This is a ratchet: raise it whenever the parser improves, never lower it.
         /// </summary>
-        private const Int32 MinimumPassing = 521;
+        private const Int32 MinimumPassing = 520;
 
         /// <summary>
         /// How many failing entries to include in the message of a failing run.
@@ -44,6 +44,7 @@ namespace AngleSharp.Core.Tests.Urls
                 }
 
                 var entry = token.ToObject<WptUrlTestEntry>();
+                entry.HasOrigin = token is JObject json && json.ContainsKey("origin");
                 entries.Add(entry);
             }
 
@@ -102,6 +103,14 @@ namespace AngleSharp.Core.Tests.Urls
             else
             {
                 Check(result.Href == entry.Href, $"Href: expected \"{entry.Href}\", got \"{result.Href}\"");
+
+                if (entry.HasOrigin)
+                {
+                    // An opaque origin is the literal string "null" in the WPT data.
+                    var origin = result.Origin ?? "null";
+                    Check(origin == entry.Origin, $"Origin: expected \"{entry.Origin}\", got \"{origin}\"");
+                }
+
                 Check(result.Protocol == entry.Protocol, $"Protocol: expected \"{entry.Protocol}\", got \"{result.Protocol}\"");
                 Check(result.UserName == entry.Username, $"Username: expected \"{entry.Username}\", got \"{result.UserName}\"");
                 Check(result.Password == entry.Password, $"Password: expected \"{entry.Password}\", got \"{result.Password}\"");

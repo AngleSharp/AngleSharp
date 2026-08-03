@@ -20,6 +20,14 @@ namespace AngleSharp.Core.Tests.Urls
         [JsonProperty("origin")]
         public String Origin { get; set; }
 
+        /// <summary>
+        /// Whether the entry carries an "origin" key at all. Only about half of the WPT
+        /// entries do, and the ones that do use the literal string "null" for an opaque
+        /// origin, so an absent key cannot be distinguished from a null value otherwise.
+        /// </summary>
+        [JsonIgnore]
+        public Boolean HasOrigin { get; set; }
+
         [JsonProperty("protocol")]
         public String Protocol { get; set; }
 
