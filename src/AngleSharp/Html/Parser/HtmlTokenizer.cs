@@ -6,7 +6,6 @@ namespace AngleSharp.Html.Parser
     using Dom.Events;
     using Text;
     using System;
-    using System.Buffers;
     using System.Collections.Generic;
     using Tokens;
     using Tokens.Struct;
@@ -55,7 +54,6 @@ namespace AngleSharp.Html.Parser
         private StringOrMemory _lastStartTag;
         private TextPosition _position;
         private StructHtmlToken _token;
-        private Action<HtmlParseError, TextPosition>? _errorSink;
         private ShouldEmitAttribute _shouldEmitAttribute = static Boolean (ref StructHtmlToken _, AttributeName _) => true;
         private Char[]? _characterReferenceBuffer;
 
@@ -242,14 +240,6 @@ namespace AngleSharp.Html.Parser
             return ref token;
         }
 
-        internal ref StructHtmlToken CurrentToken => ref _token;
-
-        internal Action<HtmlParseError, TextPosition>? ErrorSink
-        {
-            get => _errorSink;
-            set => _errorSink = value;
-        }
-
         internal void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
         {
             var handler = Error;
@@ -264,7 +254,6 @@ namespace AngleSharp.Html.Parser
                 var errorEvent = new HtmlErrorEvent(code, position);
                 handler.Invoke(this, errorEvent);
             }
-            _errorSink?.Invoke(code, position);
         }
 
         #endregion
@@ -344,8 +333,7 @@ namespace AngleSharp.Html.Parser
 
                     default:
                         Append(c);
-                        c = ScanPlaintext();
-                        continue;
+                        break;
                 }
 
                 c = GetNext();
@@ -391,8 +379,7 @@ namespace AngleSharp.Html.Parser
 
                     default:
                         Append(c);
-                        c = ScanDataText();
-                        continue;
+                        break;
                 }
 
                 c = GetNext();
@@ -498,8 +485,7 @@ namespace AngleSharp.Html.Parser
 
                     default:
                         Append(c);
-                        c = ScanRawText();
-                        continue;
+                        break;
                 }
 
                 c = GetNext();
@@ -869,7 +855,6 @@ namespace AngleSharp.Html.Parser
         {
             while (true)
             {
-                ScanLowercaseAsciiName();
                 var c = GetNext();
 
                 if (c == Symbols.GreaterThan)
@@ -1891,15 +1876,6 @@ namespace AngleSharp.Html.Parser
             SelfClose
         }
 
-#if NET8_0_OR_GREATER
-        private static readonly SearchValues<Char> DoubleQuotedAttributeValueTerminators =
-            SearchValues.Create(['"', '&', '\0', '\r', '\n']);
-        private static readonly SearchValues<Char> SingleQuotedAttributeValueTerminators =
-            SearchValues.Create(['\'', '&', '\0', '\r', '\n']);
-        private static readonly SearchValues<Char> UnquotedAttributeValueTerminators =
-            SearchValues.Create([' ', '\t', '\r', '\n', '\f', '&', '>', '\0', '"', '\'', '<', '=', '`']);
-#endif
-
         private ref StructHtmlToken ParseAttributes(ref StructHtmlToken tag)
         {
             var state = AttributeState.BeforeName;
@@ -1961,7 +1937,6 @@ namespace AngleSharp.Html.Parser
                     // See 8.2.4.35 Attribute name state
                     case AttributeState.Name:
                     {
-                        ScanLowercaseAsciiName();
                         c = GetNext();
 
                         if (c == Symbols.Equality)
@@ -2130,7 +2105,6 @@ namespace AngleSharp.Html.Parser
                     // and 8.2.4.39 Attribute value (single-quoted) state
                     case AttributeState.QuotedValue:
                     {
-                        ScanQuotedAttributeValue(quote, attributeAllowed);
                         c = GetNext();
 
                         if (c == quote)
@@ -2156,10 +2130,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c != Symbols.EndOfFile)
                         {
-                            if (attributeAllowed)
-                            {
-                                Append(c);
-                            }
+                            Append(c);
                         }
                         else
                         {
@@ -2216,11 +2187,7 @@ namespace AngleSharp.Html.Parser
                         }
                         else if (c != Symbols.EndOfFile)
                         {
-                            if (attributeAllowed)
-                            {
-                                Append(c);
-                            }
-                            ScanUnquotedAttributeValue(attributeAllowed);
+                            Append(c);
                             c = GetNext();
                         }
                         else
@@ -2273,112 +2240,6 @@ namespace AngleSharp.Html.Parser
                         return ref tag;
                     }
                 }
-            }
-        }
-
-        private void ScanLowercaseAsciiName()
-        {
-            if (!TryGetRemainingSpan(out var remaining))
-            {
-                return;
-            }
-
-#if NET8_0_OR_GREATER
-            var runLength = remaining.IndexOfAnyExceptInRange('a', 'z');
-            if (runLength < 0)
-            {
-                runLength = remaining.Length;
-            }
-#else
-            var runLength = 0;
-            while (runLength < remaining.Length && remaining[runLength] is >= 'a' and <= 'z')
-            {
-                runLength++;
-            }
-#endif
-
-            if (runLength > 0)
-            {
-                AppendAndAdvanceSpan(remaining.Slice(0, runLength));
-            }
-        }
-
-        private void ScanQuotedAttributeValue(Char quote, Boolean append)
-        {
-            if (!TryGetRemainingSpan(out var remaining))
-            {
-                return;
-            }
-
-#if NET8_0_OR_GREATER
-            var terminators = quote == Symbols.DoubleQuote
-                ? DoubleQuotedAttributeValueTerminators
-                : SingleQuotedAttributeValueTerminators;
-            var runLength = remaining.IndexOfAny(terminators);
-            if (runLength < 0)
-            {
-                runLength = remaining.Length;
-            }
-#else
-            var runLength = 0;
-            while (runLength < remaining.Length)
-            {
-                var c = remaining[runLength];
-                if (c == quote || c is Symbols.Ampersand or Symbols.Null or Symbols.CarriageReturn or Symbols.LineFeed)
-                {
-                    break;
-                }
-                runLength++;
-            }
-#endif
-
-            ConsumeAttributeValueRun(remaining.Slice(0, runLength), append);
-        }
-
-        private void ScanUnquotedAttributeValue(Boolean append)
-        {
-            if (!TryGetRemainingSpan(out var remaining))
-            {
-                return;
-            }
-
-#if NET8_0_OR_GREATER
-            var runLength = remaining.IndexOfAny(UnquotedAttributeValueTerminators);
-            if (runLength < 0)
-            {
-                runLength = remaining.Length;
-            }
-#else
-            var runLength = 0;
-            while (runLength < remaining.Length)
-            {
-                var c = remaining[runLength];
-                if (c.IsSpaceCharacter() || c is Symbols.Ampersand or Symbols.GreaterThan or Symbols.Null or
-                    Symbols.DoubleQuote or Symbols.SingleQuote or Symbols.LessThan or Symbols.Equality or Symbols.CurvedQuote)
-                {
-                    break;
-                }
-                runLength++;
-            }
-#endif
-
-            ConsumeAttributeValueRun(remaining.Slice(0, runLength), append);
-        }
-
-        private void ConsumeAttributeValueRun(ReadOnlySpan<Char> run, Boolean append)
-        {
-            if (run.IsEmpty)
-            {
-                return;
-            }
-
-            if (append)
-            {
-                AppendAndAdvanceSpan(run);
-            }
-            else
-            {
-                AdvanceSpan(run);
             }
         }
 
@@ -2443,8 +2304,7 @@ namespace AngleSharp.Html.Parser
 
                             default:
                                 Append(c);
-                                c = ScanRawText();
-                                continue;
+                                break;
                         }
 
                         c = GetNext();

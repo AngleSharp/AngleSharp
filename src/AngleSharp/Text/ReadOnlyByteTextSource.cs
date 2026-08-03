@@ -11,7 +11,7 @@ using Common;
 /// <summary>
 /// Represents an immutable byte buffer decoded as a fully loaded text source.
 /// </summary>
-public sealed class ReadOnlyByteTextSource : IContiguousTextSource
+public sealed class ReadOnlyByteTextSource : IReadOnlyTextSource
 {
     private readonly ReadOnlyMemory<Byte> _bytes;
     private readonly Int32 _preambleLength;
@@ -178,19 +178,6 @@ public sealed class ReadOnlyByteTextSource : IContiguousTextSource
     {
         length = _charLength;
         return true;
-    }
-
-    /// <inheritdoc />
-    Boolean IContiguousTextSource.TryGetRemainingSpan(out ReadOnlySpan<Char> remaining)
-    {
-        if ((UInt32)_index < (UInt32)_charLength)
-        {
-            remaining = _chars.AsSpan(_index, _charLength - _index);
-            return true;
-        }
-
-        remaining = default;
-        return false;
     }
 
     /// <inheritdoc />

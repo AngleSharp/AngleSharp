@@ -16,7 +16,9 @@ namespace AngleSharp.Common
         private readonly Stack<UInt16> _columns;
 
         private readonly IReadOnlyTextSource _source;
-        private readonly IContiguousTextSource? _contiguousSource;
+        private readonly WritableTextSource? _wts;
+        private readonly CharArrayTextSource? _cats;
+        private readonly ReadOnlyMemoryTextSource? _roms;
 
         private StringBuilder _stringBuilder;
         private IMutableCharBuffer _charBuffer;
@@ -51,7 +53,20 @@ namespace AngleSharp.Common
             }
 
             _source = source.GetUnderlyingTextSource();
-            _contiguousSource = _source as IContiguousTextSource;
+
+            if (_source is WritableTextSource wts)
+            {
+                _wts = wts;
+            }
+            else if (_source is CharArrayTextSource cats)
+            {
+                _cats = cats;
+            }
+            else if (_source is ReadOnlyMemoryTextSource roms)
+            {
+                _roms = roms;
+            }
+
             _current = Symbols.Null;
             _column = 0;
             _row = 1;
@@ -377,73 +392,9 @@ namespace AngleSharp.Common
             }
         }
 
-        /// <summary>
-        /// Bulk-appends characters which have already been classified by the caller.
-        /// </summary>
-        private protected void Append(ReadOnlySpan<Char> characters)
-        {
-            if (_apb is not null)
-            {
-                _apb.Append(characters);
-            }
-            else
-            {
-#if NETSTANDARD2_0 || NET462 || NET472
-                for (var i = 0; i < characters.Length; i++)
-                {
-                    _sbb!._sb.Append(characters[i]);
-                }
-#else
-                _sbb!._sb.Append(characters);
-#endif
-            }
-        }
-
-        /// <summary>
-        /// Gets the decoded characters immediately available after the current tokenizer position.
-        /// </summary>
-        private protected Boolean TryGetRemainingSpan(out ReadOnlySpan<Char> remaining)
-        {
-            if (_contiguousSource is null)
-            {
-                remaining = default;
-                return false;
-            }
-
-            return _contiguousSource.TryGetRemainingSpan(out remaining);
-        }
-
-        /// <summary>
-        /// Advances over a classified run which cannot contain a line break.
-        /// </summary>
-        private protected void AdvanceSpan(ReadOnlySpan<Char> consumed)
-        {
-            if (!_disableElementPositionTracking)
-            {
-                _column += (UInt16)consumed.Length;
-            }
-
-            _contiguousSource!.Index += consumed.Length;
-
-            _current = consumed[consumed.Length - 1];
-        }
-
-        /// <summary>
-        /// Bulk-appends and advances over a classified run which cannot contain a line break.
-        /// </summary>
-        private protected void AppendAndAdvanceSpan(ReadOnlySpan<Char> consumed)
-        {
-            Append(consumed);
-            AdvanceSpan(consumed);
-        }
-
 #if NET8_0_OR_GREATER
         private static readonly SearchValues<Char> DataTextTerminators =
             SearchValues.Create(['<', '&', '\0', '\r', '\n']);
-        private static readonly SearchValues<Char> RawTextTerminators =
-            SearchValues.Create(['<', '\0', '\r', '\n']);
-        private static readonly SearchValues<Char> PlaintextTerminators =
-            SearchValues.Create(['\0', '\r', '\n']);
 #endif
 
         /// <summary>
@@ -453,7 +404,22 @@ namespace AngleSharp.Common
         /// </summary>
         private protected Char ScanDataText()
         {
-            if (!TryGetRemainingSpan(out var remaining))
+            ReadOnlySpan<Char> remaining;
+            Int32 index;
+
+            if (_cats is not null)
+            {
+                index = _cats.Index;
+                if (index >= _cats.Length) return GetNext();
+                remaining = _cats.Array.AsSpan(index, _cats.Length - index);
+            }
+            else if (_roms is not null)
+            {
+                index = _roms.Index;
+                if (index >= _roms.Length) return GetNext();
+                remaining = _roms.Memory.Span.Slice(index, _roms.Length - index);
+            }
+            else
             {
                 return GetNext();
             }
@@ -470,61 +436,44 @@ namespace AngleSharp.Common
             }
 #endif
 
-            return ScanTextRun(remaining, found);
-        }
-
-        /// <summary>
-        /// Scans a raw-text or normal script-data run until markup, null, or a line break.
-        /// </summary>
-        private protected Char ScanRawText()
-        {
-            if (!TryGetRemainingSpan(out var remaining))
-            {
-                return GetNext();
-            }
-
-#if NET8_0_OR_GREATER
-            var found = remaining.IndexOfAny(RawTextTerminators);
-#else
-            var found = remaining.IndexOfAny('<', '\0', '\r');
-            var lfSearchSpace = found < 0 ? remaining : remaining.Slice(0, found);
-            var lfIndex = lfSearchSpace.IndexOf('\n');
-            if (lfIndex >= 0 && (found < 0 || lfIndex < found))
-            {
-                found = lfIndex;
-            }
-#endif
-
-            return ScanTextRun(remaining, found);
-        }
-
-        /// <summary>
-        /// Scans a plaintext run until null or a line break.
-        /// </summary>
-        private protected Char ScanPlaintext()
-        {
-            if (!TryGetRemainingSpan(out var remaining))
-            {
-                return GetNext();
-            }
-
-#if NET8_0_OR_GREATER
-            var found = remaining.IndexOfAny(PlaintextTerminators);
-#else
-            var found = remaining.IndexOfAny('\0', '\r', '\n');
-#endif
-
-            return ScanTextRun(remaining, found);
-        }
-
-        private Char ScanTextRun(ReadOnlySpan<Char> remaining, Int32 found)
-        {
             var runLength = found < 0 ? remaining.Length : found;
 
             if (runLength > 0)
             {
                 var run = remaining.Slice(0, runLength);
-                AppendAndAdvanceSpan(run);
+
+                if (_apb != null)
+                {
+                    _apb.Append(run);
+                }
+                else
+                {
+#if NETSTANDARD2_0 || NET462 || NET472
+                    for (var i = 0; i < run.Length; i++)
+                    {
+                        _sbb!._sb.Append(run[i]);
+                    }
+#else
+                    _sbb!._sb.Append(run);
+#endif
+                }
+
+                if (!_disableElementPositionTracking)
+                {
+                    _column += (UInt16)runLength;
+                }
+
+                var newIndex = index + runLength;
+                if (_cats is not null)
+                {
+                    _cats.Index = newIndex;
+                    _current = _cats.Array[newIndex - 1];
+                }
+                else
+                {
+                    _roms!.Index = newIndex;
+                    _current = _roms.Memory.Span[newIndex - 1];
+                }
             }
 
             return GetNext();
@@ -541,7 +490,7 @@ namespace AngleSharp.Common
                 Track();
             }
 
-            var c = _source.ReadCharacter();
+            var c = ReadCharFromSource();
             _current = NormalizeForward(c);
         }
 
@@ -594,7 +543,7 @@ namespace AngleSharp.Common
                 _normalized = false;
                 return p;
             }
-            else if (_source.ReadCharacter() != Symbols.LineFeed)
+            else if (ReadCharFromSource() != Symbols.LineFeed)
             {
                 _source.Index--;
             }
@@ -624,6 +573,26 @@ namespace AngleSharp.Common
             }
 
             return Symbols.LineFeed;
+        }
+
+        private Char ReadCharFromSource()
+        {
+            if (_wts is not null)
+            {
+                return _wts.ReadCharacter();
+            }
+
+            if (_cats is not null)
+            {
+                return _cats.ReadCharacter();
+            }
+
+            if (_roms is not null)
+            {
+                return _roms.ReadCharacter();
+            }
+
+            return _source.ReadCharacter();
         }
 
         #endregion

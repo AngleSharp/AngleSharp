@@ -5,7 +5,6 @@ namespace AngleSharp.Html
     using System.Collections.Generic;
     using Common;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Represents the list of all Html entities.
@@ -2593,15 +2592,6 @@ namespace AngleSharp.Html
             return null;
         }
 
-        internal static Int32 WriteLongestSymbolUtf8(
-            ReadOnlySpan<Byte> source,
-            Span<Byte> destination,
-            out Int32 matchedLength
-        ) => Utf8EntityLookupHolder.Instance.WriteLongestSymbol(source, destination, out matchedLength);
-
-        internal static String? GetSymbol(ReadOnlySpan<Byte> name) =>
-            Utf8EntityLookupHolder.Instance.GetSymbol(name);
-
         /// <summary>
         /// Gets the name of a symbol specified by its value. In case of
         /// ambiguity the first name (alphabetically ordered) will be
@@ -2687,49 +2677,80 @@ namespace AngleSharp.Html
         /// <returns>The character wrapped in a string.</returns>
         public static String? GetSymbolFromTable(Int32 code)
         {
-            var symbol = GetSymbolCodeFromTable(code);
-            return symbol < 0 ? null : Convert(symbol);
-        }
-
-        internal static Int32 GetSymbolCodeFromTable(Int32 code) =>
-            code switch
+            switch (code)
             {
-                0x00 => 0xFFFD,
-                0x0D => 0x0D,
-                0x80 => 0x20AC,
-                0x81 => 0x81,
-                0x82 => 0x201A,
-                0x83 => 0x192,
-                0x84 => 0x201E,
-                0x85 => 0x2026,
-                0x86 => 0x2020,
-                0x87 => 0x2021,
-                0x88 => 0x02C6,
-                0x89 => 0x2030,
-                0x8A => 0x0160,
-                0x8B => 0x2039,
-                0x8C => 0x0152,
-                0x8D => 0x008D,
-                0x8E => 0x017D,
-                0x8F => 0x008F,
-                0x90 => 0x0090,
-                0x91 => 0x2018,
-                0x92 => 0x2019,
-                0x93 => 0x201C,
-                0x94 => 0x201D,
-                0x95 => 0x2022,
-                0x96 => 0x2013,
-                0x97 => 0x2014,
-                0x98 => 0x02DC,
-                0x99 => 0x2122,
-                0x9A => 0x0161,
-                0x9B => 0x203A,
-                0x9C => 0x0153,
-                0x9D => 0x009D,
-                0x9E => 0x017E,
-                0x9F => 0x0178,
-                _ => -1,
-            };
+                case 0x00:
+                    return Convert(0xfffd);
+                case 0x0D:
+                    return Convert(0xd);
+                case 0x80:
+                    return Convert(0x20ac);
+                case 0x81:
+                    return Convert(0x81);
+                case 0x82:
+                    return Convert(0x201a);
+                case 0x83:
+                    return Convert(0x192);
+                case 0x84:
+                    return Convert(0x201e);
+                case 0x85:
+                    return Convert(0x2026);
+                case 0x86:
+                    return Convert(0x2020);
+                case 0x87:
+                    return Convert(0x2021);
+                case 0x88:
+                    return Convert(0x02C6);
+                case 0x89:
+                    return Convert(0x2030);
+                case 0x8A:
+                    return Convert(0x0160);
+                case 0x8B:
+                    return Convert(0x2039);
+                case 0x8C:
+                    return Convert(0x0152);
+                case 0x8D:
+                    return Convert(0x008D);
+                case 0x8E:
+                    return Convert(0x017D);
+                case 0x8F:
+                    return Convert(0x008F);
+                case 0x90:
+                    return Convert(0x0090);
+                case 0x91:
+                    return Convert(0x2018);
+                case 0x92:
+                    return Convert(0x2019);
+                case 0x93:
+                    return Convert(0x201C);
+                case 0x94:
+                    return Convert(0x201D);
+                case 0x95:
+                    return Convert(0x2022);
+                case 0x96:
+                    return Convert(0x2013);
+                case 0x97:
+                    return Convert(0x2014);
+                case 0x98:
+                    return Convert(0x02DC);
+                case 0x99:
+                    return Convert(0x2122);
+                case 0x9A:
+                    return Convert(0x0161);
+                case 0x9B:
+                    return Convert(0x203A);
+                case 0x9C:
+                    return Convert(0x0153);
+                case 0x9D:
+                    return Convert(0x009D);
+                case 0x9E:
+                    return Convert(0x017E);
+                case 0x9F:
+                    return Convert(0x0178);
+                default:
+                    return null;
+            }
+        }
 
         /// <summary>
         /// Determines if the code is within an invalid range.
@@ -2776,241 +2797,6 @@ namespace AngleSharp.Html
         #endregion
 
         #region Helper
-
-        private static class Utf8EntityLookupHolder
-        {
-            static Utf8EntityLookupHolder()
-            {
-            }
-
-            public static readonly Utf8EntityLookup Instance = new (HtmlEntityProvider.Instance._entities);
-        }
-
-        private sealed class Utf8EntityLookup
-        {
-            private const Int32 AsciiCount = 128;
-
-            private readonly Int32[] _root;
-            private readonly Utf8EntityNode[] _nodes;
-            private readonly Utf8EntityEdge[] _edges;
-            private readonly Utf8EntityEntry[] _entries;
-
-            public Utf8EntityLookup(Dictionary<Char, Dictionary<StringOrMemory, String>> entities)
-            {
-                var entries = new List<Utf8EntityEntry>(entities.Sum(m => m.Value.Count));
-                var builders = new List<Utf8EntityNodeBuilder>(entries.Capacity * 4)
-                {
-                    new Utf8EntityNodeBuilder(),
-                };
-
-                foreach (var symbols in entities.Values)
-                {
-                    foreach (var entity in symbols)
-                    {
-                        var entryIndex = entries.Count;
-                        entries.Add(new Utf8EntityEntry(entity.Value));
-                        var nodeIndex = 0;
-                        foreach (var character in entity.Key.Memory.Span)
-                        {
-                            if (character >= AsciiCount)
-                            {
-                                throw new InvalidOperationException("HTML entity names must be ASCII.");
-                            }
-
-                            var value = (Byte)character;
-                            var builder = builders[nodeIndex];
-                            if (!builder.Children.TryGetValue(value, out var next))
-                            {
-                                next = builders.Count;
-                                builder.Children.Add(value, next);
-                                builders.Add(new Utf8EntityNodeBuilder());
-                            }
-                            nodeIndex = next;
-                        }
-                        builders[nodeIndex].EntryIndex = entryIndex;
-                    }
-                }
-
-                _root = new Int32[AsciiCount];
-                for (var index = 0; index < _root.Length; index++)
-                {
-                    _root[index] = -1;
-                }
-                foreach (var edge in builders[0].Children)
-                {
-                    _root[edge.Key] = edge.Value;
-                }
-
-                var edgeCount = 0;
-                for (var index = 1; index < builders.Count; index++)
-                {
-                    edgeCount += builders[index].Children.Count;
-                }
-
-                _nodes = new Utf8EntityNode[builders.Count];
-                _edges = new Utf8EntityEdge[edgeCount];
-                var edgeOffset = 0;
-                for (var index = 1; index < builders.Count; index++)
-                {
-                    var children = builders[index].Children.ToArray();
-                    Array.Sort(children, static (left, right) => left.Key.CompareTo(right.Key));
-                    _nodes[index] = new Utf8EntityNode(
-                        edgeOffset,
-                        children.Length,
-                        builders[index].EntryIndex
-                    );
-                    foreach (var edge in children)
-                    {
-                        _edges[edgeOffset++] = new Utf8EntityEdge(edge.Key, edge.Value);
-                    }
-                }
-
-                _entries = entries.ToArray();
-            }
-
-            public Int32 WriteLongestSymbol(
-                ReadOnlySpan<Byte> source,
-                Span<Byte> destination,
-                out Int32 matchedLength
-            )
-            {
-                var match = -1;
-                matchedLength = 0;
-                if (source.IsEmpty || source[0] >= _root.Length)
-                {
-                    return 0;
-                }
-
-                var nodeIndex = _root[source[0]];
-                for (var length = 1; nodeIndex >= 0; length++)
-                {
-                    var entryIndex = _nodes[nodeIndex].EntryIndex;
-                    if (entryIndex >= 0)
-                    {
-                        match = entryIndex;
-                        matchedLength = length;
-                    }
-
-                    nodeIndex = length < source.Length ? FindNext(nodeIndex, source[length]) : -1;
-                }
-
-                return match < 0 ? 0 : _entries[match].WriteSymbol(destination);
-            }
-
-            public String? GetSymbol(ReadOnlySpan<Byte> name)
-            {
-                var index = Find(name);
-                return index < 0 ? null : _entries[index].Symbol;
-            }
-
-            private Int32 Find(ReadOnlySpan<Byte> name)
-            {
-                if (name.IsEmpty || name[0] >= _root.Length)
-                {
-                    return -1;
-                }
-
-                var nodeIndex = _root[name[0]];
-                for (var index = 1; nodeIndex >= 0 && index < name.Length; index++)
-                {
-                    nodeIndex = FindNext(nodeIndex, name[index]);
-                }
-
-                return nodeIndex < 0 ? -1 : _nodes[nodeIndex].EntryIndex;
-            }
-
-            private Int32 FindNext(Int32 nodeIndex, Byte value)
-            {
-                ref readonly var node = ref _nodes[nodeIndex];
-                var end = node.EdgeOffset + node.EdgeCount;
-                for (var index = node.EdgeOffset; index < end; index++)
-                {
-                    ref readonly var edge = ref _edges[index];
-                    if (edge.Value == value)
-                    {
-                        return edge.Next;
-                    }
-                    if (edge.Value > value)
-                    {
-                        break;
-                    }
-                }
-
-                return -1;
-            }
-
-            private sealed class Utf8EntityNodeBuilder
-            {
-                public Dictionary<Byte, Int32> Children { get; } = new ();
-
-                public Int32 EntryIndex { get; set; } = -1;
-            }
-
-            private readonly struct Utf8EntityNode
-            {
-                public Utf8EntityNode(Int32 edgeOffset, Int32 edgeCount, Int32 entryIndex)
-                {
-                    EdgeOffset = edgeOffset;
-                    EdgeCount = edgeCount;
-                    EntryIndex = entryIndex;
-                }
-
-                public Int32 EdgeOffset { get; }
-
-                public Int32 EdgeCount { get; }
-
-                public Int32 EntryIndex { get; }
-            }
-
-            private readonly struct Utf8EntityEdge
-            {
-                public Utf8EntityEdge(Byte value, Int32 next)
-                {
-                    Value = value;
-                    Next = next;
-                }
-
-                public Byte Value { get; }
-
-                public Int32 Next { get; }
-            }
-
-            private readonly struct Utf8EntityEntry
-            {
-                public Utf8EntityEntry(String symbol)
-                {
-                    Symbol = symbol;
-#if NET8_0_OR_GREATER
-                    Span<Byte> bytes = stackalloc Byte[sizeof(UInt64)];
-                    bytes = bytes.Slice(0, Encoding.UTF8.GetBytes(symbol, bytes));
-#else
-                    ReadOnlySpan<Byte> bytes = Encoding.UTF8.GetBytes(symbol);
-#endif
-                    SymbolLength = (Byte)bytes.Length;
-                    UInt64 symbolUtf8 = 0;
-                    for (var index = 0; index < SymbolLength; index++)
-                    {
-                        symbolUtf8 |= (UInt64)bytes[index] << (index * 8);
-                    }
-                    SymbolUtf8 = symbolUtf8;
-                }
-
-                public String Symbol { get; }
-
-                private UInt64 SymbolUtf8 { get; }
-
-                private Byte SymbolLength { get; }
-
-                public Int32 WriteSymbol(Span<Byte> destination)
-                {
-                    for (var index = 0; index < SymbolLength; index++)
-                    {
-                        destination[index] = (Byte)(SymbolUtf8 >> (index * 8));
-                    }
-                    return SymbolLength;
-                }
-            }
-        }
 
         private static void AddSingle(Dictionary<String, String> symbols, String key, String value) =>
             symbols.Add(key, value);

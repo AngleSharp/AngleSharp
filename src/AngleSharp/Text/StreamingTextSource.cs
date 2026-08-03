@@ -15,7 +15,7 @@ using Common;
 /// This source preserves a small lookback window for tokenizer reconsumption. Automatic mode additionally retains
 /// a provisional 1024-byte prefix so the existing parser restart path can change encoding before the source freezes.
 /// </remarks>
-internal sealed class StreamingTextSource : IContiguousTextSource
+internal sealed class StreamingTextSource : IReadOnlyTextSource
 {
     private const Int32 DefaultBufferSize = 4096;
     private const Int32 DefaultLookback = 64;
@@ -124,13 +124,6 @@ internal sealed class StreamingTextSource : IContiguousTextSource
                 return;
             }
 
-            // A document already known to be UTF-16 ignores a declared encoding.
-            if (_encoding.IsUnicode())
-            {
-                FreezeEncoding();
-                return;
-            }
-
             var encoding = NormalizeEncoding(value);
             if (encoding.CodePage == _encoding.CodePage)
             {
@@ -158,16 +151,6 @@ internal sealed class StreamingTextSource : IContiguousTextSource
 
             _index = value;
         }
-    }
-
-    /// <inheritdoc />
-    public Boolean TryGetRemainingSpan(out ReadOnlySpan<Char> remaining)
-    {
-        var available = Length - _index;
-        remaining = available > 0
-            ? _chars.AsSpan(_index - _bufferStart, available)
-            : ReadOnlySpan<Char>.Empty;
-        return !remaining.IsEmpty;
     }
 
     /// <inheritdoc />

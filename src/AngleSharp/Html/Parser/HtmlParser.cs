@@ -457,12 +457,11 @@
 
         private HtmlDomBuilder CreateBuilder(
             HtmlDocument document,
-            String? stopAt,
-            IHtmlTokenSource? tokenSource = null)
+            String? stopAt)
         {
             var options = new HtmlTokenizerOptions(_options);
             var factory = _context.GetService<IHtmlElementConstructionFactory>() ?? HtmlDomConstructionFactory.Instance;
-            var parser = new HtmlDomBuilder(factory, document, options, stopAt, tokenSource);
+            var parser = new HtmlDomBuilder(factory, document, options, stopAt);
             if (HasEventListener(EventNames.Error))
             {
                 parser.Error += (_, ev) => InvokeEventListener(ev);
@@ -482,10 +481,9 @@
         private async Task<IHtmlDocument> ParseAsync(
             HtmlDocument document,
             CancellationToken cancel,
-            String? stopAt = null,
-            IHtmlTokenSource? tokenSource = null)
+            String? stopAt = null)
         {
-            var parser = CreateBuilder(document, stopAt, tokenSource);
+            var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
             await parser.ParseAsync(_options, null, cancel).ConfigureAwait(false);
             InvokeHtmlParseEvent(document, completed: true);

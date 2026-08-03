@@ -2,8 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net472;net8.0;net10.0</TargetFrameworks>
-    <SignAssembly>true</SignAssembly>
-    <NoWarn>$(NoWarn);CS8002</NoWarn>
+    <SignAssembly>false</SignAssembly>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -13,11 +12,13 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" />
-    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" />
-
     <PackageReference Include="CsQuery" Condition=" '$(TargetFramework)' == 'net472' " />
     <PackageReference Include="HtmlAgilityPack" />
-
-    <PackageReference Include="System.Net.Http"  />
+    <PackageReference Include="System.Net.Http" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="page.html" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

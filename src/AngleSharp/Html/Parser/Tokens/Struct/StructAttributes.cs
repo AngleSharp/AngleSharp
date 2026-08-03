@@ -1,4 +1,4 @@
-namespace AngleSharp.Html.Parser.Tokens.Struct;
+﻿namespace AngleSharp.Html.Parser.Tokens.Struct;
 
 using System;
 using System.Collections.Generic;
@@ -15,14 +15,6 @@ public struct StructAttributes
     private MemoryHtmlAttributeToken _t2;
     private MemoryHtmlAttributeToken _t3;
     private List<MemoryHtmlAttributeToken> _tail;
-
-    // Token slots are reused in place. Count makes the inline cells logically unreachable; they
-    // are overwritten before becoming visible again. Drop the unbounded overflow storage.
-    internal void ResetForReuse()
-    {
-        _tail = null!;
-        _count = 0;
-    }
 
     /// <summary>
     /// Adds an attribute to the list.
@@ -48,7 +40,7 @@ public struct StructAttributes
                 _t3 = item;
                 _count = 4;
                 return;
-            default:
+            case > 3:
                 _tail ??= new List<MemoryHtmlAttributeToken>(2);
                 _tail.Add(item);
                 _count++;

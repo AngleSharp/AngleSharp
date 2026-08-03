@@ -6,12 +6,12 @@
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Common;
     using Construction;
     using Dom;
+    using Tokens;
     using Tokens.Struct;
 
     /// <summary>
@@ -26,12 +26,7 @@
         #region Fields
 
         private readonly TokenConsumer _consumeAsDelegate;
-        private readonly IHtmlTokenCursor _tokens;
-        private readonly IHtmlTokenizerConfiguration _tokenizerConfiguration;
-        private readonly IHtmlTokenizerFeedback _tokenizerFeedback;
-        private readonly HtmlTokenizerTokenSource? _synchronousTokens;
-        private readonly IHtmlTokenAvailability? _tokenAvailability;
-        private readonly IDisposable? _tokenizerLifetime;
+        private readonly HtmlTokenizer _tokenizer;
         private readonly TDocument _document;
 
         /// <summary>
@@ -56,19 +51,20 @@
         private Boolean _foster;
         private Boolean _frameset;
         private Boolean _ended;
-        private Boolean _shouldPreventNewLine;
-
         private Func<TNode, Boolean>? _shouldEnd;
         private readonly IHtmlTreeConstructionFactory<TDocument, TNode> _elementFactory;
         private Task? _waiting;
         private readonly Boolean _emitWhitespaceTextNodes;
-        private readonly Boolean _usesDocumentSource;
 
         #endregion
 
         #region Events
 
-        public event EventHandler<HtmlErrorEvent>? Error;
+        public event EventHandler<HtmlErrorEvent>? Error
+        {
+            add { _tokenizer.Error += value; }
+            remove { _tokenizer.Error -= value; }
+        }
 
         #endregion
 
@@ -79,23 +75,11 @@
             TDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
             Boolean emitWhitespaceTextNodes = false,
-            Func<TNode, Boolean>? shouldEnd = null,
-            IHtmlTokenSource? tokenSource = null)
+            Func<TNode, Boolean>? shouldEnd = null)
         {
             _shouldEnd = shouldEnd;
             _elementFactory = elementFactory;
-            _usesDocumentSource = tokenSource is null;
-            if (tokenSource is null)
-            {
-                var tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended);
-                _synchronousTokens = new HtmlTokenizerTokenSource(tokenizer);
-                tokenSource = _synchronousTokens;
-                _tokenizerLifetime = tokenizer;
-            }
-            _tokens = tokenSource;
-            _tokenizerConfiguration = tokenSource;
-            _tokenizerFeedback = tokenSource;
-            _tokenAvailability = tokenSource as IHtmlTokenAvailability;
+            _tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended);
             _document = document;
             _host = document as IConstructableDocumentHost;
             _openElements = [];
@@ -110,7 +94,7 @@
 
             if (maybeOptions.HasValue)
             {
-                _tokenizerConfiguration.Configure(maybeOptions.Value, onToken: null, ReportError);
+                ConfigureTokenizer(maybeOptions.Value, onToken: null);
             }
         }
 
@@ -149,13 +133,7 @@
 
             do
             {
-                if (_synchronousTokens is null)
-                {
-                    ThrowAsyncSourceRequiresAsyncParse();
-                }
-
-                _synchronousTokens.TryMoveNext();
-                ref var token = ref _synchronousTokens.Current;
+                ref var token = ref _tokenizer.GetStructToken();
                 if (token.Type == HtmlTokenType.EndOfFile)
                 {
                     Consume(ref token);
@@ -204,32 +182,14 @@
 
             do
             {
-                if (_usesDocumentSource && source.Length - source.Index < 1024)
+                if (source.Length - source.Index < 1024)
                 {
                     await source.PrefetchAsync(8192, cancelToken).ConfigureAwait(false);
                 }
                 cancelToken.ThrowIfCancellationRequested();
 
-                if (_synchronousTokens is not null)
-                {
-                    _synchronousTokens.TryMoveNext();
-                    ref var token = ref _synchronousTokens.Current;
-                    if (ProcessToken(ref token))
-                    {
-                        break;
-                    }
-                }
-                else if (!_tokens.TryMoveNext())
-                {
-                    if (_tokenAvailability is null)
-                    {
-                        ThrowSynchronousSourceExhausted();
-                    }
-
-                    await _tokenAvailability.WaitForInputAsync(cancelToken).ConfigureAwait(false);
-                    continue;
-                }
-                else if (ProcessCurrentToken())
+                ref var token = ref _tokenizer.GetStructToken();
+                if (ProcessToken(ref token))
                 {
                     break;
                 }
@@ -249,15 +209,8 @@
 
             return _document;
 
-            Boolean ProcessCurrentToken()
-            {
-                ref var token = ref _tokens.Current;
-                return ProcessToken(ref token);
-            }
-
             Boolean ProcessToken(ref StructHtmlToken token)
             {
-                PreventNewLineIfNeeded(ref token);
                 return Worker(middleware, ref token);
             }
 
@@ -280,21 +233,13 @@
             }
         }
 
-        [DoesNotReturn]
-        private static void ThrowSynchronousSourceExhausted() =>
-            throw new InvalidOperationException("A synchronous HTML token source returned no token.");
-
-        [DoesNotReturn]
-        private static void ThrowAsyncSourceRequiresAsyncParse() =>
-            throw new InvalidOperationException("An asynchronous HTML token source requires asynchronous parsing.");
-
         /// <summary>
         /// Restarts the parser by resetting the internal state.
         /// </summary>
         private void Restart()
         {
             _currentMode = HtmlTreeMode.Initial;
-            _tokenizerFeedback.SetState(HtmlParseMode.PCData);
+            _tokenizer.State = HtmlParseMode.PCData;
             _elementFactory.GetDocumentNode(_document).ClearChildren();
             _ended = false;
             _frameset = true;
@@ -351,28 +296,28 @@
 
             if (tagName.IsOneOf(TagNames.Title, TagNames.Textarea))
             {
-                _tokenizerFeedback.SetState(HtmlParseMode.RCData);
+                _tokenizer.State = HtmlParseMode.RCData;
             }
             else if (tagName.IsOneOf(TagNames.Style, TagNames.Xmp, TagNames.Iframe, TagNames.NoEmbed))
             {
-                _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
+                _tokenizer.State = HtmlParseMode.Rawtext;
             }
             else if (tagName.Is(TagNames.Script))
             {
-                _tokenizerFeedback.SetState(HtmlParseMode.Script);
+                _tokenizer.State = HtmlParseMode.Script;
             }
             else if (tagName.Is(TagNames.Plaintext))
             {
-                _tokenizerFeedback.SetState(HtmlParseMode.Plaintext);
+                _tokenizer.State = HtmlParseMode.Plaintext;
             }
             else if (tagName.Is(TagNames.NoScript) &&
                      (options.IsScripting || context.Flags.HasFlag(NodeFlags.LiteralText)))
             {
-                _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
+                _tokenizer.State = HtmlParseMode.Rawtext;
             }
             else if (tagName.Is(TagNames.NoFrames) && !options.IsNotSupportingFrames)
             {
-                _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
+                _tokenizer.State = HtmlParseMode.Rawtext;
             }
 
             var root = _elementFactory.Create(_document, TagNames.Html);
@@ -387,7 +332,7 @@
 
             Reset();
 
-            _tokenizerFeedback.SetAcceptingCharacterData(!AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember));
+            _tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
 
             var contextNode = context;
 
@@ -432,7 +377,28 @@
         private void SetOptions(HtmlParserOptions options)
         {
             _options = options;
-            _tokenizerConfiguration.Configure(new HtmlTokenizerOptions(options), options.OnToken, ReportError);
+            ConfigureTokenizer(new HtmlTokenizerOptions(options), options.OnToken);
+        }
+
+        private void ConfigureTokenizer(
+            HtmlTokenizerOptions options,
+            Action<HtmlToken, TextRange>? onToken)
+        {
+            _tokenizer.IsStrictMode = options.IsStrictMode;
+            _tokenizer.IsSupportingProcessingInstructions = options.IsSupportingProcessingInstructions;
+            _tokenizer.IsNotConsumingCharacterReferences = options.IsNotConsumingCharacterReferences;
+            _tokenizer.IsPreservingAttributeNames = options.IsPreservingAttributeNames;
+            _tokenizer.SkipRawText = options.SkipRawText;
+            _tokenizer.SkipScriptText = options.SkipScriptText;
+            _tokenizer.SkipDataText = options.SkipDataText;
+            _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute;
+            _tokenizer.SkipComments = options.SkipComments;
+            _tokenizer.SkipPlaintext = options.SkipPlaintext;
+            _tokenizer.SkipRCDataText = options.SkipRCDataText;
+            _tokenizer.SkipCDATA = options.SkipCDATA;
+            _tokenizer.SkipProcessingInstructions = options.SkipProcessingInstructions;
+            _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
+            _tokenizer.OnToken = onToken;
         }
 
         #endregion
@@ -819,7 +785,7 @@
                     {
                         var script = _elementFactory.CreateScript(_document, parserInserted: true, started: IsFragmentCase);
                         AddElement(script, ref token);
-                        _tokenizerFeedback.SetState(HtmlParseMode.Script);
+                        _tokenizer.State = HtmlParseMode.Script;
                         _previousMode = _currentMode;
                         _currentMode = HtmlTreeMode.Text;
                         return;
@@ -1251,7 +1217,7 @@
             {
                 var textarea = _elementFactory.Create(_document, TagNames.Textarea);
                 AddElement(textarea, ref tag);
-                _tokenizerFeedback.SetState(HtmlParseMode.RCData);
+                _tokenizer.State = HtmlParseMode.RCData;
                 _previousMode = _currentMode;
                 _frameset = false;
                 _currentMode = HtmlTreeMode.Text;
@@ -1404,7 +1370,7 @@
                 }
 
                 AddElement(ref tag);
-                _tokenizerFeedback.SetState(HtmlParseMode.Plaintext);
+                _tokenizer.State = HtmlParseMode.Plaintext;
             }
             else if (tagName.Is(TagNames.Frameset))
             {
@@ -3145,7 +3111,7 @@
         {
             _previousMode = _currentMode;
             _currentMode = HtmlTreeMode.Text;
-            _tokenizerFeedback.SetState(HtmlParseMode.Rawtext);
+            _tokenizer.State = HtmlParseMode.Rawtext;
         }
 
         /// <summary>
@@ -3157,7 +3123,7 @@
             AddElement(ref tag);
             _previousMode = _currentMode;
             _currentMode = HtmlTreeMode.Text;
-            _tokenizerFeedback.SetState(HtmlParseMode.RCData);
+            _tokenizer.State = HtmlParseMode.RCData;
         }
 
         /// <summary>
@@ -3771,7 +3737,7 @@
                 if (!selfClosing)
                 {
                     _openElements.Add(node);
-                    _tokenizerFeedback.SetAcceptingCharacterData(true);
+                    _tokenizer.IsAcceptingCharacterData = true;
                 }
                 else if (tag.Name.Is(TagNames.Script))
                 {
@@ -4129,32 +4095,13 @@
         /// </summary>
         private void PreventNewLine()
         {
-            if (_synchronousTokens is null)
-            {
-                _shouldPreventNewLine = true;
-                return;
-            }
-
-            _synchronousTokens.TryMoveNext();
-            var temp = _synchronousTokens.Current;
+            var temp = _tokenizer.GetStructToken();
             if (temp.Type == HtmlTokenType.Character)
             {
                 temp.RemoveNewLine();
             }
 
             Home(ref temp);
-        }
-
-        private void PreventNewLineIfNeeded(ref StructHtmlToken token)
-        {
-            if (_shouldPreventNewLine)
-            {
-                _shouldPreventNewLine = false;
-                if (token.Type == HtmlTokenType.Character)
-                {
-                    token.RemoveNewLine();
-                }
-            }
         }
 
         /// <summary>
@@ -4187,7 +4134,7 @@
             _elementFactory.GetDocumentNode(_document).AddNode(element);
             SetupElement(element, ref tag, false);
             _openElements.Add(element);
-            _tokenizerFeedback.SetAcceptingCharacterData(false);
+            _tokenizer.IsAcceptingCharacterData = false;
             _host?.ApplyManifest();
         }
 
@@ -4233,7 +4180,7 @@
             {
                 CloseNodeAt(_openElements.Count - 1);
                 var node = AdjustedCurrentNode;
-                _tokenizerFeedback.SetAcceptingCharacterData(!node.IsNull && !node.Flags.HasFlag(NodeFlags.HtmlMember));
+                _tokenizer.IsAcceptingCharacterData = !node.IsNull && !node.Flags.HasFlag(NodeFlags.HtmlMember);
             }
         }
 
@@ -4316,7 +4263,7 @@
             }
 
             _openElements.Add(element);
-            _tokenizerFeedback.SetAcceptingCharacterData(!element.Flags.HasFlag(NodeFlags.HtmlMember));
+            _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
         }
 
         /// <summary>
@@ -4559,24 +4506,13 @@
         #region Handlers
 
         private void RaiseErrorOccurred(HtmlParseError code, ref StructHtmlToken token) =>
-            ReportError(code, token.Position);
-
-        private void ReportError(HtmlParseError code, TextPosition position)
-        {
-            if (_options.IsStrictMode)
-            {
-                const String message = "Error while parsing the provided HTML document.";
-                throw new HtmlParseException(code.GetCode(), message, position);
-            }
-
-            Error?.Invoke(this, new HtmlErrorEvent(code, position));
-        }
+            _tokenizer.RaiseErrorOccurred(code, token.Position);
 
         #endregion
 
         public void Dispose()
         {
-            _tokenizerLifetime?.Dispose();
+            _tokenizer.Dispose();
         }
     }
 
@@ -4589,15 +4525,13 @@
             TDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
             Boolean emitWhitespaceTextNodes = false,
-            Func<IConstructableElement, Boolean>? shouldEnd = null,
-            IHtmlTokenSource? tokenSource = null)
+            Func<IConstructableElement, Boolean>? shouldEnd = null)
             : base(
                 new ConstructableDomTreeFactory<TDocument, TElement>(elementFactory),
                 document,
                 maybeOptions,
                 emitWhitespaceTextNodes,
-                shouldEnd is null ? null : node => shouldEnd(node.ConstructableElement),
-                tokenSource)
+                shouldEnd is null ? null : node => shouldEnd(node.ConstructableElement))
         {
         }
 
@@ -4611,15 +4545,13 @@
             IHtmlElementConstructionFactory elementFactory,
             HtmlDocument document,
             HtmlTokenizerOptions? maybeOptions = null,
-            String? stopAt = null,
-            IHtmlTokenSource? tokenSource = null)
+            String? stopAt = null)
             : base(
                 elementFactory: elementFactory,
                 document: document,
                 maybeOptions: maybeOptions,
                 emitWhitespaceTextNodes: true,
-                shouldEnd: stopAt is not null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null,
-                tokenSource: tokenSource)
+                shouldEnd: stopAt is not null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null)
         {
         }
     }

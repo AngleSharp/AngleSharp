@@ -3,10 +3,9 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
-  <!-- Packages AngleSharp itself ships dependencies on. `dotnet pack` publishes these versions
-       verbatim, so changing one changes the package's dependency range. -->
+  <!-- The only package AngleSharp itself ships a dependency on. `dotnet pack` publishes this
+       version verbatim, so changing it changes the package's dependency range. -->
   <ItemGroup Label="AngleSharp">
-    <PackageVersion Include="System.IO.Pipelines" Version="8.0.0" />
     <PackageVersion Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
 
@@ -26,7 +25,6 @@
 
   <ItemGroup Label="Benchmarks">
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
-    <PackageVersion Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.15.8" />
     <PackageVersion Include="CsQuery" Version="1.3.5-beta5" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />

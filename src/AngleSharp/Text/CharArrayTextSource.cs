@@ -9,7 +9,7 @@ using Common;
 /// <summary>
 /// Char array based immutable text source
 /// </summary>
-public sealed class CharArrayTextSource : IContiguousTextSource
+public sealed class CharArrayTextSource : IReadOnlyTextSource
 {
     private Int32 _index;
     private String? _content;
@@ -40,6 +40,11 @@ public sealed class CharArrayTextSource : IContiguousTextSource
             return _content ??= new String(_array, 0, _length);
         }
     }
+
+    /// <summary>
+    /// Gets the underlying character array.
+    /// </summary>
+    internal Char[] Array => _array;
 
     /// <ihneritdoc />
     public Char this[Int32 index] => _array[index];
@@ -126,19 +131,6 @@ public sealed class CharArrayTextSource : IContiguousTextSource
     {
         length = _length;
         return true;
-    }
-
-    /// <inheritdoc />
-    Boolean IContiguousTextSource.TryGetRemainingSpan(out ReadOnlySpan<Char> remaining)
-    {
-        if ((UInt32)_index < (UInt32)_length)
-        {
-            remaining = _array.AsSpan(_index, _length - _index);
-            return true;
-        }
-
-        remaining = default;
-        return false;
     }
 
     #endregion

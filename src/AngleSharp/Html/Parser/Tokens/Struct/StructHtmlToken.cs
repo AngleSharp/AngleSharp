@@ -21,8 +21,8 @@ public struct StructHtmlToken
     #region Fields
 
     // token
-    private HtmlTokenType _type;
-    private TextPosition _position;
+    private readonly HtmlTokenType _type;
+    private readonly TextPosition _position;
     private StringOrMemory _name;
 
     // tag token
@@ -91,37 +91,6 @@ public struct StructHtmlToken
 
     internal static StructHtmlToken EndOfFile(TextPosition position) =>
         new(HtmlTokenType.EndOfFile, position);
-
-    // The UTF-8 token source owns stable token slots and initializes them in place. Returning a
-    // token from a factory and assigning it to a slot forces a GC-aware copy of this reference-rich
-    // struct. Call these methods only on the actual slot, and keep downstream access by ref.
-    internal void InitializeStartTag(StringOrMemory name) =>
-        Initialize(HtmlTokenType.StartTag, TextPosition.Empty, name);
-
-    internal void InitializeEndTag(StringOrMemory name) =>
-        Initialize(HtmlTokenType.EndTag, TextPosition.Empty, name);
-
-    internal void InitializeCharacter(StringOrMemory name, TextPosition position) =>
-        Initialize(HtmlTokenType.Character, position, name);
-
-    internal void InitializeComment(StringOrMemory name, TextPosition position) =>
-        Initialize(HtmlTokenType.Comment, position, name);
-
-    internal void InitializeEndOfFile(TextPosition position) =>
-        Initialize(HtmlTokenType.EndOfFile, position, default);
-
-    internal void SetPosition(TextPosition position) => _position = position;
-
-    private void Initialize(HtmlTokenType type, TextPosition position, StringOrMemory name)
-    {
-        _attributes.ResetForReuse();
-        _type = type;
-        _position = position;
-        _name = name;
-        _selfClosing = false;
-        _structTokenDoctypeData = null;
-        IsProcessingInstruction = false;
-    }
 
     #endregion
 

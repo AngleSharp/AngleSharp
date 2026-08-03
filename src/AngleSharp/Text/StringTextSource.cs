@@ -9,7 +9,7 @@ using Common;
 /// <summary>
 /// Char array based immutable text source
 /// </summary>
-public sealed class StringTextSource : IContiguousTextSource
+public sealed class StringTextSource : IReadOnlyTextSource
 {
     private readonly String _string;
     private readonly ReadOnlyMemory<Char> _memory;
@@ -117,19 +117,6 @@ public sealed class StringTextSource : IContiguousTextSource
     {
         length = _length;
         return true;
-    }
-
-    /// <inheritdoc />
-    Boolean IContiguousTextSource.TryGetRemainingSpan(out ReadOnlySpan<Char> remaining)
-    {
-        if ((UInt32)_index < (UInt32)_length)
-        {
-            remaining = _string.AsSpan(_index, _length - _index);
-            return true;
-        }
-
-        remaining = default;
-        return false;
     }
 
     #endregion
