@@ -16,7 +16,6 @@ namespace AngleSharp.Common
         private readonly Stack<UInt16> _columns;
 
         private readonly IReadOnlyTextSource _source;
-        private readonly WritableTextSource? _wts;
         private readonly CharArrayTextSource? _cats;
         private readonly ReadOnlyMemoryTextSource? _roms;
 
@@ -54,11 +53,7 @@ namespace AngleSharp.Common
 
             _source = source.GetUnderlyingTextSource();
 
-            if (_source is WritableTextSource wts)
-            {
-                _wts = wts;
-            }
-            else if (_source is CharArrayTextSource cats)
+            if (_source is CharArrayTextSource cats)
             {
                 _cats = cats;
             }
@@ -575,25 +570,7 @@ namespace AngleSharp.Common
             return Symbols.LineFeed;
         }
 
-        private Char ReadCharFromSource()
-        {
-            if (_wts is not null)
-            {
-                return _wts.ReadCharacter();
-            }
-
-            if (_cats is not null)
-            {
-                return _cats.ReadCharacter();
-            }
-
-            if (_roms is not null)
-            {
-                return _roms.ReadCharacter();
-            }
-
-            return _source.ReadCharacter();
-        }
+        private Char ReadCharFromSource() => _source.ReadCharacter();
 
         #endregion
     }
