@@ -1,3 +1,12 @@
+# 1.8.0
+
+Released on Wednesday, August 5 2026
+
+- Improved WHATWG Url specification (#802) @jafin
+- Improved tokenizer read performance (#1274) @dv00d00
+- Fixed auxiliary browsing context lifetime (#1278) @jafin
+- Fixed duplicated `DomName` attributes on DOM geometry
+
 # 1.7.0
 
 Released on Friday, July 31 2026
