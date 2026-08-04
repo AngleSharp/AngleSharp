@@ -27,7 +27,6 @@ namespace AngleSharp.Dom
         #region Fields
 
         private readonly List<WeakReference> _attachedReferences;
-        private readonly List<Object> _auxiliaryContexts;
         private readonly Queue<HtmlScriptElement> _loadingScripts;
         private readonly MutationHost _mutations;
         private readonly IBrowsingContext _context;
@@ -61,6 +60,7 @@ namespace AngleSharp.Dom
         private IStyleSheetList? _styleSheets;
         private HttpStatusCode _statusCode;
         private HashSet<Uri>? _importedUris;
+        private List<IBrowsingContext>? _auxiliaryContexts;
 
         #endregion
 
@@ -490,7 +490,6 @@ namespace AngleSharp.Dom
             Referrer = String.Empty;
             ContentType = MimeTypeNames.ApplicationXml;
             _attachedReferences = [];
-            _auxiliaryContexts = [];
             _async = true;
             _designMode = false;
             _firedUnload = false;
@@ -894,6 +893,8 @@ namespace AngleSharp.Dom
             Clear();
             _loop?.CancelAll();
             _loadingScripts.Clear();
+            // Only drops the strong roots - an opened window is not closed by its opener.
+            _auxiliaryContexts?.Clear();
             _source.Dispose();
             _view?.Dispose();
             ((IConstructableDocument)this).Builder?.Dispose();
@@ -1269,10 +1270,18 @@ namespace AngleSharp.Dom
         /// auxiliary (window) context has no owning element. The opening document roots
         /// it so that it survives until the opener itself is gone - otherwise it would
         /// only be reachable weakly and could be collected before the opener has had a
-        /// chance to look it up again.
+        /// chance to look it up again. The backing list is allocated on first use, as
+        /// the vast majority of documents never open a window.
         /// </remarks>
-        /// <param name="value">The context to keep alive.</param>
-        internal void AttachAuxiliaryContext(Object value) => _auxiliaryContexts.Add(value);
+        /// <param name="context">The context to keep alive.</param>
+        internal void AttachAuxiliaryContext(IBrowsingContext context) => (_auxiliaryContexts ??= []).Add(context);
+
+        /// <summary>
+        /// Releases an auxiliary browsing context that has been closed, so that it no
+        /// longer has to outlive this document.
+        /// </summary>
+        /// <param name="context">The context to release.</param>
+        internal void DetachAuxiliaryContext(IBrowsingContext context) => _auxiliaryContexts?.Remove(context);
 
         /// <summary>
         /// Sets the focus to the provided element.

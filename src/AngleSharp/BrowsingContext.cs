@@ -328,6 +328,13 @@ namespace AngleSharp
 
         void IDisposable.Dispose()
         {
+            // A closed auxiliary context no longer needs to be kept alive by the document
+            // that opened it. Frame contexts were never rooted this way.
+            if (!_isFrameContext)
+            {
+                (_creator as Document)?.DetachAuxiliaryContext(this);
+            }
+
             Active?.Dispose();
             Active = null;
         }
