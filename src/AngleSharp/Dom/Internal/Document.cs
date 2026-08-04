@@ -943,6 +943,9 @@ namespace AngleSharp.Dom
                         return this;
                     }
 
+                    // Moved up, i.e., before any destructive action as per #1276
+                    _source.CurrentEncoding = TextEncoding.Utf8;
+
                     Unload(recycle: true).Wait();
                     Abort();
                     RemoveEventListeners();
@@ -954,7 +957,6 @@ namespace AngleSharp.Dom
 
                     _loop?.CancelAll();
                     ReplaceAll(null, suppressObservers: true);
-                    _source.CurrentEncoding = TextEncoding.Utf8;
                     _salvageable = true;
                     _ready = DocumentReadyState.Loading;
 
