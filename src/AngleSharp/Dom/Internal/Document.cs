@@ -27,6 +27,7 @@ namespace AngleSharp.Dom
         #region Fields
 
         private readonly List<WeakReference> _attachedReferences;
+        private readonly List<Object> _auxiliaryContexts;
         private readonly Queue<HtmlScriptElement> _loadingScripts;
         private readonly MutationHost _mutations;
         private readonly IBrowsingContext _context;
@@ -489,6 +490,7 @@ namespace AngleSharp.Dom
             Referrer = String.Empty;
             ContentType = MimeTypeNames.ApplicationXml;
             _attachedReferences = [];
+            _auxiliaryContexts = [];
             _async = true;
             _designMode = false;
             _firedUnload = false;
@@ -1258,6 +1260,19 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="value">The value to attach.</param>
         internal void AttachReference(Object value) => _attachedReferences.Add(new WeakReference(value));
+
+        /// <summary>
+        /// Attaches an auxiliary browsing context opened by this document.
+        /// </summary>
+        /// <remarks>
+        /// Unlike a frame context, which is kept alive by its owning frame element, an
+        /// auxiliary (window) context has no owning element. The opening document roots
+        /// it so that it survives until the opener itself is gone - otherwise it would
+        /// only be reachable weakly and could be collected before the opener has had a
+        /// chance to look it up again.
+        /// </remarks>
+        /// <param name="value">The context to keep alive.</param>
+        internal void AttachAuxiliaryContext(Object value) => _auxiliaryContexts.Add(value);
 
         /// <summary>
         /// Sets the focus to the provided element.

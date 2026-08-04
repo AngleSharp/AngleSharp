@@ -220,6 +220,12 @@ namespace AngleSharp
                     return _parent!.CreateChild(name, security);
                 }
                 _contextGroup.Add(new(context));
+
+                // The context group and the children below only hold weak references, and an
+                // auxiliary context - unlike a frame context - has no owning element to keep
+                // it alive. Root it in the opening document so that it cannot be collected
+                // before the opener is able to find it again.
+                (Active as Document)?.AttachAuxiliaryContext(context);
             }
 
             if (name is { Length: > 0 })
