@@ -26,6 +26,9 @@ namespace AngleSharp.Core.Tests.Library
                 "https://localhost/new-window.html" => CreateResponse(req.Address,
                     // language=html
                     "<html><body><h1>New window</h1></body></html>"),
+                "https://localhost/elsewhere.html" => CreateResponse(req.Address,
+                    // language=html
+                    "<html><body><h1>Elsewhere</h1></body></html>"),
                 "https://localhost/" => CreateResponse(req.Address,
                     // language=html
                     "<html><body><a id=\"link\" href=\"new-window.html\" target=\"new-window\">Load window</a></body></html>"),
@@ -42,6 +45,11 @@ namespace AngleSharp.Core.Tests.Library
         // The strong locals below have to die before the collection runs. A Debug build keeps
         // locals alive until the end of the enclosing method, so the contexts are acquired in
         // separate non-inlined helpers rather than in the test body itself.
+
+        // Returns only a Boolean: probing with FindChild directly in a test body would leave
+        // the context reachable from that frame and mask a genuine loss.
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static Boolean HasChild(IBrowsingContext context, String name) => context.FindChild(name) is not null;
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static WeakReference OpenAuxiliaryContext(IBrowsingContext context)
@@ -85,6 +93,33 @@ namespace AngleSharp.Core.Tests.Library
             var newWindowContext = context.FindChild("new-window");
             Assert.IsNotNull(newWindowContext);
             Assert.IsNotNull(newWindowContext.Active);
+            Assert.AreEqual("https://localhost/new-window.html", newWindowContext.Active.Url);
+
+            GC.KeepAlive(doc);
+        }
+
+        [Test]
+        public async Task AuxiliaryContextSurvivesTheOpenerNavigatingAway()
+        {
+            // A window outlives every document that loads into its opener, so navigating
+            // the opener must not close it.
+            var context = BrowsingContext.New(CreateConfiguration());
+            var doc = await context.OpenAsync("https://localhost/");
+
+            var link = doc.GetElementById("link") as IHtmlAnchorElement;
+            Assert.IsNotNull(link);
+            link.DoClick();
+
+            await Task.Delay(1000);
+
+            Assert.IsTrue(HasChild(context, "new-window"), "The window was not opened.");
+
+            doc = await context.OpenAsync("https://localhost/elsewhere.html");
+
+            Collect();
+
+            var newWindowContext = context.FindChild("new-window");
+            Assert.IsNotNull(newWindowContext, "The opened window did not survive the opener navigating away.");
             Assert.AreEqual("https://localhost/new-window.html", newWindowContext.Active.Url);
 
             GC.KeepAlive(doc);
