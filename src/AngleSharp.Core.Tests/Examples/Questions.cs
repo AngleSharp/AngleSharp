@@ -40,6 +40,24 @@ namespace AngleSharp.Core.Tests.Examples
         }
 
         [Test]
+        public void GetPositionViaSourceReferenceWithCrLf()
+        {
+            var parser = new HtmlParser(new HtmlParserOptions
+            {
+                IsKeepingSourceReferences = true,
+            });
+            var document = parser.ParseDocument("<!DOCTYPE html>\r\n<html lang=\"en\">\r\n\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Invoice</title>\r\n    <style>\r\n");
+            var meta = document.Head.QuerySelector("meta");
+            var title = document.Head.QuerySelector("title");
+            var style = document.Head.QuerySelector("style");
+
+            Assert.AreEqual(new TextPosition(4, 1, 38), document.Head.SourceReference.Position);
+            Assert.AreEqual(new TextPosition(5, 5, 50), meta.SourceReference.Position);
+            Assert.AreEqual(new TextPosition(6, 5, 78), title.SourceReference.Position);
+            Assert.AreEqual(new TextPosition(7, 5, 106), style.SourceReference.Position);
+        }
+
+        [Test]
         public void GetPositionViaTokenCallback()
         {
             var bodyStartPos = TextPosition.Empty;

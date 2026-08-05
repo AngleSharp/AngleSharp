@@ -455,7 +455,16 @@ namespace AngleSharp.Common
 
                 if (!_disableElementPositionTracking)
                 {
-                    _column += (UInt16)runLength;
+                    if (_current == Symbols.LineFeed)
+                    {
+                        _columns.Push(_column);
+                        _column = (UInt16)runLength;
+                        _row++;
+                    }
+                    else
+                    {
+                        _column += (UInt16)runLength;
+                    }
                 }
 
                 var newIndex = index + runLength;
