@@ -56,6 +56,8 @@ namespace AngleSharp.Core.Tests
 
         public static byte[] longscript => GetManifestResourceBytes("Resources.longscript.bin");
 
+        public static string urltestdata => GetManifestResourceString("Resources.urltestdata.json");
+
         public static string GetManifestResourceString(string name, Encoding encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;

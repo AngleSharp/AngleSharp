@@ -1,10 +1,14 @@
 namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
+    using AngleSharp.Browser;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Io;
+    using AngleSharp.Text;
     using NUnit.Framework;
+    using System;
+    using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -250,6 +254,60 @@ namespace AngleSharp.Core.Tests.Library
             document.Body.AppendChild(script);
 
             Assert.IsTrue(didRun);
+        }
+
+        [Test]
+        public void DocumentOpenEncodingSwitchFailureShouldNotMutateDocument_Issue1276()
+        {
+            if (TestRuntime.UsePrefetchedTextSource)
+            {
+                Assert.Ignore("Prefetched text source is read only");
+            }
+
+            var scripting = new CallbackScriptEngine(_ => { });
+            var config = Configuration.Default
+                .WithCulture("en-US")
+                .WithLocaleBasedEncoding()
+                .WithScripts(scripting);
+
+            var beforeLegacyByte = Encoding.ASCII.GetBytes("<!doctype html><html><head><title>caf");
+            var afterLegacyByte = Encoding.ASCII.GetBytes("</title><script type='c-sharp'>x</script></head><body><p>tail</p></body></html>");
+            var payload = new Byte[beforeLegacyByte.Length + 1 + afterLegacyByte.Length];
+            Buffer.BlockCopy(beforeLegacyByte, 0, payload, 0, beforeLegacyByte.Length);
+            payload[beforeLegacyByte.Length] = 0xe9;
+            Buffer.BlockCopy(afterLegacyByte, 0, payload, beforeLegacyByte.Length + 1, afterLegacyByte.Length);
+
+            var parent = BrowsingContext.New(config);
+            var child = parent.CreateChild("issue-1276", Sandboxes.None);
+            var document = child.OpenAsync(req => req.Content(Helper.StreamFromBytes(payload))).GetAwaiter().GetResult();
+            var originalTitle = document.Title;
+            var originalBody = document.Body?.TextContent;
+
+            var source = document.GetType().GetProperty("Source", BindingFlags.Instance | BindingFlags.Public)?.GetValue(document);
+            Assert.IsNotNull(source);
+
+            var readOnlySourceField = source.GetType().GetField("_readOnlyTextSource", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.IsNotNull(readOnlySourceField);
+            var writable = readOnlySourceField.GetValue(source);
+            Assert.IsNotNull(writable);
+
+            var confidenceField = writable.GetType().GetField("_confidence", BindingFlags.Instance | BindingFlags.NonPublic);
+            var encodingField = writable.GetType().GetField("_encoding", BindingFlags.Instance | BindingFlags.NonPublic);
+            var decoderField = writable.GetType().GetField("_decoder", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.IsNotNull(confidenceField);
+            Assert.IsNotNull(encodingField);
+            Assert.IsNotNull(decoderField);
+
+            // Recreate the mismatch scenario from #1276 in a deterministic way.
+            confidenceField.SetValue(writable, Enum.Parse(confidenceField.FieldType, "Tentative"));
+            encodingField.SetValue(writable, TextEncoding.Resolve("windows-1252"));
+            decoderField.SetValue(writable, TextEncoding.Resolve("windows-1252").GetDecoder());
+
+            Assert.Throws<NotSupportedException>(() => document.Open());
+            Assert.AreEqual(originalTitle, document.Title);
+            Assert.AreEqual(originalBody, document.Body?.TextContent);
+            Assert.AreEqual("café", document.Title);
+            Assert.AreEqual("tail", document.Body?.TextContent);
         }
     }
 }

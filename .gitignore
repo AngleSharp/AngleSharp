@@ -172,6 +172,8 @@ Desktop.ini
 *.egg-info
 dist
 build
+# ...but /build is our Fallout build project, not Python output.
+!/build/
 eggs
 parts
 var
@@ -195,8 +197,8 @@ pip-log.txt
 # Mac crap
 .DS_Store
 
-# Nuke build tool
-.nuke/temp
+# Fallout build tool
+.fallout/temp
 
 /src/AngleSharp.Benchmarks/BenchmarkDotNet.Artifacts*
 /src/AngleSharp.Benchmarks/temp

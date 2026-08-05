@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core.Tests", "AngleSharp.Core.Tests\AngleSharp.Core.Tests.csproj", "{C3074D7E-CA6C-4F2C-813D-BD97462DC3EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\nuke\_build.csproj", "{C5A6C092-A03A-47FB-B260-F1F87564F020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.csproj", "{C5A6C092-A03A-47FB-B260-F1F87564F020}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

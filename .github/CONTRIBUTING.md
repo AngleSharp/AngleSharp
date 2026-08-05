@@ -43,7 +43,7 @@ AngleSharp and its libraries uses features from the latest versions of C# (e.g.,
 
 AngleSharp itself does not have dependencies, however, the tests are dependent on NUnit.
 
-The build system of AngleSharp uses NUKE.
+The build system of AngleSharp uses Fallout.
 
 ### Code Conventions
 

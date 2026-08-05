@@ -1,3 +1,14 @@
+# 1.7.1
+
+Released on Wednesday, August 5 2026
+
+- Improved WHATWG Url specification (#802) @jafin
+- Improved tokenizer read performance (#1274) @dv00d00
+- Fixed auxiliary browsing context lifetime (#1278) @jafin
+- Fixed duplicated `DomName` attributes on DOM geometry
+- Fixed `document.open()` destroying the DOM tree in case of encoding problems (#1276)
+- Fixed source references having wrong line (#1280)
+
 # 1.7.0
 
 Released on Friday, July 31 2026

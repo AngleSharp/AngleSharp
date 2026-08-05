@@ -123,7 +123,7 @@ namespace AngleSharp.Dom
             _host = address._host;
             _username = address._username;
             _password = address._password;
-             _relative = address._relative;
+            _relative = address._relative;
             _schemeData = address._schemeData;
         }
 
@@ -1616,6 +1616,6 @@ namespace AngleSharp.Dom
                 return chars.Slice(0, count).ToString();
             }
         }
-#endregion
+        #endregion
     }
 }

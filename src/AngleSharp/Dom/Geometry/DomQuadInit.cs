@@ -1,7 +1,6 @@
 namespace AngleSharp.Dom.Geometry;
 
 using AngleSharp.Attributes;
-using System;
 
 /// <summary>
 /// Represents the DomQuadInit class.

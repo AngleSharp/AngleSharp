@@ -20,7 +20,7 @@ public sealed class DomRectList : IDomRectList
     /// </summary>
     public DomRectList(IEnumerable<IDomRect>? items = null)
     {
-        _items = items is null ? new List<IDomRect>() : new List<IDomRect>(items);
+        _items = items is null ? new List<IDomRect>() : [.. items];
     }
 
     /// <summary>

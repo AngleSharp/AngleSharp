@@ -21,7 +21,13 @@ namespace AngleSharp
         private readonly Boolean _isFrameContext;
         private readonly IHistory? _history;
         private readonly Dictionary<String, WeakReference<IBrowsingContext>> _children;
-        private readonly List<WeakReference<IBrowsingContext>> _contextGroup;
+
+        // The auxiliary (window) contexts of this group, shared by reference with every
+        // context in it. An auxiliary context has no owning element - unlike a frame
+        // context, which its frame element roots - so the group is what keeps it alive.
+        // Holding any context of the group therefore keeps the whole group reachable,
+        // and dropping them all makes it collectible in one go.
+        private readonly List<IBrowsingContext> _contextGroup;
 
         #endregion
 
@@ -40,25 +46,32 @@ namespace AngleSharp
         {
         }
 
-        private BrowsingContext(Sandboxes security)
+        private BrowsingContext(Sandboxes security, List<IBrowsingContext>? contextGroup)
         {
             _services = [];
             _originalServices = _services;
             _security = security;
             _children = [];
-            _contextGroup = [];
+            _contextGroup = contextGroup ?? [];
         }
 
         internal BrowsingContext(IEnumerable<Object> services, Sandboxes security)
-            : this(security)
+            : this(services, security, null)
+        {
+        }
+
+        private BrowsingContext(IEnumerable<Object> services, Sandboxes security, List<IBrowsingContext>? contextGroup)
+            : this(security, contextGroup)
         {
             _services.AddRange(services);
             _originalServices = services;
             _history = GetService<IHistory>();
         }
 
+        // A child joins the group of its parent, so that a window opened from within a
+        // frame ends up in the same top-level group as the frame itself.
         internal BrowsingContext(IBrowsingContext parent, Sandboxes security, Boolean isFrameContext)
-            : this(parent.OriginalServices, security)
+            : this(parent.OriginalServices, security, (parent as BrowsingContext)?._contextGroup)
         {
             _parent = parent;
             _creator = _parent.Active;
@@ -209,17 +222,12 @@ namespace AngleSharp
         {
             var context = new BrowsingContext(this, security, isFrameContext);
 
-            // if the new context is not a frame context, then it should be added
-            // to the top-most browsing context, as a new top-level auxilary
-            // browser context
+            // if the new context is not a frame context, then it becomes a new top-level
+            // auxilary browsing context within the group. The group holds it strongly:
+            // _children below is weak, and nothing else would keep it alive.
             if (!isFrameContext)
             {
-                if (_contextGroup is null)
-                {
-                    // _parent should not be null if _contextGroup is null
-                    return _parent!.CreateChild(name, security);
-                }
-                _contextGroup.Add(new(context));
+                _contextGroup.Add(context);
             }
 
             if (name is { Length: > 0 })
@@ -247,12 +255,12 @@ namespace AngleSharp
                 currentContext = currentContext.Parent as BrowsingContext;
             }
 
-            if (foundChildContext is null && excludedChild is BrowsingContext { _contextGroup : not null and  var group })
+            if (foundChildContext is null && excludedChild is BrowsingContext { _contextGroup: var group })
             {
                 //TODO - if the initial browsing context was part of a top-level auxilary browsing context, it should be filtered out so that it is not searched again
-                foreach (var contextRef in group)
+                foreach (var groupContext in group)
                 {
-                    if (!contextRef.TryGetTarget(out var c) || c is not BrowsingContext context)
+                    if (groupContext is not BrowsingContext context)
                     {
                         continue;
                     }
@@ -322,6 +330,13 @@ namespace AngleSharp
 
         void IDisposable.Dispose()
         {
+            // A closed context leaves the group, so that it no longer has to outlive the
+            // rest of it. Frame contexts were never part of the group to begin with.
+            if (!_isFrameContext)
+            {
+                _contextGroup.Remove(this);
+            }
+
             Active?.Dispose();
             Active = null;
         }
