@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fallout.Common" Version="10.3.49" />
+    <PackageReference Include="Fallout.Common" Version="10.4.0" />
   </ItemGroup>
 
 </Project>
