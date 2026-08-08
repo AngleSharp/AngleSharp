@@ -2,7 +2,7 @@ using Microsoft.Build.Exceptions;
 using Fallout.Common;
 using Fallout.Common.CI.GitHubActions;
 using Fallout.Common.IO;
-using Fallout.Common.ProjectModel;
+using Fallout.Solutions;
 using Fallout.Common.Tooling;
 using Fallout.Common.Tools.DotNet;
 using Fallout.Common.Tools.GitHub;
@@ -17,7 +17,7 @@ using System.Linq;
 
 using static Fallout.Common.Tools.DotNet.DotNetTasks;
 
-using Project = Fallout.Common.ProjectModel.Project;
+using Project = Fallout.Solutions.Project;
 
 class Build : FalloutBuild
 {
