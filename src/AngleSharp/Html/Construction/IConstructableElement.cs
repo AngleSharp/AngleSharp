@@ -98,3 +98,8 @@ public interface IConstructableElement : IConstructableNode
     /// </summary>
     IConstructableNode ShallowCopy();
 }
+
+internal interface IConstructableElementAttributesByRef
+{
+    void SetAttributes(in StructAttributes tagAttributes);
+}

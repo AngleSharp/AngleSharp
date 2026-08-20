@@ -1609,11 +1609,11 @@ namespace AngleSharp.Dom
 
         #region Construction
 
-        TextSource IConstructableDocument.Source => _source;
+        TextSource IConstructableDocumentState.Source => _source;
 
-        IDisposable? IConstructableDocument.Builder { get; set; }
+        IDisposable? IConstructableDocumentState.Builder { get; set; }
 
-        QuirksMode IConstructableDocument.QuirksMode
+        QuirksMode IConstructableDocumentState.QuirksMode
         {
             get => QuirksMode;
             set => QuirksMode = value;
@@ -1623,39 +1623,39 @@ namespace AngleSharp.Dom
 
         IConstructableElement IConstructableDocument.DocumentElement => this.FindChild<HtmlHtmlElement>()!;
 
-        void IConstructableDocument.PerformMicrotaskCheckpoint()
+        void IConstructableDocumentHost.PerformMicrotaskCheckpoint()
         {
             this.PerformMicrotaskCheckpoint();
         }
 
-        void IConstructableDocument.ProvideStableState()
+        void IConstructableDocumentHost.ProvideStableState()
         {
             this.ProvideStableState();
         }
 
-        void IConstructableDocument.AddComment(ref StructHtmlToken token)
+        void IConstructableDocumentState.AddComment(ref StructHtmlToken token)
         {
             HtmlDomBuilderExtensions.AddComment(this, ref token);
         }
 
-        void IConstructableDocument.TrackError(Exception exception)
+        void IConstructableDocumentState.TrackError(Exception exception)
         {
             Context.TrackError(exception);
         }
 
-        Task IConstructableDocument.WaitForReadyAsync(CancellationToken cancelToken)
+        Task IConstructableDocumentHost.WaitForReadyAsync(CancellationToken cancelToken)
         {
             return this.WaitForReadyAsync();
         }
 
-        void IConstructableDocument.ApplyManifest()
+        void IConstructableDocumentHost.ApplyManifest()
         {
             this.ApplyManifest();
         }
 
-        Boolean IConstructableDocument.IsLoading => IsLoading;
+        Boolean IConstructableDocumentHost.IsLoading => IsLoading;
 
-        Task IConstructableDocument.FinishLoadingAsync()
+        Task IConstructableDocumentHost.FinishLoadingAsync()
         {
             return this.FinishLoadingAsync();
         }

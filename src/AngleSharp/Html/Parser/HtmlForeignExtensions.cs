@@ -160,11 +160,12 @@ namespace AngleSharp.Html.Parser
         /// <returns>The finished element.</returns>
         public static IConstructableMathElement Setup(this IConstructableMathElement element, ref StructHtmlToken tag)
         {
-            var count = tag.Attributes.Count;
+            ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref tag);
+            var count = attributes.Count;
 
             for (var i = 0; i < count; i++)
             {
-                var attr = tag.Attributes[i];
+                var attr = attributes[i];
                 var name = attr.Name;
                 var value = attr.Value;
                 element.AdjustAttribute(name.AdjustToMathAttribute(), value);
@@ -181,14 +182,45 @@ namespace AngleSharp.Html.Parser
         /// <returns>The finished element.</returns>
         public static IConstructableSvgElement Setup(this IConstructableSvgElement element, ref StructHtmlToken tag)
         {
-            var count = tag.Attributes.Count;
+            ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref tag);
+            var count = attributes.Count;
 
             for (var i = 0; i < count; i++)
             {
-                var attr = tag.Attributes[i];
+                var attr = attributes[i];
                 var name = attr.Name;
                 var value = attr.Value;
                 element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
+            }
+
+            return element;
+        }
+
+        public static TNode SetupMath<TNode>(this TNode element, ref StructHtmlToken tag)
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
+        {
+            ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref tag);
+            var count = attributes.Count;
+
+            for (var i = 0; i < count; i++)
+            {
+                var attr = attributes[i];
+                element.AdjustAttribute(attr.Name.AdjustToMathAttribute(), attr.Value);
+            }
+
+            return element;
+        }
+
+        public static TNode SetupSvg<TNode>(this TNode element, ref StructHtmlToken tag)
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
+        {
+            ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref tag);
+            var count = attributes.Count;
+
+            for (var i = 0; i < count; i++)
+            {
+                var attr = attributes[i];
+                element.AdjustAttribute(attr.Name.AdjustToSvgAttribute(), attr.Value);
             }
 
             return element;
@@ -207,6 +239,40 @@ namespace AngleSharp.Html.Parser
             if (IsXLinkAttribute(name))
             {
                 // var newName = name.Substring(name.IndexOf(Symbols.Colon) + 1);
+                var newName = new StringOrMemory(name.Memory.Slice(name.Memory.Span.IndexOf(Symbols.Colon) + 1));
+
+                if (newName.IsXmlName() && newName.IsQualifiedName())
+                {
+                    ns = NamespaceNames.XLinkUri;
+                    name = newName;
+                }
+            }
+            else if (IsXmlAttribute(name))
+            {
+                ns = NamespaceNames.XmlUri;
+            }
+            else if (IsXmlNamespaceAttribute(name))
+            {
+                ns = NamespaceNames.XmlNsUri;
+            }
+
+            if (ns is null)
+            {
+                element.SetOwnAttribute(name, value);
+            }
+            else
+            {
+                element.SetAttribute(ns, name, value);
+            }
+        }
+
+        public static void AdjustAttribute<TNode>(this TNode element, StringOrMemory name, StringOrMemory value)
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
+        {
+            var ns = default(String);
+
+            if (IsXLinkAttribute(name))
+            {
                 var newName = new StringOrMemory(name.Memory.Slice(name.Memory.Span.IndexOf(Symbols.Colon) + 1));
 
                 if (newName.IsXmlName() && newName.IsQualifiedName())

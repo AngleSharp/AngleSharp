@@ -15,7 +15,8 @@ namespace AngleSharp.Html.Parser
     /// </summary>
     static class HtmlDomBuilderExtensions
     {
-        public static HtmlTreeMode? SelectMode(this IConstructableElement element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
+        public static HtmlTreeMode? SelectMode<TNode>(this TNode element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
         {
             if (element.Flags.HasFlag(NodeFlags.HtmlMember))
             {
@@ -86,27 +87,33 @@ namespace AngleSharp.Html.Parser
             return (Int32)code;
         }
 
-        public static void SetUniqueAttributes<TElement>(this TElement element, ref StructHtmlToken token)
-            where TElement: class, IConstructableElement
+        public static void SetUniqueAttributes<TNode>(this TNode element, ref StructHtmlToken token)
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
         {
-            for (var i = token.Attributes.Count - 1; i >= 0; i--)
+            ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref token);
+            for (var i = attributes.Count - 1; i >= 0; i--)
             {
-                if (element.HasAttribute(token.Attributes[i].Name))
+                if (element.HasAttribute(attributes[i].Name))
                 {
                     token.RemoveAttributeAt(i);
                 }
             }
 
-            element.SetAttributes(token.Attributes);
+            element.SetTokenAttributes(ref token);
         }
 
-        public static void AddFormatting(this List<Element> formatting, Element element)
+        internal static void SetTokenAttributes<TNode>(
+            this TNode element,
+            ref StructHtmlToken token
+        )
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
         {
-            AddFormatting<Element>(formatting, element);
+            ref readonly var attributes = ref StructHtmlToken.GetAttributesReference(ref token);
+            element.SetAttributes(in attributes);
         }
 
-        public static void AddFormatting<TElement>(this List<TElement> formatting, TElement element)
-            where TElement: class, IConstructableElement
+        public static void AddFormatting<TNode>(this List<TNode> formatting, TNode element)
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
         {
             var count = 0;
 
@@ -114,14 +121,14 @@ namespace AngleSharp.Html.Parser
             {
                 var format = formatting[i];
 
-                if (format is null)
+                if (format.IsNull)
                 {
                     break;
                 }
 
                 if (format.NodeName.Is(element.NodeName) &&
                     format.NamespaceUri.Is(element.NamespaceUri) &&
-                    format.Attributes.SameAs(element.Attributes) && ++count == 3)
+                    format.AttributesSame(element) && ++count == 3)
                 {
                     formatting.RemoveAt(i);
                     break;
@@ -131,13 +138,8 @@ namespace AngleSharp.Html.Parser
             formatting.Add(element);
         }
 
-        public static void ClearFormatting(this List<Element> formatting)
-        {
-            ClearFormatting<Element>(formatting);
-        }
-
-        public static void ClearFormatting<TElement>(this List<TElement> formatting)
-            where TElement: class, IConstructableElement
+        public static void ClearFormatting<TNode>(this List<TNode> formatting)
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
         {
             while (formatting.Count != 0)
             {
@@ -145,7 +147,7 @@ namespace AngleSharp.Html.Parser
                 var entry = formatting[index];
                 formatting.RemoveAt(index);
 
-                if (entry is null)
+                if (entry.IsNull)
                 {
                     break;
                 }
@@ -153,16 +155,10 @@ namespace AngleSharp.Html.Parser
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddScopeMarker(this List<Element> formatting)
+        public static void AddScopeMarker<TNode>(this List<TNode> formatting)
+            where TNode : struct, IHtmlTreeConstructionNode<TNode>
         {
-            AddScopeMarker<Element>(formatting);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddScopeMarker<TElement>(this List<TElement> formatting)
-            where TElement: class, IConstructableElement
-        {
-            formatting.Add(null!);
+            formatting.Add(default);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
