@@ -174,6 +174,24 @@ namespace AngleSharp.Html.Parser
         }
 
         /// <summary>
+        /// Parses an immutable byte buffer and returns the result.
+        /// </summary>
+        /// <param name="bytes">The encoded HTML bytes.</param>
+        /// <param name="encoding">
+        /// An authoritative encoding, or <c>null</c> to detect a byte order mark and allow an HTML
+        /// encoding declaration to replace the initial UTF-8 decoding.
+        /// </param>
+        /// <returns>The parsed HTML document.</returns>
+        public IHtmlDocument ParseDocument(ReadOnlyMemory<Byte> bytes, Encoding? encoding = null)
+        {
+            var byteSource = encoding is null
+                ? new ReadOnlyByteTextSource(bytes)
+                : new ReadOnlyByteTextSource(bytes, encoding);
+            var source = new TextSource(byteSource);
+            return ParseDocument(source);
+        }
+
+        /// <summary>
         /// Parses text source and returns result.
         /// </summary>
         public IHtmlDocument ParseDocument(TextSource source)
