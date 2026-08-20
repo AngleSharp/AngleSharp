@@ -47,7 +47,7 @@ namespace AngleSharp.Html.Parser
         private Func<IConstructableElement, Boolean>? _shouldEnd;
         private readonly IDomConstructionElementFactory<TDocument, TElement> _elementFactory;
         private Task? _waiting;
-        private readonly Boolean _emitWhitespaceTextNodes;
+        private Boolean _emitWhitespaceTextNodes;
 
         #endregion
 
@@ -392,6 +392,7 @@ namespace AngleSharp.Html.Parser
             _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
             _tokenizer.OnToken = options.OnToken;
             _options = options;
+            _emitWhitespaceTextNodes |= options.IsKeepingWhitespaceTextNodes;
         }
 
         #endregion
