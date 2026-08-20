@@ -41,6 +41,32 @@ So we define some source code, call the `OpenAsync` method of a an `BrowsingCont
 
 In this case we use the provided source code to determine the content of the request's response. This content of the response is then parsed into an HTML document. Afterwards we serialize the DOM back to a string. Finally, we output this string in the console.
 
+## Parsing Raw Bytes from HttpClient
+
+When an HTTP response is already available as bytes, it can be parsed directly without wrapping the
+buffer in a `MemoryStream` or decoding it to a `string` first.
+
+```C#
+using System;
+using System.Net.Http;
+using AngleSharp.Html.Parser;
+
+using var client = new HttpClient();
+using var response = await client.GetAsync("https://example.com/");
+response.EnsureSuccessStatusCode();
+
+ReadOnlyMemory<byte> html = await response.Content.ReadAsByteArrayAsync();
+
+var parser = new HtmlParser();
+using var document = parser.ParseDocument(html);
+
+Console.WriteLine(document.Title);
+```
+
+Without an explicit encoding, AngleSharp detects a byte order mark and starts with UTF-8 while still
+allowing an HTML encoding declaration to restart decoding. If the transport supplies an authoritative
+encoding, pass it as the second argument to `ParseDocument`.
+
 ## Simple Document Manipulation
 
 AngleSharp constructs a DOM according to the official HTML5 specification. This also means that the resulting model is fully interactive and could be used for simple manipulation. The following example creates a document and changes the tree structure by inserting another paragraph element with some text.
