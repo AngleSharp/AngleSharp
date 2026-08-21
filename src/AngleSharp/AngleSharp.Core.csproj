@@ -29,7 +29,10 @@
     <PackageReference Include="Nullable" PrivateAssets="all" />
   </ItemGroup>
 
-  <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">
+  <!-- Deliberately not $([MSBuild]::IsTargetFrameworkCompatible(...)): that intrinsic reflects into
+       NuGet.Frameworks, which fails whenever a tool evaluates this project in-process next to an older
+       NuGet (e.g. the Fallout build script). The identifier check is equivalent for our TargetFrameworks. -->
+  <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' != '.NETCoreApp' ">
     <PackageReference Include="System.Text.Encoding.CodePages" />
   </ItemGroup>
 
