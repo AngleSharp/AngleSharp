@@ -16,7 +16,8 @@
     <PackageReference Include="NUnit" />
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="Microsoft.Net.Http" Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))" />
+    <!-- See AngleSharp.Core.csproj: the IsTargetFrameworkCompatible intrinsic breaks in-process evaluation. -->
+    <PackageReference Include="Microsoft.Net.Http" Condition=" '$(TargetFrameworkIdentifier)' != '.NETCoreApp' " />
   </ItemGroup>
 
   <ItemGroup>
