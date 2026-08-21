@@ -3975,9 +3975,12 @@ namespace AngleSharp.Html.Parser
             {
                 if (node.Flags.HasFlag(NodeFlags.MathMember) && node.LocalName.Is(TagNames.AnnotationXml))
                 {
-                    var encoding = node.Attributes["encoding"]?.Value;
-                    
-                    if (encoding == MimeTypeNames.Html || encoding == MimeTypeNames.ApplicationXHtml)
+                    // The spec matches the encoding value ASCII case-insensitively, which is
+                    // why ForeignNormalTag runs the same test with Isi. An ordinal comparison
+                    // here kept TEXT/HTML out of the integration point.
+                    var encoding = node.GetAttribute(default, AttributeNames.Encoding);
+
+                    if (encoding.Isi(MimeTypeNames.Html) || encoding.Isi(MimeTypeNames.ApplicationXHtml))
                     {
                         return true;
                     }
