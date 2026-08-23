@@ -2335,6 +2335,10 @@ namespace AngleSharp.Html.Parser
                     {
                         InHead(ref token);
                     }
+                    else if (tagName.Is(TagNames.Xmp))
+                    {
+                        InBody(ref token);
+                    }
                     else if (!CurrentNode.LocalName.Is(TagNames.Select))
                     {
                         var element = _elementFactory.CreateUnknown(_document, tagName);

@@ -8531,5 +8531,18 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual("option", option.LocalName);
             Assert.AreEqual(2, option.ChildElementCount);
         }
+
+        [Test]
+        public void XmpInSelectUsesRawtextParsing()
+        {
+            var doc = "<select><xmp><script>window.__parse_poc=1</script>".ToHtmlDocument();
+            var select = doc.Body.FirstElementChild;
+            var xmp = select.FirstElementChild;
+
+            Assert.AreEqual("select", select.LocalName);
+            Assert.AreEqual("xmp", xmp.LocalName);
+            Assert.AreEqual(0, xmp.ChildElementCount);
+            Assert.AreEqual("<script>window.__parse_poc=1</script>", xmp.TextContent);
+        }
     }
 }
