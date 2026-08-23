@@ -4,6 +4,7 @@ Released on Sunday, August 23 2026
 
 - Fixed matching of `annotation-xml` encoding to be case-insensitive (#1284) @arpitjain099
 - Fixed `<xmp>` usage in `<select>` elements
+- Added ability to parse immutable byte buffers without a stream (#1286) @dv00d00
 
 # 1.7.1
 
