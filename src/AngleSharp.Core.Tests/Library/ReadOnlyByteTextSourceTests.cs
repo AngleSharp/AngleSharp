@@ -13,6 +13,7 @@ public sealed class ReadOnlyByteTextSourceTests
 {
     private static readonly Byte[] TwoByteSequence = [0xC3, 0xA9];
 
+#if !NETFRAMEWORK
     [Test]
     public void RedecodeThatKeepsConsumedPrefixSwitchesInPlace()
     {
@@ -71,6 +72,7 @@ public sealed class ReadOnlyByteTextSourceTests
         Assert.That(source.CurrentEncoding, Is.EqualTo(Encoding.UTF8));
         Assert.That(source.Text, Is.EqualTo("abcé"));
     }
+#endif
 
     [Test]
     public void ParserOverloadHonorsReadOnlyMemorySliceAndByteOrderMark()
@@ -87,6 +89,7 @@ public sealed class ReadOnlyByteTextSourceTests
         Assert.That(document.CharacterSet, Is.EqualTo(Encoding.UTF8.WebName));
     }
 
+#if !NETFRAMEWORK
     [Test]
     public void ParserOverloadUsesAuthoritativeEncoding()
     {
@@ -100,6 +103,7 @@ public sealed class ReadOnlyByteTextSourceTests
         Assert.That(document.Title, Is.EqualTo("café"));
         Assert.That(document.CharacterSet, Is.EqualTo(encoding.WebName));
     }
+#endif
 
     [Test]
     public void LateEncodingSwitchMatchesCorrectlyDecodedDocument()
