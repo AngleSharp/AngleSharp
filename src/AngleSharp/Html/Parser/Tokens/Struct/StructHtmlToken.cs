@@ -195,6 +195,10 @@ public struct StructHtmlToken
     /// </summary>
     public StructAttributes Attributes => _attributes;
 
+    internal static ref readonly StructAttributes GetAttributesReference(
+        ref StructHtmlToken token
+    ) => ref token._attributes;
+
     #endregion
 
     #region Properties
