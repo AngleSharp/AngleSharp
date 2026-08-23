@@ -1,3 +1,9 @@
+# 1.7.2
+
+Released on Sunday, August 23 2026
+
+- Fixed matching of `annotation-xml` encoding to be case-insensitive (#1284) @arpitjain099
+
 # 1.7.1
 
 Released on Wednesday, August 5 2026
@@ -55,7 +61,7 @@ Released on Saturday, June 13 2026
 
 Released on Saturday, June 6 2026
 
-- Fixed vulnerability via annoation-xml elements (GHSA-pgww-w46g-26qg)
+- Fixed vulnerability via annotation-xml elements (GHSA-pgww-w46g-26qg)
 - Updated benchmarks (#1246) @jafin
 - Added ability to pass in cookie container to `MemoryCookieProvider` (#1249) @riina
 - Added HTML parser selector optimizations (#1245) @jafin

@@ -10,7 +10,7 @@
        entry of CHANGELOG.md, which build/Build.cs passes in as -p:Version, so this value only
        affects a plain `dotnet build` and no longer needs bumping for a release. -->
   <PropertyGroup Label="Versioning">
-    <Version>1.7.1</Version>
+    <Version>1.7.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Label="Compilation">
