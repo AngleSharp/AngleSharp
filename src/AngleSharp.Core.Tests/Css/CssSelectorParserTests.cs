@@ -62,6 +62,38 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
+        public void ParseSelector_WithCaseInsensitiveAttributeValue_KeepsModifierInText()
+        {
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector("[href$=\"B\" i]");
+
+            Assert.NotNull(selector);
+            Assert.AreEqual("[href$=\"B\" i]", selector!.Text);
+        }
+
+        [TestCase("=")]
+        [TestCase("~=")]
+        [TestCase("|=")]
+        [TestCase("^=")]
+        [TestCase("$=")]
+        [TestCase("*=")]
+        [TestCase("!=")]
+        public void ParseSelector_WithCaseInsensitiveAttributeValue_SerializesToAnEquivalentSelector(String op)
+        {
+            // Text is what every consumer stores, compares and re-parses, so a modifier dropped
+            // here silently turns a case-insensitive selector into a case-sensitive one.
+            var text = $"[href{op}\"B\" i]";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(text);
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(text, selector!.Text);
+            Assert.AreEqual(text, parser.ParseSelector(selector.Text)!.Text);
+        }
+
+        [Test]
         public void ParseSelector_WithOfClause_KeepsTheFilterInText()
         {
             var parser = new CssSelectorParser();

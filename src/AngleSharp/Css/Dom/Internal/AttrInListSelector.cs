@@ -7,16 +7,14 @@ namespace AngleSharp.Css.Dom
     sealed class AttrInListSelector : BaseAttrSelector, ISelector
     {
         private readonly String _value;
-        private readonly StringComparison _comparison;
 
         public AttrInListSelector(String name, String value, String? prefix = null, Boolean insensitive = false)
-            : base(name, prefix)
+            : base(name, prefix, insensitive)
         {
             _value = value;
-            _comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
         }
 
-        public String Text => String.Concat("[", Attribute, "~=", _value.CssString(), "]");
+        public String Text => String.Concat("[", Attribute, "~=", _value.CssString(), Modifier, "]");
 
         public void Accept(ISelectorVisitor visitor) => visitor.Attribute(Attribute, "~=", _value);
 
@@ -25,7 +23,7 @@ namespace AngleSharp.Css.Dom
             if (!String.IsNullOrEmpty(_value))
             {
                 var actual = element.GetAttribute(Name) ?? String.Empty;
-                return actual.SplitSpaces().Contains(_value, _comparison);
+                return actual.SplitSpaces().Contains(_value, Comparison);
             }
 
             return false;
