@@ -39,6 +39,19 @@ internal interface IMutableCharBuffer : ICharBuffer, IDisposable
     void Discard();
 
     /// <summary>
+    /// Discards everything the buffer holds, data already committed by
+    /// <see cref="GetDataAndClear"/> included, returning it to the state it had when it was
+    /// created.
+    /// </summary>
+    void Reset();
+
+    /// <summary>
+    /// Makes room for at least the given number of characters, keeping every
+    /// <see cref="StringOrMemory"/> already handed out valid.
+    /// </summary>
+    void EnsureCapacity(Int32 length);
+
+    /// <summary>
     /// Current capacity of the buffer.
     /// </summary>
     Int32 Capacity { get; }

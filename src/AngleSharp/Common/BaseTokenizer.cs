@@ -260,6 +260,35 @@ namespace AngleSharp.Common
             return c;
         }
 
+        /// <summary>
+        /// Drops everything the character buffer has accumulated so far.
+        /// </summary>
+        /// <remarks>
+        /// The pooled buffer is sized from the source's character count, which is only enough for
+        /// a single pass: every token committed to it advances a write position that is never
+        /// rewound. A parser that restarts over the same source -- which an encoding declaration
+        /// makes it do -- therefore has to say so, or the second pass appends behind the tokens of
+        /// the abandoned one and runs off the end of the rented array.
+        /// </remarks>
+        internal void ResetBuffer() => _charBuffer.Reset();
+
+        /// <summary>
+        /// Re-reads the source's character count and grows the character buffer to match.
+        /// </summary>
+        /// <remarks>
+        /// The count is only fixed for as long as the encoding is. Re-decoding the same bytes with
+        /// a single-byte encoding turns every multi-byte sequence into that many characters, so a
+        /// source can be substantially longer after an encoding declaration than the buffer was
+        /// rented for at the start of the parse.
+        /// </remarks>
+        internal void GrowBufferToSource()
+        {
+            if (_source.TryGetContentLength(out var length))
+            {
+                _charBuffer.EnsureCapacity(length);
+            }
+        }
+
         #endregion
 
         #region Source Management
