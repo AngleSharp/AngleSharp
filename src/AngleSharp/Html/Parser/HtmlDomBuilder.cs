@@ -241,6 +241,7 @@ namespace AngleSharp.Html.Parser
         {
             _currentMode = HtmlTreeMode.Initial;
             _tokenizer.State = HtmlParseMode.PCData;
+            _tokenizer.ResetBuffer();
             _document.Clear();
             _ended = false;
             _frameset = true;
@@ -725,6 +726,11 @@ namespace AngleSharp.Html.Parser
                             Restart();
                         }
 
+                        // Handling the declaration is what re-decodes the source, so this is the
+                        // one point in a parse where the character count can change. It grows
+                        // whenever the new encoding needs more characters for the same bytes, and
+                        // the tokenizer's buffer was rented for the old count.
+                        _tokenizer.GrowBufferToSource();
                         return;
                     }
                     else if (TagNames.AllHeadBase.Contains(tagName))
