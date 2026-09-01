@@ -93,6 +93,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(text, parser.ParseSelector(selector.Text)!.Text);
         }
 
+        [Test]
         public void ParseSelector_WithOfClause_KeepsTheFilterInText()
         {
             var parser = new CssSelectorParser();
