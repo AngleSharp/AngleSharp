@@ -1,3 +1,15 @@
+# 1.7.3
+
+Released on Wednesday, September 2 2026
+
+- Fixed tokenizer buffer overrun on encoding change (#1290) @jafin
+- Fixed selector text dropping the nth-child of clause (#1292) @jafin
+- Fixed selector text dropping the case-insensitive (#1291) @jafin
+- Fixed selector specificity carrying between fields instead of saturating (#1300) @meziantou
+- Fixed condition check for disposed state in ReturnToPool (#1296) @meziantou
+- Fixed ArgumentOutOfRangeException CSS escapes (#1299) @meziantou
+- Added missing DomName/DomAccessor annotations (#1301) @meziantou
+
 # 1.7.2
 
 Released on Sunday, August 23 2026
