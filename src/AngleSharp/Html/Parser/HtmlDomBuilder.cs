@@ -816,7 +816,7 @@ namespace AngleSharp.Html.Parser
                         CloseCurrentNode();
 
                         _currentMode = HtmlTreeMode.AfterHead;
-                        _waiting = _document.WaitForReadyAsync(CancellationToken.None);
+                        WaitFor(_document.WaitForReadyAsync(CancellationToken.None));
                         return;
                     }
                     else if (tagName.Is(TagNames.Template))
@@ -4029,7 +4029,7 @@ namespace AngleSharp.Html.Parser
 
                     if (script.Prepare(_document))
                     {
-                        _waiting = RunScript(script);
+                        WaitFor(RunScript(script));
                     }
                 }
             }
@@ -4043,6 +4043,42 @@ namespace AngleSharp.Html.Parser
         {
             await _document.WaitForReadyAsync(CancellationToken.None).ConfigureAwait(false);
             await script.RunAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Remembers the task the parser still has to wait for.
+        /// </summary>
+        /// <remarks>
+        /// The parser never throws, so the task is wrapped in one that observes its failure
+        /// instead of propagating it. Without that wrapper an exception escaping host code -
+        /// a scripting service, an event listener, a resource task - is rethrown out of
+        /// ParseAsync, and dropped entirely by the synchronous Parse, which never awaits the
+        /// task at all.
+        /// </remarks>
+        /// <param name="task">The task the parser has to wait for.</param>
+        private void WaitFor(Task task)
+        {
+            // Nothing to observe when the task already succeeded, which is the common case
+            // for a document without scripts or pending downloads. No wrapper is allocated.
+            _waiting = task.Status == TaskStatus.RanToCompletion ? null : ObserveAsync(task);
+        }
+
+        /// <summary>
+        /// Awaits the given task and reports its failure instead of propagating it.
+        /// </summary>
+        /// <param name="task">The task to observe.</param>
+        private async Task ObserveAsync(Task task)
+        {
+            try
+            {
+                await task.ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                /* The parser never throws; the same way a failing scripting service is
+                   reported by the script request processor, the failure is tracked. */
+                _document.TrackError(ex);
+            }
         }
 
         /// <summary>
@@ -4109,7 +4145,7 @@ namespace AngleSharp.Html.Parser
 
             if (_document.IsLoading)
             {
-                _waiting = _document.FinishLoadingAsync();
+                WaitFor(_document.FinishLoadingAsync());
             }
         }
 

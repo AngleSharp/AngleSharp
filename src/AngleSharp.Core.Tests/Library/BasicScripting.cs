@@ -1,10 +1,12 @@
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
     using AngleSharp.Browser;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Dom.Events;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Io;
     using AngleSharp.Text;
     using NUnit.Framework;
@@ -372,6 +374,136 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsTrue(didRun);
             Assert.IsNull(currentScript);
             Assert.IsNull(document.CurrentScript);
+        }
+
+        [Test]
+        public async Task ParsingSynchronouslyTracksExceptionEscapingHostEventListener_Issue1309()
+        {
+            var scripting = new CallbackScriptEngine(_ => { });
+            var context = BrowsingContext.New(Configuration.Default.WithScripts(scripting));
+            var tracked = TrackErrorAsync(context);
+            var parser = context.GetService<IHtmlParser>();
+            ThrowFromListener(parser, EventNames.BeforeScriptExecute, "from the host");
+
+            var document = parser.ParseDocument("<body><script type='c-sharp'>//...</script>");
+            var error = await AwaitTrackedErrorAsync(tracked);
+
+            Assert.IsNotNull(document);
+            Assert.IsInstanceOf<InvalidOperationException>(error);
+            Assert.AreEqual("from the host", error.Message);
+        }
+
+        [Test]
+        public async Task ParsingAsynchronouslyTracksExceptionEscapingHostEventListener_Issue1309()
+        {
+            var scripting = new CallbackScriptEngine(_ => { });
+            var context = BrowsingContext.New(Configuration.Default.WithScripts(scripting));
+            var tracked = TrackErrorAsync(context);
+            var parser = context.GetService<IHtmlParser>();
+            ThrowFromListener(parser, EventNames.BeforeScriptExecute, "from the host");
+
+            var document = await parser.ParseDocumentAsync("<body><script type='c-sharp'>//...</script>");
+            var error = await AwaitTrackedErrorAsync(tracked);
+
+            Assert.IsNotNull(document);
+            Assert.IsInstanceOf<InvalidOperationException>(error);
+            Assert.AreEqual("from the host", error.Message);
+        }
+
+        [Test]
+        public async Task ParsingSynchronouslyTracksExceptionEscapingDomContentLoadedListener_Issue1309()
+        {
+            var context = BrowsingContext.New(Configuration.Default);
+            var tracked = TrackErrorAsync(context);
+            var parser = context.GetService<IHtmlParser>();
+            ThrowFromListener(parser, EventNames.DomContentLoaded, "from the host");
+
+            var document = parser.ParseDocument("<body><p>text</p>");
+            var error = await AwaitTrackedErrorAsync(tracked);
+
+            Assert.IsNotNull(document);
+            Assert.IsInstanceOf<InvalidOperationException>(error);
+            Assert.AreEqual("from the host", error.Message);
+        }
+
+        [Test]
+        public async Task ParsingAsynchronouslyTracksExceptionEscapingDomContentLoadedListener_Issue1309()
+        {
+            var context = BrowsingContext.New(Configuration.Default);
+            var tracked = TrackErrorAsync(context);
+            var parser = context.GetService<IHtmlParser>();
+            ThrowFromListener(parser, EventNames.DomContentLoaded, "from the host");
+
+            var document = await parser.ParseDocumentAsync("<body><p>text</p>");
+            var error = await AwaitTrackedErrorAsync(tracked);
+
+            Assert.IsNotNull(document);
+            Assert.IsInstanceOf<InvalidOperationException>(error);
+            Assert.AreEqual("from the host", error.Message);
+        }
+
+        [Test]
+        public async Task FailingScriptingServiceIsTrackedInsteadOfFaultingTheParse_Issue1309()
+        {
+            var scripting = new FailingScriptEngine("from the scripting service");
+            var context = BrowsingContext.New(Configuration.Default.WithScripts(scripting));
+            var tracked = TrackErrorAsync(context);
+            var parser = context.GetService<IHtmlParser>();
+
+            var document = await parser.ParseDocumentAsync("<body><script type='c-sharp'>//...</script>");
+            var error = await AwaitTrackedErrorAsync(tracked);
+
+            Assert.IsNotNull(document);
+            Assert.IsInstanceOf<InvalidOperationException>(error);
+            Assert.AreEqual("from the scripting service", error.Message);
+        }
+
+        [Test]
+        public async Task ReadyStateBecomesInteractiveBeforeDomContentLoaded_Issue1309()
+        {
+            var scripting = new CallbackScriptEngine(_ => { });
+            var context = BrowsingContext.New(Configuration.Default.WithScripts(scripting));
+            var parser = context.GetService<IHtmlParser>();
+            var observed = new List<String>();
+
+            parser.Parsing += (_, ev) =>
+            {
+                var parsed = ((HtmlParseEvent)ev).Document;
+                parsed.ReadyStateChanged += (_, _) => observed.Add(parsed.ReadyState.ToString());
+                parsed.AddEventListener(EventNames.DomContentLoaded, (_, _) => observed.Add("DOMContentLoaded"));
+                parsed.AddEventListener(EventNames.Load, (_, _) => observed.Add("load"));
+            };
+
+            var document = await parser.ParseDocumentAsync("<body><script type='c-sharp'>//...</script><p>text</p>");
+
+            Assert.AreEqual(DocumentReadyState.Complete, document.ReadyState);
+            Assert.AreEqual("Interactive, DOMContentLoaded, Complete, load", String.Join(", ", observed));
+        }
+
+        /// <summary>
+        /// Listens for the exceptions the browsing context tracks, i.e. what a host sees of a
+        /// failure the parser handled instead of throwing.
+        /// </summary>
+        private static Task<Exception> TrackErrorAsync(IBrowsingContext context)
+        {
+            var tcs = new TaskCompletionSource<Exception>();
+            context.AddEventListener(EventNames.Error, (_, ev) =>
+                tcs.TrySetResult(((AngleSharp.Browser.Dom.Events.TrackEvent)ev).Error));
+            return tcs.Task;
+        }
+
+        private static async Task<Exception> AwaitTrackedErrorAsync(Task<Exception> tracked)
+        {
+            var completed = await Task.WhenAny(tracked, Task.Delay(5000));
+            Assert.AreSame(tracked, completed, "The browsing context did not track any error.");
+            return await tracked;
+        }
+
+        private static void ThrowFromListener(IHtmlParser parser, String eventName, String message)
+        {
+            // Captured, as beforescriptexecute is fired at the script element without bubbling.
+            parser.Parsing += (_, ev) => ((HtmlParseEvent)ev).Document.AddEventListener(
+                eventName, (_, _) => throw new InvalidOperationException(message), capture: true);
         }
     }
 }
