@@ -45,7 +45,7 @@ internal sealed class StringBuilderBuffer : IMutableCharBuffer
 
     public void ReturnToPool()
     {
-        if (_disposed)
+        if (!_disposed)
         {
             StringBuilderPool.ReturnToPool(_sb);
             _sb = null!;
