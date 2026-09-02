@@ -2453,8 +2453,8 @@ namespace AngleSharp.Html.Parser
                                 }
                                 return ref NewCharacter();
                             default:
-                                state = ScriptState.Normal;
-                                continue;
+                                Append(c);
+                                break;
                         }
 
                         c = GetNext();

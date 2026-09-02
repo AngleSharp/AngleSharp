@@ -11,6 +11,7 @@ Released on Wednesday, September 2 2026
 - Fixed whitespace around An+B CSS selector notations (#1297)
 - Fixed unsupported pseudo-classes matching everything (#1295)
 - Fixed DomException for invalid foreign attribute names such as `xml:lang[` (#1294)
+- Fixed script data escaped state leaving escaped mode too early (#1298)
 - Added missing DomName/DomAccessor annotations (#1301) @meziantou
 
 # 1.7.2
