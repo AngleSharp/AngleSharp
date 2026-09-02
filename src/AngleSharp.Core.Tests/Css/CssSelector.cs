@@ -1361,6 +1361,31 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.AreEqual(selectorText, selector.Text);
         }
 
+        // https://drafts.csswg.org/css-syntax/#consume-escaped-code-point - a surrogate escape yields U+FFFD.
+        [TestCase(@"\D800")]
+        [TestCase(@"\DBFF")]
+        [TestCase(@"\DC00")]
+        [TestCase(@"\DFFF")]
+        public void EscapedSurrogateCodePointBecomesReplacementCharacter(String escape)
+        {
+            var document = "<div class='\uFFFD'></div>".ToHtmlDocument();
+
+            var result = document.QuerySelectorAll("." + escape + " ");
+
+            Assert.AreEqual(1, result.Length);
+        }
+
+        [TestCase(@"\D7FF", '\uD7FF')]
+        [TestCase(@"\E000", '\uE000')]
+        public void EscapedCodePointNextToSurrogateRangeIsPreserved(String escape, Char expected)
+        {
+            var document = $"<div class='{expected}'></div>".ToHtmlDocument();
+
+            var result = document.QuerySelectorAll("." + escape + " ");
+
+            Assert.AreEqual(1, result.Length);
+        }
+
         [TestCase("nth-child")]
         [TestCase("nth-last-child")]
         public void PseudoClassSpecificityExceptions_NthChild_ContributesSpecificity(String pseudoClass)
