@@ -41,10 +41,7 @@ namespace AngleSharp.Dom
 
         public void Remove(String name)
         {
-            if (Contains(name))
-            {
-                this[name] = null;
-            }
+            _parent.Attributes.RemoveNamedItemOrDefault(null, _prefix + Check(name));
         }
 
         public Boolean Contains(String name)

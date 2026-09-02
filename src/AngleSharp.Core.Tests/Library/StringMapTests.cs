@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using NUnit.Framework;
+    using System.Linq;
 
     [TestFixture]
     public class StringMapTests
@@ -25,6 +26,30 @@
         {
             stringMap.Remove("b");
             Assert.AreEqual(a.GetAttribute("data-b"), null);
+        }
+
+        [Test]
+        public void RemoveDeletesTheAttribute()
+        {
+            stringMap.Remove("b");
+            Assert.IsFalse(a.HasAttribute("data-b"));
+            Assert.IsFalse(stringMap.Contains("b"));
+        }
+
+        [Test]
+        public void RemoveDropsTheNameFromTheEnumeration()
+        {
+            stringMap.Remove("b");
+            Assert.AreEqual(1, stringMap.Count());
+            Assert.AreEqual("test1", stringMap.Single().Key);
+        }
+
+        [Test]
+        public void RemoveOfUnknownNameKeepsTheOtherAttributes()
+        {
+            stringMap.Remove("c");
+            Assert.AreEqual(2, stringMap.Count());
+            Assert.IsTrue(a.HasAttribute("data-b"));
         }
 
         [Test]
