@@ -115,7 +115,16 @@ namespace AngleSharp.Css
         /// <param name="a">The first priority.</param>
         /// <param name="b">The second priority.</param>
         /// <returns>The result of adding the two priorities.</returns>
-        public static Priority operator +(Priority a, Priority b) => new(a._priority + b._priority);
+        // Added per field rather than on the packed value: a 256th tag would
+        // otherwise carry into the class field and outrank a real class.
+        public static Priority operator +(Priority a, Priority b) => new(
+            Saturate(a._inlines + b._inlines),
+            Saturate(a._ids + b._ids),
+            Saturate(a._classes + b._classes),
+            Saturate(a._tags + b._tags));
+
+        // Both operands are bytes, so the sum can never leave the Int32 range.
+        private static Byte Saturate(Int32 sum) => sum > Byte.MaxValue ? Byte.MaxValue : (Byte)sum;
 
         #endregion
 
