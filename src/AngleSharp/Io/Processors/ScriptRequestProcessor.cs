@@ -12,6 +12,8 @@ namespace AngleSharp.Io.Processors
     {
         #region Fields
 
+        private const String ScriptTypeModule = "module";
+
         private readonly IBrowsingContext _context;
         private readonly Document _document;
         private readonly HtmlScriptElement _script;
@@ -61,6 +63,8 @@ namespace AngleSharp.Io.Processors
             }
         }
 
+        private Boolean IsModule => _script.Type.Isi(ScriptTypeModule);
+
         #endregion
 
         #region Methods
@@ -89,6 +93,10 @@ namespace AngleSharp.Io.Processors
                 {
                     var options = CreateOptions();
                     var insert = _document.Source.Index;
+                    var previousScript = _document.CurrentScript;
+
+                    //https://html.spec.whatwg.org/multipage/scripting.html#execute-the-script-element
+                    _document.CurrentScript = IsModule ? null : _script;
 
                     try
                     {
@@ -98,6 +106,10 @@ namespace AngleSharp.Io.Processors
                     {
                         /* We omit failed 3rd party services */
                         _context.TrackError(ex);
+                    }
+                    finally
+                    {
+                        _document.CurrentScript = previousScript;
                     }
 
                     _document.Source.Index = insert;

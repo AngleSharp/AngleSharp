@@ -4,10 +4,12 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Browser;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Io;
     using AngleSharp.Text;
     using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
@@ -308,6 +310,68 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(originalBody, document.Body?.TextContent);
             Assert.AreEqual("café", document.Title);
             Assert.AreEqual("tail", document.Body?.TextContent);
+        }
+
+        [Test]
+        public void CurrentScriptIsTheClassicScriptBeingRun()
+        {
+            var currentScript = default(IHtmlScriptElement);
+            var scripting = new CallbackScriptEngine(options => currentScript = options.Document.CurrentScript);
+            var config = Configuration.Default.WithScripts(scripting);
+            var source = "<title>Some title</title><body><script type='c-sharp'>//...</script>";
+            var document = source.ToHtmlDocument(config);
+            var script = document.Scripts[0];
+
+            Assert.AreSame(script, currentScript);
+            Assert.IsNull(document.CurrentScript);
+        }
+
+        [Test]
+        public async Task CurrentScriptIsTheExternalClassicScriptBeingRun()
+        {
+            var currentScript = default(IHtmlScriptElement);
+            var scripting = new CallbackScriptEngine(options => currentScript = options.Document.CurrentScript);
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+            var script = document.Scripts[0];
+
+            Assert.AreSame(script, currentScript);
+            Assert.IsNull(document.CurrentScript);
+        }
+
+        [Test]
+        public async Task CurrentScriptIsTheDeferredScriptBeingRun()
+        {
+            var seen = new List<IHtmlScriptElement>();
+            var scripting = new CallbackScriptEngine(options => seen.Add(options.Document.CurrentScript));
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>Some title</title><body><script type='c-sharp' defer src='first.cs'></script><script type='c-sharp' defer src='second.cs'></script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+
+            Assert.AreEqual(2, seen.Count);
+            Assert.AreSame(document.Scripts[0], seen[0]);
+            Assert.AreSame(document.Scripts[1], seen[1]);
+            Assert.IsNull(document.CurrentScript);
+        }
+
+        [Test]
+        public void CurrentScriptIsNullWhileRunningAModuleScript()
+        {
+            var didRun = false;
+            var currentScript = default(IHtmlScriptElement);
+            var scripting = new CallbackScriptEngine(options =>
+            {
+                didRun = true;
+                currentScript = options.Document.CurrentScript;
+            }, "module");
+            var config = Configuration.Default.WithScripts(scripting);
+            var source = "<title>Some title</title><body><script type='module'>//...</script>";
+            var document = source.ToHtmlDocument(config);
+
+            Assert.IsTrue(didRun);
+            Assert.IsNull(currentScript);
+            Assert.IsNull(document.CurrentScript);
         }
     }
 }
