@@ -30,6 +30,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the mode of this shadow root.
         /// </summary>
+        [DomName("mode")]
         ShadowRootMode Mode { get; }
 
         /// <summary>

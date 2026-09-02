@@ -21,6 +21,7 @@
         /// </summary>
         /// <param name="index">The 0-based cue index.</param>
         /// <returns>The cue at the position.</returns>
+        [DomAccessor(Accessors.Getter)]
         ITextTrackCue this[Int32 index] { get; }
 
         /// <summary>
