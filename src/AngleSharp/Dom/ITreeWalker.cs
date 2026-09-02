@@ -14,6 +14,7 @@ namespace AngleSharp.Dom
         /// TreeWalker was created.
         /// </summary>
         [DomName("root")]
+        [DomSameObject]
         INode Root { get; }
 
         /// <summary>

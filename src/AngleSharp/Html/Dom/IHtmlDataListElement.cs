@@ -13,6 +13,7 @@
         /// Gets the associated options.
         /// </summary>
         [DomName("options")]
+        [DomSameObject]
         IHtmlCollection<IHtmlOptionElement> Options { get; }
     }
 }

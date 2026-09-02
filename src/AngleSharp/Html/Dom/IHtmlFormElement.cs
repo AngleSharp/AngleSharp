@@ -76,6 +76,7 @@ namespace AngleSharp.Html.Dom
         /// Gets all the form controls belonging to this form element.
         /// </summary>
         [DomName("elements")]
+        [DomSameObject]
         IHtmlFormControlsCollection Elements { get; }
 
         /// <summary>

@@ -63,6 +63,7 @@ namespace AngleSharp.Html.Dom
         /// Gets the set of options that are selected.
         /// </summary>
         [DomName("selectedOptions")]
+        [DomSameObject]
         IHtmlCollection<IHtmlOptionElement> SelectedOptions { get; }
 
         /// <summary>
@@ -75,6 +76,7 @@ namespace AngleSharp.Html.Dom
         /// Gets the set of option elements contained by this element. 
         /// </summary>
         [DomName("options")]
+        [DomSameObject]
         IHtmlOptionsCollection Options { get; }
         
         /// <summary>

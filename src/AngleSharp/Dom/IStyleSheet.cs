@@ -44,6 +44,7 @@
         /// specified, the MediaList is empty.
         /// </summary>
         [DomName("media")]
+        [DomSameObject]
         [DomPutForwards("mediaText")]
         IMediaList Media { get; }
 

@@ -15,6 +15,7 @@ namespace AngleSharp.Dom
         /// Gets the child elements.
         /// </summary>
         [DomName("children")]
+        [DomSameObject]
         IHtmlCollection<IElement> Children { get; }
 
         /// <summary>

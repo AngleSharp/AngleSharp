@@ -41,6 +41,7 @@ namespace AngleSharp.Html.Dom
         /// Gets the rel HTML attribute, as a list of tokens.
         /// </summary>
         [DomName("relList")]
+        [DomSameObject]
         ITokenList RelationList { get; }
 
         /// <summary>

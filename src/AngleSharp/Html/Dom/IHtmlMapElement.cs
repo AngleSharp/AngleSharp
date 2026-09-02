@@ -21,6 +21,7 @@ namespace AngleSharp.Html.Dom
         /// associated to this map.
         /// </summary>
         [DomName("areas")]
+        [DomSameObject]
         IHtmlCollection<IHtmlAreaElement> Areas { get; }
 
         /// <summary>

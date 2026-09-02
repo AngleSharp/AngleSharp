@@ -119,18 +119,21 @@ namespace AngleSharp.Html.Dom
         /// Gets a list of contained audio tracks.
         /// </summary>
         [DomName("audioTracks")]
+        [DomSameObject]
         IAudioTrackList? AudioTracks { get; }
 
         /// <summary>
         /// Gets a list of contained video tracks.
         /// </summary>
         [DomName("videoTracks")]
+        [DomSameObject]
         IVideoTrackList? VideoTracks { get; }
 
         /// <summary>
         /// Gets a list of contained text tracks.
         /// </summary>
         [DomName("textTracks")]
+        [DomSameObject]
         ITextTrackList? TextTracks { get; }
 
         /// <summary>
