@@ -1044,6 +1044,8 @@ namespace AngleSharp.Css.Parser
                     ParseState.Initial          => OnInitial(token),
                     ParseState.AfterInitialSign => OnAfterInitialSign(token),
                     ParseState.Offset           => OnOffset(token),
+                    ParseState.AfterOffsetWhitespace => OnAfterOffsetWhitespace(token),
+                    ParseState.AfterOffsetSign  => OnAfterOffsetSign(token),
                     ParseState.BeforeOf         => OnBeforeOf(token),
                     _                           => OnAfter(token)
                 };
@@ -1121,6 +1123,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (token.Type == CssTokenType.Whitespace)
                 {
+                    _state = ParseState.AfterOffsetWhitespace;
                     return false;
                 }
 
@@ -1132,6 +1135,40 @@ namespace AngleSharp.Css.Parser
                     return false;
                 }
 
+                return OnBeforeOf(token);
+            }
+
+            private Boolean OnAfterOffsetWhitespace(CssSelectorToken token)
+            {
+                if (token.Type == CssTokenType.Whitespace)
+                {
+                    return false;
+                }
+
+                if (token.Type == CssTokenType.Delim && token.Data.IsOneOf("+", "-"))
+                {
+                    _sign = token.Data is "-" ? -1 : +1;
+                    _state = ParseState.AfterOffsetSign;
+                    return false;
+                }
+
+                _state = ParseState.Offset;
+                return OnOffset(token);
+            }
+
+            private Boolean OnAfterOffsetSign(CssSelectorToken token)
+            {
+                if (token.Type == CssTokenType.Whitespace)
+                {
+                    return false;
+                }
+
+                if (token.Type == CssTokenType.Number && !token.Data.StartsWith("+", StringComparison.Ordinal) && !token.Data.StartsWith("-", StringComparison.Ordinal))
+                {
+                    return OnOffset(token);
+                }
+
+                _valid = false;
                 return OnBeforeOf(token);
             }
 
@@ -1171,6 +1208,8 @@ namespace AngleSharp.Css.Parser
                 Initial,
                 AfterInitialSign,
                 Offset,
+                AfterOffsetWhitespace,
+                AfterOffsetSign,
                 BeforeOf,
                 AfterOf
             }

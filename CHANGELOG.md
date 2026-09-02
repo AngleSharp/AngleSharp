@@ -8,6 +8,7 @@ Released on Wednesday, September 2 2026
 - Fixed selector specificity carrying between fields instead of saturating (#1300) @meziantou
 - Fixed condition check for disposed state in ReturnToPool (#1296) @meziantou
 - Fixed ArgumentOutOfRangeException CSS escapes (#1299) @meziantou
+- Fixed whitespace around An+B CSS selector notations (#1297)
 - Added missing DomName/DomAccessor annotations (#1301) @meziantou
 
 # 1.7.2

@@ -105,6 +105,16 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual("p", result[3].GetTagName());
         }
 
+        [TestCase("2n - 1")]
+        [TestCase("2n + 1")]
+        public void NthChildWithWhitespaceAroundOffsetSign(String formula)
+        {
+            var document = "<ul><li>1</li><li>2</li><li>3</li></ul>".ToHtmlDocument();
+            var result = RunQuery(document, $"li:nth-child({formula})");
+
+            Assert.AreEqual(2, result.Length);
+        }
+
         [Test]
         public void NthChildWithOfSyntax()
         {
