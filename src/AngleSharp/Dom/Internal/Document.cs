@@ -594,7 +594,7 @@ namespace AngleSharp.Dom
         public Boolean IsAsync => _async;
 
         /// <inheritdoc />
-        public IHtmlScriptElement? CurrentScript => _loadingScripts.Count > 0 ? _loadingScripts.Peek() : null;
+        public IHtmlScriptElement? CurrentScript { get; internal set; }
 
         /// <inheritdoc />
         public IImplementation Implementation => _implementation ??= new DomImplementation(this);
