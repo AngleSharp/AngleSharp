@@ -241,6 +241,6 @@ namespace AngleSharp.Text
         /// <param name="c">The character to examine.</param>
         /// <returns>The result of the test.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsInvalid(this Int32 c) => c == 0 || c > Symbols.MaximumCodepoint || (c > 0xD800 && c < 0xDFFF);
+        public static Boolean IsInvalid(this Int32 c) => c == 0 || c > Symbols.MaximumCodepoint || (c >= 0xD800 && c <= 0xDFFF);
     }
 }
