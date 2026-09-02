@@ -161,5 +161,66 @@
             Assert.AreEqual(tags, a.Tags);
             Assert.AreEqual(result, a);
         }
+
+        [Test]
+        public void PriorityTagsSaturateInsteadOfCarryingIntoClasses()
+        {
+            var a = Priority.Zero;
+
+            for (var i = 0; i < 300; i++)
+            {
+                a += Priority.OneTag;
+            }
+
+            Assert.AreEqual(new Priority(0, 0, 0, 255), a);
+            Assert.AreEqual(255, a.Tags);
+            Assert.AreEqual(0, a.Classes);
+            Assert.AreNotEqual(Priority.OneClass, a);
+        }
+
+        [Test]
+        public void PriorityClassesSaturateInsteadOfCarryingIntoIds()
+        {
+            var a = Priority.Zero;
+
+            for (var i = 0; i < 300; i++)
+            {
+                a += Priority.OneClass;
+            }
+
+            Assert.AreEqual(new Priority(0, 0, 255, 0), a);
+            Assert.AreEqual(255, a.Classes);
+            Assert.AreEqual(0, a.Ids);
+            Assert.AreNotEqual(Priority.OneId, a);
+        }
+
+        [Test]
+        public void PriorityIdsSaturateInsteadOfCarryingIntoInlines()
+        {
+            var a = Priority.Zero;
+
+            for (var i = 0; i < 300; i++)
+            {
+                a += Priority.OneId;
+            }
+
+            Assert.AreEqual(new Priority(0, 255, 0, 0), a);
+            Assert.AreEqual(255, a.Ids);
+            Assert.AreEqual(0, a.Inlines);
+            Assert.AreNotEqual(Priority.Inline, a);
+        }
+
+        [Test]
+        public void PriorityOneClassBeatsAnyNumberOfTags()
+        {
+            var tags = Priority.Zero;
+
+            for (var i = 0; i < 300; i++)
+            {
+                tags += Priority.OneTag;
+            }
+
+            Assert.IsTrue(Priority.OneClass > tags);
+        }
     }
 }

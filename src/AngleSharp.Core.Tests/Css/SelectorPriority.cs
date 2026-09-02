@@ -5,6 +5,8 @@ namespace AngleSharp.Core.Tests.Css
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
     using NUnit.Framework;
+    using System;
+    using System.Linq;
 
     [TestFixture]
     public class SelectorPriorityTests
@@ -138,6 +140,26 @@ namespace AngleSharp.Core.Tests.Css
             {
                 doc.QuerySelectorAll(selectorText);
             });
+        }
+
+        [Test]
+        public void ManyTypeSelectorsDoNotReachClassSpecificity()
+        {
+            var parser = new CssSelectorParser();
+            var selector = parser.ParseSelector(String.Join(" ", Enumerable.Repeat("div", 256)));
+
+            Assert.AreEqual(new Priority(0, 0, 0, 255), selector.Specificity);
+            Assert.IsTrue(parser.ParseSelector(".x").Specificity > selector.Specificity);
+        }
+
+        [Test]
+        public void ManyClassSelectorsDoNotReachIdSpecificity()
+        {
+            var parser = new CssSelectorParser();
+            var selector = parser.ParseSelector(String.Concat(Enumerable.Range(0, 256).Select(i => $".c{i}")));
+
+            Assert.AreEqual(new Priority(0, 0, 255, 0), selector.Specificity);
+            Assert.IsTrue(parser.ParseSelector("#x").Specificity > selector.Specificity);
         }
     }
 }
