@@ -64,7 +64,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String? Slot
         {
-            get => this.GetOwnAttribute(AttributeNames.Slot);
+            get => this.GetOwnAttribute(AttributeNames.Slot) ?? String.Empty;
             set => this.SetOwnAttribute(AttributeNames.Slot, value);
         }
 
@@ -121,14 +121,14 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String? ClassName
         {
-            get => this.GetOwnAttribute(AttributeNames.Class);
+            get => this.GetOwnAttribute(AttributeNames.Class) ?? String.Empty;
             set => this.SetOwnAttribute(AttributeNames.Class, value);
         }
 
         /// <inheritdoc />
         public String? Id
         {
-            get => this.GetOwnAttribute(AttributeNames.Id);
+            get => this.GetOwnAttribute(AttributeNames.Id) ?? String.Empty;
             set => this.SetOwnAttribute(AttributeNames.Id, value);
         }
 

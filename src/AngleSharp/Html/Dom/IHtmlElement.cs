@@ -19,13 +19,15 @@ namespace AngleSharp.Html.Dom
         String? Language { get; set; }
 
         /// <summary>
-        /// Gets or sets the value of the title attribute.
+        /// Gets or sets the value of the title attribute. Returns the empty
+        /// string if the attribute is not present.
         /// </summary>
         [DomName("title")]
         String? Title { get; set; }
 
         /// <summary>
-        /// Gets or sets the value of the dir attribute.
+        /// Gets or sets the value of the dir attribute. Returns the empty
+        /// string if the attribute is not present.
         /// </summary>
         [DomName("dir")]
         String? Direction { get; set; }

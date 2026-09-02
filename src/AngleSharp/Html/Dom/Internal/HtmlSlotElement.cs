@@ -22,7 +22,7 @@ namespace AngleSharp.Html.Dom
 
         public String? Name
         {
-            get => this.GetOwnAttribute(AttributeNames.Name);
+            get => this.GetOwnAttribute(AttributeNames.Name) ?? String.Empty;
             set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
