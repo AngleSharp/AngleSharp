@@ -74,7 +74,7 @@ namespace AngleSharp.Dom
                 if (parent.IsShadow())
                 {
                     var tree = parent.ShadowRoot;
-                    return tree?.GetAssignedSlot(null);
+                    return tree?.GetAssignedSlot(String.Empty);
                 }
 
                 return null;

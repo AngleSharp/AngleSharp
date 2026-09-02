@@ -46,13 +46,15 @@ namespace AngleSharp.Dom
         ITokenList ClassList { get; }
 
         /// <summary>
-        /// Gets or sets the value of the class attribute.
+        /// Gets or sets the value of the class attribute. Returns the empty
+        /// string if the attribute is not present.
         /// </summary>
         [DomName("className")]
         String? ClassName { get; set; }
 
         /// <summary>
-        /// Gets or sets the id value of the element.
+        /// Gets or sets the id value of the element. Returns the empty string
+        /// if the attribute is not present.
         /// </summary>
         [DomName("id")]
         String? Id { get; set; }
@@ -263,7 +265,8 @@ namespace AngleSharp.Dom
         IElement? AssignedSlot { get; }
 
         /// <summary>
-        /// Gets the value of the slot attribute.
+        /// Gets the value of the slot attribute. Returns the empty string if
+        /// the attribute is not present.
         /// </summary>
         [DomName("slot")]
         String? Slot { get; set; }

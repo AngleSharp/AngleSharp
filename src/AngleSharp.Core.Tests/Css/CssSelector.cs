@@ -809,7 +809,8 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.AreEqual("span", result[1].GetTagName());
             Assert.AreEqual("span", result[2].GetTagName());
             Assert.AreEqual("italic", result[0].ClassName);
-            Assert.AreEqual(null, result[1].ClassName);
+            // A missing class attribute reflects as the empty string, not null.
+            Assert.AreEqual("", result[1].ClassName);
             Assert.AreEqual("this", result[2].ClassName);
             Assert.AreEqual("2", result[0].TextContent);
             Assert.AreEqual("4", result[1].TextContent);
@@ -837,7 +838,8 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual("span", result[0].GetTagName());
-            Assert.AreEqual(null, result[0].ClassName);
+            // A missing class attribute reflects as the empty string, not null.
+            Assert.AreEqual("", result[0].ClassName);
             Assert.AreEqual("1", result[0].TextContent);
         }
 

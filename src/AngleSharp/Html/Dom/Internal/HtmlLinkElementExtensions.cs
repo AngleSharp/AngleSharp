@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Dom;
     using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
@@ -18,7 +19,7 @@
         /// <returns>True if the link hosts a persistent stylesheet.</returns>
         public static Boolean IsPersistent(this IHtmlLinkElement link)
         {
-            return link.Relation.Isi(LinkRelNames.StyleSheet) && link.Title is null;
+            return link.Relation.Isi(LinkRelNames.StyleSheet) && !link.HasAttribute(AttributeNames.Title);
         }
 
         /// <summary>
@@ -28,7 +29,7 @@
         /// <returns>True if the link hosts a preferred stylesheet.</returns>
         public static Boolean IsPreferred(this IHtmlLinkElement link)
         {
-            return link.Relation.Isi(LinkRelNames.StyleSheet) && link.Title != null;
+            return link.Relation.Isi(LinkRelNames.StyleSheet) && link.HasAttribute(AttributeNames.Title);
         }
 
         /// <summary>
@@ -39,7 +40,7 @@
         public static Boolean IsAlternate(this IHtmlLinkElement link)
         {
             var relation = link.RelationList;
-            return relation.Contains(LinkRelNames.StyleSheet) && relation.Contains(LinkRelNames.Alternate) && link.Title != null;
+            return relation.Contains(LinkRelNames.StyleSheet) && relation.Contains(LinkRelNames.Alternate) && link.HasAttribute(AttributeNames.Title);
         }
 
         #endregion
