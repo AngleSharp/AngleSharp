@@ -5,6 +5,7 @@
     /// <summary>
     /// Enumeration with possible values for the adjacent position insertion.
     /// </summary>
+    [DomLiterals]
     public enum AdjacentPosition : System.Byte
     {
         /// <summary>
