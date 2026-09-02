@@ -9,6 +9,7 @@ Released on Wednesday, September 2 2026
 - Fixed condition check for disposed state in ReturnToPool (#1296) @meziantou
 - Fixed ArgumentOutOfRangeException CSS escapes (#1299) @meziantou
 - Fixed whitespace around An+B CSS selector notations (#1297)
+- Fixed unsupported pseudo-classes matching everything (#1295)
 - Added missing DomName/DomAccessor annotations (#1301) @meziantou
 
 # 1.7.2

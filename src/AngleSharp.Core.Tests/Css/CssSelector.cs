@@ -84,6 +84,30 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(1, RunQuery("p:only-child").Length);
         }
 
+        [TestCase("a:is(:modal)")]
+        [TestCase("a:is(:totally-bogus)")]
+        [TestCase("a:matches(:modal)")]
+        [TestCase("a:where(:modal)")]
+        [TestCase(":is()")]
+        [TestCase(":matches()")]
+        [TestCase(":where()")]
+        [TestCase("a:has(:modal)")]
+        public void UnsupportedPseudoClassOrEmptyForgivingSelectorMatchesNothing(String selector)
+        {
+            var document = "<a>one</a><a>two</a><p>three</p>".ToHtmlDocument();
+            var result = RunQuery(document, selector);
+
+            Assert.AreEqual(0, result.Length);
+        }
+
+        [Test]
+        public void EmptyHasSelectorIsInvalid()
+        {
+            var document = "<div></div>".ToHtmlDocument();
+
+            Assert.Catch<DomException>(() => RunQuery(document, ":has()"));
+        }
+
         [Test]
         public void PseudoSelectorEmpty()
         {
