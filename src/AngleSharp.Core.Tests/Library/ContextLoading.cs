@@ -184,7 +184,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var address = "https://www.powerball.com";
+                var address = "https://anglesharp-tests.anglevisions.com/test-cases/powerball";
                 var config = Configuration.Default.WithLocaleBasedEncoding().WithPageRequester();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
@@ -202,7 +202,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var address = "http://kommersant.ru/rss-list";
+                var address = "https://anglesharp-tests.anglevisions.com/test-cases/kommersant";
                 var config = Configuration.Default.WithPageRequester();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
@@ -217,7 +217,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var address = "http://eurobelarus.info/";
+                var address = "https://anglesharp-tests.anglevisions.com/test-cases/eurobelarus";
                 var config = Configuration.Default.WithPageRequester();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
@@ -282,7 +282,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var address = "http://www.europarl.europa.eu/sides/getDoc.do?type=COMPARL&reference=PE-583.901&format=PDF&language=EN&secondRef=01";
+                var address = "https://anglesharp-tests.anglevisions.com/test-cases/europarl";
                 var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
