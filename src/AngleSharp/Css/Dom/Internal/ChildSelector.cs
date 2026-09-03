@@ -69,7 +69,14 @@
                     c = (-_offset).ToString();
                 }
 
-                return String.Format(":{0}({1}n{2}{3})", _name, a, b, c);
+                // The of-clause decides which siblings are counted at all, so a serialization
+                // without it names a different selector: one that counts every sibling, and one
+                // whose specificity no longer carries the inner selector.
+                var d = ReferenceEquals(_kind, AllSelector.Instance)
+                    ? String.Empty
+                    : String.Concat(" of ", _kind.Text);
+
+                return String.Format(":{0}({1}n{2}{3}{4})", _name, a, b, c, d);
             }
         }
 

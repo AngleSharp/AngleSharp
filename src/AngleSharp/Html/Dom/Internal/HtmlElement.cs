@@ -511,14 +511,14 @@ namespace AngleSharp.Html.Dom
         /// <inheritdoc />
         public String? Title
         {
-            get => this.GetOwnAttribute(AttributeNames.Title);
+            get => this.GetOwnAttribute(AttributeNames.Title) ?? String.Empty;
             set => this.SetOwnAttribute(AttributeNames.Title, value);
         }
 
         /// <inheritdoc />
         public String? Direction
         {
-            get => this.GetOwnAttribute(AttributeNames.Dir);
+            get => this.GetOwnAttribute(AttributeNames.Dir) ?? String.Empty;
             set => this.SetOwnAttribute(AttributeNames.Dir, value);
         }
 

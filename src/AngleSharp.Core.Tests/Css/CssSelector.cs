@@ -58,6 +58,20 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
+        public void DeepCombinatorCrossesTheShadowBoundary()
+        {
+            var document = "<div id='host'></div><div id='other'></div>".ToHtmlDocument();
+            var host = document.QuerySelector("#host");
+            var shadowRoot = host.AttachShadow(mode: ShadowRootMode.Open);
+
+            shadowRoot.InnerHtml = "<p id='inner'>text</p>";
+
+            Assert.AreEqual(1, shadowRoot.QuerySelectorAll("#host >>> p").Length);
+            Assert.AreEqual("inner", shadowRoot.QuerySelectorAll("#host >>> p")[0].GetAttribute("id"));
+            Assert.AreEqual(0, shadowRoot.QuerySelectorAll("#other >>> p").Length);
+        }
+
+        [Test]
         public void StrangeDashSelector()
         {
             var source = @"<ul>
@@ -84,6 +98,30 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(1, RunQuery("p:only-child").Length);
         }
 
+        [TestCase("a:is(:modal)")]
+        [TestCase("a:is(:totally-bogus)")]
+        [TestCase("a:matches(:modal)")]
+        [TestCase("a:where(:modal)")]
+        [TestCase(":is()")]
+        [TestCase(":matches()")]
+        [TestCase(":where()")]
+        [TestCase("a:has(:modal)")]
+        public void UnsupportedPseudoClassOrEmptyForgivingSelectorMatchesNothing(String selector)
+        {
+            var document = "<a>one</a><a>two</a><p>three</p>".ToHtmlDocument();
+            var result = RunQuery(document, selector);
+
+            Assert.AreEqual(0, result.Length);
+        }
+
+        [Test]
+        public void EmptyHasSelectorIsInvalid()
+        {
+            var document = "<div></div>".ToHtmlDocument();
+
+            Assert.Catch<DomException>(() => RunQuery(document, ":has()"));
+        }
+
         [Test]
         public void PseudoSelectorEmpty()
         {
@@ -103,6 +141,16 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual("p", result[1].GetTagName());
             Assert.AreEqual("span", result[2].GetTagName());
             Assert.AreEqual("p", result[3].GetTagName());
+        }
+
+        [TestCase("2n - 1")]
+        [TestCase("2n + 1")]
+        public void NthChildWithWhitespaceAroundOffsetSign(String formula)
+        {
+            var document = "<ul><li>1</li><li>2</li><li>3</li></ul>".ToHtmlDocument();
+            var result = RunQuery(document, $"li:nth-child({formula})");
+
+            Assert.AreEqual(2, result.Length);
         }
 
         [Test]
@@ -775,7 +823,8 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.AreEqual("span", result[1].GetTagName());
             Assert.AreEqual("span", result[2].GetTagName());
             Assert.AreEqual("italic", result[0].ClassName);
-            Assert.AreEqual(null, result[1].ClassName);
+            // A missing class attribute reflects as the empty string, not null.
+            Assert.AreEqual("", result[1].ClassName);
             Assert.AreEqual("this", result[2].ClassName);
             Assert.AreEqual("2", result[0].TextContent);
             Assert.AreEqual("4", result[1].TextContent);
@@ -803,7 +852,8 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual("span", result[0].GetTagName());
-            Assert.AreEqual(null, result[0].ClassName);
+            // A missing class attribute reflects as the empty string, not null.
+            Assert.AreEqual("", result[0].ClassName);
             Assert.AreEqual("1", result[0].TextContent);
         }
 
@@ -1359,6 +1409,31 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             Assert.IsInstanceOf<ComplexSelector>(selector);
             Assert.NotNull(selector);
             Assert.AreEqual(selectorText, selector.Text);
+        }
+
+        // https://drafts.csswg.org/css-syntax/#consume-escaped-code-point - a surrogate escape yields U+FFFD.
+        [TestCase(@"\D800")]
+        [TestCase(@"\DBFF")]
+        [TestCase(@"\DC00")]
+        [TestCase(@"\DFFF")]
+        public void EscapedSurrogateCodePointBecomesReplacementCharacter(String escape)
+        {
+            var document = "<div class='\uFFFD'></div>".ToHtmlDocument();
+
+            var result = document.QuerySelectorAll("." + escape + " ");
+
+            Assert.AreEqual(1, result.Length);
+        }
+
+        [TestCase(@"\D7FF", '\uD7FF')]
+        [TestCase(@"\E000", '\uE000')]
+        public void EscapedCodePointNextToSurrogateRangeIsPreserved(String escape, Char expected)
+        {
+            var document = $"<div class='{expected}'></div>".ToHtmlDocument();
+
+            var result = document.QuerySelectorAll("." + escape + " ");
+
+            Assert.AreEqual(1, result.Length);
         }
 
         [TestCase("nth-child")]

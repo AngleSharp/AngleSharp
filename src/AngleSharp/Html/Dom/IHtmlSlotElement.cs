@@ -12,7 +12,8 @@ namespace AngleSharp.Html.Dom
     public interface IHtmlSlotElement : IHtmlElement
     {
         /// <summary>
-        /// Gets or sets the name attribute.
+        /// Gets or sets the name attribute. Returns the empty string if the
+        /// attribute is not present.
         /// </summary>
         [DomName("name")]
         String? Name { get; set; }

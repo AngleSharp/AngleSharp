@@ -23,6 +23,16 @@ internal sealed class StringBuilderBuffer : IMutableCharBuffer
         _sb.Clear();
     }
 
+    public void Reset()
+    {
+        _sb.Clear();
+    }
+
+    public void EnsureCapacity(Int32 length)
+    {
+        _sb.EnsureCapacity(length);
+    }
+
     public Int32 Length => _sb.Length;
 
     public Int32 Capacity => _sb.Capacity;
@@ -35,7 +45,7 @@ internal sealed class StringBuilderBuffer : IMutableCharBuffer
 
     public void ReturnToPool()
     {
-        if (_disposed)
+        if (!_disposed)
         {
             StringBuilderPool.ReturnToPool(_sb);
             _sb = null!;

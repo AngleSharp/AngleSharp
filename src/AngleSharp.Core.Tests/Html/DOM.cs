@@ -186,6 +186,20 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void DOMStringMapRemoveDeletesTheAttribute()
+        {
+            var document = new HtmlDocument();
+            var div = new HtmlDivElement(document);
+            div.SetAttribute("data-some", "test");
+            div.SetAttribute("data-another", "value");
+            div.Dataset.Remove("some");
+            Assert.IsFalse(div.HasAttribute("data-some"));
+            Assert.AreEqual("<div data-another=\"value\"></div>", div.ToHtml());
+            Assert.AreEqual(1, div.Dataset.Count());
+            Assert.AreEqual("another", div.Dataset.Single().Key);
+        }
+
+        [Test]
         public void HtmlCustomTitleGeneration()
         {
             var document = new HtmlDocument();

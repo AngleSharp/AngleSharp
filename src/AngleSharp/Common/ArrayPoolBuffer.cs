@@ -31,6 +31,37 @@ internal sealed class ArrayPoolBuffer(Int32 length) : IMutableCharBuffer
         Clear(false);
     }
 
+    public void Reset()
+    {
+        _start = 0;
+        _idx = 0;
+    }
+
+    public void EnsureCapacity(Int32 length)
+    {
+        if (length <= _buffer.Length)
+        {
+            return;
+        }
+
+        var replacement = ArrayPool<Char>.Shared.Rent(length);
+        var used = Pointer;
+
+        if (used > 0)
+        {
+            // The old array is dropped rather than returned to the pool: StringOrMemory values
+            // already handed out are slices of it, and their lifetime is tied to this buffer, so
+            // handing it to the next renter would let someone else overwrite live token text.
+            _buffer.AsSpan(0, used).CopyTo(replacement);
+        }
+        else
+        {
+            ArrayPool<Char>.Shared.Return(_buffer, false);
+        }
+
+        _buffer = replacement;
+    }
+
     private void Clear(Boolean commit)
     {
         if (commit)

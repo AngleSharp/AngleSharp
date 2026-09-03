@@ -473,7 +473,8 @@ namespace AngleSharp.Dom
         IElement? ActiveElement { get; }
 
         /// <summary>
-        /// Gets the script element which is currently being processed.
+        /// Gets the classic script element that is currently being run, if
+        /// any. It is null outside of the execution of a classic script.
         /// </summary>
         [DomName("currentScript")]
         IHtmlScriptElement? CurrentScript { get; }

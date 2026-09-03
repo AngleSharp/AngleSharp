@@ -103,6 +103,7 @@ namespace AngleSharp.Dom
         /// session history.
         /// </param>
         /// <returns>The new or reused window.</returns>
+        [DomName("open")]
         IWindow Open(String url = "about:blank", String? name = null, String? features = null, String? replace = null);
 
         /// <summary>

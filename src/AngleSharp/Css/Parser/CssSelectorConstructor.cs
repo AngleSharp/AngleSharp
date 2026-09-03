@@ -114,7 +114,7 @@ namespace AngleSharp.Css.Parser
 
                 if (_group is null || _group.Length == 0)
                 {
-                    return _temp ?? AllSelector.Instance;
+                    return _temp ?? (_forgiving ? new ListSelector() : AllSelector.Instance);
                 }
                 else if (_temp is null && _group.Length == 1)
                 {
@@ -681,7 +681,7 @@ namespace AngleSharp.Css.Parser
 
         private sealed class HasFunctionState(CssSelectorConstructor parent) : FunctionState
         {
-            private readonly CssSelectorConstructor _nested = parent.CreateChild(false);
+            private readonly CssSelectorConstructor _nested = parent.CreateChild(true);
             private Boolean _firstToken = true;
             private Boolean _matchSiblings = false;
 
@@ -708,35 +708,37 @@ namespace AngleSharp.Css.Parser
             public override ISelector? Produce()
             {
                 var valid = _nested.IsValid;
-                var sel = _nested.GetResult();
-                var selText = sel!.Text;
-                var matchSiblings = _matchSiblings || selText.Contains(":" + PseudoClassNames.Scope);
 
-                if (valid)
+                if (_firstToken || !valid)
                 {
-                    var code = PseudoClassNames.Has.CssFunction(selText);
-                    var specificity = ResolveMostSpecificParameter(sel);
-
-                    return new PseudoClassSelector(el =>
-                    {
-                        var elements = default(IEnumerable<IElement>);
-
-                        if (matchSiblings)
-                        {
-                            elements = el.ParentElement?.Children;
-                        }
-                        else
-                        {
-                            elements = el.Children;
-                        }
-
-                        elements ??= Array.Empty<IElement>();
-
-                        return sel.MatchAny(elements, el) is not null;
-                    }, code, specificity);
+                    return null;
                 }
 
-                return null;
+                var sel = _nested.GetResult()!;
+                var selText = sel.Text;
+                var matchSiblings = _matchSiblings || selText.Contains(":" + PseudoClassNames.Scope);
+                var code = PseudoClassNames.Has.CssFunction(selText);
+                var specificity = sel is ListSelector list && list.Length == 0
+                    ? Priority.Zero
+                    : ResolveMostSpecificParameter(sel);
+
+                return new PseudoClassSelector(el =>
+                {
+                    var elements = default(IEnumerable<IElement>);
+
+                    if (matchSiblings)
+                    {
+                        elements = el.ParentElement?.Children;
+                    }
+                    else
+                    {
+                        elements = el.Children;
+                    }
+
+                    elements ??= Array.Empty<IElement>();
+
+                    return sel.MatchAny(elements, el) is not null;
+                }, code, specificity);
             }
         }
 
@@ -771,7 +773,9 @@ namespace AngleSharp.Css.Parser
                 if (valid)
                 {
                     var code = Name.CssFunction(sel!.Text);
-                    var specificity = DecideSpecificity(sel);
+                    var specificity = sel is ListSelector list && list.Length == 0
+                        ? Priority.Zero
+                        : DecideSpecificity(sel);
                     return new PseudoClassSelector(sel.Match, code, specificity);
                 }
 
@@ -1044,6 +1048,8 @@ namespace AngleSharp.Css.Parser
                     ParseState.Initial          => OnInitial(token),
                     ParseState.AfterInitialSign => OnAfterInitialSign(token),
                     ParseState.Offset           => OnOffset(token),
+                    ParseState.AfterOffsetWhitespace => OnAfterOffsetWhitespace(token),
+                    ParseState.AfterOffsetSign  => OnAfterOffsetSign(token),
                     ParseState.BeforeOf         => OnBeforeOf(token),
                     _                           => OnAfter(token)
                 };
@@ -1121,6 +1127,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (token.Type == CssTokenType.Whitespace)
                 {
+                    _state = ParseState.AfterOffsetWhitespace;
                     return false;
                 }
 
@@ -1132,6 +1139,40 @@ namespace AngleSharp.Css.Parser
                     return false;
                 }
 
+                return OnBeforeOf(token);
+            }
+
+            private Boolean OnAfterOffsetWhitespace(CssSelectorToken token)
+            {
+                if (token.Type == CssTokenType.Whitespace)
+                {
+                    return false;
+                }
+
+                if (token.Type == CssTokenType.Delim && token.Data.IsOneOf("+", "-"))
+                {
+                    _sign = token.Data is "-" ? -1 : +1;
+                    _state = ParseState.AfterOffsetSign;
+                    return false;
+                }
+
+                _state = ParseState.Offset;
+                return OnOffset(token);
+            }
+
+            private Boolean OnAfterOffsetSign(CssSelectorToken token)
+            {
+                if (token.Type == CssTokenType.Whitespace)
+                {
+                    return false;
+                }
+
+                if (token.Type == CssTokenType.Number && !token.Data.StartsWith("+", StringComparison.Ordinal) && !token.Data.StartsWith("-", StringComparison.Ordinal))
+                {
+                    return OnOffset(token);
+                }
+
+                _valid = false;
                 return OnBeforeOf(token);
             }
 
@@ -1171,6 +1212,8 @@ namespace AngleSharp.Css.Parser
                 Initial,
                 AfterInitialSign,
                 Offset,
+                AfterOffsetWhitespace,
+                AfterOffsetSign,
                 BeforeOf,
                 AfterOf
             }

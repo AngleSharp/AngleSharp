@@ -25,6 +25,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Gets or sets the associated charset.
         /// </summary>
+        [DomName("charset")]
         String? Charset { get; set; }
 
         /// <summary>

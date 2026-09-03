@@ -277,7 +277,7 @@ namespace AngleSharp.Dom
         {
             var id = element.Id;
             var hash = element.Owner?.Location.Hash;
-            return id != null && hash != null && String.Compare(id, 0, hash, hash.Length > 0 ? 1 : 0, Int32.MaxValue) == 0;
+            return !String.IsNullOrEmpty(id) && hash != null && String.Compare(id, 0, hash, hash.Length > 0 ? 1 : 0, Int32.MaxValue) == 0;
         }
 
         /// <summary>

@@ -271,17 +271,18 @@ namespace AngleSharp.Html.Parser
         private static Boolean IsXmlNamespaceAttribute(StringOrMemory name) =>
             name.Length > 4 && (name.Is(NamespaceNames.XmlNsPrefix) || name == "xmlns:xlink");
 
+        // The "adjust foreign attributes" table matches the full attribute name, so a prefix
+        // match would namespace names such as "xml:langue" or the invalid "xml:lang[". Note that
+        // xml:base is no longer part of that table.
         private static Boolean IsXmlAttribute(StringOrMemory name) =>
-            (name.Length > 7 && "xml:".EqualsSubset(name, 0, 4)) &&
-            (TagNames.Base.EqualsSubset(name, 4, 4) || AttributeNames.Lang.EqualsSubset(name, 4, 4) ||
-             AttributeNames.Space.EqualsSubset(name, 4, 5));
+            name.Length > 7 && "xml:".EqualsSubset(name, 0, 4) &&
+            (name == "xml:lang" || name == "xml:space");
 
         private static Boolean IsXLinkAttribute(StringOrMemory name) =>
-            (name.Length > 9 && "xlink:".EqualsSubset(name, 0, 6)) &&
-            (AttributeNames.Actuate.EqualsSubset(name, 6, 7) || AttributeNames.Arcrole.EqualsSubset(name, 6, 7) ||
-             AttributeNames.Href.EqualsSubset(name, 6, 4) || AttributeNames.Role.EqualsSubset(name, 6, 4) ||
-             AttributeNames.Show.EqualsSubset(name, 6, 4) || AttributeNames.Type.EqualsSubset(name, 6, 4) ||
-             AttributeNames.Title.EqualsSubset(name, 6, 5));
+            name.Length > 9 && "xlink:".EqualsSubset(name, 0, 6) &&
+            (name == "xlink:actuate" || name == "xlink:arcrole" || name == "xlink:href" ||
+             name == "xlink:role" || name == "xlink:show" || name == "xlink:title" ||
+             name == "xlink:type");
 
         private static Boolean EqualsSubset(this String a, StringOrMemory b, Int32 index, Int32 length)
         {

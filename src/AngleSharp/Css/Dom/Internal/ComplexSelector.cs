@@ -107,7 +107,7 @@ namespace AngleSharp.Css.Dom
                 _combinators.Add(new CombinatorSelector
                 {
                     Selector = selector,
-                    Transform = null,
+                    Kind = CssCombinatorKind.None,
                     Delimiter = null
                 });
                 IsReady = true;
@@ -121,7 +121,7 @@ namespace AngleSharp.Css.Dom
                 _combinators.Add(new CombinatorSelector
                 {
                     Selector = combinator.Change(selector),
-                    Transform = combinator.Transform,
+                    Kind = combinator.Kind,
                     Delimiter = combinator.Delimiter
                 });
             }
@@ -134,10 +134,12 @@ namespace AngleSharp.Css.Dom
         private Boolean MatchCascade(Int32 pos, IElement element, IElement? scope)
         {
             var combinatorSelector = _combinators[pos];
-            var newElements = combinatorSelector.Transform!(element);
+            var cursor = new CombinatorCursor(combinatorSelector.Kind, element);
 
-            foreach (var newElement in newElements)
+            while (cursor.MoveNext())
             {
+                var newElement = cursor.Current;
+
                 if (combinatorSelector.Selector.Match(newElement, scope) && (pos == 0 || MatchCascade(pos - 1, newElement, scope)))
                 {
                     return true;
@@ -154,7 +156,7 @@ namespace AngleSharp.Css.Dom
         private struct CombinatorSelector
         {
             public String? Delimiter;
-            public Func<IElement, IEnumerable<IElement>>? Transform;
+            public CssCombinatorKind Kind;
             public ISelector Selector;
         }
 
