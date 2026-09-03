@@ -37,12 +37,14 @@ namespace AngleSharp.Dom
         /// Gets the sequence of associated attributes.
         /// </summary>
         [DomName("attributes")]
+        [DomSameObject]
         INamedNodeMap Attributes { get; }
 
         /// <summary>
         /// Gets the list of class names.
         /// </summary>
         [DomName("classList")]
+        [DomSameObject]
         ITokenList ClassList { get; }
 
         /// <summary>

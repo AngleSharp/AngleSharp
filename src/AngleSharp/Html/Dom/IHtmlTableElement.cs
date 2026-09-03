@@ -71,6 +71,7 @@ namespace AngleSharp.Html.Dom
         /// Gets the assigned body sections.
         /// </summary>
         [DomName("tBodies")]
+        [DomSameObject]
         IHtmlCollection<IHtmlTableSectionElement> Bodies { get; }
 
         /// <summary>
@@ -84,6 +85,7 @@ namespace AngleSharp.Html.Dom
         /// Gets the assigned table rows.
         /// </summary>
         [DomName("rows")]
+        [DomSameObject]
         IHtmlCollection<IHtmlTableRowElement> Rows { get; }
 
         /// <summary>

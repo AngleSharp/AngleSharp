@@ -16,6 +16,7 @@ namespace AngleSharp.Dom
         /// NodeIterator was created.
         /// </summary>
         [DomName("root")]
+        [DomSameObject]
         INode Root { get; }
 
         /// <summary>

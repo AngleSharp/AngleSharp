@@ -39,6 +39,7 @@ namespace AngleSharp.Html.Dom
         /// Gets the list of relations contained in the rel attribute.
         /// </summary>
         [DomName("relList")]
+        [DomSameObject]
         ITokenList RelationList { get; }
 
         /// <summary>
@@ -63,6 +64,7 @@ namespace AngleSharp.Html.Dom
         /// Gets the list of sizes defined in the sizes attribute.
         /// </summary>
         [DomName("sizes")]
+        [DomSameObject]
         ISettableTokenList Sizes { get; }
 
         /// <summary>

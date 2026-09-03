@@ -60,6 +60,7 @@ namespace AngleSharp.Html.Dom
         /// document to the linked resource, as a list of tokens.
         /// </summary>
         [DomName("relList")]
+        [DomSameObject]
         ITokenList RelationList { get; }
 
         /// <summary>

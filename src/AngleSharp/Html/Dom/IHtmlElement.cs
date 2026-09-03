@@ -37,6 +37,7 @@ namespace AngleSharp.Html.Dom
         /// one entry for each custom data attribute.
         /// </summary>
         [DomName("dataset")]
+        [DomSameObject]
         IStringMap Dataset { get; }
 
         /// <summary>

@@ -37,6 +37,7 @@ namespace AngleSharp.Html.Dom
         /// Gets the elements belonging to this field set.
         /// </summary>
         [DomName("elements")]
+        [DomSameObject]
         IHtmlFormControlsCollection Elements { get; }
     }
 }

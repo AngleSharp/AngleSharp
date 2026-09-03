@@ -14,6 +14,7 @@ namespace AngleSharp.Html.Dom
         /// Gets or sets the IDs of the input elements.
         /// </summary>
         [DomName("htmlFor")]
+        [DomSameObject]
         ISettableTokenList HtmlFor { get; }
 
         /// <summary>
