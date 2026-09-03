@@ -2,6 +2,7 @@
 
 Released on Saturday, September 5 2026
 
+- Improved AngleSharp's test website
 - Added the `DomSameObject` annotation for the respective IDL members (#1314) @lahma
 
 # 1.7.3
