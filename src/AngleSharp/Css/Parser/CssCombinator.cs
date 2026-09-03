@@ -53,9 +53,11 @@ namespace AngleSharp.Css.Parser
         #region Properties
 
         /// <summary>
-        /// Gets the transformation function for the combinator.
+        /// Gets the traversal performed by the combinator. Matching walks it
+        /// through a <see cref="CombinatorCursor"/> instead of a delegate, so
+        /// that stepping over a candidate element does not allocate.
         /// </summary>
-        public Func<IElement, IEnumerable<IElement>>? Transform
+        public CssCombinatorKind Kind
         {
             get;
             protected set;
@@ -85,12 +87,176 @@ namespace AngleSharp.Css.Parser
 
         #region Helpers
 
-        protected static IEnumerable<IElement> Single(IElement? element)
+        /// <summary>
+        /// Gets the cells sharing the column of the given cell, or null if the
+        /// element is not a cell of a table column.
+        /// </summary>
+        internal static List<IElement>? GetColumnCells(IElement element)
         {
-            if (element != null)
+            var table = GetContainingTable(element);
+
+            if (table is null)
             {
-                yield return element;
+                return null;
             }
+
+            var columnIndex = GetColumnIndex(element);
+
+            if (columnIndex < 0)
+            {
+                return null;
+            }
+
+            var rows = GetTableRows(table);
+            var cells = new List<IElement>();
+
+            foreach (var row in rows)
+            {
+                var cell = GetCellAtColumn(row, columnIndex);
+
+                if (cell != null)
+                {
+                    cells.Add(cell);
+                }
+            }
+
+            return cells;
+        }
+
+        private static IElement? GetContainingTable(IElement element)
+        {
+            var current = element.ParentElement;
+
+            while (current != null)
+            {
+                if (current.LocalName == "table")
+                {
+                    return current;
+                }
+
+                current = current.ParentElement;
+            }
+
+            return null;
+        }
+
+        private static Int32 GetColumnIndex(IElement cell)
+        {
+            var tagName = cell.LocalName;
+
+            if (tagName != "td" && tagName != "th")
+            {
+                return -1;
+            }
+
+            var row = cell.ParentElement;
+
+            if (row == null)
+            {
+                return -1;
+            }
+
+            var columnIndex = 0;
+
+            foreach (var child in row.ChildNodes)
+            {
+                if (child is IElement childElement)
+                {
+                    var childTagName = childElement.LocalName;
+
+                    if (childTagName == "td" || childTagName == "th")
+                    {
+                        if (Object.ReferenceEquals(childElement, cell))
+                        {
+                            return columnIndex;
+                        }
+
+                        columnIndex += GetColumnSpan(childElement);
+                    }
+                }
+            }
+
+            return -1;
+        }
+
+        private static IElement? GetCellAtColumn(IElement row, Int32 columnIndex)
+        {
+            var tagName = row.LocalName;
+
+            if (tagName != "tr")
+            {
+                return null;
+            }
+
+            var currentIndex = 0;
+
+            foreach (var child in row.ChildNodes)
+            {
+                if (child is IElement childElement)
+                {
+                    var childTagName = childElement.LocalName;
+
+                    if (childTagName == "td" || childTagName == "th")
+                    {
+                        if (currentIndex == columnIndex)
+                        {
+                            return childElement;
+                        }
+
+                        currentIndex += GetColumnSpan(childElement);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private static Int32 GetColumnSpan(IElement cell)
+        {
+            var colspanAttr = cell.GetAttribute("colspan");
+
+            if (!String.IsNullOrEmpty(colspanAttr) && Int32.TryParse(colspanAttr, out var parsedColspan) && parsedColspan > 0)
+            {
+                return parsedColspan;
+            }
+
+            return 1;
+        }
+
+        private static List<IElement> GetTableRows(IElement table)
+        {
+            var rows = new List<IElement>();
+
+            // Direct tr children
+            foreach (var child in table.ChildNodes)
+            {
+                if (child is IElement element && element.LocalName == "tr")
+                {
+                    rows.Add(element);
+                }
+            }
+
+            // tr children within thead, tbody, tfoot
+            var sections = new[] { "thead", "tbody", "tfoot" };
+
+            foreach (var section in sections)
+            {
+                foreach (var child in table.ChildNodes)
+                {
+                    if (child is IElement sectionElement && sectionElement.LocalName == section)
+                    {
+                        foreach (var sectionChild in sectionElement.ChildNodes)
+                        {
+                            if (sectionChild is IElement rowElement && rowElement.LocalName == "tr")
+                            {
+                                rows.Add(rowElement);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return rows;
         }
 
         #endregion
@@ -102,7 +268,7 @@ namespace AngleSharp.Css.Parser
             public ChildCombinator()
             {
                 Delimiter = CombinatorSymbols.Child;
-                Transform = el => Single(el.ParentElement);
+                Kind = CssCombinatorKind.Child;
             }
         }
 
@@ -111,7 +277,7 @@ namespace AngleSharp.Css.Parser
             public DeepCombinator()
             {
                 Delimiter = CombinatorSymbols.Deep;
-                Transform = el => Single(el.Parent is IShadowRoot shadowRoot ? shadowRoot.Host : null);
+                Kind = CssCombinatorKind.Deep;
             }
         }
 
@@ -120,18 +286,7 @@ namespace AngleSharp.Css.Parser
             public DescendantCombinator()
             {
                 Delimiter = CombinatorSymbols.Descendant;
-                Transform = GetAncestors;
-            }
-
-            private static IEnumerable<IElement> GetAncestors(IElement el)
-            {
-                var parent = el.ParentElement;
-
-                while (parent != null)
-                {
-                    yield return parent;
-                    parent = parent.ParentElement;
-                }
+                Kind = CssCombinatorKind.Descendant;
             }
         }
 
@@ -140,7 +295,7 @@ namespace AngleSharp.Css.Parser
             public AdjacentSiblingCombinator()
             {
                 Delimiter = CombinatorSymbols.Adjacent;
-                Transform = el => Single(el.PreviousElementSibling);
+                Kind = CssCombinatorKind.AdjacentSibling;
             }
         }
 
@@ -149,47 +304,7 @@ namespace AngleSharp.Css.Parser
             public SiblingCombinator()
             {
                 Delimiter = CombinatorSymbols.Sibling;
-                Transform = GetPreviousSiblings;
-            }
-
-            private static IEnumerable<IElement> GetPreviousSiblings(IElement element)
-            {
-                // Walking PreviousElementSibling repeatedly is quadratic, since each step
-                // has to locate the element in its parent again. Scan the child list once.
-                if (element is Node node && node.Parent is Node parent)
-                {
-                    var children = parent.ChildNodes;
-                    var index = -1;
-
-                    for (var i = 0; i < children.Length; i++)
-                    {
-                        if (Object.ReferenceEquals(children[i], node))
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
-
-                    for (var i = index - 1; i >= 0; i--)
-                    {
-                        var child = children[i];
-
-                        if (child.NodeType == NodeType.Element)
-                        {
-                            yield return (Element)child;
-                        }
-                    }
-                }
-                else
-                {
-                    var sibling = element.PreviousElementSibling;
-
-                    while (sibling != null)
-                    {
-                        yield return sibling;
-                        sibling = sibling.PreviousElementSibling;
-                    }
-                }
+                Kind = CssCombinatorKind.Sibling;
             }
         }
 
@@ -198,7 +313,7 @@ namespace AngleSharp.Css.Parser
             public NamespaceCombinator()
             {
                 Delimiter = CombinatorSymbols.Pipe;
-                Transform = Single;
+                Kind = CssCombinatorKind.Namespace;
             }
 
             public override ISelector Change(ISelector selector)
@@ -218,166 +333,7 @@ namespace AngleSharp.Css.Parser
             public ColumnCombinator()
             {
                 Delimiter = CombinatorSymbols.Column;
-                Transform = el =>
-                {
-                    var cells = new List<IElement>();
-                    var table = GetContainingTable(el);
-                    
-                    if (table != null)
-                    {
-                        var columnIndex = GetColumnIndex(el);
-                        
-                        if (columnIndex >= 0)
-                        {
-                            var rows = GetTableRows(table);
-                            
-                            foreach (var row in rows)
-                            {
-                                var cell = GetCellAtColumn(row, columnIndex);
-                                if (cell != null)
-                                {
-                                    cells.Add(cell);
-                                }
-                            }
-                        }
-                    }
-                    
-                    return cells;
-                };
-            }
-
-            private static IElement? GetContainingTable(IElement element)
-            {
-                var current = element.ParentElement;
-                
-                while (current != null)
-                {
-                    if (current.LocalName == "table")
-                    {
-                        return current;
-                    }
-                    
-                    current = current.ParentElement;
-                }
-                
-                return null;
-            }
-
-            private static int GetColumnIndex(IElement cell)
-            {
-                var tagName = cell.LocalName;
-                if (tagName != "td" && tagName != "th")
-                {
-                    return -1;
-                }
-
-                var row = cell.ParentElement;
-                if (row == null)
-                {
-                    return -1;
-                }
-
-                int columnIndex = 0;
-                
-                foreach (var child in row.ChildNodes)
-                {
-                    if (child is IElement childElement)
-                    {
-                        var childTagName = childElement.LocalName;
-                        if (childTagName == "td" || childTagName == "th")
-                        {
-                            if (Object.ReferenceEquals(childElement, cell))
-                            {
-                                return columnIndex;
-                            }
-
-                            var colspanAttr = childElement.GetAttribute("colspan");
-                            var colspan = 1;
-                            
-                            if (!String.IsNullOrEmpty(colspanAttr) && Int32.TryParse(colspanAttr, out var parsedColspan) && parsedColspan > 0)
-                            {
-                                colspan = parsedColspan;
-                            }
-
-                            columnIndex += colspan;
-                        }
-                    }
-                }
-
-                return -1;
-            }
-
-            private static IElement? GetCellAtColumn(IElement row, int columnIndex)
-            {
-                var tagName = row.LocalName;
-                if (tagName != "tr")
-                {
-                    return null;
-                }
-
-                int currentIndex = 0;
-                
-                foreach (var child in row.ChildNodes)
-                {
-                    if (child is IElement childElement)
-                    {
-                        var childTagName = childElement.LocalName;
-                        if (childTagName == "td" || childTagName == "th")
-                        {
-                            if (currentIndex == columnIndex)
-                            {
-                                return childElement;
-                            }
-
-                            var colspanAttr = childElement.GetAttribute("colspan");
-                            var colspan = 1;
-                            
-                            if (!String.IsNullOrEmpty(colspanAttr) && Int32.TryParse(colspanAttr, out var parsedColspan) && parsedColspan > 0)
-                            {
-                                colspan = parsedColspan;
-                            }
-
-                            currentIndex += colspan;
-                        }
-                    }
-                }
-
-                return null;
-            }
-
-            private static List<IElement> GetTableRows(IElement table)
-            {
-                var rows = new List<IElement>();
-                
-                // Direct tr children
-                foreach (var child in table.ChildNodes)
-                {
-                    if (child is IElement element && element.LocalName == "tr")
-                    {
-                        rows.Add(element);
-                    }
-                }
-                
-                // tr children within thead, tbody, tfoot
-                var sections = new[] { "thead", "tbody", "tfoot" };
-                foreach (var section in sections)
-                {
-                    foreach (var child in table.ChildNodes)
-                    {
-                        if (child is IElement sectionElement && sectionElement.LocalName == section)
-                        {
-                            foreach (var sectionChild in sectionElement.ChildNodes)
-                            {
-                                if (sectionChild is IElement rowElement && rowElement.LocalName == "tr")
-                                {
-                                    rows.Add(rowElement);
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                return rows;
+                Kind = CssCombinatorKind.Column;
             }
         }
 

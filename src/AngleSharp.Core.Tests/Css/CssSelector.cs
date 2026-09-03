@@ -58,6 +58,20 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
+        public void DeepCombinatorCrossesTheShadowBoundary()
+        {
+            var document = "<div id='host'></div><div id='other'></div>".ToHtmlDocument();
+            var host = document.QuerySelector("#host");
+            var shadowRoot = host.AttachShadow(mode: ShadowRootMode.Open);
+
+            shadowRoot.InnerHtml = "<p id='inner'>text</p>";
+
+            Assert.AreEqual(1, shadowRoot.QuerySelectorAll("#host >>> p").Length);
+            Assert.AreEqual("inner", shadowRoot.QuerySelectorAll("#host >>> p")[0].GetAttribute("id"));
+            Assert.AreEqual(0, shadowRoot.QuerySelectorAll("#other >>> p").Length);
+        }
+
+        [Test]
         public void StrangeDashSelector()
         {
             var source = @"<ul>
