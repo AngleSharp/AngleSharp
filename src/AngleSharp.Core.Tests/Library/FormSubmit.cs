@@ -17,7 +17,7 @@ namespace AngleSharp.Core.Tests.Library
     [TestFixture]
     public class FormSubmitTests
     {
-        private const String BaseUrl = "http://anglesharp.azurewebsites.net/";
+        private const String BaseUrl = "https://anglesharp-tests.anglevisions.com/";
 
         private static Task<IDocument> LoadDocumentAsync(DocumentRequest request)
         {

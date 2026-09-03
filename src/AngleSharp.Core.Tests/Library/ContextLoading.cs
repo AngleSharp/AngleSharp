@@ -65,7 +65,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var title = "PostUrlencodeNormal";
-                var address = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
+                var address = "https://anglesharp-tests.anglevisions.com/PostUrlEncodeNormal";
                 var config = Configuration.Default.WithDefaultLoader();
                 var document = await BrowsingContext.New(config).OpenAsync(address);
                 var h1 = document.QuerySelector("h1");
@@ -85,7 +85,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var address = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
+                var address = "https://anglesharp-tests.anglevisions.com/PostUrlEncodeNormal";
                 var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
@@ -120,7 +120,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable())
             {
-                var address = "http://anglesharp.azurewebsites.net/";
+                var address = "https://anglesharp-tests.anglevisions.com/";
                 var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
@@ -140,7 +140,7 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var title = "PostUrlencodeNormal";
-                var address = "http://anglesharp.azurewebsites.net/";
+                var address = "https://anglesharp-tests.anglevisions.com/";
                 var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
@@ -235,7 +235,7 @@ namespace AngleSharp.Core.Tests.Library
             // * client is connected to VPN (at least with the VPN client of Windows 10).
             if (Helper.IsNetworkAvailable())
             {
-                var address = "http://anglesharp.azurewebsites.net/Chunked";
+                var address = "https://anglesharp-tests.anglevisions.com/Chunked";
                 var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var events = new EventReceiver<HtmlParseEvent>(handler => context.GetService<IHtmlParser>().Parsing += handler);
@@ -269,7 +269,7 @@ namespace AngleSharp.Core.Tests.Library
                 //However: The connection to taobao is usually very bad and the
                 //page takes ~10-30s (or longer!) to load. Replaced with another
                 //solution taken directly from the AngleSharp infrastructure.
-                var address = "http://anglesharp.azurewebsites.net/Page";
+                var address = "https://anglesharp-tests.anglevisions.com/Page";
                 var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
