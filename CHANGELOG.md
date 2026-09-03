@@ -1,3 +1,9 @@
+# 1.8.0
+
+Released on Saturday, September 5 2026
+
+- Added the `DomSameObject` annotation for the respective IDL members (#1314) @lahma
+
 # 1.7.3
 
 Released on Thursday, September 3 2026
