@@ -204,7 +204,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
-                var url = "https://httpbingo.org/cookies/set?k1=v1";
+                var url = "https://anglesharp-tests.anglevisions.com/test-cases/set-cookies?k1=v1";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
@@ -218,7 +218,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
-                var url = "https://httpbingo.org/cookies/set?k2=v2&k1=v1";
+                var url = "https://anglesharp-tests.anglevisions.com/test-cases/set-cookies?k2=v2&k1=v1";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
@@ -233,7 +233,7 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
-                var url = "https://httpbingo.org/cookies/set?test=baz&k2=v2&k1=v1&foo=bar";
+                var url = "https://anglesharp-tests.anglevisions.com/test-cases/set-cookies?test=baz&k2=v2&k1=v1&foo=bar";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(url);
@@ -248,12 +248,10 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
-                var baseUrl = "https://httpbingo.org/cookies";
-                var url = baseUrl + "/set?test=baz&k2=v2&k1=v1&foo=bar";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
-                await context.OpenAsync(url);
-                var document = await context.OpenAsync(baseUrl);
+                await context.OpenAsync("https://anglesharp-tests.anglevisions.com/test-cases/set-cookies?test=baz&k2=v2&k1=v1&foo=bar");
+                var document = await context.OpenAsync("https://anglesharp-tests.anglevisions.com/test-cases/get-cookies");
 
                 var expected = JObject.Parse(@"{
   ""cookies"": {
@@ -274,8 +272,8 @@ namespace AngleSharp.Core.Tests.Library
         {
             if (Helper.IsNetworkAvailable() && Helper.IsFramework(".NET 6.0", ".NET 7.0", ".NET 8.0"))
             {
-                var cookieUrl = "https://httpbingo.org/cookies/set?test=baz";
-                var redirectUrl = "https://httpbingo.org/redirect-to?url=https%3A%2F%2Fhttpbingo.org%2Fcookies";
+                var cookieUrl = "https://anglesharp-tests.anglevisions.com/test-cases/set-cookies?test=baz";
+                var redirectUrl = "https://anglesharp-tests.anglevisions.com/test-cases/redirect?url=https%3A%2F%2Fanglesharp-tests.anglevisions.com%2Ftest-cases%2Fget-cookies";
                 var config = Configuration.Default.WithDefaultCookies().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 await context.OpenAsync(cookieUrl);
