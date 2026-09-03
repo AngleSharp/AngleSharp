@@ -1,7 +1,8 @@
 # 1.7.3
 
-Released on Wednesday, September 2 2026
+Released on Thursday, September 3 2026
 
+- Improved tracking of parse exceptions in the `HtmlParser` (#1315) @lahma
 - Fixed tokenizer buffer overrun on encoding change (#1290) @jafin
 - Fixed selector text dropping the nth-child of clause (#1292) @jafin
 - Fixed selector text dropping the case-insensitive (#1291) @jafin
@@ -12,7 +13,11 @@ Released on Wednesday, September 2 2026
 - Fixed unsupported pseudo-classes matching everything (#1295)
 - Fixed DomException for invalid foreign attribute names such as `xml:lang[` (#1294)
 - Fixed script data escaped state leaving escaped mode too early (#1298)
+- Fixed `CurrentScript` not indicating the currently executing script (#1308) @lahma
+- Fixed returned missing attribute-properties to use empty string instead of null (#1313) @lahma
+- Fixed removal of `data-*` attributes (#1310) @lahma
 - Added missing DomName/DomAccessor annotations (#1301) @meziantou
+- Added missing `DomLiterals` attribute to `AdjacentPosition` (#1311) @lahma
 
 # 1.7.2
 
