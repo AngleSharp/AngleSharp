@@ -76,10 +76,10 @@ public static class QueryExtensions
         {
             var result = new List<IElement>();
             nodes.QuerySelectorAll(sg, scope, result);
-            return new HtmlCollection<IElement>(result);
+            return new QueryCollection(result);
         }
 
-        return new HtmlCollection<IElement>(Array.Empty<IElement>());
+        return new QueryCollection([]);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public static class QueryExtensions
             elements.GetElementsByClassName(names, result);
         }
 
-        return new HtmlCollection<IElement>(result);
+        return new QueryCollection(result);
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public static class QueryExtensions
     {
         var result = new List<IElement>();
         elements.GetElementsByTagName(tagName is "*" ? null : tagName, result);
-        return new HtmlCollection<IElement>(result);
+        return new QueryCollection(result);
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public static class QueryExtensions
     {
         var result = new List<IElement>();
         elements.GetElementsByTagName(namespaceUri, localName is "*" ? null : localName, result);
-        return new HtmlCollection<IElement>(result);
+        return new QueryCollection(result);
     }
 
     #endregion
@@ -266,7 +266,7 @@ public static class QueryExtensions
     {
         var result = new List<IElement>();
         elements.QuerySelectorAll(selector, result);
-        return new HtmlCollection<IElement>(result);
+        return new QueryCollection(result);
     }
 
     /// <summary>

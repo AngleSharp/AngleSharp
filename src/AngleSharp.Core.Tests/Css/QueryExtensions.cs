@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
     using NUnit.Framework;
     using System.Linq;
@@ -34,6 +35,20 @@
             var document = GetTestDocument();
             var result = document.Body.QuerySelectorAll("a");
             Assert.AreEqual(0, result.Length);
+        }
+
+        [Test]
+        public void QuerySelectorAllResultsShouldAlsoBeNodeLists()
+        {
+            var document = GetTestDocument();
+            var selector = new CssSelectorParser().ParseSelector("li");
+            var textResult = document.QuerySelectorAll("li");
+            var objectResult = document.ChildNodes.QuerySelectorAll(selector);
+
+            Assert.IsInstanceOf<INodeList>(textResult);
+            Assert.IsInstanceOf<INodeList>(objectResult);
+            Assert.AreEqual(textResult.Length, ((INodeList)textResult).Length);
+            Assert.AreSame(textResult[0], ((INodeList)textResult)[0]);
         }
 
         [Test]

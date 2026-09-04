@@ -68,6 +68,7 @@ namespace AngleSharp.Dom
         /// <param name="selectors">The group of selectors to use.</param>
         /// <returns>A non-live NodeList of element objects.</returns>
         [DomName("querySelectorAll")]
+        [DomReturnType(typeof(INodeList))]
         IHtmlCollection<IElement> QuerySelectorAll(String selectors);
     }
 }

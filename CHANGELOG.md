@@ -4,6 +4,7 @@ Released on Saturday, September 5 2026
 
 - Improved AngleSharp's test website
 - Added the `DomSameObject` annotation for the respective IDL members (#1314) @lahma
+- Added the `DomReturnType` annotation for methods returning a different IDL type (#1318)
 
 # 1.7.3
 
