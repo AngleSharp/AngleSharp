@@ -15,6 +15,7 @@ namespace AngleSharp.Dom
         /// into or embedded in a document.
         /// </summary>
         [DomName("styleSheets")]
+        [DomSameObject]
         IStyleSheetList StyleSheets { get; }
 
         /// <summary>

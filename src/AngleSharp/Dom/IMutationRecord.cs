@@ -25,18 +25,21 @@ namespace AngleSharp.Dom
         /// the node whose children changed.
         /// </summary>
         [DomName("target")]
+        [DomSameObject]
         INode Target { get; }
 
         /// <summary>
         /// Gets the nodes added, or null.
         /// </summary>
         [DomName("addedNodes")]
+        [DomSameObject]
         INodeList? Added { get; }
 
         /// <summary>
         /// Gets the nodes removed, or null.
         /// </summary>
         [DomName("removedNodes")]
+        [DomSameObject]
         INodeList? Removed { get; }
 
         /// <summary>

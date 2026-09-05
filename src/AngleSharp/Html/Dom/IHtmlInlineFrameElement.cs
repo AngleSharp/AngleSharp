@@ -33,6 +33,7 @@ namespace AngleSharp.Html.Dom
         /// Gets the tokens of the sandbox attribute.
         /// </summary>
         [DomName("sandbox")]
+        [DomSameObject]
         ISettableTokenList Sandbox { get; }
 
         /// <summary>

@@ -27,6 +27,7 @@
         /// Gets the assigned table cells.
         /// </summary>
         [DomName("cells")]
+        [DomSameObject]
         IHtmlCollection<IHtmlTableCellElement> Cells { get; }
 
         /// <summary>

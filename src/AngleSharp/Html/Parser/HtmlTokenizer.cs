@@ -2597,6 +2597,8 @@ namespace AngleSharp.Html.Parser
 
                                 return ref NewCharacter();
                             }
+
+                            state = ScriptState.Escaped;
                         }
                         else if (!c.IsLetter())
                         {

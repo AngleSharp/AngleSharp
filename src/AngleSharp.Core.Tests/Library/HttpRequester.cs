@@ -23,7 +23,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/robots.txt"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/robots"),
                     Method = HttpMethod.Get
                 };
 
@@ -46,7 +46,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/status/500"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/status/500"),
                     Method = HttpMethod.Get
                 };
 
@@ -66,7 +66,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/status/400"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/status/400"),
                     Method = HttpMethod.Get
                 };
 
@@ -86,7 +86,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/status/403"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/status/403"),
                     Method = HttpMethod.Get
                 };
 
@@ -106,7 +106,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/status/404"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/status/404"),
                     Method = HttpMethod.Get
                 };
 
@@ -126,7 +126,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/post"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/methods/post"),
                     Method = HttpMethod.Post,
                     Content = Helper.StreamFromString("Hello world")
                 };
@@ -155,7 +155,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/put"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/methods/put"),
                     Method = HttpMethod.Put,
                     Content = Helper.StreamFromString("PUT THIS THING BACK")
                 };
@@ -183,7 +183,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/delete"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/methods/delete"),
                     Method = HttpMethod.Delete,
                     Content = Helper.StreamFromString("Should be ignored")
                 };
@@ -204,7 +204,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/get"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/methods/get"),
                     Method = HttpMethod.Delete,
                     Content = Helper.StreamFromString("Should be ignored")
                 };
@@ -225,7 +225,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/get"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/methods/get"),
                     Method = HttpMethod.Put,
                     Content = Helper.StreamFromString("Should be ignored")
                 };
@@ -247,7 +247,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester(agent);
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/user-agent"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/user-agent"),
                     Method = HttpMethod.Get
                 };
 
@@ -274,7 +274,7 @@ namespace AngleSharp.Core.Tests.Library
                 var http = new DefaultHttpRequester();
                 var request = new Request
                 {
-                    Address = new Url("http://httpbingo.org/robots.txt"),
+                    Address = new Url("https://anglesharp-tests.anglevisions.com/test-cases/robots"),
                     Method = HttpMethod.Get
                 };
 

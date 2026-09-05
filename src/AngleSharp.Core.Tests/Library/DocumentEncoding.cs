@@ -162,12 +162,12 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(text, doc.QuerySelectorAll(".label")[3].TextContent);
         }
 
-        [Test, Ignore("empireaerials.net is having network issues")]
+        [Test]
         public async Task GzippedEncodingIsHandledCorrectly()
         {
             if (Helper.IsNetworkAvailable())
             {
-                var address = "http://www.empireaerials.net/";
+                var address = "https://anglesharp-tests.anglevisions.com/test-cases/empireaerials";
                 var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);

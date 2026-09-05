@@ -37,6 +37,7 @@ namespace AngleSharp.Dom
         /// Gets the shadow root style sheets.
         /// </summary>
         [DomName("styleSheets")]
+        [DomSameObject]
         IStyleSheetList StyleSheets { get; }
     }
 }

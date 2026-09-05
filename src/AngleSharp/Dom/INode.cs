@@ -35,6 +35,7 @@ namespace AngleSharp.Dom
         /// NodeList object is automatically updated.
         /// </summary>
         [DomName("childNodes")]
+        [DomSameObject]
         INodeList ChildNodes { get; }
 
         /// <summary>

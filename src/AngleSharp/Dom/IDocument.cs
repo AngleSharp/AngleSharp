@@ -18,18 +18,21 @@ namespace AngleSharp.Dom
         /// Gets a list of all elements in the document.
         /// </summary>
         [DomName("all")]
+        [DomSameObject]
         IHtmlAllCollection All { get; }
 
         /// <summary>
         /// Gets a list of all of the anchors in the document.
         /// </summary>
         [DomName("anchors")]
+        [DomSameObject]
         IHtmlCollection<IHtmlAnchorElement> Anchors { get; }
 
         /// <summary>
         /// Gets the DOM implementation associated with the current document.
         /// </summary>
         [DomName("implementation")]
+        [DomSameObject]
         IImplementation Implementation { get; }
 
         /// <summary>
@@ -381,18 +384,21 @@ namespace AngleSharp.Dom
         /// Gets the forms in the document.
         /// </summary>
         [DomName("forms")]
+        [DomSameObject]
         IHtmlCollection<IHtmlFormElement> Forms { get; }
 
         /// <summary>
         /// Gets the images in the document.
         /// </summary>
         [DomName("images")]
+        [DomSameObject]
         IHtmlCollection<IHtmlImageElement> Images { get; }
 
         /// <summary>
         /// Gets the scripts in the document.
         /// </summary>
         [DomName("scripts")]
+        [DomSameObject]
         IHtmlCollection<IHtmlScriptElement> Scripts { get; }
 
         /// <summary>
@@ -400,6 +406,7 @@ namespace AngleSharp.Dom
         /// </summary>
         [DomName("embeds")]
         [DomName("plugins")]
+        [DomSameObject]
         IHtmlCollection<IHtmlEmbedElement> Plugins { get; }
 
         /// <summary>
@@ -414,6 +421,7 @@ namespace AngleSharp.Dom
         /// with a value for the href attribute.
         /// </summary>
         [DomName("links")]
+        [DomSameObject]
         IHtmlCollection<IElement> Links { get; }
 
         /// <summary>

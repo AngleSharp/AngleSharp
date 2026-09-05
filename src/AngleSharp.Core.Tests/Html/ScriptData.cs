@@ -11,6 +11,16 @@
     public class ScriptDataTests
     {
         [Test]
+        public void EscapedScriptWithSameLengthNonScriptEndTagPreservesTextContent()
+        {
+            const string content = "<!--</strong> <span>-->";
+            var document = $"<script>{content}</script>".ToHtmlDocument();
+            var script = document.QuerySelector("script");
+
+            Assert.AreEqual(content, script.TextContent);
+        }
+
+        [Test]
         public void ScriptWithQuotedHelloText()
         {
             var doc = (@"FOO<script>'Hello'</script>BAR").ToHtmlDocument();

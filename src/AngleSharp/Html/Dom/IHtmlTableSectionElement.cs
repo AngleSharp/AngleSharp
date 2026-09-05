@@ -14,6 +14,7 @@
         /// Gets the assigned table rows.
         /// </summary>
         [DomName("rows")]
+        [DomSameObject]
         IHtmlCollection<IHtmlTableRowElement> Rows { get; }
 
         /// <summary>
