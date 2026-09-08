@@ -2,6 +2,7 @@
 
 Released on Saturday, September 5 2026
 
+- Fixed `CreateDocumentType` rejecting valid DOM doctype names (#1320)
 - Improved AngleSharp's test website
 - Fixed script data escaped state potentially not bouncing back correctly
 - Added the `DomSameObject` annotation for the respective IDL members (#1314) @lahma

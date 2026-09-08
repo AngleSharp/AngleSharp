@@ -56,14 +56,15 @@ namespace AngleSharp.Dom
                 throw new ArgumentNullException(nameof(qualifiedName));
             }
 
-            if (!qualifiedName.IsXmlName())
+            // Doctype names have no XML name or namespace constraints.
+            for (var i = 0; i < qualifiedName.Length; i++)
             {
-                throw new DomException(DomError.InvalidCharacter);
-            }
+                var c = qualifiedName[i];
 
-            if (!qualifiedName.IsQualifiedName())
-            {
-                throw new DomException(DomError.Namespace);
+                if (c.IsSpaceCharacter() || c == Symbols.Null || c == Symbols.GreaterThan)
+                {
+                    throw new DomException(DomError.InvalidCharacter);
+                }
             }
 
             return new DocumentType(_owner, qualifiedName) 
