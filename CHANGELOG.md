@@ -2,6 +2,7 @@
 
 Released on Saturday, September 5 2026
 
+- Fixed document factories rejecting valid DOM element and attribute local names (#1333)
 - Improved AngleSharp's test website
 - Fixed script data escaped state potentially not bouncing back correctly
 - Added the `DomSameObject` annotation for the respective IDL members (#1314) @lahma

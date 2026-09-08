@@ -1092,7 +1092,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public IElement CreateElement(String localName)
         {
-            if (localName.IsXmlName())
+            if (localName.IsValidElementLocalName())
             {
                 var factory = _context.GetFactory<IElementFactory<Document, HtmlElement>>();
                 var element = factory.Create(this, localName);
@@ -1181,7 +1181,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public IAttr CreateAttribute(String localName)
         {
-            if (!localName.IsXmlName())
+            if (!localName.IsValidAttributeLocalName())
             {
                 throw new DomException(DomError.InvalidCharacter);
             }
