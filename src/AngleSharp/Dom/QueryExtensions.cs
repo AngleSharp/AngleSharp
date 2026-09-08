@@ -374,7 +374,10 @@ public static class QueryExtensions
         {
             if (elements[i] is IElement element)
             {
-                if (element.ClassList.Contains(classNames))
+                var quirks = element.Owner is Document { QuirksMode: QuirksMode.On };
+                var matches = quirks ? ContainsClassNamesIgnoreAsciiCase(element.ClassList, classNames) : element.ClassList.Contains(classNames);
+
+                if (matches)
                 {
                     result.Add(element);
                 }
@@ -385,6 +388,53 @@ public static class QueryExtensions
                 }
             }
         }
+    }
+
+    private static Boolean ContainsClassNamesIgnoreAsciiCase(ITokenList list, String[] classNames)
+    {
+        for (var i = 0; i < classNames.Length; i++)
+        {
+            var found = false;
+
+            for (var j = 0; j < list.Length; j++)
+            {
+                if (EqualsIgnoreAsciiCase(list[j], classNames[i]))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static Boolean EqualsIgnoreAsciiCase(String left, String right)
+    {
+        if (left.Length != right.Length)
+        {
+            return false;
+        }
+
+        for (var i = 0; i < left.Length; i++)
+        {
+            var a = left[i];
+            var b = right[i];
+
+            // DOM class-name queries in quirks mode fold ASCII letters only.
+            // OrdinalIgnoreCase would also equate non-ASCII pairs such as Ä/ä.
+            if (a != b && (!a.IsLetter() || !b.IsLetter() || (a | 0x20) != (b | 0x20)))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>

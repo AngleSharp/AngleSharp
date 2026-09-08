@@ -2,6 +2,7 @@
 
 Released on Saturday, September 5 2026
 
+- Fixed ASCII case-insensitive class-name queries in quirks mode (#1319)
 - Improved AngleSharp's test website
 - Fixed script data escaped state potentially not bouncing back correctly
 - Added the `DomSameObject` annotation for the respective IDL members (#1314) @lahma
