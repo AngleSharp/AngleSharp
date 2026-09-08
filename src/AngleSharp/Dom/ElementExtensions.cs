@@ -287,12 +287,7 @@ namespace AngleSharp.Dom
         /// <returns>True if the element is currently enabled, otherwise false.</returns>
         public static Boolean IsEnabled(this IElement element)
         {
-            if (element is IHtmlAnchorElement or IHtmlAreaElement or IHtmlLinkElement)
-            {
-                var href = element.GetAttribute(null, AttributeNames.Href);
-                return !String.IsNullOrEmpty(href);
-            }
-            else if (element is IHtmlButtonElement buttonElement)
+            if (element is IHtmlButtonElement buttonElement)
             {
                 return !buttonElement.IsDisabled;
             }
