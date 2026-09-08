@@ -2,6 +2,7 @@
 
 Released on Saturday, September 5 2026
 
+- Fixed explicit form ownership taking precedence over ancestor forms for connected controls (#1323)
 - Improved AngleSharp's test website
 - Fixed script data escaped state potentially not bouncing back correctly
 - Added the `DomSameObject` annotation for the respective IDL members (#1314) @lahma
