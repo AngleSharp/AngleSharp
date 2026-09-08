@@ -28,6 +28,14 @@ namespace AngleSharp.Benchmarks
                 return;
             }
 
+            if (args.Length > 0 && args[0].Equals("--class-name-matching", StringComparison.OrdinalIgnoreCase))
+            {
+                var benchmarkArgs = new String[args.Length - 1];
+                Array.Copy(args, 1, benchmarkArgs, 0, benchmarkArgs.Length);
+                BenchmarkSwitcher.FromTypes(new[] { typeof(ClassNameMatchingBenchmark) }).Run(benchmarkArgs);
+                return;
+            }
+
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
         }
     }
