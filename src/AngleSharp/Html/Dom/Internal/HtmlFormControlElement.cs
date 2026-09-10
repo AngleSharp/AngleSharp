@@ -36,7 +36,40 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Name, value);
         }
 
-        public IHtmlFormElement? Form => GetAssignedForm();
+        public IHtmlFormElement? Form
+        {
+            get
+            {
+                var formId = this.GetOwnAttribute(AttributeNames.Form);
+
+                if (formId is not null)
+                {
+                    var root = this.GetRoot();
+                    var connectedRoot = root;
+
+                    while (connectedRoot is IShadowRoot shadow)
+                    {
+                        connectedRoot = shadow.Host.GetRoot();
+                    }
+
+                    if (connectedRoot is IDocument)
+                    {
+                        // Resolve the first matching ID before checking its type. An explicit
+                        // association on a connected control never falls back to an ancestor.
+                        return formId.Length > 0 ? root.ChildNodes.GetElementById(formId) as IHtmlFormElement : null;
+                    }
+                }
+
+                var parent = Parent as INode;
+
+                while (parent is not null && parent is not IHtmlFormElement)
+                {
+                    parent = parent.ParentElement;
+                }
+
+                return parent as IHtmlFormElement;
+            }
+        }
 
         public Boolean IsDisabled
         {

@@ -1095,7 +1095,7 @@ namespace AngleSharp.Dom
             if (localName.IsXmlName())
             {
                 var factory = _context.GetFactory<IElementFactory<Document, HtmlElement>>();
-                var element = factory.Create(this, localName);
+                var element = factory.Create(this, localName.HtmlLower());
                 element.SetupElement();
                 return element;
             }
@@ -1262,10 +1262,25 @@ namespace AngleSharp.Dom
         internal void AttachReference(Object value) => _attachedReferences.Add(new WeakReference(value));
 
         /// <summary>
-        /// Sets the focus to the provided element.
+        /// Sets the focus to the provided element, transitioning cleanly away from whichever
+        /// element (if any) previously held it - firing <c>blur</c> on the outgoing element and
+        /// <c>focus</c> on the incoming one, the same way a real browser fires both halves of a
+        /// focus change. This is the single place a focus transition actually happens (every public
+        /// entry point, e.g. Element.IsFocused's setter, funnels through here), so it is the only
+        /// place that needs to know about both the old and new element at once.
         /// </summary>
-        /// <param name="element">The element to focus on.</param>
-        internal void SetFocus(IElement? element) => _focus = element;
+        /// <param name="element">The element to focus on, or null to clear focus entirely.</param>
+        internal void SetFocus(IElement? element)
+        {
+            if (!Object.ReferenceEquals(_focus, element))
+            {
+                var previous = _focus;
+                _focus = element;
+
+                previous?.Fire<FocusEvent>(m => m.Init(EventNames.Blur, false, false));
+                element?.Fire<FocusEvent>(m => m.Init(EventNames.Focus, false, false));
+            }
+        }
 
         /// <summary>
         /// Finishes writing to a document.

@@ -316,19 +316,17 @@ namespace AngleSharp.Dom
             protected set
             {
                 var document = Owner;
-                document?.QueueTask(() =>
+
+                if (document is not null && (value || IsFocused))
                 {
-                    if (value)
-                    {
-                        document.SetFocus(this);
-                        this.Fire<FocusEvent>(m => m.Init(EventNames.Focus, false, false));
-                    }
-                    else
-                    {
-                        document.SetFocus(null);
-                        this.Fire<FocusEvent>(m => m.Init(EventNames.Blur, false, false));
-                    }
-                });
+                    // Clearing focus only means something for the element that actually holds it -
+                    // otherwise this would hand Document.SetFocus(null) regardless of who else may
+                    // currently be focused, silently stealing their focus (and firing a spurious
+                    // blur on them) whenever an unrelated, never-focused element's own IsFocused is
+                    // set to false (e.g. a DoBlur() call on an element that was never focused).
+                    document.QueueTask(() => document.SetFocus(value ? this : null));
+                }
+
             }
         }
 

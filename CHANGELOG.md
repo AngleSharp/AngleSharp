@@ -1,3 +1,14 @@
+# 1.8.1
+
+Released on Thursday, September 10 2026
+
+- Updated `DoFocus` and `DoBlur` to apply to form elements
+- Improved explicit form ownership to take precedence over ancestor forms for connected controls (#1323) @sebastienros
+- Fixed HTML hyperlink pseudo-classes omitting empty `href` and matching `link` elements (#1337) @sebastienros
+- Fixed HTML-namespace element creation losing local-name case (#1327) @sebastienros
+- Fixed `:enabled` incorrectly matching HTML links with nonempty `href` (#1324) @sebastienros
+- Fixed changing focus of elements
+
 # 1.8.0
 
 Released on Saturday, September 5 2026

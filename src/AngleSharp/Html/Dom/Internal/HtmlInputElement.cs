@@ -319,6 +319,18 @@ namespace AngleSharp.Html.Dom
 
         public void StepDown(Int32 n = 1) => _type!.DoStep(-n);
 
+        /// <inheritdoc />
+        public override void DoFocus()
+        {
+            // A hidden input is never focusable, matching how a real browser treats it (it is not
+            // even rendered) - every other type defers to the shared text-form-control behavior
+            // (disabled-state check, then IsFocused = true).
+            if (!Type.Is(InputTypeNames.Hidden))
+            {
+                base.DoFocus();
+            }
+        }
+
         #endregion
 
         #region Internal Methods

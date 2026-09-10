@@ -2,7 +2,6 @@ namespace AngleSharp.Html;
 
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using AngleSharp.Text;
 using System;
 using System.Collections.Generic;
 #if NET8_0_OR_GREATER
@@ -18,7 +17,7 @@ sealed class HtmlElementFactory : IElementFactory<Document, HtmlElement>
 
     private delegate HtmlElement Creator(Document owner, String? prefix);
 
-    private static readonly Dictionary<String, Creator> _creatorsDict = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<String, Creator> _creatorsDict = new(StringComparer.Ordinal)
     {
         { TagNames.Div, (document, prefix) => new HtmlDivElement(document, prefix) },
         { TagNames.A, (document, prefix) => new HtmlAnchorElement(document, prefix) },
@@ -160,7 +159,7 @@ sealed class HtmlElementFactory : IElementFactory<Document, HtmlElement>
     };
 
 #if NET8_0_OR_GREATER
-    private static readonly FrozenDictionary<String, Creator> creators = _creatorsDict.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
+    private static readonly FrozenDictionary<String, Creator> creators = _creatorsDict.ToFrozenDictionary(StringComparer.Ordinal);
 #else
     private static readonly Dictionary<String, Creator> creators = _creatorsDict;
 #endif
@@ -215,6 +214,6 @@ sealed class HtmlElementFactory : IElementFactory<Document, HtmlElement>
             return creator.Invoke(document, prefix);
         }
 
-        return new HtmlUnknownElement(document, localName.HtmlLower(), prefix, flags);
+        return new HtmlUnknownElement(document, localName, prefix, flags);
     }
 }

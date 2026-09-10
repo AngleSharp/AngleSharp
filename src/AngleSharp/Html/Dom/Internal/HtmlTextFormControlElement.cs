@@ -195,6 +195,24 @@ namespace AngleSharp.Html.Dom
             SetSelectionRange(0, Value.Length, SelectionType.Forward);
         }
 
+        /// <inheritdoc />
+        public override void DoFocus()
+        {
+            if (!IsDisabled)
+            {
+                IsFocused = true;
+            }
+        }
+
+        /// <inheritdoc />
+        public override void DoBlur()
+        {
+            if (IsFocused)
+            {
+                IsFocused = false;
+            }
+        }
+
         #endregion
 
         #region Enumeration
