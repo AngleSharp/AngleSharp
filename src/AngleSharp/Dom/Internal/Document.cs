@@ -898,6 +898,13 @@ namespace AngleSharp.Dom
 
         internal MutationHost Mutations => _mutations;
 
+        /// <summary>
+        /// Gets whether any <see cref="MutationObserver"/> is registered on this document. A
+        /// mutation record is an allocation, and without an observer it is built only to be thrown
+        /// away, so the mutating paths check this before constructing one.
+        /// </summary>
+        internal Boolean HasMutationObservers => _mutations.HasObservers;
+
         internal QuirksMode QuirksMode
         {
             get => _quirksMode;

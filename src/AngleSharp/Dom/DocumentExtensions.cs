@@ -126,46 +126,47 @@ namespace AngleSharp.Dom
         /// <param name="record">The record to enqueue.</param>
         internal static void QueueMutation(this Document document, MutationRecord record)
         {
-            var observers = document.Mutations.Observers.ToArray();
-
-            if (observers.Length > 0)
+            if (!document.HasMutationObservers)
             {
-                var nodes = record.Target.GetInclusiveAncestors();
+                return;
+            }
 
-                for (var i = 0; i < observers.Length; i++)
+            var observers = document.Mutations.Snapshot();
+            var nodes = record.Target.GetInclusiveAncestors();
+
+            for (var i = 0; i < observers.Length; i++)
+            {
+                var observer = observers[i];
+                var clearPreviousValue = default(Boolean?);
+
+                foreach (var node in nodes)
                 {
-                    var observer = observers[i];
-                    var clearPreviousValue = default(Boolean?);
+                    var options = observer.ResolveOptions(node);
 
-                    foreach (var node in nodes)
+                    if (options.IsInvalid ||
+                       (node != record.Target && !options.IsObservingSubtree) ||
+                       (record.IsAttribute && !options.IsObservingAttributes) ||
+                       (record.IsAttribute && options.AttributeFilters is not null && (!options.AttributeFilters.Contains(record.AttributeName) || record.AttributeNamespace is not null)) ||
+                       (record.IsCharacterData && !options.IsObservingCharacterData) ||
+                       (record.IsChildList && !options.IsObservingChildNodes))
                     {
-                        var options = observer.ResolveOptions(node);
-
-                        if (options.IsInvalid ||
-                           (node != record.Target && !options.IsObservingSubtree) ||
-                           (record.IsAttribute && !options.IsObservingAttributes) ||
-                           (record.IsAttribute && options.AttributeFilters is not null && (!options.AttributeFilters.Contains(record.AttributeName) || record.AttributeNamespace is not null)) ||
-                           (record.IsCharacterData && !options.IsObservingCharacterData) ||
-                           (record.IsChildList && !options.IsObservingChildNodes))
-                        {
-                            continue;
-                        }
-
-                        if (!clearPreviousValue.HasValue || clearPreviousValue.Value)
-                        {
-                            clearPreviousValue = (record.IsAttribute && !options.IsExaminingOldAttributeValue) ||
-                                (record.IsCharacterData && !options.IsExaminingOldCharacterData);
-                        }
+                        continue;
                     }
 
-                    if (clearPreviousValue is not null)
+                    if (!clearPreviousValue.HasValue || clearPreviousValue.Value)
                     {
-                        observer.Enqueue(record.Copy(clearPreviousValue.Value));
+                        clearPreviousValue = (record.IsAttribute && !options.IsExaminingOldAttributeValue) ||
+                            (record.IsCharacterData && !options.IsExaminingOldCharacterData);
                     }
                 }
 
-                document.PerformMicrotaskCheckpoint();
+                if (clearPreviousValue is not null)
+                {
+                    observer.Enqueue(record.Copy(clearPreviousValue.Value));
+                }
             }
+
+            document.PerformMicrotaskCheckpoint();
         }
 
         /// <summary>

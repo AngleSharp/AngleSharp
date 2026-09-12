@@ -639,11 +639,17 @@ namespace AngleSharp.Dom
                 }
             }
 
-            Owner.QueueMutation(MutationRecord.Attributes(
-                target: this,
-                attributeName: localName,
-                attributeNamespace: namespaceUri,
-                previousValue: oldValue));
+            // Building the record is an allocation on every attribute change, and QueueMutation
+            // throws it away again when nothing is observing. Asking first is the same behaviour
+            // for a fraction of the cost - and this path is now walked by classList as well.
+            if (Owner.HasMutationObservers)
+            {
+                Owner.QueueMutation(MutationRecord.Attributes(
+                    target: this,
+                    attributeName: localName,
+                    attributeNamespace: namespaceUri,
+                    previousValue: oldValue));
+            }
         }
 
         // Reads the attribute rather than the value it was handed: Configuration.With prepends, so
