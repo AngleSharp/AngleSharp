@@ -15,9 +15,11 @@ namespace AngleSharp.Dom
 
         private readonly List<String> _tokens;
 
-        // Set while our own write to the content attribute is being dispatched, so that the
-        // attribute change steps coming back around do not re-parse what we just serialized.
-        private Boolean _writing;
+        // The exact string our own write to the content attribute is currently dispatching, or
+        // null when we are not writing. Guarding on the value rather than on being inside the
+        // dispatch matters: an observer is free to write a different value to the same attribute
+        // while our write is being delivered, and that one has to be parsed like anyone else's.
+        private String? _writtenValue;
 
         #endregion
 
@@ -53,12 +55,14 @@ namespace AngleSharp.Dom
 
         public void Update(String? value)
         {
-            if (_writing)
+            if (_writtenValue is not null && String.Equals(value, _writtenValue, StringComparison.Ordinal))
             {
                 // DOM 7.1: the attribute change steps set the token set from the parsed attribute
                 // value. This one is our own serialization coming back, so the set already matches
-                // it - re-parsing would only cost an allocation and throw away the identity of the
-                // tokens the caller just handed us.
+                // it. Skipping is only an optimisation, not a recursion guard - Update never raises
+                // Changed, so an unguarded re-entry terminates on its own. What it buys is the
+                // split plus its substrings, and keeping the token instances the caller handed us
+                // instead of replacing them with equal copies.
                 return;
             }
 
@@ -154,19 +158,21 @@ namespace AngleSharp.Dom
             }
 
             // The write runs the full attribute change steps, so observers and mutation records see
-            // it exactly as they see a setAttribute. Only the sync back into this list is skipped.
-            var wasWriting = _writing;
-            _writing = true;
+            // it exactly as they see a setAttribute. Only the sync of this very value back into
+            // this list is skipped; a different value arriving meanwhile is somebody else's write.
+            var value = ToString();
+            var previous = _writtenValue;
+            _writtenValue = value;
 
             try
             {
-                handler.Invoke(ToString());
+                handler.Invoke(value);
             }
             finally
             {
                 // Restore rather than clear: an observer is free to write this very list again, and
-                // the outer write must stay guarded once the inner one has unwound.
-                _writing = wasWriting;
+                // the outer write must still recognize its own value once the inner one has unwound.
+                _writtenValue = previous;
             }
         }
 

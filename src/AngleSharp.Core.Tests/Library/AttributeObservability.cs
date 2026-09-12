@@ -41,6 +41,28 @@ namespace AngleSharp.Core.Tests.Library
             }
         }
 
+        private sealed class RewritingAttributeObserver : IAttributeObserver
+        {
+            private readonly String _name;
+            private readonly String _replacement;
+
+            public RewritingAttributeObserver(String name, String replacement)
+            {
+                _name = name;
+                _replacement = replacement;
+            }
+
+            public void NotifyChange(IElement host, String name, String value)
+            {
+                if (name == _name && value != _replacement)
+                {
+                    // An observer may write the same attribute with a value of its own. For an
+                    // embedder this is user script inside a custom element's attributeChangedCallback.
+                    host.SetAttribute(_name, _replacement);
+                }
+            }
+        }
+
         private static IDocument Observed(String source, RecordingAttributeObserver observer)
         {
             return source.ToHtmlDocument(Configuration.Default.With(observer));
@@ -178,6 +200,41 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(2, reentrant.Count);
             Assert.AreEqual("alpha observed", target.ClassName);
             Assert.AreEqual(2, target.ClassList.Length);
+        }
+
+        [Test]
+        public void ClassListAgreesWithTheAttributeAfterAnObserverRewritesIt()
+        {
+            var config = Configuration.Default.With(new RewritingAttributeObserver("class", "zzz"));
+            var document = "<div id=target></div>".ToHtmlDocument(config);
+            var target = document.GetElementById("target");
+
+            target.ClassList.Add("alpha");
+
+            // The observer's write is not ours, so it has to be parsed into the list like any other
+            // setAttribute. The list and the content attribute must not diverge.
+            Assert.AreEqual("zzz", target.GetAttribute("class"));
+            Assert.AreEqual("zzz", target.ClassName);
+            Assert.AreEqual(1, target.ClassList.Length);
+            Assert.AreEqual("zzz", target.ClassList[0]);
+            Assert.IsFalse(target.ClassList.Contains("alpha"));
+        }
+
+        [Test]
+        public void SandboxListAgreesWithTheAttributeAfterAnObserverRewritesIt()
+        {
+            // The guard lives in TokenList, so every reflected token list is covered by it - rel,
+            // sizes, ping, sandbox, headers, for and dropzone all reach the same code.
+            var config = Configuration.Default.With(new RewritingAttributeObserver("sandbox", "allow-forms"));
+            var document = "<iframe id=target></iframe>".ToHtmlDocument(config);
+            var target = document.GetElementById("target") as IHtmlInlineFrameElement;
+
+            target.Sandbox.Add("allow-scripts");
+
+            Assert.AreEqual("allow-forms", target.GetAttribute("sandbox"));
+            Assert.AreEqual(1, target.Sandbox.Length);
+            Assert.AreEqual("allow-forms", target.Sandbox[0]);
+            Assert.IsFalse(target.Sandbox.Contains("allow-scripts"));
         }
 
         [Test]
