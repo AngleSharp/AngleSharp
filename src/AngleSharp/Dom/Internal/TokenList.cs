@@ -15,10 +15,12 @@ namespace AngleSharp.Dom
 
         private readonly List<String> _tokens;
 
-        // The exact string our own write to the content attribute is currently dispatching, or
-        // null when we are not writing. Guarding on the value rather than on being inside the
-        // dispatch matters: an observer is free to write a different value to the same attribute
-        // while our write is being delivered, and that one has to be parsed like anyone else's.
+        // The exact string our own write to the content attribute is dispatching and whose echo
+        // has not arrived yet, or null when no write of ours is still in flight. Correctness does
+        // not rest on this: the sync hands us the attribute's current value, so parsing is always
+        // right. What the field buys is skipping that parse for the one value we know reproduces
+        // the set we already hold - and only while it is still the one in flight, so that a later
+        // write repeating our text is not mistaken for the echo.
         private String? _writtenValue;
 
         #endregion
@@ -55,15 +57,25 @@ namespace AngleSharp.Dom
 
         public void Update(String? value)
         {
-            if (_writtenValue is not null && String.Equals(value, _writtenValue, StringComparison.Ordinal))
+            if (_writtenValue is not null)
             {
-                // DOM 7.1: the attribute change steps set the token set from the parsed attribute
-                // value. This one is our own serialization coming back, so the set already matches
-                // it. Skipping is only an optimisation, not a recursion guard - Update never raises
-                // Changed, so an unguarded re-entry terminates on its own. What it buys is the
-                // split plus its substrings, and keeping the token instances the caller handed us
-                // instead of replacing them with equal copies.
-                return;
+                var isEcho = String.Equals(value, _writtenValue, StringComparison.Ordinal);
+
+                // Our write has stopped being in flight either way: this is its echo, or another
+                // value reached the attribute first and the echo can never arrive. Anything from
+                // here on that repeats our text is somebody else's write and has to be parsed.
+                _writtenValue = null;
+
+                if (isEcho)
+                {
+                    // DOM 7.1: the attribute change steps set the token set from the parsed
+                    // attribute value. This one is our own serialization coming back, so the set
+                    // already matches it. Skipping is only an optimisation, never a recursion guard
+                    // - Update does not raise Changed, so an unguarded re-entry terminates on its
+                    // own. What it buys is the split plus its substrings, and keeping the token
+                    // instances the caller handed us instead of replacing them with equal copies.
+                    return;
+                }
             }
 
             _tokens.Clear();
@@ -158,8 +170,8 @@ namespace AngleSharp.Dom
             }
 
             // The write runs the full attribute change steps, so observers and mutation records see
-            // it exactly as they see a setAttribute. Only the sync of this very value back into
-            // this list is skipped; a different value arriving meanwhile is somebody else's write.
+            // it exactly as they see a setAttribute. Only the echo of this very value is skipped,
+            // and only while it is still the one in flight.
             var value = ToString();
             var previous = _writtenValue;
             _writtenValue = value;
@@ -171,7 +183,9 @@ namespace AngleSharp.Dom
             finally
             {
                 // Restore rather than clear: an observer is free to write this very list again, and
-                // the outer write must still recognize its own value once the inner one has unwound.
+                // an outer write whose echo is still outstanding must go on recognizing it once the
+                // inner one has unwound. If that echo had already arrived, previous is null and the
+                // outer write stays finished, which is what keeps the case above from reopening.
                 _writtenValue = previous;
             }
         }

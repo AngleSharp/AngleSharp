@@ -170,14 +170,14 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
-        internal void UpdateRel(String value)
+        internal void UpdateRel()
         {
-            _relList?.Update(value);
+            _relList?.Update(this.GetOwnAttribute(AttributeNames.Rel));
         }
 
-        internal void UpdatePing(String value)
+        internal void UpdatePing()
         {
-            _ping?.Update(value);
+            _ping?.Update(this.GetOwnAttribute(AttributeNames.Ping));
         }
 
         #endregion

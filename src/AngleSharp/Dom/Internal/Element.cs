@@ -646,7 +646,11 @@ namespace AngleSharp.Dom
                 previousValue: oldValue));
         }
 
-        internal void UpdateClassList(String value) => _classList?.Update(value);
+        // Reads the attribute rather than the value it was handed: Configuration.With prepends, so
+        // a host observer runs before this one and may already have written a different value. The
+        // delivered value is the one captured when the write started, the attribute is the truth,
+        // and a token list that mirrors an attribute has to follow the truth.
+        internal void UpdateClassList() => _classList?.Update(this.GetOwnAttribute(AttributeNames.Class));
 
         #endregion
 

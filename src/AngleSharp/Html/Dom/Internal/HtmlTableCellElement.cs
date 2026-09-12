@@ -126,9 +126,9 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
-        internal void UpdateHeaders(String value)
+        internal void UpdateHeaders()
         {
-            _headers?.Update(value);
+            _headers?.Update(this.GetOwnAttribute(AttributeNames.Headers));
         }
 
         #endregion

@@ -625,7 +625,7 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
-        internal void UpdateDropZone(String value) => _dropZone?.Update(value);
+        internal void UpdateDropZone() => _dropZone?.Update(this.GetOwnAttribute(AttributeNames.DropZone));
 
         #endregion
 

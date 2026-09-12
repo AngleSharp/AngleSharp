@@ -63,6 +63,26 @@ namespace AngleSharp.Core.Tests.Library
             }
         }
 
+        private sealed class ScriptedAttributeObserver : IAttributeObserver
+        {
+            private readonly String _name;
+            private readonly Queue<String> _writes;
+
+            public ScriptedAttributeObserver(String name, params String[] writes)
+            {
+                _name = name;
+                _writes = new Queue<String>(writes);
+            }
+
+            public void NotifyChange(IElement host, String name, String value)
+            {
+                if (name == _name && _writes.Count > 0)
+                {
+                    host.SetAttribute(_name, _writes.Dequeue());
+                }
+            }
+        }
+
         private static IDocument Observed(String source, RecordingAttributeObserver observer)
         {
             return source.ToHtmlDocument(Configuration.Default.With(observer));
@@ -218,6 +238,37 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(1, target.ClassList.Length);
             Assert.AreEqual("zzz", target.ClassList[0]);
             Assert.IsFalse(target.ClassList.Contains("alpha"));
+        }
+
+        [Test]
+        public void ClassListAgreesWithTheAttributeAfterAnObserverWritesAwayAndBack()
+        {
+            var config = Configuration.Default.With(new ScriptedAttributeObserver("class", "zzz", "alpha"));
+            var document = "<div id=target></div>".ToHtmlDocument(config);
+            var target = document.GetElementById("target");
+
+            target.ClassList.Add("alpha");
+
+            // The second write repeats the text our own write serialized, but it is still somebody
+            // else's write: ours stopped being in flight the moment "zzz" reached the attribute.
+            Assert.AreEqual("alpha", target.GetAttribute("class"));
+            Assert.AreEqual("alpha", target.ClassName);
+            Assert.AreEqual(1, target.ClassList.Length);
+            Assert.AreEqual("alpha", target.ClassList[0]);
+        }
+
+        [Test]
+        public void SandboxListAgreesWithTheAttributeAfterAnObserverWritesAwayAndBack()
+        {
+            var config = Configuration.Default.With(new ScriptedAttributeObserver("sandbox", "allow-forms", "allow-scripts"));
+            var document = "<iframe id=target></iframe>".ToHtmlDocument(config);
+            var target = document.GetElementById("target") as IHtmlInlineFrameElement;
+
+            target.Sandbox.Add("allow-scripts");
+
+            Assert.AreEqual("allow-scripts", target.GetAttribute("sandbox"));
+            Assert.AreEqual(1, target.Sandbox.Length);
+            Assert.AreEqual("allow-scripts", target.Sandbox[0]);
         }
 
         [Test]
