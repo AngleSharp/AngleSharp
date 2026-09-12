@@ -776,7 +776,10 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public IBrowsingContext Context => _context;
 
-        internal IReadOnlyList<IAttributeObserver> AttributeObservers =>
+        // Typed as the array it already is: through IReadOnlyList a foreach goes via the interface
+        // and boxes an enumerator on every attribute change, which is 32 bytes on a path classList
+        // now walks too.
+        internal IAttributeObserver[] AttributeObservers =>
             _attributeObservers ??= _context.GetServices<IAttributeObserver>().ToArray();
 
         /// <summary>
