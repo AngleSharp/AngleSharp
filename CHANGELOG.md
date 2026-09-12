@@ -7,7 +7,10 @@ Released on Friday, September 11 2026
 - Improved `GetElementsByTagName` / `GetElementsByClassName` traversal to stop double-scanning each element's children
 - Improved selector specificity (`Selectors.Specificity`, `ComplexSelector.Specificity`) to be computed once instead of recomputed on every read
 - Improved `ListSelector.GetMatchingSelector` to sort its selectors once instead of on every call
+- Added `Document.MutationVersion`, a synchronous counter that changes whenever the document's tree, an attribute or character data changed
 - Improved performance of parser attribute duplication check
+- Fixed `classList` and the other reflected token lists writing their content attribute without running the attribute change steps or queueing a mutation record
+- Fixed clearing a reflected boolean attribute such as `disabled` removing it without running the attribute change steps or queueing a mutation record
 - Fixed vulnerability via SVG style serialization (GHSA-cgp3-27rh-pcp2)
 
 # 1.8.1

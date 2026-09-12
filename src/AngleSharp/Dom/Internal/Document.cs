@@ -61,6 +61,7 @@ namespace AngleSharp.Dom
         private IStyleSheetList? _styleSheets;
         private HttpStatusCode _statusCode;
         private HashSet<Uri>? _importedUris;
+        private Int64 _mutationVersion;
 
         #endregion
 
@@ -777,6 +778,49 @@ namespace AngleSharp.Dom
 
         internal IReadOnlyList<IAttributeObserver> AttributeObservers =>
             _attributeObservers ??= _context.GetServices<IAttributeObserver>().ToArray();
+
+        /// <summary>
+        /// Gets the mutation version of this document. The value changes whenever a node is inserted
+        /// into or removed from this document's tree, an attribute of an element in that tree is
+        /// added, removed or given a new value, or the data of a character data node in it changes.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This answers "may anything have changed since I last looked?" without registering a
+        /// <see cref="MutationObserver"/>. It is advanced synchronously with the mutation itself,
+        /// costs a single increment and allocates nothing, so two readings that are equal mean
+        /// nothing in the document changed in between. The converse does not hold: a differing
+        /// reading only means a mutation was attempted, not that the result is different.
+        /// </para>
+        /// <para>
+        /// Compare two readings for equality, not for order or distance. The value is opaque -
+        /// neither its magnitude nor the size of a step between two readings carries meaning, a
+        /// single API call may advance it more than once, and it may advance for a mutation that
+        /// turned out to be a no-op. It is a 64 bit counter and so does not wrap in any realistic
+        /// document lifetime, but nothing may be built on that.
+        /// </para>
+        /// <para>
+        /// The counter covers the parser's own construction of the tree as well as the scripted and
+        /// programmatic DOM APIs, which is more than a <see cref="MutationObserver"/> is told about.
+        /// It deliberately does not cover a node while it is detached from every document (there is
+        /// no document to version - inserting it later advances the counter of the document it joins)
+        /// nor anything derived outside AngleSharp.Core, such as a style sheet an extension keeps.
+        /// </para>
+        /// <para>
+        /// The DOM is not thread safe, so read this on the thread that owns the document. The
+        /// property is deliberately declared here rather than on <see cref="IDocument"/>, which
+        /// cannot gain a member without breaking every implementor of it, so reaching it from an
+        /// <c>IDocument</c> is a cast: <c>((Document)document).MutationVersion</c>.
+        /// </para>
+        /// </remarks>
+        public Int64 MutationVersion => _mutationVersion;
+
+        /// <summary>
+        /// Advances <see cref="MutationVersion"/>. Called from every place that actually changes the
+        /// tree, an attribute or character data, rather than from the mutation record funnel, since
+        /// the parser builds the tree without queueing records.
+        /// </summary>
+        internal void MarkMutated() => _mutationVersion++;
 
         /// <inheritdoc />
         public HttpStatusCode StatusCode

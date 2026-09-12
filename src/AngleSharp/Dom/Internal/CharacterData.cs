@@ -102,6 +102,8 @@ namespace AngleSharp.Dom
                         chrs[index] = value;
                         _content = new String(chrs);
                     }
+
+                    Owner?.MarkMutated();
                 }
             }
         }
@@ -177,6 +179,7 @@ namespace AngleSharp.Dom
                 _content = _content.Remove(deleteOffset, count);
             }
 
+            owner.MarkMutated();
             owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: previous));
             foreach (var m in owner.GetAttachedReferences<Range>())
             {

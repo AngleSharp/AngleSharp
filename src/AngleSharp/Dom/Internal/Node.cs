@@ -194,6 +194,13 @@ namespace AngleSharp.Dom
             set => _parent = value;
         }
 
+        /// <summary>
+        /// Gets the document whose mutation version the tree mutators below advance. It is the
+        /// same as <see cref="Owner"/> except for a document node, which deliberately reports a
+        /// null owner but is itself the document being changed.
+        /// </summary>
+        private Document? OwningDocument => _owner ?? this as Document;
+
         internal Document Owner
         {
             get
@@ -489,6 +496,7 @@ namespace AngleSharp.Dom
         {
             node.Parent = this;
             _children.Insert(index, node);
+            OwningDocument?.MarkMutated();
         }
 
         /// <inheritdoc />
@@ -496,6 +504,7 @@ namespace AngleSharp.Dom
         {
             node.Parent = this;
             _children.Add(node);
+            OwningDocument?.MarkMutated();
         }
 
         /// <inheritdoc />
@@ -503,6 +512,7 @@ namespace AngleSharp.Dom
         {
             node.Parent = null;
             _children.RemoveAt(index);
+            OwningDocument?.MarkMutated();
         }
 
         /// <inheritdoc />

@@ -15,6 +15,10 @@ namespace AngleSharp.Dom
 
         private readonly List<String> _tokens;
 
+        // Set while our own write to the content attribute is being dispatched, so that the
+        // attribute change steps coming back around do not re-parse what we just serialized.
+        private Boolean _writing;
+
         #endregion
 
         #region Events
@@ -49,6 +53,15 @@ namespace AngleSharp.Dom
 
         public void Update(String? value)
         {
+            if (_writing)
+            {
+                // DOM 7.1: the attribute change steps set the token set from the parsed attribute
+                // value. This one is our own serialization coming back, so the set already matches
+                // it - re-parsing would only cost an allocation and throw away the identity of the
+                // tokens the caller just handed us.
+                return;
+            }
+
             _tokens.Clear();
 
             if (value is { Length: > 0 })
@@ -131,7 +144,31 @@ namespace AngleSharp.Dom
 
         #region Helper
 
-        private void RaiseChanged() => Changed?.Invoke(ToString());
+        private void RaiseChanged()
+        {
+            var handler = Changed;
+
+            if (handler is null)
+            {
+                return;
+            }
+
+            // The write runs the full attribute change steps, so observers and mutation records see
+            // it exactly as they see a setAttribute. Only the sync back into this list is skipped.
+            var wasWriting = _writing;
+            _writing = true;
+
+            try
+            {
+                handler.Invoke(ToString());
+            }
+            finally
+            {
+                // Restore rather than clear: an observer is free to write this very list again, and
+                // the outer write must stay guarded once the inner one has unwound.
+                _writing = wasWriting;
+            }
+        }
 
         #endregion
 
