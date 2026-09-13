@@ -35,6 +35,10 @@ dotnet test src/AngleSharp.Core.Tests/AngleSharp.Core.Tests.csproj -f net10.0 --
 dotnet test src/AngleSharp.Core.Tests/AngleSharp.Core.Tests.csproj -f net10.0 --filter "Name=NthChildWithOfSyntax"
 ```
 
+- **Name a project or `src/AngleSharp.Core.sln`; there is nothing at the repository root to
+  build.** A bare `dotnet build` there fails with `MSB1003`, and the library's project file is
+  `src/AngleSharp/AngleSharp.Core.csproj` rather than the `AngleSharp.csproj` its directory and
+  its assembly name both suggest.
 - Always pass `-f net10.0` when iterating. On Windows the test project also targets `net462`
   and `net472`, so omitting it runs everything three times. The library itself targets
   `netstandard2.0;net8.0;net10.0` (plus `net462;net472` on Windows) — building the solution
@@ -48,7 +52,11 @@ dotnet test src/AngleSharp.Core.Tests/AngleSharp.Core.Tests.csproj -f net10.0 --
   variable is real here (`TestRuntime.UsePrefetchedTextSource`): it switches
   `TestExtensions.ToHtmlDocument` between the `String` and the `ReadOnlyMemory<Char>` parser
   overload, i.e. two different text-source implementations. Anything touching the tokenizer or
-  `Text/` must pass in both modes.
+  `Text/` must pass in both modes. To run the second mode from the SDK, set the environment
+  variable the switch actually reads — `$env:prefetched = 'true'` (`prefetched=true` on a
+  shell), which is `TestRuntime.UsePrefetchedTextSource`. Anything but the exact string
+  `true` is the default mode, so a run that was meant to be the second one and was spelled
+  `1` silently repeats the first.
 - Benchmarks (`src/AngleSharp.Benchmarks`, BenchmarkDotNet) — see *Performance* below.
 - `CHANGELOG.md` is the single version authority for a release: its top entry is parsed by
   `ReleaseNotesParser` into the package version, the GitHub release body, and `-p:Version` for
@@ -212,6 +220,16 @@ alongside the timing. `SelectorBenchmark` and `StreamingTextSourceBenchmark` wor
 sites and caches them under `temp/`, so it needs network on the first run. `net472` is a
 benchmark target as well, and the framework-vs-core gap is where `#if`-guarded fast paths get
 lost — check both when touching them.
+
+**One before/after pair is not a measurement, and a six-round interval is not one either below
+about ±4 %.** Run the two arms out of two worktrees, alternate which goes first every round, and read
+the per-round *difference* rather than two summary means: this box drifts between processes by more
+than most changes are worth. Then calibrate before believing a small delta. An **A/A** of
+`MutationBenchmark` — two separately built worktrees of the *same* commit, six rounds — put
+`CreateElements` at −2.03 % [−4.09 %, +0.94 %] and `AppendChild` at −2.93 % [−5.97 %, +1.56 %], so
+anything inside roughly ±4 % on those rows is the row's own build-to-build spread and a bootstrap
+interval that excludes zero there means nothing. It means plenty at −10 % and −19 %, which is where
+the rows changed by the mutation-record gating landed.
 
 Techniques the codebase relies on; match them in new code:
 
