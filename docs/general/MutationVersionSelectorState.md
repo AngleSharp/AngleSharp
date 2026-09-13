@@ -22,3 +22,9 @@ An external wrapper works only if every caller agrees to use it. An embedding AP
 The same reasoning applies to selectedness, indeterminacy, value/dirty-value/custom-validity state and focus. Focus advances the version at the actual transition, before either focus callback can query a cache. Form reset uses the existing control mutation paths. No interface member, observer registration or mutation record is added. Read-only selector and validity queries do not advance the version. The token remains conservative: attempted/no-op writes can advance it, so compare for equality only.
 
 This is not a universal renderer revision. Stylesheets, render-device settings, custom selector services and host-owned state still require separate invalidation signals or an uncached fallback.
+
+Parser bookkeeping is handled by the separate [Core #1347](https://github.com/AngleSharp/AngleSharp/pull/1347)
+follow-up to #1344. Native control initialization must not add increments to that construction path;
+cloning copies validity state directly instead of calling a notifying user setter. Consumers must
+invalidate at parser boundaries independently, or keep reads query-local while construction can resume.
+User changes made from parser callbacks still count as mutations.

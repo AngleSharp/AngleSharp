@@ -18,6 +18,20 @@ namespace AngleSharp.Core.Tests.Library
         private static Document Doc(String source) => (Document)source.ToHtmlDocument();
 
         [Test]
+        public void CloningAControlDoesNotMutateItsDocument()
+        {
+            var document = Doc("<input>");
+            var input = (IHtmlInputElement)document.QuerySelector("input");
+            input.SetCustomValidity("error");
+            var before = document.MutationVersion;
+
+            var clone = (IHtmlInputElement)input.Clone();
+
+            Assert.AreEqual("error", clone.ValidationMessage);
+            Assert.AreEqual(before, document.MutationVersion);
+        }
+
+        [Test]
         public void NativeCheckednessInvalidatesACacheWithoutMutationRecords()
         {
             var document = Doc("<input type=checkbox>");

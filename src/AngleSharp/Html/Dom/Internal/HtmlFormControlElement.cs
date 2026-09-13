@@ -101,7 +101,8 @@ namespace AngleSharp.Html.Dom
         public override Node Clone(Document owner, Boolean deep)
         {
             var node = (HtmlFormControlElement)base.Clone(owner, deep);
-            node.SetCustomValidity(_error);
+            node._error = _error;
+            node.ResetValidity(node._vstate);
             return node;
         }
 
