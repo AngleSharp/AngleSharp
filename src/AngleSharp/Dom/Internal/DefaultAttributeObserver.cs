@@ -28,22 +28,24 @@ namespace AngleSharp.Dom
         /// </summary>
         protected virtual void RegisterStandardObservers()
         {
-            RegisterObserver<Element>(AttributeNames.Class, (element, value) => element.UpdateClassList(value));
-            RegisterObserver<HtmlElement>(AttributeNames.DropZone, (element, value) => element.UpdateDropZone(value));
+            // The token list syncs take no value: they read the content attribute, which may already
+            // have been changed again by an observer registered ahead of this one.
+            RegisterObserver<Element>(AttributeNames.Class, (element, _) => element.UpdateClassList());
+            RegisterObserver<HtmlElement>(AttributeNames.DropZone, (element, _) => element.UpdateDropZone());
             RegisterObserver<HtmlBaseElement>(AttributeNames.Href, (element, value) => element.UpdateUrl(value));
             RegisterObserver<HtmlEmbedElement>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
-            RegisterObserver<HtmlLinkElement>(AttributeNames.Rel, (element, value) => element.UpdateRel(value));
-            RegisterObserver<HtmlLinkElement>(AttributeNames.Sizes, (element, value) => element.UpdateSizes(value));
+            RegisterObserver<HtmlLinkElement>(AttributeNames.Rel, (element, _) => element.UpdateRel());
+            RegisterObserver<HtmlLinkElement>(AttributeNames.Sizes, (element, _) => element.UpdateSizes());
             RegisterObserver<HtmlLinkElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
             RegisterObserver<HtmlLinkElement>(AttributeNames.Disabled, (element, value) => element.UpdateDisabled(value));
             RegisterObserver<HtmlLinkElement>(AttributeNames.Href, (element, value) => element.UpdateSource(value));
-            RegisterObserver<HtmlUrlBaseElement>(AttributeNames.Rel, (element, value) => element.UpdateRel(value));
-            RegisterObserver<HtmlUrlBaseElement>(AttributeNames.Ping, (element, value) => element.UpdatePing(value));
-            RegisterObserver<HtmlTableCellElement>(AttributeNames.Headers, (element, value) => element.UpdateHeaders(value));
+            RegisterObserver<HtmlUrlBaseElement>(AttributeNames.Rel, (element, _) => element.UpdateRel());
+            RegisterObserver<HtmlUrlBaseElement>(AttributeNames.Ping, (element, _) => element.UpdatePing());
+            RegisterObserver<HtmlTableCellElement>(AttributeNames.Headers, (element, _) => element.UpdateHeaders());
             RegisterObserver<HtmlStyleElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
             RegisterObserver<SvgStyleElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
             RegisterObserver<HtmlSelectElement>(AttributeNames.Value, (element, value) => element.UpdateValue(value));
-            RegisterObserver<HtmlOutputElement>(AttributeNames.For, (element, value) => element.UpdateFor(value));
+            RegisterObserver<HtmlOutputElement>(AttributeNames.For, (element, _) => element.UpdateFor());
             RegisterObserver<HtmlObjectElement>(AttributeNames.Data, (element, value) => element.UpdateSource(value));
             RegisterObserver<HtmlAudioElement>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
             RegisterObserver<HtmlVideoElement>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
@@ -51,7 +53,7 @@ namespace AngleSharp.Dom
             RegisterObserver<HtmlImageElement>(AttributeNames.SrcSet, (element, _) => element.UpdateSource());
             RegisterObserver<HtmlImageElement>(AttributeNames.Sizes, (element, _) => element.UpdateSource());
             RegisterObserver<HtmlImageElement>(AttributeNames.CrossOrigin, (element, _) => element.UpdateSource());
-            RegisterObserver<HtmlIFrameElement>(AttributeNames.Sandbox, (element, value) => element.UpdateSandbox(value));
+            RegisterObserver<HtmlIFrameElement>(AttributeNames.Sandbox, (element, _) => element.UpdateSandbox());
             RegisterObserver<HtmlIFrameElement>(AttributeNames.SrcDoc, (element, _) => element.UpdateSource());
             RegisterObserver<HtmlFrameElementBase>(AttributeNames.Src, (element, _) => element.UpdateSource());
             RegisterObserver<HtmlInputElement>(AttributeNames.Type, (element, value) => element.UpdateType(value));

@@ -505,6 +505,7 @@ namespace AngleSharp.Dom
         {
             attr.Container = _attributes;
             _attributes.FastAddItem(attr);
+            Owner?.MarkMutated();
         }
 
         /// <inheritdoc />
@@ -638,14 +639,24 @@ namespace AngleSharp.Dom
                 }
             }
 
-            Owner.QueueMutation(MutationRecord.Attributes(
-                target: this,
-                attributeName: localName,
-                attributeNamespace: namespaceUri,
-                previousValue: oldValue));
+            // Building the record is an allocation on every attribute change, and QueueMutation
+            // throws it away again when nothing is observing. Asking first is the same behaviour
+            // for a fraction of the cost - and this path is now walked by classList as well.
+            if (Owner.HasMutationObservers)
+            {
+                Owner.QueueMutation(MutationRecord.Attributes(
+                    target: this,
+                    attributeName: localName,
+                    attributeNamespace: namespaceUri,
+                    previousValue: oldValue));
+            }
         }
 
-        internal void UpdateClassList(String value) => _classList?.Update(value);
+        // Reads the attribute rather than the value it was handed: Configuration.With prepends, so
+        // a host observer runs before this one and may already have written a different value. The
+        // delivered value is the one captured when the write started, the attribute is the truth,
+        // and a token list that mirrors an attribute has to follow the truth.
+        internal void UpdateClassList() => _classList?.Update(this.GetOwnAttribute(AttributeNames.Class));
 
         #endregion
 
@@ -675,8 +686,16 @@ namespace AngleSharp.Dom
             }
         }
 
-        /// <inheritdoc />
-        protected void UpdateAttribute(String name, String value) => this.SetOwnAttribute(name, value, suppressCallbacks: true);
+        /// <summary>
+        /// Writes the content attribute an IDL member reflects. This is an ordinary attribute
+        /// change: it runs the attribute change steps and queues a mutation record, exactly as
+        /// setAttribute does, because DOM requires every attribute change to be observable no
+        /// matter which member performed it. The list that raised the change guards its own
+        /// re-entry instead of the write suppressing everyone's.
+        /// </summary>
+        /// <param name="name">The name of the attribute to write.</param>
+        /// <param name="value">The serialized value to write.</param>
+        protected void UpdateAttribute(String name, String value) => this.SetOwnAttribute(name, value);
 
         /// <inheritdoc />
         protected sealed override String? LocateNamespace(String prefix) => this.LocateNamespaceFor(prefix);
@@ -735,6 +754,12 @@ namespace AngleSharp.Dom
                 var item = new Attr(attribute.Name.ToString(), attribute.Value.ToString());
                 item.Container = container;
                 container.FastAddItem(item);
+            }
+
+            if (tagAttributes.Count > 0)
+            {
+                // One step for the whole batch - the version only has to move, not to count.
+                Owner?.MarkMutated();
             }
         }
 

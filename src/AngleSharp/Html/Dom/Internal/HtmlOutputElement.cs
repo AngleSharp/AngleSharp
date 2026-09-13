@@ -70,9 +70,9 @@ namespace AngleSharp.Html.Dom
             _value = null;
         }
 
-        internal void UpdateFor(String value)
+        internal void UpdateFor()
         {
-            _for?.Update(value);
+            _for?.Update(this.GetOwnAttribute(AttributeNames.For));
         }
 
         #endregion

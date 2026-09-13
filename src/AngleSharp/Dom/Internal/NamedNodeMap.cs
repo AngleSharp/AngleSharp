@@ -52,13 +52,28 @@ namespace AngleSharp.Dom
 
         #region Internal Methods
 
+        // Construction only: no duplicate check, no attribute change steps. The caller owns the
+        // document's mutation version for this write - see Element.AddAttribute and SetAttributes.
         internal void FastAddItem(Attr attr) => _items.Add(attr);
 
-        internal void RaiseChangedEvent(Attr attr, String? newValue, String? oldValue)
+        internal void RaiseChangedEvent(Attr attr, String? newValue, String? oldValue) =>
+            NotifyChanged(attr, newValue, oldValue, suppressMutationObservers: false);
+
+        /// <summary>
+        /// Advances the owning document's mutation version and, unless the caller does its own
+        /// bookkeeping, runs the attribute change steps. The version is advanced either way: a
+        /// suppressed write still changes the attribute.
+        /// </summary>
+        private void NotifyChanged(Attr attr, String? newValue, String? oldValue, Boolean suppressMutationObservers)
         {
             if (_owner.TryGetTarget(out var element))
             {
-                element.AttributeChanged(attr.LocalName, attr.NamespaceUri, oldValue, newValue);
+                element.Owner?.MarkMutated();
+
+                if (!suppressMutationObservers)
+                {
+                    element.AttributeChanged(attr.LocalName, attr.NamespaceUri, oldValue, newValue);
+                }
             }
         }
 
@@ -71,12 +86,7 @@ namespace AngleSharp.Dom
                     var attr = _items[i];
                     _items.RemoveAt(i);
                     attr.Container = null;
-
-                    if (!suppressMutationObservers)
-                    {
-                        RaiseChangedEvent(attr, null, attr.Value);
-                    }
-
+                    NotifyChanged(attr, null, attr.Value, suppressMutationObservers);
                     return attr;
                 }
             }
@@ -95,12 +105,7 @@ namespace AngleSharp.Dom
                     var attr = _items[i];
                     _items.RemoveAt(i);
                     attr.Container = null;
-
-                    if (!suppressMutationObservers)
-                    {
-                        RaiseChangedEvent(attr, null, attr.Value);
-                    }
-
+                    NotifyChanged(attr, null, attr.Value, suppressMutationObservers);
                     return attr;
                 }
             }
@@ -199,22 +204,13 @@ namespace AngleSharp.Dom
                     {
                         var attr = _items[i];
                         _items[i] = proposed;
-
-                        if (!suppressMutationObservers)
-                        {
-                            RaiseChangedEvent(proposed, proposed.Value, attr.Value);
-                        }
-
+                        NotifyChanged(proposed, proposed.Value, attr.Value, suppressMutationObservers);
                         return attr;
                     }
                 }
 
                 _items.Add(proposed);
-
-                if (!suppressMutationObservers)
-                {
-                    RaiseChangedEvent(proposed, proposed.Value, null);
-                }
+                NotifyChanged(proposed, proposed.Value, null, suppressMutationObservers);
             }
 
             return null;

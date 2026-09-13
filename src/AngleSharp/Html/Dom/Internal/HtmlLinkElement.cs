@@ -179,17 +179,17 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
-        internal void UpdateRel(String value)
+        internal void UpdateRel()
         {
-            _relList?.Update(value);
+            _relList?.Update(this.GetOwnAttribute(AttributeNames.Rel));
             _relation = CreateFirstLegalRelation();
 
             LoadRelation();
         }
 
-        internal void UpdateSizes(String value)
+        internal void UpdateSizes()
         {
-            _sizes?.Update(value);
+            _sizes?.Update(this.GetOwnAttribute(AttributeNames.Sizes));
         }
 
         internal void UpdateMedia(String value)

@@ -1487,7 +1487,8 @@ namespace AngleSharp.Dom
             }
             else
             {
-                element.Attributes.RemoveNamedItemOrDefault(name, true);
+                // Removing the attribute is as observable as adding it was.
+                element.Attributes.RemoveNamedItemOrDefault(name);
             }
         }
 
