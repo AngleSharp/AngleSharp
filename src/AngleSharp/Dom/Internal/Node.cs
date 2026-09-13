@@ -277,8 +277,9 @@ namespace AngleSharp.Dom
                 // This is the point that decided a mutation happened: the removals and inserts
                 // above ran suppressed precisely so the whole replacement reports once. The two
                 // node lists are load bearing here - the loops iterate them - so they are built
-                // whether or not anything is observing.
-                document.MarkMutated();
+                // whether or not anything is observing. The owning document rather than the
+                // owner, for the reason the three call sites below give: a document node reports none.
+                OwningDocument?.MarkMutated();
                 document.QueueMutation(MutationRecord.ChildList(
                     target: this,
                     addedNodes: addedNodes,
