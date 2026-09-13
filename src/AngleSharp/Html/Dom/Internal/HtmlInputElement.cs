@@ -17,6 +17,7 @@ namespace AngleSharp.Html.Dom
 
         private BaseInputType? _type;
         private Boolean? _checked;
+        private Boolean _indeterminate;
 
         #endregion
 
@@ -46,7 +47,11 @@ namespace AngleSharp.Html.Dom
         public Boolean IsChecked
         {
             get => _checked ?? IsDefaultChecked;
-            set => _checked = value;
+            set
+            {
+                _checked = value;
+                Owner?.MarkMutated();
+            }
         }
 
         public String Type
@@ -57,8 +62,12 @@ namespace AngleSharp.Html.Dom
 
         public Boolean IsIndeterminate
         {
-            get;
-            set;
+            get => _indeterminate;
+            set
+            {
+                _indeterminate = value;
+                Owner?.MarkMutated();
+            }
         }
 
         public Boolean IsMultiple

@@ -785,7 +785,8 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Gets the mutation version of this document. The value changes whenever a node is inserted
         /// into or removed from this document's tree, an attribute of an element in that tree is
-        /// added, removed or given a new value, or the data of a character data node in it changes.
+        /// added, removed or given a new value, character data changes, or built-in form-control
+        /// state or focus changes.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -808,6 +809,7 @@ namespace AngleSharp.Dom
         /// It deliberately does not cover a node while it is detached from every document (there is
         /// no document to version - inserting it later advances the counter of the document it joins)
         /// nor anything derived outside AngleSharp.Core, such as a style sheet an extension keeps.
+        /// Custom selector services and host-owned state still need their own invalidation signal.
         /// </para>
         /// <para>
         /// The DOM is not thread safe, so read this on the thread that owns the document. The
@@ -1331,6 +1333,7 @@ namespace AngleSharp.Dom
             {
                 var previous = _focus;
                 _focus = element;
+                MarkMutated();
 
                 previous?.Fire<FocusEvent>(m => m.Init(EventNames.Blur, false, false));
                 element?.Fire<FocusEvent>(m => m.Init(EventNames.Focus, false, false));

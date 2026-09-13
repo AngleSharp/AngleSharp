@@ -18,6 +18,112 @@ namespace AngleSharp.Core.Tests.Library
         private static Document Doc(String source) => (Document)source.ToHtmlDocument();
 
         [Test]
+        public void NativeCheckednessInvalidatesACacheWithoutMutationRecords()
+        {
+            var document = Doc("<input type=checkbox>");
+            var input = (IHtmlInputElement)document.QuerySelector("input");
+            var records = 0;
+            var observer = new MutationObserver((changes, _) => records += changes.Length);
+            observer.Connect(document, childList: true, subtree: true, attributes: true, characterData: true);
+            var cachedVersion = document.MutationVersion;
+            var cachedMatch = input.Matches(":checked");
+            var markup = input.OuterHtml;
+
+            // A host holds the native interface, so a wrapper in another library cannot intercept this.
+            input.IsChecked = true;
+            if (cachedVersion != document.MutationVersion)
+            {
+                cachedMatch = input.Matches(":checked");
+            }
+
+            Assert.AreEqual(markup, input.OuterHtml);
+            Assert.AreEqual(0, records);
+            Assert.IsTrue(cachedMatch, "An unchanged version would serve the stale selector result.");
+        }
+
+        [TestCase("checked")]
+        [TestCase("indeterminate")]
+        [TestCase("selected")]
+        [TestCase("value")]
+        [TestCase("dirty")]
+        [TestCase("validity")]
+        public void VersionMovesForSelectorState(String state)
+        {
+            var document = Doc("<input id=target type=checkbox><option id=option>text</option><textarea id=text maxlength=1>long</textarea>");
+            var input = (IHtmlInputElement)document.GetElementById("target");
+            var text = (IHtmlTextAreaElement)document.GetElementById("text");
+            var before = document.MutationVersion;
+
+            switch (state)
+            {
+                case "checked":
+                    input.IsChecked = true;
+                    Assert.IsTrue(input.Matches(":checked"));
+                    break;
+                case "indeterminate":
+                    input.IsIndeterminate = true;
+                    Assert.IsTrue(input.Matches(":indeterminate"));
+                    break;
+                case "selected":
+                    var option = (IHtmlOptionElement)document.GetElementById("option");
+                    option.IsSelected = true;
+                    Assert.IsTrue(option.Matches(":checked"));
+                    break;
+                case "value":
+                    text.Value = "changed";
+                    Assert.AreEqual("changed", text.Value);
+                    break;
+                case "dirty":
+                    ((HtmlTextFormControlElement)text).IsDirty = true;
+                    Assert.IsTrue(text.Validity.IsTooLong);
+                    break;
+                case "validity":
+                    text.SetCustomValidity("error");
+                    Assert.IsTrue(text.Matches(":invalid"));
+                    break;
+            }
+
+            Assert.AreNotEqual(before, document.MutationVersion);
+            var after = document.MutationVersion;
+            Assert.IsNotNull(document.QuerySelectorAll(":checked, :indeterminate, :valid, :invalid"));
+            Assert.AreEqual(after, document.MutationVersion, "Selector reads must not invalidate themselves.");
+        }
+
+        [Test]
+        public void VersionMovesBeforeFocusCallbacks()
+        {
+            var document = Doc("<input id=target>");
+            var input = (IHtmlInputElement)document.GetElementById("target");
+            var before = document.MutationVersion;
+            var observed = before;
+            input.AddEventListener("focus", (_, _) => observed = document.MutationVersion);
+
+            input.DoFocus();
+
+            Assert.IsTrue(input.Matches(":focus"));
+            Assert.AreNotEqual(before, observed);
+            before = document.MutationVersion;
+            input.AddEventListener("blur", (_, _) => observed = document.MutationVersion);
+            input.DoBlur();
+            Assert.IsFalse(input.Matches(":focus"));
+            Assert.AreNotEqual(before, observed);
+        }
+
+        [Test]
+        public void FormResetInvalidatesCheckednessWithoutChangingAttributes()
+        {
+            var document = Doc("<form><input checked type=checkbox></form>");
+            var input = (IHtmlInputElement)document.QuerySelector("input");
+            input.IsChecked = false;
+            var before = document.MutationVersion;
+
+            ((IHtmlFormElement)document.QuerySelector("form")).Reset();
+
+            Assert.IsTrue(input.IsChecked);
+            Assert.AreNotEqual(before, document.MutationVersion);
+        }
+
+        [Test]
         public void VersionMovesForAnInsert()
         {
             var document = Doc("<div id=target></div>");

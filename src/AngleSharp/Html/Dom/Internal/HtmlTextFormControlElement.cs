@@ -38,7 +38,11 @@ namespace AngleSharp.Html.Dom
         public Boolean IsDirty
         {
             get => _dirty;
-            set => _dirty = value;
+            set
+            {
+                _dirty = value;
+                Owner?.MarkMutated();
+            }
         }
 
         /// <summary>
@@ -93,7 +97,11 @@ namespace AngleSharp.Html.Dom
         public String Value
         {
             get => _value ?? DefaultValue;
-            set => _value = value;
+            set
+            {
+                _value = value;
+                Owner?.MarkMutated();
+            }
         }
 
         /// <summary>

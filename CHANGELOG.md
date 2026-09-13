@@ -2,6 +2,7 @@
 
 Released on Friday, September 11 2026
 
+- Extended `Document.MutationVersion` to cover form-control state and focus changes that affect selectors
 - Fixed `Document.Forms` allocating a new collection instance per read, contradicting its own `[DomSameObject]` contract
 - Improved id/name lookup on collections (`document.forms["x"]`, `form.elements["x"]`, ...) to enumerate the underlying sequence once instead of twice
 - Improved `GetElementsByTagName` / `GetElementsByClassName` traversal to stop double-scanning each element's children

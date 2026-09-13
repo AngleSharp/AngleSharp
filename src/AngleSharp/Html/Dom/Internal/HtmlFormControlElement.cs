@@ -114,6 +114,7 @@ namespace AngleSharp.Html.Dom
         {
             _error = error;
             ResetValidity(_vstate);
+            Owner?.MarkMutated();
         }
 
         #endregion

@@ -87,7 +87,11 @@ namespace AngleSharp.Html.Dom
         public Boolean IsSelected
         {
             get => _selected ?? IsDefaultSelected;
-            set => _selected = value;
+            set
+            {
+                _selected = value;
+                Owner?.MarkMutated();
+            }
         }
 
         #endregion
