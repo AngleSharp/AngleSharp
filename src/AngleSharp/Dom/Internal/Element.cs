@@ -498,14 +498,15 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
-        /// Adds an attribute.
+        /// Adds an attribute the way the tree builder does: no duplicate check, no attribute
+        /// change steps, no mutation record and no advance of the document's mutation version.
+        /// Use <see cref="SetAttribute(String, String?)"/> for a mutation of an existing element.
         /// </summary>
         /// <param name="attr">The attribute to add.</param>
         public void AddAttribute(Attr attr)
         {
             attr.Container = _attributes;
             _attributes.FastAddItem(attr);
-            Owner?.MarkMutated();
         }
 
         /// <inheritdoc />
@@ -754,12 +755,6 @@ namespace AngleSharp.Dom
                 var item = new Attr(attribute.Name.ToString(), attribute.Value.ToString());
                 item.Container = container;
                 container.FastAddItem(item);
-            }
-
-            if (tagAttributes.Count > 0)
-            {
-                // One step for the whole batch - the version only has to move, not to count.
-                Owner?.MarkMutated();
             }
         }
 

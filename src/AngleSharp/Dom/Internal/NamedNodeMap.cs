@@ -52,8 +52,10 @@ namespace AngleSharp.Dom
 
         #region Internal Methods
 
-        // Construction only: no duplicate check, no attribute change steps. The caller owns the
-        // document's mutation version for this write - see Element.AddAttribute and SetAttributes.
+        // Construction only: no duplicate check, no attribute change steps, no mutation record and
+        // no advance of the document's mutation version - the tree builder reaches this for every
+        // attribute of a parsed document. See Element.AddAttribute and SetAttributes; a mutation of
+        // an existing element goes through SetNamedItem and NotifyChanged below instead.
         internal void FastAddItem(Attr attr) => _items.Add(attr);
 
         internal void RaiseChangedEvent(Attr attr, String? newValue, String? oldValue) =>
@@ -61,8 +63,10 @@ namespace AngleSharp.Dom
 
         /// <summary>
         /// Advances the owning document's mutation version and, unless the caller does its own
-        /// bookkeeping, runs the attribute change steps. The version is advanced either way: a
-        /// suppressed write still changes the attribute.
+        /// bookkeeping, runs the attribute change steps. This is already the level that decided a
+        /// mutation happened - only a set or a remove through the map reaches it, never the tree
+        /// builder - so the version is advanced either way: a suppressed write still changes the
+        /// attribute, exactly as a suppressed child list step still changes the tree.
         /// </summary>
         private void NotifyChanged(Attr attr, String? newValue, String? oldValue, Boolean suppressMutationObservers)
         {

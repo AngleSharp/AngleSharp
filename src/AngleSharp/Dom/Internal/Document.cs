@@ -783,9 +783,11 @@ namespace AngleSharp.Dom
             _attributeObservers ??= _context.GetServices<IAttributeObserver>().ToArray();
 
         /// <summary>
-        /// Gets the mutation version of this document. The value changes whenever a node is inserted
-        /// into or removed from this document's tree, an attribute of an element in that tree is
-        /// added, removed or given a new value, or the data of a character data node in it changes.
+        /// Gets the mutation version of this document. The value changes whenever the DOM is mutated:
+        /// a node is inserted into or removed from this document's tree, an attribute of an element in
+        /// that tree is added, removed or given a new value, or the data of a character data node in
+        /// it changes. Building the tree in the first place is a parse, not a mutation, and does not
+        /// change it.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -803,11 +805,20 @@ namespace AngleSharp.Dom
         /// document lifetime, but nothing may be built on that.
         /// </para>
         /// <para>
-        /// The counter covers the parser's own construction of the tree as well as the scripted and
-        /// programmatic DOM APIs, which is more than a <see cref="MutationObserver"/> is told about.
-        /// It deliberately does not cover a node while it is detached from every document (there is
-        /// no document to version - inserting it later advances the counter of the document it joins)
-        /// nor anything derived outside AngleSharp.Core, such as a style sheet an extension keeps.
+        /// A parse does not advance it. Building a tree is not mutating one, so the counter of a
+        /// freshly parsed document is the value it started at, and it stays there for everything the
+        /// tree builder does - including the nodes a script writes with <c>document.write</c>, which
+        /// go to the tokenizer rather than to the DOM, and including <c>document.open</c>, which
+        /// discards the tree without notification to start another parse. A consumer caching against
+        /// this counter must therefore treat a parser boundary as an invalidation point of its own:
+        /// a cache is valid across two equal readings of one parsed document, never across the parse
+        /// that produced it.
+        /// </para>
+        /// <para>
+        /// It deliberately does not cover a node while it is detached from every document either
+        /// (there is no document to version - inserting it later advances the counter of the document
+        /// it joins) nor anything derived outside AngleSharp.Core, such as a style sheet an extension
+        /// keeps.
         /// </para>
         /// <para>
         /// The DOM is not thread safe, so read this on the thread that owns the document. The
@@ -819,9 +830,10 @@ namespace AngleSharp.Dom
         public Int64 MutationVersion => _mutationVersion;
 
         /// <summary>
-        /// Advances <see cref="MutationVersion"/>. Called from every place that actually changes the
-        /// tree, an attribute or character data, rather than from the mutation record funnel, since
-        /// the parser builds the tree without queueing records.
+        /// Advances <see cref="MutationVersion"/>. Called from the algorithms that decided a mutation
+        /// happened - the tree mutation algorithms on <see cref="Node"/>, the attribute change steps,
+        /// the replace data steps - never from the raw operations underneath them, which the tree
+        /// builder drives directly for every node of a parsed document.
         /// </summary>
         internal void MarkMutated() => _mutationVersion++;
 

@@ -126,6 +126,38 @@ runtime to build the entire JavaScript binding. Renaming a member without carryi
 Mutation is observable through `MutationObserver` plus the internal `IAttributeObserver`
 service, which the parser uses on a fast path during construction.
 
+**Mutation logic belongs to the algorithm that decided a mutation happened, never to the node
+operation underneath it.** `Node.AddNode` / `InsertNode` / `RemoveNode` / `AppendText` /
+`InsertText`, `NamedNodeMap.FastAddItem` (behind `Element.AddAttribute` and `SetAttributes`) and
+`CharacterData.AppendData` / `InsertData` are the raw operations, and `HtmlDomBuilder` drives them
+directly while it builds a tree — so anything hung on them fires for every node, attribute and text
+run of a parsed document. `Node.ReplaceAll` / `InsertBefore` / `RemoveChild` / `ReplaceChild`, the
+attribute change steps behind `NamedNodeMap.NotifyChanged`, and `CharacterData.Replace` are the
+points that know a *mutation* occurred; a record, a transient observer or a version advance belongs
+there. A parse comes out the other side having triggered none of it — `Document.MutationVersion` is
+unchanged, which `MutationVersionTests` pins from both sides. Construction is not unobserved
+altogether: `Element.SetupElement` runs the `IAttributeObserver`s once over an element's whole
+attribute set, because a class list or an image source is structural rather than a notification.
+
+**`suppressObservers: true` does not mean "this mutation is invisible".** Three of those four call
+sites are aggregate-record patterns: `ReplaceAll` removes and inserts each child with the flag set
+and then queues **one** `ChildList` record for the whole replacement, and `ReplaceChild` and the
+fragment path in `InsertBefore` do the same. The flag means "do not report this *step*; the
+enclosing operation reports the whole thing". Two consequences, and the second is easy to get
+backwards:
+
+- Anything keyed on the flag has to sit where the record is queued, not in the mutator, or the
+  aggregate operation loses the effect its inner steps were suppressed for.
+- `InnerHtml` passes `suppressObservers: false`, so an `innerHTML` write **is** reported — by
+  `ReplaceAll`, once, rather than per child. Reasoning about it from the inner steps alone
+  concludes the opposite.
+
+The record itself costs an allocation per mutation, so `InsertBefore`, `RemoveChild`,
+`ReplaceChild`, the attribute change steps and `CharacterData.Replace` ask
+`Document.HasMutationObservers` before building one — `ReplaceAll` is the exception, since its two
+node lists are what its own loops iterate. The version advances either way: it is a promise to any
+reader, not to a registered observer.
+
 ### CSS in core
 
 Only what `querySelector` needs: `Css/Parser` (`CssTokenizer`, `CssSelectorParser`,
