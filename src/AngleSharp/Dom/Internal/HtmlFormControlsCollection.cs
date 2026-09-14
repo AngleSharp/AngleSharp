@@ -141,7 +141,10 @@ namespace AngleSharp.Dom
         /// allocated. The renting is what keeps a read of this live collection free of
         /// allocations; it is affordable here because every caller of the walk is either in this
         /// file or a <c>foreach</c> over one of the interface enumerators above, and both
-        /// dispose it.
+        /// dispose it. <b>Never copy this struct.</b> Two copies hold the same rented array
+        /// and would return it to the pool twice, which hands one buffer to two walkers and
+        /// corrupts both silently; <c>foreach</c> never copies it, and every other use here
+        /// is a single boxed instance behind an interface.
         /// </remarks>
         public struct Enumerator : IEnumerator<HtmlFormControlElement>
         {
