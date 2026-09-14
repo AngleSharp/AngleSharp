@@ -318,5 +318,23 @@
             Assert.AreEqual(1, elements.Length);
             CollectionAssert.AreEqual(new[] { document.GetElementById("a") }, elements.ToArray());
         }
+
+        [Test]
+        public void HtmlFieldSetLiveCollectionOutsideAnyFormListsItsUnownedControls()
+        {
+            // A fieldset with no form owner is handed a null form, and its collection is then the
+            // controls under it that have no form owner either - rooted at the fieldset, which is
+            // itself a form control and so is never a member of its own collection.
+            var document = Html("<fieldset id=fs><input id=a><div><select id=b></select></div></fieldset>");
+            var fieldSet = document.GetElementById("fs") as IHtmlFieldSetElement;
+
+            Assert.IsNull(fieldSet.Form);
+            Assert.AreEqual(2, fieldSet.Elements.Length);
+            CollectionAssert.AreEqual(new[]
+            {
+                document.GetElementById("a"),
+                document.GetElementById("b")
+            }, fieldSet.Elements.ToArray());
+        }
     }
 }
