@@ -7,9 +7,9 @@ Released on Friday, September 11 2026
 - Improved `GetElementsByTagName` / `GetElementsByClassName` traversal to stop double-scanning each element's children
 - Improved selector specificity (`Selectors.Specificity`, `ComplexSelector.Specificity`) to be computed once instead of recomputed on every read
 - Improved `ListSelector.GetMatchingSelector` to sort its selectors once instead of on every call
-- Added `Document.MutationVersion`, a synchronous counter that changes whenever the DOM mutates the document's tree, an attribute or character data, and that a parse leaves unchanged
-- Improved the HTML tree construction path to run no mutation logic at all - the raw child list, attribute and character data operations the tree builder drives now queue no mutation record and advance no version
-- Improved `AppendChild`, `RemoveChild`, `ReplaceChild` and the character data writes to build a mutation record only when an observer will consume it
+- Added `Document.MutationVersion`, a synchronous counter of DOM mutations that a parse leaves unchanged (#1344, #1347)
+- Improved performance of HTML tree construction by keeping mutation logic out of it (#1347)
+- Improved performance of DOM mutations by building a mutation record only when an observer will consume it (#1347)
 - Improved performance of parser attribute duplication check
 - Fixed `classList` and the other reflected token lists writing their content attribute without running the attribute change steps or queueing a mutation record
 - Fixed clearing a reflected boolean attribute such as `disabled` removing it without running the attribute change steps or queueing a mutation record
