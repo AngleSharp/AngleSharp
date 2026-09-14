@@ -9,8 +9,9 @@ namespace AngleSharp.Core.Tests.Library
 
     /// <summary>
     /// Document.MutationVersion answers "may anything have changed since I last looked?". These
-    /// pin both halves of the promise: it moves for everything that changes the tree, an attribute
-    /// or character data, and it stands still for a read.
+    /// pin both halves of the promise: it moves for everything that mutates the tree, an attribute
+    /// or character data, and it stands still for a read - and for a parse, which builds a tree
+    /// rather than mutating one.
     /// </summary>
     [TestFixture]
     public class MutationVersionTests
@@ -55,10 +56,24 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void VersionMovesForAnInnerHtmlWrite()
         {
+            // Worth pinning on its own: InnerHtml replaces the children through ReplaceAll, which
+            // removes and inserts each one with the observers suppressed and then reports the whole
+            // replacement once. Reading that from the inner steps alone concludes the opposite.
             var document = Doc("<div id=target></div>");
             var before = document.MutationVersion;
 
             document.GetElementById("target").InnerHtml = "<span>text</span>";
+
+            Assert.AreNotEqual(before, document.MutationVersion);
+        }
+
+        [Test]
+        public void VersionMovesForATextContentWrite()
+        {
+            var document = Doc("<div id=target><span></span></div>");
+            var before = document.MutationVersion;
+
+            document.GetElementById("target").TextContent = "text";
 
             Assert.AreNotEqual(before, document.MutationVersion);
         }
@@ -169,35 +184,38 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void VersionMovesForAConstructionPathInsert()
+        public void VersionStandsStillForAConstructionPathInsert()
         {
-            // The parser builds the tree through these low level mutators and queues no mutation
-            // record for any of it, so a counter that only followed the record funnel would miss
-            // every parser write.
+            // AddNode is one of the raw child list operations the tree builder drives directly, so
+            // it changes the tree and nothing else. The version belongs to InsertBefore above it,
+            // which is where a caller decided a mutation happened.
             var document = Doc("<div id=target></div>");
             var target = (Node)document.GetElementById("target");
             var before = document.MutationVersion;
 
             target.AddNode((Node)document.CreateElement("span"));
 
-            Assert.AreNotEqual(before, document.MutationVersion);
+            Assert.AreEqual(before, document.MutationVersion);
         }
 
         [Test]
-        public void VersionMovesForAConstructionPathAttribute()
+        public void VersionStandsStillForAConstructionPathAttribute()
         {
+            // Same for AddAttribute: no duplicate check, no attribute change steps, no version.
             var document = Doc("<div id=target></div>");
             var target = (Element)document.GetElementById("target");
             var before = document.MutationVersion;
 
             target.AddAttribute(new Attr("data-x", "1"));
 
-            Assert.AreNotEqual(before, document.MutationVersion);
+            Assert.AreEqual(before, document.MutationVersion);
         }
 
         [Test]
-        public void VersionMovesForNodesWrittenByAScriptDuringParsing()
+        public void VersionStandsStillForNodesWrittenByAScriptDuringParsing()
         {
+            // document.write feeds the tokenizer rather than the DOM: the nodes arrive through the
+            // same tree construction path as the rest of the document, so this is still a parse.
             if (TestRuntime.UsePrefetchedTextSource)
             {
                 Assert.Ignore("Prefetched text source is read only");
@@ -214,7 +232,31 @@ namespace AngleSharp.Core.Tests.Library
             var document = (Document)source.ToHtmlDocument(config);
 
             Assert.AreEqual(1, document.QuerySelectorAll("b").Length);
-            Assert.AreNotEqual(duringScript, document.MutationVersion);
+            Assert.AreEqual(duringScript, document.MutationVersion);
+        }
+
+        [Test]
+        public void VersionMovesForANodeAppendedToTheDocumentItself()
+        {
+            // The document node reports a null owner, so the mutation algorithms have to reach for
+            // the document they are changing rather than for the owner of the parent.
+            var document = Doc("<div></div>");
+            var before = document.MutationVersion;
+
+            document.AppendChild(document.CreateComment("trailing"));
+
+            Assert.AreNotEqual(before, document.MutationVersion);
+        }
+
+        [Test]
+        public void VersionMovesForANodeRemovedFromTheDocumentItself()
+        {
+            var document = Doc("<div></div>");
+            var before = document.MutationVersion;
+
+            document.RemoveChild(document.DocumentElement);
+
+            Assert.AreNotEqual(before, document.MutationVersion);
         }
 
         [Test]
@@ -277,14 +319,55 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void VersionAdvancesWhileParsing()
+        public void VersionStandsStillForASmallParse()
         {
             var parser = new HtmlParser();
-            var document = (Document)parser.ParseDocument("<!doctype html><div class=alpha><span>text</span></div>");
+            var document = (Document)parser.ParseDocument("<!doctype html><title>Title</title><div><span>Text</span><input></div>");
 
-            // Construction is itself a long sequence of mutations, so a freshly parsed document is
-            // nowhere near the starting value.
-            Assert.Greater(document.MutationVersion, 0);
+            // A parse builds a tree, it does not mutate one, so it comes out the other side having
+            // triggered no mutation logic at all - not a record, not an observer, not the version.
+            Assert.AreEqual(0, document.MutationVersion);
+        }
+
+        [Test]
+        public void VersionStandsStillForAParseWithAttributesAndText()
+        {
+            // Attributes and text reach the tree through their own construction paths - the batch
+            // attribute write and the character data append - so they need their own case.
+            var parser = new HtmlParser();
+            var source = "<!doctype html><html><head><title>T</title></head><body>" +
+                "<div id=a class='x y' data-z=1>Hello <b>world</b>, and more text</div></body></html>";
+            var document = (Document)parser.ParseDocument(source);
+
+            Assert.AreEqual(3, document.QuerySelector("#a").Attributes.Length);
+            Assert.AreEqual(0, document.MutationVersion);
+        }
+
+        [TestCase("<!doctype html><body><b><p>mis</b>nested</p>", TestName = "VersionStandsStillForAParseRunningTheAdoptionAgency")]
+        [TestCase("<!doctype html><table>foster<tr><td>cell</td></tr></table>", TestName = "VersionStandsStillForAParseFosterParentingText")]
+        [TestCase("<!doctype html><body>text<frameset><frame>", TestName = "VersionStandsStillForAParseDroppingABodyElement")]
+        public void VersionStandsStillForAParseThatReparentsNodes(String source)
+        {
+            // These are the three tree construction algorithms that move a node that is already in
+            // the tree. They are still construction, so they are as unobserved as the rest of it.
+            var parser = new HtmlParser();
+            var document = (Document)parser.ParseDocument(source);
+
+            Assert.AreEqual(0, document.MutationVersion);
+        }
+
+        [Test]
+        public void VersionStandsStillForAFragmentParse()
+        {
+            var document = Doc("<div id=target></div>");
+            var context = document.GetElementById("target");
+            var before = document.MutationVersion;
+
+            var parser = new HtmlParser();
+            var fragment = parser.ParseFragment("<span>text</span>", context);
+
+            Assert.AreEqual(1, fragment.Length);
+            Assert.AreEqual(before, document.MutationVersion);
         }
     }
 }

@@ -103,6 +103,8 @@ namespace AngleSharp.Dom
                         _content = new String(chrs);
                     }
 
+                    // Nothing in tree construction writes a single character, so this stays a
+                    // mutation and keeps the version advance the raw appends below gave up.
                     Owner?.MarkMutated();
                 }
             }
@@ -155,7 +157,24 @@ namespace AngleSharp.Dom
 
         public void Delete(Int32 offset, Int32 count) => Replace(offset, count, String.Empty);
 
-        public void Replace(Int32 offset, Int32 count, String data)
+        public void Replace(Int32 offset, Int32 count, String data) => Replace(offset, count, data, reported: true);
+
+        /// <summary>
+        /// Appends to the content the way the tree builder does: no mutation record, no advance of
+        /// the document's mutation version. Nothing else is needed either - an append at the end of
+        /// the content can move no range boundary, since every boundary already sits at or before
+        /// it, which is what makes this the cheap half of the replace data steps.
+        /// </summary>
+        internal void AppendData(String value) => _content += value;
+
+        /// <summary>
+        /// Inserts into the content the way the tree builder does when it foster parents text: no
+        /// mutation record and no advance of the document's mutation version, but the attached
+        /// ranges still follow the text they point into.
+        /// </summary>
+        internal void InsertData(Int32 offset, String value) => Replace(offset, 0, value, reported: false);
+
+        private void Replace(Int32 offset, Int32 count, String data, Boolean reported)
         {
             var owner = Owner;
             var length = _content.Length;
@@ -179,8 +198,20 @@ namespace AngleSharp.Dom
                 _content = _content.Remove(deleteOffset, count);
             }
 
-            owner.MarkMutated();
-            owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: previous));
+            if (reported)
+            {
+                // The replace data steps are what decided a mutation happened, so this is where
+                // the version moves - AppendData and InsertData above are the raw writes.
+                owner.MarkMutated();
+
+                // Building the record is an allocation on every character data write, and
+                // QueueMutation throws it away again when nothing is observing.
+                if (owner.HasMutationObservers)
+                {
+                    owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: previous));
+                }
+            }
+
             foreach (var m in owner.GetAttachedReferences<Range>())
             {
                 if (m.Head == this && m.Start > offset && m.Start <= offset + count)
