@@ -4,6 +4,7 @@ Released on Friday, September 11 2026
 
 - Fixed `Document.Forms` allocating a new collection instance per read, contradicting its own `[DomSameObject]` contract
 - Improved id/name lookup on collections (`document.forms["x"]`, `form.elements["x"]`, ...) to enumerate the underlying sequence once instead of twice
+- Improved performance of `form.elements` / `fieldset.elements` by walking the tree directly (#1350)
 - Improved `GetElementsByTagName` / `GetElementsByClassName` traversal to stop double-scanning each element's children
 - Improved selector specificity (`Selectors.Specificity`, `ComplexSelector.Specificity`) to be computed once instead of recomputed on every read
 - Improved `ListSelector.GetMatchingSelector` to sort its selectors once instead of on every call
