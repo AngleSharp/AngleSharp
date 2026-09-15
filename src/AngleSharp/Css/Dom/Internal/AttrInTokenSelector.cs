@@ -8,8 +8,8 @@ namespace AngleSharp.Css.Dom
     {
         private readonly String _value;
 
-        public AttrInTokenSelector(String name, String value, String? prefix = null, Boolean insensitive = false)
-            : base(name, prefix, insensitive)
+        public AttrInTokenSelector(String name, String value, String? prefix = null, Boolean insensitive = false, AttributeSelectorCaseSensitivity caseSensitivity = AttributeSelectorCaseSensitivity.Auto)
+            : base(name, prefix, insensitive, caseSensitivity)
         {
             _value = value;
         }

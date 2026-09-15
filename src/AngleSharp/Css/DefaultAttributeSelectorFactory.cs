@@ -72,6 +72,23 @@ namespace AngleSharp.Css
             { CombinatorSymbols.Unlike, (name, value, prefix, mode) => new AttrNotMatchSelector(name, value, prefix, mode) },
         };
 
+        // The built-in selectors serialize themselves, so they need the modifier the author wrote
+        // and not just the comparison it resolved to. The public Creator delegate cannot carry
+        // that, hence this parallel table - it is consulted first and dropped by Unregister, so a
+        // consumer replacing a built-in still wins.
+        private readonly Dictionary<String, BuiltInCreator> _builtInCreators = new()
+        {
+            { CombinatorSymbols.Exactly, (name, value, prefix, mode, sensitivity) => new AttrMatchSelector(name, value, prefix, mode, sensitivity) },
+            { CombinatorSymbols.InList, (name, value, prefix, mode, sensitivity) => new AttrInListSelector(name, value, prefix, mode, sensitivity) },
+            { CombinatorSymbols.InToken, (name, value, prefix, mode, sensitivity) => new AttrInTokenSelector(name, value, prefix, mode, sensitivity) },
+            { CombinatorSymbols.Begins, (name, value, prefix, mode, sensitivity) => new AttrStartsWithSelector(name, value, prefix, mode, sensitivity) },
+            { CombinatorSymbols.Ends, (name, value, prefix, mode, sensitivity) => new AttrEndsWithSelector(name, value, prefix, mode, sensitivity) },
+            { CombinatorSymbols.InText, (name, value, prefix, mode, sensitivity) => new AttrContainsSelector(name, value, prefix, mode, sensitivity) },
+            { CombinatorSymbols.Unlike, (name, value, prefix, mode, sensitivity) => new AttrNotMatchSelector(name, value, prefix, mode, sensitivity) },
+        };
+
+        private delegate ISelector BuiltInCreator(String name, String value, String? prefix, Boolean insensitive, AttributeSelectorCaseSensitivity caseSensitivity);
+
         /// <summary>
         /// Represents a creator delegate for creating an attribute selector.
         /// </summary>
@@ -101,6 +118,7 @@ namespace AngleSharp.Css
             if (_creators.TryGetValue(combinator, out var creator))
             {
                 _creators.Remove(combinator);
+                _builtInCreators.Remove(combinator);
             }
 
             return creator;
@@ -142,6 +160,11 @@ namespace AngleSharp.Css
                 AttributeSelectorCaseSensitivity.CaseSensitive => false,
                 _ => insensitiveAttributes.Contains(name),
             };
+
+            if (_builtInCreators.TryGetValue(combinator, out var builtIn))
+            {
+                return builtIn.Invoke(name, value, prefix, insensitive, caseSensitivity);
+            }
 
             if (_creators.TryGetValue(combinator, out var creator))
             {

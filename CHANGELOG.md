@@ -2,6 +2,7 @@
 
 Released on Friday, September 11 2026
 
+- Fixed attribute selector serialization inventing an `i` modifier and dropping an explicit `s` (#1351)
 - Fixed `Document.Forms` allocating a new collection instance per read, contradicting its own `[DomSameObject]` contract
 - Improved id/name lookup on collections (`document.forms["x"]`, `form.elements["x"]`, ...) to enumerate the underlying sequence once instead of twice
 - Improved performance of `form.elements` / `fieldset.elements` by walking the tree directly (#1350)

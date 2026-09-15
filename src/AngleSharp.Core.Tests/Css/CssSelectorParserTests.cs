@@ -2,6 +2,7 @@ namespace AngleSharp.Core.Tests.Css
 {
     using System;
     using AngleSharp.Css.Parser;
+    using AngleSharp.Dom;
     using NUnit.Framework;
 
     [TestFixture]
@@ -91,6 +92,69 @@ namespace AngleSharp.Core.Tests.Css
             Assert.NotNull(selector);
             Assert.AreEqual(text, selector!.Text);
             Assert.AreEqual(text, parser.ParseSelector(selector.Text)!.Text);
+        }
+
+        [TestCase("type", "text")]
+        [TestCase("align", "center")]
+        public void ParseSelector_WithHtmlCaseInsensitiveAttribute_DoesNotAddAModifier(String name, String value)
+        {
+            // These attributes compare case-insensitively because HTML says so, not because the
+            // author asked for it, so there is no modifier to write back.
+            var text = $"[{name}=\"{value}\"]";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(text);
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(text, selector!.Text);
+        }
+
+        [TestCase("=")]
+        [TestCase("~=")]
+        [TestCase("|=")]
+        [TestCase("^=")]
+        [TestCase("$=")]
+        [TestCase("*=")]
+        [TestCase("!=")]
+        public void ParseSelector_WithCaseSensitiveAttributeValue_SerializesToAnEquivalentSelector(String op)
+        {
+            var text = $"[align{op}\"center\" s]";
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(text);
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(text, selector!.Text);
+            Assert.AreEqual(text, parser.ParseSelector(selector.Text)!.Text);
+        }
+
+        [Test]
+        public void ParseSelector_WithCaseSensitiveAttributeValue_SerializesToTheSameMatches()
+        {
+            // align compares case-insensitively by default, so dropping the explicit "s" does not
+            // just shorten the text - it makes the serialization select what the original did not.
+            var document = "<div align=\"CENTER\"></div>".ToHtmlDocument();
+            var text = "[align=\"center\" s]";
+
+            var selector = new CssSelectorParser().ParseSelector(text);
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(0, document.QuerySelectorAll(text).Length);
+            Assert.AreEqual(0, document.QuerySelectorAll(selector!.Text).Length);
+        }
+
+        [Test]
+        public void ParseSelector_WithCaseInsensitiveAttributeValue_SerializesToTheSameMatches()
+        {
+            var document = "<a href=\"X\"></a>".ToHtmlDocument();
+            var text = "[href=\"x\" i]";
+
+            var selector = new CssSelectorParser().ParseSelector(text);
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(text, selector!.Text);
+            Assert.AreEqual(1, document.QuerySelectorAll(text).Length);
+            Assert.AreEqual(1, document.QuerySelectorAll(selector.Text).Length);
         }
 
         [Test]
