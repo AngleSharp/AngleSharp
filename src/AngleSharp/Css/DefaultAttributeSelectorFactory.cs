@@ -143,17 +143,30 @@ namespace AngleSharp.Css
                 _ => insensitiveAttributes.Contains(name),
             };
 
+            ISelector selector;
+
             if (_creators.TryGetValue(combinator, out var creator))
             {
-                return creator.Invoke(name, value, prefix, insensitive);
+                selector = creator.Invoke(name, value, prefix, insensitive);
             }
-
-            if (combinator == "&")
+            else if (combinator == "&")
             {
                 return NestedSelector.Instance;
             }
+            else
+            {
+                selector = CreateDefault(name, value, prefix, insensitive);
+            }
 
-            return CreateDefault(name, value, prefix, insensitive);
+            // The comparison the creator got is already resolved and reads the same whether the
+            // author asked for the modifier or HTML did, while CSSOM serializes one only when it
+            // is present on the selector - so the built-in selectors are told which it was.
+            if (selector is BaseAttrSelector attributeSelector)
+            {
+                attributeSelector.DeclareCaseSensitivity(caseSensitivity);
+            }
+
+            return selector;
         }
     }
 }

@@ -8,6 +8,7 @@ namespace AngleSharp.Css.Dom
         private readonly String? _prefix;
         private readonly String _attr;
         private readonly StringComparison _comparison;
+        private AttributeSelectorCaseSensitivity _caseSensitivity;
 
         public BaseAttrSelector(String name, String? prefix, Boolean insensitive = false)
         {
@@ -37,13 +38,24 @@ namespace AngleSharp.Css.Dom
         protected StringComparison Comparison => _comparison;
 
         /// <summary>
-        /// The case-insensitive modifier as it has to be written back out, or an empty string.
+        /// States which modifier the selector was written with, which the comparison cannot say:
+        /// it is already resolved and reads the same whether the author asked for it or HTML did.
+        /// </summary>
+        public void DeclareCaseSensitivity(AttributeSelectorCaseSensitivity caseSensitivity) => _caseSensitivity = caseSensitivity;
+
+        /// <summary>
+        /// The case-sensitivity modifier as CSSOM asks for it, or an empty string.
         /// </summary>
         /// <remarks>
-        /// Leaving it out of <see cref="ISelector.Text"/> would turn a case-insensitive selector
-        /// into a case-sensitive one the next time that text is parsed, which is what every
-        /// consumer storing or forwarding a selector ends up doing.
+        /// CSSOM appends the modifier only if the flag is present on the selector, so only one the
+        /// author actually wrote is serialized - never the case-insensitive match HTML gives some
+        /// ~44 attributes by name.
         /// </remarks>
-        protected String Modifier => _comparison == StringComparison.OrdinalIgnoreCase ? " i" : String.Empty;
+        protected String Modifier => _caseSensitivity switch
+        {
+            AttributeSelectorCaseSensitivity.CaseInsensitive => " i",
+            AttributeSelectorCaseSensitivity.CaseSensitive => " s",
+            _ => String.Empty,
+        };
     }
 }
