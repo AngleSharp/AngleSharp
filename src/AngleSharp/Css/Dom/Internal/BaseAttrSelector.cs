@@ -8,12 +8,14 @@ namespace AngleSharp.Css.Dom
         private readonly String? _prefix;
         private readonly String _attr;
         private readonly StringComparison _comparison;
+        private readonly AttributeSelectorCaseSensitivity _caseSensitivity;
 
-        public BaseAttrSelector(String name, String? prefix, Boolean insensitive = false)
+        public BaseAttrSelector(String name, String? prefix, Boolean insensitive = false, AttributeSelectorCaseSensitivity caseSensitivity = AttributeSelectorCaseSensitivity.Auto)
         {
             _name = name;
             _prefix = prefix;
             _comparison = insensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            _caseSensitivity = caseSensitivity;
 
             if (!String.IsNullOrEmpty(prefix) && prefix is not "*")
             {
@@ -37,13 +39,19 @@ namespace AngleSharp.Css.Dom
         protected StringComparison Comparison => _comparison;
 
         /// <summary>
-        /// The case-insensitive modifier as it has to be written back out, or an empty string.
+        /// The case-sensitivity modifier as it has to be written back out, or an empty string.
         /// </summary>
         /// <remarks>
-        /// Leaving it out of <see cref="ISelector.Text"/> would turn a case-insensitive selector
-        /// into a case-sensitive one the next time that text is parsed, which is what every
-        /// consumer storing or forwarding a selector ends up doing.
+        /// Only a modifier the author actually wrote is written back: the comparison alone cannot
+        /// tell one apart from the case-insensitive match HTML gives ~44 attributes by name, so
+        /// deriving it from the comparison both invents an "i" nobody asked for and drops an
+        /// explicit "s" - which re-parses to a different match set.
         /// </remarks>
-        protected String Modifier => _comparison == StringComparison.OrdinalIgnoreCase ? " i" : String.Empty;
+        protected String Modifier => _caseSensitivity switch
+        {
+            AttributeSelectorCaseSensitivity.CaseInsensitive => " i",
+            AttributeSelectorCaseSensitivity.CaseSensitive => " s",
+            _ => String.Empty,
+        };
     }
 }
