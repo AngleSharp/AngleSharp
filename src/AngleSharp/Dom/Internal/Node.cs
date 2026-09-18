@@ -195,9 +195,10 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
-        /// Gets the document whose mutation version the tree mutators below advance. It is the
-        /// same as <see cref="Owner"/> except for a document node, which deliberately reports a
-        /// null owner but is itself the document being changed.
+        /// Gets the document whose mutation version the tree mutation algorithms advance. It is
+        /// the same as <see cref="Owner"/> except for a document node, which deliberately reports
+        /// a null owner but is itself the document being changed - so appending to or removing
+        /// from the document itself still versions the right document.
         /// </summary>
         private Document? OwningDocument => _owner ?? this as Document;
 
@@ -273,6 +274,12 @@ namespace AngleSharp.Dom
 
             if (!suppressObservers)
             {
+                // This is the point that decided a mutation happened: the removals and inserts
+                // above ran suppressed precisely so the whole replacement reports once. The two
+                // node lists are load bearing here - the loops iterate them - so they are built
+                // whether or not anything is observing. The owning document rather than the
+                // owner, for the reason the three call sites below give: a document node reports none.
+                OwningDocument?.MarkMutated();
                 document.QueueMutation(MutationRecord.ChildList(
                     target: this,
                     addedNodes: addedNodes,
@@ -301,7 +308,11 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.HierarchyRequest);
             }
 
-            var addedNodes = new NodeList();
+            // The record costs a node list plus the record itself on every insert, and
+            // QueueMutation throws both away again when nothing is observing. Asking first is the
+            // same behaviour for a fraction of the cost, as on the attribute path.
+            var reported = !suppressObservers && document is not null && document.HasMutationObservers;
+            var addedNodes = reported ? new NodeList() : null;
             var n = _children.Index(referenceElement!);
 
             if (n == -1)
@@ -325,25 +336,33 @@ namespace AngleSharp.Dom
                 while (start < end)
                 {
                     var child = _children[start];
-                    addedNodes.Add(child);
+                    addedNodes?.Add(child);
                     NodeIsInserted(child);
                     start++;
                 }
             }
             else
             {
-                addedNodes.Add(newElement);
+                addedNodes?.Add(newElement);
                 InsertNode(n, newElement);
                 NodeIsInserted(newElement);
             }
 
-            if (!suppressObservers && document is not null)
+            if (!suppressObservers)
             {
-                document.QueueMutation(MutationRecord.ChildList(
-                    target: this,
-                    addedNodes: addedNodes,
-                    previousSibling: n > 0 ? _children[n - 1] : null,
-                    nextSibling: referenceElement));
+                // The insert is what decided a mutation happened - InsertNode above it is the raw
+                // child list write the parser drives directly and must stay free of this. The
+                // owning document rather than the owner, since a document node reports none.
+                OwningDocument?.MarkMutated();
+
+                if (reported)
+                {
+                    document!.QueueMutation(MutationRecord.ChildList(
+                        target: this,
+                        addedNodes: addedNodes,
+                        previousSibling: n > 0 ? _children[n - 1] : null,
+                        nextSibling: referenceElement));
+                }
             }
 
             return newElement;
@@ -364,17 +383,27 @@ namespace AngleSharp.Dom
 
             var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
 
-            if (!suppressObservers && document is not null)
+            if (!suppressObservers)
             {
-                var removedNodes = new NodeList { node };
+                // The removal is what decided a mutation happened - RemoveNode below it is the raw
+                // child list write the parser drives directly and must stay free of this.
+                OwningDocument?.MarkMutated();
 
-                document.QueueMutation(MutationRecord.ChildList(
-                    target: this,
-                    removedNodes: removedNodes,
-                    previousSibling: oldPreviousSibling,
-                    nextSibling: node.NextSibling));
+                // Both the record and the transient observer walk are pure observer bookkeeping:
+                // one is thrown away by QueueMutation and the other iterates an empty list when
+                // nothing is observing, so neither is worth its allocations then.
+                if (document is not null && document.HasMutationObservers)
+                {
+                    var removedNodes = new NodeList { node };
 
-                document.AddTransientObserver(node);
+                    document.QueueMutation(MutationRecord.ChildList(
+                        target: this,
+                        removedNodes: removedNodes,
+                        previousSibling: oldPreviousSibling,
+                        nextSibling: node.NextSibling));
+
+                    document.AddTransientObserver(node);
+                }
             }
 
             RemoveNode(index, node);
@@ -397,8 +426,6 @@ namespace AngleSharp.Dom
             {
                 var referenceChild = child.NextSibling;
                 var document = Owner;
-                var addedNodes = new NodeList();
-                var removedNodes = new NodeList();
 
                 if (this is IDocument parent && IsChangeForbidden(node, parent, child))
                 {
@@ -413,25 +440,34 @@ namespace AngleSharp.Dom
                 document?.AdoptNode(node);
                 RemoveChild(child, true);
                 InsertBefore(node, referenceChild, true);
-                removedNodes.Add(child);
 
-                if (node._type == NodeType.DocumentFragment)
+                if (!suppressObservers)
                 {
-                    addedNodes.AddRange(node._children);
-                }
-                else
-                {
-                    addedNodes.Add(node);
-                }
+                    // The replacement is what decided a mutation happened: the remove and the
+                    // insert above ran suppressed precisely so this reports once.
+                    OwningDocument?.MarkMutated();
 
-                if (!suppressObservers && document is not null)
-                {
-                    document.QueueMutation(MutationRecord.ChildList(
-                        target: this,
-                        addedNodes: addedNodes,
-                        removedNodes: removedNodes,
-                        previousSibling: child.PreviousSibling,
-                        nextSibling: referenceChild));
+                    if (document is not null && document.HasMutationObservers)
+                    {
+                        var addedNodes = new NodeList();
+                        var removedNodes = new NodeList { child };
+
+                        if (node._type == NodeType.DocumentFragment)
+                        {
+                            addedNodes.AddRange(node._children);
+                        }
+                        else
+                        {
+                            addedNodes.Add(node);
+                        }
+
+                        document.QueueMutation(MutationRecord.ChildList(
+                            target: this,
+                            addedNodes: addedNodes,
+                            removedNodes: removedNodes,
+                            previousSibling: child.PreviousSibling,
+                            nextSibling: referenceChild));
+                    }
                 }
 
                 return child;
@@ -461,12 +497,19 @@ namespace AngleSharp.Dom
         /// <returns>The cloned node.</returns>
         public abstract Node Clone(Document newOwner, Boolean deep);
 
+        // AppendText, InsertText, InsertNode, AddNode and RemoveNode are the raw child list
+        // operations the tree builder drives directly, once per node of a parsed document. They
+        // change the tree and nothing else: no mutation record, no transient observer, no
+        // advance of the document's mutation version. Everything of that kind belongs to the
+        // caller that decided a mutation happened - ReplaceAll, InsertBefore, RemoveChild,
+        // ReplaceChild - so that a parse comes out the other side having triggered none of it.
+
         /// <inheritdoc />
         public void AppendText(String s)
         {
             if (LastChild is TextNode lastChild)
             {
-                lastChild.Append(s);
+                lastChild.AppendData(s);
             }
             else
             {
@@ -477,13 +520,13 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public void InsertText(Int32 index, String s)
         {
-            if (index > 0 && index <= _children.Length && _children[index - 1] is IText text1)
+            if (index > 0 && index <= _children.Length && _children[index - 1] is TextNode text1)
             {
-                text1.Append(s);
+                text1.AppendData(s);
             }
-            else if (index >= 0 && index < _children.Length && _children[index] is IText text2)
+            else if (index >= 0 && index < _children.Length && _children[index] is TextNode text2)
             {
-                text2.Insert(0, s);
+                text2.InsertData(0, s);
             }
             else
             {
@@ -496,7 +539,6 @@ namespace AngleSharp.Dom
         {
             node.Parent = this;
             _children.Insert(index, node);
-            OwningDocument?.MarkMutated();
         }
 
         /// <inheritdoc />
@@ -504,7 +546,6 @@ namespace AngleSharp.Dom
         {
             node.Parent = this;
             _children.Add(node);
-            OwningDocument?.MarkMutated();
         }
 
         /// <inheritdoc />
@@ -512,7 +553,6 @@ namespace AngleSharp.Dom
         {
             node.Parent = null;
             _children.RemoveAt(index);
-            OwningDocument?.MarkMutated();
         }
 
         /// <inheritdoc />
@@ -893,14 +933,21 @@ namespace AngleSharp.Dom
 
         IConstructableNodeList IConstructableNode.ChildNodes => ChildNodes;
 
+        // The tree builder reaches these two while it reparents nodes - the adoption agency, and
+        // the frameset error recovery that drops a body element - alongside the raw AddNode and
+        // RemoveNode it uses for the rest of the same algorithms. They are suppressed for the same
+        // reason those are raw: this is construction, not a mutation of a finished document, so it
+        // reports nothing and leaves the mutation version alone. The node removed steps and the
+        // pre-remove hooks still run, since those are structural rather than observer bookkeeping.
+
         void IConstructableNode.RemoveFromParent()
         {
-            Parent?.RemoveChild(this);
+            Parent?.RemoveChild(this, true);
         }
 
         void IConstructableNode.RemoveChild(IConstructableNode childNode)
         {
-            RemoveChild((Node)childNode, false);
+            RemoveChild((Node)childNode, true);
         }
 
         void IConstructableNode.RemoveNode(Int32 idx, IConstructableNode childNode)

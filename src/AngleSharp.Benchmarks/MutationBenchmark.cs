@@ -18,8 +18,9 @@ namespace AngleSharp.Benchmarks
     ///
     /// Each mutating row owns its own document, built in <see cref="GlobalSetup"/>, because these
     /// rows are writes: sharing one document would let an earlier row's residue (a longer class
-    /// attribute, a deeper tree) decide a later row's cost. The parse path carries the same counter
-    /// and is measured by ElementCreationParserBenchmark.ParsePage rather than duplicated here.
+    /// attribute, a deeper tree) decide a later row's cost. The parse path deliberately carries
+    /// none of this bookkeeping and is measured by ElementCreationParserBenchmark.ParsePage and
+    /// ParseSmallDocument - the pair that says whether any of it leaked back into construction.
     /// </remarks>
     [MemoryDiagnoser]
     public class MutationBenchmark
