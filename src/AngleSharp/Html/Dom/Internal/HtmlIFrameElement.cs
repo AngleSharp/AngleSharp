@@ -97,9 +97,9 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        internal void UpdateSandbox(String value)
+        internal void UpdateSandbox()
         {
-            _sandbox?.Update(value);
+            _sandbox?.Update(this.GetOwnAttribute(AttributeNames.Sandbox));
         }
 
         #endregion

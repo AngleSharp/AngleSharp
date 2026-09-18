@@ -1,3 +1,23 @@
+# 1.8.2
+
+Released on Friday, September 18 2026
+
+- Improved attribute selector serialization to write only the case-sensitivity modifier that was specified (#1351)
+- Improved id/name lookup on collections (`document.forms["x"]`, `form.elements["x"]`, ...) to enumerate the underlying sequence once instead of twice
+- Improved performance of `form.elements` / `fieldset.elements` by walking the tree directly (#1350)
+- Improved `GetElementsByTagName` / `GetElementsByClassName` traversal to stop double-scanning each element's children
+- Improved selector specificity (`Selectors.Specificity`, `ComplexSelector.Specificity`) to be computed once instead of recomputed on every read
+- Improved `ListSelector.GetMatchingSelector` to sort its selectors once instead of on every call
+- Improved performance of HTML tree construction by keeping mutation logic out of it (#1347)
+- Improved performance of DOM mutations by building a mutation record only when an observer will consume it (#1347)
+- Improved performance of parser attribute duplication check
+- Fixed `Document.Forms` allocating a new collection instance per read, contradicting its own `[DomSameObject]` contract
+- Fixed `classList` and the other reflected token lists writing their content attribute without running the attribute change steps or queueing a mutation record
+- Fixed clearing a reflected boolean attribute such as `disabled` removing it without running the attribute change steps or queueing a mutation record
+- Fixed vulnerability via SVG style serialization (GHSA-cgp3-27rh-pcp2)
+- Fixed a `StackOverflowException` when parsing a document with deeply nested unclosed `<template>` elements
+- Added `Document.MutationVersion`, a synchronous counter of DOM mutations that a parse leaves unchanged (#1344, #1347)
+
 # 1.8.1
 
 Released on Thursday, September 10 2026

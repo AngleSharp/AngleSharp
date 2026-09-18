@@ -118,23 +118,26 @@ namespace AngleSharp.Dom
         public static T? GetElementById<T>(this IEnumerable<T> elements, String id)
             where T : class, IElement
         {
+            // Single pass: an id match always wins, even one found after a name match, so the
+            // first name match found is only returned once the whole sequence is exhausted
+            // without an id match. This preserves the two-pass ordering (any id beats every
+            // name) while enumerating a potentially lazily-built sequence only once.
+            T? nameMatch = null;
+
             foreach (var element in elements)
             {
                 if (element.Id.Is(id))
                 {
                     return element;
                 }
-            }
 
-            foreach (var element in elements)
-            {
-                if (element.GetAttribute(null, AttributeNames.Name).Is(id))
+                if (nameMatch is null && element.GetAttribute(null, AttributeNames.Name).Is(id))
                 {
-                    return element;
+                    nameMatch = element;
                 }
             }
 
-            return null;
+            return nameMatch;
         }
 
         private static IEnumerable<T> GetAllNodes<T>(this INode parent, Func<T, Boolean> predicate)

@@ -5,6 +5,7 @@ namespace AngleSharp.Core.Tests.Html
     using NUnit.Framework;
     using System;
     using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -911,6 +912,29 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
             Assert.IsNotNull(document);
         }
 
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(4)]
+        [TestCase(8)]
+        [TestCase(16)]
+        [TestCase(128)]
+        [TestCase(1_000)]
+        [TestCase(16_000)]
+        public void HtmlElementCanHaveManyAttributes(Int32 count)
+        {
+            const String alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
+            var attributes = String.Join(" ", Enumerable.Range(0, count).Select(i =>
+                $"{alphabet[i / 1296 % 36]}{alphabet[i / 36 % 36]}{alphabet[i % 36]}"));
+            var input = "<div " + attributes + ">";
+            var document = input.ToHtmlDocument();
+            var element = document.Body.FirstElementChild;
+
+            Assert.IsNotNull(element);
+            Assert.AreEqual(count, element.Attributes.Length);
+            Assert.IsTrue(element.HasAttribute("aaa"));
+            Assert.IsTrue(element.HasAttribute($"{alphabet[(count - 1) / 1296 % 36]}{alphabet[(count - 1) / 36 % 36]}{alphabet[(count - 1) % 36]}"));
+        }
+
         [Test]
         public void SvgDoctypeWithIncompleteTemplateTagShouldNotPopEmptyStack_Issue735()
         {
@@ -954,6 +978,16 @@ nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside
             var document = source.ToHtmlDocument();
             Assert.IsNotNull(document);
             Assert.AreEqual("<html><head></head><body><svg><template>&gt;html&gt;<desc><template>&gt;<p>p</p><pre></pre></template></desc></template></svg></body></html>", document.ToHtml());
+        }
+
+        [Test]
+        public void SvgStyleEndTagAndHtmlTagTextShouldStayEscaped___GHSA_cgp3_27rh_pcp2()
+        {
+            var source = "<svg><style>&lt;/style>&lt;img src=x onerror=window.__anglesharpMxss=1></style></svg>";
+            var document = source.ToHtmlDocument();
+
+            Assert.IsNotNull(document);
+            Assert.AreEqual("<svg><style>&lt;/style&gt;&lt;img src=x onerror=window.__anglesharpMxss=1&gt;</style></svg>", document.Body.FirstElementChild.ToHtml());
         }
 
         // [Test]

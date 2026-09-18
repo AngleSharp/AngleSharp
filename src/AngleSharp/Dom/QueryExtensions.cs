@@ -379,10 +379,11 @@ public static class QueryExtensions
                     result.Add(element);
                 }
 
-                if (element.ChildElementCount != 0)
-                {
-                    GetElementsByClassName(element.ChildNodes, classNames, result);
-                }
+                // No ChildElementCount guard: that count is itself a full scan of ChildNodes,
+                // so gating the recursive scan on it costs as much as the scan it is meant to
+                // skip. Recursing unconditionally means a childless (or element-childless) node
+                // pays for exactly one scan - the recursive call's own - instead of two.
+                GetElementsByClassName(element.ChildNodes, classNames, result);
             }
         }
     }
@@ -404,10 +405,9 @@ public static class QueryExtensions
                     result.Add(element);
                 }
 
-                if (element.ChildElementCount != 0)
-                {
-                    GetElementsByTagName(element.ChildNodes, tagName!, result);
-                }
+                // No ChildElementCount guard: see the identical comment in the class-name
+                // overload above.
+                GetElementsByTagName(element.ChildNodes, tagName!, result);
             }
         }
     }
@@ -431,10 +431,9 @@ public static class QueryExtensions
                     result.Add(element);
                 }
 
-                if (element.ChildElementCount != 0)
-                {
-                    GetElementsByTagName(element.ChildNodes, namespaceUri, localName, result);
-                }
+                // No ChildElementCount guard: see the identical comment in the class-name
+                // overload above.
+                GetElementsByTagName(element.ChildNodes, namespaceUri, localName, result);
             }
         }
     }

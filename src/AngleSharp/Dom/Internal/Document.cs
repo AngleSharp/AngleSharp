@@ -52,6 +52,7 @@ namespace AngleSharp.Dom
         private HtmlCollection<IElement>? _children;
         private DomImplementation? _implementation;
         private IStringList? _styleSheetSets;
+        private HtmlCollection<IHtmlFormElement>? _forms;
         private HtmlCollection<IHtmlImageElement>? _images;
         private HtmlCollection<IHtmlScriptElement>? _scripts;
         private HtmlCollection<IHtmlEmbedElement>? _plugins;
@@ -60,6 +61,7 @@ namespace AngleSharp.Dom
         private IStyleSheetList? _styleSheets;
         private HttpStatusCode _statusCode;
         private HashSet<Uri>? _importedUris;
+        private Int64 _mutationVersion;
 
         #endregion
 
@@ -687,7 +689,7 @@ namespace AngleSharp.Dom
         public String Url => _location.Href;
 
         /// <inheritdoc />
-        public IHtmlCollection<IHtmlFormElement> Forms => new HtmlCollection<IHtmlFormElement>(this);
+        public IHtmlCollection<IHtmlFormElement> Forms => _forms ??= new HtmlCollection<IHtmlFormElement>(this);
 
         /// <inheritdoc />
         public IHtmlCollection<IHtmlImageElement> Images => _images ??= new HtmlCollection<IHtmlImageElement>(this);
@@ -774,8 +776,66 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public IBrowsingContext Context => _context;
 
-        internal IReadOnlyList<IAttributeObserver> AttributeObservers =>
+        // Typed as the array it already is: through IReadOnlyList a foreach goes via the interface
+        // and boxes an enumerator on every attribute change, which is 32 bytes on a path classList
+        // now walks too.
+        internal IAttributeObserver[] AttributeObservers =>
             _attributeObservers ??= _context.GetServices<IAttributeObserver>().ToArray();
+
+        /// <summary>
+        /// Gets the mutation version of this document. The value changes whenever the DOM is mutated:
+        /// a node is inserted into or removed from this document's tree, an attribute of an element in
+        /// that tree is added, removed or given a new value, or the data of a character data node in
+        /// it changes. Building the tree in the first place is a parse, not a mutation, and does not
+        /// change it.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This answers "may anything have changed since I last looked?" without registering a
+        /// <see cref="MutationObserver"/>. It is advanced synchronously with the mutation itself,
+        /// costs a single increment and allocates nothing, so two readings that are equal mean
+        /// nothing in the document changed in between. The converse does not hold: a differing
+        /// reading only means a mutation was attempted, not that the result is different.
+        /// </para>
+        /// <para>
+        /// Compare two readings for equality, not for order or distance. The value is opaque -
+        /// neither its magnitude nor the size of a step between two readings carries meaning, a
+        /// single API call may advance it more than once, and it may advance for a mutation that
+        /// turned out to be a no-op. It is a 64 bit counter and so does not wrap in any realistic
+        /// document lifetime, but nothing may be built on that.
+        /// </para>
+        /// <para>
+        /// A parse does not advance it. Building a tree is not mutating one, so the counter of a
+        /// freshly parsed document is the value it started at, and it stays there for everything the
+        /// tree builder does - including the nodes a script writes with <c>document.write</c>, which
+        /// go to the tokenizer rather than to the DOM, and including <c>document.open</c>, which
+        /// discards the tree without notification to start another parse. A consumer caching against
+        /// this counter must therefore treat a parser boundary as an invalidation point of its own:
+        /// a cache is valid across two equal readings of one parsed document, never across the parse
+        /// that produced it.
+        /// </para>
+        /// <para>
+        /// It deliberately does not cover a node while it is detached from every document either
+        /// (there is no document to version - inserting it later advances the counter of the document
+        /// it joins) nor anything derived outside AngleSharp.Core, such as a style sheet an extension
+        /// keeps.
+        /// </para>
+        /// <para>
+        /// The DOM is not thread safe, so read this on the thread that owns the document. The
+        /// property is deliberately declared here rather than on <see cref="IDocument"/>, which
+        /// cannot gain a member without breaking every implementor of it, so reaching it from an
+        /// <c>IDocument</c> is a cast: <c>((Document)document).MutationVersion</c>.
+        /// </para>
+        /// </remarks>
+        public Int64 MutationVersion => _mutationVersion;
+
+        /// <summary>
+        /// Advances <see cref="MutationVersion"/>. Called from the algorithms that decided a mutation
+        /// happened - the tree mutation algorithms on <see cref="Node"/>, the attribute change steps,
+        /// the replace data steps - never from the raw operations underneath them, which the tree
+        /// builder drives directly for every node of a parsed document.
+        /// </summary>
+        internal void MarkMutated() => _mutationVersion++;
 
         /// <inheritdoc />
         public HttpStatusCode StatusCode
@@ -852,6 +912,13 @@ namespace AngleSharp.Dom
         #region Internal Properties
 
         internal MutationHost Mutations => _mutations;
+
+        /// <summary>
+        /// Gets whether any <see cref="MutationObserver"/> is registered on this document. A
+        /// mutation record is an allocation, and without an observer it is built only to be thrown
+        /// away, so the mutating paths check this before constructing one.
+        /// </summary>
+        internal Boolean HasMutationObservers => _mutations.HasObservers;
 
         internal QuirksMode QuirksMode
         {

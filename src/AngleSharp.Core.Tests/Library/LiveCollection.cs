@@ -198,5 +198,143 @@
             Assert.AreEqual("main", elements[3].GetAttribute("form"));
             Assert.AreEqual(form, (elements[3] as IHtmlInputElement).Form);
         }
+
+        [Test]
+        public void HtmlFormLiveCollectionIsInDocumentTreeOrderNotFormFirst()
+        {
+            // form.elements is the listed elements whose form owner is the form, in tree order
+            // over the whole document - so a control associated by form="id" that precedes the
+            // form element precedes its in-form controls as well.
+            var document = Html("<input id=before form=main><form id=main><div><input id=inside></div></form><input id=after form=main>");
+            var form = document.QuerySelector("form") as IHtmlFormElement;
+            var elements = form.Elements;
+
+            Assert.AreEqual(3, elements.Length);
+            CollectionAssert.AreEqual(new[]
+            {
+                document.GetElementById("before"),
+                document.GetElementById("inside"),
+                document.GetElementById("after")
+            }, elements.ToArray());
+        }
+
+        [Test]
+        public void HtmlFormLiveCollectionExcludesControlsOwnedByAnotherForm()
+        {
+            var document = Html("<form id=first><input id=a><input id=b form=second></form><form id=second></form>");
+            var first = document.GetElementById("first") as IHtmlFormElement;
+            var second = document.GetElementById("second") as IHtmlFormElement;
+
+            CollectionAssert.AreEqual(new[] { document.GetElementById("a") }, first.Elements.ToArray());
+            CollectionAssert.AreEqual(new[] { document.GetElementById("b") }, second.Elements.ToArray());
+        }
+
+        [Test]
+        public void HtmlFormLiveCollectionSkipsImageInputsBetweenOtherControls()
+        {
+            // <input type=image> is a listed element but is excluded from form.elements, so the
+            // controls after it shift down by one.
+            var document = Html("<form id=main><input id=a><input id=img type=image><input id=b></form>");
+            var form = document.QuerySelector("form") as IHtmlFormElement;
+            var elements = form.Elements;
+
+            Assert.AreEqual(2, elements.Length);
+            Assert.AreSame(document.GetElementById("a"), elements[0]);
+            Assert.AreSame(document.GetElementById("b"), elements[1]);
+            Assert.IsNull(elements["img"]);
+        }
+
+        [Test]
+        public void HtmlFormLiveCollectionNamedItemPrefersAnIdOverAnEarlierName()
+        {
+            var document = Html("<form id=main><input id=one name=target><input id=two class=first><input id=three class=second></form>");
+            document.GetElementById("two").Id = "target";
+            document.GetElementById("three").Id = "target";
+            var form = document.QuerySelector("form") as IHtmlFormElement;
+            var elements = form.Elements;
+
+            // An id match anywhere beats a name match that came earlier in tree order, and the
+            // first of two id matches wins.
+            Assert.AreSame(document.QuerySelector(".first"), elements["target"]);
+        }
+
+        [Test]
+        public void HtmlFormLiveCollectionNamedItemReturnsTheFirstNameMatchInTreeOrder()
+        {
+            var document = Html("<form id=main><input id=one name=target><input id=two name=target></form>");
+            var form = document.QuerySelector("form") as IHtmlFormElement;
+
+            Assert.AreSame(document.GetElementById("one"), form.Elements["target"]);
+            Assert.IsNull(form.Elements["missing"]);
+        }
+
+        [Test]
+        public void HtmlFormLiveCollectionIndexerThrowsOutsideTheRange()
+        {
+            var document = Html("<form id=main><input></form>");
+            var form = document.QuerySelector("form") as IHtmlFormElement;
+            var elements = form.Elements;
+
+            Assert.AreEqual(1, elements.Length);
+            Assert.Throws<ArgumentOutOfRangeException>(() => { _ = elements[1]; });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { _ = elements[-1]; });
+        }
+
+        [Test]
+        public void HtmlFormLiveCollectionFollowsAppendRemoveAndReparent()
+        {
+            var document = Html("<form id=main><input id=a></form><div id=box></div>");
+            var form = document.GetElementById("main") as IHtmlFormElement;
+            var box = document.GetElementById("box");
+            // One collection object answers every read below - the collection is live, so no
+            // read may be served from anything captured when it was created.
+            var elements = form.Elements;
+
+            Assert.AreEqual(1, elements.Length);
+
+            var added = document.CreateElement<IHtmlInputElement>();
+            added.Id = "b";
+            form.AppendChild(added);
+
+            Assert.AreEqual(2, elements.Length);
+            Assert.AreSame(added, elements[1]);
+            Assert.AreSame(added, elements["b"]);
+
+            // Re-parented out of the form: no form owner any more, so it leaves the collection.
+            box.AppendChild(added);
+
+            Assert.AreEqual(1, elements.Length);
+            Assert.IsNull(elements["b"]);
+
+            // Re-parented back, ahead of the control that was already there.
+            form.InsertBefore(added, form.FirstChild);
+
+            Assert.AreEqual(2, elements.Length);
+            Assert.AreSame(added, elements[0]);
+            CollectionAssert.AreEqual(new[] { added, document.GetElementById("a") }, elements.ToArray());
+
+            added.Remove();
+
+            Assert.AreEqual(1, elements.Length);
+            CollectionAssert.AreEqual(new[] { document.GetElementById("a") }, elements.ToArray());
+        }
+
+        [Test]
+        public void HtmlFieldSetLiveCollectionOutsideAnyFormListsItsUnownedControls()
+        {
+            // A fieldset with no form owner is handed a null form, and its collection is then the
+            // controls under it that have no form owner either - rooted at the fieldset, which is
+            // itself a form control and so is never a member of its own collection.
+            var document = Html("<fieldset id=fs><input id=a><div><select id=b></select></div></fieldset>");
+            var fieldSet = document.GetElementById("fs") as IHtmlFieldSetElement;
+
+            Assert.IsNull(fieldSet.Form);
+            Assert.AreEqual(2, fieldSet.Elements.Length);
+            CollectionAssert.AreEqual(new[]
+            {
+                document.GetElementById("a"),
+                document.GetElementById("b")
+            }, fieldSet.Elements.ToArray());
+        }
     }
 }

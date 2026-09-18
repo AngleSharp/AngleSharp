@@ -10,6 +10,14 @@ namespace AngleSharp.Css.Dom
     /// </summary>
     sealed class ListSelector : Selectors, ISelector, IMultiSelector
     {
+        // Lazily built, specificity-descending copy of _selectors, dropped by Invalidate()
+        // whenever the list changes. GetMatchingSelector used to re-sort on every single call -
+        // allocating an ordered enumerable, its buffer and a key array each time, on top of an
+        // O(n) specificity recompute per key - even though the list is immutable once parsed.
+        // Mirrors the precedent in AngleSharp.Css's CssStyleRule.ISelectorVisitor.List, which
+        // sorts its own selector list once for the same reason.
+        private ISelector[]? _sortedBySpecificity;
+
         public void Accept(ISelectorVisitor visitor)
         {
             visitor.List(_selectors);
@@ -30,15 +38,25 @@ namespace AngleSharp.Css.Dom
 
         public ISelector? GetMatchingSelector(IElement element, IElement? scope = null)
         {
-            foreach (var selector in _selectors.OrderByDescending(m => m.Specificity))
+            // OrderByDescending is stable, so selectors of equal specificity keep their declared
+            // order - same as when this ran unsorted-then-sorted on every call.
+            var sorted = _sortedBySpecificity ??= _selectors.OrderByDescending(m => m.Specificity).ToArray();
+
+            for (var i = 0; i < sorted.Length; i++)
             {
-                if (selector.Match(element, scope))
+                if (sorted[i].Match(element, scope))
                 {
-                    return selector;
+                    return sorted[i];
                 }
             }
 
             return null;
+        }
+
+        protected override void Invalidate()
+        {
+            base.Invalidate();
+            _sortedBySpecificity = null;
         }
 
         protected override String Stringify()

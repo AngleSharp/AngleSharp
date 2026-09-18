@@ -16,6 +16,8 @@ namespace AngleSharp.Css.Dom
 
         private readonly List<CombinatorSelector> _combinators;
 
+        private Priority? _specificity;
+
         #endregion
 
         #region ctor
@@ -29,19 +31,27 @@ namespace AngleSharp.Css.Dom
 
         #region Properties
 
+        // Cached once assembled: AppendSelector/ConcludeSelector are the only mutators, both stop
+        // taking effect once IsReady is set, and both clear this so a read can never be taken
+        // before the combinator chain is complete.
         public Priority Specificity
         {
             get
             {
-                var sum = new Priority();
-                var n = _combinators.Count;
-
-                for (var i = 0; i < n; i++)
+                if (_specificity is null)
                 {
-                    sum += _combinators[i].Selector.Specificity;
+                    var sum = new Priority();
+                    var n = _combinators.Count;
+
+                    for (var i = 0; i < n; i++)
+                    {
+                        sum += _combinators[i].Selector.Specificity;
+                    }
+
+                    _specificity = sum;
                 }
 
-                return sum;
+                return _specificity.Value;
             }
         }
 
@@ -111,6 +121,7 @@ namespace AngleSharp.Css.Dom
                     Delimiter = null
                 });
                 IsReady = true;
+                _specificity = null;
             }
         }
 
@@ -124,6 +135,7 @@ namespace AngleSharp.Css.Dom
                     Kind = combinator.Kind,
                     Delimiter = combinator.Delimiter
                 });
+                _specificity = null;
             }
         }
 

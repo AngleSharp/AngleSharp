@@ -11,7 +11,7 @@ This is nothing directly to do with AngleSharp. You can perform any kind of requ
 Here is an example:
 
 ```cs
-var imageUrl = @"https://via.placeholder.com/150";
+var imageUrl = @"https://placeholder.photo/150.jpg";
 var localPath = @"g:\downloads\image.jpg";
 
 using (var client = new HttpClient())
@@ -32,7 +32,7 @@ using (var client = new HttpClient())
 If there is some reason for needing to, e.g., re-use some cookies obtained via AngleSharp then you can either share the cookie container or use the requester from AngleSharp.
 
 ```cs
-var imageUrl = @"https://via.placeholder.com/150";
+var imageUrl = @"https://placeholder.photo/150.jpg";
 var localPath = @"g:\downloads\image.jpg";
 var download = context.GetService<IDocumentLoader>().FetchAsync(new DocumentRequest(new Url(imageUrl)));
 

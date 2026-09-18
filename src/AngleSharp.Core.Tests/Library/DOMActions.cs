@@ -128,6 +128,26 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void DocumentFormsReturnsTheSameCollectionInstanceOnRepeatedAccess()
+        {
+            // IDocument.Forms is annotated [DomSameObject], so document.forms in script must
+            // be reference-stable across reads.
+            var document = Create(@"<form id=""form""></form>");
+            Assert.AreSame(document.Forms, document.Forms);
+        }
+
+        [Test]
+        public void NamedCollectionAccessPrefersIdMatchOverAnEarlierNameMatch()
+        {
+            var document = Create(@"<img name=""target""><img id=""target"">");
+            var byName = document.Images[0];
+            var byId = document.Images[1];
+
+            Assert.AreNotSame(byName, byId);
+            Assert.AreSame(byId, document.Images["target"]);
+        }
+
+        [Test]
         public void FormElementsShouldIncludeElementsWhoseNameStartsWithANumber()
         {
             var document = Create(@"<form id=""form"">

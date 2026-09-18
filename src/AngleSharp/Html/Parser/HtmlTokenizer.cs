@@ -2959,15 +2959,42 @@ namespace AngleSharp.Html.Parser
             switch (tag.Type)
             {
                 case HtmlTokenType.StartTag:
-                    for (var i = attributes.Count - 1; i > 0; i--)
+                    if (attributes.Count <= 8)
                     {
-                        for (var j = i - 1; j >= 0; j--)
+                        // Existing allocation-free scan for the common case.
+                        for (var i = attributes.Count - 1; i > 0; i--)
                         {
-                            if (attributes[j].Name.Is(attributes[i].Name))
+                            for (var j = i - 1; j >= 0; j--)
                             {
-                                tag.RemoveAttributeAt(i);
+                                if (attributes[j].Name.Is(attributes[i].Name))
+                                {
+                                    tag.RemoveAttributeAt(i);
+                                    RaiseErrorOccurred(HtmlParseError.AttributeDuplicateOmitted, tag.Position);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var names = new HashSet<StringOrMemory>(OrdinalStringOrMemoryComparer.Instance);
+                        List<int>? duplicates = null;
+
+                        for (var i = 0; i < attributes.Count; i++)
+                        {
+                            if (!names.Add(attributes[i].Name))
+                            {
+                                duplicates ??= new List<int>();
+                                duplicates.Add(i);
+                            }
+                        }
+
+                        if (duplicates is not null)
+                        {
+                            for (var i = duplicates.Count - 1; i >= 0; i--)
+                            {
+                                tag.RemoveAttributeAt(duplicates[i]);
                                 RaiseErrorOccurred(HtmlParseError.AttributeDuplicateOmitted, tag.Position);
-                                break;
                             }
                         }
                     }

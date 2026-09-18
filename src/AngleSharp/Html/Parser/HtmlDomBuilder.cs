@@ -2578,8 +2578,17 @@ namespace AngleSharp.Html.Parser
                 {
                     if (TagCurrentlyOpen(TagNames.Template))
                     {
-                        RaiseErrorOccurred(HtmlParseError.EOF, ref token);
-                        CloseTemplate();
+                        // Closing nested templates would otherwise recurse through
+                        // Home() once per open template (InTemplate -> Home -> InTemplate
+                        // -> ...), so a deeply nested unclosed <template> chain could
+                        // exhaust the native stack. Unwind them all here instead.
+                        do
+                        {
+                            RaiseErrorOccurred(HtmlParseError.EOF, ref token);
+                            CloseTemplate();
+                        }
+                        while (_templateModes.Count != 0 && TagCurrentlyOpen(TagNames.Template));
+
                         Home(ref token);
                         return;
                     }

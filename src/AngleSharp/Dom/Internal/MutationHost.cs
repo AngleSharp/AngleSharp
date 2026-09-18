@@ -32,9 +32,21 @@ namespace AngleSharp.Dom
 
         public IEnumerable<MutationObserver> Observers => _observers;
 
+        /// <summary>
+        /// Gets whether any observer is registered. Callers use this to skip building a record that
+        /// nothing would consume - a mutation record costs an allocation on every single mutation.
+        /// </summary>
+        public Boolean HasObservers => _observers.Count > 0;
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Takes the snapshot the dispatch iterates. An observer callback is free to connect or
+        /// disconnect while records are being delivered, so the list itself must not be walked.
+        /// </summary>
+        public MutationObserver[] Snapshot() => _observers.ToArray();
 
         public void Register(MutationObserver observer)
         {

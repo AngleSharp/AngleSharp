@@ -21,7 +21,7 @@ namespace AngleSharp.Svg.Dom
         #region ctor
 
         public SvgStyleElement(Document owner, String? prefix = null)
-            : base(owner, TagNames.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, TagNames.Style, prefix, NodeFlags.Special)
         {
         }
 
