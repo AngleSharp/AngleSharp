@@ -15,6 +15,7 @@ Released on Friday, September 18 2026
 - Fixed `classList` and the other reflected token lists writing their content attribute without running the attribute change steps or queueing a mutation record
 - Fixed clearing a reflected boolean attribute such as `disabled` removing it without running the attribute change steps or queueing a mutation record
 - Fixed vulnerability via SVG style serialization (GHSA-cgp3-27rh-pcp2)
+- Fixed a `StackOverflowException` when parsing a document with deeply nested unclosed `<template>` elements
 - Added `Document.MutationVersion`, a synchronous counter of DOM mutations that a parse leaves unchanged (#1344, #1347)
 
 # 1.8.1
