@@ -3,36 +3,33 @@ namespace AngleSharp.Dom
     using AngleSharp.Html.Dom;
     using System;
 
-    public abstract partial class Document
+    // Allocated only for documents that have created or adopted an HTML base.
+    internal sealed class DocumentBaseUrl
     {
-        private Boolean _hasBaseElements;
+        private readonly Document _document;
         private Boolean _baseUrlInitialized;
         private HtmlBaseElement? _activeBaseElement;
         private Url? _frozenBaseUrl;
 
-        internal Url FallbackBaseUrl => BaseUrlOverride ?? DocumentUrl;
-
-        internal void RegisterBaseElement() => _hasBaseElements = true;
-
-        internal Url GetDocumentBaseUrl()
+        internal DocumentBaseUrl(Document document)
         {
-            if (!_baseUrlInitialized && _hasBaseElements)
+            _document = document;
+        }
+
+        internal Url Get()
+        {
+            if (!_baseUrlInitialized)
             {
-                RefreshBaseUrl();
+                Refresh();
             }
 
-            return _frozenBaseUrl ?? FallbackBaseUrl;
+            return _frozenBaseUrl ?? _document.FallbackBaseUrl;
         }
 
         // Construction uses SetupElement; DOM insertion/removal calls this after
         // changing the tree, even when an enclosing operation suppresses records.
-        internal void RefreshBaseUrlForSubtree(Node subtree)
+        internal void RefreshForSubtree(Node subtree)
         {
-            if (!_hasBaseElements)
-            {
-                return;
-            }
-
             if (subtree is not HtmlBaseElement && !subtree.HasChildNodes)
             {
                 return;
@@ -51,20 +48,15 @@ namespace AngleSharp.Dom
 
             if (containsBase)
             {
-                RefreshBaseUrl();
+                Refresh();
             }
         }
 
-        internal void RefreshBaseUrl(HtmlBaseElement? changed = null)
+        internal void Refresh(HtmlBaseElement? changed = null)
         {
-            if (!_hasBaseElements)
-            {
-                return;
-            }
-
             HtmlBaseElement? first = null;
 
-            foreach (var node in this.GetDescendants())
+            foreach (var node in _document.GetDescendants())
             {
                 if (node is HtmlBaseElement element && element.HasAttribute(AttributeNames.Href) &&
                     !element.IsInertTemplateBase && !IsStagedTemplateContent(element))
@@ -86,7 +78,7 @@ namespace AngleSharp.Dom
 
             if (first is not null)
             {
-                var fallback = FallbackBaseUrl;
+                var fallback = _document.FallbackBaseUrl;
                 var candidate = new Url(fallback, first.GetAttribute(AttributeNames.Href)!);
                 // Invalid and forbidden bases freeze the fallback too. Keep a
                 // separate URL record so history cannot mutate the frozen value.

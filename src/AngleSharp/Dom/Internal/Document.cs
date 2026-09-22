@@ -22,10 +22,11 @@ namespace AngleSharp.Dom
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    public abstract partial class Document : Node, IDocument, IConstructableDocument
+    public abstract class Document : Node, IDocument, IConstructableDocument
     {
         #region Fields
 
+        private DocumentBaseUrl? _baseUrlState;
         private readonly List<WeakReference> _attachedReferences;
         private readonly Queue<HtmlScriptElement> _loadingScripts;
         private readonly MutationHost _mutations;
@@ -910,6 +911,16 @@ namespace AngleSharp.Dom
         #endregion
 
         #region Internal Properties
+
+        internal Url FallbackBaseUrl => BaseUrlOverride ?? DocumentUrl;
+
+        internal void RegisterBaseElement() => _baseUrlState ??= new DocumentBaseUrl(this);
+
+        internal Url GetDocumentBaseUrl() => _baseUrlState?.Get() ?? FallbackBaseUrl;
+
+        internal void RefreshBaseUrlForSubtree(Node subtree) => _baseUrlState?.RefreshForSubtree(subtree);
+
+        internal void RefreshBaseUrl(HtmlBaseElement? changed = null) => _baseUrlState?.Refresh(changed);
 
         internal MutationHost Mutations => _mutations;
 
