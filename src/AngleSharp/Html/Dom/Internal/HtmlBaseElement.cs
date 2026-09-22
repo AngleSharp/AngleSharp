@@ -41,6 +41,12 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
+        protected override void NodeIsAdopted(Document oldDocument)
+        {
+            base.NodeIsAdopted(oldDocument);
+            Owner.RegisterBaseElement();
+        }
+
         internal override void SetupElement()
         {
             base.SetupElement();
