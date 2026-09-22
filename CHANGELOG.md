@@ -1,3 +1,7 @@
+# 1.8.3
+
+- Fixed document base URLs across base-element mutations, subtree adoption, cloning and inert template content.
+
 # 1.8.2
 
 Released on Friday, September 18 2026
