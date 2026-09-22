@@ -13,6 +13,7 @@ namespace AngleSharp.Html.Dom
         public HtmlBaseElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Base, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            owner.RegisterBaseElement();
         }
 
         #endregion
@@ -21,7 +22,12 @@ namespace AngleSharp.Html.Dom
 
         public String? Href
         {
-            get => this.GetOwnAttribute(AttributeNames.Href);
+            get
+            {
+                var value = this.GetOwnAttribute(AttributeNames.Href) ?? String.Empty;
+                var url = new Url(Owner.FallbackBaseUrl, value);
+                return url.IsInvalid ? value : url.Href;
+            }
             set => this.SetOwnAttribute(AttributeNames.Href, value);
         }
 
@@ -49,7 +55,7 @@ namespace AngleSharp.Html.Dom
 
         internal void UpdateUrl(String url)
         {
-            Owner.BaseUrl = new Url(Owner.DocumentUrl, url ?? String.Empty);
+            Owner.RefreshBaseUrl(this);
         }
 
         #endregion

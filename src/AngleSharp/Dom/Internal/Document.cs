@@ -22,7 +22,7 @@ namespace AngleSharp.Dom
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    public abstract class Document : Node, IDocument, IConstructableDocument
+    public abstract partial class Document : Node, IDocument, IConstructableDocument
     {
         #region Fields
 
