@@ -2,6 +2,7 @@
 
 Released on Friday, September 18 2026
 
+- Fixed native `Unloading` handlers subscribing to `unloading` instead of `beforeunload`.
 - Improved attribute selector serialization to write only the case-sensitivity modifier that was specified (#1351)
 - Improved id/name lookup on collections (`document.forms["x"]`, `form.elements["x"]`, ...) to enumerate the underlying sequence once instead of twice
 - Improved performance of `form.elements` / `fieldset.elements` by walking the tree directly (#1350)
