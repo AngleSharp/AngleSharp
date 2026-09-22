@@ -609,7 +609,13 @@ namespace AngleSharp.Dom
 
             if (!token.IsCancellationRequested)
             {
-                _document.QueueTask(() => callback.Invoke(this));
+                _document.QueueTask(() =>
+                {
+                    if (!token.IsCancellationRequested)
+                    {
+                        callback.Invoke(this);
+                    }
+                });
             }
         }
 
