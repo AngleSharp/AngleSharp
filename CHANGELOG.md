@@ -1,3 +1,7 @@
+# 1.8.3
+
+- Fixed form submission ignoring sandbox restrictions configured on the document browsing context
+
 # 1.8.2
 
 Released on Friday, September 18 2026

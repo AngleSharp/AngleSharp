@@ -112,6 +112,11 @@ namespace AngleSharp.Html.Dom
         public Task<IDocument> SubmitAsync()
         {
             var request = GetSubmission();
+            if (request is null)
+            {
+                return Task.FromResult<IDocument>(null!);
+            }
+
             var context = Context.ResolveTargetContext(Target);
             return context.NavigateToAsync(request);
         }
@@ -119,6 +124,11 @@ namespace AngleSharp.Html.Dom
         public Task<IDocument> SubmitAsync(IHtmlElement sourceElement)
         {
             var request = GetSubmission(sourceElement);
+            if (request is null)
+            {
+                return Task.FromResult<IDocument>(null!);
+            }
+
             var context = Context.ResolveTargetContext(Target);
             return context.NavigateToAsync(request);
         }
