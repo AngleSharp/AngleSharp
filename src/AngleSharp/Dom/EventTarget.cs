@@ -15,6 +15,13 @@ namespace AngleSharp.Dom
 
         private List<RegisteredEventListener>? _listeners;
 
+        /// <summary>
+        /// Raised after a native listener is removed, including by a bulk reset.
+        /// Script bindings can discard a cached handler when its registration disappears.
+        /// A listener re-registered before a subscriber is called is not reported to that subscriber.
+        /// </summary>
+        public event Action<String, DomEventHandler, Boolean>? EventListenerRemoved;
+
         #endregion
 
         #region Properties
@@ -67,9 +74,16 @@ namespace AngleSharp.Dom
         /// </param>
         public void RemoveEventListener(String type, DomEventHandler? callback = null, Boolean capture = false)
         {
-            if (callback != null)
+            if (callback != null && _listeners is { } listeners)
             {
-                _listeners?.Remove(new RegisteredEventListener(type, callback, capture));
+                var index = listeners.IndexOf(new RegisteredEventListener(type, callback, capture));
+
+                if (index >= 0)
+                {
+                    var removed = listeners[index];
+                    listeners.RemoveAt(index);
+                    NotifyListenerRemoved(removed);
+                }
             }
         }
 
@@ -80,7 +94,13 @@ namespace AngleSharp.Dom
         {
             if (_listeners != null)
             {
+                var removed = _listeners.ToArray();
                 _listeners.Clear();
+
+                foreach (var listener in removed)
+                {
+                    NotifyListenerRemoved(listener);
+                }
             }
         }
 
@@ -140,17 +160,21 @@ namespace AngleSharp.Dom
 
         internal Boolean HasEventListeners => _listeners != null && _listeners.Count > 0;
 
-        /// <summary>
-        /// Checks whether a particular native listener is still registered.
-        /// Hosts that retain script callback identities can use this after
-        /// an operation removes listeners without passing through the host.
-        /// </summary>
-        /// <param name="type">The case-sensitive event type.</param>
-        /// <param name="callback">The registered callback.</param>
-        /// <param name="capture">The registration's capture flag.</param>
-        /// <returns>True if this registration is present, otherwise false.</returns>
-        public Boolean HasEventListener(String type, DomEventHandler callback, Boolean capture = false)
-            => callback != null && _listeners?.Contains(new RegisteredEventListener(type, callback, capture)) == true;
+        private void NotifyListenerRemoved(RegisteredEventListener listener)
+        {
+            if (EventListenerRemoved is { } notification)
+            {
+                foreach (var subscriber in notification.GetInvocationList())
+                {
+                    if (_listeners?.Contains(listener) == true)
+                    {
+                        break;
+                    }
+
+                    ((Action<String, DomEventHandler, Boolean>)subscriber)(listener.Type, listener.Callback, listener.IsCaptured);
+                }
+            }
+        }
 
         /// <summary>
         /// Dispatch an event to this Node.
