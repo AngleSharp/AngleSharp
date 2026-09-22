@@ -365,7 +365,7 @@
         /// <summary>
         /// The unloading event.
         /// </summary>
-        public static readonly String Unloading = "beforeunload";
+        public static readonly String Unloading = "unloading";
 
         /// <summary>
         /// The offline event.
