@@ -141,6 +141,18 @@ namespace AngleSharp.Dom
         internal Boolean HasEventListeners => _listeners != null && _listeners.Count > 0;
 
         /// <summary>
+        /// Checks whether a particular native listener is still registered.
+        /// Hosts that retain script callback identities can use this after
+        /// an operation removes listeners without passing through the host.
+        /// </summary>
+        /// <param name="type">The case-sensitive event type.</param>
+        /// <param name="callback">The registered callback.</param>
+        /// <param name="capture">The registration's capture flag.</param>
+        /// <returns>True if this registration is present, otherwise false.</returns>
+        public Boolean HasEventListener(String type, DomEventHandler callback, Boolean capture = false)
+            => callback != null && _listeners?.Contains(new RegisteredEventListener(type, callback, capture)) == true;
+
+        /// <summary>
         /// Dispatch an event to this Node.
         /// </summary>
         /// <param name="ev">The event to dispatch.</param>

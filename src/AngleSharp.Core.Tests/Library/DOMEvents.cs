@@ -27,6 +27,28 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void ListenerIdentityQueryTracksRemovalAndReRegistration()
+        {
+            var target = (EventTarget)document;
+            DomEventHandler listener = (_, _) => { };
+            DomEventHandler other = (_, _) => { };
+
+            Assert.IsFalse(target.HasEventListener("probe", listener));
+            target.AddEventListener("probe", listener, true);
+            Assert.IsTrue(target.HasEventListener("probe", listener, true));
+            Assert.IsFalse(target.HasEventListener("probe", listener));
+            Assert.IsFalse(target.HasEventListener("Probe", listener, true));
+            Assert.IsFalse(target.HasEventListener("probe", other, true));
+            target.RemoveEventListener("probe", listener, true);
+            Assert.IsFalse(target.HasEventListener("probe", listener, true));
+            target.AddEventListener("probe", listener);
+            target.RemoveEventListeners();
+            Assert.IsFalse(target.HasEventListener("probe", listener));
+            target.AddEventListener("probe", listener);
+            Assert.IsTrue(target.HasEventListener("probe", listener));
+        }
+
+        [Test]
         public void EventsAddHandler()
         {
             var evName = "click";
