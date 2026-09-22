@@ -232,7 +232,7 @@ namespace AngleSharp.Dom
 
                         if (oldDocument is not null)
                         {
-                            NodeIsAdopted(oldDocument);
+                            descendantAndSelf.NodeIsAdopted(oldDocument);
                         }
                     }
                 }

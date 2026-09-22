@@ -1642,6 +1642,7 @@ namespace AngleSharp.Dom
             document._sandbox = _sandbox;
             document._async = _async;
             document.ContentType = ContentType;
+            document.RefreshBaseUrl();
         }
 
         /// <inheritdoc />
