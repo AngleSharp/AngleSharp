@@ -113,5 +113,39 @@ namespace AngleSharp.Core.Tests.Library
             var clone = (IDocument)document.Clone(true);
             Assert.AreEqual(document.BaseUri, clone.BaseUri);
         }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task TemplateOnlyBaseNeverChangesFallback(Boolean replaceContent)
+        {
+            var document = await OpenAsync("<template><base href='/template/'></template><a href='item'>Item</a>").ConfigureAwait(false);
+
+            if (replaceContent)
+            {
+                document.QuerySelector("template").InnerHtml = "<base href='/replacement/'>";
+            }
+
+            Assert.AreEqual("https://example.test/start/page", document.BaseUri);
+            Assert.AreEqual("https://example.test/start/item", ((IHtmlAnchorElement)document.QuerySelector("a")).Href);
+        }
+
+        [Test]
+        public async Task MovingTemplateContentIntoDocumentActivatesItsBase()
+        {
+            var document = await OpenAsync("<template><div><base href='/activated/'></div></template>").ConfigureAwait(false);
+            var template = (IHtmlTemplateElement)document.QuerySelector("template");
+            document.Body.AppendChild(template.Content);
+            Assert.AreEqual("https://example.test/activated/", document.BaseUri);
+        }
+
+        [Test]
+        public async Task OrdinaryDomChildrenOfTemplateAreNotTemplateContent()
+        {
+            var document = await OpenAsync("<template></template>").ConfigureAwait(false);
+            var element = document.CreateElement("base");
+            element.SetAttribute("href", "/ordinary/");
+            document.QuerySelector("template").AppendChild(element);
+            Assert.AreEqual("https://example.test/ordinary/", document.BaseUri);
+        }
     }
 }

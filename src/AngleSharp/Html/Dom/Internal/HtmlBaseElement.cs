@@ -47,8 +47,24 @@ namespace AngleSharp.Html.Dom
             Owner.RegisterBaseElement();
         }
 
+        internal Boolean IsInertTemplateBase { get; private set; }
+
+        internal void ActivateInDom() => IsInertTemplateBase = false;
+
         internal override void SetupElement()
         {
+            // The parser stages template contents as children before moving
+            // them into the inert fragment. A later DOM insertion activates a
+            // moved base; ordinary DOM children of a template remain ordinary.
+            for (var parent = Parent; parent is not null; parent = parent.Parent)
+            {
+                if (parent is IHtmlTemplateElement)
+                {
+                    IsInertTemplateBase = true;
+                    break;
+                }
+            }
+
             base.SetupElement();
 
             var href = this.GetOwnAttribute(AttributeNames.Href);

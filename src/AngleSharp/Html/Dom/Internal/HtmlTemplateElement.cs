@@ -59,6 +59,10 @@ namespace AngleSharp.Html.Dom
                 RemoveNode(0, node);
                 _content.AddNode(node);
             }
+
+            // InnerHtml stages children through DOM insertion before this move;
+            // construction moves them directly. Neither leaves an active base.
+            Owner.RefreshBaseUrl();
         }
 
         #endregion

@@ -38,23 +38,35 @@ namespace AngleSharp.Dom
                 return;
             }
 
+            var containsBase = false;
+
             foreach (var node in subtree.GetDescendantsAndSelf())
             {
-                if (node is HtmlBaseElement)
+                if (node is HtmlBaseElement element)
                 {
-                    RefreshBaseUrl();
-                    return;
+                    element.ActivateInDom();
+                    containsBase = true;
                 }
+            }
+
+            if (containsBase)
+            {
+                RefreshBaseUrl();
             }
         }
 
         internal void RefreshBaseUrl(HtmlBaseElement? changed = null)
         {
+            if (!_hasBaseElements)
+            {
+                return;
+            }
+
             HtmlBaseElement? first = null;
 
             foreach (var node in this.GetDescendants())
             {
-                if (node is HtmlBaseElement element && element.HasAttribute(AttributeNames.Href))
+                if (node is HtmlBaseElement element && element.HasAttribute(AttributeNames.Href) && !element.IsInertTemplateBase)
                 {
                     first = element;
                     break;
@@ -82,5 +94,6 @@ namespace AngleSharp.Dom
                     : candidate;
             }
         }
+
     }
 }
