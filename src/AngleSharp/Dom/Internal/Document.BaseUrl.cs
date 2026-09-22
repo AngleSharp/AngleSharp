@@ -66,7 +66,8 @@ namespace AngleSharp.Dom
 
             foreach (var node in this.GetDescendants())
             {
-                if (node is HtmlBaseElement element && element.HasAttribute(AttributeNames.Href) && !element.IsInertTemplateBase)
+                if (node is HtmlBaseElement element && element.HasAttribute(AttributeNames.Href) &&
+                    !element.IsInertTemplateBase && !IsStagedTemplateContent(element))
                 {
                     first = element;
                     break;
@@ -95,5 +96,19 @@ namespace AngleSharp.Dom
             }
         }
 
+        private static Boolean IsStagedTemplateContent(Node node)
+        {
+            // Template.InnerHtml uses ReplaceAll before PopulateFragment. Its
+            // temporary children cannot displace and re-freeze an existing base.
+            for (var parent = node.Parent; parent is not null; parent = parent.Parent)
+            {
+                if (parent is HtmlTemplateElement template && template.IsStagingContent)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

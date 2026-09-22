@@ -29,6 +29,8 @@ namespace AngleSharp.Html.Dom
 
         public IDocumentFragment Content => _content;
 
+        internal Boolean IsStagingContent => IsReplacingAll;
+
         #endregion
 
         #region Methods

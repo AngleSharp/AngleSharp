@@ -147,5 +147,15 @@ namespace AngleSharp.Core.Tests.Library
             document.QuerySelector("template").AppendChild(element);
             Assert.AreEqual("https://example.test/ordinary/", document.BaseUri);
         }
+
+        [TestCase("<base href='/inert/'>")]
+        [TestCase("<div><base href='/inert/'></div>")]
+        public async Task ReplacingTemplateContentPreservesAnotherBasesFrozenUrl(String content)
+        {
+            var document = await OpenAsync("<template></template><base href='./assets/'>").ConfigureAwait(false);
+            ((Document)document).DocumentUrl.Href = "https://example.test/moved/page";
+            document.QuerySelector("template").InnerHtml = content;
+            Assert.AreEqual("https://example.test/start/assets/", document.BaseUri);
+        }
     }
 }
