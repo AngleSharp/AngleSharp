@@ -27,6 +27,21 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void WindowUnloadingHandlerUsesBeforeUnloadEventName()
+        {
+            var calls = 0;
+            DomEventHandler handler = (_, ev) => { calls++; ev.Cancel(); };
+            document.DefaultView.Unloading += handler;
+            var ev = new Event("beforeunload", false, true);
+            document.DefaultView.Dispatch(ev);
+            Assert.AreEqual(1, calls);
+            Assert.IsTrue(ev.IsDefaultPrevented);
+            document.DefaultView.Unloading -= handler;
+            document.DefaultView.Dispatch(new Event("beforeunload", false, true));
+            Assert.AreEqual(1, calls);
+        }
+
+        [Test]
         public void EventsAddHandler()
         {
             var evName = "click";
