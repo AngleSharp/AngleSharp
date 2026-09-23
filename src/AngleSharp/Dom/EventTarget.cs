@@ -16,11 +16,10 @@ namespace AngleSharp.Dom
         private List<RegisteredEventListener>? _listeners;
 
         /// <summary>
-        /// Raised after a native listener is removed, including by a bulk reset.
-        /// Script bindings can discard a cached handler when its registration disappears.
-        /// A listener re-registered before a subscriber is called is not reported to that subscriber.
+        /// Raised after all native listeners have been reset.
+        /// Script bindings can discard their cached handlers for this target.
         /// </summary>
-        public event Action<String, DomEventHandler, Boolean>? EventListenerRemoved;
+        public event EventHandler? OnReset;
 
         #endregion
 
@@ -80,9 +79,7 @@ namespace AngleSharp.Dom
 
                 if (index >= 0)
                 {
-                    var removed = listeners[index];
                     listeners.RemoveAt(index);
-                    NotifyListenerRemoved(removed);
                 }
             }
         }
@@ -92,16 +89,8 @@ namespace AngleSharp.Dom
         /// </summary>
         public void RemoveEventListeners()
         {
-            if (_listeners != null)
-            {
-                var removed = _listeners.ToArray();
-                _listeners.Clear();
-
-                foreach (var listener in removed)
-                {
-                    NotifyListenerRemoved(listener);
-                }
-            }
+            _listeners?.Clear();
+            OnReset?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -159,22 +148,6 @@ namespace AngleSharp.Dom
         }
 
         internal Boolean HasEventListeners => _listeners != null && _listeners.Count > 0;
-
-        private void NotifyListenerRemoved(RegisteredEventListener listener)
-        {
-            if (EventListenerRemoved is { } notification)
-            {
-                foreach (var subscriber in notification.GetInvocationList())
-                {
-                    if (_listeners?.Contains(listener) == true)
-                    {
-                        break;
-                    }
-
-                    ((Action<String, DomEventHandler, Boolean>)subscriber)(listener.Type, listener.Callback, listener.IsCaptured);
-                }
-            }
-        }
 
         /// <summary>
         /// Dispatch an event to this Node.

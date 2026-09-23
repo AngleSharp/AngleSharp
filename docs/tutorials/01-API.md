@@ -58,7 +58,7 @@ However, right now there are no intentions in providing an official / integrated
 
 Officially, we try to establish `AngleSharp.Js` as the solution. This is a separate project from the core, which requires high maintenance and lots of efforts. Any participation on this one would be highly appreciated.
 
-Script hosts that cache event-handler properties can subscribe to the .NET `EventTarget.EventListenerRemoved` event. It reports the event type, native callback, and capture flag after `RemoveEventListener` or `RemoveEventListeners` removes a registration. A host can then discard its matching cached handler without querying listener state on each property read. A registration added again during notification is not reported to later subscribers. The notification is a CLR integration event; it is not dispatched as a DOM event to scripts.
+Script hosts that cache event-handler properties can subscribe to the .NET `EventTarget.OnReset` event. `RemoveEventListeners` clears native registrations and then raises the event once, allowing the host to discard its cached handlers for that target. Individual `RemoveEventListener` calls do not raise it. This is a CLR integration event, not a DOM event dispatched to scripts.
 
 ### ISpellCheckService
 

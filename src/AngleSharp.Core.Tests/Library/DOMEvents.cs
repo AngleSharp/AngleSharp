@@ -5,7 +5,6 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Html.Dom.Events;
     using NUnit.Framework;
     using System;
-    using System.Collections.Generic;
 
     [TestFixture]
     public class DOMEventsTests
@@ -29,35 +28,24 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void NativeListenerRemovalNotifiesCachesAndPreservesReentrantRegistrations()
+        public void NativeListenerResetNotifiesOnceAfterClearingListeners()
         {
             var target = (EventTarget)document;
-            DomEventHandler listener = (_, _) => { };
-            DomEventHandler other = (_, _) => { };
-            var removed = new List<(String Type, DomEventHandler Callback, Boolean Capture)>();
-            target.EventListenerRemoved += (type, callback, capture) =>
+            var notifications = 0;
+            var invoked = 0;
+            target.AddEventListener("probe", (_, _) => invoked++);
+            target.OnReset += (sender, args) =>
             {
-                removed.Add((type, callback, capture));
-                if (ReferenceEquals(callback, other))
-                {
-                    target.AddEventListener("next", listener);
-                }
+                Assert.AreSame(target, sender);
+                Assert.AreSame(EventArgs.Empty, args);
+                Assert.IsFalse(target.HasEventListener("probe"));
+                notifications++;
+                target.AddEventListener("next", (_, _) => invoked++);
             };
 
-            target.AddEventListener("probe", listener, true);
-            target.AddEventListener("probe", other);
-            target.RemoveEventListener("Probe", listener, true);
-            Assert.IsEmpty(removed);
-            target.RemoveEventListener("probe", listener, true);
-            Assert.AreEqual(("probe", listener, true), removed[0]);
             target.RemoveEventListeners();
-            Assert.AreEqual(2, removed.Count);
-            Assert.AreEqual(("probe", other, false), removed[1]);
+            Assert.AreEqual(1, notifications);
 
-            var invoked = 0;
-            target.RemoveEventListener("next", listener);
-            Assert.AreEqual(3, removed.Count);
-            target.AddEventListener("next", (_, _) => invoked++);
             var ev = document.CreateEvent("event");
             ev.Init("next", true, true);
             target.Dispatch(ev);
@@ -65,64 +53,20 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void NativeListenerRemovalReportsStoredDelegateIdentity()
-        {
-            static void Handle(Object sender, Event ev) { }
-            var target = (EventTarget)document;
-            var stored = new DomEventHandler(Handle);
-            var equal = new DomEventHandler(Handle);
-            DomEventHandler notified = null;
-            Assert.AreNotSame(stored, equal);
-            Assert.AreEqual(stored, equal);
-            target.EventListenerRemoved += (_, callback, _) => notified = callback;
-
-            target.AddEventListener("probe", stored);
-            target.RemoveEventListener("probe", equal);
-
-            Assert.AreSame(stored, notified);
-        }
-
-        [Test]
-        public void NativeBulkResetDoesNotNotifyAReaddedRegistration()
-        {
-            var target = (EventTarget)document;
-            DomEventHandler first = (_, _) => { };
-            DomEventHandler later = (_, _) => { };
-            var notified = new List<DomEventHandler>();
-            target.EventListenerRemoved += (type, callback, capture) =>
-            {
-                notified.Add(callback);
-                if (ReferenceEquals(callback, first))
-                {
-                    target.AddEventListener("later", later);
-                }
-            };
-            target.AddEventListener("first", first);
-            target.AddEventListener("later", later);
-
-            target.RemoveEventListeners();
-            Assert.AreEqual(1, notified.Count);
-            Assert.AreSame(first, notified[0]);
-
-            target.RemoveEventListener("later", later);
-            Assert.AreEqual(2, notified.Count);
-            Assert.AreSame(later, notified[1]);
-        }
-
-        [Test]
-        public void NativeIndividualRemovalStopsNotifyingAfterReRegistration()
+        public void NativeIndividualRemovalDoesNotNotifyResetSubscribers()
         {
             var target = (EventTarget)document;
             DomEventHandler listener = (_, _) => { };
             var notifications = 0;
-            target.EventListenerRemoved += (_, _, _) => target.AddEventListener("probe", listener);
-            target.EventListenerRemoved += (_, _, _) => notifications++;
+            target.OnReset += (_, _) => notifications++;
             target.AddEventListener("probe", listener);
 
             target.RemoveEventListener("probe", listener);
 
             Assert.AreEqual(0, notifications);
-            Assert.IsTrue(target.HasEventListener("probe"));
+            Assert.IsFalse(target.HasEventListener("probe"));
+            target.RemoveEventListeners();
+            Assert.AreEqual(1, notifications);
         }
 
         [Test]
