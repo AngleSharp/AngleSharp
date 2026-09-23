@@ -34,17 +34,20 @@ namespace AngleSharp.Core.Tests.Library
             var notifications = 0;
             var invoked = 0;
             target.AddEventListener("probe", (_, _) => invoked++);
+            var previousVersion = target.ListenerResetVersion;
             target.OnReset += (sender, args) =>
             {
                 Assert.AreSame(target, sender);
                 Assert.AreSame(EventArgs.Empty, args);
                 Assert.IsFalse(target.HasEventListener("probe"));
+                Assert.AreEqual(previousVersion + 1, target.ListenerResetVersion);
                 notifications++;
                 target.AddEventListener("next", (_, _) => invoked++);
             };
 
             target.RemoveEventListeners();
             Assert.AreEqual(1, notifications);
+            Assert.AreEqual(previousVersion + 1, target.ListenerResetVersion);
 
             var ev = document.CreateEvent("event");
             ev.Init("next", true, true);
