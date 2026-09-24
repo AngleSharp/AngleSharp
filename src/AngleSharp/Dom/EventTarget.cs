@@ -6,7 +6,6 @@ namespace AngleSharp.Dom
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
-    using System.Threading;
 
     /// <summary>
     /// Event target base of all DOM nodes.
@@ -32,8 +31,8 @@ namespace AngleSharp.Dom
 
         /// <summary>
         /// Gets a version that changes before a bulk listener reset is announced.
-        /// Script bindings can distinguish handlers assigned during reset notification
-        /// from registrations cleared by that reset.
+        /// If an earlier reset subscriber registers a new handler, a later script binding
+        /// can preserve it while discarding registrations cleared by the reset.
         /// </summary>
         public Int64 ListenerResetVersion => ResetVersions.GetOrCreateValue(this).Value;
 
@@ -102,7 +101,7 @@ namespace AngleSharp.Dom
             _listeners?.Clear();
             if (ResetVersions.TryGetValue(this, out var version))
             {
-                Interlocked.Increment(ref version.Value);
+                version.Value++;
             }
             OnReset?.Invoke(this, EventArgs.Empty);
         }
