@@ -1,3 +1,5 @@
+namespace AngleSharp;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -5,12 +7,9 @@ using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html;
 using AngleSharp.Html.Dom;
-
-namespace AngleSharp;
 
 // Advances the DOM serializer only when the consumer reads. The document and
 // formatter remain caller-owned for the stream's lifetime.
@@ -31,7 +30,11 @@ internal sealed class MarkupReadStream : Stream
 
     public MarkupReadStream(INode node, IMarkupFormatter? formatter = null)
     {
-        if (node is null) throw new ArgumentNullException(nameof(node));
+        if (node is null)
+        {
+            throw new ArgumentNullException(nameof(node));
+        }
+
         _tokens = Serialize(node, formatter ?? HtmlMarkupFormatter.Instance).GetEnumerator();
     }
 
@@ -47,26 +50,54 @@ internal sealed class MarkupReadStream : Stream
 
     public override Int32 Read(Byte[] buffer, Int32 offset, Int32 count)
     {
-        if (buffer is null) throw new ArgumentNullException(nameof(buffer));
-        if (offset < 0 || count < 0 || offset > buffer.Length - count) throw new ArgumentOutOfRangeException();
+        if (buffer is null)
+        {
+            throw new ArgumentNullException(nameof(buffer));
+        }
+
+        if (offset < 0 || count < 0 || offset > buffer.Length - count)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+
         return ReadCore(buffer, offset, count, CancellationToken.None);
     }
 
     private Int32 ReadCore(Byte[] destination, Int32 offset, Int32 length, CancellationToken cancellationToken)
     {
-        if (_disposed) throw new ObjectDisposedException(nameof(MarkupReadStream));
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(nameof(MarkupReadStream));
+        }
+
         _failure?.Throw();
         cancellationToken.ThrowIfCancellationRequested();
-        if (length == 0) return 0;
-        if (Interlocked.CompareExchange(ref _reading, 1, 0) != 0) throw new InvalidOperationException("Concurrent reads are unsupported.");
+
+        if (length == 0)
+        {
+            return 0;
+        }
+
+        if (Interlocked.CompareExchange(ref _reading, 1, 0) != 0)
+        {
+            throw new InvalidOperationException("Concurrent reads are unsupported.");
+        }
 
         try
         {
             var written = 0;
             while (written < length)
             {
-                if (written != 0 && cancellationToken.IsCancellationRequested) break;
-                if (_byteOffset == _byteCount && !Fill(cancellationToken)) break;
+                if (written != 0 && cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                if (_byteOffset == _byteCount && !Fill(cancellationToken))
+                {
+                    break;
+                }
+
                 var count = Math.Min(length - written, _byteCount - _byteOffset);
                 Buffer.BlockCopy(_bytes, _byteOffset, destination, offset + written, count);
                 _byteOffset += count;
@@ -74,22 +105,46 @@ internal sealed class MarkupReadStream : Stream
             }
             return written;
         }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { throw; }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
         catch (Exception error)
         {
             _failure = ExceptionDispatchInfo.Capture(error);
             throw;
         }
-        finally { Volatile.Write(ref _reading, 0); }
+        finally
+        {
+            Volatile.Write(ref _reading, 0);
+        }
     }
 
     public override Task<Int32> ReadAsync(Byte[] buffer, Int32 offset, Int32 count, CancellationToken cancellationToken)
     {
-        if (cancellationToken.IsCancellationRequested) return Task.FromCanceled<Int32>(cancellationToken);
-        if (buffer is null) throw new ArgumentNullException(nameof(buffer));
-        if (offset < 0 || count < 0 || offset > buffer.Length - count) throw new ArgumentOutOfRangeException();
-        try { return Task.FromResult(ReadCore(buffer, offset, count, cancellationToken)); }
-        catch (Exception error) { return Task.FromException<Int32>(error); }
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled<Int32>(cancellationToken);
+        }
+
+        if (buffer is null)
+        {
+            throw new ArgumentNullException(nameof(buffer));
+        }
+
+        if (offset < 0 || count < 0 || offset > buffer.Length - count)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+
+        try
+        {
+            return Task.FromResult(ReadCore(buffer, offset, count, cancellationToken));
+        }
+        catch (Exception error)
+        {
+            return Task.FromException<Int32>(error);
+        }
     }
 
     private Boolean Fill(CancellationToken cancellationToken)
@@ -106,19 +161,35 @@ internal sealed class MarkupReadStream : Stream
                 {
                     _chars = _tokens.Current.ToCharArray();
                     _charOffset = 0;
-                    if (_chars.Length == 0) continue;
+                    if (_chars.Length == 0)
+                    {
+                        continue;
+                    }
                 }
-                else _atEnd = true;
+                else
+                {
+                    _atEnd = true;
+                }
             }
 
             _encoder.Convert(_chars, _charOffset, _chars.Length - _charOffset,
                 _bytes, 0, _bytes.Length, _atEnd, out var charsUsed, out var bytesUsed, out _);
             _charOffset += charsUsed;
             _byteCount = bytesUsed;
-            if (bytesUsed != 0) return true;
-            if (_atEnd) return false;
+            if (bytesUsed != 0)
+            {
+                return true;
+            }
+
+            if (_atEnd)
+            {
+                return false;
+            }
+
             if (charsUsed == 0 && _charOffset != _chars.Length)
+            {
                 throw new InvalidOperationException("UTF-8 encoder made no progress.");
+            }
         }
     }
 
@@ -129,6 +200,7 @@ internal sealed class MarkupReadStream : Stream
             _disposed = true;
             _tokens.Dispose();
         }
+
         base.Dispose(disposing);
     }
 
@@ -150,17 +222,29 @@ internal sealed class MarkupReadStream : Stream
             if (frame.Stage == 0)
             {
                 frame.Stage = 1;
-                if (node is IComment comment) yield return formatter.Comment(comment);
-                else if (node is IProcessingInstruction instruction) yield return formatter.Processing(instruction);
+                if (node is IComment comment)
+                {
+                    yield return formatter.Comment(comment);
+                }
+                else if (node is IProcessingInstruction instruction)
+                {
+                    yield return formatter.Processing(instruction);
+                }
                 else if (node is ICharacterData data)
+                {
                     yield return data.Parent?.Flags.HasFlag(NodeFlags.LiteralText) == true ? formatter.LiteralText(data) : formatter.Text(data);
-                else if (node is IDocumentType doctype) yield return formatter.Doctype(doctype);
+                }
+                else if (node is IDocumentType doctype)
+                {
+                    yield return formatter.Doctype(doctype);
+                }
                 else if (node is IElement element)
                 {
                     frame.Element = element;
                     frame.SelfClosing = element.Flags.HasFlag(NodeFlags.SelfClosing);
                     yield return formatter.OpenTag(element, frame.SelfClosing);
                 }
+
                 continue;
             }
 
@@ -169,32 +253,53 @@ internal sealed class MarkupReadStream : Stream
                 frame.Stage = 2;
                 if (frame.Element is IElement element && !frame.SelfClosing &&
                     element.Flags.HasFlag(NodeFlags.LineTolerance) && element.FirstChild is IText text &&
-                    text.Data.IndexOf('\n') >= 0) yield return "\n";
+                    text.Data.IndexOf('\n') >= 0)
+                {
+                    yield return "\n";
+                }
+
                 continue;
             }
 
             if (frame.Stage == 2)
             {
                 frame.Stage = 3;
-                if (frame.Element is IHtmlTemplateElement template) frames.Push(new Frame(template.Content));
+                if (frame.Element is IHtmlTemplateElement template)
+                {
+                    frames.Push(new Frame(template.Content));
+                }
+
                 continue;
             }
 
             if (frame.Stage == 3)
             {
-                if (frame.ChildIndex < node.ChildNodes.Length) frames.Push(new Frame(node.ChildNodes[frame.ChildIndex++]));
-                else frame.Stage = 4;
+                if (frame.ChildIndex < node.ChildNodes.Length)
+                {
+                    frames.Push(new Frame(node.ChildNodes[frame.ChildIndex++]));
+                }
+                else
+                {
+                    frame.Stage = 4;
+                }
+
                 continue;
             }
 
             frames.Pop();
-            if (frame.Element is IElement closing) yield return formatter.CloseTag(closing, frame.SelfClosing);
+            if (frame.Element is IElement closing)
+            {
+                yield return formatter.CloseTag(closing, frame.SelfClosing);
+            }
         }
     }
 
     private sealed class Frame
     {
-        public Frame(INode node) { Node = node; }
+        public Frame(INode node)
+        {
+            Node = node;
+        }
         public INode Node { get; }
         public IElement? Element { get; set; }
         public Boolean SelfClosing { get; set; }
