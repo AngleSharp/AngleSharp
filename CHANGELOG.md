@@ -1,3 +1,7 @@
+# 1.8.3
+
+- Fixed native `Unloading` handlers subscribing to `unloading` instead of `beforeunload`.
+
 # 1.8.2
 
 Released on Friday, September 18 2026

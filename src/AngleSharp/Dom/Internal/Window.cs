@@ -488,8 +488,8 @@ namespace AngleSharp.Dom
 
         event DomEventHandler IWindowEventHandlers.Unloading
         {
-            add { AddEventListener(EventNames.Unloading, value); }
-            remove { RemoveEventListener(EventNames.Unloading, value); }
+            add { AddEventListener(EventNames.BeforeUnload, value); }
+            remove { RemoveEventListener(EventNames.BeforeUnload, value); }
         }
 
         event DomEventHandler IWindowEventHandlers.HashChanged
