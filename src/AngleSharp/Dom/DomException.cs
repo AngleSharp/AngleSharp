@@ -15,7 +15,12 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="code">The error code.</param>
         public DomException(DomError code)
-            : base(code.GetMessage())
+            : this(code, code.GetMessage())
+        {
+        }
+
+        internal DomException(DomError code, String message)
+            : base(message)
         {
             Code = (Int32)code;
             Name = code.ToString();
