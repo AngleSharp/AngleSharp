@@ -71,10 +71,10 @@ namespace AngleSharp
             _snapshot = services is null ? (Object[])_services : null;
         }
 
-        private Configuration(Object[] services, Boolean snapshot)
+        private Configuration(Object[] services)
         {
             _services = services;
-            _snapshot = snapshot ? services : null;
+            _snapshot = services;
         }
 
         #endregion
@@ -105,7 +105,7 @@ namespace AngleSharp
         /// <summary>
         /// Creates a configuration from a service list owned by AngleSharp.
         /// </summary>
-        internal static Configuration FromSnapshot(Object[] services) => new Configuration(services, true);
+        internal static Configuration FromSnapshot(Object[] services) => new Configuration(services);
 
         #endregion
     }
