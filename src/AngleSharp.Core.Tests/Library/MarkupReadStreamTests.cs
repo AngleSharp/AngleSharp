@@ -3,6 +3,7 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Dom;
     using AngleSharp.Html;
     using AngleSharp.Html.Parser;
+    using AngleSharp.Xhtml;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -20,7 +21,7 @@ namespace AngleSharp.Core.Tests.Library
         public void SmallReadsMatchToHtmlForRepresentativeDocuments(String html)
         {
             using var document = new HtmlParser().ParseDocument(html);
-            foreach (var formatter in new IMarkupFormatter[] { HtmlMarkupFormatter.Instance, new PrettyMarkupFormatter(), new MinifyMarkupFormatter() })
+            foreach (var formatter in new IMarkupFormatter[] { HtmlMarkupFormatter.Instance, new PrettyMarkupFormatter(), new MinifyMarkupFormatter(), XhtmlMarkupFormatter.Instance })
             {
                 using var stream = document.ToHtmlStream(formatter);
                 using var output = new MemoryStream();
