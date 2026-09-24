@@ -5,7 +5,6 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Event target base of all DOM nodes.
@@ -15,7 +14,6 @@ namespace AngleSharp.Dom
         #region Fields
 
         private List<RegisteredEventListener>? _listeners;
-        private static readonly ConditionalWeakTable<EventTarget, StrongBox<Int64>> ResetVersions = new();
 
         /// <summary>
         /// Raised after all native listeners have been reset.
@@ -28,13 +26,6 @@ namespace AngleSharp.Dom
         #region Properties
 
         private List<RegisteredEventListener> Listeners => _listeners ??= [];
-
-        /// <summary>
-        /// Gets a version that changes before a bulk listener reset is announced.
-        /// If an earlier reset subscriber registers a new handler, a later script binding
-        /// can preserve it while discarding registrations cleared by the reset.
-        /// </summary>
-        public Int64 ListenerResetVersion => ResetVersions.GetOrCreateValue(this).Value;
 
         #endregion
 
@@ -99,10 +90,6 @@ namespace AngleSharp.Dom
         public void RemoveEventListeners()
         {
             _listeners?.Clear();
-            if (ResetVersions.TryGetValue(this, out var version))
-            {
-                version.Value++;
-            }
             OnReset?.Invoke(this, EventArgs.Empty);
         }
 
