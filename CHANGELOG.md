@@ -1,6 +1,6 @@
 # 1.8.3
 
-- Fixed form submission ignoring sandbox restrictions configured on the document browsing context
+- Fixed form submission ignoring sandbox restrictions configured on the document browsing context; blocked attempts now raise a context error
 
 # 1.8.2
 

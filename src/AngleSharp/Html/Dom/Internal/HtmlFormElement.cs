@@ -211,7 +211,10 @@ namespace AngleSharp.Html.Dom
 
             if ((owner.ActiveSandboxing & Sandboxes.Forms) == Sandboxes.Forms)
             {
-                //Do nothing.
+                // The request is suppressed, but embedders still need to observe why
+                // no document was produced. Context errors are the existing host signal
+                // for failures handled internally rather than thrown into the DOM.
+                Context.TrackError(new DomException(DomError.Security));
             }
             else if (!submittedFromSubmitMethod && !from.HasAttribute(AttributeNames.FormNoValidate) && !NoValidate && !CheckValidity())
             {
