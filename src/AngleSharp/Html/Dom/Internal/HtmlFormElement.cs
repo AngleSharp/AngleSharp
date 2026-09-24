@@ -214,7 +214,7 @@ namespace AngleSharp.Html.Dom
                 // The request is suppressed, but embedders still need to observe why
                 // no document was produced. Context errors are the existing host signal
                 // for failures handled internally rather than thrown into the DOM.
-                Context.TrackError(new DomException(DomError.Security));
+                Context.TrackError(new DomException(DomError.Security, "Blocked form submission by the browsing context sandbox."));
             }
             else if (!submittedFromSubmitMethod && !from.HasAttribute(AttributeNames.FormNoValidate) && !NoValidate && !CheckValidity())
             {
