@@ -1,6 +1,10 @@
 # 1.8.3
 
-- Fixed native `Unloading` handlers subscribing to `unloading` instead of `beforeunload`.
+Released on Friday, September 25 2026
+
+- Improved cancellation of queued timer callbacks (#1357) @PrzemyslawKlys
+- Fixed native `Unloading` handlers subscribing to `unloading` instead of `beforeunload` (#1354) @PrzemyslawKlys
+- Added `OnReset` event to inform script hosts of native listener removals (#1356) @PrzemyslawKlys
 
 # 1.8.2
 
