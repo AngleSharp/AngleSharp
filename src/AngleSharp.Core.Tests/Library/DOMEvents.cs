@@ -4,6 +4,7 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Dom.Events;
     using AngleSharp.Html.Dom.Events;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class DOMEventsTests
@@ -39,6 +40,47 @@ namespace AngleSharp.Core.Tests.Library
             document.DefaultView.Unloading -= handler;
             document.DefaultView.Dispatch(new Event("beforeunload", false, true));
             Assert.AreEqual(1, calls);
+        }
+      
+        [Test]
+        public void NativeListenerResetNotifiesOnceAfterClearingListeners()
+        {
+            var target = (EventTarget)document;
+            var notifications = 0;
+            var invoked = 0;
+            target.AddEventListener("probe", (_, _) => invoked++);
+            target.OnReset += (sender, args) =>
+            {
+                Assert.AreSame(target, sender);
+                Assert.AreSame(EventArgs.Empty, args);
+                Assert.IsFalse(target.HasEventListener("probe"));
+                notifications++;
+            };
+
+            target.RemoveEventListeners();
+            Assert.AreEqual(1, notifications);
+
+            var ev = document.CreateEvent("event");
+            ev.Init("probe", true, true);
+            target.Dispatch(ev);
+            Assert.AreEqual(0, invoked);
+        }
+
+        [Test]
+        public void NativeIndividualRemovalDoesNotNotifyResetSubscribers()
+        {
+            var target = (EventTarget)document;
+            DomEventHandler listener = (_, _) => { };
+            var notifications = 0;
+            target.OnReset += (_, _) => notifications++;
+            target.AddEventListener("probe", listener);
+
+            target.RemoveEventListener("probe", listener);
+
+            Assert.AreEqual(0, notifications);
+            Assert.IsFalse(target.HasEventListener("probe"));
+            target.RemoveEventListeners();
+            Assert.AreEqual(1, notifications);
         }
 
         [Test]
