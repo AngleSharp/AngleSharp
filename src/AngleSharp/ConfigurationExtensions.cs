@@ -26,6 +26,15 @@ namespace AngleSharp
         {
             configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             service = service ?? throw new ArgumentNullException(nameof(service));
+
+            if (configuration is Configuration current && current.Snapshot is Object[] snapshot)
+            {
+                var services = new Object[snapshot.Length + 1];
+                services[0] = service;
+                Array.Copy(snapshot, 0, services, 1, snapshot.Length);
+                return Configuration.FromSnapshot(services);
+            }
+
             return new Configuration(configuration.Services.Concat(service));
         }
 
@@ -72,6 +81,13 @@ namespace AngleSharp
         {
             configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             service = service ?? throw new ArgumentNullException(nameof(service));
+
+            if (configuration is Configuration current && current.Snapshot is Object[] snapshot)
+            {
+                var services = snapshot.Where(item => !Object.ReferenceEquals(item, service)).ToArray();
+                return Configuration.FromSnapshot(services);
+            }
+
             return new Configuration(configuration.Services.Except(service));
         }
 
@@ -123,6 +139,17 @@ namespace AngleSharp
         public static IConfiguration Without<TService>(this IConfiguration configuration)
         {
             configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+
+            if (configuration is Configuration current && current.Snapshot is Object[] snapshot)
+            {
+                // Match the existing two enumerable Except operations, including
+                // their equality and duplicate-removal behavior.
+                var matchingItems = snapshot.OfType<TService>().Cast<Object>();
+                var matchingCreators = snapshot.OfType<Func<IBrowsingContext, TService>>();
+                var services = snapshot.Except(matchingItems).Except(matchingCreators).ToArray();
+                return Configuration.FromSnapshot(services);
+            }
+
             var items = configuration.Services.OfType<TService>().Cast<Object>();
             var creators = configuration.Services.OfType<Func<IBrowsingContext, TService>>();
             return configuration.Without(items).Without(creators);
