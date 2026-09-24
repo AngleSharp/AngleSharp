@@ -81,7 +81,10 @@ namespace AngleSharp.Core.Tests.Library
             using var stream = document.ToHtmlStream();
             using var cancellation = new CancellationTokenSource();
             cancellation.Cancel();
-            Assert.ThrowsAsync<TaskCanceledException>(async () => await stream.ReadExactlyAsync(new Byte[1], cancellation.Token));
+            // A single-byte read is enough to verify cancellation before consumption.
+#pragma warning disable CA2022
+            Assert.ThrowsAsync<TaskCanceledException>(async () => await stream.ReadAsync(new Byte[1], 0, 1, cancellation.Token));
+#pragma warning restore CA2022
             Assert.Greater(stream.Read(new Byte[1], 0, 1), 0);
             stream.Dispose();
             Assert.Throws<ObjectDisposedException>(() => stream.ReadByte());
