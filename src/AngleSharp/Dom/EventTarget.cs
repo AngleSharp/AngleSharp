@@ -17,7 +17,8 @@ namespace AngleSharp.Dom
 
         /// <summary>
         /// Raised after all native listeners have been reset.
-        /// Script bindings can discard their cached handlers for this target.
+        /// Script bindings should discard cached handlers synchronously and defer
+        /// script execution until this notification returns.
         /// </summary>
         public event EventHandler? OnReset;
 
