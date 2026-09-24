@@ -2,6 +2,7 @@
 
 Released on Friday, September 25 2026
 
+- Fixed document base URLs across base-element mutations, subtree adoption, cloning and inert template content (#1355) @PrzemyslawKlys
 - Fixed form submission ignoring sandbox restrictions configured on the document browsing context; blocked attempts now raise a context error
 - Improved cancellation of queued timer callbacks (#1357) @PrzemyslawKlys
 - Fixed native `Unloading` handlers subscribing to `unloading` instead of `beforeunload` (#1354) @PrzemyslawKlys

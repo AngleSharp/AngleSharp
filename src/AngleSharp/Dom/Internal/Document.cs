@@ -26,6 +26,7 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
+        private DocumentBaseUrl? _baseUrlState;
         private readonly List<WeakReference> _attachedReferences;
         private readonly Queue<HtmlScriptElement> _loadingScripts;
         private readonly MutationHost _mutations;
@@ -911,6 +912,16 @@ namespace AngleSharp.Dom
 
         #region Internal Properties
 
+        internal Url FallbackBaseUrl => BaseUrlOverride ?? DocumentUrl;
+
+        internal void RegisterBaseElement() => _baseUrlState ??= new DocumentBaseUrl(this);
+
+        internal Url GetDocumentBaseUrl() => _baseUrlState?.Get() ?? FallbackBaseUrl;
+
+        internal void RefreshBaseUrlForSubtree(Node subtree) => _baseUrlState?.RefreshForSubtree(subtree);
+
+        internal void RefreshBaseUrl(HtmlBaseElement? changed = null) => _baseUrlState?.Refresh(changed);
+
         internal MutationHost Mutations => _mutations;
 
         /// <summary>
@@ -1642,6 +1653,7 @@ namespace AngleSharp.Dom
             document._sandbox = _sandbox;
             document._async = _async;
             document.ContentType = ContentType;
+            document.RefreshBaseUrl();
         }
 
         /// <inheritdoc />

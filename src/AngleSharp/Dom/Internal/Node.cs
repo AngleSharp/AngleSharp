@@ -51,6 +51,11 @@ namespace AngleSharp.Dom
         {
             get
             {
+                if (this is Document currentDocument)
+                {
+                    return currentDocument.GetDocumentBaseUrl();
+                }
+
                 if (_baseUri is not null)
                 {
                     return _baseUri;
@@ -59,6 +64,11 @@ namespace AngleSharp.Dom
                 {
                     foreach (var ancestor in this.Ancestors<Node>())
                     {
+                        if (ancestor is Document ancestorDocument)
+                        {
+                            return ancestorDocument.GetDocumentBaseUrl();
+                        }
+
                         if (ancestor._baseUri is not null)
                         {
                             return ancestor._baseUri;
@@ -70,18 +80,15 @@ namespace AngleSharp.Dom
 
                 if (document is not null)
                 {
-                    return document._baseUri ?? document.DocumentUrl;
-                }
-                else if (_type == NodeType.Document)
-                {
-                    document = (Document)this;
-                    return document.DocumentUrl;
+                    return document.GetDocumentBaseUrl();
                 }
 
                 return null;
             }
             set => _baseUri = value;
         }
+
+        internal Url? BaseUrlOverride => _baseUri;
 
         /// <inheritdoc />
         public NodeType NodeType => _type;
@@ -225,7 +232,7 @@ namespace AngleSharp.Dom
 
                         if (oldDocument is not null)
                         {
-                            NodeIsAdopted(oldDocument);
+                            descendantAndSelf.NodeIsAdopted(oldDocument);
                         }
                     }
                 }
@@ -236,7 +243,7 @@ namespace AngleSharp.Dom
 
         #region Internal Methods
 
-        internal void ReplaceAll(Node? node, Boolean suppressObservers)
+        internal virtual void ReplaceAll(Node? node, Boolean suppressObservers)
         {
             var document = Owner;
 
@@ -879,12 +886,20 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Specifications may define insertion steps for all or some nodes.
         /// </summary>
-        protected virtual void NodeIsInserted(Node newNode) => newNode.OnParentChanged();
+        protected virtual void NodeIsInserted(Node newNode)
+        {
+            OwningDocument?.RefreshBaseUrlForSubtree(newNode);
+            newNode.OnParentChanged();
+        }
 
         /// <summary>
         /// Specifications may define removing steps for all or some nodes.
         /// </summary>
-        protected virtual void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling) => removedNode.OnParentChanged();
+        protected virtual void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
+        {
+            OwningDocument?.RefreshBaseUrlForSubtree(removedNode);
+            removedNode.OnParentChanged();
+        }
 
         /// <inheritdoc />
         protected virtual void OnParentChanged()

@@ -13,6 +13,7 @@ namespace AngleSharp.Html.Dom
         public HtmlBaseElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Base, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            owner.RegisterBaseElement();
         }
 
         #endregion
@@ -21,7 +22,12 @@ namespace AngleSharp.Html.Dom
 
         public String? Href
         {
-            get => this.GetOwnAttribute(AttributeNames.Href);
+            get
+            {
+                var value = this.GetOwnAttribute(AttributeNames.Href) ?? String.Empty;
+                var url = new Url(Owner.FallbackBaseUrl, value);
+                return url.IsInvalid ? value : url.Href;
+            }
             set => this.SetOwnAttribute(AttributeNames.Href, value);
         }
 
@@ -35,8 +41,30 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
+        protected override void NodeIsAdopted(Document oldDocument)
+        {
+            base.NodeIsAdopted(oldDocument);
+            Owner.RegisterBaseElement();
+        }
+
+        internal Boolean IsInertTemplateBase { get; private set; }
+
+        internal void ActivateInDom() => IsInertTemplateBase = false;
+
         internal override void SetupElement()
         {
+            // The parser stages template contents as children before moving
+            // them into the inert fragment. A later DOM insertion activates a
+            // moved base; ordinary DOM children of a template remain ordinary.
+            for (var parent = Parent; parent is not null; parent = parent.Parent)
+            {
+                if (parent is IHtmlTemplateElement)
+                {
+                    IsInertTemplateBase = true;
+                    break;
+                }
+            }
+
             base.SetupElement();
 
             var href = this.GetOwnAttribute(AttributeNames.Href);
@@ -49,7 +77,7 @@ namespace AngleSharp.Html.Dom
 
         internal void UpdateUrl(String url)
         {
-            Owner.BaseUrl = new Url(Owner.DocumentUrl, url ?? String.Empty);
+            Owner.RefreshBaseUrl(this);
         }
 
         #endregion

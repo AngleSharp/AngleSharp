@@ -12,6 +12,7 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private readonly DocumentFragment _content;
+        private Int32 _contentReplacementDepth;
 
         #endregion
 
@@ -29,9 +30,25 @@ namespace AngleSharp.Html.Dom
 
         public IDocumentFragment Content => _content;
 
+        internal Boolean IsStagingContent => _contentReplacementDepth != 0;
+
         #endregion
 
         #region Methods
+
+        internal override void ReplaceAll(Node? node, Boolean suppressObservers)
+        {
+            _contentReplacementDepth++;
+
+            try
+            {
+                base.ReplaceAll(node, suppressObservers);
+            }
+            finally
+            {
+                _contentReplacementDepth--;
+            }
+        }
 
         public override Node Clone(Document owner, Boolean deep)
         {
@@ -59,6 +76,10 @@ namespace AngleSharp.Html.Dom
                 RemoveNode(0, node);
                 _content.AddNode(node);
             }
+
+            // InnerHtml stages children through DOM insertion before this move;
+            // construction moves them directly. Neither leaves an active base.
+            Owner.RefreshBaseUrl();
         }
 
         #endregion
