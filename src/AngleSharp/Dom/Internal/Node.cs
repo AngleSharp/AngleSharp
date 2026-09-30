@@ -70,12 +70,12 @@ namespace AngleSharp.Dom
 
                 if (document is not null)
                 {
-                    return document._baseUri ?? document.DocumentUrl;
+                    return document.ActiveBaseUrl ?? document._baseUri ?? document.DocumentUrl;
                 }
                 else if (_type == NodeType.Document)
                 {
                     document = (Document)this;
-                    return document.DocumentUrl;
+                    return document.ActiveBaseUrl ?? _baseUri ?? document.DocumentUrl;
                 }
 
                 return null;
@@ -269,7 +269,7 @@ namespace AngleSharp.Dom
 
             for (var i = 0; i < addedNodes.Length; i++)
             {
-                InsertBefore(addedNodes[i], null, true);
+                InsertBefore(addedNodes[i], null, true, suppressBaseUrlUpdates: this is Html.Dom.HtmlTemplateElement);
             }
 
             if (!suppressObservers)
@@ -289,7 +289,7 @@ namespace AngleSharp.Dom
             ReplacedAll();
         }
 
-        internal INode InsertBefore(Node newElement, Node? referenceElement, Boolean suppressObservers)
+        internal INode InsertBefore(Node newElement, Node? referenceElement, Boolean suppressObservers, Boolean suppressBaseUrlUpdates = false)
         {
             var document = Owner;
 
@@ -338,6 +338,12 @@ namespace AngleSharp.Dom
                     var child = _children[start];
                     addedNodes?.Add(child);
                     NodeIsInserted(child);
+
+                    if (!suppressBaseUrlUpdates)
+                    {
+                        OwningDocument?.RefreshBaseUrlForTreeChange(child);
+                    }
+
                     start++;
                 }
             }
@@ -346,6 +352,11 @@ namespace AngleSharp.Dom
                 addedNodes?.Add(newElement);
                 InsertNode(n, newElement);
                 NodeIsInserted(newElement);
+
+                if (!suppressBaseUrlUpdates)
+                {
+                    OwningDocument?.RefreshBaseUrlForTreeChange(newElement);
+                }
             }
 
             if (!suppressObservers)
@@ -406,8 +417,10 @@ namespace AngleSharp.Dom
                 }
             }
 
+            var owningDocument = OwningDocument;
             RemoveNode(index, node);
             NodeIsRemoved(node, oldPreviousSibling);
+            owningDocument?.RefreshBaseUrlForTreeChange(node);
         }
 
         internal Node ReplaceChild(Node node, Node child, Boolean suppressObservers)

@@ -59,6 +59,7 @@ namespace AngleSharp.Dom
         private HtmlCollection<IElement>? _commands;
         private HtmlCollection<IElement>? _links;
         private IStyleSheetList? _styleSheets;
+        private HtmlBaseElement? _activeBaseElement;
         private HttpStatusCode _statusCode;
         private HashSet<Uri>? _importedUris;
         private Int64 _mutationVersion;
@@ -781,6 +782,60 @@ namespace AngleSharp.Dom
         // now walks too.
         internal IAttributeObserver[] AttributeObservers =>
             _attributeObservers ??= _context.GetServices<IAttributeObserver>().ToArray();
+
+        internal Url? ActiveBaseUrl => _activeBaseElement?.FrozenBaseUrl;
+
+        internal void RefreshBaseUrl(HtmlBaseElement? changedElement = null, Boolean preserveFrozen = false)
+        {
+            HtmlBaseElement? firstBase = null;
+
+            foreach (var node in this.GetDescendants())
+            {
+                if (node is HtmlBaseElement baseElement && baseElement.HasHref)
+                {
+                    firstBase = baseElement;
+                    break;
+                }
+            }
+
+            if (!Object.ReferenceEquals(firstBase, _activeBaseElement) || Object.ReferenceEquals(firstBase, changedElement))
+            {
+                if (firstBase is not null && (!preserveFrozen || firstBase.FrozenBaseUrl is null))
+                {
+                    firstBase.FreezeBaseUrl();
+                }
+
+                _activeBaseElement = firstBase;
+            }
+        }
+
+        internal void RefreshBaseUrlForTreeChange(Node changedNode)
+        {
+            if (ContainsBaseElement(changedNode))
+            {
+                RefreshBaseUrl();
+            }
+        }
+
+        private static Boolean ContainsBaseElement(Node node)
+        {
+            if (node is HtmlBaseElement)
+            {
+                return true;
+            }
+
+            var children = node.ChildNodes;
+
+            for (var i = 0; i < children.Length; i++)
+            {
+                if (ContainsBaseElement(children[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Gets the mutation version of this document. The value changes whenever the DOM is mutated:
@@ -1642,6 +1697,7 @@ namespace AngleSharp.Dom
             document._sandbox = _sandbox;
             document._async = _async;
             document.ContentType = ContentType;
+            document.RefreshBaseUrl(preserveFrozen: true);
         }
 
         /// <inheritdoc />
