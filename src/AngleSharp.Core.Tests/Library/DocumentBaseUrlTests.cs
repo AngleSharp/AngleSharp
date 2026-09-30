@@ -157,5 +157,28 @@ namespace AngleSharp.Core.Tests.Library
             document.QuerySelector("template").InnerHtml = content;
             Assert.AreEqual("https://example.test/start/assets/", document.BaseUri);
         }
+
+        [Test]
+        public async Task DeepInnerHtmlSubtreeWithBaseDoesNotOverflowStack()
+        {
+            var document = await OpenAsync(String.Empty).ConfigureAwait(false);
+            var root = document.CreateElement("div");
+            var parent = (Node)root;
+
+            for (var i = 0; i < 30_000; i++)
+            {
+                var child = (Node)document.CreateElement("div");
+                parent.AddNode(child);
+                parent = child;
+            }
+
+            var baseElement = document.CreateElement("base");
+            baseElement.SetAttribute("href", "/deep/");
+            parent.AddNode((Node)baseElement);
+            document.Body.AppendChild(root);
+            Assert.AreEqual("https://example.test/deep/", document.BaseUri);
+            document.Body.InnerHtml = String.Empty;
+            Assert.AreEqual("https://example.test/start/page", document.BaseUri);
+        }
     }
 }

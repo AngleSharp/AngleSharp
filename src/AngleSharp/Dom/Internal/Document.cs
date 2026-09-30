@@ -826,11 +826,32 @@ namespace AngleSharp.Dom
 
             var children = node.ChildNodes;
 
-            for (var i = 0; i < children.Length; i++)
+            if (children.Length == 0)
             {
-                if (ContainsBaseElement(children[i]))
+                return false;
+            }
+
+            var nodes = new Stack<Node>();
+
+            for (var i = children.Length - 1; i >= 0; i--)
+            {
+                nodes.Push(children[i]);
+            }
+
+            while (nodes.Count > 0)
+            {
+                var current = nodes.Pop();
+
+                if (current is HtmlBaseElement)
                 {
                     return true;
+                }
+
+                children = current.ChildNodes;
+
+                for (var i = children.Length - 1; i >= 0; i--)
+                {
+                    nodes.Push(children[i]);
                 }
             }
 
