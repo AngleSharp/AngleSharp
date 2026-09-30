@@ -59,6 +59,8 @@ namespace AngleSharp.Html.Dom
                 RemoveNode(0, node);
                 _content.AddNode(node);
             }
+
+            Owner.RefreshBaseUrlForTreeChange(_content);
         }
 
         #endregion
