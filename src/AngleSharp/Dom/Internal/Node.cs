@@ -70,12 +70,12 @@ namespace AngleSharp.Dom
 
                 if (document is not null)
                 {
-                    return document.ActiveBaseUrl ?? document._baseUri ?? document.DocumentUrl;
+                    return document.ActiveBaseUrl ?? document._baseUri ?? document.FallbackBaseUrl;
                 }
                 else if (_type == NodeType.Document)
                 {
                     document = (Document)this;
-                    return document.ActiveBaseUrl ?? _baseUri ?? document.DocumentUrl;
+                    return document.ActiveBaseUrl ?? _baseUri ?? document.FallbackBaseUrl;
                 }
 
                 return null;

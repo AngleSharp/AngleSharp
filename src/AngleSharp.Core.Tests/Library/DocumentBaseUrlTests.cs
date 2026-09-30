@@ -2,6 +2,7 @@ namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Io;
     using NUnit.Framework;
     using System;
     using System.Threading.Tasks;
@@ -93,6 +94,30 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual("https://example.test/assets/", document.BaseUri);
             Assert.AreEqual("https://example.test/start/child/", element.Href);
             Assert.AreEqual("https://example.test/assets/item", ((IHtmlAnchorElement)document.QuerySelector("a")).Href);
+        }
+
+        [Test]
+        public async Task SrcDocDocumentInheritsFallbackBaseUrlFromCreator()
+        {
+            var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
+            var html = "<!doctype html><base href='https://example.test/assets/'>" +
+                "<iframe id='frame' srcdoc='<!doctype html><html><head></head><body></body></html>'></iframe>";
+            var document = await BrowsingContext.New(config).OpenAsync(response => response
+                .Address("https://example.test/start/page").Content(html)).ConfigureAwait(false);
+            var frame = document.QuerySelector<IHtmlInlineFrameElement>("#frame");
+            var child = frame.ContentDocument;
+            Assert.AreEqual("about:srcdoc", child.Url);
+            Assert.AreEqual("https://example.test/assets/", child.BaseUri);
+            var baseElement = (IHtmlBaseElement)child.CreateElement("base");
+            baseElement.SetAttribute("href", "child/");
+            child.Head.AppendChild(baseElement);
+            var anchor = (IHtmlAnchorElement)child.CreateElement("a");
+            anchor.SetAttribute("href", "item");
+            child.Body.AppendChild(anchor);
+            Assert.AreEqual("about:srcdoc", child.Url);
+            Assert.AreEqual("https://example.test/assets/child/", child.BaseUri);
+            Assert.AreEqual("https://example.test/assets/child/", baseElement.Href);
+            Assert.AreEqual("https://example.test/assets/child/item", anchor.Href);
         }
 
         [Test]

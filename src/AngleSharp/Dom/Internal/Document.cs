@@ -60,6 +60,7 @@ namespace AngleSharp.Dom
         private HtmlCollection<IElement>? _links;
         private IStyleSheetList? _styleSheets;
         private HtmlBaseElement? _activeBaseElement;
+        private Url? _fallbackBaseUrl;
         private HttpStatusCode _statusCode;
         private HashSet<Uri>? _importedUris;
         private Int64 _mutationVersion;
@@ -785,6 +786,8 @@ namespace AngleSharp.Dom
 
         internal Url? ActiveBaseUrl => _activeBaseElement?.FrozenBaseUrl;
 
+        internal Url FallbackBaseUrl => _fallbackBaseUrl ?? DocumentUrl;
+
         internal void RefreshBaseUrl(HtmlBaseElement? changedElement = null)
         {
             HtmlBaseElement? firstBase = null;
@@ -1351,6 +1354,9 @@ namespace AngleSharp.Dom
             StatusCode = response.StatusCode;
             Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             DocumentUri = response.Address!.Href;
+            _fallbackBaseUrl = DocumentUri.Is("about:srcdoc") && _context.Creator is Node creator && creator.BaseUrl is Url creatorBaseUrl
+                ? new Url(creatorBaseUrl)
+                : null;
             Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
             ImportAncestor = importAncestor;
             ReadyState = DocumentReadyState.Loading;
@@ -1718,6 +1724,7 @@ namespace AngleSharp.Dom
             document._sandbox = _sandbox;
             document._async = _async;
             document.ContentType = ContentType;
+            document._fallbackBaseUrl = _fallbackBaseUrl is null ? null : new Url(_fallbackBaseUrl);
             document.RefreshBaseUrl(document._activeBaseElement);
         }
 

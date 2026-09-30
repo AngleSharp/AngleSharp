@@ -32,7 +32,7 @@ namespace AngleSharp.Html.Dom
             get
             {
                 var value = this.GetOwnAttribute(AttributeNames.Href) ?? String.Empty;
-                var url = new Url(Owner.DocumentUrl, value);
+                var url = new Url(Owner.FallbackBaseUrl, value);
                 return url.IsInvalid ? value : url.Href;
             }
             set => this.SetOwnAttribute(AttributeNames.Href, value);
@@ -69,7 +69,7 @@ namespace AngleSharp.Html.Dom
 
         internal void FreezeBaseUrl()
         {
-            var fallback = Owner.DocumentUrl;
+            var fallback = Owner.FallbackBaseUrl;
             var url = new Url(fallback, this.GetOwnAttribute(AttributeNames.Href) ?? String.Empty);
             _frozenBaseUrl = url.IsInvalid || url.Scheme.Is(ProtocolNames.Data) || url.Scheme.Is(ProtocolNames.JavaScript) ? new Url(fallback) : url;
         }
