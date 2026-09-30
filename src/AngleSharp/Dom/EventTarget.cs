@@ -15,6 +15,13 @@ namespace AngleSharp.Dom
 
         private List<RegisteredEventListener>? _listeners;
 
+        /// <summary>
+        /// Raised after all native listeners have been reset.
+        /// Script bindings should discard cached handlers synchronously and defer
+        /// script execution until this notification returns.
+        /// </summary>
+        public event EventHandler? OnReset;
+
         #endregion
 
         #region Properties
@@ -67,9 +74,14 @@ namespace AngleSharp.Dom
         /// </param>
         public void RemoveEventListener(String type, DomEventHandler? callback = null, Boolean capture = false)
         {
-            if (callback != null)
+            if (callback != null && _listeners is { } listeners)
             {
-                _listeners?.Remove(new RegisteredEventListener(type, callback, capture));
+                var index = listeners.IndexOf(new RegisteredEventListener(type, callback, capture));
+
+                if (index >= 0)
+                {
+                    listeners.RemoveAt(index);
+                }
             }
         }
 
@@ -78,10 +90,8 @@ namespace AngleSharp.Dom
         /// </summary>
         public void RemoveEventListeners()
         {
-            if (_listeners != null)
-            {
-                _listeners.Clear();
-            }
+            _listeners?.Clear();
+            OnReset?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

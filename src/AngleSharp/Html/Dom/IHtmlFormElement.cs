@@ -82,6 +82,7 @@ namespace AngleSharp.Html.Dom
         /// <summary>
         /// Submits the form element from the form element itself.
         /// </summary>
+        /// <returns>The resulting document, or no document when the browsing context blocks form submission.</returns>
         [DomName("submit")]
         Task<IDocument> SubmitAsync();
 
@@ -89,6 +90,7 @@ namespace AngleSharp.Html.Dom
         /// Submits the form element as triggered from another element.
         /// </summary>
         /// <param name="sourceElement">The form's submitter.</param>
+        /// <returns>The resulting document, or no document when the browsing context blocks form submission.</returns>
         Task<IDocument> SubmitAsync(IHtmlElement sourceElement);
 
         /// <summary>

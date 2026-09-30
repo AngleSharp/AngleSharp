@@ -24,8 +24,8 @@ namespace AngleSharp.Html.Dom
 
         public event DomEventHandler Unloading
         {
-            add { AddEventListener(EventNames.Unloading, value); }
-            remove { RemoveEventListener(EventNames.Unloading, value); }
+            add { AddEventListener(EventNames.BeforeUnload, value); }
+            remove { RemoveEventListener(EventNames.BeforeUnload, value); }
         }
 
         public event DomEventHandler HashChanged

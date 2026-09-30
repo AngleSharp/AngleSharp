@@ -29,6 +29,8 @@ namespace AngleSharp
 
         private readonly IEnumerable<Object> _services;
 
+        private readonly Object[]? _snapshot;
+
         private static T Instance<T>(T instance) => instance;
 
         private static Func<IBrowsingContext, T> Creator<T>(Func<IBrowsingContext, T> creator) => creator;
@@ -63,6 +65,16 @@ namespace AngleSharp
                 Creator<INavigationHandler>(ctx => new DefaultNavigationHandler(ctx)),
                 Creator<IHtmlElementConstructionFactory>(ctx => new HtmlDomConstructionFactory(ctx)),
             };
+
+            // Only the default service list is owned by this instance. A caller-supplied
+            // enumerable must retain its existing deferred enumeration behavior.
+            _snapshot = services is null ? (Object[])_services : null;
+        }
+
+        private Configuration(Object[] services)
+        {
+            _services = services;
+            _snapshot = services;
         }
 
         #endregion
@@ -83,6 +95,17 @@ namespace AngleSharp
         /// Gets an enumeration over the registered services.
         /// </summary>
         public IEnumerable<Object> Services => _services;
+
+        /// <summary>
+        /// Gets the owned service list when its contents do not depend on an external
+        /// enumerable. Derived configurations retain the ordinary extension path.
+        /// </summary>
+        internal Object[]? Snapshot => GetType() == typeof(Configuration) ? _snapshot : null;
+
+        /// <summary>
+        /// Creates a configuration from a service list owned by AngleSharp.
+        /// </summary>
+        internal static Configuration FromSnapshot(Object[] services) => new Configuration(services);
 
         #endregion
     }

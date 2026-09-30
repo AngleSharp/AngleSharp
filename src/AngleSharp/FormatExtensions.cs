@@ -1,6 +1,7 @@
 namespace AngleSharp
 {
     using AngleSharp.Css;
+    using AngleSharp.Dom;
     using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
@@ -73,6 +74,20 @@ namespace AngleSharp
         /// <returns>The source code snippet.</returns>
         public static String ToHtml(this IMarkupFormattable markup) =>
             markup.ToHtml(HtmlMarkupFormatter.Instance);
+
+        /// <summary>
+        /// Creates a forward-only UTF-8 stream that serializes the node as it is read.
+        /// </summary>
+        /// <param name="node">The document or node to serialize.</param>
+        /// <param name="formatter">The markup formatter. Uses the HTML formatter when omitted.</param>
+        /// <returns>A readable stream over the node's markup.</returns>
+        /// <remarks>
+        /// The caller owns the node and formatter for the stream's lifetime. Keep the DOM
+        /// stable while reading; changes after serialization starts are not snapshotted.
+        /// The stream supports one reader at a time and does not dispose the node.
+        /// </remarks>
+        public static Stream ToHtmlStream(this INode node, IMarkupFormatter? formatter = null) =>
+            new MarkupReadStream(node, formatter);
 
         /// <summary>
         /// Returns the serialization of the node guided by the formatter.

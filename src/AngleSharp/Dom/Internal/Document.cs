@@ -59,6 +59,8 @@ namespace AngleSharp.Dom
         private HtmlCollection<IElement>? _commands;
         private HtmlCollection<IElement>? _links;
         private IStyleSheetList? _styleSheets;
+        private HtmlBaseElement? _activeBaseElement;
+        private Url? _fallbackBaseUrl;
         private HttpStatusCode _statusCode;
         private HashSet<Uri>? _importedUris;
         private Int64 _mutationVersion;
@@ -499,7 +501,7 @@ namespace AngleSharp.Dom
             _context = context;
             _source = source;
             _ready = DocumentReadyState.Loading;
-            _sandbox = Sandboxes.None;
+            _sandbox = context.Security;
             _quirksMode = QuirksMode.Off;
             _loadingScripts = new Queue<HtmlScriptElement>();
             _location = new Location("about:blank");
@@ -781,6 +783,83 @@ namespace AngleSharp.Dom
         // now walks too.
         internal IAttributeObserver[] AttributeObservers =>
             _attributeObservers ??= _context.GetServices<IAttributeObserver>().ToArray();
+
+        internal Url? ActiveBaseUrl => _activeBaseElement?.FrozenBaseUrl;
+
+        internal Url FallbackBaseUrl => _fallbackBaseUrl ?? DocumentUrl;
+
+        internal void RefreshBaseUrl(HtmlBaseElement? changedElement = null)
+        {
+            HtmlBaseElement? firstBase = null;
+
+            foreach (var node in this.GetDescendants())
+            {
+                if (node is HtmlBaseElement baseElement && baseElement.HasHref)
+                {
+                    firstBase = baseElement;
+                    break;
+                }
+            }
+
+            if (!Object.ReferenceEquals(firstBase, _activeBaseElement) || Object.ReferenceEquals(firstBase, changedElement))
+            {
+                if (firstBase is not null)
+                {
+                    firstBase.FreezeBaseUrl();
+                }
+
+                _activeBaseElement = firstBase;
+            }
+        }
+
+        internal void RefreshBaseUrlForTreeChange(Node changedNode)
+        {
+            if (ContainsBaseElement(changedNode))
+            {
+                RefreshBaseUrl();
+            }
+        }
+
+        private static Boolean ContainsBaseElement(Node node)
+        {
+            if (node is HtmlBaseElement)
+            {
+                return true;
+            }
+
+            var children = node.ChildNodes;
+
+            if (children.Length == 0)
+            {
+                return false;
+            }
+
+            var nodes = new Stack<Node>();
+
+            for (var i = children.Length - 1; i >= 0; i--)
+            {
+                nodes.Push(children[i]);
+            }
+
+            while (nodes.Count > 0)
+            {
+                var current = nodes.Pop();
+
+                if (current is HtmlBaseElement)
+                {
+                    return true;
+                }
+
+                children = current.ChildNodes;
+
+                for (var i = children.Length - 1; i >= 0; i--)
+                {
+                    nodes.Push(children[i]);
+                }
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Gets the mutation version of this document. The value changes whenever the DOM is mutated:
@@ -1275,6 +1354,9 @@ namespace AngleSharp.Dom
             StatusCode = response.StatusCode;
             Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             DocumentUri = response.Address!.Href;
+            _fallbackBaseUrl = DocumentUri.Is("about:srcdoc") && _context.Creator is Node creator && creator.BaseUrl is Url creatorBaseUrl
+                ? new Url(creatorBaseUrl)
+                : null;
             Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
             ImportAncestor = importAncestor;
             ReadyState = DocumentReadyState.Loading;
@@ -1642,6 +1724,8 @@ namespace AngleSharp.Dom
             document._sandbox = _sandbox;
             document._async = _async;
             document.ContentType = ContentType;
+            document._fallbackBaseUrl = _fallbackBaseUrl is null ? null : new Url(_fallbackBaseUrl);
+            document.RefreshBaseUrl(document._activeBaseElement);
         }
 
         /// <inheritdoc />

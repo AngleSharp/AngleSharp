@@ -12,6 +12,15 @@ namespace AngleSharp.Benchmarks
 
             if (
                 args.Length == 1
+                && args[0].Equals("--configuration-services", StringComparison.OrdinalIgnoreCase)
+            )
+            {
+                BenchmarkRunner.Run<ConfigurationServicesBenchmark>();
+                return;
+            }
+
+            if (
+                args.Length == 1
                 && args[0].Equals("--text-source-dispatch", StringComparison.OrdinalIgnoreCase)
             )
             {

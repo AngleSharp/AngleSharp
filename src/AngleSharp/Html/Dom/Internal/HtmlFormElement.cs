@@ -112,6 +112,11 @@ namespace AngleSharp.Html.Dom
         public Task<IDocument> SubmitAsync()
         {
             var request = GetSubmission();
+            if (request is null)
+            {
+                return Task.FromResult<IDocument>(null!);
+            }
+
             var context = Context.ResolveTargetContext(Target);
             return context.NavigateToAsync(request);
         }
@@ -119,6 +124,11 @@ namespace AngleSharp.Html.Dom
         public Task<IDocument> SubmitAsync(IHtmlElement sourceElement)
         {
             var request = GetSubmission(sourceElement);
+            if (request is null)
+            {
+                return Task.FromResult<IDocument>(null!);
+            }
+
             var context = Context.ResolveTargetContext(Target);
             return context.NavigateToAsync(request);
         }
@@ -201,7 +211,10 @@ namespace AngleSharp.Html.Dom
 
             if ((owner.ActiveSandboxing & Sandboxes.Forms) == Sandboxes.Forms)
             {
-                //Do nothing.
+                // The request is suppressed, but embedders still need to observe why
+                // no document was produced. Context errors are the existing host signal
+                // for failures handled internally rather than thrown into the DOM.
+                Context.TrackError(new DomException(DomError.Security, "Blocked form submission by the browsing context sandbox."));
             }
             else if (!submittedFromSubmitMethod && !from.HasAttribute(AttributeNames.FormNoValidate) && !NoValidate && !CheckValidity())
             {
