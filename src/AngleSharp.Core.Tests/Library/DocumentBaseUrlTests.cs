@@ -73,6 +73,29 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public async Task CloneRefreezesBaseAgainstClonedDocumentUrl()
+        {
+            var document = await OpenAsync("<base href='./assets/'>").ConfigureAwait(false);
+            ((Document)document).DocumentUrl.Href = "https://example.test/moved/page";
+            var clone = (IDocument)document.Clone(true);
+            Assert.AreEqual("https://example.test/start/assets/", document.BaseUri);
+            Assert.AreEqual("https://example.test/moved/assets/", clone.BaseUri);
+        }
+
+        [Test]
+        public async Task ExplicitBaseUrlOverrideDoesNotBecomeDocumentFallback()
+        {
+            var document = await OpenAsync("<a href='item'>Item</a>").ConfigureAwait(false);
+            ((Node)document).BaseUrl = new Url("https://example.test/assets/");
+            var element = (IHtmlBaseElement)document.CreateElement("base");
+            element.Href = "child/";
+            document.Head.AppendChild(element);
+            Assert.AreEqual("https://example.test/assets/", document.BaseUri);
+            Assert.AreEqual("https://example.test/start/child/", element.Href);
+            Assert.AreEqual("https://example.test/assets/item", ((IHtmlAnchorElement)document.QuerySelector("a")).Href);
+        }
+
+        [Test]
         public async Task AdoptionUsesNewDocumentAndRemovalRestoresOldDocument()
         {
             var source = await OpenAsync("<div><base href='./assets/'></div>").ConfigureAwait(false);

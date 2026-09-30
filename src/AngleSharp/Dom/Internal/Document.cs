@@ -785,7 +785,7 @@ namespace AngleSharp.Dom
 
         internal Url? ActiveBaseUrl => _activeBaseElement?.FrozenBaseUrl;
 
-        internal void RefreshBaseUrl(HtmlBaseElement? changedElement = null, Boolean preserveFrozen = false)
+        internal void RefreshBaseUrl(HtmlBaseElement? changedElement = null)
         {
             HtmlBaseElement? firstBase = null;
 
@@ -800,7 +800,7 @@ namespace AngleSharp.Dom
 
             if (!Object.ReferenceEquals(firstBase, _activeBaseElement) || Object.ReferenceEquals(firstBase, changedElement))
             {
-                if (firstBase is not null && (!preserveFrozen || firstBase.FrozenBaseUrl is null))
+                if (firstBase is not null)
                 {
                     firstBase.FreezeBaseUrl();
                 }
@@ -1718,7 +1718,7 @@ namespace AngleSharp.Dom
             document._sandbox = _sandbox;
             document._async = _async;
             document.ContentType = ContentType;
-            document.RefreshBaseUrl(preserveFrozen: true);
+            document.RefreshBaseUrl(document._activeBaseElement);
         }
 
         /// <inheritdoc />

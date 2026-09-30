@@ -74,13 +74,6 @@ namespace AngleSharp.Html.Dom
             _frozenBaseUrl = url.IsInvalid || url.Scheme.Is(ProtocolNames.Data) || url.Scheme.Is(ProtocolNames.JavaScript) ? new Url(fallback) : url;
         }
 
-        public override Node Clone(Document owner, Boolean deep)
-        {
-            var node = (HtmlBaseElement)base.Clone(owner, deep);
-            node._frozenBaseUrl = _frozenBaseUrl is null ? null : new Url(_frozenBaseUrl);
-            return node;
-        }
-
         private Boolean IsInTemplateElement()
         {
             var ancestor = Parent;
