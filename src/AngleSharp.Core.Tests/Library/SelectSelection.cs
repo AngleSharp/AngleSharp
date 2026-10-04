@@ -195,6 +195,23 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void InsertingASelectedOptionIntoACloneReplacesTheExistingSelection()
+        {
+            var document = "<select><option selected value='b'>B</option></select>".ToHtmlDocument();
+            var original = document.QuerySelector<IHtmlSelectElement>("select");
+            var clone = (IHtmlSelectElement)original.Clone(true);
+            var added = (IHtmlOptionElement)document.CreateElement("option");
+            added.Value = "a";
+            added.IsSelected = true;
+
+            clone.InsertBefore(added, clone.FirstChild);
+
+            Assert.AreEqual("a", clone.Value);
+            Assert.AreEqual(1, clone.SelectedOptions.Length);
+            Assert.AreEqual("b", original.Value);
+        }
+
+        [Test]
         public void InsertingAFragmentUsesTheLastSelectedOption()
         {
             var document = "<select></select>".ToHtmlDocument();

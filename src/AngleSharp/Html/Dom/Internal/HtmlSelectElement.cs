@@ -156,6 +156,7 @@ namespace AngleSharp.Html.Dom
         {
             base.SetupElement();
             NormalizeSelectedness();
+            CacheOptionOwners(this, this);
 
             var value = this.GetOwnAttribute(AttributeNames.Value);
 
