@@ -1,3 +1,10 @@
+# 1.8.4
+
+Released on Monday, October 5 2026
+
+- Improved selection when parsing `<select>` (#1364) @PrzemyslawKlys
+- Fixed change of `<select>` value (`IsSelected`) (#1365) @PrzemyslawKlys
+
 # 1.8.3
 
 Released on Wednesday, September 30 2026
