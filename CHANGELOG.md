@@ -3,7 +3,7 @@
 Released on Wednesday, September 30 2026
 
 - Improved cancellation of queued timer callbacks (#1357) @PrzemyslawKlys
-- Fixed parsed select defaults, single-selection normalization, and option selection state after form reset
+- Fixed select defaults, option mutations, form reset, and selected values used for submission
 - Improved configuration / setup performance (#1360) @PrzemyslawKlys
 - Fixed form submission ignoring sandbox restrictions (#1358) @PrzemyslawKlys
 - Fixed `<base>` elements not following frozen document base URL and tree-order mutation rules (#1355, #1362)
