@@ -45,7 +45,6 @@ namespace AngleSharp.Dom
             RegisterObserver<HtmlStyleElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
             RegisterObserver<SvgStyleElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
             RegisterObserver<HtmlSelectElement>(AttributeNames.Value, (element, value) => element.UpdateValue(value));
-            RegisterObserver<HtmlOptionElement>(AttributeNames.Selected, (element, _) => element.UpdateDefaultSelectedness());
             RegisterObserver<HtmlOutputElement>(AttributeNames.For, (element, _) => element.UpdateFor());
             RegisterObserver<HtmlObjectElement>(AttributeNames.Data, (element, value) => element.UpdateSource(value));
             RegisterObserver<HtmlAudioElement>(AttributeNames.Src, (element, value) => element.UpdateSource(value));

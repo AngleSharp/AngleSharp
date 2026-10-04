@@ -69,7 +69,7 @@ namespace AngleSharp.Html.Dom
                     }
                 }
 
-                return String.Empty;
+                return null;
             }
             set => UpdateValue(value!);
         }
@@ -143,20 +143,73 @@ namespace AngleSharp.Html.Dom
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             var options = Options;
-            foreach (var option in options)
+            var isAdded = false;
+
+            for (var i = 0; i < options.Length; i++)
             {
-                if (option.IsSelected && !IsOptionDisabled(option))
+                var option = options.GetOptionAt(i);
+
+                if (option.IsSelected && !option.IsDisabled)
+                {
+                    dataSet.Append(Name!, option.Value, Type);
+                    isAdded = true;
+                }
+            }
+
+            if (!isAdded)
+            {
+                // Select default option if theres no selected options
+                var option = GetDefaultOptionOrNull();
+                if (option != null)
                 {
                     dataSet.Append(Name!, option.Value, Type);
                 }
             }
         }
 
+        private IHtmlOptionElement? GetDefaultOptionOrNull()
+        {
+            var options = Options;
+
+            for (var i = 0; i < options.Length; i++)
+            {
+                var option = options.GetOptionAt(i);
+
+                if (!option.IsDisabled && !(option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled))
+                {
+                    return option;
+                }
+            }
+
+            return null;
+        }
+
         internal override void SetupElement()
         {
             base.SetupElement();
-            NormalizeSelectedness();
-            CacheOptionOwners(this, this);
+
+            if (!IsMultiple)
+            {
+                IHtmlOptionElement? selected = null;
+
+                foreach (var option in Options)
+                {
+                    if (option.IsSelected)
+                    {
+                        if (selected is not null)
+                        {
+                            selected.IsSelected = false;
+                        }
+
+                        selected = option;
+                    }
+                }
+
+                if (selected is null && Size <= 1 && GetDefaultOptionOrNull() is { } defaultOption)
+                {
+                    defaultOption.IsSelected = true;
+                }
+            }
 
             var value = this.GetOwnAttribute(AttributeNames.Value);
 
@@ -168,150 +221,47 @@ namespace AngleSharp.Html.Dom
 
         internal override void Reset()
         {
-            foreach (var option in Options)
-            {
-                SetSelectedness(option, option.IsDefaultSelected, resetDirtiness: true);
-            }
-            NormalizeSelectedness();
-        }
+            var options = Options;
+            var selected = 0;
+            var maxSelected = 0;
 
-        // https://html.spec.whatwg.org/multipage/form-elements.html#selectedness-setting-algorithm
-        internal void NormalizeSelectedness(IHtmlOptionElement? newlySelected = null)
-        {
-            if (IsMultiple)
+            for (var i = 0; i < options.Length; i++)
             {
-                return;
-            }
-            IHtmlOptionElement? firstEnabled = null;
-            IHtmlOptionElement? lastSelected = null;
-            foreach (var option in Options)
-            {
-                if (firstEnabled is null && !IsOptionDisabled(option))
-                {
-                    firstEnabled = option;
-                }
+                var option = options.GetOptionAt(i);
+                option.IsSelected = option.IsDefaultSelected;
+
                 if (option.IsSelected)
                 {
-                    if (newlySelected is not null && !Object.ReferenceEquals(option, newlySelected))
-                    {
-                        SetSelectedness(option, false);
-                        continue;
-                    }
-                    if (lastSelected is not null)
-                    {
-                        SetSelectedness(lastSelected, false);
-                    }
-                    lastSelected = option;
+                    maxSelected = i;
+                    selected++;
                 }
             }
-            if (lastSelected is null && Size <= 1 && firstEnabled is not null)
+
+            if (selected != 1 && !IsMultiple && options.Length > 0)
             {
-                SetSelectedness(firstEnabled, true);
+                foreach (var option in options)
+                {
+                    option.IsSelected = false;
+                }
+
+                options[maxSelected].IsSelected = true;
             }
         }
 
         internal void UpdateValue(String value)
         {
-            IHtmlOptionElement? matching = null;
-            foreach (var option in Options)
+            var options = Options;
+
+            foreach (var option in options)
             {
-                if (matching is null && option.Value.Is(value))
-                {
-                    matching = option;
-                }
-                SetSelectedness(option, false);
-            }
-            if (matching is not null)
-            {
-                matching.IsSelected = true;
+                var selected = option.Value.Isi(value);
+                option.IsSelected = selected;
             }
         }
-
-        internal static void SetSelectedness(IHtmlOptionElement option, Boolean value, Boolean resetDirtiness = false)
-        {
-            if (option is HtmlOptionElement element)
-            {
-                element.SetSelectedness(value, resetDirtiness);
-            }
-            else
-            {
-                option.IsSelected = value;
-            }
-        }
-
-        internal static HtmlSelectElement? GetSelect(IElement element)
-        {
-            for (var parent = element.ParentElement; parent is not null; parent = parent.ParentElement)
-            {
-                if (parent is HtmlSelectElement select)
-                {
-                    return select;
-                }
-            }
-            return null;
-        }
-
-        internal void NormalizeInsertedOptions(Node node)
-        {
-            if (!ContainsOptions(node))
-            {
-                return;
-            }
-            // Fragment insertion attaches every child before running their insertion steps.
-            // Choose the last selected option entering this select, including later children
-            // whose insertion steps have not run yet, before clearing other selectedness.
-            var selected = Options.OfType<HtmlOptionElement>().LastOrDefault(option =>
-                option.IsSelected && !Object.ReferenceEquals(option.CachedSelect, this));
-            NormalizeSelectedness(selected);
-            CacheOptionOwners(node, this);
-        }
-
-        private static void CacheOptionOwners(Node node, HtmlSelectElement? select)
-        {
-            if (node is HtmlOptionElement option)
-            {
-                option.CachedSelect = select;
-            }
-            else
-            {
-                foreach (var descendant in node.Descendants<HtmlOptionElement>())
-                {
-                    descendant.CachedSelect = select;
-                }
-            }
-        }
-
-        internal void NormalizeRemovedOptions(Node node)
-        {
-            if (!ContainsOptions(node))
-            {
-                return;
-            }
-            CacheOptionOwners(node, null);
-            NormalizeSelectedness();
-        }
-
-        private static Boolean ContainsOptions(Node node) =>
-            node is HtmlOptionElement || node.Descendants<HtmlOptionElement>().Any();
-
-        private static Boolean IsOptionDisabled(IHtmlOptionElement option) =>
-            option.IsDisabled || option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled;
 
         #endregion
 
         #region Helpers
-
-        protected override void NodeIsInserted(Node newNode)
-        {
-            base.NodeIsInserted(newNode);
-            NormalizeInsertedOptions(newNode);
-        }
-
-        protected override void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
-        {
-            base.NodeIsRemoved(removedNode, oldPreviousSibling);
-            NormalizeRemovedOptions(removedNode);
-        }
 
         protected override Boolean CanBeValidated()
         {

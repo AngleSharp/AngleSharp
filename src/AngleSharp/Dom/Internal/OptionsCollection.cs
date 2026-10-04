@@ -83,19 +83,10 @@ namespace AngleSharp.Dom
             set
             {
                 var index = 0;
-                IHtmlOptionElement? matching = null;
 
                 foreach (var option in _options)
                 {
-                    if (index++ == value)
-                    {
-                        matching = option;
-                    }
-                    HtmlSelectElement.SetSelectedness(option, false);
-                }
-                if (matching is not null)
-                {
-                    matching.IsSelected = true;
+                    option.IsSelected = index++ == value;
                 }
             }
         }

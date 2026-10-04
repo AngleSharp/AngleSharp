@@ -31,21 +31,5 @@ namespace AngleSharp.Html.Dom
         }
 
         #endregion
-
-        #region Helpers
-
-        protected override void NodeIsInserted(Node newNode)
-        {
-            base.NodeIsInserted(newNode);
-            HtmlSelectElement.GetSelect(this)?.NormalizeInsertedOptions(newNode);
-        }
-
-        protected override void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
-        {
-            base.NodeIsRemoved(removedNode, oldPreviousSibling);
-            HtmlSelectElement.GetSelect(this)?.NormalizeRemovedOptions(removedNode);
-        }
-
-        #endregion
     }
 }
