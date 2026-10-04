@@ -228,11 +228,13 @@ namespace AngleSharp.Html.Dom
         internal void UpdateValue(String value)
         {
             var options = Options;
+            var hasMatch = false;
 
             foreach (var option in options)
             {
-                var selected = option.Value.Isi(value);
+                var selected = !hasMatch && option.Value.Is(value);
                 option.IsSelected = selected;
+                hasMatch |= selected;
             }
         }
 
