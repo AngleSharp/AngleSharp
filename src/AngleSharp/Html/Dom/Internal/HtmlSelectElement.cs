@@ -69,7 +69,7 @@ namespace AngleSharp.Html.Dom
                     }
                 }
 
-                return null;
+                return String.Empty;
             }
             set => UpdateValue(value!);
         }
@@ -143,50 +143,19 @@ namespace AngleSharp.Html.Dom
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             var options = Options;
-            var isAdded = false;
-
-            for (var i = 0; i < options.Length; i++)
+            foreach (var option in options)
             {
-                var option = options.GetOptionAt(i);
-
-                if (option.IsSelected && !option.IsDisabled)
-                {
-                    dataSet.Append(Name!, option.Value, Type);
-                    isAdded = true;
-                }
-            }
-
-            if (!isAdded)
-            {
-                // Select default option if theres no selected options
-                var option = GetDefaultOptionOrNull();
-                if (option != null)
+                if (option.IsSelected && !IsOptionDisabled(option))
                 {
                     dataSet.Append(Name!, option.Value, Type);
                 }
             }
-        }
-
-        private IHtmlOptionElement? GetDefaultOptionOrNull()
-        {
-            var options = Options;
-
-            for (var i = 0; i < options.Length; i++)
-            {
-                var option = options.GetOptionAt(i);
-
-                if (!option.IsDisabled)
-                {
-                    return option;
-                }
-            }
-
-            return null;
         }
 
         internal override void SetupElement()
         {
             base.SetupElement();
+            NormalizeSelectedness();
 
             var value = this.GetOwnAttribute(AttributeNames.Value);
 
@@ -198,43 +167,79 @@ namespace AngleSharp.Html.Dom
 
         internal override void Reset()
         {
-            var options = Options;
-            var selected = 0;
-            var maxSelected = 0;
-
-            for (var i = 0; i < options.Length; i++)
+            foreach (var option in Options)
             {
-                var option = options.GetOptionAt(i);
-                option.IsSelected = option.IsDefaultSelected;
+                SetSelectedness(option, option.IsDefaultSelected, resetDirtiness: true);
+            }
+            NormalizeSelectedness();
+        }
 
+        // https://html.spec.whatwg.org/multipage/form-elements.html#selectedness-setting-algorithm
+        internal void NormalizeSelectedness(IHtmlOptionElement? newlySelected = null)
+        {
+            if (IsMultiple)
+            {
+                return;
+            }
+            IHtmlOptionElement? firstEnabled = null;
+            IHtmlOptionElement? lastSelected = null;
+            foreach (var option in Options)
+            {
+                if (firstEnabled is null && !IsOptionDisabled(option))
+                {
+                    firstEnabled = option;
+                }
                 if (option.IsSelected)
                 {
-                    maxSelected = i;
-                    selected++;
+                    if (newlySelected is not null && !Object.ReferenceEquals(option, newlySelected))
+                    {
+                        SetSelectedness(option, false);
+                        continue;
+                    }
+                    if (lastSelected is not null)
+                    {
+                        SetSelectedness(lastSelected, false);
+                    }
+                    lastSelected = option;
                 }
             }
-
-            if (selected != 1 && !IsMultiple && options.Length > 0)
+            if (lastSelected is null && Size <= 1 && firstEnabled is not null)
             {
-                foreach (var option in options)
-                {
-                    option.IsSelected = false;
-                }
-
-                options[maxSelected].IsSelected = true;
+                SetSelectedness(firstEnabled, true);
             }
         }
 
         internal void UpdateValue(String value)
         {
-            var options = Options;
-
-            foreach (var option in options)
+            IHtmlOptionElement? matching = null;
+            foreach (var option in Options)
             {
-                var selected = option.Value.Isi(value);
-                option.IsSelected = selected;
+                if (matching is null && option.Value.Is(value))
+                {
+                    matching = option;
+                }
+                SetSelectedness(option, false);
+            }
+            if (matching is not null)
+            {
+                matching.IsSelected = true;
             }
         }
+
+        internal static void SetSelectedness(IHtmlOptionElement option, Boolean value, Boolean resetDirtiness = false)
+        {
+            if (option is HtmlOptionElement element)
+            {
+                element.SetSelectedness(value, resetDirtiness);
+            }
+            else
+            {
+                option.IsSelected = value;
+            }
+        }
+
+        private static Boolean IsOptionDisabled(IHtmlOptionElement option) =>
+            option.IsDisabled || option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled;
 
         #endregion
 

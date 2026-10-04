@@ -13,6 +13,7 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private Boolean? _selected;
+        private Boolean _isDirty;
 
         #endregion
 
@@ -87,7 +88,46 @@ namespace AngleSharp.Html.Dom
         public Boolean IsSelected
         {
             get => _selected ?? IsDefaultSelected;
-            set => _selected = value;
+            set
+            {
+                _selected = value;
+                _isDirty = true;
+                GetSelect()?.NormalizeSelectedness(value ? this : null);
+            }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal void SetSelectedness(Boolean value, Boolean resetDirtiness = false)
+        {
+            _selected = value;
+            if (resetDirtiness)
+            {
+                _isDirty = false;
+            }
+        }
+
+        internal void UpdateDefaultSelectedness()
+        {
+            if (!_isDirty)
+            {
+                _selected = IsDefaultSelected;
+                GetSelect()?.NormalizeSelectedness(_selected.Value ? this : null);
+            }
+        }
+
+        private HtmlSelectElement? GetSelect()
+        {
+            for (var parent = ParentElement; parent is not null; parent = parent.ParentElement)
+            {
+                if (parent is HtmlSelectElement select)
+                {
+                    return select;
+                }
+            }
+            return null;
         }
 
         #endregion
