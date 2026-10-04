@@ -238,12 +238,79 @@ namespace AngleSharp.Html.Dom
             }
         }
 
+        internal static HtmlSelectElement? GetSelect(IElement element)
+        {
+            for (var parent = element.ParentElement; parent is not null; parent = parent.ParentElement)
+            {
+                if (parent is HtmlSelectElement select)
+                {
+                    return select;
+                }
+            }
+            return null;
+        }
+
+        internal void NormalizeInsertedOptions(Node node)
+        {
+            if (!ContainsOptions(node))
+            {
+                return;
+            }
+            // Fragment insertion attaches every child before running their insertion steps.
+            // Choose the last selected option entering this select, including later children
+            // whose insertion steps have not run yet, before clearing other selectedness.
+            var selected = Options.OfType<HtmlOptionElement>().LastOrDefault(option =>
+                option.IsSelected && !Object.ReferenceEquals(option.CachedSelect, this));
+            NormalizeSelectedness(selected);
+            CacheOptionOwners(node, this);
+        }
+
+        private static void CacheOptionOwners(Node node, HtmlSelectElement? select)
+        {
+            if (node is HtmlOptionElement option)
+            {
+                option.CachedSelect = select;
+            }
+            else
+            {
+                foreach (var descendant in node.Descendants<HtmlOptionElement>())
+                {
+                    descendant.CachedSelect = select;
+                }
+            }
+        }
+
+        internal void NormalizeRemovedOptions(Node node)
+        {
+            if (!ContainsOptions(node))
+            {
+                return;
+            }
+            CacheOptionOwners(node, null);
+            NormalizeSelectedness();
+        }
+
+        private static Boolean ContainsOptions(Node node) =>
+            node is HtmlOptionElement || node.Descendants<HtmlOptionElement>().Any();
+
         private static Boolean IsOptionDisabled(IHtmlOptionElement option) =>
             option.IsDisabled || option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled;
 
         #endregion
 
         #region Helpers
+
+        protected override void NodeIsInserted(Node newNode)
+        {
+            base.NodeIsInserted(newNode);
+            NormalizeInsertedOptions(newNode);
+        }
+
+        protected override void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
+        {
+            base.NodeIsRemoved(removedNode, oldPreviousSibling);
+            NormalizeRemovedOptions(removedNode);
+        }
 
         protected override Boolean CanBeValidated()
         {

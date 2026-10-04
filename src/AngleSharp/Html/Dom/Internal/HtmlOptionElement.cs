@@ -14,6 +14,9 @@ namespace AngleSharp.Html.Dom
 
         private Boolean? _selected;
         private Boolean _isDirty;
+        private Boolean _defaultSelected;
+        // Cached ownership distinguishes a batch of entering options from the old selection.
+        internal HtmlSelectElement? CachedSelect { get; set; }
 
         #endregion
 
@@ -92,13 +95,19 @@ namespace AngleSharp.Html.Dom
             {
                 _selected = value;
                 _isDirty = true;
-                GetSelect()?.NormalizeSelectedness(value ? this : null);
+                HtmlSelectElement.GetSelect(this)?.NormalizeSelectedness(value ? this : null);
             }
         }
 
         #endregion
 
         #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+            CachedSelect = HtmlSelectElement.GetSelect(this);
+        }
 
         internal void SetSelectedness(Boolean value, Boolean resetDirtiness = false)
         {
@@ -111,23 +120,17 @@ namespace AngleSharp.Html.Dom
 
         internal void UpdateDefaultSelectedness()
         {
+            var selected = IsDefaultSelected;
+            if (selected == _defaultSelected)
+            {
+                return;
+            }
+            _defaultSelected = selected;
             if (!_isDirty)
             {
-                _selected = IsDefaultSelected;
-                GetSelect()?.NormalizeSelectedness(_selected.Value ? this : null);
+                _selected = selected;
             }
-        }
-
-        private HtmlSelectElement? GetSelect()
-        {
-            for (var parent = ParentElement; parent is not null; parent = parent.ParentElement)
-            {
-                if (parent is HtmlSelectElement select)
-                {
-                    return select;
-                }
-            }
-            return null;
+            HtmlSelectElement.GetSelect(this)?.NormalizeSelectedness(!_isDirty && selected ? this : null);
         }
 
         #endregion
