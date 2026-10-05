@@ -142,25 +142,10 @@ namespace AngleSharp.Html.Dom
 
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
-            var options = Options;
-            var isAdded = false;
-
-            for (var i = 0; i < options.Length; i++)
+            foreach (var option in Options)
             {
-                var option = options.GetOptionAt(i);
-
-                if (option.IsSelected && !option.IsDisabled)
-                {
-                    dataSet.Append(Name!, option.Value, Type);
-                    isAdded = true;
-                }
-            }
-
-            if (!isAdded)
-            {
-                // Select default option if theres no selected options
-                var option = GetDefaultOptionOrNull();
-                if (option != null)
+                if (option.IsSelected && !option.IsDisabled &&
+                    !(option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled))
                 {
                     dataSet.Append(Name!, option.Value, Type);
                 }
