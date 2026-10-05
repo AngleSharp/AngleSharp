@@ -132,7 +132,7 @@ namespace AngleSharp.Core.Tests.Html
             element.RemoveAttribute("multiple");
             element.RemoveAttribute("checked");
             element.RemoveAttribute("selected");
-            Assert.AreEqual(true, element.WillValidate);
+            Assert.AreEqual(false, element.WillValidate);
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace AngleSharp.Core.Tests.Html
             element.RemoveAttribute("multiple");
             element.RemoveAttribute("checked");
             element.RemoveAttribute("selected");
-            Assert.AreEqual(true, element.WillValidate);
+            Assert.AreEqual(false, element.WillValidate);
         }
 
         [Test]

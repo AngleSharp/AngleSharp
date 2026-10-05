@@ -3,6 +3,7 @@
 Released on Monday, October 5 2026
 
 - Improved selection when parsing `<select>` (#1364) @PrzemyslawKlys
+- Fixed constraint validation eligibility of `fieldset` and `output` elements (#1373) @PrzemyslawKlys
 - Fixed change of `<select>` value (`IsSelected`) (#1365) @PrzemyslawKlys
 - Fixed `<select>` form submission including unselected options and options in disabled groups (#1366) @PrzemyslawKlys
 
