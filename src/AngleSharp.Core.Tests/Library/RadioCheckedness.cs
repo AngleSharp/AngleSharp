@@ -5,6 +5,7 @@ namespace AngleSharp.Core.Tests.Library
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     [TestFixture]
     public class RadioCheckednessTests
@@ -57,6 +58,117 @@ namespace AngleSharp.Core.Tests.Library
 
             Assert.IsTrue(connected.IsChecked);
             Assert.IsTrue(detached.IsChecked);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void ImplicitlyUncheckedPeerStillReflectsDefaultChanges(Boolean useProperty)
+        {
+            var document = "<input id=first type=radio name=group checked><input id=second type=radio name=group>".ToHtmlDocument();
+            var first = document.QuerySelector<IHtmlInputElement>("#first");
+            var second = document.QuerySelector<IHtmlInputElement>("#second");
+            second.IsChecked = true;
+            Assert.IsFalse(first.IsChecked);
+
+            if (useProperty)
+            {
+                first.IsDefaultChecked = false;
+                first.IsDefaultChecked = true;
+            }
+            else
+            {
+                first.RemoveAttribute("checked");
+                first.SetAttribute("checked", String.Empty);
+            }
+
+            Assert.IsTrue(first.IsChecked);
+            Assert.IsTrue(first.IsDefaultChecked);
+            Assert.IsFalse(second.IsChecked);
+        }
+
+        [Test]
+        public void CloningAndResettingPreserveImplicitCheckedness()
+        {
+            var document = "<form><input id=first type=radio name=group checked><input id=second type=radio name=group></form>".ToHtmlDocument();
+            var first = document.QuerySelector<IHtmlInputElement>("#first");
+            document.QuerySelector<IHtmlInputElement>("#second").IsChecked = true;
+            var clone = (IHtmlInputElement)first.Clone();
+
+            Assert.IsFalse(clone.IsChecked);
+            Assert.IsTrue(clone.IsDefaultChecked);
+            document.QuerySelector<IHtmlFormElement>("form").Reset();
+            Assert.IsTrue(first.IsChecked);
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#second").IsChecked);
+            Assert.IsFalse(clone.IsChecked);
+        }
+
+        [Test]
+        public void CheckingRadiosAfterRepeatedAdoptionUsesTheirCurrentDocument()
+        {
+            var source = "<form><input id=first type=radio name=group checked><input id=second type=radio name=group></form>".ToHtmlDocument();
+            var target = "<input id=outside type=radio name=group checked>".ToHtmlDocument();
+            var form = source.QuerySelector("form");
+            var first = source.QuerySelector<IHtmlInputElement>("#first");
+            var second = source.QuerySelector<IHtmlInputElement>("#second");
+            target.AdoptNode(form);
+            source.AdoptNode(form);
+            target.Body.AppendChild(form);
+
+            second.IsChecked = true;
+            Assert.IsFalse(first.IsChecked);
+            Assert.IsTrue(target.QuerySelector<IHtmlInputElement>("#outside").IsChecked);
+            first.IsChecked = true;
+            Assert.IsFalse(second.IsChecked);
+        }
+
+        [Test]
+        public void DetachedInputsCanBeCollectedWhileTheirDocumentIsAlive()
+        {
+            var document = "<p>Kept alive</p>".ToHtmlDocument();
+            var input = CreateDetachedInput(document);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
+            Assert.IsFalse(input.IsAlive);
+            GC.KeepAlive(document);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static WeakReference CreateDetachedInput(IDocument document) =>
+            new WeakReference(document.CreateElement("input"));
+
+        [Test]
+        public void InputTrackingDoesNotKeepItsDocumentAlive()
+        {
+            var document = CreateInputDocument();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
+            Assert.IsFalse(document.IsAlive);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static WeakReference CreateInputDocument() =>
+            new WeakReference("<input type=radio name=group checked>".ToHtmlDocument());
+
+        [Test]
+        public void CheckedAttributesInTemplatesKeepTheirGroupsSeparate()
+        {
+            var document = "<input id=outside type=radio name=group checked><template id=outer><input id=first type=radio name=group checked><input id=last type=radio name=group checked><template id=inner><input type=radio name=group checked></template></template>".ToHtmlDocument();
+            var outer = document.QuerySelector<IHtmlTemplateElement>("#outer");
+            var inner = outer.Content.QuerySelector<IHtmlTemplateElement>("#inner");
+            var first = outer.Content.QuerySelector<IHtmlInputElement>("#first");
+            var last = outer.Content.QuerySelector<IHtmlInputElement>("#last");
+
+            Assert.IsTrue(document.QuerySelector<IHtmlInputElement>("#outside").IsChecked);
+            Assert.IsFalse(first.IsChecked);
+            Assert.IsTrue(last.IsChecked);
+            Assert.IsTrue(inner.Content.QuerySelector<IHtmlInputElement>("input").IsChecked);
+            first.IsChecked = true;
+            Assert.IsFalse(last.IsChecked);
+            Assert.IsTrue(document.QuerySelector<IHtmlInputElement>("#outside").IsChecked);
         }
     }
 }

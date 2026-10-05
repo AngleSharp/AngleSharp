@@ -6,7 +6,9 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Io.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents an HTML input element.
@@ -15,8 +17,10 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
+        private static readonly ConditionalWeakTable<Document, InputCollection> _inputs = new();
         private BaseInputType? _type;
         private Boolean? _checked;
+        private Boolean _uncheckedByGroup;
 
         #endregion
 
@@ -25,6 +29,7 @@ namespace AngleSharp.Html.Dom
         public HtmlInputElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Input, prefix, NodeFlags.SelfClosing)
         {
+            _inputs.GetOrCreateValue(owner).Add(this);
         }
 
         #endregion
@@ -45,26 +50,11 @@ namespace AngleSharp.Html.Dom
 
         public Boolean IsChecked
         {
-            get => _checked ?? IsDefaultChecked;
+            get => _checked ?? (IsDefaultChecked && !_uncheckedByGroup);
             set
             {
                 _checked = value;
-                var name = Name;
-
-                if (value && _type?.Name == InputTypeNames.Radio && !String.IsNullOrEmpty(name))
-                {
-                    var form = Form;
-
-                    foreach (var node in this.GetRoot().GetDescendantsAndSelf())
-                    {
-                        if (node is HtmlInputElement other && !ReferenceEquals(this, other) && other.IsChecked &&
-                            other._type?.Name == InputTypeNames.Radio &&
-                            String.Equals(name, other.Name, StringComparison.Ordinal) && ReferenceEquals(form, other.Form))
-                        {
-                            other._checked = false;
-                        }
-                    }
-                }
+                UpdateRadioGroup();
             }
         }
 
@@ -299,6 +289,7 @@ namespace AngleSharp.Html.Dom
         {
             var node = (HtmlInputElement)base.Clone(owner, deep);
             node._checked = _checked;
+            node._uncheckedByGroup = _uncheckedByGroup;
             node.IsIndeterminate = IsIndeterminate;
             node.UpdateType(_type!.Name);
             return node;
@@ -365,6 +356,15 @@ namespace AngleSharp.Html.Dom
         internal void UpdateType(String value) =>
             _type = Context.GetFactory<IInputTypeFactory>().Create(this, value);
 
+        internal void UpdateCheckedness()
+        {
+            if (_checked is null)
+            {
+                _uncheckedByGroup = false;
+                UpdateRadioGroup();
+            }
+        }
+
         #endregion
 
         #region Helpers
@@ -381,7 +381,93 @@ namespace AngleSharp.Html.Dom
         {
             base.Reset();
             _checked = null;
+            _uncheckedByGroup = false;
             UpdateType(Type);
+        }
+
+        protected override void NodeIsAdopted(Document oldDocument)
+        {
+            _inputs.GetOrCreateValue(oldDocument).Remove(this);
+            _inputs.GetOrCreateValue(Owner).Add(this);
+        }
+
+        private void UpdateRadioGroup()
+        {
+            var name = Name;
+
+            if (IsChecked && _type?.Name == InputTypeNames.Radio && !String.IsNullOrEmpty(name))
+            {
+                var form = Form;
+                var root = RadioGroupRoot;
+                var inputs = _inputs.GetOrCreateValue(Owner).Items;
+
+                for (var i = 0; i < inputs.Count; i++)
+                {
+                    if (inputs[i].TryGetTarget(out var other) && !ReferenceEquals(this, other) &&
+                        other._type?.Name == InputTypeNames.Radio && other.IsChecked &&
+                        String.Equals(name, other.Name, StringComparison.Ordinal) &&
+                        ReferenceEquals(root, other.RadioGroupRoot) && ReferenceEquals(form, other.Form))
+                    {
+                        if (other._checked.HasValue)
+                        {
+                            other._checked = false;
+                        }
+                        else
+                        {
+                            other._uncheckedByGroup = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        // During parsing, template children have not yet moved into the content fragment.
+        private INode RadioGroupRoot =>
+            this.GetAncestor<HtmlTemplateElement>() is { } template ? template : this.GetRoot();
+
+        private sealed class InputCollection
+        {
+            private Int32 _cleanupThreshold = 64;
+
+            public InputCollection()
+            {
+                Items = new List<WeakReference<HtmlInputElement>>();
+            }
+
+            public List<WeakReference<HtmlInputElement>> Items { get; }
+
+            public void Add(HtmlInputElement input)
+            {
+                if (Items.Count >= _cleanupThreshold)
+                {
+                    var kept = 0;
+
+                    for (var i = 0; i < Items.Count; i++)
+                    {
+                        if (Items[i].TryGetTarget(out _))
+                        {
+                            Items[kept++] = Items[i];
+                        }
+                    }
+
+                    Items.RemoveRange(kept, Items.Count - kept);
+                    _cleanupThreshold = Math.Max(64, kept * 2);
+                }
+
+                Items.Add(new WeakReference<HtmlInputElement>(input));
+            }
+
+            public void Remove(HtmlInputElement input)
+            {
+                for (var i = 0; i < Items.Count; i++)
+                {
+                    if (Items[i].TryGetTarget(out var item) && ReferenceEquals(item, input))
+                    {
+                        Items.RemoveAt(i);
+                        return;
+                    }
+                }
+            }
         }
 
         protected override void Check(ValidityState state)
