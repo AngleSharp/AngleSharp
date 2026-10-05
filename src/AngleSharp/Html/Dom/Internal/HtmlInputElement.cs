@@ -351,6 +351,7 @@ namespace AngleSharp.Html.Dom
             base.SetupElement();
             var type = this.GetOwnAttribute(AttributeNames.Type);
             UpdateType(type!);
+            UpdateRadioGroup();
         }
 
         internal void UpdateType(String value) =>
