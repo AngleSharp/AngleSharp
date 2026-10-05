@@ -46,7 +46,26 @@ namespace AngleSharp.Html.Dom
         public Boolean IsChecked
         {
             get => _checked ?? IsDefaultChecked;
-            set => _checked = value;
+            set
+            {
+                _checked = value;
+                var name = Name;
+
+                if (value && _type?.Name == InputTypeNames.Radio && !String.IsNullOrEmpty(name))
+                {
+                    var form = Form;
+
+                    foreach (var node in this.GetRoot().GetDescendantsAndSelf())
+                    {
+                        if (node is HtmlInputElement other && !ReferenceEquals(this, other) && other.IsChecked &&
+                            other._type?.Name == InputTypeNames.Radio &&
+                            String.Equals(name, other.Name, StringComparison.Ordinal) && ReferenceEquals(form, other.Form))
+                        {
+                            other._checked = false;
+                        }
+                    }
+                }
+            }
         }
 
         public String Type
