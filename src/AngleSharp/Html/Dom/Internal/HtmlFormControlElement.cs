@@ -107,7 +107,7 @@ namespace AngleSharp.Html.Dom
 
         public Boolean CheckValidity()
         {
-            return WillValidate && Validity.IsValid;
+            return !WillValidate || Validity.IsValid;
         }
 
         public void SetCustomValidity(String? error)
