@@ -53,13 +53,15 @@ namespace AngleSharp.Html.Dom
             get
             {
 
-                if (Parent is HtmlOptionsGroupElement group)
+                var select = this.GetAncestor<HtmlSelectElement>();
+
+                if (select is not null)
                 {
                     var i = 0;
 
-                    foreach (var child in group.ChildNodes)
+                    foreach (var option in select.Options)
                     {
-                        if (Object.ReferenceEquals(child, this))
+                        if (Object.ReferenceEquals(option, this))
                         {
                             return i;
                         }
