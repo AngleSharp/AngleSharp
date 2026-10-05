@@ -280,6 +280,7 @@ namespace AngleSharp.Html.Dom
         {
             var node = (HtmlInputElement)base.Clone(owner, deep);
             node._checked = _checked;
+            node.IsIndeterminate = IsIndeterminate;
             node.UpdateType(_type!.Name);
             return node;
         }
