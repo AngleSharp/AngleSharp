@@ -170,5 +170,49 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsFalse(last.IsChecked);
             Assert.IsTrue(document.QuerySelector<IHtmlInputElement>("#outside").IsChecked);
         }
+
+        [Test]
+        public void ResettingMultipleDefaultCheckedRadiosKeepsOnlyTheLastChecked()
+        {
+            var document = "<form><input id=first type=radio name=group><input id=last type=radio name=group></form>".ToHtmlDocument();
+            var first = document.QuerySelector<IHtmlInputElement>("#first");
+            var last = document.QuerySelector<IHtmlInputElement>("#last");
+            first.IsDefaultChecked = true;
+            last.IsDefaultChecked = true;
+            Assert.IsFalse(first.IsChecked);
+
+            document.QuerySelector<IHtmlFormElement>("form").Reset();
+
+            Assert.IsFalse(first.IsChecked);
+            Assert.IsTrue(last.IsChecked);
+            Assert.IsTrue(first.IsDefaultChecked);
+            Assert.IsTrue(last.IsDefaultChecked);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void OrdinaryTemplateChildrenShareTheirActualTreeGroup(Boolean createTemplate)
+        {
+            var document = "<input id=outside type=radio name=group checked><template><input type=radio name=group checked></template>".ToHtmlDocument();
+            var template = createTemplate
+                ? (IHtmlTemplateElement)document.CreateElement("template")
+                : document.QuerySelector<IHtmlTemplateElement>("template");
+
+            if (createTemplate)
+            {
+                document.Body.AppendChild(template);
+            }
+
+            var input = (IHtmlInputElement)document.CreateElement("input");
+            input.Type = "radio";
+            input.Name = "group";
+            template.AppendChild(input);
+
+            input.IsChecked = true;
+
+            Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#outside").IsChecked);
+            Assert.IsTrue(input.IsChecked);
+            Assert.IsTrue(document.QuerySelector<IHtmlTemplateElement>("template").Content.QuerySelector<IHtmlInputElement>("input").IsChecked);
+        }
     }
 }

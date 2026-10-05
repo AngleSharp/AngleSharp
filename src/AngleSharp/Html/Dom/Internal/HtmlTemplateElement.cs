@@ -29,6 +29,9 @@ namespace AngleSharp.Html.Dom
 
         public IDocumentFragment Content => _content;
 
+        // The parser keeps children on the element until it closes the template.
+        internal Boolean IsParsingContent { get; private set; } = true;
+
         #endregion
 
         #region Methods
@@ -66,6 +69,12 @@ namespace AngleSharp.Html.Dom
         #endregion
 
         #region Helpers
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+            IsParsingContent = false;
+        }
 
         protected override void ReplacedAll() => PopulateFragment();
 

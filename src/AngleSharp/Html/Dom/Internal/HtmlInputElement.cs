@@ -383,6 +383,7 @@ namespace AngleSharp.Html.Dom
             _checked = null;
             _uncheckedByGroup = false;
             UpdateType(Type);
+            UpdateRadioGroup();
         }
 
         protected override void NodeIsAdopted(Document oldDocument)
@@ -423,7 +424,7 @@ namespace AngleSharp.Html.Dom
 
         // During parsing, template children have not yet moved into the content fragment.
         private INode RadioGroupRoot =>
-            this.GetAncestor<HtmlTemplateElement>() is { } template ? template : this.GetRoot();
+            this.GetAncestor<HtmlTemplateElement>() is { IsParsingContent: true } template ? template : this.GetRoot();
 
         private sealed class InputCollection
         {
