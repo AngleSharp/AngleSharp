@@ -3789,7 +3789,7 @@ namespace AngleSharp.Html.Parser
 
                 do
                 {
-                    if (node.LocalName.Is(TagNames.AnnotationXml))
+                    if (node.Flags.HasFlag(NodeFlags.MathMember) && node.LocalName.Is(TagNames.AnnotationXml))
                     {
                         var value = node.GetAttribute(default, AttributeNames.Encoding);
 
