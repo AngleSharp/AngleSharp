@@ -8,6 +8,7 @@ Released on Monday, October 5 2026
 - Fixed `<select>` form submission including unselected options and options in disabled groups (#1366) @PrzemyslawKlys
 - Fixed option indexes inside option groups (#1368) @PrzemyslawKlys
 - Fixed selecting an option leaving other single-select options selected (#1372) @PrzemyslawKlys
+- Fixed template content document when adopting a subtree (#1374) @PrzemyslawKlys
 
 # 1.8.3
 
