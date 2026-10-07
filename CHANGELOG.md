@@ -1,6 +1,6 @@
 # 1.8.4
 
-Released on Monday, October 5 2026
+Released on Wednesday, October 7 2026
 
 - Improved selection when parsing `<select>` (#1364) @PrzemyslawKlys
 - Updated constraint validation eligibility of `fieldset` and `output` elements (breaking behavior change) (#1373) @PrzemyslawKlys

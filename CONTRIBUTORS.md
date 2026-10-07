@@ -72,6 +72,7 @@ AngleSharp contains code written by (in order of first pull request / commit):
 * [Arpit Jain](https://github.com/arpitjain099)
 * [Sébastien Ros](https://github.com/sebastienros)
 * [Przemysław Kłys](https://github.com/PrzemyslawKlys)
+* [Iain](https://github.com/NotAFlightRisk)
 
 Without these awesome people AngleSharp could not exist. Thanks to everyone for your contributions! :beers:
 
