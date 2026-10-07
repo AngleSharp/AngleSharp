@@ -56,5 +56,14 @@ namespace AngleSharp.Core.Tests.Html
 
             Assert.AreEqual(NamespaceNames.MathMlUri, style.NamespaceUri);
         }
+
+        [TestCase("text/html")]
+        [TestCase("application/xhtml+xml")]
+        public void SvgAnnotationXmlWithHtmlEncodingIsNotAnIntegrationPoint(String encoding)
+        {
+            var document = ("<svg><annotation-xml encoding=\"" + encoding + "\"><b>x</b></annotation-xml></svg>").ToHtmlDocument();
+
+            Assert.AreEqual("<svg><annotation-xml encoding=\"" + encoding + "\"></annotation-xml></svg><b>x</b>", document.Body.InnerHtml);
+        }
     }
 }

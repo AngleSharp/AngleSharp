@@ -57,6 +57,7 @@ namespace AngleSharp.Dom
             RegisterObserver<HtmlIFrameElement>(AttributeNames.SrcDoc, (element, _) => element.UpdateSource());
             RegisterObserver<HtmlFrameElementBase>(AttributeNames.Src, (element, _) => element.UpdateSource());
             RegisterObserver<HtmlInputElement>(AttributeNames.Type, (element, value) => element.UpdateType(value));
+            RegisterObserver<HtmlInputElement>(AttributeNames.Checked, (element, _) => element.UpdateCheckedness());
         }
 
         /// <summary>

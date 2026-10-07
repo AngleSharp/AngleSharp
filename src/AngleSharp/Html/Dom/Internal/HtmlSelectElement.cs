@@ -142,25 +142,10 @@ namespace AngleSharp.Html.Dom
 
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
-            var options = Options;
-            var isAdded = false;
-
-            for (var i = 0; i < options.Length; i++)
+            foreach (var option in Options)
             {
-                var option = options.GetOptionAt(i);
-
-                if (option.IsSelected && !option.IsDisabled)
-                {
-                    dataSet.Append(Name!, option.Value, Type);
-                    isAdded = true;
-                }
-            }
-
-            if (!isAdded)
-            {
-                // Select default option if theres no selected options
-                var option = GetDefaultOptionOrNull();
-                if (option != null)
+                if (option.IsSelected && !option.IsDisabled &&
+                    !(option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled))
                 {
                     dataSet.Append(Name!, option.Value, Type);
                 }
@@ -175,7 +160,7 @@ namespace AngleSharp.Html.Dom
             {
                 var option = options.GetOptionAt(i);
 
-                if (!option.IsDisabled)
+                if (!option.IsDisabled && !(option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled))
                 {
                     return option;
                 }
@@ -187,6 +172,29 @@ namespace AngleSharp.Html.Dom
         internal override void SetupElement()
         {
             base.SetupElement();
+
+            if (!IsMultiple)
+            {
+                IHtmlOptionElement? selected = null;
+
+                foreach (var option in Options)
+                {
+                    if (option.IsSelected)
+                    {
+                        if (selected is not null)
+                        {
+                            selected.IsSelected = false;
+                        }
+
+                        selected = option;
+                    }
+                }
+
+                if (selected is null && Size <= 1 && GetDefaultOptionOrNull() is { } defaultOption)
+                {
+                    defaultOption.IsSelected = true;
+                }
+            }
 
             var value = this.GetOwnAttribute(AttributeNames.Value);
 
@@ -228,11 +236,13 @@ namespace AngleSharp.Html.Dom
         internal void UpdateValue(String value)
         {
             var options = Options;
+            var hasMatch = false;
 
             foreach (var option in options)
             {
-                var selected = option.Value.Isi(value);
+                var selected = !hasMatch && option.Value.Is(value);
                 option.IsSelected = selected;
+                hasMatch |= selected;
             }
         }
 

@@ -1,8 +1,10 @@
 namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Common;
+    using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using System;
+    using System.Collections.Generic;
 
     class CheckedInputType : BaseInputType
     {
@@ -22,9 +24,38 @@ namespace AngleSharp.Html.InputTypes
             var result = GetErrorsFrom(current);
             result &= ~ValidationErrors.ValueMissing;
 
-            if (Input.IsRequired && !Input.IsChecked)
+            var isRequired = Input.IsRequired;
+
+            if (!Input.IsChecked)
             {
-                result ^= ValidationErrors.ValueMissing;
+                var name = Input.Name;
+
+                if (Name == InputTypeNames.Radio && !String.IsNullOrEmpty(name))
+                {
+                    var form = Input.Form;
+                    var root = Input.GetRoot();
+                    IEnumerable<INode> controls = form is not null && root is IDocument ?
+                        form.Elements : root.GetDescendantsAndSelf();
+
+                    foreach (var node in controls)
+                    {
+                        if (node is IHtmlInputElement other && other.Type == InputTypeNames.Radio &&
+                            String.Equals(name, other.Name, StringComparison.Ordinal) && ReferenceEquals(form, other.Form))
+                        {
+                            if (other.IsChecked)
+                            {
+                                return result;
+                            }
+
+                            isRequired |= other.IsRequired;
+                        }
+                    }
+                }
+
+                if (isRequired)
+                {
+                    result |= ValidationErrors.ValueMissing;
+                }
             }
 
             return result;

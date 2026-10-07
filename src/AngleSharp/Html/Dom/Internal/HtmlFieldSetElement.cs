@@ -40,7 +40,7 @@ namespace AngleSharp.Html.Dom
 
         protected override Boolean CanBeValidated()
         {
-            return true;
+            return false;
         }
 
         #endregion

@@ -53,13 +53,15 @@ namespace AngleSharp.Html.Dom
             get
             {
 
-                if (Parent is HtmlOptionsGroupElement group)
+                var select = this.GetAncestor<HtmlSelectElement>();
+
+                if (select is not null)
                 {
                     var i = 0;
 
-                    foreach (var child in group.ChildNodes)
+                    foreach (var option in select.Options)
                     {
-                        if (Object.ReferenceEquals(child, this))
+                        if (Object.ReferenceEquals(option, this))
                         {
                             return i;
                         }
@@ -87,7 +89,27 @@ namespace AngleSharp.Html.Dom
         public Boolean IsSelected
         {
             get => _selected ?? IsDefaultSelected;
-            set => _selected = value;
+            set
+            {
+                _selected = value;
+                var select = Parent as HtmlSelectElement;
+
+                if (select is null && Parent is HtmlOptionsGroupElement group)
+                {
+                    select = group.Parent as HtmlSelectElement;
+                }
+
+                if (value && select is not null && !select.IsMultiple)
+                {
+                    foreach (var option in select.Options)
+                    {
+                        if (option is HtmlOptionElement other && !ReferenceEquals(this, other) && other.IsSelected)
+                        {
+                            other._selected = false;
+                        }
+                    }
+                }
+            }
         }
 
         #endregion
