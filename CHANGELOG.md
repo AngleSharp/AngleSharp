@@ -14,6 +14,7 @@ Released on Wednesday, October 7 2026
 - Fixed checking a radio leaving other group members checked (#1371) @PrzemyslawKlys
 - Fixed parsed radio checkedness depending on attribute order @PrzemyslawKlys
 - Fixed SVG `annotation-xml` elements being treated as HTML integration points @NotAFlightRisk
+- Fixed required radio validation across group members (#1369) @PrzemyslawKlys
 
 # 1.8.3
 
