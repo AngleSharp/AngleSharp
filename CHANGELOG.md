@@ -11,6 +11,7 @@ Released on Monday, October 5 2026
 - Fixed template content document when adopting a subtree (#1374) @PrzemyslawKlys
 - Fixed checking a radio leaving other group members checked (#1371) @PrzemyslawKlys
 - Fixed parsed radio checkedness depending on attribute order @PrzemyslawKlys
+- Fixed SVG `annotation-xml` elements being treated as HTML integration points @NotAFlightRisk
 
 # 1.8.3
 
