@@ -100,12 +100,31 @@ namespace AngleSharp.Dom
         /// <param name="ev">The event that asks for the listeners.</param>
         public void InvokeEventListener(Event ev)
         {
+            if (ev.Phase == EventPhase.AtTarget)
+            {
+                // Target capture and target bubble are separate invocations. Take
+                // a fresh snapshot for each so changes made during capture apply
+                // to the later bubble invocation, as they do along the path.
+                InvokeEventListeners(ev, true);
+                if ((ev.Flags & EventFlags.StopPropagation) != EventFlags.StopPropagation)
+                {
+                    InvokeEventListeners(ev, false);
+                }
+            }
+            else
+            {
+                InvokeEventListeners(ev, ev.Phase == EventPhase.Capturing ? true :
+                    ev.Phase == EventPhase.Bubbling ? false : null);
+            }
+        }
+
+        private void InvokeEventListeners(Event ev, Boolean? capture)
+        {
             if (_listeners != null)
             {
                 var type = ev.Type;
                 var listeners = _listeners.ToArray();
                 var target = ev.CurrentTarget;
-                var phase = ev.Phase;
 
                 foreach (var listener in listeners)
                 {
@@ -116,7 +135,7 @@ namespace AngleSharp.Dom
                             break;
                         }
 
-                        if ((!listener.IsCaptured || phase != EventPhase.Bubbling) && (listener.IsCaptured || phase != EventPhase.Capturing))
+                        if (!capture.HasValue || listener.IsCaptured == capture.Value)
                         {
                             listener.Callback(target!, ev);
                         }

@@ -5,6 +5,7 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Html.Dom.Events;
     using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class DOMEventsTests
@@ -25,6 +26,76 @@ namespace AngleSharp.Core.Tests.Library
 </div>
 </body>";
             document = source.ToHtmlDocument();
+        }
+
+        [Test]
+        public void TargetCapturePrecedesTargetBubbleRegardlessOfRegistrationOrder()
+        {
+            var element = document.QuerySelector("img");
+            var calls = new List<String>();
+            element.AddEventListener("probe", (_, ev) =>
+            {
+                calls.Add("bubble");
+                Assert.AreEqual(EventPhase.AtTarget, ev.Phase);
+                Assert.AreSame(element, ev.CurrentTarget);
+            });
+            element.AddEventListener("probe", (_, ev) =>
+            {
+                calls.Add("capture");
+                Assert.AreEqual(EventPhase.AtTarget, ev.Phase);
+                Assert.AreSame(element, ev.CurrentTarget);
+            }, true);
+
+            element.Dispatch(new Event("probe", true, false));
+
+            CollectionAssert.AreEqual(new[] { "capture", "bubble" }, calls);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void TargetCapturePropagationControlsRespectRemainingTargetListeners(Boolean immediate)
+        {
+            var element = document.QuerySelector("img");
+            var calls = new List<String>();
+            document.AddEventListener("probe", (_, _) => calls.Add("ancestor"));
+            element.AddEventListener("probe", (_, _) => calls.Add("bubble"));
+            element.AddEventListener("probe", (_, ev) =>
+            {
+                calls.Add("capture");
+                if (immediate)
+                {
+                    ev.StopImmediately();
+                }
+                else
+                {
+                    ev.Stop();
+                }
+            }, true);
+            element.AddEventListener("probe", (_, _) => calls.Add("second-capture"), true);
+
+            element.Dispatch(new Event("probe", true, false));
+
+            CollectionAssert.AreEqual(immediate ? new[] { "capture" } : new[] { "capture", "second-capture" }, calls);
+        }
+
+        [Test]
+        public void TargetCaptureChangesAreVisibleToTheLaterBubbleInvocation()
+        {
+            var element = document.QuerySelector("img");
+            var calls = new List<String>();
+            DomEventHandler removed = (_, _) => calls.Add("removed");
+            element.AddEventListener("probe", removed);
+            element.AddEventListener("probe", (_, _) =>
+            {
+                calls.Add("capture");
+                element.RemoveEventListener("probe", removed);
+                element.AddEventListener("probe", (_, _) => calls.Add("added-bubble"));
+                element.AddEventListener("probe", (_, _) => calls.Add("added-capture"), true);
+            }, true);
+
+            element.Dispatch(new Event("probe", true, false));
+
+            CollectionAssert.AreEqual(new[] { "capture", "added-bubble" }, calls);
         }
 
         [Test]

@@ -2,6 +2,7 @@
 
 Released on Wednesday, October 7 2026
 
+- Fixed capture-before-bubble ordering and listener updates between event target invocations
 - Improved selection when parsing `<select>` (#1364) @PrzemyslawKlys
 - Updated constraint validation eligibility of `fieldset` and `output` elements (breaking behavior change) (#1373) @PrzemyslawKlys
 - Fixed change of `<select>` value (`IsSelected`) (#1365) @PrzemyslawKlys
