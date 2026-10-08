@@ -878,8 +878,7 @@ namespace AngleSharp.Css.Parser
             {
                 if (valid && value is not null)
                 {
-                    var code = PseudoClassNames.Lang.CssFunction(value);
-                    return new PseudoClassSelector(el => el is IHtmlElement htmlEl && htmlEl.Language!.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
+                    return new LanguageSelector(value);
                 }
 
                 return null;
