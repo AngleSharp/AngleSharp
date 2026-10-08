@@ -416,6 +416,11 @@ namespace AngleSharp.Html.Parser
 
             if (contextElement is Element element)
             {
+                if (element.Owner is Document owner)
+                {
+                    document.QuirksMode = owner.QuirksMode;
+                }
+
                 element = document.CreateElementFrom(element.LocalName, element.Prefix);
                 var fragment = parser.ParseFragment(_options, element).DocumentElement;
                 element.AppendNodes(fragment.ChildNodes.ToArray());
