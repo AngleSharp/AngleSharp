@@ -8,6 +8,35 @@ namespace AngleSharp.Css
     /// </summary>
     public static class CssUtilities
     {
+        // Quirks-mode identity selectors fold only ASCII letters, unlike OrdinalIgnoreCase.
+        internal static Boolean EqualsAsciiIgnoreCase(String? left, String? right)
+        {
+            if (left is null || right is null)
+            {
+                return left == right;
+            }
+
+            if (left.Length != right.Length)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < left.Length; i++)
+            {
+                var a = left[i];
+                var b = right[i];
+                a = a.IsUppercaseAscii() ? (Char)(a + 0x20) : a;
+                b = b.IsUppercaseAscii() ? (Char)(b + 0x20) : b;
+
+                if (a != b)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Escapes the given string using CSS escaping rules.
         /// </summary>

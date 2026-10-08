@@ -19,6 +19,8 @@ namespace AngleSharp.Css.Dom
 
         public void Accept(ISelectorVisitor visitor) => visitor.Id(_id);
 
-        public Boolean Match(IElement element, IElement? scope) => element.Id.Is(_id);
+        public Boolean Match(IElement element, IElement? scope) => element.Owner?.CompatMode == "BackCompat"
+            ? CssUtilities.EqualsAsciiIgnoreCase(element.Id, _id)
+            : element.Id.Is(_id);
     }
 }

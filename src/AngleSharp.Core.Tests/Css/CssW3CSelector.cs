@@ -287,7 +287,7 @@ its title attribute contains bar</p>";
         [Test]
         public void MoreThanOneClassSelectorA()
         {
-	        var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This paragraph
+	        var source = @"<!doctype html><p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This paragraph
 should have a green background and a green thick solid border because
 it carries both classes t1 and t2.</p>
 

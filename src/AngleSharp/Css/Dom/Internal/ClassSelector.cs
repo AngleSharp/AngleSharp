@@ -20,9 +20,22 @@ namespace AngleSharp.Css.Dom
 
         public Boolean Match(IElement element, IElement? scope)
         {
-            // Workaround for #1252 (Android AoT issues)
             var list = element.ClassList;
 
+            if (element.Owner?.CompatMode == "BackCompat")
+            {
+                foreach (var token in list)
+                {
+                    if (CssUtilities.EqualsAsciiIgnoreCase(token, _cls))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            // Workaround for #1252 (Android AoT issues)
             if (list is TokenList concreteList)
             {
                 return concreteList.Contains(_cls);
