@@ -80,11 +80,11 @@ namespace AngleSharp.Html.Parser.Tokens
             get
             {
                 var pi = PublicIdentifier;
-                var si = SystemIdentifier;
                 return (pi.StartsWith("-//W3C//DTD XHTML 1.0 Frameset//", StringComparison.OrdinalIgnoreCase) ||
                         pi.StartsWith("-//W3C//DTD XHTML 1.0 Transitional//", StringComparison.OrdinalIgnoreCase) ||
-                        si.StartsWith("-//W3C//DTD HTML 4.01 Frameset//", StringComparison.OrdinalIgnoreCase) ||
-                        si.StartsWith("-//W3C//DTD HTML 4.01 Transitional//", StringComparison.OrdinalIgnoreCase));
+                        !String.IsNullOrEmpty(_systemIdentifier) &&
+                        (pi.StartsWith("-//W3C//DTD HTML 4.01 Frameset//", StringComparison.OrdinalIgnoreCase) ||
+                         pi.StartsWith("-//W3C//DTD HTML 4.01 Transitional//", StringComparison.OrdinalIgnoreCase)));
             }
         }
 
@@ -156,8 +156,8 @@ namespace AngleSharp.Html.Parser.Tokens
                        pi.Isi("-/W3C/DTD HTML 4.0 Transitional/EN") ||
                        pi.Isi("HTML") ||
                        SystemIdentifier.Equals("http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd", StringComparison.OrdinalIgnoreCase) ||
-                       IsSystemIdentifierMissing && pi.StartsWith("-//W3C//DTD HTML 4.01 Frameset//", StringComparison.OrdinalIgnoreCase) ||
-                       IsSystemIdentifierMissing && pi.StartsWith("-//W3C//DTD HTML 4.01 Transitional//", StringComparison.OrdinalIgnoreCase);
+                       String.IsNullOrEmpty(_systemIdentifier) && pi.StartsWith("-//W3C//DTD HTML 4.01 Frameset//", StringComparison.OrdinalIgnoreCase) ||
+                       String.IsNullOrEmpty(_systemIdentifier) && pi.StartsWith("-//W3C//DTD HTML 4.01 Transitional//", StringComparison.OrdinalIgnoreCase);
             }
         }
 
