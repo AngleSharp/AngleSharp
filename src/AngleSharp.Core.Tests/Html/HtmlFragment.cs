@@ -510,18 +510,21 @@
             Assert.IsFalse(buttonElement.HasAttribute("type"));
         }
         
-        [Test]
-        public void FragmentClassNameCaseNumbered()
+        [TestCase(false)]
+        [TestCase(true)]
+        public void FragmentClassNameCaseNumbered(Boolean quirks)
         {
-            var dom = ("<div class=\"class1 CLASS2 claSS3\" x=\"y\" />").ToHtmlFragment();
+            var context = quirks ? null : "<!doctype html>".ToHtmlDocument().CreateElement("div");
+            var dom = ("<div class=\"class1 CLASS2 claSS3\" x=\"y\" />").ToHtmlFragment(context);
             var el = dom.QuerySelector("div");
 
             Assert.IsNotNull(el);
+            Assert.AreEqual(quirks ? "BackCompat" : "CSS1Compat", el.Owner.CompatMode);
             Assert.AreEqual(3, el.ClassList.Length);
 
             CollectionAssert.AreEqual(new List<String>(new [] { "class1", "CLASS2", "claSS3" }), new List<String>(el.ClassList));
 
-            Assert.AreEqual(0, dom.QuerySelectorAll(".class2").Length);
+            Assert.AreEqual(quirks ? 1 : 0, dom.QuerySelectorAll(".class2").Length);
             Assert.AreEqual(1, dom.QuerySelectorAll(".CLASS2").Length);
         }
 
