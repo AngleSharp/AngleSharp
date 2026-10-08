@@ -19,7 +19,7 @@ namespace AngleSharp.Css.Dom
 
         public void Accept(ISelectorVisitor visitor) => visitor.Id(_id);
 
-        public Boolean Match(IElement element, IElement? scope) => element.Owner?.CompatMode == "BackCompat"
+        public Boolean Match(IElement element, IElement? scope) => CssUtilities.IsInQuirksMode(element)
             ? CssUtilities.EqualsAsciiIgnoreCase(element.Id, _id)
             : element.Id.Is(_id);
     }

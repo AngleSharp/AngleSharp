@@ -21,12 +21,19 @@ namespace AngleSharp.Css.Dom
         public Boolean Match(IElement element, IElement? scope)
         {
             var list = element.ClassList;
+            var quirks = CssUtilities.IsInQuirksMode(element);
 
-            if (element.Owner?.CompatMode == "BackCompat")
+            // Workaround for #1252 (Android AoT issues)
+            if (list is TokenList concreteList)
             {
-                foreach (var token in list)
+                if (!quirks)
                 {
-                    if (CssUtilities.EqualsAsciiIgnoreCase(token, _cls))
+                    return concreteList.Contains(_cls);
+                }
+
+                for (var i = 0; i < concreteList.Length; i++)
+                {
+                    if (CssUtilities.EqualsAsciiIgnoreCase(concreteList[i], _cls))
                     {
                         return true;
                     }
@@ -35,13 +42,20 @@ namespace AngleSharp.Css.Dom
                 return false;
             }
 
-            // Workaround for #1252 (Android AoT issues)
-            if (list is TokenList concreteList)
+            if (!quirks)
             {
-                return concreteList.Contains(_cls);
+                return list.Contains(_cls);
             }
 
-            return list.Contains(_cls);
+            for (var i = 0; i < list.Length; i++)
+            {
+                if (CssUtilities.EqualsAsciiIgnoreCase(list[i], _cls))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

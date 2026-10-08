@@ -39,5 +39,28 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreSame(target, section.QuerySelector("#target.card"));
             Assert.IsTrue(target.Matches("section > #target.card"));
         }
+
+        [TestCase("", true)]
+        [TestCase("<!doctype html>", false)]
+        [TestCase("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">", false)]
+        public void ClassSelectorsInspectEveryTokenAndReflectTokenListChanges(String doctype, Boolean quirks)
+        {
+            var document = new HtmlParser().ParseDocument(doctype + "<div class='OTHER CARD LAST'></div>");
+            var target = document.QuerySelector("div")!;
+
+            Assert.AreEqual(quirks, target.Matches(".card"));
+            Assert.AreEqual(quirks, target.Matches(".last"));
+            Assert.IsFalse(target.Matches(".car"));
+            Assert.IsFalse(target.Matches(".missing"));
+            target.ClassList.Remove("CARD");
+
+            Assert.IsFalse(target.Matches(".CARD"));
+            target.ClassList.Add("card");
+
+            Assert.IsTrue(target.Matches(".card"));
+            target.ClassList.Remove("OTHER", "card", "LAST");
+
+            Assert.IsFalse(target.Matches(".card"));
+        }
     }
 }

@@ -1,0 +1,47 @@
+{
+  "sourceUrl": "https://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-14.xml",
+  "authors": [
+    "Daniel Glazman",
+    "Ian Hickson"
+  ],
+  "revision": "1.2 (2003-06-22)",
+  "copyright": "Copyright 2003 World Wide Web Consortium (MIT, ERCIM, Keio) and others. All Rights Reserved.",
+  "licenseUrl": "https://www.w3.org/copyright/test-suite-license-2008/",
+  "htmlProjection": "<!doctype html>",
+  "projectionReason": "Preserve the case-sensitive XML fixture in standards mode when using the HTML parser; this projection adapts the test harness, not its markup or assertions.",
+  "source": "<p xmlns=\"http://www.w3.org/1999/xhtml\" class=\"t1 t2\">This paragraph\nshould have a green background and a green thick solid border because\nit carries both classes t1 and t2.</p>\n\n<div xmlns=\"http://www.w3.org/1999/xhtml\" class=\"test\">This line\nshould be green.</div>",
+  "selectors": [
+    [
+      "p",
+      1
+    ],
+    [
+      "p.t1",
+      1
+    ],
+    [
+      "p.t2",
+      1
+    ],
+    [
+      "div",
+      1
+    ],
+    [
+      "div.teST",
+      0
+    ],
+    [
+      "div.te",
+      0
+    ],
+    [
+      "div.st",
+      0
+    ],
+    [
+      "div.te.st",
+      0
+    ]
+  ]
+}

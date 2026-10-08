@@ -1,13 +1,20 @@
-using AngleSharp.Text;
-using System;
-
 namespace AngleSharp.Css
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Text;
+    using System;
+
     /// <summary>
     /// A set of useful CSS utilities.
     /// </summary>
     public static class CssUtilities
     {
+        internal static Boolean IsInQuirksMode(IElement element)
+        {
+            var owner = element.Owner;
+            return owner is Document document ? document.QuirksMode == QuirksMode.On : owner?.CompatMode == "BackCompat";
+        }
+
         // Quirks-mode identity selectors fold only ASCII letters, unlike OrdinalIgnoreCase.
         internal static Boolean EqualsAsciiIgnoreCase(String? left, String? right)
         {

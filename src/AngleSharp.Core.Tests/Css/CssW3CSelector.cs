@@ -287,30 +287,32 @@ its title attribute contains bar</p>";
         [Test]
         public void MoreThanOneClassSelectorA()
         {
-	        var source = @"<!doctype html><p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This paragraph
+            // Copyright 2003 World Wide Web Consortium (MIT, ERCIM, Keio) and others. All Rights Reserved.
+            // https://www.w3.org/copyright/test-suite-license-2008/
+            var source = @"<!doctype html><p xmlns=""http://www.w3.org/1999/xhtml"" class=""t1 t2"">This paragraph
 should have a green background and a green thick solid border because
 it carries both classes t1 and t2.</p>
 
 <div xmlns=""http://www.w3.org/1999/xhtml"" class=""test"">This line
 should be green.</div>";
-	        var doc = source.ToHtmlDocument();
-	        
-	        var selector1 = doc.QuerySelectorAll("p");
-	        Assert.AreEqual(1, selector1.Length);
-	        var selector2 = doc.QuerySelectorAll("p.t1");
-	        Assert.AreEqual(1, selector2.Length);
-	        var selector3 = doc.QuerySelectorAll("p.t2");
-	        Assert.AreEqual(1, selector3.Length);
-	        var selector4 = doc.QuerySelectorAll("div");
-	        Assert.AreEqual(1, selector4.Length);
-	        var selector5 = doc.QuerySelectorAll("div.teST");
-	        Assert.AreEqual(0, selector5.Length);
-	        var selector6 = doc.QuerySelectorAll("div.te");
-	        Assert.AreEqual(0, selector6.Length);
-	        var selector7 = doc.QuerySelectorAll("div.st");
-	        Assert.AreEqual(0, selector7.Length);
-	        var selector8 = doc.QuerySelectorAll("div.te.st");
-	        Assert.AreEqual(0, selector8.Length);
+            var doc = source.ToHtmlDocument();
+
+            var selector1 = doc.QuerySelectorAll("p");
+            Assert.AreEqual(1, selector1.Length);
+            var selector2 = doc.QuerySelectorAll("p.t1");
+            Assert.AreEqual(1, selector2.Length);
+            var selector3 = doc.QuerySelectorAll("p.t2");
+            Assert.AreEqual(1, selector3.Length);
+            var selector4 = doc.QuerySelectorAll("div");
+            Assert.AreEqual(1, selector4.Length);
+            var selector5 = doc.QuerySelectorAll("div.teST");
+            Assert.AreEqual(0, selector5.Length);
+            var selector6 = doc.QuerySelectorAll("div.te");
+            Assert.AreEqual(0, selector6.Length);
+            var selector7 = doc.QuerySelectorAll("div.st");
+            Assert.AreEqual(0, selector7.Length);
+            var selector8 = doc.QuerySelectorAll("div.te.st");
+            Assert.AreEqual(0, selector8.Length);
         }
 
         /// <summary>
