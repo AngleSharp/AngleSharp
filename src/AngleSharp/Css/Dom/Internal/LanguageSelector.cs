@@ -24,7 +24,8 @@ namespace AngleSharp.Css.Dom
             var language = GetLanguage(element);
             return language is not null && (
                 language.Equals(_language, StringComparison.OrdinalIgnoreCase) ||
-                language.StartsWith(_language + "-", StringComparison.OrdinalIgnoreCase));
+                language.Length > _language.Length && language[_language.Length] == '-'
+                    && language.StartsWith(_language, StringComparison.OrdinalIgnoreCase));
         }
 
         private static String? GetLanguage(IElement element)
@@ -35,7 +36,7 @@ namespace AngleSharp.Css.Dom
 
                 if (language is null && (current.NamespaceUri == NamespaceNames.HtmlUri || current.NamespaceUri == NamespaceNames.SvgUri))
                 {
-                    language = current.GetAttribute(AttributeNames.Lang);
+                    language = current.GetAttribute(null, AttributeNames.Lang);
                 }
 
                 if (language is not null)

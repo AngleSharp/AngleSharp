@@ -56,6 +56,31 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(target.Matches(":lang(de)"));
         }
 
+        [TestCase(false, "fr")]
+        [TestCase(false, "")]
+        [TestCase(true, "fr")]
+        [TestCase(true, "")]
+        public void UnrelatedLanguageNamespacesDoNotOverrideInheritedOrOrdinaryLanguage(Boolean svg, String unrelatedLanguage)
+        {
+            var document = new HtmlParser().ParseDocument("<!doctype html><html lang='de'><body></body></html>");
+            var target = document.CreateElement(svg ? NamespaceNames.SvgUri : NamespaceNames.HtmlUri, svg ? "g" : "p");
+            document.Body.AppendChild(target);
+            target.SetAttribute("urn:example", "lang", unrelatedLanguage);
+
+            Assert.IsTrue(target.Matches(":lang(de)"));
+            Assert.IsFalse(target.Matches(":lang(fr)"));
+
+            target.SetAttribute(null, "lang", "it");
+
+            Assert.IsTrue(target.Matches(":lang(it)"));
+            Assert.IsFalse(target.Matches(":lang(de)"));
+
+            target.SetAttribute(NamespaceNames.XmlUri, "xml:lang", "es");
+
+            Assert.IsTrue(target.Matches(":lang(es)"));
+            Assert.IsFalse(target.Matches(":lang(it)"));
+        }
+
         [TestCase("en-US", true)]
         [TestCase("EN", true)]
         [TestCase("english", false)]
