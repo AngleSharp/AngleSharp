@@ -1,5 +1,7 @@
 # 1.8.5
 
+Released on Friday, October 9 2026
+
 - Fixed fragment parsing losing the context document's quirks and limited-quirks modes
 
 # 1.8.4
