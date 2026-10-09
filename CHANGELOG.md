@@ -3,6 +3,7 @@
 Released on Friday, October 9 2026
 
 - Fixed fragment parsing losing the context document's quirks and limited-quirks modes
+- Fixed `:lang()` inheritance and namespace precedence in HTML and foreign content
 
 # 1.8.4
 
