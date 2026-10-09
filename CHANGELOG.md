@@ -3,12 +3,12 @@
 Released on Friday, October 9 2026
 
 - Fixed fragment parsing losing the context document's quirks and limited-quirks modes
+- Fixed `:lang()` inheritance and namespace precedence in HTML and foreign content
 
 # 1.8.4
 
 Released on Wednesday, October 7 2026
 
-- Fixed `:lang()` inheritance and namespace precedence in HTML and foreign content
 - Improved selection when parsing `<select>` (#1364) @PrzemyslawKlys
 - Updated constraint validation eligibility of `fieldset` and `output` elements (breaking behavior change) (#1373) @PrzemyslawKlys
 - Fixed change of `<select>` value (`IsSelected`) (#1365) @PrzemyslawKlys

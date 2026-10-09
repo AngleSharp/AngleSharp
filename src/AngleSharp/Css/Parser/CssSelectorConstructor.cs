@@ -878,10 +878,38 @@ namespace AngleSharp.Css.Parser
             {
                 if (valid && value is not null)
                 {
-                    return new LanguageSelector(value);
+                    var code = PseudoClassNames.Lang.CssFunction(value);
+                    return new PseudoClassSelector(el =>
+                    {
+                        var language = GetLanguage(el);
+                        return language is not null && (
+                            language.Equals(value, StringComparison.OrdinalIgnoreCase) ||
+                            language.Length > value.Length && language[value.Length] == '-'
+                                && language.StartsWith(value, StringComparison.OrdinalIgnoreCase));
+                    }, code);
                 }
 
                 return null;
+            }
+
+            private static String? GetLanguage(IElement element)
+            {
+                for (var current = element; current is not null; current = current.ParentElement)
+                {
+                    var language = current.GetAttribute(NamespaceNames.XmlUri, AttributeNames.Lang);
+
+                    if (language is null && (current.NamespaceUri == NamespaceNames.HtmlUri || current.NamespaceUri == NamespaceNames.SvgUri))
+                    {
+                        language = current.GetAttribute(null, AttributeNames.Lang);
+                    }
+
+                    if (language is not null)
+                    {
+                        return language;
+                    }
+                }
+
+                return element.Owner?.Context.GetLanguage();
             }
         }
 
