@@ -1619,7 +1619,10 @@ namespace AngleSharp.Dom
         {
             var context = element.Context;
             var source = new TextSource(html);
-            var document = new HtmlDocument(context, source);
+            var document = new HtmlDocument(context, source)
+            {
+                QuirksMode = element.Owner.QuirksMode,
+            };
             var options = new HtmlParserOptions
             {
                 IsEmbedded = false,
