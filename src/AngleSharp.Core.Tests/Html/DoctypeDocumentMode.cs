@@ -43,5 +43,16 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual(mode == QuirksMode.On, token.IsFullQuirks);
             Assert.AreEqual(mode == QuirksMode.Limited, token.IsLimitedQuirks);
         }
+
+        [TestCase("Transitional")]
+        [TestCase("Frameset")]
+        public void EmptySystemIdentifierPreservesParagraphAroundTable(String type)
+        {
+            var source = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 " + type + "//EN\" \"\">"
+                + "<p id=paragraph>Text<table id=table><tr><td>Cell</td></tr></table>";
+            var document = source.ToHtmlDocument();
+
+            Assert.AreSame(document.QuerySelector("#paragraph"), document.QuerySelector("#table").ParentElement);
+        }
     }
 }
