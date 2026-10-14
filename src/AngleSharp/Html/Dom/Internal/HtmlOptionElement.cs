@@ -111,17 +111,7 @@ namespace AngleSharp.Html.Dom
         internal void SetSelectedness(Boolean value)
         {
             _selected = value;
-
-            if (value && _select is { IsMultiple: false } select)
-            {
-                foreach (var option in select.Options)
-                {
-                    if (option is HtmlOptionElement other && !ReferenceEquals(this, other) && other._select == select)
-                    {
-                        other._selected = false;
-                    }
-                }
-            }
+            _select?.UpdateSelectedOption(this, value);
         }
 
         internal void UpdateSelectedness()
@@ -150,6 +140,8 @@ namespace AngleSharp.Html.Dom
 
             if (previous != _select)
             {
+                previous?.UpdateSelectedOption(this, false);
+
                 if (IsSelected)
                 {
                     SetSelectedness(true);

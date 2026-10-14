@@ -15,6 +15,7 @@ namespace AngleSharp.Html.Dom
 
         private OptionsCollection? _options;
         private HtmlCollection<IHtmlOptionElement>? _selected;
+        private HtmlOptionElement? _selectedOption;
 
         #endregion
 
@@ -158,39 +159,58 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         internal void NormalizeSelectedness()
         {
-            if (!IsMultiple)
+            if (IsMultiple)
             {
-                HtmlOptionElement? firstEnabled = null;
-                HtmlOptionElement? selected = null;
+                return;
+            }
 
+            if (_selectedOption is { IsSelected: true } current && OwnsSelection(current))
+            {
+                return;
+            }
+
+            _selectedOption = null;
+
+            if (Size <= 1)
+            {
                 foreach (var option in Options.OfType<HtmlOptionElement>())
                 {
-                    // Fragment insertion attaches every child before running its insertion
-                    // steps. Pending options must retain their selectedness until their turn.
-                    if (option.SelectionOwner != this)
+                    // Pending fragment children retain their state until their insertion steps.
+                    if (option.SelectionOwner == this && !option.IsDisabled &&
+                        !(option.ParentElement is IHtmlOptionsGroupElement owner && owner.IsDisabled))
                     {
-                        continue;
+                        option.SetSelectedness(true);
+                        return;
                     }
-
-                    if (option.IsSelected)
-                    {
-                        selected?.SetSelectedness(false);
-                        selected = option;
-                    }
-
-                    if (firstEnabled is null && !option.IsDisabled &&
-                        !(option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled))
-                    {
-                        firstEnabled = option;
-                    }
-                }
-
-                if (selected is null && Size <= 1)
-                {
-                    firstEnabled?.SetSelectedness(true);
                 }
             }
         }
+
+        /// <summary>
+        /// Tracks the single selected option so insertion need not rescan every existing option.
+        /// Clearing or moving that option also releases the reference held by its old select.
+        /// </summary>
+        internal void UpdateSelectedOption(HtmlOptionElement option, Boolean selected)
+        {
+            if (selected && !IsMultiple)
+            {
+                var previous = _selectedOption;
+                _selectedOption = option;
+
+                if (previous != option && previous is not null && OwnsSelection(previous))
+                {
+                    previous.SetSelectedness(false);
+                }
+            }
+            else if (_selectedOption == option)
+            {
+                _selectedOption = null;
+            }
+        }
+
+        private Boolean OwnsSelection(HtmlOptionElement option) =>
+            option.SelectionOwner == this &&
+            (option.Parent == this || option.Parent is HtmlOptionsGroupElement group && group.Parent == this);
 
         internal override void SetupElement()
         {
@@ -223,6 +243,8 @@ namespace AngleSharp.Html.Dom
 
         internal void UpdateMultiple()
         {
+            _selectedOption = null;
+
             if (!IsMultiple)
             {
                 var found = false;

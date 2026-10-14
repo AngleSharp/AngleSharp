@@ -99,7 +99,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void GroupMovesAndSelectedFragmentsUpdateTheirOwners()
         {
-            var document = ("<select id=source><option value=a>A</option><optgroup><option value=b selected>B</option></optgroup></select>" +
+            var document = ("<select id=source><option value=a>A</option><optgroup><option value=x>X</option><option value=b selected>B</option></optgroup></select>" +
                 "<select id=target><option value=c>C</option></select>").ToHtmlDocument();
             var source = document.QuerySelector<IHtmlSelectElement>("#source");
             var target = document.QuerySelector<IHtmlSelectElement>("#target");
@@ -108,6 +108,7 @@ namespace AngleSharp.Core.Tests.Library
             target.InsertBefore(group, target.FirstChild);
             Assert.AreEqual("a", source.Value);
             Assert.AreEqual("b", target.Value);
+            Assert.AreEqual(1, target.SelectedOptions.Length);
             target.RemoveChild(group);
             Assert.AreEqual("c", target.Value);
 
@@ -126,6 +127,29 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(1, target.SelectedIndex);
             Assert.IsFalse(first.IsSelected);
             Assert.IsFalse(target.Options[2].IsSelected);
+        }
+
+        [Test]
+        public void MovingASelectedOptionKeepsTheTwoSelectsIndependent()
+        {
+            var document = ("<select id=source><option value=a>A</option><option value=b selected>B</option></select>" +
+                "<select id=target><option value=c>C</option></select>").ToHtmlDocument();
+            var source = document.QuerySelector<IHtmlSelectElement>("#source");
+            var target = document.QuerySelector<IHtmlSelectElement>("#target");
+
+            target.AppendChild(source.Options[1]);
+            Assert.AreEqual("a", source.Value);
+            Assert.AreEqual("b", target.Value);
+
+            source.Options[0].IsSelected = true;
+            Assert.AreEqual("b", target.Value);
+            target.Options[0].IsSelected = true;
+            Assert.AreEqual("a", source.Value);
+            Assert.AreEqual("c", target.Value);
+
+            target.RemoveChild(target.Options[0]);
+            Assert.AreEqual("b", target.Value);
+            Assert.AreEqual(1, target.SelectedOptions.Length);
         }
 
         [Test]
