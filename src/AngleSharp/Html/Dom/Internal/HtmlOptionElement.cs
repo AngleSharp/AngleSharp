@@ -13,6 +13,8 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private Boolean? _selected;
+        private Boolean _dirty;
+        private HtmlSelectElement? _select;
 
         #endregion
 
@@ -91,25 +93,92 @@ namespace AngleSharp.Html.Dom
             get => _selected ?? IsDefaultSelected;
             set
             {
-                _selected = value;
-                var select = Parent as HtmlSelectElement;
+                _dirty = true;
+                SetSelectedness(value);
+                _select?.NormalizeSelectedness();
+            }
+        }
 
-                if (select is null && Parent is HtmlOptionsGroupElement group)
-                {
-                    select = group.Parent as HtmlSelectElement;
-                }
+        #endregion
 
-                if (value && select is not null && !select.IsMultiple)
+        #region Internal Methods
+
+        internal HtmlSelectElement? SelectionOwner => _select;
+
+        /// <summary>
+        /// Changes selectedness without making an implicit peer or reset operation dirty.
+        /// </summary>
+        internal void SetSelectedness(Boolean value)
+        {
+            _selected = value;
+
+            if (value && _select is { IsMultiple: false } select)
+            {
+                foreach (var option in select.Options)
                 {
-                    foreach (var option in select.Options)
+                    if (option is HtmlOptionElement other && !ReferenceEquals(this, other) && other._select == select)
                     {
-                        if (option is HtmlOptionElement other && !ReferenceEquals(this, other) && other.IsSelected)
-                        {
-                            other._selected = false;
-                        }
+                        other._selected = false;
                     }
                 }
             }
+        }
+
+        internal void UpdateSelectedness()
+        {
+            if (!_dirty)
+            {
+                SetSelectedness(IsDefaultSelected);
+            }
+
+            _select?.NormalizeSelectedness();
+        }
+
+        internal void ResetSelectedness()
+        {
+            _dirty = false;
+            SetSelectedness(IsDefaultSelected);
+        }
+
+        /// <summary>
+        /// Runs option insertion and removal steps for both the previous and current select.
+        /// </summary>
+        internal void UpdateSelect()
+        {
+            var previous = _select;
+            _select = Parent as HtmlSelectElement ?? (Parent as HtmlOptionsGroupElement)?.Parent as HtmlSelectElement;
+
+            if (previous != _select)
+            {
+                if (IsSelected)
+                {
+                    SetSelectedness(true);
+                }
+
+                previous?.NormalizeSelectedness();
+                _select?.NormalizeSelectedness();
+            }
+        }
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+            UpdateSelect();
+        }
+
+        protected override void OnParentChanged()
+        {
+            base.OnParentChanged();
+            UpdateSelect();
+        }
+
+        /// <inheritdoc />
+        public override Node Clone(Document owner, Boolean deep)
+        {
+            var node = (HtmlOptionElement)base.Clone(owner, deep);
+            node._selected = _selected;
+            node._dirty = _dirty;
+            return node;
         }
 
         #endregion

@@ -152,49 +152,56 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        private IHtmlOptionElement? GetDefaultOptionOrNull()
+        /// <summary>
+        /// Normalizes the current option list after a reset-triggering mutation, without
+        /// changing option dirtiness. Getters and submission must not run this algorithm.
+        /// </summary>
+        internal void NormalizeSelectedness()
         {
-            var options = Options;
-
-            for (var i = 0; i < options.Length; i++)
+            if (!IsMultiple)
             {
-                var option = options.GetOptionAt(i);
+                HtmlOptionElement? firstEnabled = null;
+                HtmlOptionElement? selected = null;
 
-                if (!option.IsDisabled && !(option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled))
+                foreach (var option in Options.OfType<HtmlOptionElement>())
                 {
-                    return option;
+                    // Fragment insertion attaches every child before running its insertion
+                    // steps. Pending options must retain their selectedness until their turn.
+                    if (option.SelectionOwner != this)
+                    {
+                        continue;
+                    }
+
+                    if (option.IsSelected)
+                    {
+                        selected?.SetSelectedness(false);
+                        selected = option;
+                    }
+
+                    if (firstEnabled is null && !option.IsDisabled &&
+                        !(option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled))
+                    {
+                        firstEnabled = option;
+                    }
+                }
+
+                if (selected is null && Size <= 1)
+                {
+                    firstEnabled?.SetSelectedness(true);
                 }
             }
-
-            return null;
         }
 
         internal override void SetupElement()
         {
             base.SetupElement();
 
-            if (!IsMultiple)
+            foreach (var option in Options.OfType<HtmlOptionElement>())
             {
-                IHtmlOptionElement? selected = null;
-
-                foreach (var option in Options)
-                {
-                    if (option.IsSelected)
-                    {
-                        if (selected is not null)
-                        {
-                            selected.IsSelected = false;
-                        }
-
-                        selected = option;
-                    }
-                }
-
-                if (selected is null && Size <= 1 && GetDefaultOptionOrNull() is { } defaultOption)
-                {
-                    defaultOption.IsSelected = true;
-                }
+                option.UpdateSelect();
             }
+
+            NormalizeSelectedness();
 
             var value = this.GetOwnAttribute(AttributeNames.Value);
 
@@ -206,44 +213,71 @@ namespace AngleSharp.Html.Dom
 
         internal override void Reset()
         {
-            var options = Options;
-            var selected = 0;
-            var maxSelected = 0;
-
-            for (var i = 0; i < options.Length; i++)
+            foreach (var option in Options.OfType<HtmlOptionElement>())
             {
-                var option = options.GetOptionAt(i);
-                option.IsSelected = option.IsDefaultSelected;
+                option.ResetSelectedness();
+            }
 
-                if (option.IsSelected)
+            NormalizeSelectedness();
+        }
+
+        internal void UpdateMultiple()
+        {
+            if (!IsMultiple)
+            {
+                var found = false;
+
+                foreach (var option in Options.OfType<HtmlOptionElement>())
                 {
-                    maxSelected = i;
-                    selected++;
+                    if (option.IsSelected)
+                    {
+                        option.SetSelectedness(!found);
+                        found = true;
+                    }
                 }
             }
 
-            if (selected != 1 && !IsMultiple && options.Length > 0)
-            {
-                foreach (var option in options)
-                {
-                    option.IsSelected = false;
-                }
-
-                options[maxSelected].IsSelected = true;
-            }
+            NormalizeSelectedness();
         }
 
         internal void UpdateValue(String value)
         {
             var options = Options;
-            var hasMatch = false;
+            IHtmlOptionElement? match = null;
 
             foreach (var option in options)
             {
-                var selected = !hasMatch && option.Value.Is(value);
-                option.IsSelected = selected;
-                hasMatch |= selected;
+                if (match is null && option.Value.Is(value))
+                {
+                    match = option;
+                }
+
+                ((HtmlOptionElement)option).SetSelectedness(false);
             }
+
+            if (match is not null)
+            {
+                match.IsSelected = true;
+            }
+        }
+
+        /// <inheritdoc />
+        public override Node Clone(Document owner, Boolean deep)
+        {
+            var node = (HtmlSelectElement)base.Clone(owner, deep);
+
+            // Element setup normalizes defaults. The option cloning steps instead
+            // preserve the source's current selectedness, including an explicit clear.
+            using (var originals = Options.GetEnumerator())
+            {
+                foreach (var option in node.Options.OfType<HtmlOptionElement>())
+                {
+                    originals.MoveNext();
+                    option.SetSelectedness(originals.Current.IsSelected);
+                }
+            }
+
+            return node;
         }
 
         #endregion
