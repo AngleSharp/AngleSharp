@@ -108,7 +108,7 @@ namespace AngleSharp.Dom
 
             if (child != null)
             {
-                _parent.ReplaceChild(value, child);
+                child.Parent!.ReplaceChild(value, child);
             }
             else
             {
@@ -118,12 +118,26 @@ namespace AngleSharp.Dom
 
         public void Add(IHtmlOptionElement element, IHtmlElement? before = null)
         {
-            _parent.InsertBefore(element, before);
+            GetInsertionParent(before).InsertBefore(element, before);
         }
 
         public void Add(IHtmlOptionsGroupElement element, IHtmlElement? before = null)
         {
-            _parent.InsertBefore(element, before);
+            GetInsertionParent(before).InsertBefore(element, before);
+        }
+
+        /// <summary>
+        /// An option reference can belong to an optgroup rather than the collection's select.
+        /// Both add overloads insert into that reference's actual parent.
+        /// </summary>
+        private IElement GetInsertionParent(IHtmlElement? before)
+        {
+            if (before is IHtmlOptionElement && before.Parent is HtmlOptionsGroupElement group && group.Parent == _parent)
+            {
+                return group;
+            }
+
+            return _parent;
         }
 
         public void Remove(Int32 index)
@@ -131,7 +145,7 @@ namespace AngleSharp.Dom
             if (index >= 0 && index < Length)
             {
                 var child = GetOptionAt(index);
-                _parent.RemoveChild(child);
+                child.Parent!.RemoveChild(child);
             }
         }
 
