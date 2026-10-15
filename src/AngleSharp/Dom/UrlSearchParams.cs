@@ -16,6 +16,8 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
+        private static readonly Char[] KeyValueSeparator = [Symbols.Equality];
+
         private readonly List<KeyValuePair<String, String>> _values;
         private readonly Url? _parent;
         #endregion
@@ -56,7 +58,7 @@ namespace AngleSharp.Dom
 
             foreach (var pair in query.Split('&'))
             {
-                var kvp = pair.Split('=');
+                var kvp = pair.Split(KeyValueSeparator, 2);
 
                 if (kvp.Length > 1)
                 {
