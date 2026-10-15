@@ -31,5 +31,23 @@ namespace AngleSharp.Html.Dom
         }
 
         #endregion
+
+        protected override void NodeIsInserted(Node newNode)
+        {
+            base.NodeIsInserted(newNode);
+            if (newNode is HtmlOptionElement)
+            {
+                (Parent as HtmlSelectElement)?.UpdateOptions(newNode, true);
+            }
+        }
+
+        protected override void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
+        {
+            base.NodeIsRemoved(removedNode, oldPreviousSibling);
+            if (removedNode is HtmlOptionElement)
+            {
+                (Parent as HtmlSelectElement)?.UpdateOptions(removedNode, false);
+            }
+        }
     }
 }

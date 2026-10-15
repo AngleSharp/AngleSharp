@@ -15,6 +15,7 @@ namespace AngleSharp.Html.Dom
 
         private OptionsCollection? _options;
         private HtmlCollection<IHtmlOptionElement>? _selected;
+        private HtmlOptionElement? _selectedOption;
 
         #endregion
 
@@ -152,49 +153,122 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        private IHtmlOptionElement? GetDefaultOptionOrNull()
+        /// <summary>
+        /// Normalizes the current option list after a reset-triggering mutation, without
+        /// changing option dirtiness. Getters and submission must not run this algorithm.
+        /// </summary>
+        internal void NormalizeSelectedness()
         {
-            var options = Options;
-
-            for (var i = 0; i < options.Length; i++)
+            if (IsMultiple)
             {
-                var option = options.GetOptionAt(i);
-
-                if (!option.IsDisabled && !(option.ParentElement is IHtmlOptionsGroupElement group && group.IsDisabled))
-                {
-                    return option;
-                }
+                return;
             }
 
-            return null;
+            if (_selectedOption is { IsSelected: true } current && current.SelectionOwner == this)
+            {
+                return;
+            }
+
+            _selectedOption = null;
+
+            if (Size <= 1)
+            {
+                foreach (var item in Options)
+                {
+                    var option = (HtmlOptionElement)item;
+
+                    if (!option.IsDisabled &&
+                        !(option.ParentElement is IHtmlOptionsGroupElement owner && owner.IsDisabled))
+                    {
+                        option.SetSelectedness(true);
+                        return;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tracks the single selected option so insertion need not rescan every existing option.
+        /// Clearing or moving that option also releases the reference held by its old select.
+        /// </summary>
+        internal void UpdateSelectedOption(HtmlOptionElement option, Boolean selected)
+        {
+            if (selected && !IsMultiple)
+            {
+                var previous = _selectedOption;
+                _selectedOption = option;
+
+                if (previous != option && previous is not null && previous.SelectionOwner == this)
+                {
+                    previous.SetSelectedness(false);
+                }
+            }
+            else if (_selectedOption == option)
+            {
+                _selectedOption = null;
+            }
+        }
+
+        /// <summary>
+        /// Registers inserted options before applying the single-select fallback.
+        /// Fragment insertion calls this in order after all children are attached.
+        /// </summary>
+        internal void UpdateOptions(Node node, Boolean inserted)
+        {
+            if (node is HtmlOptionElement option)
+            {
+                if (inserted && option.IsSelected)
+                {
+                    UpdateSelectedOption(option, true);
+                }
+            }
+            else if (node is HtmlOptionsGroupElement group)
+            {
+                var hasOptions = false;
+
+                foreach (var child in group.ChildNodes)
+                {
+                    if (child is HtmlOptionElement item)
+                    {
+                        hasOptions = true;
+
+                        if (inserted && item.IsSelected)
+                        {
+                            UpdateSelectedOption(item, true);
+                        }
+                    }
+                }
+
+                if (!hasOptions)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            NormalizeSelectedness();
+        }
+
+        protected override void NodeIsInserted(Node newNode)
+        {
+            base.NodeIsInserted(newNode);
+            UpdateOptions(newNode, true);
+        }
+
+        protected override void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
+        {
+            base.NodeIsRemoved(removedNode, oldPreviousSibling);
+            UpdateOptions(removedNode, false);
         }
 
         internal override void SetupElement()
         {
             base.SetupElement();
 
-            if (!IsMultiple)
-            {
-                IHtmlOptionElement? selected = null;
-
-                foreach (var option in Options)
-                {
-                    if (option.IsSelected)
-                    {
-                        if (selected is not null)
-                        {
-                            selected.IsSelected = false;
-                        }
-
-                        selected = option;
-                    }
-                }
-
-                if (selected is null && Size <= 1 && GetDefaultOptionOrNull() is { } defaultOption)
-                {
-                    defaultOption.IsSelected = true;
-                }
-            }
+            NormalizeSelectedness();
 
             var value = this.GetOwnAttribute(AttributeNames.Value);
 
@@ -206,44 +280,76 @@ namespace AngleSharp.Html.Dom
 
         internal override void Reset()
         {
-            var options = Options;
-            var selected = 0;
-            var maxSelected = 0;
-
-            for (var i = 0; i < options.Length; i++)
+            foreach (var option in Options.OfType<HtmlOptionElement>())
             {
-                var option = options.GetOptionAt(i);
-                option.IsSelected = option.IsDefaultSelected;
+                option.ResetSelectedness();
+            }
 
-                if (option.IsSelected)
+            NormalizeSelectedness();
+        }
+
+        internal void UpdateMultiple()
+        {
+            _selectedOption = null;
+
+            if (!IsMultiple)
+            {
+                var found = false;
+
+                foreach (var option in Options.OfType<HtmlOptionElement>())
                 {
-                    maxSelected = i;
-                    selected++;
+                    if (option.IsSelected)
+                    {
+                        option.SetSelectedness(!found);
+                        found = true;
+                    }
                 }
             }
 
-            if (selected != 1 && !IsMultiple && options.Length > 0)
-            {
-                foreach (var option in options)
-                {
-                    option.IsSelected = false;
-                }
-
-                options[maxSelected].IsSelected = true;
-            }
+            NormalizeSelectedness();
         }
 
         internal void UpdateValue(String value)
         {
             var options = Options;
-            var hasMatch = false;
+            IHtmlOptionElement? match = null;
 
             foreach (var option in options)
             {
-                var selected = !hasMatch && option.Value.Is(value);
-                option.IsSelected = selected;
-                hasMatch |= selected;
+                if (match is null && option.Value.Is(value))
+                {
+                    match = option;
+                }
+
+                ((HtmlOptionElement)option).SetSelectedness(false);
             }
+
+            if (match is not null)
+            {
+                match.IsSelected = true;
+            }
+        }
+
+        /// <inheritdoc />
+        public override Node Clone(Document owner, Boolean deep)
+        {
+            // Initialize attributes before copying options, so setup cannot normalize
+            // the cloned selectedness (including an explicitly cleared selection).
+            var node = (HtmlSelectElement)base.Clone(owner, false);
+            CloneNode(node, owner, deep);
+
+            if (!node.IsMultiple)
+            {
+                foreach (var option in node.Options)
+                {
+                    if (option is HtmlOptionElement selected && selected.IsSelected)
+                    {
+                        node._selectedOption = selected;
+                    }
+                }
+            }
+
+            return node;
         }
 
         #endregion
