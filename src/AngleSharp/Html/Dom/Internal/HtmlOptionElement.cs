@@ -13,6 +13,7 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private Boolean? _selected;
+        private Boolean _dirty;
 
         #endregion
 
@@ -91,25 +92,57 @@ namespace AngleSharp.Html.Dom
             get => _selected ?? IsDefaultSelected;
             set
             {
-                _selected = value;
-                var select = Parent as HtmlSelectElement;
-
-                if (select is null && Parent is HtmlOptionsGroupElement group)
-                {
-                    select = group.Parent as HtmlSelectElement;
-                }
-
-                if (value && select is not null && !select.IsMultiple)
-                {
-                    foreach (var option in select.Options)
-                    {
-                        if (option is HtmlOptionElement other && !ReferenceEquals(this, other) && other.IsSelected)
-                        {
-                            other._selected = false;
-                        }
-                    }
-                }
+                _dirty = true;
+                SetSelectedness(value);
+                SelectionOwner?.NormalizeSelectedness();
             }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal HtmlSelectElement? SelectionOwner =>
+            Parent as HtmlSelectElement ?? (Parent as HtmlOptionsGroupElement)?.Parent as HtmlSelectElement;
+
+        /// <summary>
+        /// Changes selectedness without making an implicit peer or reset operation dirty.
+        /// </summary>
+        internal void SetSelectedness(Boolean value)
+        {
+            _selected = value;
+            SelectionOwner?.UpdateSelectedOption(this, value);
+        }
+
+        internal void UpdateSelectedness()
+        {
+            if (!_dirty)
+            {
+                SetSelectedness(IsDefaultSelected);
+            }
+
+            SelectionOwner?.NormalizeSelectedness();
+        }
+
+        internal void ResetSelectedness()
+        {
+            _dirty = false;
+            SetSelectedness(IsDefaultSelected);
+        }
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+            SelectionOwner?.UpdateOptions(this, true);
+        }
+
+        /// <inheritdoc />
+        public override Node Clone(Document owner, Boolean deep)
+        {
+            var node = (HtmlOptionElement)base.Clone(owner, deep);
+            node._selected = _selected;
+            node._dirty = _dirty;
+            return node;
         }
 
         #endregion
