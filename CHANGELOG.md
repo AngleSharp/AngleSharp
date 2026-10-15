@@ -1,11 +1,11 @@
 # 1.8.5
 
-Released on Friday, October 9 2026
+Released on Thursday, October 15 2026
 
-- Fixed select selectedness and option dirtiness across mutations, reset and cloning
-- Fixed fragment parsing losing the context document's quirks and limited-quirks modes
-- Fixed `:lang()` inheritance and namespace precedence in HTML and foreign content
-- Fixed `URLSearchParams` cutting values at a second `=` (e.g. `token=abc==`) @NotAFlightRisk
+- Fixed select selectedness and option dirtiness across mutations, reset and cloning (#1384) @PrzemyslawKlys
+- Fixed fragment parsing losing the context document's quirks and limited-quirks modes (#1382) @PrzemyslawKlys
+- Fixed `:lang()` inheritance and namespace precedence in HTML and foreign content (#1379) @PrzemyslawKlys
+- Fixed `URLSearchParams` cutting values at a second `=` such as `token=abc==` (#1385) @NotAFlightRisk
 
 # 1.8.4
 
