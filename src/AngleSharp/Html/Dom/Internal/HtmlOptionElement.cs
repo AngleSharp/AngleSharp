@@ -14,7 +14,6 @@ namespace AngleSharp.Html.Dom
 
         private Boolean? _selected;
         private Boolean _dirty;
-        private HtmlSelectElement? _select;
 
         #endregion
 
@@ -95,7 +94,7 @@ namespace AngleSharp.Html.Dom
             {
                 _dirty = true;
                 SetSelectedness(value);
-                _select?.NormalizeSelectedness();
+                SelectionOwner?.NormalizeSelectedness();
             }
         }
 
@@ -103,7 +102,8 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
-        internal HtmlSelectElement? SelectionOwner => _select;
+        internal HtmlSelectElement? SelectionOwner =>
+            Parent as HtmlSelectElement ?? (Parent as HtmlOptionsGroupElement)?.Parent as HtmlSelectElement;
 
         /// <summary>
         /// Changes selectedness without making an implicit peer or reset operation dirty.
@@ -111,7 +111,7 @@ namespace AngleSharp.Html.Dom
         internal void SetSelectedness(Boolean value)
         {
             _selected = value;
-            _select?.UpdateSelectedOption(this, value);
+            SelectionOwner?.UpdateSelectedOption(this, value);
         }
 
         internal void UpdateSelectedness()
@@ -121,7 +121,7 @@ namespace AngleSharp.Html.Dom
                 SetSelectedness(IsDefaultSelected);
             }
 
-            _select?.NormalizeSelectedness();
+            SelectionOwner?.NormalizeSelectedness();
         }
 
         internal void ResetSelectedness()
@@ -130,38 +130,10 @@ namespace AngleSharp.Html.Dom
             SetSelectedness(IsDefaultSelected);
         }
 
-        /// <summary>
-        /// Runs option insertion and removal steps for both the previous and current select.
-        /// </summary>
-        internal void UpdateSelect()
-        {
-            var previous = _select;
-            _select = Parent as HtmlSelectElement ?? (Parent as HtmlOptionsGroupElement)?.Parent as HtmlSelectElement;
-
-            if (previous != _select)
-            {
-                previous?.UpdateSelectedOption(this, false);
-
-                if (IsSelected)
-                {
-                    SetSelectedness(true);
-                }
-
-                previous?.NormalizeSelectedness();
-                _select?.NormalizeSelectedness();
-            }
-        }
-
         internal override void SetupElement()
         {
             base.SetupElement();
-            UpdateSelect();
-        }
-
-        protected override void OnParentChanged()
-        {
-            base.OnParentChanged();
-            UpdateSelect();
+            SelectionOwner?.UpdateOptions(this, true);
         }
 
         /// <inheritdoc />

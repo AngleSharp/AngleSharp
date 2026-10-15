@@ -2,7 +2,6 @@ namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
-    using System.Linq;
 
     /// <summary>
     /// Represents the HTML optgroup element.
@@ -33,13 +32,21 @@ namespace AngleSharp.Html.Dom
 
         #endregion
 
-        protected override void OnParentChanged()
+        protected override void NodeIsInserted(Node newNode)
         {
-            base.OnParentChanged();
-
-            foreach (var option in ChildNodes.OfType<HtmlOptionElement>())
+            base.NodeIsInserted(newNode);
+            if (newNode is HtmlOptionElement)
             {
-                option.UpdateSelect();
+                (Parent as HtmlSelectElement)?.UpdateOptions(newNode, true);
+            }
+        }
+
+        protected override void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
+        {
+            base.NodeIsRemoved(removedNode, oldPreviousSibling);
+            if (removedNode is HtmlOptionElement)
+            {
+                (Parent as HtmlSelectElement)?.UpdateOptions(removedNode, false);
             }
         }
     }

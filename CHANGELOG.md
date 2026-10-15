@@ -2,6 +2,7 @@
 
 Released on Friday, October 9 2026
 
+- Fixed select selectedness and option dirtiness across mutations, reset and cloning
 - Fixed fragment parsing losing the context document's quirks and limited-quirks modes
 - Fixed `:lang()` inheritance and namespace precedence in HTML and foreign content
 

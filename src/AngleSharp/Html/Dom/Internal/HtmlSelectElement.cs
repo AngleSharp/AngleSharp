@@ -164,7 +164,7 @@ namespace AngleSharp.Html.Dom
                 return;
             }
 
-            if (_selectedOption is { IsSelected: true } current && OwnsSelection(current))
+            if (_selectedOption is { IsSelected: true } current && current.SelectionOwner == this)
             {
                 return;
             }
@@ -173,10 +173,11 @@ namespace AngleSharp.Html.Dom
 
             if (Size <= 1)
             {
-                foreach (var option in Options.OfType<HtmlOptionElement>())
+                foreach (var item in Options)
                 {
-                    // Pending fragment children retain their state until their insertion steps.
-                    if (option.SelectionOwner == this && !option.IsDisabled &&
+                    var option = (HtmlOptionElement)item;
+
+                    if (!option.IsDisabled &&
                         !(option.ParentElement is IHtmlOptionsGroupElement owner && owner.IsDisabled))
                     {
                         option.SetSelectedness(true);
@@ -197,7 +198,7 @@ namespace AngleSharp.Html.Dom
                 var previous = _selectedOption;
                 _selectedOption = option;
 
-                if (previous != option && previous is not null && OwnsSelection(previous))
+                if (previous != option && previous is not null && previous.SelectionOwner == this)
                 {
                     previous.SetSelectedness(false);
                 }
@@ -208,18 +209,64 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        private Boolean OwnsSelection(HtmlOptionElement option) =>
-            option.SelectionOwner == this &&
-            (option.Parent == this || option.Parent is HtmlOptionsGroupElement group && group.Parent == this);
+        /// <summary>
+        /// Registers inserted options before applying the single-select fallback.
+        /// Fragment insertion calls this in order after all children are attached.
+        /// </summary>
+        internal void UpdateOptions(Node node, Boolean inserted)
+        {
+            if (node is HtmlOptionElement option)
+            {
+                if (inserted && option.IsSelected)
+                {
+                    UpdateSelectedOption(option, true);
+                }
+            }
+            else if (node is HtmlOptionsGroupElement group)
+            {
+                var hasOptions = false;
+
+                foreach (var child in group.ChildNodes)
+                {
+                    if (child is HtmlOptionElement item)
+                    {
+                        hasOptions = true;
+
+                        if (inserted && item.IsSelected)
+                        {
+                            UpdateSelectedOption(item, true);
+                        }
+                    }
+                }
+
+                if (!hasOptions)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            NormalizeSelectedness();
+        }
+
+        protected override void NodeIsInserted(Node newNode)
+        {
+            base.NodeIsInserted(newNode);
+            UpdateOptions(newNode, true);
+        }
+
+        protected override void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
+        {
+            base.NodeIsRemoved(removedNode, oldPreviousSibling);
+            UpdateOptions(removedNode, false);
+        }
 
         internal override void SetupElement()
         {
             base.SetupElement();
-
-            foreach (var option in Options.OfType<HtmlOptionElement>())
-            {
-                option.UpdateSelect();
-            }
 
             NormalizeSelectedness();
 
@@ -286,16 +333,19 @@ namespace AngleSharp.Html.Dom
         /// <inheritdoc />
         public override Node Clone(Document owner, Boolean deep)
         {
-            var node = (HtmlSelectElement)base.Clone(owner, deep);
+            // Initialize attributes before copying options, so setup cannot normalize
+            // the cloned selectedness (including an explicitly cleared selection).
+            var node = (HtmlSelectElement)base.Clone(owner, false);
+            CloneNode(node, owner, deep);
 
-            // Element setup normalizes defaults. The option cloning steps instead
-            // preserve the source's current selectedness, including an explicit clear.
-            using (var originals = Options.GetEnumerator())
+            if (!node.IsMultiple)
             {
-                foreach (var option in node.Options.OfType<HtmlOptionElement>())
+                foreach (var option in node.Options)
                 {
-                    originals.MoveNext();
-                    option.SetSelectedness(originals.Current.IsSelected);
+                    if (option is HtmlOptionElement selected && selected.IsSelected)
+                    {
+                        node._selectedOption = selected;
+                    }
                 }
             }
 

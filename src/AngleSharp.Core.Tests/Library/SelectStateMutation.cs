@@ -1,9 +1,11 @@
 namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using NUnit.Framework;
     using System;
+    using System.Runtime.CompilerServices;
 
     [TestFixture]
     public class SelectStateMutationTests
@@ -180,6 +182,85 @@ namespace AngleSharp.Core.Tests.Library
             clone.Options[0].IsDefaultSelected = true;
             Assert.AreEqual("c", clone.Value);
             Assert.AreEqual(-1, dropdown.SelectedIndex);
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void ScriptsObserveSelectionBeforeTheSelectCloses(Boolean grouped)
+        {
+            var index = -2;
+            String value = null;
+            var scripting = new CallbackScriptEngine(options =>
+            {
+                var select = options.Document.QuerySelector<IHtmlSelectElement>("select");
+                index = select.SelectedIndex;
+                value = select.Value;
+            });
+            var option = "<option value=a>A</option>";
+            var markup = "<select>" + (grouped ? "<optgroup>" + option + "</optgroup>" : option) +
+                "<script type='c-sharp'>// observe</script></select>";
+            markup.ToHtmlDocument(Configuration.Default.WithScripts(scripting));
+            Assert.AreEqual(0, index);
+            Assert.AreEqual("a", value);
+        }
+
+        [Test]
+        public void ClonedMultipleSelectDoesNotRetainRemovedGroups()
+        {
+            var removed = RemoveClonedGroup(out var clone);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            Assert.IsFalse(removed.IsAlive);
+            GC.KeepAlive(clone);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static WeakReference RemoveClonedGroup(out IHtmlSelectElement clone)
+        {
+            var document = "<select multiple><optgroup><option selected>A</option></optgroup></select>".ToHtmlDocument();
+            clone = (IHtmlSelectElement)document.QuerySelector<IHtmlSelectElement>("select").Clone();
+            var group = clone.QuerySelector<IHtmlOptionsGroupElement>("optgroup");
+            clone.RemoveChild(group);
+            return new WeakReference(group);
+        }
+
+        [Test]
+        public void ClonedGroupsChangeSelectionWithoutChangingTheSource()
+        {
+            var document = "<select><optgroup><option value=a>A</option><option value=b>B</option></optgroup><option value=c>C</option></select>".ToHtmlDocument();
+            var source = document.QuerySelector<IHtmlSelectElement>("select");
+            var clone = (IHtmlSelectElement)source.Clone();
+            var group = clone.QuerySelector<IHtmlOptionsGroupElement>("optgroup");
+
+            clone.Options[1].IsSelected = true;
+            Assert.IsFalse(clone.Options[0].IsSelected);
+            Assert.AreEqual("b", clone.Value);
+            clone.RemoveChild(group);
+            Assert.AreEqual("c", clone.Value);
+            clone.InsertBefore(group, clone.FirstChild);
+            Assert.AreEqual("b", clone.Value);
+            Assert.AreEqual(1, clone.SelectedOptions.Length);
+            Assert.AreEqual("a", source.Value);
+            Assert.AreEqual(0, ((IHtmlSelectElement)source.Clone(false)).Length);
+        }
+
+        [Test]
+        public void NonOptionMutationsPreserveAnExplicitClear()
+        {
+            var document = "<select><optgroup><option>A</option></optgroup></select>".ToHtmlDocument();
+            var select = document.QuerySelector<IHtmlSelectElement>("select");
+            var group = select.QuerySelector<IHtmlOptionsGroupElement>("optgroup");
+            select.Value = "missing";
+            var text = document.CreateTextNode("label");
+            group.AppendChild(text);
+            group.RemoveChild(text);
+            select.AppendChild(text);
+            select.RemoveChild(text);
+            var empty = document.CreateElement("optgroup");
+            select.AppendChild(empty);
+            select.RemoveChild(empty);
+            Assert.AreEqual(-1, select.SelectedIndex);
         }
 
         [Test]
