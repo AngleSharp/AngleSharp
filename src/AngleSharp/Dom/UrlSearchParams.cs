@@ -56,7 +56,7 @@ namespace AngleSharp.Dom
 
             foreach (var pair in query.Split('&'))
             {
-                var kvp = pair.Split('=');
+                var kvp = pair.Split(new[] { Symbols.Equality }, 2);
 
                 if (kvp.Length > 1)
                 {
