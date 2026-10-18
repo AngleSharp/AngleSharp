@@ -147,6 +147,14 @@ namespace AngleSharp.Html
 
         #region Helpers
 
+        private static readonly Char[] _escapeTextCharacters =
+        {
+            Symbols.Ampersand,
+            Symbols.NoBreakSpace,
+            Symbols.GreaterThan,
+            Symbols.LessThan,
+        };
+
         /// <summary>
         /// Escapes the given text by replacing special characters with their
         /// HTML entity (amp, nobsp, lt, and gt).
@@ -155,9 +163,17 @@ namespace AngleSharp.Html
         /// <returns>The altered string.</returns>
         public static String EscapeText(String content)
         {
-            var temp = StringBuilderPool.Obtain();
+            var index = content.IndexOfAny(_escapeTextCharacters);
 
-            for (var i = 0; i < content.Length; i++)
+            if (index < 0)
+            {
+                return content;
+            }
+
+            var temp = StringBuilderPool.Obtain();
+            temp.Append(content, 0, index);
+
+            for (var i = index; i < content.Length; i++)
             {
                 switch (content[i])
                 {

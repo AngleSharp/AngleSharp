@@ -1,3 +1,9 @@
+# 1.8.6
+
+Released on Sunday, October 18 2026
+
+- Avoided temporary copies when serializing text that needs no HTML escaping
+
 # 1.8.5
 
 Released on Thursday, October 15 2026
