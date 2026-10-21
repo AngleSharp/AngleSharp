@@ -6,6 +6,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -99,10 +100,24 @@ namespace AngleSharp.Html.Dom
         /// Submits the given form by decomposing the object into a dictionary
         /// that contains its properties as name value pairs.
         /// </summary>
+        /// <typeparam name="TFields">The declared type whose properties are the fields.</typeparam>
         /// <param name="form">The form to submit.</param>
         /// <param name="fields">The fields to use as values.</param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> SubmitAsync(this IHtmlFormElement form, Object fields) => form.SubmitAsync(fields.ToDictionary());
+        public static Task<IDocument> SubmitAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] TFields>(this IHtmlFormElement form, TFields fields) =>
+            form.SubmitAsync(fields.ToDictionary(), createMissing: false);
+
+        /// <summary>
+        /// Submits the given form by decomposing the object into a dictionary
+        /// that contains its properties as name value pairs.
+        /// </summary>
+        /// <param name="form">The form to submit.</param>
+        /// <param name="fields">The fields to use as values.</param>
+        /// <returns>The task eventually resulting in the response.</returns>
+        [Obsolete(ObjectExtensions.RuntimePropertiesObsolete)]
+        [RequiresUnreferencedCode(ObjectExtensions.RuntimePropertiesTrimming)]
+        public static Task<IDocument> SubmitAsync(this IHtmlFormElement form, Object fields) =>
+            form.SubmitAsync(ObjectExtensions.ReadRuntimeProperties(fields), createMissing: false);
 
         /// <summary>
         /// Submits the given form by using the dictionary which contains name
@@ -126,10 +141,32 @@ namespace AngleSharp.Html.Dom
         /// Submits the form of the element by decomposing the object into a dictionary
         /// that contains its properties as name value pairs.
         /// </summary>
+        /// <typeparam name="TFields">The declared type whose properties are the fields.</typeparam>
+        /// <param name="element">The element to submit its form.</param>
+        /// <param name="fields">The fields to use as values.</param>
+        /// <returns>The task eventually resulting in the response.</returns>
+        public static Task<IDocument> SubmitAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] TFields>(this IHtmlElement element, TFields fields) =>
+            element.SubmitAsync(fields.ToDictionary(), createMissing: false);
+
+        /// <summary>
+        /// Submits the form of the element with its current values.
+        /// </summary>
+        /// <param name="element">The element to submit its form.</param>
+        /// <returns>The task eventually resulting in the response.</returns>
+        public static Task<IDocument> SubmitAsync(this IHtmlElement element) =>
+            element.SubmitAsync(new Dictionary<String, String>(), createMissing: false);
+
+        /// <summary>
+        /// Submits the form of the element by decomposing the object into a dictionary
+        /// that contains its properties as name value pairs.
+        /// </summary>
         /// <param name="element">The element to submit its form.</param>
         /// <param name="fields">The optional fields to use as values.</param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> SubmitAsync(this IHtmlElement element, Object? fields = null) => element.SubmitAsync(fields.ToDictionary());
+        [Obsolete(ObjectExtensions.RuntimePropertiesObsolete)]
+        [RequiresUnreferencedCode(ObjectExtensions.RuntimePropertiesTrimming)]
+        public static Task<IDocument> SubmitAsync(this IHtmlElement element, Object? fields = null) =>
+            element.SubmitAsync(ObjectExtensions.ReadRuntimeProperties(fields), createMissing: false);
 
         /// <summary>
         /// Submits the form of the element by using the dictionary which contains name

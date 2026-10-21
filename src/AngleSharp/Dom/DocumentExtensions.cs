@@ -29,37 +29,12 @@ namespace AngleSharp.Dom
                 throw new ArgumentNullException(nameof(document));
             }
 
-            var type = typeof(BrowsingContext).Assembly
-                .GetTypes()
-                .FirstOrDefault(m => !m.IsAbstract && m.GetInterfaces().Contains(typeof(TElement)));
-
-            if (type is not null)
+            if (document is Document owner && ElementInterfaceConstructors.Create(typeof(TElement), owner) is { } created)
             {
-                var ctors = type.GetConstructors()
-                    .OrderBy(m => m.GetParameters().Length);
-
-                foreach (var ctor in ctors)
-                {
-                    var parameters = ctor.GetParameters();
-                    var arguments = new Object?[parameters.Length];
-
-                    for (var i = 0; i < parameters.Length; i++)
-                    {
-                        var isDocument = parameters[i].ParameterType == typeof(Document);
-                        arguments[i] = isDocument ? document : parameters[i].DefaultValue;
-                    }
-
-                    var obj = ctor.Invoke(arguments);
-
-                    if (obj is not null)
-                    {
-                        var element = (TElement)obj;
-                        var baseElement = element as Element;
-                        baseElement?.SetupElement();
-                        document.Adopt(element);
-                        return element;
-                    }
-                }
+                var element = (TElement)(Object)created;
+                created.SetupElement();
+                document.Adopt(element);
+                return element;
             }
 
             throw new ArgumentException("No element could be created for the provided interface.");
