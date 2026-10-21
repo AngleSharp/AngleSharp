@@ -3,6 +3,9 @@
 Released on Friday, October 30 2026.
 
 - Improved performance of `TextContent`, `:contains()`, `GetElementById`, `GetElementsByName`, `GetElementsByClassName`, `GetElementsByTagName` and `Normalize`, which also continue with an explicit stack below 128 levels instead of recursing (#1389) @michaelthyregod
+- Fixed `AwaitEventAsync` removing its listener off-thread while a dispatch was still running @michaelthyregod
+- Fixed event listener registration racing a dispatch on another thread @michaelthyregod
+- Added `AwaitEventAsync` overload taking a `CancellationToken` @michaelthyregod
 
 # 1.8.6
 
