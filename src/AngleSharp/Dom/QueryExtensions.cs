@@ -368,8 +368,16 @@ public static class QueryExtensions
     /// <param name="elements">The elements to take as source.</param>
     /// <param name="classNames">An array with class names to consider.</param>
     /// <param name="result">A reference to the list where to store the results.</param>
-    private static void GetElementsByClassName<T>(this T elements, String[] classNames, List<IElement> result) where T : class, INodeList
+    /// <param name="depth">The nesting level of the elements; below RecursionLimit the walk is iterative.</param>
+    private static void GetElementsByClassName<T>(this T elements, String[] classNames, List<IElement> result, Int32 depth = 0) where T : class, INodeList
     {
+        if (depth == ChildIndexStack.RecursionLimit)
+        {
+            // Deeper than recursion may go, so deeply nested documents cannot overflow the stack
+            GetElementsByClassNameIteratively(elements, classNames, result);
+            return;
+        }
+
         for (var i = 0; i < elements.Length; i++)
         {
             if (elements[i] is IElement element)
@@ -383,7 +391,7 @@ public static class QueryExtensions
                 // so gating the recursive scan on it costs as much as the scan it is meant to
                 // skip. Recursing unconditionally means a childless (or element-childless) node
                 // pays for exactly one scan - the recursive call's own - instead of two.
-                GetElementsByClassName(element.ChildNodes, classNames, result);
+                GetElementsByClassName(element.ChildNodes, classNames, result, depth + 1);
             }
         }
     }
@@ -394,8 +402,15 @@ public static class QueryExtensions
     /// <param name="elements">The elements to take as source.</param>
     /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
     /// <param name="result">A reference to the list where to store the results.</param>
-    private static void GetElementsByTagName<T>(this T elements, String? tagName, List<IElement> result) where T : class, INodeList
+    /// <param name="depth">The nesting level of the elements; below RecursionLimit the walk is iterative.</param>
+    private static void GetElementsByTagName<T>(this T elements, String? tagName, List<IElement> result, Int32 depth = 0) where T : class, INodeList
     {
+        if (depth == ChildIndexStack.RecursionLimit)
+        {
+            GetElementsByTagNameIteratively(elements, tagName, result);
+            return;
+        }
+
         for (var i = 0; i < elements.Length; i++)
         {
             if (elements[i] is IElement element)
@@ -407,7 +422,7 @@ public static class QueryExtensions
 
                 // No ChildElementCount guard: see the identical comment in the class-name
                 // overload above.
-                GetElementsByTagName(element.ChildNodes, tagName!, result);
+                GetElementsByTagName(element.ChildNodes, tagName, result, depth + 1);
             }
         }
     }
@@ -420,8 +435,15 @@ public static class QueryExtensions
     /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
     /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
     /// <param name="result">A reference to the list where to store the results.</param>
-    private static void GetElementsByTagName<T>(this T elements, String? namespaceUri, String? localName, List<IElement> result)  where T : class, INodeList
+    /// <param name="depth">The nesting level of the elements; below RecursionLimit the walk is iterative.</param>
+    private static void GetElementsByTagName<T>(this T elements, String? namespaceUri, String? localName, List<IElement> result, Int32 depth = 0)  where T : class, INodeList
     {
+        if (depth == ChildIndexStack.RecursionLimit)
+        {
+            GetElementsByTagNameIteratively(elements, namespaceUri, localName, result);
+            return;
+        }
+
         for (var i = 0; i < elements.Length; i++)
         {
             if (elements[i] is IElement element)
@@ -433,7 +455,119 @@ public static class QueryExtensions
 
                 // No ChildElementCount guard: see the identical comment in the class-name
                 // overload above.
-                GetElementsByTagName(element.ChildNodes, namespaceUri, localName, result);
+                GetElementsByTagName(element.ChildNodes, namespaceUri, localName, result, depth + 1);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns a set of elements which have all the given class names.
+    /// </summary>
+    /// <param name="elements">The elements to take as source.</param>
+    /// <param name="classNames">An array with class names to consider.</param>
+    /// <param name="result">A reference to the list where to store the results.</param>
+    // Not generic, so the shared generic recursion needs no runtime type lookup to call it
+    private static void GetElementsByClassNameIteratively(INodeList elements, String[] classNames, List<IElement> result)
+    {
+        Span<Int32> buffer = stackalloc Int32[ChildIndexStack.InitialDepth];
+
+        for (var i = 0; i < elements.Length; i++)
+        {
+            if (elements[i] is Element root)
+            {
+                // Iterative, so deeply nested documents cannot overflow the stack
+                var walker = new ElementWalker(root, buffer);
+
+                try
+                {
+                    while (walker.MoveNext())
+                    {
+                        var element = walker.Current;
+
+                        if (element.ClassList.Contains(classNames))
+                        {
+                            result.Add(element);
+                        }
+                    }
+                }
+                finally
+                {
+                    walker.Dispose();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
+    /// </summary>
+    /// <param name="elements">The elements to take as source.</param>
+    /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
+    /// <param name="result">A reference to the list where to store the results.</param>
+    private static void GetElementsByTagNameIteratively(INodeList elements, String? tagName, List<IElement> result)
+    {
+        Span<Int32> buffer = stackalloc Int32[ChildIndexStack.InitialDepth];
+
+        for (var i = 0; i < elements.Length; i++)
+        {
+            if (elements[i] is Element root)
+            {
+                var walker = new ElementWalker(root, buffer);
+
+                try
+                {
+                    while (walker.MoveNext())
+                    {
+                        var element = walker.Current;
+
+                        if (tagName is null || tagName.Isi(element.LocalName))
+                        {
+                            result.Add(element);
+                        }
+                    }
+                }
+                finally
+                {
+                    walker.Dispose();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns a list of elements with the given tag name belonging to the given namespace.
+    /// The complete document is searched, including the root node.
+    /// </summary>
+    /// <param name="elements">The elements to take as source.</param>
+    /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
+    /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
+    /// <param name="result">A reference to the list where to store the results.</param>
+    private static void GetElementsByTagNameIteratively(INodeList elements, String? namespaceUri, String? localName, List<IElement> result)
+    {
+        Span<Int32> buffer = stackalloc Int32[ChildIndexStack.InitialDepth];
+
+        for (var i = 0; i < elements.Length; i++)
+        {
+            if (elements[i] is Element root)
+            {
+                var walker = new ElementWalker(root, buffer);
+
+                try
+                {
+                    while (walker.MoveNext())
+                    {
+                        var element = walker.Current;
+
+                        if (element.NamespaceUri.Is(namespaceUri) && (localName is null || localName.Isi(element.LocalName)))
+                        {
+                            result.Add(element);
+                        }
+                    }
+                }
+                finally
+                {
+                    walker.Dispose();
+                }
             }
         }
     }

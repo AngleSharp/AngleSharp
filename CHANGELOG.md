@@ -6,6 +6,7 @@ Released on Thursday, October 15 2026
 - Fixed fragment parsing losing the context document's quirks and limited-quirks modes (#1382) @PrzemyslawKlys
 - Fixed `:lang()` inheritance and namespace precedence in HTML and foreign content (#1379) @PrzemyslawKlys
 - Fixed `URLSearchParams` cutting values at a second `=` such as `token=abc==` (#1385) @NotAFlightRisk
+- Fixed stack overflow on deeply nested documents in `TextContent`, `:contains()`, `GetElementsByTagName`, `GetElementsByClassName`, `GetElementById`, `GetElementsByName`, `Normalize`, `IsEqualNode`, deep cloning and importing, and `Range` copy and extract (`TextContent` and `:contains()` since 1.7.0) @michaelthyregod
 
 # 1.8.4
 

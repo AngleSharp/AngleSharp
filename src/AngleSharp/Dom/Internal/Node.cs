@@ -1,7 +1,9 @@
 namespace AngleSharp.Dom
 {
+    using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using Common;
     using Html.Construction;
@@ -688,9 +690,70 @@ namespace AngleSharp.Dom
         public Boolean Contains(INode otherNode) => this.IsInclusiveAncestorOf(otherNode);
 
         /// <inheritdoc />
-        public void Normalize()
+        public void Normalize() => Normalize(0);
+
+        // Recurses for the first levels and continues iteratively below them, so deeply nested
+        // documents cannot overflow the stack
+        private void Normalize(Int32 depth)
         {
-            for (var i = 0; i < _children.Length; i++)
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                NormalizeIteratively();
+                return;
+            }
+
+            var i = NormalizeChildrenFrom(0);
+
+            while (i >= 0)
+            {
+                _children[i].Normalize(depth + 1);
+                i = NormalizeChildrenFrom(i + 1);
+            }
+        }
+
+        // It visits the nodes in the same order as the recursion, descending into a child as soon
+        // as it is reached, so mutation records and live ranges see the same sequence of changes.
+        private void NormalizeIteratively()
+        {
+            var resume = new ChildIndexStack(stackalloc Int32[ChildIndexStack.InitialDepth]);
+
+            try
+            {
+                var node = this;
+                var start = 0;
+
+                while (true)
+                {
+                    var descendInto = node.NormalizeChildrenFrom(start);
+
+                    if (descendInto >= 0)
+                    {
+                        resume.Push(descendInto + 1);
+                        node = node._children[descendInto];
+                        start = 0;
+                    }
+                    else if (resume.Count > 0)
+                    {
+                        start = resume.Pop();
+                        node = node._parent!;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            finally
+            {
+                resume.Dispose();
+            }
+        }
+
+        // Normalizes the children from the given index on, until it reaches a child with children of
+        // its own, whose index it returns; -1 once all children are done.
+        private Int32 NormalizeChildrenFrom(Int32 start)
+        {
+            for (var i = start; i < _children.Length; i++)
             {
                 if (_children[i] is TextNode text)
                 {
@@ -746,9 +809,11 @@ namespace AngleSharp.Dom
                 }
                 else if (_children[i].HasChildNodes)
                 {
-                    _children[i].Normalize();
+                    return i;
                 }
             }
+
+            return -1;
         }
 
         /// <inheritdoc />
@@ -786,23 +851,95 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
-        public virtual Boolean Equals(INode? otherNode)
-        {
-            if (BaseUri.Is(otherNode?.BaseUri) && NodeName.Is(otherNode?.NodeName) && ChildNodes.Length == otherNode?.ChildNodes.Length)
-            {
-                for (var i = 0; i < _children.Length; i++)
-                {
-                    if (!_children[i].Equals(otherNode.ChildNodes[i]))
-                    {
-                        return false;
-                    }
-                }
+        public virtual Boolean Equals(INode? otherNode) =>
+            otherNode is not null && EqualsShallow(otherNode) && ChildrenEqual(otherNode, 0);
 
-                return true;
+        // Compares the descendants of two nodes whose shallow comparison succeeded, so their child
+        // counts match. Recurses for the first levels and continues iteratively below them, so
+        // deeply nested documents cannot overflow the stack.
+        private Boolean ChildrenEqual(INode otherNode, Int32 depth)
+        {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                return ChildrenEqualIteratively(otherNode);
             }
 
-            return false;
+            var otherChildren = otherNode.ChildNodes;
+
+            for (var i = 0; i < _children.Length; i++)
+            {
+                var child = _children[i];
+                var otherChild = otherChildren[i];
+
+                if (!child.EqualsShallow(otherChild) || (child._children.Length > 0 && !child.ChildrenEqual(otherChild, depth + 1)))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
+
+        private Boolean ChildrenEqualIteratively(INode otherNode)
+        {
+            var resume = new ChildIndexStack(stackalloc Int32[ChildIndexStack.InitialDepth]);
+
+            try
+            {
+                var node = this;
+                var other = otherNode;
+                var children = node._children;
+                var otherChildren = other.ChildNodes;
+                var i = 0;
+
+                while (true)
+                {
+                    if (i < children.Length)
+                    {
+                        var child = children[i];
+                        var otherChild = otherChildren[i];
+                        i++;
+
+                        if (!child.EqualsShallow(otherChild))
+                        {
+                            return false;
+                        }
+
+                        if (child._children.Length > 0)
+                        {
+                            resume.Push(i);
+                            node = child;
+                            other = otherChild;
+                            children = node._children;
+                            otherChildren = other.ChildNodes;
+                            i = 0;
+                        }
+                    }
+                    else if (resume.Count > 0)
+                    {
+                        i = resume.Pop();
+                        node = node._parent!;
+                        other = other.Parent!;
+                        children = node._children;
+                        otherChildren = other.ChildNodes;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            finally
+            {
+                resume.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Compares this node with another one, without their children; the child counts must match.
+        /// </summary>
+        private protected virtual Boolean EqualsShallow(INode otherNode) =>
+            BaseUri.Is(otherNode.BaseUri) && NodeName.Is(otherNode.NodeName) && ChildNodes.Length == otherNode.ChildNodes.Length;
 
         #endregion
 
@@ -912,14 +1049,145 @@ namespace AngleSharp.Dom
 
             if (deep)
             {
-                foreach (var child in _children)
+                // A deep clone recurses through the Clone overrides, which cannot pass a depth, so the
+                // levels are counted per thread. Below RecursionLimit the copy continues iteratively,
+                // so deeply nested documents cannot overflow the stack.
+                if (t_cloneDepth < ChildIndexStack.RecursionLimit)
                 {
-                    if (child is Node node)
+                    t_cloneDepth++;
+
+                    try
                     {
-                        var clone = node.Clone(owner, true);
-                        target.AddNode(clone);
+                        foreach (var child in _children)
+                        {
+                            if (child is Node node)
+                            {
+                                var clone = node.Clone(owner, true);
+                                target.AddNode(clone);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        t_cloneDepth--;
                     }
                 }
+                else
+                {
+                    CloneDescendants(this, target, owner);
+                }
+            }
+        }
+
+        [ThreadStatic]
+        private static Int32 t_cloneDepth;
+
+        /// <summary>
+        /// Copies every descendant of source into target, in tree order. Iterative rather than one
+        /// Clone(owner, true) call per level, so deeply nested documents cannot overflow the stack.
+        /// Each descendant is copied by its own Clone(owner, false), so its cloning steps still run.
+        /// Only two kinds of element need more, checked by their sealed types rather than with a
+        /// virtual call on every node: a template's content is copied too, and a select restores
+        /// its selected option once its options are in place.
+        /// </summary>
+        internal static void CloneDescendants(Node source, Node target, Document owner)
+        {
+            // Subtrees cloned besides the children, such as template contents, are copied after the
+            // current walk, so a template nested in a template's content cannot recurse either.
+            var subtrees = default(Stack<ClonePair>);
+            var resume = new ChildIndexStack(stackalloc Int32[ChildIndexStack.InitialDepth]);
+
+            try
+            {
+                while (true)
+                {
+                    var sourceParent = source;
+                    var targetParent = target;
+                    var children = sourceParent._children;
+                    var i = 0;
+
+                    while (true)
+                    {
+                        if (i < children.Length)
+                        {
+                            var child = children[i++];
+                            Node copy;
+
+                            if (child is HtmlTemplateElement template)
+                            {
+                                var templateCopy = template.CloneWithoutContent(owner);
+                                subtrees ??= new Stack<ClonePair>();
+                                subtrees.Push(new ClonePair(template.ContentFragment, templateCopy.ContentFragment));
+                                copy = templateCopy;
+                            }
+                            else
+                            {
+                                copy = child.Clone(owner, false);
+                            }
+
+                            targetParent.AddNode(copy);
+
+                            if (child._children.Length > 0)
+                            {
+                                resume.Push(i);
+                                sourceParent = child;
+                                targetParent = copy;
+                                children = sourceParent._children;
+                                i = 0;
+                            }
+                            else if (copy is HtmlSelectElement select)
+                            {
+                                select.RestoreSelectedOption();
+                            }
+                        }
+                        else if (resume.Count > 0)
+                        {
+                            if (targetParent is HtmlSelectElement select)
+                            {
+                                select.RestoreSelectedOption();
+                            }
+
+                            i = resume.Pop();
+                            // Each copy was added to its parent's copy before its children were copied
+                            sourceParent = sourceParent._parent!;
+                            targetParent = targetParent._parent!;
+                            children = sourceParent._children;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    if (subtrees is null || subtrees.Count == 0)
+                    {
+                        return;
+                    }
+
+                    var next = subtrees.Pop();
+                    source = next.Source;
+                    target = next.Target;
+                }
+            }
+            finally
+            {
+                resume.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// A subtree waiting to be copied by CloneDescendants: the source and the node its copy goes
+        /// into. A struct rather than a tuple, since net462 has no System.ValueTuple.
+        /// </summary>
+        private readonly struct ClonePair
+        {
+            public readonly Node Source;
+            public readonly Node Target;
+
+            public ClonePair(Node source, Node target)
+            {
+                Source = source;
+                Target = target;
             }
         }
 

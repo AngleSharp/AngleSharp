@@ -54,6 +54,19 @@ namespace AngleSharp.Html.Dom
             return template;
         }
 
+        /// <summary>
+        /// Copies this template without its children and content, for the deep clone of an
+        /// ancestor, which copies the content itself (see Node.CloneDescendants).
+        /// </summary>
+        internal HtmlTemplateElement CloneWithoutContent(Document owner)
+        {
+            var template = new HtmlTemplateElement(owner);
+            CloneElement(template, owner, false);
+            return template;
+        }
+
+        internal DocumentFragment ContentFragment => _content;
+
         public void PopulateFragment()
         {
             while (HasChildNodes)
