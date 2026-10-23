@@ -1,6 +1,6 @@
 {
   "name": "@anglesharp/core",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "preview": true,
   "description": "The doclet for the AngleSharp.Core documentation.",
   "keywords": [

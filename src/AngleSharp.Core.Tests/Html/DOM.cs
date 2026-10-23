@@ -598,6 +598,9 @@ namespace AngleSharp.Core.Tests.Html
 
             body.TextContent = ">";
             Assert.AreEqual("&gt;", body.InnerHtml);
+
+            body.TextContent = "\u00A0";
+            Assert.AreEqual("&nbsp;", body.InnerHtml);
         }
 
         [Test]

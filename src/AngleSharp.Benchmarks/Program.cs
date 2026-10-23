@@ -37,6 +37,15 @@ namespace AngleSharp.Benchmarks
                 return;
             }
 
+            if (
+                args.Length == 1
+                && args[0].Equals("--html-serialization", StringComparison.OrdinalIgnoreCase)
+            )
+            {
+                BenchmarkRunner.Run<HtmlSerializationBenchmark>();
+                return;
+            }
+
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
         }
     }

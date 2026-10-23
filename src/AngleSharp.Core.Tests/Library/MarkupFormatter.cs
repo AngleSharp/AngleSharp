@@ -1,12 +1,20 @@
-using AngleSharp.Core.Tests.Mocks;
-using AngleSharp.Html.Parser;
-using NUnit.Framework;
-
 namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Html;
+    using AngleSharp.Html.Parser;
+    using NUnit.Framework;
+    using System;
+
     [TestFixture]
     public class MarkupFormatter
     {
+        [Test]
+        public void EscapeTextHandlesEmptyInput()
+        {
+            Assert.AreEqual(String.Empty, HtmlMarkupFormatter.EscapeText(String.Empty));
+        }
+
         [Test]
         public void NotAllElementsUsingTheFormatter_Issue821()
         {
