@@ -1,6 +1,6 @@
 # 1.8.6
 
-Released on Sunday, October 18 2026
+Released on Friday, October 23 2026
 
 - Removed temporary copies when serializing text that needs no HTML escaping
 - Fixed `Dispatch` (`dispatchEvent`) returning `true` for a canceled event
