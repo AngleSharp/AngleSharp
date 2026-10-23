@@ -35,8 +35,17 @@ namespace AngleSharp.Dom
         /// <param name="children">The nodelist to investigate.</param>
         /// <param name="id">The id to find.</param>
         /// <returns>The element or null.</returns>
-        public static IElement? GetElementById(this INodeList children, String id)
+        public static IElement? GetElementById(this INodeList children, String id) => GetElementById(children, id, 0);
+
+        // Recurses for the first levels and continues iteratively below them, so deeply nested
+        // documents cannot overflow the stack
+        private static IElement? GetElementById(INodeList children, String id, Int32 depth)
         {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                return GetElementByIdIteratively(children, id);
+            }
+
             for (var i = 0; i < children.Length; i++)
             {
                 if (children[i] is IElement element)
@@ -46,11 +55,42 @@ namespace AngleSharp.Dom
                         return element;
                     }
 
-                    element = element.ChildNodes.GetElementById(id)!;
+                    element = GetElementById(element.ChildNodes, id, depth + 1)!;
 
                     if (element != null)
                     {
                         return element;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private static IElement? GetElementByIdIteratively(INodeList children, String id)
+        {
+            Span<Int32> buffer = stackalloc Int32[ChildIndexStack.InitialDepth];
+
+            for (var i = 0; i < children.Length; i++)
+            {
+                if (children[i] is Element root)
+                {
+                    // Iterative, so deeply nested documents cannot overflow the stack
+                    var walker = new ElementWalker(root, buffer);
+
+                    try
+                    {
+                        while (walker.MoveNext())
+                        {
+                            if (walker.Current.Id.Is(id))
+                            {
+                                return walker.Current;
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        walker.Dispose();
                     }
                 }
             }
@@ -64,8 +104,18 @@ namespace AngleSharp.Dom
         /// <param name="children">The list to investigate.</param>
         /// <param name="name">The name attribute's value.</param>
         /// <param name="result">The result collection.</param>
-        public static void GetElementsByName(this INodeList children, String name, List<IElement> result)
+        public static void GetElementsByName(this INodeList children, String name, List<IElement> result) => GetElementsByName(children, name, result, 0);
+
+        // Recurses for the first levels and continues iteratively below them, so deeply nested
+        // documents cannot overflow the stack
+        private static void GetElementsByName(INodeList children, String name, List<IElement> result, Int32 depth)
         {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                GetElementsByNameIteratively(children, name, result);
+                return;
+            }
+
             for (var i = 0; i < children.Length; i++)
             {
                 if (children[i] is IElement element)
@@ -75,7 +125,35 @@ namespace AngleSharp.Dom
                         result.Add(element);
                     }
 
-                    element.ChildNodes.GetElementsByName(name, result);
+                    GetElementsByName(element.ChildNodes, name, result, depth + 1);
+                }
+            }
+        }
+
+        private static void GetElementsByNameIteratively(INodeList children, String name, List<IElement> result)
+        {
+            Span<Int32> buffer = stackalloc Int32[ChildIndexStack.InitialDepth];
+
+            for (var i = 0; i < children.Length; i++)
+            {
+                if (children[i] is Element root)
+                {
+                    var walker = new ElementWalker(root, buffer);
+
+                    try
+                    {
+                        while (walker.MoveNext())
+                        {
+                            if (walker.Current.GetAttribute(null, AttributeNames.Name).Is(name))
+                            {
+                                result.Add(walker.Current);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        walker.Dispose();
+                    }
                 }
             }
         }

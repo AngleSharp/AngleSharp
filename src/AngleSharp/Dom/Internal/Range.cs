@@ -372,8 +372,18 @@ namespace AngleSharp.Dom
             }
         }
 
-        public IDocumentFragment ExtractContent()
+        public IDocumentFragment ExtractContent() => ExtractContent(0);
+
+        public IDocumentFragment CopyContent() => CopyContent(0);
+
+        // The recursive algorithm for the first levels; below them the frame engine continues
+        private IDocumentFragment ExtractContent(Int32 depth)
         {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                return CopyOrExtractContent(extract: true);
+            }
+
             var fragment = _start.Node.Owner!.CreateDocumentFragment();
 
             if (!_start.Equals(_end))
@@ -441,7 +451,7 @@ namespace AngleSharp.Dom
                         var clone = firstPartiallyContainedChild.Clone(false);
                         fragment.AppendChild(clone);
                         var subrange = new Range(originalStart, new Boundary(firstPartiallyContainedChild, firstPartiallyContainedChild.ChildNodes.Length));
-                        var subfragment = subrange.ExtractContent();
+                        var subfragment = subrange.ExtractContent(depth + 1);
                         clone.AppendChild(subfragment);
                     }
 
@@ -463,7 +473,7 @@ namespace AngleSharp.Dom
                         var clone = lastPartiallyContainedchild.Clone(false);
                         fragment.AppendChild(clone);
                         var subrange = new Range(new Boundary(lastPartiallyContainedchild, 0), originalEnd);
-                        var subfragment = subrange.ExtractContent();
+                        var subfragment = subrange.ExtractContent(depth + 1);
                         clone.AppendChild(subfragment);
                     }
 
@@ -475,8 +485,14 @@ namespace AngleSharp.Dom
             return fragment;
         }
 
-        public IDocumentFragment CopyContent()
+        // The recursive algorithm for the first levels; below them the frame engine continues
+        private IDocumentFragment CopyContent(Int32 depth)
         {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                return CopyOrExtractContent(extract: false);
+            }
+
             var fragment = _start.Node.Owner!.CreateDocumentFragment();
 
             if (!_start.Equals(_end))
@@ -530,7 +546,7 @@ namespace AngleSharp.Dom
                         var clone = firstPartiallyContainedChild.Clone(false);
                         fragment.AppendChild(clone);
                         var subrange = new Range(originalStart, new Boundary(firstPartiallyContainedChild, firstPartiallyContainedChild.ChildNodes.Length));
-                        var subfragment = subrange.CopyContent();
+                        var subfragment = subrange.CopyContent(depth + 1);
                         clone.AppendChild(subfragment);
                     }
 
@@ -551,13 +567,249 @@ namespace AngleSharp.Dom
                         var clone = lastPartiallyContainedchild.Clone(false);
                         fragment.AppendChild(clone);
                         var subrange = new Range(new Boundary(lastPartiallyContainedchild, 0), originalEnd);
-                        var subfragment = subrange.CopyContent();
+                        var subfragment = subrange.CopyContent(depth + 1);
                         clone.AppendChild(subfragment);
                     }
                 }
             }
 
             return fragment;
+        }
+
+        /// <summary>
+        /// The extract and clone the contents algorithms of the DOM standard. The standard defines
+        /// them recursively, once for each partially contained child, so they recurse once per level
+        /// of the tree below the range's common ancestor. Below RecursionLimit levels, so deeply
+        /// nested documents cannot overflow the stack, the recursion continues on an explicit stack
+        /// of frames: a frame stops where the algorithm recurses and resumes where it returns, so
+        /// every step, and every mutation of an extract, happens in the same order.
+        /// </summary>
+        private IDocumentFragment CopyOrExtractContent(Boolean extract)
+        {
+            var frames = new Stack<ContentFrame>();
+            var frame = new ContentFrame(this);
+            var returned = default(IDocumentFragment);
+
+            while (true)
+            {
+                switch (frame.Stage)
+                {
+                    case ContentStage.Start:
+                        if (StartContent(frame, extract))
+                        {
+                            frames.Push(frame);
+                            frame = new ContentFrame(frame.Subrange!);
+                            continue;
+                        }
+
+                        break;
+
+                    case ContentStage.AfterFirstPartiallyContainedChild:
+                        frame.FirstClone!.AppendChild(returned!);
+
+                        if (ContinueContent(frame, extract))
+                        {
+                            frames.Push(frame);
+                            frame = new ContentFrame(frame.Subrange!);
+                            continue;
+                        }
+
+                        break;
+
+                    case ContentStage.AfterLastPartiallyContainedChild:
+                        frame.LastClone!.AppendChild(returned!);
+                        FinishContent(frame, extract);
+                        break;
+                }
+
+                returned = frame.Fragment!;
+
+                if (frames.Count == 0)
+                {
+                    return returned;
+                }
+
+                frame = frames.Pop();
+            }
+        }
+
+        // Runs the algorithm up to the first partially contained child. True if the frame now waits
+        // for the content of that child, which is the frame for frame.Subrange.
+        private static Boolean StartContent(ContentFrame frame, Boolean extract)
+        {
+            var range = frame.Range;
+            var fragment = frame.Fragment = range._start.Node.Owner!.CreateDocumentFragment();
+
+            if (range._start.Equals(range._end))
+            {
+                frame.Stage = ContentStage.Done;
+                return false;
+            }
+
+            var originalStart = range._start;
+            var originalEnd = range._end;
+
+            if (originalStart.Node == originalEnd.Node && range._start.Node is ICharacterData)
+            {
+                var text = (ICharacterData)originalStart.Node;
+                var strt = originalStart.Offset;
+                var span = originalEnd.Offset - originalStart.Offset;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(strt, span);
+                fragment.AppendChild(clone);
+
+                if (extract)
+                {
+                    text.Replace(strt, span, String.Empty);
+                }
+
+                frame.Stage = ContentStage.Done;
+                return false;
+            }
+
+            var commonAncestor = originalStart.Node;
+
+            while (!commonAncestor.IsInclusiveAncestorOf(originalEnd.Node))
+            {
+                commonAncestor = commonAncestor.Parent!;
+            }
+
+            var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
+                commonAncestor.ChildNodes.FirstOrDefault(range.IsPartiallyContained) : null;
+            frame.LastPartiallyContainedChild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
+                commonAncestor.ChildNodes.LastOrDefault(range.IsPartiallyContained) : null;
+            frame.ContainedChildren = commonAncestor.ChildNodes
+                .Where(m => new Boundary(m, 0) > originalStart && new Boundary(m, GetNodeLength(m)) < originalEnd)
+                .ToList();
+
+            if (frame.ContainedChildren.OfType<IDocumentType>().Any())
+            {
+                throw new DomException(DomError.HierarchyRequest);
+            }
+
+            frame.NewBoundary = originalStart;
+
+            if (extract && !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
+            {
+                var referenceNode = originalStart.Node;
+
+                while (referenceNode.Parent != null && !referenceNode.Parent.IsInclusiveAncestorOf(originalEnd.Node))
+                {
+                    referenceNode = referenceNode.Parent;
+                }
+
+                frame.NewBoundary = new Boundary(referenceNode.Parent!, referenceNode.Index() + 1);
+            }
+
+            if (firstPartiallyContainedChild is ICharacterData)
+            {
+                var text = (ICharacterData)originalStart.Node;
+                var strt = originalStart.Offset;
+                var span = text.Length - originalStart.Offset;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(strt, span);
+                fragment.AppendChild(clone);
+
+                if (extract)
+                {
+                    text.Replace(strt, span, String.Empty);
+                }
+            }
+            else if (firstPartiallyContainedChild != null)
+            {
+                frame.FirstClone = firstPartiallyContainedChild.Clone(false);
+                fragment.AppendChild(frame.FirstClone);
+                frame.Subrange = new Range(originalStart, new Boundary(firstPartiallyContainedChild, firstPartiallyContainedChild.ChildNodes.Length));
+                frame.Stage = ContentStage.AfterFirstPartiallyContainedChild;
+                return true;
+            }
+
+            return ContinueContent(frame, extract);
+        }
+
+        // Runs the algorithm from the contained children up to the last partially contained child.
+        // True if the frame now waits for the content of that child, which is the frame for frame.Subrange.
+        private static Boolean ContinueContent(ContentFrame frame, Boolean extract)
+        {
+            var fragment = frame.Fragment!;
+            var originalEnd = frame.Range._end;
+
+            foreach (var child in frame.ContainedChildren!)
+            {
+                fragment.AppendChild(extract ? child : child.Clone());
+            }
+
+            var lastPartiallyContainedChild = frame.LastPartiallyContainedChild;
+
+            if (lastPartiallyContainedChild is ICharacterData)
+            {
+                var text = (ICharacterData)originalEnd.Node;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(0, originalEnd.Offset);
+                fragment.AppendChild(clone);
+
+                if (extract)
+                {
+                    text.Replace(0, originalEnd.Offset, String.Empty);
+                }
+            }
+            else if (lastPartiallyContainedChild != null)
+            {
+                frame.LastClone = lastPartiallyContainedChild.Clone(false);
+                fragment.AppendChild(frame.LastClone);
+                frame.Subrange = new Range(new Boundary(lastPartiallyContainedChild, 0), originalEnd);
+                frame.Stage = ContentStage.AfterLastPartiallyContainedChild;
+                return true;
+            }
+
+            FinishContent(frame, extract);
+            return false;
+        }
+
+        private static void FinishContent(ContentFrame frame, Boolean extract)
+        {
+            if (extract)
+            {
+                frame.Range._start = frame.NewBoundary;
+                frame.Range._end = frame.NewBoundary;
+            }
+
+            frame.Stage = ContentStage.Done;
+        }
+
+        private enum ContentStage
+        {
+            Start,
+            AfterFirstPartiallyContainedChild,
+            AfterLastPartiallyContainedChild,
+            Done,
+        }
+
+        // The state of one level of the extract or clone the contents algorithm
+        private sealed class ContentFrame
+        {
+            public ContentFrame(Range range)
+            {
+                Range = range;
+            }
+
+            public Range Range { get; }
+
+            public ContentStage Stage { get; set; }
+
+            public IDocumentFragment? Fragment { get; set; }
+
+            public Boundary NewBoundary { get; set; }
+
+            public INode? LastPartiallyContainedChild { get; set; }
+
+            public List<INode>? ContainedChildren { get; set; }
+
+            public INode? FirstClone { get; set; }
+
+            public INode? LastClone { get; set; }
+
+            public Range? Subrange { get; set; }
         }
 
         public void Insert(INode node)

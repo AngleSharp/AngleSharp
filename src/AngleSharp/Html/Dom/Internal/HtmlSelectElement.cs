@@ -337,19 +337,24 @@ namespace AngleSharp.Html.Dom
             // the cloned selectedness (including an explicitly cleared selection).
             var node = (HtmlSelectElement)base.Clone(owner, false);
             CloneNode(node, owner, deep);
+            node.RestoreSelectedOption();
+            return node;
+        }
 
-            if (!node.IsMultiple)
+        // Also called on a select copied by an ancestor's deep clone, which gets its options after
+        // it is created (see Node.CloneDescendants)
+        internal void RestoreSelectedOption()
+        {
+            if (!IsMultiple)
             {
-                foreach (var option in node.Options)
+                foreach (var option in Options)
                 {
                     if (option is HtmlOptionElement selected && selected.IsSelected)
                     {
-                        node._selectedOption = selected;
+                        _selectedOption = selected;
                     }
                 }
             }
-
-            return node;
         }
 
         #endregion
