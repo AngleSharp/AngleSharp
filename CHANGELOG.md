@@ -7,6 +7,7 @@ Released on Friday, October 23 2026
 - Fixed `MutationObserver` not observing a document itself and throwing for one without a root element
 - Fixed `MutationObserver.Disconnect` keeping the previous targets for a later `Connect`
 - Fixed a failing navigation or submission from `DoClick` crashing the process; it is reported as a context error
+- Fixed `URLSearchParams` treating non-ASCII values as single bytes and leaving `+` undecoded @NotAFlightRisk
 - Added the `IHtmlSelectElement.SelectedIndex` setter
 - Added focusing of elements with a `tabindex` and blurring of any focused element
 - Added `DoClickAsync` to await a click's navigation or form submission

@@ -1265,7 +1265,7 @@ namespace AngleSharp.Dom
             return buffer.ToPool();
         }
 
-        private static String Utf8PercentDecode(String source)
+        internal static String Utf8PercentDecode(String source)
         {
             // https://anglesharp.github.io/Specification-Url/#string-percent-decode
             // 1. Let bytes be the UTF-8 encoding of input.
