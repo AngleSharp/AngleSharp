@@ -66,6 +66,64 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void ConnectingToADocumentWithoutRootDoesNotThrow()
+        {
+            var observer = new MutationObserver((_, _) => { });
+            var document = Html("");
+            document.RemoveChild(document.DocumentElement);
+
+            Assert.DoesNotThrow(() => observer.Connect(document, childList: true, subtree: true));
+        }
+
+        [Test]
+        public void ObservingADocumentSeesChangesToItsOwnChildren()
+        {
+            var targets = new System.Collections.Generic.List<INode>();
+            var observer = new MutationObserver((mut, _) => targets.AddRange(mut.Select(m => m.Target)));
+            var document = Html("");
+            observer.Connect(document, childList: true);
+
+            document.ReplaceChild(document.CreateElement("html"), document.DocumentElement);
+            document.AppendChild(document.CreateComment("tail"));
+
+            Assert.AreEqual(2, targets.Count);
+            Assert.IsTrue(targets.All(m => m == document));
+        }
+
+        [Test]
+        public void ObservingADocumentSubtreeSeesANewRoot()
+        {
+            var called = 0;
+            var observer = new MutationObserver((mut, _) => called += mut.Length);
+            var document = Html("");
+            observer.Connect(document, childList: true, subtree: true);
+            var root = document.CreateElement("html");
+            document.ReplaceChild(root, document.DocumentElement);
+            called = 0;
+
+            root.AppendChild(document.CreateElement("body"));
+
+            Assert.AreEqual(1, called);
+        }
+
+        [Test]
+        public void DisconnectForgetsPreviouslyObservedNodes()
+        {
+            var called = 0;
+            var observer = new MutationObserver((mut, _) => called += mut.Length);
+            var document = Html("<div id=a></div><div id=b></div>");
+            var a = document.GetElementById("a");
+            var b = document.GetElementById("b");
+            observer.Connect(a, childList: true);
+            observer.Disconnect();
+            observer.Connect(b, childList: true);
+
+            a.AppendChild(document.CreateElement("span"));
+
+            Assert.AreEqual(0, called);
+        }
+
+        [Test]
         public void ConnectMutationObserverAttributesTriggerManually()
         {
             var called = false;

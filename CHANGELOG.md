@@ -2,7 +2,15 @@
 
 Released on Sunday, October 18 2026
 
-- Avoided temporary copies when serializing text that needs no HTML escaping
+- Removed temporary copies when serializing text that needs no HTML escaping
+- Fixed `Dispatch` (`dispatchEvent`) returning `true` for a canceled event
+- Fixed `MutationObserver` not observing a document itself and throwing for one without a root element
+- Fixed `MutationObserver.Disconnect` keeping the previous targets for a later `Connect`
+- Fixed a failing navigation or submission from `DoClick` crashing the process; it is reported as a context error
+- Added the `IHtmlSelectElement.SelectedIndex` setter
+- Added focusing of elements with a `tabindex` and blurring of any focused element
+- Added `DoClickAsync` to await a click's navigation or form submission
+- Added toggling the parent `<details>` when clicking its `<summary>`
 
 # 1.8.5
 

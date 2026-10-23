@@ -147,9 +147,10 @@ namespace AngleSharp.Dom
             foreach (var observing in _observing)
             {
                 var node = (Node)observing.Target;
-                node.Owner.Mutations.Unregister(this);
+                (node as Document ?? node.Owner)?.Mutations.Unregister(this);
             }
 
+            _observing.Clear();
             _records.Clear();
         }
 
@@ -226,17 +227,16 @@ namespace AngleSharp.Dom
                     throw new DomException(DomError.Syntax);
                 }
 
-                if (node is Document document && document.DocumentElement is Node documentElement) {
-                    node = documentElement;
-                    target = documentElement;
-                }
+                // A document has no owner of its own but is observed like any other node; records
+                // reach it through the inclusive-ancestor walk in QueueMutation.
+                var owner = node as Document ?? node.Owner;
 
-                if (node.Owner is null)
+                if (owner is null)
                 {
                     throw new DomException(DomError.HierarchyRequest);
                 }
 
-                node.Owner.Mutations.Register(this);
+                owner.Mutations.Register(this);
 
                 var existing = this[target];
 

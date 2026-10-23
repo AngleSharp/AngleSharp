@@ -756,6 +756,24 @@ namespace AngleSharp.Dom
         public static Boolean IsMutable(this IHtmlTextAreaElement textArea) => !textArea.IsDisabled && !textArea.IsReadOnly;
 
         /// <summary>
+        /// Clicks the element like DoClick(), but returns a task that completes once its
+        /// activation behavior (navigation, form submission, ...) has finished. Unlike
+        /// DoClick(), which reports a failure as a context error, the task surfaces it.
+        /// </summary>
+        /// <param name="element">The element to click.</param>
+        /// <returns>The task running the click and the resulting activation.</returns>
+        public static Task DoClickAsync(this IHtmlElement element)
+        {
+            if (element is HtmlElement html)
+            {
+                return html.ClickAsync();
+            }
+
+            element.DoClick();
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
         /// Checks if the element is editable.
         /// </summary>
         /// <param name="element">The element to check.</param>

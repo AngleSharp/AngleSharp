@@ -54,7 +54,11 @@ namespace AngleSharp.Html.Dom
 
         public IHtmlCollection<IHtmlOptionElement> SelectedOptions => _selected ??= new HtmlCollection<IHtmlOptionElement>(Options.Where(m => m.IsSelected));
 
-        public Int32 SelectedIndex => Options.SelectedIndex;
+        public Int32 SelectedIndex
+        {
+            get => Options.SelectedIndex;
+            set => Options.SelectedIndex = value;
+        }
 
         public String? Value
         {
@@ -112,15 +116,6 @@ namespace AngleSharp.Html.Dom
             if (!IsDisabled)
             {
                 IsFocused = true;
-            }
-        }
-
-        /// <inheritdoc />
-        public override void DoBlur()
-        {
-            if (IsFocused)
-            {
-                IsFocused = false;
             }
         }
 

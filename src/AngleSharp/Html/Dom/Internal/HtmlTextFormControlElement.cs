@@ -204,15 +204,6 @@ namespace AngleSharp.Html.Dom
             }
         }
 
-        /// <inheritdoc />
-        public override void DoBlur()
-        {
-            if (IsFocused)
-            {
-                IsFocused = false;
-            }
-        }
-
         #endregion
 
         #region Enumeration

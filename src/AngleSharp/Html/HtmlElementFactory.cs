@@ -97,7 +97,7 @@ sealed class HtmlElementFactory : IElementFactory<Document, HtmlElement>
         { TagNames.Tt, (document, prefix) => new HtmlTeletypeTextElement(document, prefix) },
         { TagNames.Address, (document, prefix) => new HtmlAddressElement(document, prefix) },
         { TagNames.Main, (document, prefix) => new HtmlSemanticElement(document, TagNames.Main, prefix) },
-        { TagNames.Summary, (document, prefix) => new HtmlSemanticElement(document, TagNames.Summary, prefix) },
+        { TagNames.Summary, (document, prefix) => new HtmlSummaryElement(document, prefix) },
         { TagNames.Center, (document, prefix) => new HtmlSemanticElement(document, TagNames.Center, prefix) },
         { TagNames.Listing, (document, prefix) => new HtmlSemanticElement(document, TagNames.Listing, prefix) },
         { TagNames.Nav, (document, prefix) => new HtmlSemanticElement(document, TagNames.Nav, prefix) },

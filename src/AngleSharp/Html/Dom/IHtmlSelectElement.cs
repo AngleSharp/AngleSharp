@@ -92,10 +92,11 @@ namespace AngleSharp.Html.Dom
         Boolean IsMultiple { get; set; }
 
         /// <summary>
-        /// Gets the index of the first selected option element.
+        /// Gets or sets the index of the first selected option element.
+        /// Setting it deselects every other option; -1 deselects all.
         /// </summary>
         [DomName("selectedIndex")]
-        Int32 SelectedIndex { get; }
+        Int32 SelectedIndex { get; set; }
 
         /// <summary>
         /// Gets or sets an HTML option element at the specified index.

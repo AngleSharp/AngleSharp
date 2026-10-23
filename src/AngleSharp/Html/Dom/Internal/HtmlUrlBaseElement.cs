@@ -2,6 +2,7 @@ namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the base for a / area elements.
@@ -156,7 +157,7 @@ namespace AngleSharp.Html.Dom
 
         #region Methods
 
-        public override async void DoClick()
+        internal override async Task ClickAsync()
         {
             var cancelled = await IsClickedCancelled().ConfigureAwait(false);
 

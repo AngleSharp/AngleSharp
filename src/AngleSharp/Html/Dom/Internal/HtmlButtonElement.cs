@@ -5,6 +5,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Text;
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML button element.
@@ -120,7 +121,7 @@ namespace AngleSharp.Html.Dom
 
         #region Methods
 
-        public override async void DoClick()
+        internal override async Task ClickAsync()
         {
             var cancelled = await IsClickedCancelled().ConfigureAwait(false);
             var form = Form;
@@ -146,15 +147,6 @@ namespace AngleSharp.Html.Dom
             if (!IsDisabled)
             {
                 IsFocused = true;
-            }
-        }
-
-        /// <inheritdoc />
-        public override void DoBlur()
-        {
-            if (IsFocused)
-            {
-                IsFocused = false;
             }
         }
 
