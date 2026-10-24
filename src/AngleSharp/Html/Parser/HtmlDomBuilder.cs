@@ -28,6 +28,7 @@ namespace AngleSharp.Html.Parser
         private readonly HtmlTokenizer _tokenizer;
         private readonly TDocument _document;
         private readonly List<IConstructableElement> _openElements;
+        private readonly List<OpenDepth> _openDepths;
         private readonly List<IConstructableElement> _formattingElements;
         private readonly Stack<HtmlTreeMode> _templateModes;
 
@@ -40,6 +41,9 @@ namespace AngleSharp.Html.Parser
 
         private IConstructableElement? _fragmentContext;
 
+        private Int32 _maximumDepth;
+        private Boolean _exceedsMaximumDepth;
+
         private Boolean _foster;
         private Boolean _frameset;
         private Boolean _ended;
@@ -48,6 +52,28 @@ namespace AngleSharp.Html.Parser
         private readonly IDomConstructionElementFactory<TDocument, TElement> _elementFactory;
         private Task? _waiting;
         private readonly Boolean _emitWhitespaceTextNodes;
+
+        #endregion
+
+        #region Nested Types
+
+        /// <summary>
+        /// The depth of an open element and the depth no element below it exceeds.
+        /// </summary>
+        private readonly struct OpenDepth(Int32 own, Int32 deepest)
+        {
+            /// <summary>
+            /// The depth of the element itself, or -1 when it may have been moved.
+            /// </summary>
+            public readonly Int32 Own = own;
+
+            public readonly Int32 Deepest = deepest;
+
+            public OpenDepth(Int32 depth)
+                : this(depth, depth)
+            {
+            }
+        }
 
         #endregion
 
@@ -75,11 +101,13 @@ namespace AngleSharp.Html.Parser
             _tokenizer = new HtmlTokenizer(document.Source, HtmlEntityProvider.ResolverExtended);
             _document = document;
             _openElements = [];
+            _openDepths = [];
             _templateModes = new Stack<HtmlTreeMode>();
             _formattingElements = [];
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
             _ended = false;
+            _maximumDepth = HtmlParserOptions.DefaultMaximumDepth;
             _consumeAsDelegate = Consume;
             _emitWhitespaceTextNodes = emitWhitespaceTextNodes;
             document.Builder = this;
@@ -246,6 +274,8 @@ namespace AngleSharp.Html.Parser
             _ended = false;
             _frameset = true;
             _openElements.Clear();
+            _openDepths.Clear();
+            _exceedsMaximumDepth = false;
             _formattingElements.Clear();
             _templateModes.Clear();
         }
@@ -323,6 +353,7 @@ namespace AngleSharp.Html.Parser
 
             _document.AddNode(root);
             _openElements.Add(root);
+            _openDepths.Add(new OpenDepth(1));
 
             if (context is IConstructableTemplateElement)
             {
@@ -392,6 +423,7 @@ namespace AngleSharp.Html.Parser
             _tokenizer.ShouldEmitAttribute = options.ShouldEmitAttribute!;
             _tokenizer.DisableElementPositionTracking = options.DisableElementPositionTracking;
             _tokenizer.OnToken = options.OnToken;
+            _maximumDepth = options.MaximumDepth;
             _options = options;
         }
 
@@ -992,6 +1024,7 @@ namespace AngleSharp.Html.Parser
                         RaiseErrorOccurred(HtmlParseError.TagMustBeInHead, ref token);
                         var head = _document.Head;
                         _openElements.Add(head!);
+                        _openDepths.Add(new OpenDepth(GetDepth(head!)));
                         InHead(ref token);
                         CloseNode(head!);
                     }
@@ -3325,6 +3358,8 @@ namespace AngleSharp.Html.Parser
 
                 var commonAncestor = _openElements[openIndex - 1];
                 var lastNode = furthestBlock;
+                var furthestDepth = GetDepth(index);
+                var reach = Math.Max(GetDeepest(index) - furthestDepth, 0);
 
                 while (true)
                 {
@@ -3383,6 +3418,31 @@ namespace AngleSharp.Html.Parser
                     AddElementWithFoster(lastNode);
                 }
 
+                // The adoption agency moves elements that are already in the tree, so the limit
+                // on insertions does not cover it. Normally the furthest block moves up, but after
+                // foster parenting or the limit it can move down, and wrapping its children moves
+                // them down once more - where that may reach past the limit, it is restored after
+                // the tree has been built, as the steps here have to stay as specified.
+                var furthestIndex = _openElements.IndexOf(furthestBlock);
+                var newDepth = GetDepth(furthestBlock);
+                var shift = Math.Max(newDepth - furthestDepth, 0) + 1;
+                var deepest = furthestDepth + reach + shift;
+
+                if (deepest > _maximumDepth)
+                {
+                    _exceedsMaximumDepth = true;
+                }
+
+                // The elements up to the formatting element are ancestors and stay where they
+                // are. The copies above the furthest block now hold it, and everything from the
+                // block on moved with it - or only next to it, which leaves the bound looser.
+                for (var j = openIndex; j < _openDepths.Count; j++)
+                {
+                    var entry = _openDepths[j];
+                    var bound = j < furthestIndex ? Math.Max(entry.Deepest, deepest) : entry.Deepest + shift;
+                    _openDepths[j] = new OpenDepth(-1, bound);
+                }
+
                 var element = CopyElement(formattingElement);
 
                 while (furthestBlock.ChildNodes.Length > 0)
@@ -3402,7 +3462,9 @@ namespace AngleSharp.Html.Parser
 
                 _formattingElements.Insert(bookmark, element);
                 CloseNode(formattingElement);
-                _openElements.Insert(_openElements.IndexOf(furthestBlock) + 1, element);
+                var position = _openElements.IndexOf(furthestBlock) + 1;
+                _openElements.Insert(position, element);
+                _openDepths.Insert(position, new OpenDepth(newDepth + 1, deepest));
             }
         }
 
@@ -3729,16 +3791,18 @@ namespace AngleSharp.Html.Parser
             if (node is not null)
             {
                 var selfClosing = tag.IsSelfClosing;
-                CurrentNode.AddNode(node);
+                GetInsertionParent(_openElements.Count - 1, out var depth).AddNode(node);
 
                 if (selfClosing)
                 {
                     node.SetupElement();
+                    RaiseDeepest(_openElements.Count - 1, depth);
                 }
 
                 if (!selfClosing)
                 {
                     _openElements.Add(node);
+                    _openDepths.Add(new OpenDepth(depth));
                     _tokenizer.IsAcceptingCharacterData = true;
                 }
                 else if (tag.Name.Is(TagNames.Script))
@@ -4152,6 +4216,11 @@ namespace AngleSharp.Html.Parser
                 CloseCurrentNode();
             }
 
+            if (_exceedsMaximumDepth)
+            {
+                LimitDepth();
+            }
+
             if (_document.IsLoading)
             {
                 WaitFor(_document.FinishLoadingAsync());
@@ -4172,6 +4241,7 @@ namespace AngleSharp.Html.Parser
             _document.AddNode(element);
             SetupElement(element, ref tag, false);
             _openElements.Add(element);
+            _openDepths.Add(new OpenDepth(1));
             _tokenizer.IsAcceptingCharacterData = false;
             _document.ApplyManifest();
         }
@@ -4188,14 +4258,20 @@ namespace AngleSharp.Html.Parser
         {
             var openElement = _openElements[index];
             openElement.SetupElement();
-            _openElements.RemoveAt(index);
+            RemoveOpenElementAt(index);
             CheckEnded(openElement);
         }
 
         private void CloseNode(IConstructableElement element)
         {
             element.SetupElement();
-            _openElements.Remove(element);
+            var index = _openElements.IndexOf(element);
+
+            if (index != -1)
+            {
+                RemoveOpenElementAt(index);
+            }
+
             CheckEnded(element);
         }
 
@@ -4290,18 +4366,201 @@ namespace AngleSharp.Html.Parser
         private void AddElement(IConstructableElement element)
         {
             var node = CurrentNode;
+            Int32 depth;
 
             if (_foster && TagNames.AllTableMajor.Contains(node.LocalName))
             {
-                AddElementWithFoster(element);
+                depth = AddElementWithFoster(element);
             }
             else
             {
-                node.AddNode(element);
+                GetInsertionParent(_openElements.Count - 1, out depth).AddNode(element);
             }
 
             _openElements.Add(element);
+            _openDepths.Add(new OpenDepth(depth));
             _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
+        }
+
+        /// <summary>
+        /// Lifts every element nested past the maximum depth out of its parent at the limit,
+        /// to follow that parent instead - the same place an insertion would have taken.
+        /// </summary>
+        private void LimitDepth()
+        {
+            var pending = new Stack<(IConstructableNode Parent, Int32 Index, Int32 Depth)>();
+            pending.Push((_document, 0, 1));
+
+            while (pending.Count > 0)
+            {
+                var (parent, index, level) = pending.Pop();
+                var children = parent.ChildNodes;
+
+                if (index < children.Length)
+                {
+                    pending.Push((parent, index + 1, level));
+
+                    if (children[index] is IConstructableElement element)
+                    {
+                        // A template's content is a tree of its own, but it nests in the markup
+                        // all the same - and the adoption agency can move a closed template
+                        var content = (element as HtmlTemplateElement)?.Content as IConstructableNode;
+
+                        if (level < _maximumDepth)
+                        {
+                            pending.Push((element, 0, level + 1));
+
+                            if (content is not null)
+                            {
+                                pending.Push((content, 0, level + 1));
+                            }
+                        }
+                        else
+                        {
+                            // The lifted elements come next in the parent, at the limit themselves
+                            var position = Lift(element, parent, index);
+
+                            if (content is not null)
+                            {
+                                Lift(content, parent, position);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private static Int32 Lift(IConstructableNode source, IConstructableNode parent, Int32 position)
+        {
+            var nodes = source.ChildNodes;
+
+            for (var i = 0; i < nodes.Length;)
+            {
+                if (nodes[i] is IConstructableElement child)
+                {
+                    source.RemoveNode(i, child);
+                    parent.InsertNode(++position, child);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            return position;
+        }
+
+        /// <summary>
+        /// Gets the node to attach an element to that goes below the given open element. Past
+        /// the maximum depth that is the open element's ancestor one level above the limit, so
+        /// the element becomes a following sibling rather than a child, as in Blink: a tree
+        /// without bound on its depth overflows the stack of every recursive walk over it. Only
+        /// the attachment point moves - the stack of open elements, and with it every insertion
+        /// mode decision, stays as specified.
+        /// </summary>
+        /// <remarks>
+        /// The limit is checked against the depth in the tree, not against the position in the
+        /// stack of open elements. The two drift apart: foster parenting and the limit itself
+        /// put elements shallower than their position, and once the adoption agency moves such
+        /// an element, what is open below it ends up deeper than its position - by up to the
+        /// limit again for a stack-based check.
+        /// </remarks>
+        /// <param name="index">The open element's index in the stack of open elements.</param>
+        /// <param name="depth">The depth the attached element will have.</param>
+        /// <returns>The node to attach the element to.</returns>
+        private IConstructableNode GetInsertionParent(Int32 index, out Int32 depth)
+        {
+            IConstructableNode node = _openElements[index];
+            var parentDepth = GetDepth(index);
+
+            while (parentDepth >= _maximumDepth && parentDepth > 1 && node.Parent is IConstructableElement parent)
+            {
+                node = parent;
+                parentDepth--;
+            }
+
+            depth = parentDepth + 1;
+            return node;
+        }
+
+        /// <summary>
+        /// Gets the depth of an open element, the root element being at depth 1. Depths are
+        /// tracked as elements are opened; only the adoption agency moves open elements, and it
+        /// leaves the ones it may have moved to be counted here on their next use.
+        /// </summary>
+        /// <param name="index">The open element's index in the stack of open elements.</param>
+        /// <returns>The depth of the element.</returns>
+        private Int32 GetDepth(Int32 index)
+        {
+            var entry = _openDepths[index];
+
+            if (entry.Own < 0)
+            {
+                entry = new OpenDepth(GetDepth(_openElements[index]), entry.Deepest);
+                _openDepths[index] = entry;
+            }
+
+            return entry.Own;
+        }
+
+        private static Int32 GetDepth(IConstructableElement element)
+        {
+            var depth = 1;
+
+            for (var parent = element.Parent; parent is IConstructableElement; parent = parent.Parent)
+            {
+                depth++;
+            }
+
+            return depth;
+        }
+
+        /// <summary>
+        /// Gets a bound for the depth of the deepest element below an open element: the open
+        /// elements after it hold what is still open there, and what has been closed is folded
+        /// into the element opened before it.
+        /// </summary>
+        /// <param name="index">The open element's index in the stack of open elements.</param>
+        /// <returns>The depth no element below the open element exceeds.</returns>
+        private Int32 GetDeepest(Int32 index)
+        {
+            var deepest = 0;
+
+            for (var i = index; i < _openDepths.Count; i++)
+            {
+                deepest = Math.Max(deepest, _openDepths[i].Deepest);
+            }
+
+            return deepest;
+        }
+
+        /// <summary>
+        /// Records an element that is attached below an open element without being opened.
+        /// </summary>
+        /// <param name="index">The open element's index in the stack of open elements.</param>
+        /// <param name="depth">The depth of the attached element.</param>
+        private void RaiseDeepest(Int32 index, Int32 depth)
+        {
+            var entry = _openDepths[index];
+
+            if (depth > entry.Deepest)
+            {
+                _openDepths[index] = new OpenDepth(entry.Own, depth);
+            }
+        }
+
+        private void RemoveOpenElementAt(Int32 index)
+        {
+            // What has been built below a closed element stays below the element opened before
+            // it - its parent, unless foster parenting or the limit put it elsewhere, in which
+            // case the bound is merely looser than it needs to be.
+            if (index > 0)
+            {
+                RaiseDeepest(index - 1, _openDepths[index].Deepest);
+            }
+
+            _openElements.RemoveAt(index);
+            _openDepths.RemoveAt(index);
         }
 
         /// <summary>
@@ -4309,7 +4568,8 @@ namespace AngleSharp.Html.Parser
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#foster-parent
         /// </summary>
         /// <param name="element">The node which will be added to the list.</param>
-        private void AddElementWithFoster(IConstructableElement element)
+        /// <returns>The depth the element has been attached at.</returns>
+        private Int32 AddElementWithFoster(IConstructableElement element)
         {
             var table = false;
             var index = _openElements.Count;
@@ -4320,8 +4580,8 @@ namespace AngleSharp.Html.Parser
 
                 if (el is HtmlTemplateElement)
                 {
-                    el.AddNode(element);
-                    return;
+                    GetInsertionParent(index, out var depth).AddNode(element);
+                    return depth;
                 }
                 else if (el is HtmlTableElement)
                 {
@@ -4348,6 +4608,9 @@ namespace AngleSharp.Html.Parser
             {
                 foster.AddNode(element);
             }
+
+            // A foster child goes next to the table, so it is never deeper than the table
+            return current.Parent is not null ? GetDepth(index) : GetDepth(index + 1) + 1;
         }
 
         /// <summary>

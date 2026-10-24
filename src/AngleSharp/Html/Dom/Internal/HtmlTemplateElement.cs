@@ -40,15 +40,11 @@ namespace AngleSharp.Html.Dom
         {
             var template = new HtmlTemplateElement(owner);
             CloneElement(template, owner, deep);
-            var clonedContent = template._content;
 
-            foreach (var child in _content.ChildNodes)
+            // The contents are cloned only with the children, as the template's cloning steps say
+            if (deep)
             {
-                if (child is Node node)
-                {
-                    var clone = node.Clone(owner, deep);
-                    clonedContent.AddNode(clone);
-                }
+                CloneChildren(_content, template._content, owner);
             }
 
             return template;

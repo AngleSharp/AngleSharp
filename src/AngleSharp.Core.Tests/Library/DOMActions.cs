@@ -389,6 +389,90 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void IsEqualNodesIgnoresBaseUrl()
+        {
+            // https://dom.spec.whatwg.org/#concept-node-equals compares no base URL
+            var based = Create("<base href='http://example.com/a/'><div class='x'><span>y</span></div>");
+            var plain = Create("<div class='x'><span>y</span></div>");
+            var first = based.QuerySelector("div");
+            var second = plain.QuerySelector("div");
+
+            Assert.AreNotEqual(first.BaseUri, second.BaseUri);
+            Assert.IsTrue(first.Equals(second));
+            Assert.IsTrue(second.Equals(first));
+        }
+
+        [TestCase("<p>a</p>", "<p>b</p>")]
+        [TestCase("<p><!--a--></p>", "<p><!--b--></p>")]
+        [TestCase("<p>a</p>", "<p><!--a--></p>")]
+        [TestCase("<p a='1'></p>", "<p a='2'></p>")]
+        [TestCase("<p a='1'></p>", "<p b='1'></p>")]
+        [TestCase("<p a='1'></p>", "<p a='1' b='1'></p>")]
+        [TestCase("<p><i>a</i>b</p>", "<p><i>a</i>c</p>")]
+        public void IsEqualNodesComparesWhatTheSpecCompares(String first, String second)
+        {
+            var one = Create(first).QuerySelector("p");
+            var two = Create(second).QuerySelector("p");
+
+            Assert.IsFalse(one.Equals(two));
+            Assert.IsFalse(two.Equals(one));
+        }
+
+        [Test]
+        public void IsEqualNodesIgnoresAttributeOrder()
+        {
+            var one = Create("<p a='1' b='2'>x</p>").QuerySelector("p");
+            var two = Create("<p b='2' a='1'>x</p>").QuerySelector("p");
+
+            Assert.IsTrue(one.Equals(two));
+        }
+
+        [Test]
+        public void IsEqualNodesComparesElementPrefix()
+        {
+            var document = Create(String.Empty);
+            var one = document.CreateElement("urn:x", "a:item");
+            var two = document.CreateElement("urn:x", "b:item");
+
+            Assert.IsFalse(one.Equals(two));
+            Assert.IsTrue(one.Equals(document.CreateElement("urn:x", "a:item")));
+        }
+
+        [Test]
+        public void IsEqualNodesComparesDoctypeIdentifiers()
+        {
+            var one = Create("<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN'>").Doctype;
+            var two = Create("<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.0//EN'>").Doctype;
+            var three = Create("<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN'>").Doctype;
+
+            Assert.IsFalse(one.Equals(two));
+            Assert.IsTrue(one.Equals(three));
+        }
+
+        [Test]
+        public void IsEqualNodesComparesProcessingInstructions()
+        {
+            var document = Create(String.Empty);
+            var one = document.CreateProcessingInstruction("a", "x");
+
+            Assert.IsTrue(one.Equals(document.CreateProcessingInstruction("a", "x")));
+            Assert.IsFalse(one.Equals(document.CreateProcessingInstruction("b", "x")));
+            Assert.IsFalse(one.Equals(document.CreateProcessingInstruction("a", "y")));
+        }
+
+        [Test]
+        public void IsEqualAttributesComparesLocalNameNotPrefix()
+        {
+            var document = Create(String.Empty);
+            var one = document.CreateElement("p");
+            one.SetAttribute("a", "1");
+            one.SetAttribute("b", "1");
+
+            Assert.IsFalse(one.Attributes["a"].Equals(one.Attributes["b"]));
+            Assert.IsTrue(one.Attributes["a"].Equals(((IElement)one.Clone()).Attributes["a"]));
+        }
+
+        [Test]
         public void ContainsWithChildNodes()
         {
             var document = Create(@"
@@ -1322,6 +1406,65 @@ namespace AngleSharp.Core.Tests.Library
 
             newdocument.Body.Replace(import);
             Assert.AreEqual(import, newdocument.Body);
+        }
+
+        [Test]
+        public void ImportedNodeBelongsToImportingDocument()
+        {
+            var document = "<div><p>a<!--b--></p><template><i>c</i></template></div>".ToHtmlDocument();
+            var newdocument = String.Empty.ToHtmlDocument();
+
+            var import = (IElement)newdocument.Import(document.QuerySelector("div"), true);
+            var template = (IHtmlTemplateElement)import.QuerySelector("template");
+
+            Assert.AreSame(newdocument, import.Owner);
+            Assert.AreSame(newdocument, import.QuerySelector("p").Owner);
+            Assert.AreSame(newdocument, import.QuerySelector("p").FirstChild.Owner);
+            Assert.AreSame(newdocument, import.QuerySelector("p").LastChild.Owner);
+            Assert.AreSame(newdocument, template.Content.FirstChild.Owner);
+            Assert.AreSame(newdocument, newdocument.Import(document.QuerySelector("p"), false).Owner);
+            Assert.AreSame(document, document.QuerySelector("div").Owner);
+        }
+
+        [Test]
+        public void ImportingShadowRootThrows()
+        {
+            var document = "<div></div>".ToHtmlDocument();
+            var shadow = document.QuerySelector("div").AttachShadow();
+            var newdocument = String.Empty.ToHtmlDocument();
+
+            var error = Assert.Throws<DomException>(() => newdocument.Import(shadow));
+
+            Assert.AreEqual(DomError.NotSupported, (DomError)error.Code);
+        }
+
+        [Test]
+        public void ShallowCloneOfTemplateLeavesContentsEmpty()
+        {
+            var document = "<template><p>a</p></template>".ToHtmlDocument();
+            var template = document.QuerySelector<IHtmlTemplateElement>("template");
+
+            var clone = (IHtmlTemplateElement)template.Clone(false);
+
+            Assert.AreEqual(0, clone.Content.ChildNodes.Length);
+        }
+
+        [Test]
+        public void DeepCloneOfTemplateCopiesNestedContents()
+        {
+            var document = "<template><p>a<template><i>b</i></template></p><style>p{}</style></template>".ToHtmlDocument();
+            var newdocument = String.Empty.ToHtmlDocument();
+            var template = document.QuerySelector<IHtmlTemplateElement>("template");
+
+            var clone = (IHtmlTemplateElement)newdocument.Import(template, true);
+            var paragraph = clone.Content.FirstChild as IElement;
+            var inner = paragraph.LastChild as IHtmlTemplateElement;
+
+            Assert.AreEqual("<p>a<template><i>b</i></template></p><style>p{}</style>", clone.Content.ToHtml());
+            Assert.AreNotSame(template.Content.FirstChild, paragraph);
+            Assert.AreSame(newdocument, paragraph.Owner);
+            Assert.AreSame(newdocument, inner.Content.FirstChild.Owner);
+            Assert.AreEqual("<i>b</i>", inner.Content.ToHtml());
         }
 
         [Test]

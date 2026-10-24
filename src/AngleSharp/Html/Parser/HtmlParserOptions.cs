@@ -11,6 +11,13 @@ namespace AngleSharp.Html.Parser
     public struct HtmlParserOptions
     {
         /// <summary>
+        /// The element nesting depth used when <see cref="MaximumDepth"/> is not set.
+        /// </summary>
+        public static readonly Int32 DefaultMaximumDepth = 512;
+
+        private Int32 _maximumDepth;
+
+        /// <summary>
         /// Gets or sets if the document is embedded.
         /// </summary>
         public Boolean IsEmbedded { get; set; }
@@ -126,5 +133,24 @@ namespace AngleSharp.Html.Parser
         /// Should the tokenizer skip raw text tokens.
         /// </summary>
         public Boolean SkipRawText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the deepest level at which the parser nests elements, counting the
+        /// root element as level 1. Defaults to <see cref="DefaultMaximumDepth"/>; zero or a
+        /// negative value restores the default and <see cref="Int32.MaxValue"/> lifts the limit.
+        /// </summary>
+        /// <remarks>
+        /// HTML puts no limit on nesting, but code walking a tree that is thousands of levels
+        /// deep recursively can overflow the stack, which ends the process. Once the limit is
+        /// reached, further elements are attached as following siblings of the deepest element
+        /// instead of as its children, as browsers do. Nothing of the document is dropped, but
+        /// for such documents the tree deviates from the specification, and text that follows
+        /// a closed sibling stays in its own element, so it can come out of source order.
+        /// </remarks>
+        public Int32 MaximumDepth
+        {
+            readonly get => _maximumDepth > 0 ? _maximumDepth : DefaultMaximumDepth;
+            set => _maximumDepth = value;
+        }
     }
 }

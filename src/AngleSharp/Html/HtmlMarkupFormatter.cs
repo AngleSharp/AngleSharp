@@ -138,6 +138,11 @@ namespace AngleSharp.Html
                     case Symbols.Ampersand: stringBuilder.Append("&amp;"); break;
                     case Symbols.NoBreakSpace: stringBuilder.Append("&nbsp;"); break;
                     case Symbols.DoubleQuote: stringBuilder.Append("&quot;"); break;
+                    // Escaped since the spec change of May 2025: a raw "<" or ">" in an attribute
+                    // becomes markup when the output is reparsed with different rules, e.g. a
+                    // "</noscript>" in a title once scripting is enabled (mutation XSS)
+                    case Symbols.LessThan: stringBuilder.Append("&lt;"); break;
+                    case Symbols.GreaterThan: stringBuilder.Append("&gt;"); break;
                     default: stringBuilder.Append(value[i]); break;
                 }
             }

@@ -553,7 +553,8 @@
             var div = doc.QuerySelector("div");
 
             Assert.IsNotNull(div);
-            Assert.AreEqual("<div><img src=\"test.png\" alt=\">\"></div>", div.OuterHtml);
+            Assert.AreEqual(">", div.QuerySelector("img").GetAttribute("alt"));
+            Assert.AreEqual("<div><img src=\"test.png\" alt=\"&gt;\"></div>", div.OuterHtml);
         }
 
         [Test]

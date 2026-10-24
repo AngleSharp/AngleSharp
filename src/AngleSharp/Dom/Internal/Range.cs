@@ -394,26 +394,6 @@ namespace AngleSharp.Dom
                 }
                 else
                 {
-                    var commonAncestor = originalStart.Node;
-
-                    while (!commonAncestor.IsInclusiveAncestorOf(originalEnd.Node))
-                    {
-                        commonAncestor = commonAncestor.Parent!;
-                    }
-
-                    var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
-                        commonAncestor.ChildNodes.FirstOrDefault(IsPartiallyContained) : null;
-                    var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
-                        commonAncestor.ChildNodes.LastOrDefault(IsPartiallyContained) : null;
-                    var containedChildren = commonAncestor.ChildNodes
-                        .Where(m => new Boundary(m, 0) > originalStart && new Boundary(m, GetNodeLength(m)) < originalEnd)
-                        .ToList();
-
-                    if (containedChildren.OfType<IDocumentType>().Any())
-                    {
-                        throw new DomException(DomError.HierarchyRequest);
-                    }
-
                     if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
                     {
                         var referenceNode = originalStart.Node;
@@ -426,47 +406,7 @@ namespace AngleSharp.Dom
                         newBoundary = new Boundary(referenceNode.Parent!, referenceNode.Index() + 1);
                     }
 
-                    if (firstPartiallyContainedChild is ICharacterData)
-                    {
-                        var text = (ICharacterData)originalStart.Node;
-                        var strt = originalStart.Offset;
-                        var span = text.Length - originalStart.Offset;
-                        var clone = (ICharacterData)text.Clone();
-                        clone.Data = text.Substring(strt, span);
-                        fragment.AppendChild(clone);
-                        text.Replace(strt, span, String.Empty);
-                    }
-                    else if (firstPartiallyContainedChild != null)
-                    {
-                        var clone = firstPartiallyContainedChild.Clone(false);
-                        fragment.AppendChild(clone);
-                        var subrange = new Range(originalStart, new Boundary(firstPartiallyContainedChild, firstPartiallyContainedChild.ChildNodes.Length));
-                        var subfragment = subrange.ExtractContent();
-                        clone.AppendChild(subfragment);
-                    }
-
-                    foreach (var child in containedChildren)
-                    {
-                        fragment.AppendChild(child);
-                    }
-
-                    if (lastPartiallyContainedchild is ICharacterData)
-                    {
-                        var text = (ICharacterData)originalEnd.Node;
-                        var clone = (ICharacterData)text.Clone();
-                        clone.Data = text.Substring(0, originalEnd.Offset);
-                        fragment.AppendChild(clone);
-                        text.Replace(0, originalEnd.Offset, String.Empty);
-                    }
-                    else if (lastPartiallyContainedchild != null)
-                    {
-                        var clone = lastPartiallyContainedchild.Clone(false);
-                        fragment.AppendChild(clone);
-                        var subrange = new Range(new Boundary(lastPartiallyContainedchild, 0), originalEnd);
-                        var subfragment = subrange.ExtractContent();
-                        clone.AppendChild(subfragment);
-                    }
-
+                    CopyContent(fragment, originalStart, originalEnd, extract: true);
                     _start = newBoundary;
                     _end = newBoundary;
                 }
@@ -481,7 +421,6 @@ namespace AngleSharp.Dom
 
             if (!_start.Equals(_end))
             {
-
                 var originalStart = _start;
                 var originalEnd = _end;
 
@@ -496,64 +435,7 @@ namespace AngleSharp.Dom
                 }
                 else
                 {
-                    var commonAncestor = originalStart.Node;
-
-                    while (!commonAncestor.IsInclusiveAncestorOf(originalEnd.Node))
-                    {
-                        commonAncestor = commonAncestor.Parent!;
-                    }
-
-                    var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
-                        commonAncestor.ChildNodes.FirstOrDefault(IsPartiallyContained) : null;
-                    var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
-                        commonAncestor.ChildNodes.LastOrDefault(IsPartiallyContained) : null;
-                    var containedChildren = commonAncestor.ChildNodes
-                        .Where(m => new Boundary(m, 0) > originalStart && new Boundary(m, GetNodeLength(m)) < originalEnd)
-                        .ToList();
-
-                    if (containedChildren.OfType<IDocumentType>().Any())
-                    {
-                        throw new DomException(DomError.HierarchyRequest);
-                    }
-
-                    if (firstPartiallyContainedChild is ICharacterData)
-                    {
-                        var text = (ICharacterData)originalStart.Node;
-                        var strt = originalStart.Offset;
-                        var span = text.Length - originalStart.Offset;
-                        var clone = (ICharacterData)text.Clone();
-                        clone.Data = text.Substring(strt, span);
-                        fragment.AppendChild(clone);
-                    }
-                    else if (firstPartiallyContainedChild != null)
-                    {
-                        var clone = firstPartiallyContainedChild.Clone(false);
-                        fragment.AppendChild(clone);
-                        var subrange = new Range(originalStart, new Boundary(firstPartiallyContainedChild, firstPartiallyContainedChild.ChildNodes.Length));
-                        var subfragment = subrange.CopyContent();
-                        clone.AppendChild(subfragment);
-                    }
-
-                    foreach (var child in containedChildren)
-                    {
-                        fragment.AppendChild(child.Clone());
-                    }
-
-                    if (lastPartiallyContainedchild is ICharacterData)
-                    {
-                        var text = (ICharacterData)originalEnd.Node;
-                        var clone = (ICharacterData)text.Clone();
-                        clone.Data = text.Substring(0, originalEnd.Offset);
-                        fragment.AppendChild(clone);
-                    }
-                    else if (lastPartiallyContainedchild != null)
-                    {
-                        var clone = lastPartiallyContainedchild.Clone(false);
-                        fragment.AppendChild(clone);
-                        var subrange = new Range(new Boundary(lastPartiallyContainedchild, 0), originalEnd);
-                        var subfragment = subrange.CopyContent();
-                        clone.AppendChild(subfragment);
-                    }
+                    CopyContent(fragment, originalStart, originalEnd, extract: false);
                 }
             }
 
@@ -813,6 +695,156 @@ namespace AngleSharp.Dom
 
         #region Helpers
 
+        // The spec extracts and clones a range recursively, once for every level between a
+        // boundary and the common ancestor, so a deeply nested boundary would overflow the stack.
+        // Below the common ancestor only one partially contained child exists per level: the
+        // subrange towards the start ends at its own container, the one towards the end starts
+        // there. The levels therefore form two chains, which are walked in loops instead.
+        private static void CopyContent(INode fragment, Boundary start, Boundary end, Boolean extract)
+        {
+            var contained = GetContainedChildren(start, end, out var first, out var last);
+
+            if (first is not null)
+            {
+                CopyStartChain(fragment, start, first, extract);
+            }
+
+            CopyChildren(fragment, contained, extract);
+
+            if (last is not null)
+            {
+                CopyEndChain(fragment, last, end, extract);
+            }
+        }
+
+        private static void CopyStartChain(INode container, Boundary start, INode child, Boolean extract)
+        {
+            // The recursion moves the contained children of a level only once the levels below
+            // it are done, so they are collected on the way down and moved on the way up to keep
+            // the document's mutations in the order the spec makes them.
+            var levels = new List<KeyValuePair<INode, List<INode>>>();
+
+            while (child is not ICharacterData)
+            {
+                var clone = child.Clone(false);
+                container.AppendChild(clone);
+                var contained = GetContainedChildren(start, new Boundary(child, child.ChildNodes.Length), out var next, out _);
+                levels.Add(new KeyValuePair<INode, List<INode>>(clone, contained));
+                container = clone;
+
+                if (next is null)
+                {
+                    break;
+                }
+
+                child = next;
+            }
+
+            if (child is ICharacterData)
+            {
+                var text = (ICharacterData)start.Node;
+                var strt = start.Offset;
+                var span = text.Length - start.Offset;
+                var clone = (ICharacterData)text.Clone();
+                clone.Data = text.Substring(strt, span);
+                container.AppendChild(clone);
+
+                if (extract)
+                {
+                    text.Replace(strt, span, String.Empty);
+                }
+            }
+
+            for (var i = levels.Count - 1; i >= 0; i--)
+            {
+                CopyChildren(levels[i].Key, levels[i].Value, extract);
+            }
+        }
+
+        private static void CopyEndChain(INode container, INode child, Boundary end, Boolean extract)
+        {
+            while (child is not ICharacterData)
+            {
+                var clone = child.Clone(false);
+                container.AppendChild(clone);
+                var contained = GetContainedChildren(new Boundary(child, 0), end, out _, out var next);
+                CopyChildren(clone, contained, extract);
+                container = clone;
+
+                if (next is null)
+                {
+                    return;
+                }
+
+                child = next;
+            }
+
+            var text = (ICharacterData)end.Node;
+            var textClone = (ICharacterData)text.Clone();
+            textClone.Data = text.Substring(0, end.Offset);
+            container.AppendChild(textClone);
+
+            if (extract)
+            {
+                text.Replace(0, end.Offset, String.Empty);
+            }
+        }
+
+        private static void CopyChildren(INode container, List<INode> children, Boolean extract)
+        {
+            foreach (var child in children)
+            {
+                container.AppendChild(extract ? child : child.Clone());
+            }
+        }
+
+        private static List<INode> GetContainedChildren(Boundary start, Boundary end, out INode? first, out INode? last)
+        {
+            var commonAncestor = start.Node;
+
+            while (!commonAncestor.IsInclusiveAncestorOf(end.Node))
+            {
+                commonAncestor = commonAncestor.Parent!;
+            }
+
+            var children = commonAncestor.ChildNodes;
+            var contained = new List<INode>();
+            first = null;
+            last = null;
+
+            for (var i = 0; i < children.Length; i++)
+            {
+                var child = children[i];
+
+                if (IsPartiallyContained(child, start, end))
+                {
+                    first ??= child;
+                    last = child;
+                }
+                else if (new Boundary(child, 0) > start && new Boundary(child, GetNodeLength(child)) < end)
+                {
+                    if (child.NodeType == NodeType.DocumentType)
+                    {
+                        throw new DomException(DomError.HierarchyRequest);
+                    }
+
+                    contained.Add(child);
+                }
+            }
+
+            if (start.Node.IsInclusiveAncestorOf(end.Node))
+            {
+                first = null;
+            }
+
+            if (end.Node.IsInclusiveAncestorOf(start.Node))
+            {
+                last = null;
+            }
+
+            return contained;
+        }
+
         private static Int32 GetNodeLength(INode node)
         {
             if (node is IDocumentType || node is IAttr)
@@ -848,10 +880,12 @@ namespace AngleSharp.Dom
             return _end > new Boundary(node, offset);
         }
 
-        private Boolean IsPartiallyContained(INode node)
+        private Boolean IsPartiallyContained(INode node) => IsPartiallyContained(node, _start, _end);
+
+        private static Boolean IsPartiallyContained(INode node, Boundary start, Boundary end)
         {
-            var startAncestor = node.IsInclusiveAncestorOf(_start.Node);
-            var endAncestor = node.IsInclusiveAncestorOf(_end.Node);
+            var startAncestor = node.IsInclusiveAncestorOf(start.Node);
+            var endAncestor = node.IsInclusiveAncestorOf(end.Node);
 
             return (startAncestor && !endAncestor) || (!startAncestor && endAncestor);
         }

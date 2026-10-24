@@ -31,7 +31,9 @@ namespace AngleSharp.Core.Tests.Css
 
                 var stylingService = new MockStylingService();
                 var context = BrowsingContext.New(Configuration.Default.WithOnly<IStylingService>(stylingService));
-                var document = context.GetService<IHtmlParser>()!.ParseDocument(html);
+                // Lifted, so the style sheet walk has to survive the full depth instead of the capped one
+                var options = new HtmlParserOptions { MaximumDepth = Int32.MaxValue };
+                var document = new HtmlParser(options, context).ParseDocument(html);
 
                 var sheets = document.StyleSheets;
                 Assert.AreEqual(sheets.Length, 2);
