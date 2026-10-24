@@ -251,5 +251,15 @@ namespace AngleSharp.Core.Tests.Urls
             url.SearchParams.Append("page", "2");
             Assert.AreEqual("?token=abc%3D%3D&a=b%3Dc&page=2", url.Search);
         }
+
+        [Test]
+        public void UrlParamsUseUtf8AndDecodePlus()
+        {
+            var url = new Url("https://florian-rappl.de?q=caf%C3%A9&s=a+b");
+            Assert.AreEqual("café", url.SearchParams.Get("q"));
+            Assert.AreEqual("a b", url.SearchParams.Get("s"));
+            url.SearchParams.Append("x", "€");
+            Assert.AreEqual("?q=caf%C3%A9&s=a%20b&x=%E2%82%AC", url.Search);
+        }
     }
 }
