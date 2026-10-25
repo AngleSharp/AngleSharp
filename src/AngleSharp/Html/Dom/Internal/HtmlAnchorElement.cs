@@ -59,6 +59,10 @@ namespace AngleSharp.Html.Dom
             {
                 IsFocused = true;
             }
+            else
+            {
+                base.DoFocus();
+            }
         }
 
         #endregion

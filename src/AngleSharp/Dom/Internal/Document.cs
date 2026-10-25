@@ -1177,12 +1177,13 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public INode Import(INode externalNode, Boolean deep = true)
         {
-            if (externalNode.NodeType == NodeType.Document)
+            if (externalNode.NodeType == NodeType.Document || externalNode is IShadowRoot)
             {
                 throw new DomException(DomError.NotSupported);
             }
 
-            return externalNode.Clone(deep);
+            // INode.Clone keeps the source document as the owner; the copy has to belong to this one.
+            return externalNode is Node node ? node.Clone(this, deep) : externalNode.Clone(deep);
         }
 
         /// <inheritdoc />

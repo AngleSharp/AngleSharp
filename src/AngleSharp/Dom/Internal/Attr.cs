@@ -183,7 +183,7 @@ namespace AngleSharp.Dom
         /// </summary>
         /// <param name="other">The other attribute.</param>
         /// <returns>True if both are equivalent, otherwise false.</returns>
-        public Boolean Equals(IAttr? other) =>  Prefix.Is(other?.Prefix) && NamespaceUri.Is(other?.NamespaceUri) && Value.Is(other?.Value);
+        public Boolean Equals(IAttr? other) => other is not null && NamespaceUri.Is(other.NamespaceUri) && LocalName.Is(other.LocalName) && Value.Is(other.Value);
 
         /// <summary>
         /// Computes the hash code of the attribute.
@@ -197,7 +197,6 @@ namespace AngleSharp.Dom
             result = result * prime + _localName.GetHashCode();
             result = result * prime + (_value ?? String.Empty).GetHashCode();
             result = result * prime + (_namespace ?? String.Empty).GetHashCode();
-            result = result * prime + (_prefix ?? String.Empty).GetHashCode();
 
             return result;
         }

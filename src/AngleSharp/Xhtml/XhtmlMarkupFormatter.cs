@@ -162,6 +162,7 @@ namespace AngleSharp.Xhtml
                     case Symbols.Ampersand: temp.Append("&amp;"); break;
                     case Symbols.NoBreakSpace: temp.Append("&#160;"); break;
                     case Symbols.LessThan: temp.Append("&lt;"); break;
+                    case Symbols.GreaterThan: temp.Append("&gt;"); break;
                     case Symbols.DoubleQuote: temp.Append("&quot;"); break;
                     default: temp.Append(value[i]); break;
                 }

@@ -173,8 +173,10 @@ namespace AngleSharp.Dom
         {
             var sb = StringBuilderPool.Obtain();
 
-            foreach (var chr in value)
+            foreach (var b in TextEncoding.Utf8.GetBytes(value))
             {
+                var chr = (Char)b;
+
                 if (chr.IsAlphanumericAscii() || chr is Symbols.Minus or Symbols.Underscore or Symbols.ExclamationMark or Symbols.Asterisk or Symbols.ReverseSolidus or Symbols.RoundBracketOpen or Symbols.RoundBracketClose or Symbols.Tilde)
                 {
                     sb.Append(chr);
@@ -182,35 +184,14 @@ namespace AngleSharp.Dom
                 else
                 {
                     sb.Append(Symbols.Percent);
-                    sb.Append(((Int32)chr).ToString("X2"));
+                    sb.Append(b.ToString("X2"));
                 }
             }
 
             return sb.ToPool();
         }
 
-        private static String Decode(String value)
-        {
-            var sb = StringBuilderPool.Obtain();
-
-            for (var i = 0; i < value.Length; i++)
-            {
-                var chr = value[i];
-
-                if (chr is Symbols.Percent && i + 2 < value.Length)
-                {
-                    var count = value.Substring(i + 1, 2).FromHex();
-                    sb.Append((Char)count);
-                    i += 2;
-                }
-                else
-                {
-                    sb.Append(chr);
-                }
-            }
-
-            return sb.ToPool();
-        }
+        private static String Decode(String value) => Url.Utf8PercentDecode(value.Replace(Symbols.Plus, Symbols.Space));
 
         private void RaiseChanged(Boolean fromParent)
         {

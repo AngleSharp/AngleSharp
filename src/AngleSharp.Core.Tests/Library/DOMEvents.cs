@@ -43,6 +43,39 @@ namespace AngleSharp.Core.Tests.Library
         }
       
         [Test]
+        public void DispatchReturnsFalseWhenAListenerCanceled()
+        {
+            var element = document.QuerySelector("#first");
+            element.AddEventListener("click", (_, ev) => ev.Cancel());
+
+            var result = element.Dispatch(new Event("click", true, true));
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public void DispatchReturnsTrueWhenNotCanceled()
+        {
+            var element = document.QuerySelector("#first");
+            element.AddEventListener("click", (_, _) => { });
+
+            var result = element.Dispatch(new Event("click", true, true));
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void DispatchReturnsTrueWhenCancelingANonCancelableEvent()
+        {
+            var element = document.QuerySelector("#first");
+            element.AddEventListener("click", (_, ev) => ev.Cancel());
+
+            var result = element.Dispatch(new Event("click", true, false));
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
         public void NativeListenerResetNotifiesOnceAfterClearingListeners()
         {
             var target = (EventTarget)document;

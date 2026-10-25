@@ -538,6 +538,11 @@ namespace AngleSharp.Dom
         public static readonly String Open = "open";
 
         /// <summary>
+        /// The shadowrootmode attribute.
+        /// </summary>
+        public static readonly String ShadowRootMode = "shadowrootmode";
+
+        /// <summary>
         /// The challenge attribute.
         /// </summary>
         public static readonly String Challenge = "challenge";

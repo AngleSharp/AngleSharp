@@ -74,8 +74,8 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         [TestCase("=")]
         [TestCase("`")]
-        [TestCase("<")]
-        [TestCase(">")]
+        [TestCase("&lt;")]
+        [TestCase("&gt;")]
         [TestCase("'")]
         [TestCase("&quot;")]
         public void MinifiesPreservesQuotesWhenNeeded(string attributeValue)

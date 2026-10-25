@@ -229,3 +229,28 @@ Console.WriteLine(document.DocumentElement.ToHtml());
 ```
 
 This will keep the attribute as-is, i.e., like `*ngIf` instead of `*ngif`.
+
+## `MaximumDepth`
+
+HTML puts no limit on nesting, so a page with thousands of unclosed tags parses into a tree thousands of levels deep. Walking such a tree recursively can overflow the stack, and a `StackOverflowException` cannot be caught: it ends the process. To keep the trees it builds safe to walk, the parser nests elements at most `MaximumDepth` levels deep, counting the root element as level 1. The default is `HtmlParserOptions.DefaultMaximumDepth` (512), the limit browsers use as well.
+
+Once the limit is reached, further elements are attached as following siblings of the deepest element instead of as its children:
+
+```cs
+var parser = new HtmlParser(new HtmlParserOptions
+{
+    MaximumDepth = 4
+});
+var document = parser.ParseDocument("<body><div><p><b>a<i>b<u>c</u>d</i>e</b>f</p>g</div>");
+Console.WriteLine(document.Body.InnerHtml);
+```
+
+With `body` at level 2, the `p` at level 4 takes no element children, so the output is:
+
+```html
+<div><p>f</p><b>ae</b><i>bd</i><u>c</u>g</div>
+```
+
+Nothing of the document is dropped, but for such documents the tree deviates from the specification. Text still goes to the element it was opened in, so text that follows a closed sibling - `e` and `f` above - can come out of source order. Documents that stay within the limit are not affected.
+
+Setting `MaximumDepth` to zero or a negative value restores the default. Setting it to `Int32.MaxValue` lifts the limit and gives the tree exactly as specified, which is only safe for trusted input. The limit applies to parsing only: trees built or changed through the DOM API afterwards are not limited.

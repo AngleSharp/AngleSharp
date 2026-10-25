@@ -9,6 +9,7 @@ namespace AngleSharp.Html.Dom
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML input element.
@@ -295,7 +296,7 @@ namespace AngleSharp.Html.Dom
             return node;
         }
 
-        public override async void DoClick()
+        internal override async Task ClickAsync()
         {
             var cancelled = await IsClickedCancelled().ConfigureAwait(false);
             var form = Form;

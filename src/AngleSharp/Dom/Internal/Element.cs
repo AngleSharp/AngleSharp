@@ -544,19 +544,6 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public override Boolean Equals(INode? otherNode)
-        {
-            if (otherNode is IElement otherElement)
-            {
-                return NamespaceUri.Is(otherElement.NamespaceUri) &&
-                    _attributes.SameAs(otherElement.Attributes) &&
-                    base.Equals(otherNode);
-            }
-
-            return false;
-        }
-
-        /// <inheritdoc />
         public void Before(params INode[] nodes) => this.InsertBefore(nodes);
 
         /// <inheritdoc />

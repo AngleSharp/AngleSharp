@@ -166,7 +166,9 @@ namespace AngleSharp.Dom
             }
 
             ev.IsTrusted = false;
-            return ev.Dispatch(this);
+            // The internal dispatch reports cancellation (as the Fire* helpers do), while
+            // dispatchEvent reports the opposite: whether the default action may proceed.
+            return !ev.Dispatch(this);
         }
 
         #endregion

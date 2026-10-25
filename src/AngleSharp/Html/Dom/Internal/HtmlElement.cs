@@ -5,6 +5,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Html.Dom.Events;
     using AngleSharp.Text;
     using System;
+    using System.Globalization;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -598,18 +599,26 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        public virtual void DoClick() => IsClickedCancelled();
+        public void DoClick() => RunClick();
 
         /// <inheritdoc />
         public virtual void DoFocus()
         {
-            //Only certain elements can be focused
+            // Any element with a valid tabindex is a focusable area; elements that are focusable
+            // without one (links, form controls) widen this in their own override.
+            if (HasValidTabIndex())
+            {
+                IsFocused = true;
+            }
         }
 
         /// <inheritdoc />
         public virtual void DoBlur()
         {
-            //Only certain elements can be focused
+            if (IsFocused)
+            {
+                IsFocused = false;
+            }
         }
 
         /// <inheritdoc />
@@ -630,6 +639,36 @@ namespace AngleSharp.Html.Dom
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Fires the click event and, unless a listener canceled it, runs the element's
+        /// activation behavior (navigation, form submission, ...).
+        /// </summary>
+        internal virtual Task ClickAsync() => IsClickedCancelled();
+
+        private Boolean HasValidTabIndex()
+        {
+            var value = this.GetOwnAttribute(AttributeNames.TabIndex);
+            return value is not null && Int32.TryParse(value.Trim(), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out _);
+        }
+
+        /// <summary>
+        /// DoClick is void for the DOM's click(), so nobody can observe the activation it starts.
+        /// A failure there (a throwing requester, say) must not escape an async void, where it
+        /// would be rethrown on the thread pool and take the process down; it is reported as a
+        /// context error instead. Hosts that want to await or catch it use DoClickAsync.
+        /// </summary>
+        private async void RunClick()
+        {
+            try
+            {
+                await ClickAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Context?.TrackError(ex);
+            }
+        }
 
         /// <inheritdoc />
         protected Task<Boolean> IsClickedCancelled() =>

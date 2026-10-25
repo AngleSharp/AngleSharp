@@ -3,6 +3,7 @@ namespace AngleSharp.Core.Tests.Html
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using NUnit.Framework;
+    using System;
 
     /// <summary>
     /// Only IHtmlAnchorElement (and area) used to actually implement DoFocus()/DoBlur() - every
@@ -146,6 +147,56 @@ namespace AngleSharp.Core.Tests.Html
             target.DoFocus();
 
             Assert.AreEqual(0, focusCount, "Document.SetFocus should no-op when the target is already the focused element");
+        }
+
+        [Test]
+        public void FocusingAnElementWithTabIndexMakesItTheActiveElement()
+        {
+            var document = ("<div id=target tabindex=0>x</div>").ToHtmlDocument();
+            var target = document.GetElementById("target") as IHtmlElement;
+
+            target.DoFocus();
+
+            Assert.IsTrue(target.IsFocused);
+            Assert.AreSame(target, document.ActiveElement);
+        }
+
+        [TestCase("<div id=target>x</div>")]
+        [TestCase("<div id=target tabindex=foo>x</div>")]
+        [TestCase("<a id=target>x</a>")]
+        public void FocusingANonFocusableElementDoesNotFocusIt(String markup)
+        {
+            var document = markup.ToHtmlDocument();
+            var target = document.GetElementById("target") as IHtmlElement;
+
+            target.DoFocus();
+
+            Assert.IsFalse(target.IsFocused);
+        }
+
+        [Test]
+        public void FocusingAnAnchorWithoutHrefButWithTabIndexFocusesIt()
+        {
+            var document = ("<a id=target tabindex=-1>x</a>").ToHtmlDocument();
+            var target = document.GetElementById("target") as IHtmlElement;
+
+            target.DoFocus();
+
+            Assert.IsTrue(target.IsFocused);
+        }
+
+        [TestCase("<a id=target href='#x'>x</a>")]
+        [TestCase("<div id=target tabindex=0>x</div>")]
+        public void BlurringAFocusedElementClearsFocus(String markup)
+        {
+            var document = markup.ToHtmlDocument();
+            var target = document.GetElementById("target") as IHtmlElement;
+            target.DoFocus();
+
+            target.DoBlur();
+
+            Assert.IsFalse(target.IsFocused);
+            Assert.AreNotSame(target, document.ActiveElement);
         }
     }
 }

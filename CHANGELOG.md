@@ -1,3 +1,29 @@
+# 1.8.6
+
+Released on Sunday, October 25 2026
+
+- Removed temporary copies when serializing text that needs no HTML escaping
+- Fixed `INode.Equals` (`isEqualNode`) to compare what the DOM spec compares: character data, doctype identifiers, processing instructions, element prefixes and attribute local names, no longer base URLs, without overflowing the stack on deep trees
+- Fixed `IAttr.Equals` comparing the prefix instead of the local name
+- Fixed `IDocument.Import` (`importNode`) returning nodes owned by the source document instead of the importing one
+- Fixed `IDocument.Import` accepting a shadow root instead of throwing `NotSupported`
+- Fixed `INode.Clone` and `Import` overflowing the stack on deeply nested trees and templates
+- Fixed a shallow clone of a `<template>` copying its contents
+- Fixed serializing `<` and `>` in attribute values unescaped, which let markup break out when reparsed under different rules (mutation XSS); they are now written as `&lt;` and `&gt;` like browsers do since the HTML spec change of May 2025
+- Fixed `IRange.CopyContent` and `ExtractContent` overflowing the stack on deeply nested ranges
+- Fixed `Dispatch` (`dispatchEvent`) returning `true` for a canceled event
+- Fixed `MutationObserver` not observing a document itself and throwing for one without a root element
+- Fixed `MutationObserver.Disconnect` keeping the previous targets for a later `Connect`
+- Fixed a failing navigation or submission from `DoClick` crashing the process; it is reported as a context error
+- Fixed `URLSearchParams` treating non-ASCII values as single bytes and leaving `+` undecoded @NotAFlightRisk
+- Added the `IHtmlSelectElement.SelectedIndex` setter
+- Added `HtmlParserOptions.MaximumDepth` (default 512) to stop deeply nested markup from building trees that overflow the stack
+- Added focusing of elements with a `tabindex` and blurring of any focused element
+- Added `DoClickAsync` to await a click's navigation or form submission
+- Added toggling the parent `<details>` when clicking its `<summary>`
+- Added declarative shadow DOM: the parser attaches `<template shadowrootmode="open">` (or `closed`) as the shadow root of its parent
+- Added `:host(<compound>)`, and selectors in a shadow tree reaching its host (only through `:host`)
+
 # 1.8.5
 
 Released on Thursday, October 15 2026

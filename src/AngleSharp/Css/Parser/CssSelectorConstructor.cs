@@ -39,6 +39,7 @@ namespace AngleSharp.Css.Parser
             { PseudoClassNames.Matches, ctx => new MatchesFunctionState(ctx) },
             { PseudoClassNames.Where, ctx => new WhereFunctionState(ctx) },
             { PseudoClassNames.HostContext, ctx => new HostContextFunctionState(ctx) },
+            { PseudoClassNames.Host, ctx => new HostFunctionState(ctx) },
         };
 
         private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> _pseudoElementFunctionsDict = new(StringComparer.OrdinalIgnoreCase)
@@ -1036,6 +1037,40 @@ namespace AngleSharp.Css.Parser
 
                         return false;
                     }, code);
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// :host(compound) - the shadow host (the scope of a shadow tree's style sheets), if the
+        /// compound matches it.
+        /// </summary>
+        private sealed class HostFunctionState(CssSelectorConstructor parent) : FunctionState
+        {
+            private readonly CssSelectorConstructor _selector = parent.CreateChild(false);
+
+            protected override Boolean OnToken(CssSelectorToken token)
+            {
+                if (token.Type != CssTokenType.RoundBracketClose || _selector._state != State.Data)
+                {
+                    _selector.Apply(token);
+                    return false;
+                }
+
+                return true;
+            }
+
+            public override ISelector? Produce()
+            {
+                var valid = _selector.IsValid;
+                var sel = _selector.GetResult();
+
+                if (valid)
+                {
+                    var code = PseudoClassNames.Host.CssFunction(sel!.Text);
+                    return new PseudoClassSelector((el, scope) => Object.ReferenceEquals(el, scope) && el.ShadowRoot is not null && sel.Match(el, scope), code);
                 }
 
                 return null;

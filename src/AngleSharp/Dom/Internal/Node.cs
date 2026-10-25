@@ -2,6 +2,7 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Text;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using Common;
     using Html.Construction;
@@ -21,6 +22,12 @@ namespace AngleSharp.Dom
         private Node? _parent;
         private NodeList _children;
         private Document? _owner;
+
+        // See CloneChildren; real documents rarely nest deeper than 40 levels
+        private const Int32 MaximumCloneRecursion = 64;
+
+        [ThreadStatic]
+        private static CloneState? _cloneState;
 
         #endregion
 
@@ -279,8 +286,9 @@ namespace AngleSharp.Dom
                 // node lists are load bearing here - the loops iterate them - so they are built
                 // whether or not anything is observing. The owning document rather than the
                 // owner, for the reason the three call sites below give: a document node reports none.
-                OwningDocument?.MarkMutated();
-                document.QueueMutation(MutationRecord.ChildList(
+                var owningDocument = OwningDocument;
+                owningDocument?.MarkMutated();
+                owningDocument?.QueueMutation(MutationRecord.ChildList(
                     target: this,
                     addedNodes: addedNodes,
                     removedNodes: removedNodes));
@@ -310,8 +318,10 @@ namespace AngleSharp.Dom
 
             // The record costs a node list plus the record itself on every insert, and
             // QueueMutation throws both away again when nothing is observing. Asking first is the
-            // same behaviour for a fraction of the cost, as on the attribute path.
-            var reported = !suppressObservers && document is not null && document.HasMutationObservers;
+            // same behaviour for a fraction of the cost, as on the attribute path. Records, like
+            // the version, go to the owning document: a document's own children are observable.
+            var owningDocument = OwningDocument;
+            var reported = !suppressObservers && owningDocument is not null && owningDocument.HasMutationObservers;
             var addedNodes = reported ? new NodeList() : null;
             var n = _children.Index(referenceElement!);
 
@@ -364,11 +374,11 @@ namespace AngleSharp.Dom
                 // The insert is what decided a mutation happened - InsertNode above it is the raw
                 // child list write the parser drives directly and must stay free of this. The
                 // owning document rather than the owner, since a document node reports none.
-                OwningDocument?.MarkMutated();
+                owningDocument?.MarkMutated();
 
                 if (reported)
                 {
-                    document!.QueueMutation(MutationRecord.ChildList(
+                    owningDocument!.QueueMutation(MutationRecord.ChildList(
                         target: this,
                         addedNodes: addedNodes,
                         previousSibling: n > 0 ? _children[n - 1] : null,
@@ -382,6 +392,7 @@ namespace AngleSharp.Dom
         internal void RemoveChild(Node node, Boolean suppressObservers)
         {
             var document = Owner;
+            var owningDocument = OwningDocument;
             var index = _children.Index(node);
 
             if (document is not null)
@@ -398,26 +409,25 @@ namespace AngleSharp.Dom
             {
                 // The removal is what decided a mutation happened - RemoveNode below it is the raw
                 // child list write the parser drives directly and must stay free of this.
-                OwningDocument?.MarkMutated();
+                owningDocument?.MarkMutated();
 
                 // Both the record and the transient observer walk are pure observer bookkeeping:
                 // one is thrown away by QueueMutation and the other iterates an empty list when
                 // nothing is observing, so neither is worth its allocations then.
-                if (document is not null && document.HasMutationObservers)
+                if (owningDocument is not null && owningDocument.HasMutationObservers)
                 {
                     var removedNodes = new NodeList { node };
 
-                    document.QueueMutation(MutationRecord.ChildList(
+                    owningDocument.QueueMutation(MutationRecord.ChildList(
                         target: this,
                         removedNodes: removedNodes,
                         previousSibling: oldPreviousSibling,
                         nextSibling: node.NextSibling));
 
-                    document.AddTransientObserver(node);
+                    owningDocument.AddTransientObserver(node);
                 }
             }
 
-            var owningDocument = OwningDocument;
             RemoveNode(index, node);
             NodeIsRemoved(node, oldPreviousSibling);
             owningDocument?.RefreshBaseUrlForTreeChange(node);
@@ -458,9 +468,10 @@ namespace AngleSharp.Dom
                 {
                     // The replacement is what decided a mutation happened: the remove and the
                     // insert above ran suppressed precisely so this reports once.
-                    OwningDocument?.MarkMutated();
+                    var owningDocument = OwningDocument;
+                    owningDocument?.MarkMutated();
 
-                    if (document is not null && document.HasMutationObservers)
+                    if (owningDocument is not null && owningDocument.HasMutationObservers)
                     {
                         var addedNodes = new NodeList();
                         var removedNodes = new NodeList { child };
@@ -474,7 +485,7 @@ namespace AngleSharp.Dom
                             addedNodes.Add(node);
                         }
 
-                        document.QueueMutation(MutationRecord.ChildList(
+                        owningDocument.QueueMutation(MutationRecord.ChildList(
                             target: this,
                             addedNodes: addedNodes,
                             removedNodes: removedNodes,
@@ -788,25 +799,128 @@ namespace AngleSharp.Dom
         /// <inheritdoc cref="IEquatable{T}.Equals(T)" />
         public virtual Boolean Equals(INode? otherNode)
         {
-            if (BaseUri.Is(otherNode?.BaseUri) && NodeName.Is(otherNode?.NodeName) && ChildNodes.Length == otherNode?.ChildNodes.Length)
+            if (otherNode is null || !IsShallowEqual(this, otherNode))
             {
-                for (var i = 0; i < _children.Length; i++)
+                return false;
+            }
+
+            // The spec compares the children recursively, which a deeply nested tree would overflow
+            // the stack with. Both trees are walked in step instead, keeping a child index per level.
+            INode node = this;
+            var other = otherNode;
+            var indices = default(Int32[]);
+            var depth = 0;
+            var index = 0;
+
+            while (true)
+            {
+                var children = node.ChildNodes;
+
+                if (index < children.Length)
                 {
-                    if (!_children[i].Equals(otherNode.ChildNodes[i]))
+                    var child = children[index];
+                    var otherChild = other.ChildNodes[index];
+
+                    if (!IsShallowEqual(child, otherChild))
                     {
                         return false;
                     }
+
+                    if (indices is null)
+                    {
+                        indices = new Int32[16];
+                    }
+                    else if (depth == indices.Length)
+                    {
+                        Array.Resize(ref indices, depth * 2);
+                    }
+
+                    indices[depth++] = index;
+                    node = child;
+                    other = otherChild;
+                    index = 0;
                 }
-
-                return true;
+                else if (depth > 0)
+                {
+                    index = indices![--depth] + 1;
+                    node = node.Parent!;
+                    other = other.Parent!;
+                }
+                else
+                {
+                    return true;
+                }
             }
-
-            return false;
         }
 
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// https://dom.spec.whatwg.org/#concept-node-equals, except for comparing the children.
+        /// </summary>
+        private static Boolean IsShallowEqual(INode node, INode other)
+        {
+            if (node.NodeType != other.NodeType || node.ChildNodes.Length != other.ChildNodes.Length)
+            {
+                return false;
+            }
+
+            switch (node)
+            {
+                case IDocumentType doctype:
+                    return other is IDocumentType otherDoctype &&
+                        doctype.Name.Is(otherDoctype.Name) &&
+                        doctype.PublicIdentifier.Is(otherDoctype.PublicIdentifier) &&
+                        doctype.SystemIdentifier.Is(otherDoctype.SystemIdentifier);
+
+                case IElement element:
+                    return other is IElement otherElement && IsShallowEqual(element, otherElement);
+
+                case IProcessingInstruction instruction:
+                    return other is IProcessingInstruction otherInstruction &&
+                        instruction.Target.Is(otherInstruction.Target) &&
+                        instruction.Data.Is(otherInstruction.Data);
+
+                case ICharacterData data:
+                    return other is ICharacterData otherData && data.Data.Is(otherData.Data);
+
+                default:
+                    return true;
+            }
+        }
+
+        private static Boolean IsShallowEqual(IElement element, IElement other)
+        {
+            if (!element.NamespaceUri.Is(other.NamespaceUri) || !element.Prefix.Is(other.Prefix) || !element.LocalName.Is(other.LocalName))
+            {
+                return false;
+            }
+
+            var attributes = element.Attributes;
+            var otherAttributes = other.Attributes;
+
+            if (attributes.Length != otherAttributes.Length)
+            {
+                return false;
+            }
+
+            // An element cannot carry two attributes with the same namespace and local name, so
+            // looking each one up by that pair finds the only candidate in the other list.
+            for (var i = 0; i < attributes.Length; i++)
+            {
+                var attribute = attributes[i]!;
+                var match = otherAttributes.GetNamedItem(attribute.NamespaceUri, attribute.LocalName);
+
+                if (match is null || !attribute.Value.Is(match.Value))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         private static Boolean IsChangeForbidden(Node node, IDocument parent, Node child)
         {
@@ -910,17 +1024,177 @@ namespace AngleSharp.Dom
         {
             target._baseUri = _baseUri;
 
-            if (deep)
+            if (deep && _children.Length > 0)
             {
-                foreach (var child in _children)
+                CloneChildren(this, target, owner);
+            }
+        }
+
+        /// <summary>
+        /// Appends deep clones of the children of the source to the target.
+        /// </summary>
+        /// <remarks>
+        /// Cloning recursively would overflow the stack on a deeply nested tree, but a loop costs
+        /// real documents several percent, so the recursion only gives way below a fixed depth.
+        /// From there the descendants are cloned in post-order in a loop, each through its own
+        /// Clone, so every override still finishes its node after the children are attached: once
+        /// it gets here, they are already waiting at the end of the pending clones.
+        /// </remarks>
+        internal static void CloneChildren(Node source, Node target, Document owner)
+        {
+            if (source._children.Length == 0)
+            {
+                return;
+            }
+
+            var state = _cloneState ??= new CloneState();
+            var clones = state.Clones;
+            var parents = state.Parents;
+            var last = parents.Count - 1;
+            var start = clones.Count;
+
+            if (last >= 0 && parents[last].Key == source)
+            {
+                start = parents[last].Value;
+                parents.RemoveAt(last);
+            }
+            else if (state.Depth < MaximumCloneRecursion)
+            {
+                state.Depth++;
+
+                try
                 {
-                    if (child is Node node)
+                    var children = source._children;
+
+                    for (var i = 0; i < children.Length; i++)
                     {
-                        var clone = node.Clone(owner, true);
-                        target.AddNode(clone);
+                        target.AddNode(children[i].Clone(owner, true));
+                    }
+                }
+                finally
+                {
+                    state.Depth--;
+                }
+
+                return;
+            }
+            else
+            {
+                CloneDescendants(source, owner, state);
+            }
+
+            for (var i = start; i < clones.Count; i++)
+            {
+                target.AddNode(clones[i]);
+            }
+
+            clones.RemoveRange(start, clones.Count - start);
+        }
+
+        private static void CloneDescendants(Node root, Document owner, CloneState state)
+        {
+            var clones = state.Clones;
+            var parents = state.Parents;
+            var steps = state.Steps;
+            var bottom = steps.Count;
+            var clonesBottom = clones.Count;
+            var parentsBottom = parents.Count;
+            var step = new CloneStep(null, root, null, -1, clones.Count);
+
+            try
+            {
+                while (true)
+                {
+                    var children = step.List._children;
+
+                    if (step.Index < children.Length)
+                    {
+                        var child = children[step.Index++];
+                        // A template's contents are cloned with it, as the template's own Clone asks
+                        // for them after its children, so they go below the children on the pending clones.
+                        var content = child is Html.Dom.HtmlTemplateElement template ? (Node)template.Content : null;
+
+                        if (content is not null && content._children.Length > 0)
+                        {
+                            steps.Add(step);
+                            step = new CloneStep(child, content, content, clones.Count, -1);
+                        }
+                        else if (child._children.Length > 0)
+                        {
+                            steps.Add(step);
+                            step = new CloneStep(child, child, null, -1, clones.Count);
+                        }
+                        else
+                        {
+                            clones.Add(child.Clone(owner, true));
+                        }
+                    }
+                    else if (step.Node is null)
+                    {
+                        return;
+                    }
+                    else if (step.List != step.Node)
+                    {
+                        step = new CloneStep(step.Node, step.Node, step.Content, step.ContentStart, clones.Count);
+                    }
+                    else
+                    {
+                        var height = step.Content is null ? step.ChildrenStart : step.ContentStart;
+                        var parentsHeight = parents.Count;
+
+                        if (step.Content is not null)
+                        {
+                            parents.Add(new KeyValuePair<Node, Int32>(step.Content, step.ContentStart));
+                        }
+
+                        // Only nodes with children ask for them, so only those get a run
+                        if (step.Node._children.Length > 0)
+                        {
+                            parents.Add(new KeyValuePair<Node, Int32>(step.Node, step.ChildrenStart));
+                        }
+
+                        var clone = step.Node.Clone(owner, true);
+
+                        // An override that never asks for its children leaves them behind.
+                        clones.RemoveRange(height, clones.Count - height);
+                        parents.RemoveRange(parentsHeight, parents.Count - parentsHeight);
+                        clones.Add(clone);
+                        step = steps[steps.Count - 1];
+                        steps.RemoveAt(steps.Count - 1);
                     }
                 }
             }
+            catch
+            {
+                clones.RemoveRange(clonesBottom, clones.Count - clonesBottom);
+                parents.RemoveRange(parentsBottom, parents.Count - parentsBottom);
+                steps.RemoveRange(bottom, steps.Count - bottom);
+                throw;
+            }
+        }
+
+        // Finished clones still waiting for the clone of their parent, where each parent's run of
+        // them starts, and the path down to the node whose descendants are being cloned
+        private sealed class CloneState
+        {
+            // How many CloneChildren calls are recursing on this thread
+            public Int32 Depth;
+            public readonly List<Node> Clones = [];
+            public readonly List<KeyValuePair<Node, Int32>> Parents = [];
+            public readonly List<CloneStep> Steps = [];
+        }
+
+        private struct CloneStep(Node? node, Node list, Node? content, Int32 contentStart, Int32 childrenStart)
+        {
+            // The node to clone once its descendants are done; null for the root, which is cloned
+            // by the caller
+            public readonly Node? Node = node;
+            // The node whose children are being cloned: the node itself, or its template contents
+            public readonly Node List = list;
+            public readonly Node? Content = content;
+            public readonly Int32 ContentStart = contentStart;
+            public readonly Int32 ChildrenStart = childrenStart;
+            public Int32 Index = 0;
         }
 
         #endregion

@@ -1,6 +1,7 @@
 namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
     using Construction;
 
@@ -40,18 +41,44 @@ namespace AngleSharp.Html.Dom
         {
             var template = new HtmlTemplateElement(owner);
             CloneElement(template, owner, deep);
-            var clonedContent = template._content;
 
-            foreach (var child in _content.ChildNodes)
+            // The contents are cloned only with the children, as the template's cloning steps say
+            if (deep)
             {
-                if (child is Node node)
-                {
-                    var clone = node.Clone(owner, deep);
-                    clonedContent.AddNode(clone);
-                }
+                CloneChildren(_content, template._content, owner);
             }
 
             return template;
+        }
+
+        /// <summary>
+        /// Turns a declarative shadow root (a template with a valid shadowrootmode attribute,
+        /// e.g. &lt;template shadowrootmode="open"&gt;) into the shadow root of its parent, which
+        /// takes the template's children, while the template itself leaves the tree.
+        /// </summary>
+        /// <returns>True if the shadow root has been attached, otherwise false.</returns>
+        internal Boolean TryAttachDeclarativeShadowRoot()
+        {
+            var mode = GetAttribute(AttributeNames.ShadowRootMode);
+            var host = Parent as Element;
+
+            if (host is null || host.ShadowRoot is not null || TagNames.AllNoShadowRoot.Contains(host.LocalName) ||
+                !(mode.Isi("open") || mode.Isi("closed")))
+            {
+                return false;
+            }
+
+            var shadowRoot = (Node)host.AttachShadow(mode.Isi("open") ? ShadowRootMode.Open : ShadowRootMode.Closed);
+
+            while (HasChildNodes)
+            {
+                var node = ChildNodes[0];
+                RemoveNode(0, node);
+                shadowRoot.AddNode(node);
+            }
+
+            host.RemoveNode(host.ChildNodes.Index(this), this);
+            return true;
         }
 
         public void PopulateFragment()
