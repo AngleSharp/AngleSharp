@@ -75,6 +75,19 @@ namespace AngleSharp.Html.Parser
             }
         }
 
+        /// <summary>
+        /// A node whose children are still to be visited when limiting the depth, starting at
+        /// the given index, and the depth of these children.
+        /// </summary>
+        private readonly struct PendingChildren(IConstructableNode parent, Int32 index, Int32 depth)
+        {
+            public readonly IConstructableNode Parent = parent;
+
+            public readonly Int32 Index = index;
+
+            public readonly Int32 Depth = depth;
+        }
+
         #endregion
 
         #region Events
@@ -4393,17 +4406,20 @@ namespace AngleSharp.Html.Parser
         /// </summary>
         private void LimitDepth()
         {
-            var pending = new Stack<(IConstructableNode Parent, Int32 Index, Int32 Depth)>();
-            pending.Push((_document, 0, 1));
+            var pending = new Stack<PendingChildren>();
+            pending.Push(new PendingChildren(_document, 0, 1));
 
             while (pending.Count > 0)
             {
-                var (parent, index, level) = pending.Pop();
+                var current = pending.Pop();
+                var parent = current.Parent;
+                var index = current.Index;
+                var level = current.Depth;
                 var children = parent.ChildNodes;
 
                 if (index < children.Length)
                 {
-                    pending.Push((parent, index + 1, level));
+                    pending.Push(new PendingChildren(parent, index + 1, level));
 
                     if (children[index] is IConstructableElement element)
                     {
@@ -4413,11 +4429,11 @@ namespace AngleSharp.Html.Parser
 
                         if (level < _maximumDepth)
                         {
-                            pending.Push((element, 0, level + 1));
+                            pending.Push(new PendingChildren(element, 0, level + 1));
 
                             if (content is not null)
                             {
-                                pending.Push((content, 0, level + 1));
+                                pending.Push(new PendingChildren(content, 0, level + 1));
                             }
                         }
                         else
