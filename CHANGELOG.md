@@ -1,6 +1,6 @@
 # 1.8.6
 
-Released on Saturday, October 24 2026
+Released on Sunday, October 25 2026
 
 - Removed temporary copies when serializing text that needs no HTML escaping
 - Fixed `INode.Equals` (`isEqualNode`) to compare what the DOM spec compares: character data, doctype identifiers, processing instructions, element prefixes and attribute local names, no longer base URLs, without overflowing the stack on deep trees
@@ -21,6 +21,8 @@ Released on Saturday, October 24 2026
 - Added focusing of elements with a `tabindex` and blurring of any focused element
 - Added `DoClickAsync` to await a click's navigation or form submission
 - Added toggling the parent `<details>` when clicking its `<summary>`
+- Added declarative shadow DOM: the parser attaches `<template shadowrootmode="open">` (or `closed`) as the shadow root of its parent
+- Added `:host(<compound>)`, and selectors in a shadow tree reaching its host (only through `:host`)
 
 # 1.8.5
 

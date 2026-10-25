@@ -3033,7 +3033,12 @@ namespace AngleSharp.Html.Parser
 
                 if (currentNode is IConstructableTemplateElement template)
                 {
-                    template.PopulateFragment();
+                    // fragment parsing (e.g. innerHTML) does not create declarative shadow roots
+                    if (IsFragmentCase || currentNode is not HtmlTemplateElement declarative || !declarative.TryAttachDeclarativeShadowRoot())
+                    {
+                        template.PopulateFragment();
+                    }
+
                     break;
                 }
             }

@@ -68,6 +68,7 @@ namespace AngleSharp.Css.Parser
         private readonly IElement _source;
         private IElement? _current;
         private Boolean _started;
+        private Boolean _crossedShadowBoundary;
 
         // Only used by Sibling / Column, which cannot be walked through a
         // single element reference.
@@ -85,6 +86,7 @@ namespace AngleSharp.Css.Parser
             _source = source;
             _current = null;
             _started = false;
+            _crossedShadowBoundary = false;
             _siblings = null;
             _cells = null;
             _index = 0;
@@ -99,6 +101,12 @@ namespace AngleSharp.Css.Parser
         /// returned true.
         /// </summary>
         public readonly IElement Current => _current!;
+
+        /// <summary>
+        /// Gets if the cursor left a shadow tree for its host, which only
+        /// :host selectors may match.
+        /// </summary>
+        public readonly Boolean IsShadowHost => _crossedShadowBoundary;
 
         #endregion
 
@@ -140,7 +148,7 @@ namespace AngleSharp.Css.Parser
             _started = true;
             _current = _kind switch
             {
-                CssCombinatorKind.Child => _source.ParentElement,
+                CssCombinatorKind.Child => _source.ParentElement ?? EnterShadowHost(_source),
                 CssCombinatorKind.Deep => _source.Parent is IShadowRoot shadowRoot ? shadowRoot.Host : null,
                 CssCombinatorKind.AdjacentSibling => _source.PreviousElementSibling,
                 CssCombinatorKind.Namespace => _source,
@@ -152,10 +160,24 @@ namespace AngleSharp.Css.Parser
 
         private Boolean MoveAncestor()
         {
+            // a shadow tree ends at its host
+            if (_crossedShadowBoundary)
+            {
+                return false;
+            }
+
             var previous = _started ? _current : _source;
             _started = true;
-            _current = previous?.ParentElement;
+            _current = previous?.ParentElement ?? (previous is null ? null : EnterShadowHost(previous));
             return _current != null;
+        }
+
+        // The top of a shadow tree has the shadow host as its parent for matching (CSS Scoping 1, 3.2).
+        private IElement? EnterShadowHost(IElement element)
+        {
+            var host = (element.Parent as IShadowRoot)?.Host;
+            _crossedShadowBoundary = host is not null;
+            return host;
         }
 
         private Boolean MoveSibling()

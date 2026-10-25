@@ -152,6 +152,13 @@ namespace AngleSharp.Css.Dom
             {
                 var newElement = cursor.Current;
 
+                // the shadow host is featureless within its shadow tree: only :host selectors match it,
+                // and nothing beyond it can be reached (except by :host-context)
+                if (cursor.IsShadowHost && (pos != 0 || !combinatorSelector.Selector.Text.StartsWith(":host", StringComparison.OrdinalIgnoreCase)))
+                {
+                    continue;
+                }
+
                 if (combinatorSelector.Selector.Match(newElement, scope) && (pos == 0 || MatchCascade(pos - 1, newElement, scope)))
                 {
                     return true;
