@@ -1,3 +1,9 @@
+# 1.8.7
+
+Released on tbd
+
+- Fixed `IHtmlSelectElement.SelectedIndex` gaining a setter in 1.8.6, which broke existing implementers of the interface; set `Options.SelectedIndex` to change the selection
+
 # 1.8.6
 
 Released on Sunday, October 25 2026
