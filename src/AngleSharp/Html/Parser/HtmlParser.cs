@@ -3,6 +3,8 @@ namespace AngleSharp.Html.Parser
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Dom.Events;
+    using AngleSharp.Mathml.Dom;
+    using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;
     using System.IO;
@@ -421,13 +423,46 @@ namespace AngleSharp.Html.Parser
                     document.QuirksMode = owner.QuirksMode;
                 }
 
-                element = document.CreateElementFrom(element.LocalName, element.Prefix);
-                var fragment = parser.ParseFragment(_options, element).DocumentElement;
+                var origin = element;
+                element = CreateContextElement(document, element);
+                var fragment = parser.ParseFragment(_options, element, origin).DocumentElement;
                 element.AppendNodes(fragment.ChildNodes.ToArray());
                 return element.ChildNodes;
             }
 
             return parser.Parse(_options).ChildNodes;
+        }
+
+        /// <summary>
+        /// Recreates the context element in the fragment's own document. The tree builder
+        /// dispatches on the context's namespace (it is the adjusted current node while only
+        /// the root is open), so an SVG or MathML context must stay foreign, and an
+        /// annotation-xml context keeps the encoding that decides its integration point.
+        /// </summary>
+        private static Element CreateContextElement(HtmlDocument document, Element element)
+        {
+            if (element is SvgElement)
+            {
+                return document.CreateSvgElement(element.LocalName, element.Prefix);
+            }
+            else if (element is MathElement)
+            {
+                var math = document.CreateMathElement(element.LocalName, element.Prefix);
+
+                if (element.LocalName.Is(TagNames.AnnotationXml))
+                {
+                    var encoding = element.GetAttribute(AttributeNames.Encoding);
+
+                    if (encoding is not null)
+                    {
+                        math.SetAttribute(AttributeNames.Encoding, encoding);
+                    }
+                }
+
+                return math;
+            }
+
+            return document.CreateElementFrom(element.LocalName, element.Prefix);
         }
 
         #endregion
