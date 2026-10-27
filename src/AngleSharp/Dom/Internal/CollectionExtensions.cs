@@ -46,7 +46,9 @@ namespace AngleSharp.Dom
                         return element;
                     }
 
-                    element = element.ChildNodes.GetElementById(id)!;
+                    // The children of the library's own elements take the concrete walk below,
+                    // which needs no interface calls and cannot overflow the call stack
+                    element = (element is Element known ? GetElementById(known.ChildNodes, id, 1) : element.ChildNodes.GetElementById(id))!;
 
                     if (element != null)
                     {
@@ -56,6 +58,43 @@ namespace AngleSharp.Dom
             }
 
             return null;
+        }
+
+        // Recurses for the first levels and continues with an explicit stack below them, so deeply
+        // nested documents cannot overflow the call stack
+        private static Element? GetElementById(NodeList children, String id, Int32 depth)
+        {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                return GetElementByIdIteratively(children, id);
+            }
+
+            for (var i = 0; i < children.Length; i++)
+            {
+                if (children[i] is Element element)
+                {
+                    if (element.Id.Is(id))
+                    {
+                        return element;
+                    }
+
+                    element = GetElementById(element.ChildNodes, id, depth + 1)!;
+
+                    if (element != null)
+                    {
+                        return element;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private static Element? GetElementByIdIteratively(NodeList children, String id)
+        {
+            // An explicit stack, so deeply nested documents cannot overflow the call stack
+            var visitor = new IdVisitor(id);
+            return ElementWalker.Walk(children, ref visitor);
         }
 
         /// <summary>
@@ -75,8 +114,64 @@ namespace AngleSharp.Dom
                         result.Add(element);
                     }
 
-                    element.ChildNodes.GetElementsByName(name, result);
+                    // See GetElementById above
+                    if (element is Element known)
+                    {
+                        GetElementsByName(known.ChildNodes, name, result, 1);
+                    }
+                    else
+                    {
+                        element.ChildNodes.GetElementsByName(name, result);
+                    }
                 }
+            }
+        }
+
+        // Recurses for the first levels and continues with an explicit stack below them, so deeply
+        // nested documents cannot overflow the call stack
+        private static void GetElementsByName(NodeList children, String name, List<IElement> result, Int32 depth)
+        {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                GetElementsByNameIteratively(children, name, result);
+                return;
+            }
+
+            for (var i = 0; i < children.Length; i++)
+            {
+                if (children[i] is Element element)
+                {
+                    if (element.GetAttribute(null, AttributeNames.Name).Is(name))
+                    {
+                        result.Add(element);
+                    }
+
+                    GetElementsByName(element.ChildNodes, name, result, depth + 1);
+                }
+            }
+        }
+
+        private static void GetElementsByNameIteratively(NodeList children, String name, List<IElement> result)
+        {
+            var visitor = new NameVisitor(name, result);
+            ElementWalker.Walk(children, ref visitor);
+        }
+
+        private readonly struct IdVisitor(String id) : IElementVisitor
+        {
+            public Boolean Visit(Element element) => element.Id.Is(id);
+        }
+
+        private readonly struct NameVisitor(String name, List<IElement> result) : IElementVisitor
+        {
+            public Boolean Visit(Element element)
+            {
+                if (element.GetAttribute(null, AttributeNames.Name).Is(name))
+                {
+                    result.Add(element);
+                }
+
+                return false;
             }
         }
 
