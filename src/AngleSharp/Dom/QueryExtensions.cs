@@ -379,11 +379,44 @@ public static class QueryExtensions
                     result.Add(element);
                 }
 
+                // The children of the library's own elements take the concrete walk below,
+                // which needs no interface calls and cannot overflow the call stack
+                if (element is Element known)
+                {
+                    GetElementsByClassName(known.ChildNodes, classNames, result, 1);
+                }
+                else
+                {
+                    element.ChildNodes.GetElementsByClassName(classNames, result);
+                }
+            }
+        }
+    }
+
+    // Recurses for the first levels and continues with an explicit stack below them, so deeply
+    // nested documents cannot overflow the call stack
+    private static void GetElementsByClassName(NodeList elements, String[] classNames, List<IElement> result, Int32 depth)
+    {
+        if (depth == ChildIndexStack.RecursionLimit)
+        {
+            GetElementsByClassNameIteratively(elements, classNames, result);
+            return;
+        }
+
+        for (var i = 0; i < elements.Length; i++)
+        {
+            if (elements[i] is Element element)
+            {
+                if (element.ClassList.Contains(classNames))
+                {
+                    result.Add(element);
+                }
+
                 // No ChildElementCount guard: that count is itself a full scan of ChildNodes,
                 // so gating the recursive scan on it costs as much as the scan it is meant to
                 // skip. Recursing unconditionally means a childless (or element-childless) node
                 // pays for exactly one scan - the recursive call's own - instead of two.
-                GetElementsByClassName(element.ChildNodes, classNames, result);
+                GetElementsByClassName(element.ChildNodes, classNames, result, depth + 1);
             }
         }
     }
@@ -405,9 +438,41 @@ public static class QueryExtensions
                     result.Add(element);
                 }
 
+                // See the class-name overload above
+                if (element is Element known)
+                {
+                    GetElementsByTagName(known.ChildNodes, tagName, result, 1);
+                }
+                else
+                {
+                    element.ChildNodes.GetElementsByTagName(tagName, result);
+                }
+            }
+        }
+    }
+
+    // Recurses for the first levels and continues with an explicit stack below them, so deeply
+    // nested documents cannot overflow the call stack
+    private static void GetElementsByTagName(NodeList elements, String? tagName, List<IElement> result, Int32 depth)
+    {
+        if (depth == ChildIndexStack.RecursionLimit)
+        {
+            GetElementsByTagNameIteratively(elements, tagName, result);
+            return;
+        }
+
+        for (var i = 0; i < elements.Length; i++)
+        {
+            if (elements[i] is Element element)
+            {
+                if (tagName is null || tagName.Isi(element.LocalName))
+                {
+                    result.Add(element);
+                }
+
                 // No ChildElementCount guard: see the identical comment in the class-name
                 // overload above.
-                GetElementsByTagName(element.ChildNodes, tagName!, result);
+                GetElementsByTagName(element.ChildNodes, tagName, result, depth + 1);
             }
         }
     }
@@ -431,10 +496,120 @@ public static class QueryExtensions
                     result.Add(element);
                 }
 
+                // See the class-name overload above
+                if (element is Element known)
+                {
+                    GetElementsByTagName(known.ChildNodes, namespaceUri, localName, result, 1);
+                }
+                else
+                {
+                    element.ChildNodes.GetElementsByTagName(namespaceUri, localName, result);
+                }
+            }
+        }
+    }
+
+    // Recurses for the first levels and continues with an explicit stack below them, so deeply
+    // nested documents cannot overflow the call stack
+    private static void GetElementsByTagName(NodeList elements, String? namespaceUri, String? localName, List<IElement> result, Int32 depth)
+    {
+        if (depth == ChildIndexStack.RecursionLimit)
+        {
+            GetElementsByTagNameIteratively(elements, namespaceUri, localName, result);
+            return;
+        }
+
+        for (var i = 0; i < elements.Length; i++)
+        {
+            if (elements[i] is Element element)
+            {
+                if (element.NamespaceUri.Is(namespaceUri) && (localName is null || localName.Isi(element.LocalName)))
+                {
+                    result.Add(element);
+                }
+
                 // No ChildElementCount guard: see the identical comment in the class-name
                 // overload above.
-                GetElementsByTagName(element.ChildNodes, namespaceUri, localName, result);
+                GetElementsByTagName(element.ChildNodes, namespaceUri, localName, result, depth + 1);
             }
+        }
+    }
+
+    /// <summary>
+    /// Returns a set of elements which have all the given class names.
+    /// </summary>
+    /// <param name="elements">The elements to take as source.</param>
+    /// <param name="classNames">An array with class names to consider.</param>
+    /// <param name="result">A reference to the list where to store the results.</param>
+    private static void GetElementsByClassNameIteratively(NodeList elements, String[] classNames, List<IElement> result)
+    {
+        // An explicit stack, so deeply nested documents cannot overflow the call stack
+        var visitor = new ClassNameVisitor(classNames, result);
+        ElementWalker.Walk(elements, ref visitor);
+    }
+
+    /// <summary>
+    /// Returns a NodeList of elements with the given tag name. The complete document is searched, including the root node.
+    /// </summary>
+    /// <param name="elements">The elements to take as source.</param>
+    /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
+    /// <param name="result">A reference to the list where to store the results.</param>
+    private static void GetElementsByTagNameIteratively(NodeList elements, String? tagName, List<IElement> result)
+    {
+        var visitor = new TagNameVisitor(tagName, result);
+        ElementWalker.Walk(elements, ref visitor);
+    }
+
+    /// <summary>
+    /// Returns a list of elements with the given tag name belonging to the given namespace.
+    /// The complete document is searched, including the root node.
+    /// </summary>
+    /// <param name="elements">The elements to take as source.</param>
+    /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
+    /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
+    /// <param name="result">A reference to the list where to store the results.</param>
+    private static void GetElementsByTagNameIteratively(NodeList elements, String? namespaceUri, String? localName, List<IElement> result)
+    {
+        var visitor = new NamespacedTagNameVisitor(namespaceUri, localName, result);
+        ElementWalker.Walk(elements, ref visitor);
+    }
+
+    private readonly struct ClassNameVisitor(String[] classNames, List<IElement> result) : IElementVisitor
+    {
+        public Boolean Visit(Element element)
+        {
+            if (element.ClassList.Contains(classNames))
+            {
+                result.Add(element);
+            }
+
+            return false;
+        }
+    }
+
+    private readonly struct TagNameVisitor(String? tagName, List<IElement> result) : IElementVisitor
+    {
+        public Boolean Visit(Element element)
+        {
+            if (tagName is null || tagName.Isi(element.LocalName))
+            {
+                result.Add(element);
+            }
+
+            return false;
+        }
+    }
+
+    private readonly struct NamespacedTagNameVisitor(String? namespaceUri, String? localName, List<IElement> result) : IElementVisitor
+    {
+        public Boolean Visit(Element element)
+        {
+            if (element.NamespaceUri.Is(namespaceUri) && (localName is null || localName.Isi(element.LocalName)))
+            {
+                result.Add(element);
+            }
+
+            return false;
         }
     }
 

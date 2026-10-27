@@ -2,7 +2,7 @@
 
 Released on Friday, October 30 2026.
 
-- tbd
+- Improved performance of `TextContent`, `:contains()`, `GetElementById`, `GetElementsByName`, `GetElementsByClassName`, `GetElementsByTagName` and `Normalize`, which also continue with an explicit stack below 128 levels instead of recursing (#1389) @michaelthyregod
 
 # 1.8.6
 

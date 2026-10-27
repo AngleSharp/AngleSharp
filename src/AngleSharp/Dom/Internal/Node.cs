@@ -699,67 +699,160 @@ namespace AngleSharp.Dom
         public Boolean Contains(INode otherNode) => this.IsInclusiveAncestorOf(otherNode);
 
         /// <inheritdoc />
-        public void Normalize()
+        public void Normalize() => Normalize(0);
+
+        // Recurses for the first levels and continues with an explicit stack below them, so deeply
+        // nested documents cannot overflow the call stack
+        private void Normalize(Int32 depth)
         {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                NormalizeIteratively();
+                return;
+            }
+
             for (var i = 0; i < _children.Length; i++)
             {
                 if (_children[i] is TextNode text)
                 {
-                    var length = text.Length;
-
-                    if (length == 0)
-                    {
-                        RemoveChild(text, false);
-                        i--;
-                    }
-                    else
-                    {
-                        var sb = StringBuilderPool.Obtain();
-                        var sibling = text;
-                        var end = i;
-                        var owner = Owner;
-
-                        while ((sibling = sibling.NextSibling as TextNode) != null)
-                        {
-                            sb.Append(sibling.Data);
-                            end++;
-
-                            foreach (var m in owner.GetAttachedReferences<Range>())
-                            {
-                                if (m.Head == sibling)
-                                {
-                                    m.StartWith(text, length);
-                                }
-                                if (m.Tail == sibling)
-                                {
-                                    m.EndWith(text, length);
-                                }
-                                if (m.Head == sibling.Parent && m.Start == end)
-                                {
-                                    m.StartWith(text, length);
-                                }
-                                if (m.Tail == sibling.Parent && m.End == end)
-                                {
-                                    m.EndWith(text, length);
-                                }
-                            }
-
-                            length += sibling.Length;
-                        }
-
-                        text.Replace(text.Length, 0, sb.ToPool());
-
-                        for (var j = end; j > i; j--)
-                        {
-                            RemoveChild(_children[j], false);
-                        }
-                    }
+                    i = NormalizeText(text, i);
                 }
                 else if (_children[i].HasChildNodes)
                 {
-                    _children[i].Normalize();
+                    _children[i].Normalize(depth + 1);
                 }
             }
+        }
+
+        // It visits the nodes in the same order as the recursion, descending into a child as soon
+        // as it is reached, so mutation records and live ranges see the same sequence of changes.
+        private void NormalizeIteratively()
+        {
+            var resume = new ChildIndexStack(stackalloc Int32[ChildIndexStack.InitialDepth]);
+
+            try
+            {
+                var node = this;
+                var start = 0;
+                var depth = 0;
+
+                while (true)
+                {
+                    var descendInto = node.NormalizeChildrenFrom(start);
+
+                    if (descendInto >= 0)
+                    {
+                        // Normalizing the child changes nothing at this level, so after the last
+                        // child there is nothing to come back to
+                        if (descendInto + 1 < node._children.Length)
+                        {
+                            resume.Push(descendInto + 1, depth);
+                        }
+
+                        node = node._children[descendInto];
+                        start = 0;
+                        depth++;
+                    }
+                    else if (resume.Count > 0)
+                    {
+                        start = resume.Pop(out var target);
+
+                        for (; depth > target; depth--)
+                        {
+                            node = node._parent!;
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            finally
+            {
+                resume.Dispose();
+            }
+        }
+
+        // Normalizes the children from the given index on, until it reaches a child with children of
+        // its own, whose index it returns; -1 once all children are done.
+        private Int32 NormalizeChildrenFrom(Int32 start)
+        {
+            for (var i = start; i < _children.Length; i++)
+            {
+                if (_children[i] is TextNode text)
+                {
+                    i = NormalizeText(text, i);
+                }
+                else if (_children[i].HasChildNodes)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        // Removes the empty text child at the given index, or merges the text siblings that follow it
+        // into it. Returns the index the caller's loop continues from.
+        private Int32 NormalizeText(TextNode text, Int32 i)
+        {
+            var length = text.Length;
+
+            if (length == 0)
+            {
+                RemoveChild(text, false);
+                return i - 1;
+            }
+
+            // Nothing to merge, so no builder either, which takes the shared pool's lock twice
+            if (i + 1 == _children.Length || _children[i + 1] is not TextNode)
+            {
+                text.Replace(length, 0, String.Empty);
+                return i;
+            }
+
+            var sb = StringBuilderPool.Obtain();
+            var end = i;
+            var owner = Owner;
+
+            // By index rather than NextSibling, which searches the children for the node every time
+            while (end + 1 < _children.Length && _children[end + 1] is TextNode sibling)
+            {
+                sb.Append(sibling.Data);
+                end++;
+
+                foreach (var m in owner.GetAttachedReferences<Range>())
+                {
+                    if (m.Head == sibling)
+                    {
+                        m.StartWith(text, length);
+                    }
+                    if (m.Tail == sibling)
+                    {
+                        m.EndWith(text, length);
+                    }
+                    if (m.Head == sibling.Parent && m.Start == end)
+                    {
+                        m.StartWith(text, length);
+                    }
+                    if (m.Tail == sibling.Parent && m.End == end)
+                    {
+                        m.EndWith(text, length);
+                    }
+                }
+
+                length += sibling.Length;
+            }
+
+            text.Replace(text.Length, 0, sb.ToPool());
+
+            for (var j = end; j > i; j--)
+            {
+                RemoveChild(_children[j], false);
+            }
+
+            return i;
         }
 
         /// <inheritdoc />
