@@ -73,6 +73,36 @@ namespace AngleSharp.Dom
 
         internal Boolean Contains(Node node) => _entries.Contains(node);
 
+        /// <summary>
+        /// Gets the index of the given node, or -1. Shadows the IEnumerable extension, which
+        /// boxes an enumerator, and answers for the last entry first: removing from the end
+        /// is the usual way to empty a node and would otherwise scan the whole list each time.
+        /// </summary>
+        internal Int32 Index(INode? node)
+        {
+            var last = _entries.Count - 1;
+
+            // A null reference child is how an append asks, so it must not cost a scan.
+            if (node is null)
+            {
+                return -1;
+            }
+            else if (last >= 0 && Object.ReferenceEquals(_entries[last], node))
+            {
+                return last;
+            }
+
+            for (var i = 0; i < last; i++)
+            {
+                if (Object.ReferenceEquals(_entries[i], node))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         #endregion
 
         #region Methods

@@ -753,5 +753,25 @@
             Assert.AreEqual(length, context.ChildNodes.Length);
             Assert.AreEqual(first, context.FirstChild.GetTagName());
         }
+
+        [Test]
+        public void ParseFragmentKeepsOrderOfManyTopLevelNodes()
+        {
+            var document = "<body>".ToHtmlDocument();
+            var source = String.Concat(Enumerable.Range(0, 2000).Select(i => $"<p>{i}</p>{i}"));
+            var nodes = source.ToHtmlFragment(document.Body);
+            var parent = nodes[0].Parent;
+
+            Assert.AreEqual(4000, nodes.Length);
+
+            for (var i = 0; i < 2000; i++)
+            {
+                Assert.AreEqual("p", nodes[2 * i].GetTagName());
+                Assert.AreEqual(i.ToString(), nodes[2 * i].TextContent);
+                Assert.AreEqual(i.ToString(), nodes[2 * i + 1].TextContent);
+                Assert.AreSame(parent, nodes[2 * i].Parent);
+                Assert.AreSame(parent, nodes[2 * i + 1].Parent);
+            }
+        }
     }
 }

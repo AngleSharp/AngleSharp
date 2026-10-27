@@ -21,7 +21,7 @@ namespace AngleSharp.Html.Dom
         public HtmlTemplateElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Template, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
-            _content = new DocumentFragment(owner);
+            _content = new DocumentFragment(owner, this);
         }
 
         #endregion

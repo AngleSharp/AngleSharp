@@ -426,7 +426,22 @@ namespace AngleSharp.Html.Parser
                 var origin = element;
                 element = CreateContextElement(document, element);
                 var fragment = parser.ParseFragment(_options, element, origin).DocumentElement;
-                element.AppendNodes(fragment.ChildNodes.ToArray());
+
+                // Detached from the back, where a removal shifts nothing, then appended in
+                // order to the detached copy. AppendNodes would first gather them in a
+                // document fragment, and taking each from the front is quadratic.
+                var nodes = new INode[fragment.ChildNodes.Length];
+
+                for (var i = nodes.Length - 1; i >= 0; i--)
+                {
+                    nodes[i] = fragment.RemoveChild(fragment.LastChild!);
+                }
+
+                for (var i = 0; i < nodes.Length; i++)
+                {
+                    element.AppendChild(nodes[i]);
+                }
+
                 return element.ChildNodes;
             }
 
