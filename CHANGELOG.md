@@ -4,6 +4,7 @@ Released on Friday, October 30 2026.
 
 - Improved performance of `TextContent`, `:contains()`, `GetElementById`, `GetElementsByName`, `GetElementsByClassName`, `GetElementsByTagName` and `Normalize`, which also continue with an explicit stack below 128 levels instead of recursing (#1389) @michaelthyregod
 - Improved performance of `IHtmlParser.ParseFragment` and of inserting many nodes at once (`Append`, `Prepend`, ...): finding a template's host no longer scans the whole document, and removing a node's last child no longer scans its siblings
+- Improved performance of removing or inserting a node's first child, which no longer shifts all its siblings, so moving every child of a large node one by one (or replacing it via `innerHTML`) takes linear time; each node with children also allocates one object less
 - Fixed fragment parsing (`ParseFragment`, `innerHTML`) to break out of `svg` / `math` on HTML start tags such as `p`, `b` or `div`, which previously stayed foreign elements
 - Fixed `IHtmlParser.ParseFragment` to keep an SVG or MathML context element in its namespace (and an `annotation-xml` context's `encoding`), instead of parsing as if the context were an HTML element of the same name, and to find a `form` ancestor of the context, so a nested `<form>` start tag is ignored as with `innerHTML`
 - Fixed inserting a detached `template` into its own contents not throwing a `HierarchyRequestError`
