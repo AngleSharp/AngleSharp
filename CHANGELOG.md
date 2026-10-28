@@ -9,6 +9,9 @@ Released on Friday, October 30 2026.
 - Fixed fragment parsing (`ParseFragment`, `innerHTML`) to break out of `svg` / `math` on HTML start tags such as `p`, `b` or `div`, which previously stayed foreign elements
 - Fixed `IHtmlParser.ParseFragment` to keep an SVG or MathML context element in its namespace (and an `annotation-xml` context's `encoding`), instead of parsing as if the context were an HTML element of the same name, and to find a `form` ancestor of the context, so a nested `<form>` start tag is ignored as with `innerHTML`
 - Fixed inserting a detached `template` into its own contents not throwing a `HierarchyRequestError`
+- Fixed `AwaitEventAsync` removing its listener off-thread while a dispatch was still running @michaelthyregod
+- Fixed event listener registration racing a dispatch on another thread @michaelthyregod
+- Added `AwaitEventAsync` overload taking a `CancellationToken` @michaelthyregod
 
 # 1.8.6
 
