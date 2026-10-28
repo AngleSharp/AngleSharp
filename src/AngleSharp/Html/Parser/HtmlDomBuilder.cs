@@ -4606,14 +4606,18 @@ namespace AngleSharp.Html.Parser
 
             if (table && current.Parent is not null)
             {
-                for (var i = 0; i < foster.ChildNodes.Length; i++)
-			    {
-                    if (foster.ChildNodes[i] == current)
+                // From the back: everything fostered so far sits before the table, which is why
+                // a scan from the front made a long run of foster children quadratic.
+                var children = foster.ChildNodes;
+
+                for (var i = children.Length - 1; i >= 0; i--)
+                {
+                    if (children[i] == current)
                     {
                         foster.InsertNode(i, element);
                         break;
                     }
-			    }
+                }
             }
             else
             {
@@ -4672,9 +4676,13 @@ namespace AngleSharp.Html.Parser
 
             if (table && _openElements[index].Parent is not null)
             {
-                for (var i = 0; i < foster.ChildNodes.Length; i++)
+                // From the back, as in AddElementWithFoster: the table follows all fostered text.
+                var children = foster.ChildNodes;
+                var current = _openElements[index];
+
+                for (var i = children.Length - 1; i >= 0; i--)
                 {
-                    if (foster.ChildNodes[i] == _openElements[index])
+                    if (children[i] == current)
                     {
                         foster.InsertText(i, text, _emitWhitespaceTextNodes);
                         break;
