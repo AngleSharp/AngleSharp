@@ -717,29 +717,13 @@ namespace AngleSharp.Css.Parser
 
                 var sel = _nested.GetResult()!;
                 var selText = sel.Text;
-                var matchSiblings = _matchSiblings || selText.Contains(":" + PseudoClassNames.Scope);
+                var anchored = _matchSiblings || selText.Contains(":" + PseudoClassNames.Scope);
                 var code = PseudoClassNames.Has.CssFunction(selText);
                 var specificity = sel is ListSelector list && list.Length == 0
                     ? Priority.Zero
                     : ResolveMostSpecificParameter(sel);
 
-                return new PseudoClassSelector(el =>
-                {
-                    var elements = default(IEnumerable<IElement>);
-
-                    if (matchSiblings)
-                    {
-                        elements = el.ParentElement?.Children;
-                    }
-                    else
-                    {
-                        elements = el.Children;
-                    }
-
-                    elements ??= Array.Empty<IElement>();
-
-                    return sel.MatchAny(elements, el) is not null;
-                }, code, specificity);
+                return new HasSelector(sel, code, specificity, anchored);
             }
         }
 

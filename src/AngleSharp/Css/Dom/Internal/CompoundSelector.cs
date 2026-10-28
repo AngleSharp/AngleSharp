@@ -9,11 +9,19 @@ namespace AngleSharp.Css.Dom
     /// </summary>
     sealed class CompoundSelector : Selectors, ISelector
     {
+        // The simple selectors in the order they are tested: as declared, except that the ones
+        // containing a :has() go last, so "div:has(img):hover" walks the subtree only for the
+        // elements that are already known to be hovered divs. Built on first match and dropped
+        // by Invalidate(); publishing a fully built array keeps a racing reader safe.
+        private ISelector[]? _matchOrder;
+
         public Boolean Match(IElement element, IElement? scope)
         {
-            for (var i = 0; i < _selectors.Count; i++)
+            var selectors = _matchOrder ??= CreateMatchOrder();
+
+            for (var i = 0; i < selectors.Length; i++)
             {
-                if (!_selectors[i].Match(element, scope))
+                if (!selectors[i].Match(element, scope))
                 {
                     return false;
                 }
@@ -25,6 +33,40 @@ namespace AngleSharp.Css.Dom
         public void Accept(ISelectorVisitor visitor)
         {
             visitor.Many(_selectors);
+        }
+
+        protected override void Invalidate()
+        {
+            base.Invalidate();
+            _matchOrder = null;
+        }
+
+        private ISelector[] CreateMatchOrder()
+        {
+            var n = _selectors.Count;
+            var order = new ISelector[n];
+            var deferred = new Boolean[n];
+            var k = 0;
+
+            for (var i = 0; i < n; i++)
+            {
+                deferred[i] = HasSelector.IsContainedIn(_selectors[i]);
+
+                if (!deferred[i])
+                {
+                    order[k++] = _selectors[i];
+                }
+            }
+
+            for (var i = 0; i < n; i++)
+            {
+                if (deferred[i])
+                {
+                    order[k++] = _selectors[i];
+                }
+            }
+
+            return order;
         }
 
         protected override String Stringify()

@@ -750,6 +750,61 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual("first", result[0].Id);
         }
 
+        // Fixture and expectations from WPT css/selectors/has-basic.html.
+        private const String HasBasicFixture = @"<main id=main>
+  <div id=a class=ancestor>
+    <div id=b class='parent ancestor'>
+      <div id=c class='sibling descendant'>
+        <div id=d class=descendant></div>
+      </div>
+      <div id=e class='target descendant'></div>
+    </div>
+    <div id=f class='parent ancestor'>
+      <div id=g class='target descendant'></div>
+    </div>
+    <div id=h class='parent ancestor'>
+      <div id=i class='target descendant'></div>
+      <div id=j class='sibling descendant'>
+        <div id=k class=descendant></div>
+      </div>
+    </div>
+  </div>
+</main>";
+
+        [TestCase(":has(#a)", "")]
+        [TestCase(":has(.ancestor)", "a")]
+        [TestCase(":has(.target)", "a,b,f,h")]
+        [TestCase(":has(.descendant)", "a,b,c,f,h,j")]
+        [TestCase(".parent:has(.target)", "b,f,h")]
+        [TestCase(":has(.sibling ~ .target)", "a,b")]
+        [TestCase(".parent:has(.sibling ~ .target)", "b")]
+        [TestCase(":has(:is(.target ~ .sibling .descendant))", "a,h,j")]
+        [TestCase(".parent:has(:is(.target ~ .sibling .descendant))", "h")]
+        [TestCase(".sibling:has(.descendant) ~ .target", "e")]
+        [TestCase(":has(> .parent)", "a")]
+        [TestCase(":has(> .target)", "b,f,h")]
+        [TestCase(":has(> .parent > .target)", "a")]
+        [TestCase(":has(> .parent .descendant)", "a")]
+        [TestCase(":has(+ #h)", "f")]
+        [TestCase(".parent:has(~ #h)", "b,f")]
+        [TestCase(":has(~ .parent > .target)", "b,f")]
+        [TestCase(":has(+ .target)", "c")]
+        [TestCase(":has(+ .sibling > .descendant)", "i")]
+        [TestCase(":has(:scope > .target)", "b,f,h")]
+        [TestCase(".ancestor :has(> .descendant)", "b,c,f,h,j")]
+        [TestCase(":has(.descendant).sibling", "c,j")]
+        [TestCase(":has(> .target):has(+ .parent)", "b,f")]
+        [TestCase("#a :has(.target) > .target", "e,g,i")]
+        [TestCase(":not(:has(.descendant)).ancestor", "")]
+        public void HasSelectorBasic(String selector, String expected)
+        {
+            var document = HasBasicFixture.ToHtmlDocument();
+            var main = document.GetElementById("main");
+            var result = main.QuerySelectorAll(selector);
+            var ids = String.Join(",", result.Select(m => m.Id));
+            Assert.AreEqual(expected, ids);
+        }
+
         [TestCase("is")]
         [TestCase("matches")]
         public void MatchesWithTwoElements(string variant)
