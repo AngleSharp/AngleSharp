@@ -1,6 +1,9 @@
 namespace AngleSharp.Dom
 {
     using System;
+    using System.Runtime.CompilerServices;
+    using System.Text;
+    using System.Threading;
 
     /// <summary>
     /// The base class for all characterdata implementations.
@@ -9,7 +12,14 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private String _content;
+        /// <summary>
+        /// A String, or a StringBuilder once the tree builder's appends have taken the content
+        /// past <see cref="PendingThreshold"/>: concatenating every append would copy the whole
+        /// run each time, quadratic for text that keeps growing (e.g. split by ignored tags).
+        /// </summary>
+        private Object _content;
+
+        private const Int32 PendingThreshold = 1024;
 
         #endregion
 
@@ -87,18 +97,18 @@ namespace AngleSharp.Dom
 
         internal Char this[Int32 index]
         {
-            get => _content[index];
+            get => Content[index];
             set
             {
                 if (index >= 0)
                 {
                     if (index >= Length)
                     {
-                        _content = _content.PadRight(index) + value.ToString();
+                        _content = Content.PadRight(index) + value.ToString();
                     }
                     else
                     {
-                        var chrs = _content.ToCharArray();
+                        var chrs = Content.ToCharArray();
                         chrs[index] = value;
                         _content = new String(chrs);
                     }
@@ -110,7 +120,7 @@ namespace AngleSharp.Dom
             }
         }
 
-        public Int32 Length => _content.Length;
+        public Int32 Length => _content is StringBuilder pending ? pending.Length : ((String)_content).Length;
 
         public sealed override String NodeValue
         {
@@ -126,7 +136,7 @@ namespace AngleSharp.Dom
 
         public String Data
         {
-            get => _content;
+            get => Content;
             set => Replace(0, Length, value);
         }
 
@@ -134,9 +144,44 @@ namespace AngleSharp.Dom
 
         #region Methods
 
+        /// <summary>
+        /// Gets the content as a string, turning pending appends into one first.
+        /// </summary>
+        private String Content
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _content as String ?? Materialize();
+        }
+
+        // A parsed document can be read from several threads at once, and the first read of a
+        // node whose appends are still pending is a write. The lock makes it one ToString, and
+        // every reader returns the same string.
+        private String Materialize()
+        {
+            var pending = _content;
+
+            if (pending is String done)
+            {
+                return done;
+            }
+
+            lock (pending)
+            {
+                if (_content is StringBuilder builder)
+                {
+                    var value = builder.ToString();
+                    Volatile.Write(ref _content, value);
+                    return value;
+                }
+
+                return (String)_content;
+            }
+        }
+
         public String Substring(Int32 offset, Int32 count)
         {
-            var length = _content.Length;
+            var content = Content;
+            var length = content.Length;
 
             if (offset > length)
             {
@@ -145,13 +190,13 @@ namespace AngleSharp.Dom
 
             if (offset + count > length)
             {
-                return _content.Substring(offset);
+                return content.Substring(offset);
             }
 
-            return _content.Substring(offset, count);
+            return content.Substring(offset, count);
         }
 
-        public void Append(String value) => Replace(_content.Length, 0, value);
+        public void Append(String value) => Replace(Length, 0, value);
 
         public void Insert(Int32 offset, String data) => Replace(offset, 0, data);
 
@@ -165,7 +210,19 @@ namespace AngleSharp.Dom
         /// the content can move no range boundary, since every boundary already sits at or before
         /// it, which is what makes this the cheap half of the replace data steps.
         /// </summary>
-        internal void AppendData(String value) => _content += value;
+        internal void AppendData(String value)
+        {
+            if (_content is StringBuilder pending)
+            {
+                pending.Append(value);
+            }
+            else
+            {
+                var content = (String)_content;
+                var length = content.Length + value.Length;
+                _content = length < PendingThreshold ? content + value : new StringBuilder(content, 2 * length).Append(value);
+            }
+        }
 
         /// <summary>
         /// Inserts into the content the way the tree builder does when it foster parents text: no
@@ -177,7 +234,8 @@ namespace AngleSharp.Dom
         private void Replace(Int32 offset, Int32 count, String data, Boolean reported)
         {
             var owner = Owner;
-            var length = _content.Length;
+            var content = Content;
+            var length = content.Length;
 
             if (offset > length)
             {
@@ -189,14 +247,16 @@ namespace AngleSharp.Dom
                 count = length - offset;
             }
 
-            var previous = _content;
+            var previous = content;
             var deleteOffset = offset + data.Length;
-            _content = _content.Insert(offset, data);
+            content = content.Insert(offset, data);
 
             if (count > 0)
             {
-                _content = _content.Remove(deleteOffset, count);
+                content = content.Remove(deleteOffset, count);
             }
+
+            _content = content;
 
             if (reported)
             {

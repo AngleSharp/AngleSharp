@@ -4,6 +4,7 @@ namespace AngleSharp.Dom
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Threading;
     using Common;
     using Html.Construction;
 
@@ -15,8 +16,16 @@ namespace AngleSharp.Dom
     {
         #region Fields
 
-        private readonly List<Attr> _items;
+        /// <summary>
+        /// The attributes in order; an <see cref="IndexedItems"/> once a name lookup found more
+        /// than <see cref="IndexThreshold"/> of them. The index lives in the list rather than in
+        /// a field here, so that a map of a few attributes - nearly every element - costs not a
+        /// byte more for it.
+        /// </summary>
+        private List<Attr> _items;
         private readonly WeakReference<Element> _owner;
+
+        private const Int32 IndexThreshold = 16;
 
         #endregion
 
@@ -56,7 +65,7 @@ namespace AngleSharp.Dom
         // no advance of the document's mutation version - the tree builder reaches this for every
         // attribute of a parsed document. See Element.AddAttribute and SetAttributes; a mutation of
         // an existing element goes through SetNamedItem and NotifyChanged below instead.
-        internal void FastAddItem(Attr attr) => _items.Add(attr);
+        internal void FastAddItem(Attr attr) => Add(attr);
 
         internal void RaiseChangedEvent(Attr attr, String? newValue, String? oldValue) =>
             NotifyChanged(attr, newValue, oldValue, suppressMutationObservers: false);
@@ -83,19 +92,16 @@ namespace AngleSharp.Dom
 
         internal IAttr? RemoveNamedItemOrDefault(String name, Boolean suppressMutationObservers)
         {
-            for (var i = 0; i < _items.Count; i++)
+            var attr = Find(name);
+
+            if (attr is not null)
             {
-                if (name.Is(_items[i].Name))
-                {
-                    var attr = _items[i];
-                    _items.RemoveAt(i);
-                    attr.Container = null;
-                    NotifyChanged(attr, null, attr.Value, suppressMutationObservers);
-                    return attr;
-                }
+                RemoveAt(_items.IndexOf(attr));
+                attr.Container = null;
+                NotifyChanged(attr, null, attr.Value, suppressMutationObservers);
             }
 
-            return null;
+            return attr;
         }
 
         internal IAttr? RemoveNamedItemOrDefault(String name) => RemoveNamedItemOrDefault(name, false);
@@ -107,7 +113,7 @@ namespace AngleSharp.Dom
                 if (localName.Is(_items[i].LocalName) && namespaceUri.Is(_items[i].NamespaceUri))
                 {
                     var attr = _items[i];
-                    _items.RemoveAt(i);
+                    RemoveAt(i);
                     attr.Container = null;
                     NotifyChanged(attr, null, attr.Value, suppressMutationObservers);
                     return attr;
@@ -124,32 +130,10 @@ namespace AngleSharp.Dom
         #region Methods
 
         /// <inheritdoc />
-        public IAttr? GetNamedItem(String name)
-        {
-            for (var i = 0; i < _items.Count; i++)
-            {
-                if (name.Is(_items[i].Name))
-                {
-                    return _items[i];
-                }
-            }
-
-            return null;
-        }
+        public IAttr? GetNamedItem(String name) => Find(name);
 
         /// <inheritdoc />
-        public IAttr? GetNamedItem(StringOrMemory name)
-        {
-            for (var i = 0; i < _items.Count; i++)
-            {
-                if (name.Is(_items[i].Name))
-                {
-                    return _items[i];
-                }
-            }
-
-            return null;
-        }
+        public IAttr? GetNamedItem(StringOrMemory name) => Find(name);
 
         /// <inheritdoc />
         public IAttr? GetNamedItem(String? namespaceUri, String localName)
@@ -172,20 +156,23 @@ namespace AngleSharp.Dom
 
             if (proposed != null)
             {
-                var name = item.Name;
+                var attr = Find(item.Name);
 
-                for (var i = 0; i < _items.Count; i++)
+                if (attr is not null)
                 {
-                    if (name.Is(_items[i].Name))
+                    // Same qualified name, so the index entry simply moves to the replacement.
+                    _items[_items.IndexOf(attr)] = proposed;
+
+                    if (Index is { } index)
                     {
-                        var attr = _items[i];
-                        _items[i] = proposed;
-                        RaiseChangedEvent(proposed, proposed.Value, attr.Value);
-                        return attr;
+                        index[proposed.Name] = proposed;
                     }
+
+                    RaiseChangedEvent(proposed, proposed.Value, attr.Value);
+                    return attr;
                 }
 
-                _items.Add(proposed);
+                Add(proposed);
                 RaiseChangedEvent(proposed, proposed.Value, null);
             }
 
@@ -208,12 +195,29 @@ namespace AngleSharp.Dom
                     {
                         var attr = _items[i];
                         _items[i] = proposed;
+
+                        if (Index is { } index)
+                        {
+                            var name = attr.Name;
+
+                            // The prefix, and with it the qualified name, may differ; and with a
+                            // duplicate name the entry may belong to an earlier attribute.
+                            if (!name.Is(proposed.Name))
+                            {
+                                ((IndexedItems)_items).Index = null;
+                            }
+                            else if (index.TryGetValue(name, out var first) && Object.ReferenceEquals(first, attr))
+                            {
+                                index[name] = proposed;
+                            }
+                        }
+
                         NotifyChanged(proposed, proposed.Value, attr.Value, suppressMutationObservers);
                         return attr;
                     }
                 }
 
-                _items.Add(proposed);
+                Add(proposed);
                 NotifyChanged(proposed, proposed.Value, null, suppressMutationObservers);
             }
 
@@ -259,6 +263,83 @@ namespace AngleSharp.Dom
 
         #region Helpers
 
+        /// <summary>
+        /// Gets the index if there is one to keep up to date.
+        /// </summary>
+        private Dictionary<StringOrMemory, Attr>? Index => (_items as IndexedItems)?.Index;
+
+        private Attr? Find(StringOrMemory name)
+        {
+            var items = _items;
+
+            if (items.Count > IndexThreshold)
+            {
+                var indexed = items as IndexedItems ?? Promote(items);
+                return indexed.GetIndex().TryGetValue(name, out var attr) ? attr : null;
+            }
+
+            for (var i = 0; i < items.Count; i++)
+            {
+                if (name.Is(items[i].Name))
+                {
+                    return items[i];
+                }
+            }
+
+            return null;
+        }
+
+        // Swapped in on a read, which a parsed document may see from several threads at once:
+        // the old list stays intact for anyone still holding it, and only one copy is published.
+        private IndexedItems Promote(List<Attr> items)
+        {
+            var indexed = new IndexedItems(items);
+            Interlocked.CompareExchange(ref _items, indexed, items);
+            return _items as IndexedItems ?? indexed;
+        }
+
+        private void Add(Attr attr)
+        {
+            var items = _items;
+            items.Add(attr);
+
+            // The tree builder comes here for every attribute it parses: a short list is never
+            // indexed, so the count settles it before the type test.
+            if (items.Count > IndexThreshold && items is IndexedItems { Index: { } index } indexed)
+            {
+                var name = attr.Name;
+
+                if (!index.ContainsKey(name))
+                {
+                    index.Add(name, attr);
+                }
+                else
+                {
+                    indexed.HasDuplicateNames = true;
+                }
+            }
+        }
+
+        private void RemoveAt(Int32 position)
+        {
+            var attr = _items[position];
+            _items.RemoveAt(position);
+
+            if (_items is IndexedItems { Index: { } index } indexed)
+            {
+                // With a duplicate name the next attribute in order would have to take the entry
+                // over; dropping the index, to be rebuilt by the next lookup, is simpler.
+                if (indexed.HasDuplicateNames)
+                {
+                    indexed.Index = null;
+                }
+                else
+                {
+                    index.Remove(attr.Name);
+                }
+            }
+        }
+
         private Attr? Prepare(IAttr item)
         {
             var attr = item as Attr;
@@ -283,23 +364,65 @@ namespace AngleSharp.Dom
 
         #endregion
 
-        #region Construction
+        #region Indexed Items
 
-        IConstructableAttr? IConstructableNamedNodeMap.this[StringOrMemory name]
+        /// <summary>
+        /// The attribute list once it is long enough to index: maps each qualified name to its
+        /// first attribute. A name lookup is a scan otherwise, and the tree builder does one for
+        /// every attribute it merges onto html or body - repeated start tags piling attributes
+        /// up there made that quadratic.
+        /// </summary>
+        private sealed class IndexedItems : List<Attr>
         {
-            get
+            public Dictionary<StringOrMemory, Attr>? Index;
+
+            /// <summary>
+            /// Set once two attributes share a qualified name, which the namespaced setter can
+            /// produce.
+            /// </summary>
+            public Boolean HasDuplicateNames;
+
+            public IndexedItems(List<Attr> items)
+                : base(items)
             {
-                for (var i = 0; i < _items.Count; i++)
+            }
+
+            // Built on a read as well: each racing reader builds its own and one is published.
+            public Dictionary<StringOrMemory, Attr> GetIndex()
+            {
+                var index = Index;
+
+                if (index is null)
                 {
-                    if (name.Is(_items[i].Name))
+                    index = new Dictionary<StringOrMemory, Attr>(Count, AngleSharp.Html.OrdinalStringOrMemoryComparer.Instance);
+
+                    for (var i = 0; i < Count; i++)
                     {
-                        return _items[i];
+                        var attr = this[i];
+                        var name = attr.Name;
+
+                        if (!index.ContainsKey(name))
+                        {
+                            index.Add(name, attr);
+                        }
+                        else
+                        {
+                            HasDuplicateNames = true;
+                        }
                     }
+
+                    index = Interlocked.CompareExchange(ref Index, index, null) ?? index;
                 }
 
-                return null;
+                return index;
             }
         }
+
+        #endregion
+
+        #region Construction
+
+        IConstructableAttr? IConstructableNamedNodeMap.this[StringOrMemory name] => Find(name);
 
         Boolean IConstructableNamedNodeMap.SameAs(IConstructableNamedNodeMap? attributes)
         {
