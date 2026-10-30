@@ -12,6 +12,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -916,16 +917,38 @@ namespace AngleSharp.Dom
         /// elements in the given collection.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <typeparam name="TAttributes">The declared type whose properties are the attributes.</typeparam>
         /// <param name="elements">The collection of elements.</param>
         /// <param name="attributes">
         /// An enumeration of attributes in form of an anonymous object, that
         /// carries key-value pairs.
         /// </param>
         /// <returns>The collection itself.</returns>
+        public static T Attr<T, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] TAttributes>(this T elements, TAttributes attributes)
+            where T : class, IEnumerable<IElement>
+        {
+            // Typed as the interface so this binds to the key value pair overload, not back to itself.
+            IEnumerable<KeyValuePair<String, String>> realAttributes = attributes.ToDictionary();
+            return elements.Attr(realAttributes);
+        }
+
+        /// <summary>
+        /// Sets the specified attribute name to the specified value for all
+        /// elements in the given collection.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection of elements.</param>
+        /// <param name="attributes">
+        /// An enumeration of attributes in form of an anonymous object, that
+        /// carries key-value pairs.
+        /// </param>
+        /// <returns>The collection itself.</returns>
+        [Obsolete(ObjectExtensions.RuntimePropertiesObsolete)]
+        [RequiresUnreferencedCode(ObjectExtensions.RuntimePropertiesTrimming)]
         public static T Attr<T>(this T elements, Object attributes)
             where T : class, IEnumerable<IElement>
         {
-            var realAttributes = attributes.ToDictionary();
+            IEnumerable<KeyValuePair<String, String>> realAttributes = ObjectExtensions.ReadRuntimeProperties(attributes);
             return elements.Attr(realAttributes);
         }
 

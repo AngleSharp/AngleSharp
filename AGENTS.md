@@ -268,6 +268,12 @@ Techniques the codebase relies on; match them in new code:
   concretizing an interface call in `ClassSelector.Match` and by making the lazy `ClassList`
   initialization `Interlocked`-safe. Devirtualization tricks and lazy fields on shared nodes
   need to be both thread-safe and AoT-safe.
+- **Stay trim- and AOT-clean.** The library sets `IsAotCompatible` on its .NETCoreApp targets, so
+  the trim and AOT analyzers run on every build and a warning breaks it. Reflection over a
+  runtime type (`GetType().GetProperties()`, `Assembly.GetTypes()`) is what they reject: read
+  members off an annotated generic parameter instead (`ToDictionary<T>`), or use a fixed table
+  (`ElementInterfaceConstructors`). The analyzers only see the library itself — publishing a
+  small `PublishAot` console app against it is the end-to-end check.
 
 `docs/general/04-Performance.md` holds the user-facing comparison numbers; update it when a
 change moves them materially.
