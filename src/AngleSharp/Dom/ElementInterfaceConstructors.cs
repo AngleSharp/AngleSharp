@@ -12,16 +12,16 @@ namespace AngleSharp.Dom
     /// <remarks>
     /// A fixed table instead of scanning the assembly for a type implementing the interface, so
     /// the method stays intact under trimming and Native AOT. The entries reproduce what that scan
-    /// picked, including for the general interfaces, where it took the first implementing type in
-    /// metadata order - an SVG circle for <see cref="IElement"/> and <see cref="ISvgElement"/>, an
-    /// address element for <see cref="IHtmlElement"/>. <see cref="IHtmlUnknownElement"/> is absent
-    /// because its constructor needs a local name, which the scan could not supply either.
+    /// picked: the first implementing type in metadata order. The general interfaces
+    /// (<see cref="IElement"/>, <see cref="IHtmlElement"/>, <see cref="ISvgElement"/>) are absent,
+    /// since no single element stands behind them - the scan returned an arbitrary one, such as an
+    /// SVG circle for <see cref="IElement"/>. <see cref="IHtmlUnknownElement"/> is absent because
+    /// its constructor needs a local name, which the scan could not supply either.
     /// </remarks>
     internal static class ElementInterfaceConstructors
     {
         private static readonly Dictionary<Type, Func<Document, Element>> Constructors = new()
         {
-            [typeof(IElement)] = owner => new SvgCircleElement(owner),
             [typeof(IHtmlAnchorElement)] = owner => new HtmlAnchorElement(owner),
             [typeof(IHtmlAreaElement)] = owner => new HtmlAreaElement(owner),
             [typeof(IHtmlAudioElement)] = owner => new HtmlAudioElement(owner),
@@ -35,7 +35,6 @@ namespace AngleSharp.Dom
             [typeof(IHtmlDetailsElement)] = owner => new HtmlDetailsElement(owner),
             [typeof(IHtmlDialogElement)] = owner => new HtmlDialogElement(owner),
             [typeof(IHtmlDivElement)] = owner => new HtmlDivElement(owner),
-            [typeof(IHtmlElement)] = owner => new HtmlAddressElement(owner),
             [typeof(IHtmlEmbedElement)] = owner => new HtmlEmbedElement(owner),
             [typeof(IHtmlFieldSetElement)] = owner => new HtmlFieldSetElement(owner),
             [typeof(IHtmlFormElement)] = owner => new HtmlFormElement(owner),
@@ -93,7 +92,6 @@ namespace AngleSharp.Dom
             [typeof(IHtmlVideoElement)] = owner => new HtmlVideoElement(owner),
             [typeof(ISvgCircleElement)] = owner => new SvgCircleElement(owner),
             [typeof(ISvgDescriptionElement)] = owner => new SvgDescElement(owner),
-            [typeof(ISvgElement)] = owner => new SvgCircleElement(owner),
             [typeof(ISvgForeignObjectElement)] = owner => new SvgForeignObjectElement(owner),
             [typeof(ISvgStyleElement)] = owner => new SvgStyleElement(owner),
             [typeof(ISvgSvgElement)] = owner => new SvgSvgElement(owner),

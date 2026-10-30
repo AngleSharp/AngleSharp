@@ -4,6 +4,7 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Io;
+    using AngleSharp.Svg.Dom;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
@@ -24,7 +25,9 @@ namespace AngleSharp.Core.Tests.Library
         {
             // CreateElement used to scan the assembly for the first type implementing the interface;
             // it now reads a fixed table. Replaying the scan here pins the table to it - and fails for
-            // a new element interface until the table has an entry for it.
+            // a new element interface until the table has an entry for it. The general interfaces
+            // are left out on purpose: the scan gave them an arbitrary element.
+            var general = new[] { typeof(IElement), typeof(IHtmlElement), typeof(ISvgElement) };
             var document = "".ToHtmlDocument();
             var types = typeof(BrowsingContext).Assembly.GetTypes();
             var create = typeof(DocumentExtensions).GetMethod(nameof(DocumentExtensions.CreateElement));
@@ -37,8 +40,9 @@ namespace AngleSharp.Core.Tests.Library
                 var invoke = () => create.MakeGenericMethod(elementInterface).Invoke(null, new Object[] { document });
 
                 // The scan found nothing for these, or a constructor it could not call (the unknown
-                // element needs a local name); both ended in an ArgumentException.
-                if (expected is null || elementInterface == typeof(IHtmlUnknownElement))
+                // element needs a local name); both ended in an ArgumentException, as the general
+                // interfaces now do.
+                if (expected is null || elementInterface == typeof(IHtmlUnknownElement) || general.Contains(elementInterface))
                 {
                     var ex = Assert.Throws<TargetInvocationException>(() => invoke(), elementInterface.Name);
                     Assert.IsInstanceOf<ArgumentException>(ex.InnerException, elementInterface.Name);

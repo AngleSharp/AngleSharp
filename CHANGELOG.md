@@ -15,7 +15,7 @@ Released on Friday, October 30 2026.
 - Added `AwaitEventAsync` overload taking a `CancellationToken` @michaelthyregod
 - Added trimming and Native AOT compatibility (`IsAotCompatible`) for the .NET 8 and .NET 10 targets @michaelthyregod
 - Added trim-safe generic overloads of `SubmitAsync`, `Attr`, `VirtualResponse.Headers` and `ToDictionary`, which calls with an anonymous object bind to when recompiled; the `Object` overloads are now obsolete @michaelthyregod
-- Fixed `CreateElement<TElement>()` depending on reflection that trimming can break @michaelthyregod
+- Fixed `CreateElement<TElement>()` depending on reflection that trimming can break; `IElement`, `IHtmlElement` and `ISvgElement` now throw instead of returning an arbitrary element @michaelthyregod
 
 # 1.8.6
 
