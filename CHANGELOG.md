@@ -17,6 +17,7 @@ Released on Friday, October 30 2026.
 - Added trimming and Native AOT compatibility (`IsAotCompatible`) for the .NET 8 and .NET 10 targets @michaelthyregod
 - Added trim-safe generic overloads of `SubmitAsync`, `Attr`, `VirtualResponse.Headers` and `ToDictionary`, which calls with an anonymous object bind to when recompiled; the `Object` overloads are now obsolete @michaelthyregod
 - Fixed `CreateElement<TElement>()` depending on reflection that trimming can break; `IElement`, `IHtmlElement` and `ISvgElement` now throw instead of returning an arbitrary element @michaelthyregod
+- Updated `System.Text.Encoding.CodePages` to 10.0.14 and patched the build project's vulnerable `System.Security.Cryptography.Pkcs` / `.Xml` dependencies @michaelthyregod
 
 # 1.8.6
 
