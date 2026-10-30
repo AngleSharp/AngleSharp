@@ -12,6 +12,7 @@ Released on Friday, October 30 2026.
 - Fixed inserting a detached `template` into its own contents not throwing a `HierarchyRequestError`
 - Fixed `AwaitEventAsync` removing its listener off-thread while a dispatch was still running @michaelthyregod
 - Fixed event listener registration racing a dispatch on another thread @michaelthyregod
+- Fixed `IHtmlSelectElement.SelectedIndex` gaining a setter; set `Options.SelectedIndex` to change the selection (#1395) @SimonCropp
 - Added `AwaitEventAsync` overload taking a `CancellationToken` @michaelthyregod
 - Added trimming and Native AOT compatibility (`IsAotCompatible`) for the .NET 8 and .NET 10 targets @michaelthyregod
 - Added trim-safe generic overloads of `SubmitAsync`, `Attr`, `VirtualResponse.Headers` and `ToDictionary`, which calls with an anonymous object bind to when recompiled; the `Object` overloads are now obsolete @michaelthyregod

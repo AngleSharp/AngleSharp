@@ -75,7 +75,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = "<select id=s><option>a<option selected>b<option>c</select>".ToHtmlDocument();
             var select = (IHtmlSelectElement)document.GetElementById("s");
 
-            select.SelectedIndex = 2;
+            select.Options.SelectedIndex = 2;
 
             Assert.AreEqual(2, select.SelectedIndex);
             Assert.AreEqual("c", select.Value);
@@ -88,7 +88,7 @@ namespace AngleSharp.Core.Tests.Library
             var document = "<select id=s><option>a<option selected>b</select>".ToHtmlDocument();
             var select = (IHtmlSelectElement)document.GetElementById("s");
 
-            select.SelectedIndex = -1;
+            select.Options.SelectedIndex = -1;
 
             Assert.AreEqual(-1, select.SelectedIndex);
             Assert.IsNull(select.Value);
