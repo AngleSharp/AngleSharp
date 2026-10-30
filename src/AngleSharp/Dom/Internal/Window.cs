@@ -602,10 +602,17 @@ namespace AngleSharp.Dom
 
         #region Helpers
 
+        /// <summary>
+        /// The delay of a timer (HTML 8.6, timer initialization steps): a negative timeout
+        /// counts as 0, and one nested more than 5 levels deep waits at least 4ms.
+        /// </summary>
+        private static Int32 ClampTimeout(Int32 timeout, Int32 nestingLevel) =>
+            nestingLevel > 5 ? Math.Max(4, timeout) : Math.Max(0, timeout);
+
         private async Task DoTimeoutAsync(Action<IWindow> callback, Int32 timeout, CancellationTokenSource cts)
         {
             var token = cts.Token;
-            await Task.Delay(timeout, token).ConfigureAwait(false);
+            await Task.Delay(ClampTimeout(timeout, 1), token).ConfigureAwait(false);
 
             if (!token.IsCancellationRequested)
             {
@@ -622,10 +629,15 @@ namespace AngleSharp.Dom
         private async Task DoIntervalAsync(Action<IWindow> callback, Int32 timeout, CancellationTokenSource cts)
         {
             var token = cts.Token;
+            var nestingLevel = 1;
 
+            // Every round is nested one level deeper, so a delay of 0 (which completes
+            // synchronously) becomes 4ms after a few rounds instead of never yielding and
+            // flooding the event loop.
             while (!token.IsCancellationRequested)
             {
-                await DoTimeoutAsync(callback, timeout, cts).ConfigureAwait(false);
+                await DoTimeoutAsync(callback, ClampTimeout(timeout, nestingLevel), cts).ConfigureAwait(false);
+                nestingLevel = Math.Min(nestingLevel + 1, 6);
             }
         }
 
