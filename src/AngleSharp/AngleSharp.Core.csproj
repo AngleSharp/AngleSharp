@@ -9,6 +9,26 @@
     <NoWarn>$(NoWarn);SYSLIB0014</NoWarn>
   </PropertyGroup>
 
+  <!-- Marks the package trimmable and AOT-compatible, and runs the trim, AOT and single-file
+       analyzers on every build. Only the .NETCoreApp targets support it; the SDK warns on the
+       others. Keyed on TargetFramework because TargetFrameworkIdentifier is not set yet when the
+       project's own properties are evaluated (the CodePages condition below is an item, so it can). -->
+  <PropertyGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' And !$(TargetFramework.StartsWith('net4')) ">
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <!-- IsAotCompatible makes the SDK reference Microsoft.NET.ILLink.Tasks implicitly, at the version
+       its KnownILLinkPack table lists per target (8.0.x for net8.0, 10.0.x for net10.0). Two versions
+       of one package in one project make Visual Studio's NuGet Consolidate tab report it, so every
+       target uses the trimmer of the SDK doing the build instead; the SDK itself already shares one
+       trimmer across net5.0 to net7.0. Following the SDK's bundled version keeps it current without
+       pinning, and covers the next pair of targets too (net10.0 next to net11.0).
+       KnownILLinkPack is SDK-internal and undocumented: if an SDK renames or reshapes it, this goes
+       inert or fails the restore - drop it then, or once only one .NETCoreApp target is left. -->
+  <ItemGroup>
+    <KnownILLinkPack Update="Microsoft.NET.ILLink.Tasks" ILLinkPackVersion="$(BundledNETCoreAppPackageVersion)" />
+  </ItemGroup>
+
   <PropertyGroup Label="Packaging">
     <PackageProjectUrl>https://anglesharp.github.io</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

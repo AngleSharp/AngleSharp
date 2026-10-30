@@ -2,6 +2,7 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Events;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -71,30 +72,90 @@ namespace AngleSharp.Dom
         /// <param name="node">The node that fires the event.</param>
         /// <param name="eventName">The name of the event to be awaited.</param>
         /// <returns>The awaitable task returning the event arguments.</returns>
-        public static async Task<Event> AwaitEventAsync<TEventTarget>(this TEventTarget node, String eventName)
+        public static Task<Event> AwaitEventAsync<TEventTarget>(this TEventTarget node, String eventName)
+            where TEventTarget : IEventTarget =>
+            node.AwaitEventAsync(eventName, CancellationToken.None);
+
+        /// <summary>
+        /// Returns a task that is completed once the event is fired, or
+        /// cancelled once the given token is cancelled. The listener is
+        /// removed in either case.
+        /// </summary>
+        /// <typeparam name="TEventTarget">The event target type.</typeparam>
+        /// <param name="node">The node that fires the event.</param>
+        /// <param name="eventName">The name of the event to be awaited.</param>
+        /// <param name="cancellationToken">The token to stop waiting.</param>
+        /// <returns>The awaitable task returning the event arguments.</returns>
+        public static Task<Event> AwaitEventAsync<TEventTarget>(this TEventTarget node, String eventName, CancellationToken cancellationToken)
             where TEventTarget : IEventTarget
         {
+            // Argument errors are reported through the task, as they were when this method was async.
             if (node is null)
             {
-                throw new ArgumentNullException(nameof(node));
+                return Task.FromException<Event>(new ArgumentNullException(nameof(node)));
             }
 
             if (eventName is null)
             {
-                throw new ArgumentNullException(nameof(eventName));
+                return Task.FromException<Event>(new ArgumentNullException(nameof(eventName)));
             }
 
-            var completion = new TaskCompletionSource<Event>();
-            void handler(Object s, Event ev) => completion.TrySetResult(ev);
-            node.AddEventListener(eventName, handler);
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromCanceled<Event>(cancellationToken);
+            }
 
             try
             {
-                return await completion.Task.ConfigureAwait(false);
+                return new EventAwaiter(node, eventName, cancellationToken).Task;
             }
-            finally
+            catch (Exception ex)
             {
-                node.RemoveEventListener(eventName, handler);
+                return Task.FromException<Event>(ex);
+            }
+        }
+
+        /// <summary>
+        /// A one-shot listener. It removes itself on the dispatching thread before completing the
+        /// task, so no continuation of the awaiting code ever touches the listener list - with a
+        /// synchronization context that continuation runs elsewhere while the dispatch goes on.
+        /// </summary>
+        private sealed class EventAwaiter
+        {
+            private readonly IEventTarget _target;
+            private readonly String _eventName;
+            private readonly DomEventHandler _handler;
+            private readonly CancellationToken _cancellationToken;
+            private readonly TaskCompletionSource<Event> _completion;
+            private readonly CancellationTokenRegistration _registration;
+
+            public EventAwaiter(IEventTarget target, String eventName, CancellationToken cancellationToken)
+            {
+                _target = target;
+                _eventName = eventName;
+                _handler = OnEvent;
+                _cancellationToken = cancellationToken;
+                _completion = new TaskCompletionSource<Event>();
+                _target.AddEventListener(eventName, _handler);
+
+                // Registered after the listener is added, so a cancellation racing this constructor
+                // still finds the listener to remove; an already cancelled token runs it right here.
+                _registration = cancellationToken.Register(static state => ((EventAwaiter)state!).OnCanceled(), this);
+            }
+
+            public Task<Event> Task => _completion.Task;
+
+            private void OnEvent(Object sender, Event ev)
+            {
+                _target.RemoveEventListener(_eventName, _handler);
+                _registration.Dispose();
+                _completion.TrySetResult(ev);
+            }
+
+            private void OnCanceled()
+            {
+                _target.RemoveEventListener(_eventName, _handler);
+                _completion.TrySetCanceled(_cancellationToken);
             }
         }
     }

@@ -81,6 +81,15 @@ namespace AngleSharp.Css.Dom
 
         public Int32 Length => _combinators.Count;
 
+        /// <summary>
+        /// Gets if any part of the selector contains a :has().
+        /// </summary>
+        public Boolean ContainsHas
+        {
+            get;
+            private set;
+        }
+
         public Boolean IsReady
         {
             get;
@@ -101,14 +110,26 @@ namespace AngleSharp.Css.Dom
         public Boolean Match(IElement element, IElement? scope)
         {
             var last = _combinators.Count - 1;
+            var part = _combinators[last];
 
-            if (_combinators[last].Selector.Match(element, scope))
+            if (last == 0)
             {
-                return last > 0 ? MatchCascade(last - 1, element, scope) : true;
+                return part.Selector.Match(element, scope);
             }
 
-            return false;
+            // A :has() costs a subtree walk, while the rest of the chain usually rejects the
+            // element after a few ancestors - so for "a :has(b)" ask about the a first.
+            if (part.ContainsHas)
+            {
+                return MatchCascade(last - 1, element, scope) && part.Selector.Match(element, scope);
+            }
+
+            return part.Selector.Match(element, scope) && MatchCascade(last - 1, element, scope);
         }
+
+        public ISelector GetSelector(Int32 index) => _combinators[index].Selector;
+
+        public CssCombinatorKind GetKind(Int32 index) => _combinators[index].Kind;
 
         public void ConcludeSelector(ISelector selector)
         {
@@ -118,10 +139,20 @@ namespace AngleSharp.Css.Dom
                 {
                     Selector = selector,
                     Kind = CssCombinatorKind.None,
-                    Delimiter = null
+                    Delimiter = null,
+                    ContainsHas = HasSelector.IsContainedIn(selector),
                 });
                 IsReady = true;
                 _specificity = null;
+
+                for (var i = 0; i < _combinators.Count; i++)
+                {
+                    if (_combinators[i].ContainsHas)
+                    {
+                        ContainsHas = true;
+                        break;
+                    }
+                }
             }
         }
 
@@ -129,11 +160,13 @@ namespace AngleSharp.Css.Dom
         {
             if (!IsReady)
             {
+                var changed = combinator.Change(selector);
                 _combinators.Add(new CombinatorSelector
                 {
-                    Selector = combinator.Change(selector),
+                    Selector = changed,
                     Kind = combinator.Kind,
-                    Delimiter = combinator.Delimiter
+                    Delimiter = combinator.Delimiter,
+                    ContainsHas = HasSelector.IsContainedIn(changed),
                 });
                 _specificity = null;
             }
@@ -159,7 +192,11 @@ namespace AngleSharp.Css.Dom
                     continue;
                 }
 
-                if (combinatorSelector.Selector.Match(newElement, scope) && (pos == 0 || MatchCascade(pos - 1, newElement, scope)))
+                var matched = combinatorSelector.ContainsHas
+                    ? (pos == 0 || MatchCascade(pos - 1, newElement, scope)) && combinatorSelector.Selector.Match(newElement, scope)
+                    : combinatorSelector.Selector.Match(newElement, scope) && (pos == 0 || MatchCascade(pos - 1, newElement, scope));
+
+                if (matched)
                 {
                     return true;
                 }
@@ -177,6 +214,7 @@ namespace AngleSharp.Css.Dom
             public String? Delimiter;
             public CssCombinatorKind Kind;
             public ISelector Selector;
+            public Boolean ContainsHas;
         }
 
         #endregion

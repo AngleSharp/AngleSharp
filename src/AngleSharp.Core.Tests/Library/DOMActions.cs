@@ -7,6 +7,7 @@ namespace AngleSharp.Core.Tests.Library
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -1065,6 +1066,31 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public async Task WindowIntervalWithoutDelayYields()
+        {
+            // a delay of 0 completes synchronously, so the interval used to queue tasks forever
+            var cfg = Configuration.Default;
+            var count = 0;
+            var document = await BrowsingContext.New(cfg).OpenNewAsync();
+            var id = document.DefaultView.SetInterval(_ => Interlocked.Increment(ref count), 0);
+            await Task.Delay(100);
+            document.DefaultView.ClearInterval(id);
+            Assert.Greater(count, 1);
+            Assert.Less(count, 1000);
+        }
+
+        [Test]
+        public async Task WindowTimeoutWithNegativeDelayRunsImmediately()
+        {
+            var cfg = Configuration.Default;
+            var count = 0;
+            var document = await BrowsingContext.New(cfg).OpenNewAsync();
+            document.DefaultView.SetTimeout(_ => count++, -10);
+            await Task.Delay(100);
+            Assert.AreEqual(1, count);
+        }
+
+        [Test]
         public async Task ElementInsertBeforeBeginPrependsNewElement()
         {
             var source = "<div></div>";
@@ -1639,6 +1665,32 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsNull(attrByNamespaceAndPrefixAndName);
             Assert.AreEqual(attributeValue, attrByPrefixAndName.Value);
             Assert.AreEqual(attrByPrefixAndName, attrByNamespaceAndName);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TemplateCannotBeInsertedIntoItsOwnContents(Boolean connected)
+        {
+            var document = "<body>".ToHtmlDocument();
+            var template = (IHtmlTemplateElement)document.CreateElement("template");
+
+            if (connected)
+            {
+                document.Body.AppendChild(template);
+            }
+
+            Assert.AreSame(template, template.Content.GetAssociatedHost());
+            var error = Assert.Throws<DomException>(() => template.Content.AppendChild(template));
+            Assert.AreEqual((Int32)DomError.HierarchyRequest, error.Code);
+        }
+
+        [Test]
+        public void DocumentFragmentWithoutTemplateHasNoAssociatedHost()
+        {
+            var document = "<body><template></template>".ToHtmlDocument();
+
+            Assert.IsNull(document.CreateDocumentFragment().GetAssociatedHost());
+            Assert.IsNull(document.Body.GetAssociatedHost());
         }
     }
 }

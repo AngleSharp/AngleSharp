@@ -5,6 +5,7 @@
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -642,6 +643,135 @@
             Assert.AreEqual("script", nodes[1].GetTagName());
             Assert.AreEqual("p", nodes[2].GetTagName());
             Assert.AreEqual("Test", nodes[2].TextContent);
+        }
+
+        [TestCase("<svg><p>y</p></svg>", "svg", "p", "y", null)]
+        [TestCase("<svg><b>x</b>z</svg>", "svg", "b", "x", "z")]
+        [TestCase("<math><div>x</div></math>", "math", "div", "x", null)]
+        public void FragmentBreakoutTagLeavesForeignContent(String source, String foreign, String html, String inner, String tail)
+        {
+            var nodes = source.ToHtmlFragment("body");
+
+            Assert.AreEqual(tail is null ? 2 : 3, nodes.Length);
+            Assert.AreEqual(foreign, nodes[0].GetTagName());
+            Assert.AreEqual(0, nodes[0].ChildNodes.Length);
+            Assert.AreEqual(html, nodes[1].GetTagName());
+            Assert.AreEqual(NamespaceNames.HtmlUri, ((IElement)nodes[1]).NamespaceUri);
+            Assert.AreEqual(inner, nodes[1].TextContent);
+
+            if (tail is not null)
+            {
+                Assert.AreEqual(tail, nodes[2].TextContent);
+            }
+        }
+
+        [Test]
+        public void FragmentBreakoutTagMatchesDocumentParse()
+        {
+            var source = "<svg><g><p>y</p></g></svg>";
+            var document = ("<body>" + source).ToHtmlDocument();
+            var holder = document.CreateElement("div");
+
+            foreach (var node in source.ToHtmlFragment(document.Body).ToArray())
+            {
+                holder.AppendChild(node);
+            }
+
+            Assert.AreEqual(document.Body.InnerHtml, holder.InnerHtml);
+            Assert.AreEqual(NamespaceNames.HtmlUri, holder.QuerySelector("p").NamespaceUri);
+            Assert.AreEqual(NamespaceNames.HtmlUri, document.Body.QuerySelector("p").NamespaceUri);
+        }
+
+        [Test]
+        public void FragmentBreakoutTagInsideIntegrationPointStaysHtml()
+        {
+            var nodes = "<svg><desc><p>ok</p></desc></svg>".ToHtmlFragment("body");
+
+            Assert.AreEqual(1, nodes.Length);
+            var p = ((IElement)nodes[0]).QuerySelector("p");
+            Assert.AreEqual(NamespaceNames.HtmlUri, p.NamespaceUri);
+            Assert.AreEqual("desc", p.Parent.GetTagName());
+        }
+
+        [TestCase("<svg></svg>", "svg", "http://www.w3.org/2000/svg")]
+        [TestCase("<math></math>", "math", "http://www.w3.org/1998/Math/MathML")]
+        public void FragmentBreakoutTagWithForeignContextIsHtml(String host, String contextName, String namespaceUri)
+        {
+            var document = ("<body>" + host).ToHtmlDocument();
+            var context = document.Body.QuerySelector(contextName);
+            context.InnerHtml = "<p>a</p><circle/>";
+            var nodes = context.ChildNodes;
+
+            Assert.AreEqual(2, nodes.Length);
+            Assert.AreEqual("p", nodes[0].GetTagName());
+            Assert.AreEqual(NamespaceNames.HtmlUri, ((IElement)nodes[0]).NamespaceUri);
+            Assert.AreEqual("a", nodes[0].TextContent);
+            Assert.AreEqual(namespaceUri, ((IElement)nodes[1]).NamespaceUri);
+        }
+
+        [TestCase("<svg></svg>", "svg", "http://www.w3.org/2000/svg")]
+        [TestCase("<math></math>", "math", "http://www.w3.org/1998/Math/MathML")]
+        public void ParseFragmentKeepsForeignContextNamespace(String host, String contextName, String namespaceUri)
+        {
+            var document = ("<body>" + host).ToHtmlDocument();
+            var context = document.Body.QuerySelector(contextName);
+            var nodes = "<circle/><p>a</p>".ToHtmlFragment(context);
+
+            Assert.AreEqual(2, nodes.Length);
+            Assert.AreEqual(namespaceUri, ((IElement)nodes[0]).NamespaceUri);
+            Assert.AreEqual(NamespaceNames.HtmlUri, ((IElement)nodes[1]).NamespaceUri);
+            Assert.AreEqual(namespaceUri, context.NamespaceUri);
+        }
+
+        [TestCase("<math><annotation-xml encoding='text/html'></annotation-xml></math>", "http://www.w3.org/1999/xhtml")]
+        [TestCase("<math><annotation-xml></annotation-xml></math>", "http://www.w3.org/1998/Math/MathML")]
+        public void ParseFragmentKeepsAnnotationXmlIntegrationPoint(String host, String namespaceUri)
+        {
+            var document = ("<body>" + host).ToHtmlDocument();
+            var context = document.Body.QuerySelector("annotation-xml");
+            var nodes = "<circle/>".ToHtmlFragment(context);
+
+            Assert.AreEqual(1, nodes.Length);
+            Assert.AreEqual(namespaceUri, ((IElement)nodes[0]).NamespaceUri);
+
+            context.InnerHtml = "<circle/>";
+            Assert.AreEqual(namespaceUri, ((IElement)context.FirstChild).NamespaceUri);
+        }
+
+        [TestCase("<form><div id=c></div></form>", 1, "input")]
+        [TestCase("<div id=c></div>", 1, "form")]
+        public void ParseFragmentFindsFormAncestorOfContext(String host, Int32 length, String first)
+        {
+            var document = ("<body>" + host).ToHtmlDocument();
+            var context = document.GetElementById("c");
+            var nodes = "<form><input></form>".ToHtmlFragment(context);
+
+            Assert.AreEqual(length, nodes.Length);
+            Assert.AreEqual(first, nodes[0].GetTagName());
+
+            context.InnerHtml = "<form><input></form>";
+            Assert.AreEqual(length, context.ChildNodes.Length);
+            Assert.AreEqual(first, context.FirstChild.GetTagName());
+        }
+
+        [Test]
+        public void ParseFragmentKeepsOrderOfManyTopLevelNodes()
+        {
+            var document = "<body>".ToHtmlDocument();
+            var source = String.Concat(Enumerable.Range(0, 2000).Select(i => $"<p>{i}</p>{i}"));
+            var nodes = source.ToHtmlFragment(document.Body);
+            var parent = nodes[0].Parent;
+
+            Assert.AreEqual(4000, nodes.Length);
+
+            for (var i = 0; i < 2000; i++)
+            {
+                Assert.AreEqual("p", nodes[2 * i].GetTagName());
+                Assert.AreEqual(i.ToString(), nodes[2 * i].TextContent);
+                Assert.AreEqual(i.ToString(), nodes[2 * i + 1].TextContent);
+                Assert.AreSame(parent, nodes[2 * i].Parent);
+                Assert.AreSame(parent, nodes[2 * i + 1].Parent);
+            }
         }
     }
 }

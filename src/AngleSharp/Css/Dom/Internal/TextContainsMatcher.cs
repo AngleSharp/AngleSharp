@@ -33,11 +33,18 @@ namespace AngleSharp.Css.Dom
             }
 
             var matched = 0;
-            return Scan(element, ref matched);
+            return Scan((Node)element, ref matched, 0);
         }
 
-        private Boolean Scan(INode node, ref Int32 matched)
+        // Recurses for the first levels and continues with an explicit stack below them, so deeply
+        // nested documents cannot overflow the call stack
+        private Boolean Scan(Node node, ref Int32 matched, Int32 depth)
         {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                return ScanIteratively(node, ref matched);
+            }
+
             var children = node.ChildNodes;
             var n = children.Length;
 
@@ -45,20 +52,84 @@ namespace AngleSharp.Css.Dom
             {
                 var child = children[i];
 
-                if (child is IText text)
+                if (child is TextNode text)
                 {
                     if (Feed(text.Data, ref matched))
                     {
                         return true;
                     }
                 }
-                else if (child.HasChildNodes && Scan(child, ref matched))
+                else if (child.HasChildNodes && Scan(child, ref matched, depth + 1))
                 {
                     return true;
                 }
             }
 
             return false;
+        }
+
+        private Boolean ScanIteratively(Node root, ref Int32 matched)
+        {
+            var resume = new ChildIndexStack(stackalloc Int32[ChildIndexStack.InitialDepth]);
+
+            try
+            {
+                var parent = root;
+                var children = parent.ChildNodes;
+                var n = children.Length;
+                var i = 0;
+                var depth = 0;
+
+                while (true)
+                {
+                    if (i < n)
+                    {
+                        var child = children[i++];
+
+                        if (child is TextNode text)
+                        {
+                            if (Feed(text.Data, ref matched))
+                            {
+                                return true;
+                            }
+                        }
+                        else if (child.HasChildNodes)
+                        {
+                            // After the last child there is nothing to come back to
+                            if (i < n)
+                            {
+                                resume.Push(i, depth);
+                            }
+
+                            parent = child;
+                            children = parent.ChildNodes;
+                            n = children.Length;
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                    else if (resume.Count > 0)
+                    {
+                        i = resume.Pop(out var target);
+
+                        for (; depth > target; depth--)
+                        {
+                            parent = parent.Parent!;
+                        }
+
+                        children = parent.ChildNodes;
+                        n = children.Length;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            finally
+            {
+                resume.Dispose();
+            }
         }
 
         private Boolean Feed(String data, ref Int32 matched)

@@ -22,6 +22,12 @@ namespace AngleSharp.Dom
         {
         }
 
+        internal DocumentFragment(Document owner, Element templateHost)
+            : this(owner)
+        {
+            TemplateHost = templateHost;
+        }
+
         internal DocumentFragment(Element contextElement, String html)
             : this(contextElement.Owner)
         {
@@ -43,6 +49,12 @@ namespace AngleSharp.Dom
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the template whose contents this fragment is, if any. Kept as a reference so
+        /// that finding the host does not have to scan the owner document on every insertion.
+        /// </summary>
+        internal Element? TemplateHost { get; }
 
         public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 

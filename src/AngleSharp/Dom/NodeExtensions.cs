@@ -363,12 +363,9 @@ namespace AngleSharp.Dom
         /// <returns>The host object or null.</returns>
         public static INode? GetAssociatedHost(this INode node)
         {
-            if (node is IDocumentFragment)
-            {
-                return node.Owner?.All.OfType<IHtmlTemplateElement>().FirstOrDefault(m => m.Content == node);
-            }
-
-            return null;
+            // Only a template's contents have a host, and those are always created by
+            // HtmlTemplateElement, so any other IDocumentFragment has none.
+            return (node as DocumentFragment)?.TemplateHost;
         }
 
         /// <summary>

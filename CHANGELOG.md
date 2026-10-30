@@ -1,6 +1,27 @@
+# 1.9.0
+
+Released on Friday, October 30 2026.
+
+- Improved performance of `TextContent`, `:contains()`, `GetElementById`, `GetElementsByName`, `GetElementsByClassName`, `GetElementsByTagName` and `Normalize`, which also continue with an explicit stack below 128 levels instead of recursing (#1389) @michaelthyregod
+- Improved performance of `IHtmlParser.ParseFragment` and of inserting many nodes at once (`Append`, `Prepend`, ...): finding a template's host no longer scans the whole document, and removing a node's last child no longer scans its siblings
+- Improved performance of removing or inserting a node's first child, which no longer shifts all its siblings, so moving every child of a large node one by one (or replacing it via `innerHTML`) takes linear time; each node with children also allocates one object less
+- Improved quadratic parse time on hostile markup: elements and text foster-parented out of a `table`, a text run split by ignored end tags (`x</q>x</q>...`), and repeated `html` / `body` start tags piling up attributes; attribute name lookups on elements with many attributes no longer scan them
+- Improved performance of `:has()`: relative arguments only walk what they can reach (`:has(> a)` the descendants, `:has(+ a)` / `:has(~ a)` the following siblings) instead of the parent's whole subtree, the walk no longer allocates, and a `:has()` is tested after the rest of its compound and its ancestor chain, so rules such as `.tree :has(.skeleton):hover` only walk subtrees of hovered elements inside `.tree`
+- Fixed `setInterval` with a delay of 0 never yielding: every round completed synchronously and queued tasks until memory ran out; a negative delay of `setTimeout` or `setInterval` threw instead of counting as 0 (nested intervals now wait at least 4ms, as in browsers)
+- Fixed fragment parsing (`ParseFragment`, `innerHTML`) to break out of `svg` / `math` on HTML start tags such as `p`, `b` or `div`, which previously stayed foreign elements
+- Fixed `IHtmlParser.ParseFragment` to keep an SVG or MathML context element in its namespace (and an `annotation-xml` context's `encoding`), instead of parsing as if the context were an HTML element of the same name, and to find a `form` ancestor of the context, so a nested `<form>` start tag is ignored as with `innerHTML`
+- Fixed inserting a detached `template` into its own contents not throwing a `HierarchyRequestError`
+- Fixed `AwaitEventAsync` removing its listener off-thread while a dispatch was still running @michaelthyregod
+- Fixed event listener registration racing a dispatch on another thread @michaelthyregod
+- Fixed `IHtmlSelectElement.SelectedIndex` gaining a setter; set `Options.SelectedIndex` to change the selection (#1395) @SimonCropp
+- Added `AwaitEventAsync` overload taking a `CancellationToken` @michaelthyregod
+- Added trimming and Native AOT compatibility (`IsAotCompatible`) for the .NET 8 and .NET 10 targets @michaelthyregod
+- Added trim-safe generic overloads of `SubmitAsync`, `Attr`, `VirtualResponse.Headers` and `ToDictionary`, which calls with an anonymous object bind to when recompiled; the `Object` overloads are now obsolete @michaelthyregod
+- Fixed `CreateElement<TElement>()` depending on reflection that trimming can break; `IElement`, `IHtmlElement` and `ISvgElement` now throw instead of returning an arbitrary element @michaelthyregod
+
 # 1.8.6
 
-Released on Sunday, October 25 2026
+Released on Sunday, October 25 2026.
 
 - Removed temporary copies when serializing text that needs no HTML escaping
 - Fixed `INode.Equals` (`isEqualNode`) to compare what the DOM spec compares: character data, doctype identifiers, processing instructions, element prefixes and attribute local names, no longer base URLs, without overflowing the stack on deep trees
@@ -26,7 +47,7 @@ Released on Sunday, October 25 2026
 
 # 1.8.5
 
-Released on Thursday, October 15 2026
+Released on Thursday, October 15 2026.
 
 - Fixed select selectedness and option dirtiness across mutations, reset and cloning (#1384) @PrzemyslawKlys
 - Fixed fragment parsing losing the context document's quirks and limited-quirks modes (#1382) @PrzemyslawKlys
@@ -35,7 +56,7 @@ Released on Thursday, October 15 2026
 
 # 1.8.4
 
-Released on Wednesday, October 7 2026
+Released on Wednesday, October 7 2026.
 
 - Improved selection when parsing `<select>` (#1364) @PrzemyslawKlys
 - Updated constraint validation eligibility of `fieldset` and `output` elements (breaking behavior change) (#1373) @PrzemyslawKlys
@@ -53,7 +74,7 @@ Released on Wednesday, October 7 2026
 
 # 1.8.3
 
-Released on Wednesday, September 30 2026
+Released on Wednesday, September 30 2026.
 
 - Improved cancellation of queued timer callbacks (#1357) @PrzemyslawKlys
 - Improved configuration / setup performance (#1360) @PrzemyslawKlys
@@ -65,7 +86,7 @@ Released on Wednesday, September 30 2026
 
 # 1.8.2
 
-Released on Friday, September 18 2026
+Released on Friday, September 18 2026.
 
 - Improved attribute selector serialization to write only the case-sensitivity modifier that was specified (#1351)
 - Improved id/name lookup on collections (`document.forms["x"]`, `form.elements["x"]`, ...) to enumerate the underlying sequence once instead of twice
@@ -85,7 +106,7 @@ Released on Friday, September 18 2026
 
 # 1.8.1
 
-Released on Thursday, September 10 2026
+Released on Thursday, September 10 2026.
 
 - Updated `DoFocus` and `DoBlur` to apply to form elements
 - Improved explicit form ownership to take precedence over ancestor forms for connected controls (#1323) @sebastienros
@@ -96,7 +117,7 @@ Released on Thursday, September 10 2026
 
 # 1.8.0
 
-Released on Saturday, September 5 2026
+Released on Saturday, September 5 2026.
 
 - Improved AngleSharp's test website
 - Fixed script data escaped state potentially not bouncing back correctly
@@ -105,7 +126,7 @@ Released on Saturday, September 5 2026
 
 # 1.7.3
 
-Released on Thursday, September 3 2026
+Released on Thursday, September 3 2026.
 
 - Improved tracking of parse exceptions in the `HtmlParser` (#1315) @lahma
 - Fixed tokenizer buffer overrun on encoding change (#1290) @jafin
@@ -126,7 +147,7 @@ Released on Thursday, September 3 2026
 
 # 1.7.2
 
-Released on Sunday, August 23 2026
+Released on Sunday, August 23 2026.
 
 - Fixed matching of `annotation-xml` encoding to be case-insensitive (#1284) @arpitjain099
 - Fixed `<xmp>` usage in `<select>` elements
@@ -134,7 +155,7 @@ Released on Sunday, August 23 2026
 
 # 1.7.1
 
-Released on Wednesday, August 5 2026
+Released on Wednesday, August 5 2026.
 
 - Improved WHATWG Url specification (#802) @jafin
 - Improved tokenizer read performance (#1274) @dv00d00
@@ -145,7 +166,7 @@ Released on Wednesday, August 5 2026
 
 # 1.7.0
 
-Released on Friday, July 31 2026
+Released on Friday, July 31 2026.
 
 - Improved CSS selector performance (#1270, #929) @lahma
 - Added support for the `:host` pseudo selector (#1271)
@@ -153,7 +174,7 @@ Released on Friday, July 31 2026
 
 # 1.6.0
 
-Released on Sunday, July 26 2026
+Released on Sunday, July 26 2026.
 
 - Improved performance for text tokenization (#1262) @dv00d00
 - Improved CSS selector performance
@@ -170,7 +191,7 @@ Released on Sunday, July 26 2026
 
 # 1.5.2
 
-Released on Sunday, July 5 2026
+Released on Sunday, July 5 2026.
 
 - Fixed `NodeIterator` pre-removing steps to use the first following node (#1260) @ivandrofly
 - Fixed `Range.IsCollapsed` to also compare offsets (#1259) @ivandrofly
@@ -181,13 +202,13 @@ Released on Sunday, July 5 2026
 
 # 1.5.1
 
-Released on Saturday, June 13 2026
+Released on Saturday, June 13 2026.
 
 - Fixed tokenization of large plain-text contents (#1251) @SimonCropp
 
 # 1.5.0
 
-Released on Saturday, June 6 2026
+Released on Saturday, June 6 2026.
 
 - Fixed vulnerability via annotation-xml elements (GHSA-pgww-w46g-26qg)
 - Updated benchmarks (#1246) @jafin

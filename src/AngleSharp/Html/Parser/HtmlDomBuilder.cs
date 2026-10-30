@@ -328,7 +328,12 @@ namespace AngleSharp.Html.Parser
         /// <param name="context">
         /// The context element where the algorithm is applied to.
         /// </param>
-        public TDocument ParseFragment(HtmlParserOptions options, TElement context)
+        /// <param name="formSearchStart">
+        /// Where to start looking for the form element pointer, if not at the
+        /// context itself - a context recreated in the fragment's own document
+        /// has lost the ancestors of the element it stands for.
+        /// </param>
+        public TDocument ParseFragment(HtmlParserOptions options, TElement context, IConstructableNode? formSearchStart = null)
         {
             context = context ?? throw new ArgumentNullException(nameof(context));
 
@@ -377,7 +382,7 @@ namespace AngleSharp.Html.Parser
 
             _tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode!.Flags.HasFlag(NodeFlags.HtmlMember);
 
-            IConstructableNode? contextNode = context;
+            IConstructableNode? contextNode = formSearchStart ?? context;
 
             do
             {
@@ -3864,35 +3869,21 @@ namespace AngleSharp.Html.Parser
         {
             RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, ref tag);
 
-            if (!IsFragmentCase)
+            // The fragment case has no exception here: its root html element is in the HTML
+            // namespace, so the loop stops there at the latest. That is also why the token is
+            // reprocessed through Home rather than Consume - with an SVG or MathML context the
+            // adjusted current node is the context element again, and Consume would hand the
+            // token straight back to foreign content.
+            const NodeFlags Stops = NodeFlags.HtmlMember | NodeFlags.MathTip;
+            var node = CurrentNode;
+
+            while ((node.Flags & Stops) == NodeFlags.None && !IsHtmlTip(node))
             {
-                const NodeFlags Annotated = NodeFlags.HtmlTip | NodeFlags.MathTip | NodeFlags.HtmlMember;
-                var node = CurrentNode;
-
-                do
-                {
-                    if (node.Flags.HasFlag(NodeFlags.MathMember) && node.LocalName.Is(TagNames.AnnotationXml))
-                    {
-                        var value = node.GetAttribute(default, AttributeNames.Encoding);
-
-                        if (value.Isi(MimeTypeNames.Html) || value.Isi(MimeTypeNames.ApplicationXHtml))
-                        {
-                            AddElement(ref tag);
-                            return;
-                        }
-                    }
-
-                    CloseCurrentNode();
-                    node = CurrentNode;
-                }
-                while ((node.Flags & Annotated) == NodeFlags.None);
-
-                Consume(ref tag);
+                CloseCurrentNode();
+                node = CurrentNode;
             }
-            else
-            {
-                ForeignSpecialTag(ref tag);
-            }
+
+            Home(ref tag);
         }
 
         #endregion
@@ -4076,9 +4067,8 @@ namespace AngleSharp.Html.Parser
             {
                 if (node.Flags.HasFlag(NodeFlags.MathMember) && node.LocalName.Is(TagNames.AnnotationXml))
                 {
-                    // The spec matches the encoding value ASCII case-insensitively, which is
-                    // why ForeignNormalTag runs the same test with Isi. An ordinal comparison
-                    // here kept TEXT/HTML out of the integration point.
+                    // The spec matches the encoding value ASCII case-insensitively. An ordinal
+                    // comparison here kept TEXT/HTML out of the integration point.
                     var encoding = node.GetAttribute(default, AttributeNames.Encoding);
 
                     if (encoding.Isi(MimeTypeNames.Html) || encoding.Isi(MimeTypeNames.ApplicationXHtml))
@@ -4616,14 +4606,18 @@ namespace AngleSharp.Html.Parser
 
             if (table && current.Parent is not null)
             {
-                for (var i = 0; i < foster.ChildNodes.Length; i++)
-			    {
-                    if (foster.ChildNodes[i] == current)
+                // From the back: everything fostered so far sits before the table, which is why
+                // a scan from the front made a long run of foster children quadratic.
+                var children = foster.ChildNodes;
+
+                for (var i = children.Length - 1; i >= 0; i--)
+                {
+                    if (children[i] == current)
                     {
                         foster.InsertNode(i, element);
                         break;
                     }
-			    }
+                }
             }
             else
             {
@@ -4682,9 +4676,13 @@ namespace AngleSharp.Html.Parser
 
             if (table && _openElements[index].Parent is not null)
             {
-                for (var i = 0; i < foster.ChildNodes.Length; i++)
+                // From the back, as in AddElementWithFoster: the table follows all fostered text.
+                var children = foster.ChildNodes;
+                var current = _openElements[index];
+
+                for (var i = children.Length - 1; i >= 0; i--)
                 {
-                    if (foster.ChildNodes[i] == _openElements[index])
+                    if (children[i] == current)
                     {
                         foster.InsertText(i, text, _emitWhitespaceTextNodes);
                         break;
