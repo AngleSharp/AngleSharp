@@ -5,6 +5,8 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Html.Dom.Events;
     using NUnit.Framework;
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class DOMEventsTests
@@ -142,9 +144,110 @@ namespace AngleSharp.Core.Tests.Library
             var task = document.AwaitEventAsync(evName);
             Assert.IsFalse(task.IsCompleted);
             document.Dispatch(ev);
+            // Completed by the dispatch itself, whatever synchronization context is current -
+            // only continuations of the task are posted elsewhere.
             Assert.IsTrue(task.IsCompleted);
             Assert.IsFalse(task.IsFaulted);
             Assert.AreEqual(evName, task.Result.Type);
+        }
+
+        [Test]
+        public void EventsAwaitedListenerRemovedByDispatch()
+        {
+            var target = (EventTarget)document;
+            var ev = new Event("click", true, true);
+            var task = document.AwaitEventAsync("click");
+            Assert.IsTrue(target.HasEventListener("click"));
+            document.Dispatch(ev);
+            Assert.IsTrue(task.IsCompleted);
+            Assert.IsFalse(target.HasEventListener("click"));
+        }
+
+        [Test]
+        public void EventsAwaitedCancelledRemovesListener()
+        {
+            var target = (EventTarget)document;
+            using var cts = new CancellationTokenSource();
+            var task = document.AwaitEventAsync("click", cts.Token);
+            Assert.IsTrue(target.HasEventListener("click"));
+            cts.Cancel();
+            Assert.IsTrue(task.IsCanceled);
+            Assert.IsFalse(target.HasEventListener("click"));
+            Assert.ThrowsAsync<TaskCanceledException>(async () => await task);
+        }
+
+        [Test]
+        public void EventsAwaitedCancelledFromAnotherThreadRemovesListener()
+        {
+            var target = (EventTarget)document;
+            using var cts = new CancellationTokenSource();
+            var task = document.AwaitEventAsync("click", cts.Token);
+            Task.Run(() => cts.Cancel()).Wait();
+            Assert.IsTrue(task.IsCanceled);
+            Assert.IsFalse(target.HasEventListener("click"));
+        }
+
+        [Test]
+        public void EventsAwaitedWithCancelledTokenRegistersNothing()
+        {
+            var target = (EventTarget)document;
+            var task = document.AwaitEventAsync("click", new CancellationToken(true));
+            Assert.IsTrue(task.IsCanceled);
+            Assert.IsFalse(target.HasEventListener("click"));
+        }
+
+        [Test]
+        public void EventsAwaitedFiredBeforeCancellationIsNotCancelled()
+        {
+            using var cts = new CancellationTokenSource();
+            var task = document.AwaitEventAsync("click", cts.Token);
+            document.Dispatch(new Event("click", true, true));
+            cts.Cancel();
+            Assert.AreEqual(TaskStatus.RanToCompletion, task.Status);
+        }
+
+        [Test]
+        public void EventsAwaitedWithNullArgumentsReturnsFaultedTask()
+        {
+            var nodeTask = default(IDocument).AwaitEventAsync("click");
+            var nameTask = document.AwaitEventAsync(null);
+            Assert.IsTrue(nodeTask.IsFaulted);
+            Assert.IsInstanceOf<ArgumentNullException>(nodeTask.Exception.InnerException);
+            Assert.IsTrue(nameTask.IsFaulted);
+            Assert.IsInstanceOf<ArgumentNullException>(nameTask.Exception.InnerException);
+        }
+
+        [Test]
+        public void EventsListenersAddedAndRemovedConcurrentlyWithDispatch()
+        {
+            var target = (EventTarget)document;
+            var stop = 0;
+            var dispatcher = Task.Run(() =>
+            {
+                while (Volatile.Read(ref stop) == 0)
+                {
+                    document.Dispatch(new Event("click", true, true));
+                }
+            });
+            var workers = new Task[4];
+
+            for (var w = 0; w < workers.Length; w++)
+            {
+                workers[w] = Task.Run(() =>
+                {
+                    for (var i = 0; i < 2000; i++)
+                    {
+                        DomEventHandler handler = (_, _) => { };
+                        document.AddEventListener("click", handler);
+                        document.RemoveEventListener("click", handler);
+                    }
+                });
+            }
+
+            Task.WaitAll(workers);
+            Volatile.Write(ref stop, 1);
+            dispatcher.Wait();
+            Assert.IsFalse(target.HasEventListener("click"));
         }
 
         [Test]

@@ -89,7 +89,7 @@ namespace AngleSharp.Dom
             get
             {
                 var sb = StringBuilderPool.Obtain();
-                AppendText(this, sb);
+                AppendText(this, sb, 0);
                 return sb.ToPool();
             }
             set
@@ -653,9 +653,17 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Appends the data of every descendant text node, in tree order. Equivalent to
         /// iterating GetDescendants().OfType&lt;IText&gt;(), without the nested iterators.
+        /// Recurses for the first levels and continues with an explicit stack below them, so
+        /// deeply nested documents cannot overflow the call stack.
         /// </summary>
-        private static void AppendText(Node parent, System.Text.StringBuilder sb)
+        private static void AppendText(Node parent, System.Text.StringBuilder sb, Int32 depth)
         {
+            if (depth == ChildIndexStack.RecursionLimit)
+            {
+                AppendTextIteratively(parent, sb);
+                return;
+            }
+
             var children = parent.ChildNodes;
             var n = children.Length;
 
@@ -663,14 +671,75 @@ namespace AngleSharp.Dom
             {
                 var child = children[i];
 
-                if (child is IText text)
+                if (child is TextNode text)
                 {
                     sb.Append(text.Data);
                 }
                 else if (child.HasChildNodes)
                 {
-                    AppendText(child, sb);
+                    AppendText(child, sb, depth + 1);
                 }
+            }
+        }
+
+        private static void AppendTextIteratively(Node root, System.Text.StringBuilder sb)
+        {
+            var resume = new ChildIndexStack(stackalloc Int32[ChildIndexStack.InitialDepth]);
+
+            try
+            {
+                var parent = root;
+                var children = parent.ChildNodes;
+                var n = children.Length;
+                var i = 0;
+                var depth = 0;
+
+                while (true)
+                {
+                    if (i < n)
+                    {
+                        var child = children[i++];
+
+                        if (child is TextNode text)
+                        {
+                            sb.Append(text.Data);
+                        }
+                        else if (child.HasChildNodes)
+                        {
+                            // After the last child there is nothing to come back to
+                            if (i < n)
+                            {
+                                resume.Push(i, depth);
+                            }
+
+                            parent = child;
+                            children = parent.ChildNodes;
+                            n = children.Length;
+                            i = 0;
+                            depth++;
+                        }
+                    }
+                    else if (resume.Count > 0)
+                    {
+                        i = resume.Pop(out var target);
+
+                        for (; depth > target; depth--)
+                        {
+                            parent = parent.Parent!;
+                        }
+
+                        children = parent.ChildNodes;
+                        n = children.Length;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            finally
+            {
+                resume.Dispose();
             }
         }
 

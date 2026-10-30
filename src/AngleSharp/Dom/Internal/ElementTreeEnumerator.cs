@@ -18,6 +18,7 @@ namespace AngleSharp.Dom
     {
         private const Int32 InitialDepth = 16;
 
+        private readonly Int32 _maxDepth;
         private Element _current;
         private Int32[]? _indices;
         private Int32 _depth;
@@ -25,9 +26,20 @@ namespace AngleSharp.Dom
         private Boolean _finished;
 
         public ElementTreeEnumerator(Element root)
+            : this(root, Int32.MaxValue, null)
         {
+        }
+
+        /// <summary>
+        /// Creates an enumerator that does not descend more than <paramref name="maxDepth"/>
+        /// levels below the root, keeping its index stack in <paramref name="indices"/> until
+        /// that has to grow, so a caller can hand in a pooled array.
+        /// </summary>
+        public ElementTreeEnumerator(Element root, Int32 maxDepth, Int32[]? indices)
+        {
+            _maxDepth = maxDepth;
             _current = root;
-            _indices = null;
+            _indices = indices;
             _depth = 0;
             _started = false;
             _finished = false;
@@ -48,7 +60,8 @@ namespace AngleSharp.Dom
                 return true;
             }
 
-            var child = GetElementAtOrAfter(_current, 0, out var childIndex);
+            var childIndex = -1;
+            var child = _depth < _maxDepth ? GetElementAtOrAfter(_current, 0, out childIndex) : null;
 
             if (child is not null)
             {
@@ -82,7 +95,7 @@ namespace AngleSharp.Dom
         {
             var indices = _indices;
 
-            if (indices is null)
+            if (indices is null || indices.Length == 0)
             {
                 indices = _indices = new Int32[InitialDepth];
             }

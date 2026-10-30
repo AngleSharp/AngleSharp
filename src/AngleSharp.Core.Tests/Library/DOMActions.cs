@@ -1640,5 +1640,31 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(attributeValue, attrByPrefixAndName.Value);
             Assert.AreEqual(attrByPrefixAndName, attrByNamespaceAndName);
         }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TemplateCannotBeInsertedIntoItsOwnContents(Boolean connected)
+        {
+            var document = "<body>".ToHtmlDocument();
+            var template = (IHtmlTemplateElement)document.CreateElement("template");
+
+            if (connected)
+            {
+                document.Body.AppendChild(template);
+            }
+
+            Assert.AreSame(template, template.Content.GetAssociatedHost());
+            var error = Assert.Throws<DomException>(() => template.Content.AppendChild(template));
+            Assert.AreEqual((Int32)DomError.HierarchyRequest, error.Code);
+        }
+
+        [Test]
+        public void DocumentFragmentWithoutTemplateHasNoAssociatedHost()
+        {
+            var document = "<body><template></template>".ToHtmlDocument();
+
+            Assert.IsNull(document.CreateDocumentFragment().GetAssociatedHost());
+            Assert.IsNull(document.Body.GetAssociatedHost());
+        }
     }
 }

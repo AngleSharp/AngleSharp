@@ -7,6 +7,7 @@ namespace AngleSharp.Io
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Net;
 
@@ -142,11 +143,27 @@ namespace AngleSharp.Io
         /// Sets the headers with the name of the properties and their 
         /// assigned values.
         /// </summary>
+        /// <typeparam name="T">The declared type whose properties are the headers.</typeparam>
         /// <param name="obj">The object to decompose.</param>
         /// <returns>The current instance.</returns>
+        public VirtualResponse Headers<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] T>(T obj)
+        {
+            // Typed as the interface so this binds to the dictionary overload, not back to itself.
+            IDictionary<String, String> headers = obj.ToDictionary();
+            return Headers(headers);
+        }
+
+        /// <summary>
+        /// Sets the headers with the name of the properties and their 
+        /// assigned values.
+        /// </summary>
+        /// <param name="obj">The object to decompose.</param>
+        /// <returns>The current instance.</returns>
+        [Obsolete(ObjectExtensions.RuntimePropertiesObsolete)]
+        [RequiresUnreferencedCode(ObjectExtensions.RuntimePropertiesTrimming)]
         public VirtualResponse Headers(Object obj)
         {
-            var headers = obj.ToDictionary();
+            IDictionary<String, String> headers = ObjectExtensions.ReadRuntimeProperties(obj);
             return Headers(headers);
         }
 
