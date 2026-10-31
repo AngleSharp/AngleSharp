@@ -1692,5 +1692,113 @@ namespace AngleSharp.Core.Tests.Library
             Assert.IsNull(document.CreateDocumentFragment().GetAssociatedHost());
             Assert.IsNull(document.Body.GetAssociatedHost());
         }
+
+        [Test]
+        public void ChildlessElementCannotBeInsertedIntoItself()
+        {
+            var document = "<body>".ToHtmlDocument();
+            var element = document.CreateElement("div");
+
+            var appendError = Assert.Throws<DomException>(() => element.AppendChild(element));
+            var insertError = Assert.Throws<DomException>(() => element.InsertBefore(element, null));
+
+            Assert.AreEqual((Int32)DomError.HierarchyRequest, appendError.Code);
+            Assert.AreEqual((Int32)DomError.HierarchyRequest, insertError.Code);
+        }
+
+        [Test]
+        public void AncestorCannotBeInsertedIntoItsDescendant()
+        {
+            var document = "<body><div><p><span></span></p></div>".ToHtmlDocument();
+            var div = document.QuerySelector("div");
+            var span = document.QuerySelector("span");
+
+            var appendError = Assert.Throws<DomException>(() => span.AppendChild(div));
+            var replaceError = Assert.Throws<DomException>(() => span.Parent.ReplaceChild(div, span));
+
+            Assert.AreEqual((Int32)DomError.HierarchyRequest, appendError.Code);
+            Assert.AreEqual((Int32)DomError.HierarchyRequest, replaceError.Code);
+            Assert.AreSame(document.Body, div.Parent);
+        }
+
+        [Test]
+        public void TemplateCannotBeInsertedBelowItsOwnContents()
+        {
+            var document = "<body>".ToHtmlDocument();
+            var template = (IHtmlTemplateElement)document.CreateElement("template");
+            var div = document.CreateElement("div");
+            var span = document.CreateElement("span");
+            template.Content.AppendChild(div);
+            div.AppendChild(span);
+
+            var templateError = Assert.Throws<DomException>(() => span.AppendChild(template));
+            var divError = Assert.Throws<DomException>(() => span.AppendChild(div));
+
+            Assert.AreEqual((Int32)DomError.HierarchyRequest, templateError.Code);
+            Assert.AreEqual((Int32)DomError.HierarchyRequest, divError.Code);
+            Assert.AreEqual(0, span.ChildNodes.Length);
+        }
+
+        [Test]
+        public void ChildlessNodeInsertedWithinTemplateContents()
+        {
+            var document = "<body>".ToHtmlDocument();
+            var template = (IHtmlTemplateElement)document.CreateElement("template");
+            var div = document.CreateElement("div");
+            var span = document.CreateElement("span");
+            template.Content.AppendChild(div);
+            template.Content.AppendChild(span);
+
+            div.AppendChild(span);
+
+            Assert.AreSame(div, span.Parent);
+            Assert.AreEqual(1, template.Content.ChildNodes.Length);
+        }
+
+        [Test]
+        public void ContainsChecksInclusiveAncestors()
+        {
+            var document = "<body><div><p><span></span></p></div><b></b>".ToHtmlDocument();
+            var div = document.QuerySelector("div");
+            var span = document.QuerySelector("span");
+            var b = document.QuerySelector("b");
+
+            Assert.IsTrue(span.Contains(span));
+            Assert.IsFalse(span.Contains(div));
+            Assert.IsFalse(b.Contains(span));
+            Assert.IsTrue(div.Contains(span));
+            Assert.IsTrue(document.Contains(span));
+            Assert.IsFalse(div.Contains(b));
+            Assert.IsTrue(span.IsInclusiveAncestorOf(span));
+            Assert.IsFalse(span.IsInclusiveAncestorOf(div));
+            Assert.IsTrue(div.IsInclusiveAncestorOf(span));
+        }
+
+        [Test]
+        public void AppendChildBuildsDeepChain()
+        {
+            // Every insert used to walk all ancestors of the insertion point, so building a chain
+            // through the DOM took quadratic time; only the structure is asserted here
+            const Int32 Depth = 20000;
+            var document = "<body>".ToHtmlDocument();
+            var root = document.CreateElement("div");
+            var current = root;
+
+            for (var i = 0; i < Depth; i++)
+            {
+                current = (IElement)current.AppendChild(document.CreateElement("a"));
+            }
+
+            var depth = 0;
+
+            for (var node = current; node != root; node = node.ParentElement)
+            {
+                depth++;
+            }
+
+            Assert.AreEqual(Depth, depth);
+            Assert.IsTrue(root.Contains(current));
+            Assert.IsFalse(current.Contains(root));
+        }
     }
 }
