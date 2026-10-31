@@ -66,7 +66,10 @@ public interface ITokenList :
     /// <returns>
     /// True if the token has been added, otherwise false.
     /// </returns>
-    [DomName("toggle")]
+    /// <remarks>
+    /// The DOM's toggle(token, force) is DomTokenListExtensions.ToggleToken, as
+    /// this method cannot tell an omitted force from false.
+    /// </remarks>
     Boolean Toggle(String token, Boolean force = false);
 
 #if NET8_0_OR_GREATER
