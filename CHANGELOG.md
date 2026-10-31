@@ -1,3 +1,9 @@
+# 1.9.1
+
+Released on Sunday, November 1 2026.
+
+- Improved performance of inserting a newly created node (`AppendChild`, `InsertBefore`, ...) into a deep tree (#1401) @michaelthyregod
+
 # 1.9.0
 
 Released on Friday, October 30 2026.
