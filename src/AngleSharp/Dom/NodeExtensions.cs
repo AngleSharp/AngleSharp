@@ -220,7 +220,7 @@ namespace AngleSharp.Dom
         /// True if the given parent is actually an inclusive ancestor of the
         /// provided node.
         /// </returns>
-        public static Boolean IsInclusiveAncestorOf(this INode parent, INode node) => node == parent || node.IsDescendantOf(parent);
+        public static Boolean IsInclusiveAncestorOf(this INode parent, INode node) => node == parent || (parent.HasChildNodes && node.IsDescendantOf(parent));
 
         /// <summary>
         /// Gets the first ancestor node that is of the specified type.
@@ -380,6 +380,14 @@ namespace AngleSharp.Dom
         /// </returns>
         public static Boolean IsHostIncludingInclusiveAncestor(this INode parent, INode node)
         {
+            // A node without children is only an inclusive ancestor of itself, and only a template
+            // hosts another tree (its contents), so for any other childless node - such as every
+            // freshly created one - both walks up from node below are wasted
+            if (!parent.HasChildNodes && parent is not HtmlTemplateElement)
+            {
+                return parent == node;
+            }
+
             if (!parent.IsInclusiveAncestorOf(node))
             {
                 var host = node.GetRoot().GetAssociatedHost();
