@@ -97,6 +97,15 @@
             visitor.Child(_name, _step, _offset, _kind);
         }
 
+        /// <summary>
+        /// Gets whether the 1-based position k is one of An+B.
+        /// </summary>
+        protected Boolean IsPosition(Int32 k)
+        {
+            var diff = k - _offset;
+            return diff == 0 || (Math.Sign(diff) == Math.Sign(_step) && diff % _step == 0);
+        }
+
         #endregion
     }
 }
