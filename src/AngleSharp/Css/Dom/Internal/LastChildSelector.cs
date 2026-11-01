@@ -35,16 +35,33 @@ namespace AngleSharp.Css.Dom
 
         private Boolean DoMatch<T>(T nodes, IElement element, IElement? scope) where T : INodeListAccessor
         {
+            if (ReferenceEquals(Kind, AllSelector.Instance))
+            {
+                return MatchPosition(nodes, element);
+            }
+
+            // Inside another of-clause: see NthOfMemo
+            if (NthOfMemo.IsNested)
+            {
+                var position = NthOfMemo.GetPosition(this, nodes, element, scope, fromEnd: true);
+                return position > 0 && IsPosition(position);
+            }
+
+            return MatchOf(nodes, element, scope);
+        }
+
+        // Kept apart from MatchOf, whose try block would cost this loop its optimizations
+        private Boolean MatchPosition<T>(T nodes, IElement element) where T : INodeListAccessor
+        {
             var step = Step;
             var n = Math.Sign(step);
             var k = 0;
-            var kind = Kind;
-            var matchAll = ReferenceEquals(Kind, AllSelector.Instance);
             var offset = Offset;
+            var length = nodes.Length;
 
-            for (var i = nodes.Length - 1; i >= 0; i--)
+            for (var i = length - 1; i >= 0; i--)
             {
-                if (nodes.TryGetElement(i, out var child) && (matchAll || kind.Match(child, scope)))
+                if (nodes.TryGetElement(i, out var child))
                 {
                     k += 1;
 
@@ -57,6 +74,46 @@ namespace AngleSharp.Css.Dom
             }
 
             return false;
+        }
+
+        private Boolean MatchOf<T>(T nodes, IElement element, IElement? scope) where T : INodeListAccessor
+        {
+            var kind = Kind;
+            NthOfMemo.Enter();
+
+            try
+            {
+                // Outside S the element has no position at all
+                if (!kind.Match(element, scope))
+                {
+                    return false;
+                }
+
+                var k = 1;
+                var length = nodes.Length;
+
+                for (var i = length - 1; i >= 0; i--)
+                {
+                    if (nodes.TryGetElement(i, out var child))
+                    {
+                        if (child == element)
+                        {
+                            return IsPosition(k);
+                        }
+
+                        if (kind.Match(child, scope))
+                        {
+                            k += 1;
+                        }
+                    }
+                }
+
+                return false;
+            }
+            finally
+            {
+                NthOfMemo.Leave();
+            }
         }
     }
 }
