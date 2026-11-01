@@ -18,7 +18,7 @@ namespace AngleSharp.Css.Parser
     /// Class for construction for CSS selectors as specified in
     /// http://www.w3.org/html/wg/drafts/html/master/selectors.html.
     /// </summary>
-    sealed class CssSelectorConstructor(CssTokenizer tokenizer, IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector, Boolean invoked = false, Boolean forgiving = false, Int32 depth = 0, CssSelectorConstructor? root = null)
+    sealed class CssSelectorConstructor(CssTokenizer tokenizer, IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector, Boolean invoked = false, Boolean forgiving = false, Byte depth = 0)
     {
         #region Fields
 
@@ -85,15 +85,14 @@ namespace AngleSharp.Css.Parser
         private FunctionState? _function;
         private Boolean _invoked = invoked;
         private Boolean _forgiving = forgiving;
-        private readonly Int32 _depth = depth;
-        private readonly CssSelectorConstructor? _root = root;
-        private Boolean _tooDeep;
+        // A Byte fills padding the other small fields leave, so the limit costs no allocation
+        private readonly Byte _depth = depth;
 
         #endregion
 
         #region Properties
 
-        public Boolean IsValid => _invoked && _valid && _ready && !_tooDeep;
+        public Boolean IsValid => _invoked && _valid && _ready;
 
         public Boolean IsNested => _nested;
 
@@ -625,21 +624,12 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private CssSelectorConstructor CreateChild(Boolean forgiving) => new(_tokenizer, _attributeSelector, _pseudoClassSelector, _pseudoElementSelector, true, forgiving, _depth + 1, _root ?? this);
+        private CssSelectorConstructor CreateChild(Boolean forgiving) => new(_tokenizer, _attributeSelector, _pseudoClassSelector, _pseudoElementSelector, true, forgiving, (Byte)(_depth + 1));
 
-        private Boolean ExceedsNestingLimit()
-        {
-            if (_depth < MaxNestingDepth)
-            {
-                return false;
-            }
-
-            // Marked on the outermost constructor, since a forgiving list such as :is() would
-            // otherwise just drop the too deep argument and match something else. The tokens
-            // that follow stay at this level, so the chain never grows past the limit.
-            (_root ?? this)._tooDeep = true;
-            return true;
-        }
+        // Invalid here makes the whole selector invalid: every function state, the forgiving
+        // ones included, produces nothing for an invalid argument, which invalidates its parent.
+        // The tokens that follow stay at this level, so the chain never grows past the limit.
+        private Boolean ExceedsNestingLimit() => _depth >= MaxNestingDepth;
 
         #endregion
 
