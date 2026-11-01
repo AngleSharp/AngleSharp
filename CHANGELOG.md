@@ -4,7 +4,7 @@ Released on Sunday, November 1 2026.
 
 - Improved performance of inserting a newly created node (`AppendChild`, `InsertBefore`, ...) into a deep tree (#1401) @michaelthyregod
 - Fixed `classList.toggle(token, false)` adding an absent token instead of removing it: the DOM's `toggle` is now `DomTokenListExtensions.ToggleToken`
-- Fixed deeply nested selector functions (`:is()`, `:where()`, `:not()`, `:has()`, `:nth-child(… of …)`, ...) overflowing the stack while parsing or matching, which ended the process; a selector nesting functions more than 75 deep is now invalid, as in Firefox @michaelthyregod
+- Fixed a stack overflow from deeply nested selector functions (#1402) @michaelthyregod
 
 # 1.9.0
 
