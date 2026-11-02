@@ -274,6 +274,12 @@ Techniques the codebase relies on; match them in new code:
   members off an annotated generic parameter instead (`ToDictionary<T>`), or use a fixed table
   (`ElementInterfaceConstructors`). The analyzers only see the library itself — publishing a
   small `PublishAot` console app against it is the end-to-end check.
+- **Untrusted input nests arbitrarily: never recurse once per level of it.** A stack overflow
+  cannot be caught and ends the process. Walk trees with an explicit stack (`DeepNestingTests`
+  pins the DOM members), or cap the depth where the input is parsed: selectors nest functions
+  at most `CssSelectorConstructor.MaxNestingDepth` (75, Firefox's limit) deep, because both
+  parsing and matching recurse per level (`SelectorNestingTests`). Test on a thread with a
+  small fixed stack, far past the depth that overflowed.
 
 `docs/general/04-Performance.md` holds the user-facing comparison numbers; update it when a
 change moves them materially.

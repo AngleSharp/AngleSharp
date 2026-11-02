@@ -18,9 +18,18 @@ namespace AngleSharp.Css.Parser
     /// Class for construction for CSS selectors as specified in
     /// http://www.w3.org/html/wg/drafts/html/master/selectors.html.
     /// </summary>
-    sealed class CssSelectorConstructor(CssTokenizer tokenizer, IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector, Boolean invoked = false, Boolean forgiving = false)
+    sealed class CssSelectorConstructor(CssTokenizer tokenizer, IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector, Boolean invoked = false, Boolean forgiving = false, Byte depth = 0)
     {
         #region Fields
+
+        /// <summary>
+        /// The deepest nesting of functions (:is(), :not(), :has(), ...) a selector may have.
+        /// Parsing forwards every token down the chain of open functions and matching calls down
+        /// the produced one, so untrusted input nesting them a few thousand deep overflows the
+        /// stack, which ends the process. A deeper selector is invalid as a whole. The value is
+        /// Firefox's: rust-cssparser's REASONABLE_NESTED_BLOCK_LIMIT (Mozilla bug 1973126).
+        /// </summary>
+        internal const Int32 MaxNestingDepth = 75;
 
         private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> _pseudoClassFunctionsDict = new(StringComparer.OrdinalIgnoreCase)
         {
@@ -76,6 +85,8 @@ namespace AngleSharp.Css.Parser
         private FunctionState? _function;
         private Boolean _invoked = invoked;
         private Boolean _forgiving = forgiving;
+        // A Byte fills padding the other small fields leave, so the limit costs no allocation
+        private readonly Byte _depth = depth;
 
         #endregion
 
@@ -375,6 +386,12 @@ namespace AngleSharp.Css.Parser
             {
                 if (pseudoClassFunctions.TryGetValue(token.Data, out var creator))
                 {
+                    if (ExceedsNestingLimit())
+                    {
+                        _valid = false;
+                        return;
+                    }
+
                     _state = State.Function;
                     _function = creator.Invoke(this);
                     _ready = false;
@@ -423,6 +440,12 @@ namespace AngleSharp.Css.Parser
             {
                 if (pseudoElementFunctions.TryGetValue(token.Data, out var creator))
                 {
+                    if (ExceedsNestingLimit())
+                    {
+                        _valid = false;
+                        return;
+                    }
+
                     _state = State.Function;
                     _function = creator.Invoke(this);
                     _ready = false;
@@ -601,7 +624,12 @@ namespace AngleSharp.Css.Parser
             }
         }
 
-        private CssSelectorConstructor CreateChild(Boolean forgiving) => new(_tokenizer, _attributeSelector, _pseudoClassSelector, _pseudoElementSelector, true, forgiving);
+        private CssSelectorConstructor CreateChild(Boolean forgiving) => new(_tokenizer, _attributeSelector, _pseudoClassSelector, _pseudoElementSelector, true, forgiving, (Byte)(_depth + 1));
+
+        // Invalid here makes the whole selector invalid: every function state, the forgiving
+        // ones included, produces nothing for an invalid argument, which invalidates its parent.
+        // The tokens that follow stay at this level, so the chain never grows past the limit.
+        private Boolean ExceedsNestingLimit() => _depth >= MaxNestingDepth;
 
         #endregion
 
