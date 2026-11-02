@@ -132,6 +132,42 @@ namespace AngleSharp.Core.Tests.Html
         }
 
         [Test]
+        public void DOMTokenListToggleTokenWithForceOnlyAddsOrRemoves()
+        {
+            var document = new HtmlDocument();
+            var div = new HtmlDivElement(document) { ClassName = "a b" };
+
+            Assert.IsFalse(div.ClassList.ToggleToken("a", false));
+            Assert.IsFalse(div.ClassList.ToggleToken("a", false));
+            Assert.IsFalse(div.ClassList.ToggleToken("c", false));
+            Assert.IsTrue(div.ClassList.ToggleToken("b", true));
+            Assert.IsTrue(div.ClassList.ToggleToken("d", true));
+            Assert.AreEqual("b d", div.ClassName);
+        }
+
+        [Test]
+        public void DOMTokenListToggleTokenWithoutForceToggles()
+        {
+            var document = new HtmlDocument();
+            var div = new HtmlDivElement(document) { ClassName = "a" };
+
+            Assert.IsFalse(div.ClassList.ToggleToken("a"));
+            Assert.IsTrue(div.ClassList.ToggleToken("a"));
+            Assert.AreEqual("a", div.ClassName);
+        }
+
+        [Test]
+        public void DOMTokenListToggleTokenWithForceLeavesTheAttributeAloneWithoutChange()
+        {
+            var document = new HtmlDocument();
+            var div = new HtmlDivElement(document);
+
+            div.ClassList.ToggleToken("a", false);
+
+            Assert.IsFalse(div.HasAttribute("class"));
+        }
+
+        [Test]
         public void DOMStringMapBindingGet()
         {
             var document = new HtmlDocument();
