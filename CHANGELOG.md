@@ -14,6 +14,7 @@ Released on Sunday, November 1 2026.
 - Improved performance of inserting a newly created node (`AppendChild`, `InsertBefore`, ...) into a deep tree (#1401) @michaelthyregod
 - Fixed `classList.toggle(token, false)` adding an absent token instead of removing it: the DOM's `toggle` is now `DomTokenListExtensions.ToggleToken`
 - Fixed exponential matching of nested `:nth-child(… of …)` selectors (#1403) @michaelthyregod
+- Improved handling of deeply nested selector functions (#1402) @michaelthyregod
 
 # 1.9.0
 
