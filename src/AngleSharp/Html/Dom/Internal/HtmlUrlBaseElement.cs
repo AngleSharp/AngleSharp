@@ -157,6 +157,12 @@ namespace AngleSharp.Html.Dom
 
         #region Methods
 
+        /// <summary>
+        /// Gets the URL of the hyperlink, as the stringifier of a / area does in the DOM.
+        /// </summary>
+        /// <returns>The value of the href property.</returns>
+        public override String ToString() => Href;
+
         internal override async Task ClickAsync()
         {
             var cancelled = await IsClickedCancelled().ConfigureAwait(false);

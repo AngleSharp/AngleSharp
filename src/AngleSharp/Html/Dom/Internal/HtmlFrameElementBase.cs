@@ -64,7 +64,17 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.FrameBorder, value);
         }
 
-        public IBrowsingContext NestedContext => _context ??= NewChildContext();
+        public IBrowsingContext NestedContext
+        {
+            get
+            {
+                // a download finishing on another thread must end up in the same context
+                lock (_request)
+                {
+                    return _context ??= NewChildContext();
+                }
+            }
+        }
 
         #endregion
 
@@ -79,7 +89,8 @@ namespace AngleSharp.Html.Dom
         {
             base.SetupElement();
 
-            _context ??= NewChildContext();
+            _ = NestedContext;
+
             if (this.GetOwnAttribute(AttributeNames.Src) != null)
             {
                 UpdateSource();
@@ -101,6 +112,12 @@ namespace AngleSharp.Html.Dom
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// The flags the frame is sandboxed with for the next document (a change of the attribute
+        /// only applies once the frame navigates): its own and those of what is around it.
+        /// </summary>
+        internal virtual Sandboxes GetSandboxFlags() => Context?.Security ?? Sandboxes.None;
 
         private IBrowsingContext NewChildContext()
         {

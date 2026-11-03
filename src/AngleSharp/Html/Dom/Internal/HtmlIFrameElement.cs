@@ -1,5 +1,6 @@
 namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
@@ -85,6 +86,13 @@ namespace AngleSharp.Html.Dom
         internal override String GetContentHtml()
         {
             return ContentHtml!;
+        }
+
+        internal override Sandboxes GetSandboxFlags()
+        {
+            var sandbox = this.GetOwnAttribute(AttributeNames.Sandbox);
+            var inherited = base.GetSandboxFlags();
+            return sandbox is null ? inherited : inherited | sandbox.ParseSecuritySettings(IsFullscreenAllowed);
         }
 
         internal override void SetupElement()

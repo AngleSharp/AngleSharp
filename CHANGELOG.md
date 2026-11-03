@@ -1,3 +1,12 @@
+# 1.10.0
+
+Released on Friday, November 6 2026.
+
+- Fixed `a` and `area` elements not having the stringifier of the DOM: `ToString` gives their `href`
+- Fixed the document of a frame getting lost when its download finished while the element was still being set up
+- Added the `sandbox` attribute of `iframe` applying to its browsing context (`IBrowsingContext.Security`), together with the flags of what is around it
+- Added `X-Frame-Options` and the `frame-ancestors` directive of `Content-Security-Policy`, against every document around a frame: a frame refusing to be shown gets no document
+
 # 1.9.1
 
 Released on Sunday, November 1 2026.
