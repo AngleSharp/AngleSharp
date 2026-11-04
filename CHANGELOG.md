@@ -2,6 +2,9 @@
 
 Released on Friday, November 6 2026.
 
+- Fixed `ErrorEvent` initialized with its details having no type, so that it never reached listeners of `error`
+- Fixed `ErrorEvent.Message` throwing without an error
+- Fixed the same listener being called repeatedly when added repeatedly for a type and capture; this includes `+=` on the events of the DOM
 - Fixed `a` and `area` elements not having the stringifier of the DOM: `ToString` gives their `href`
 - Fixed the document of a frame getting lost when its download finished while the element was still being set up
 - Added the `sandbox` attribute of `iframe` applying to its browsing context (`IBrowsingContext.Security`), together with the flags of what is around it

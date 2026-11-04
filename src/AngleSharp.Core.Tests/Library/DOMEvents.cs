@@ -30,6 +30,77 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void SameListenerAddedTwiceIsCalledOnce()
+        {
+            var calls = 0;
+            DomEventHandler listener = (_, _) => calls++;
+            document.AddEventListener("custom", listener);
+            document.AddEventListener("custom", listener);
+
+            document.Dispatch(new Event("custom"));
+
+            Assert.AreEqual(1, calls);
+        }
+
+        [Test]
+        public void SameListenerForAnotherTypeOrCaptureCountsOnItsOwn()
+        {
+            var calls = 0;
+            DomEventHandler listener = (_, _) => calls++;
+            var child = document.Body;
+            document.AddEventListener("custom", listener);
+            document.AddEventListener("custom", listener, true);
+            document.AddEventListener("other", listener);
+
+            child.Dispatch(new Event("custom", true, false));
+
+            Assert.AreEqual(2, calls);
+        }
+
+        [Test]
+        public void ListenerAddedTwiceIsGoneAfterRemovingItOnce()
+        {
+            var calls = 0;
+            DomEventHandler listener = (_, _) => calls++;
+            document.AddEventListener("custom", listener);
+            document.AddEventListener("custom", listener);
+            document.RemoveEventListener("custom", listener);
+
+            document.Dispatch(new Event("custom"));
+
+            Assert.AreEqual(0, calls);
+        }
+
+        [Test]
+        public void ErrorEventWithoutAnErrorHasNoMessage()
+        {
+            var ev = new ErrorEvent();
+            ev.Init("error", false, false);
+
+            Assert.IsNull(ev.Message);
+        }
+
+        [Test]
+        public void ErrorEventInitializedWithItsDetailsReachesErrorListeners()
+        {
+            ErrorEvent received = null;
+            var error = new InvalidOperationException("broken");
+            document.AddEventListener("error", (_, ev) => received = ev as ErrorEvent);
+
+            document.Fire<ErrorEvent>(ev => ev.Init("https://example.com/a.js", 3, 7, error));
+
+            Assert.IsNotNull(received);
+            Assert.AreEqual("error", received.Type);
+            Assert.IsFalse(received.IsBubbling);
+            Assert.IsTrue(received.IsCancelable);
+            Assert.AreEqual("https://example.com/a.js", received.FileName);
+            Assert.AreEqual(3, received.Line);
+            Assert.AreEqual(7, received.Column);
+            Assert.AreSame(error, received.Error);
+            Assert.AreEqual("broken", received.Message);
+        }
+
+        [Test]
         public void WindowUnloadingHandlerUsesBeforeUnloadEventName()
         {
             var calls = 0;

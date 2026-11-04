@@ -15,7 +15,7 @@ namespace AngleSharp.Dom.Events
         /// Gets the message describing the error.
         /// </summary>
         [DomName("message")]
-        public String Message => Error.Message;
+        public String Message => Error?.Message;
 
         /// <summary>
         /// Gets the filename where the error occurred.
@@ -66,6 +66,7 @@ namespace AngleSharp.Dom.Events
         /// <param name="error">The specific error that was thrown.</param>
         public void Init(String filename, Int32 line, Int32 column, Exception error)
         {
+            Init(EventNames.Error, false, true);
             FileName = filename;
             Line = line;
             Column = column;

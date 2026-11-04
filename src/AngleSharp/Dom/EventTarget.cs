@@ -55,6 +55,12 @@ namespace AngleSharp.Dom
 
                 while (true)
                 {
+                    // a listener is only there once for its type and capture (DOM 2.7)
+                    if (current != null && IndexOf(current, listener) >= 0)
+                    {
+                        break;
+                    }
+
                     var length = current?.Length ?? 0;
                     var updated = new RegisteredEventListener[length + 1];
 
