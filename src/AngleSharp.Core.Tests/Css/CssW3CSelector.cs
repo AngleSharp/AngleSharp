@@ -6350,7 +6350,8 @@ This div should have three addresses above it.</div>";
             Assert.IsFalse(selector.Match(PseudoElementStub.Create(PseudoElementNames.Before), null));
         }
 
-        private class PseudoElementStub : System.Reflection.DispatchProxy
+        // .NET Framework generates the proxy in a separate assembly, so its base type must be public.
+        public class PseudoElementStub : System.Reflection.DispatchProxy
         {
             private String _name;
 
