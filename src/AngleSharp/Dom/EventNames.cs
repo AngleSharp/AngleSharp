@@ -283,6 +283,11 @@
         public static readonly String VolumeChange = "volumechange";
 
         /// <summary>
+        /// The beforetoggle event.
+        /// </summary>
+        public static readonly String BeforeToggle = "beforetoggle";
+
+        /// <summary>
         /// The toggle event.
         /// </summary>
         public static readonly String Toggle = "toggle";

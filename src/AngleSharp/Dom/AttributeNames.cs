@@ -538,6 +538,21 @@ namespace AngleSharp.Dom
         public static readonly String Open = "open";
 
         /// <summary>
+        /// The popover attribute.
+        /// </summary>
+        public static readonly String Popover = "popover";
+
+        /// <summary>
+        /// The popover target attribute.
+        /// </summary>
+        public static readonly String PopoverTarget = "popovertarget";
+
+        /// <summary>
+        /// The popover target action attribute.
+        /// </summary>
+        public static readonly String PopoverTargetAction = "popovertargetaction";
+
+        /// <summary>
         /// The shadowrootmode attribute.
         /// </summary>
         public static readonly String ShadowRootMode = "shadowrootmode";

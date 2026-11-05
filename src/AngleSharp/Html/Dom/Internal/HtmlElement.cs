@@ -423,6 +423,13 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
+        public event DomEventHandler BeforeToggle
+        {
+            add { AddEventListener(EventNames.BeforeToggle, value); }
+            remove { RemoveEventListener(EventNames.BeforeToggle, value); }
+        }
+
+        /// <inheritdoc />
         public event DomEventHandler Waiting
         {
             add { AddEventListener(EventNames.Waiting, value); }

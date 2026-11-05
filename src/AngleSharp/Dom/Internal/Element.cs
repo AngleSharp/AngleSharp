@@ -640,6 +640,14 @@ namespace AngleSharp.Dom
             }
 
             CustomElementRegistry.NotifyAttributeChanged(this, localName, oldValue, newValue, namespaceUri);
+
+            if (this is AngleSharp.Html.Dom.HtmlElement htmlElement &&
+                namespaceUri is null &&
+                newValue is null &&
+                String.Equals(localName, AttributeNames.Popover, StringComparison.Ordinal))
+            {
+                AngleSharp.Html.Dom.HtmlPopoverMemberExtensions.PopoverAttributeChanged(htmlElement);
+            }
         }
 
         // Reads the attribute rather than the value it was handed: Configuration.With prepends, so

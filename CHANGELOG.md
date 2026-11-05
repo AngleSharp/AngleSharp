@@ -39,6 +39,7 @@ Released on Friday, November 6 2026.
 - Added `requestSubmit` to forms, `reportValidity` to inputs, `item` to selects and `decode`, `decoding`, `loading` and `referrerPolicy` to images
 - Added `SubmitEvent` and `requestSubmit` validation, cancellation, and submitter reporting to forms
 - Added `movementX` and `movementY` to MouseEvent
+- Added handling of `popover` attribute (popover API)
 
 # 1.9.1
 

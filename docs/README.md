@@ -14,6 +14,7 @@ We have more detailed information regarding the following subjects:
 - [Form Submission by Example](tutorials/04-Forms.md)
 - [Migration Information](tutorials/05-Migration.md)
 - [Frequently Asked Questions](tutorials/06-Questions.md)
+- [Popover DOM State](tutorials/07-Popovers.md)
 
 ## Why AngleSharp?
 

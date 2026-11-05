@@ -1130,7 +1130,11 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Specifications may define removing steps for all or some nodes.
         /// </summary>
-        protected virtual void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling) => removedNode.OnParentChanged();
+        protected virtual void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
+        {
+            removedNode.OnParentChanged();
+            AngleSharp.Html.Dom.HtmlPopoverMemberExtensions.RemoveDisconnectedPopovers(removedNode);
+        }
 
         /// <inheritdoc />
         protected virtual void OnParentChanged()

@@ -456,6 +456,12 @@ namespace AngleSharp.Dom
             remove { RemoveEventListener(EventNames.TimeUpdate, value); }
         }
 
+        event DomEventHandler IGlobalEventHandlers.BeforeToggle
+        {
+            add { AddEventListener(EventNames.BeforeToggle, value); }
+            remove { RemoveEventListener(EventNames.BeforeToggle, value); }
+        }
+
         event DomEventHandler IGlobalEventHandlers.Toggled
         {
             add { AddEventListener(EventNames.Toggle, value); }
