@@ -14,6 +14,10 @@ namespace AngleSharp.Dom
         static readonly String AttributesType = "attributes";
         static readonly String ChildListType = "childList";
 
+        // most records add or remove nothing, so an empty list is only made when asked for
+        private INodeList? _added;
+        private INodeList? _removed;
+
         #endregion
 
         #region ctor
@@ -42,8 +46,8 @@ namespace AngleSharp.Dom
             {
                 Type = ChildListType,
                 Target = target,
-                Added = addedNodes,
-                Removed = removedNodes,
+                _added = addedNodes,
+                _removed = removedNodes,
                 PreviousSibling = previousSibling,
                 NextSibling = nextSibling
             };
@@ -72,8 +76,8 @@ namespace AngleSharp.Dom
                 AttributeName = AttributeName,
                 AttributeNamespace = AttributeNamespace,
                 PreviousValue = clearPreviousValue ? null : PreviousValue,
-                Added = Added,
-                Removed = Removed
+                _added = _added,
+                _removed = _removed
             };
         }
 
@@ -99,16 +103,14 @@ namespace AngleSharp.Dom
             private set;
         }
 
-        public INodeList? Added
+        public INodeList Added
         {
-            get;
-            private set;
+            get => _added ??= new NodeList();
         }
 
-        public INodeList? Removed
+        public INodeList Removed
         {
-            get;
-            private set;
+            get => _removed ??= new NodeList();
         }
 
         public INode? PreviousSibling

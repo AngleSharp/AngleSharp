@@ -28,6 +28,7 @@
         /// Replaces the current node with nodes.
         /// </summary>
         /// <param name="nodes">The nodes to insert.</param>
+        [DomName("replaceWith")]
         [DomName("replace")]
         void Replace(params INode[] nodes);
 

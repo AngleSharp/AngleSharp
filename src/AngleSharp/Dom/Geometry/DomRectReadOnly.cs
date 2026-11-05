@@ -72,6 +72,23 @@ public class DomRectReadOnly : IDomRectReadOnly
     public Double Left => GeometryMath.NaNSafeMinimum(X, X + Width);
 
     /// <summary>
+    /// Gets the members of the rectangle as they are serialized.
+    /// </summary>
+    /// <returns>A record of the members.</returns>
+    [DomName("toJSON")]
+    public System.Collections.Generic.IDictionary<String, Object> ToJson() => new System.Collections.Generic.Dictionary<String, Object>
+    {
+        ["x"] = X,
+        ["y"] = Y,
+        ["width"] = Width,
+        ["height"] = Height,
+        ["top"] = Top,
+        ["right"] = Right,
+        ["bottom"] = Bottom,
+        ["left"] = Left,
+    };
+
+    /// <summary>
     /// Provides the member value.
     /// </summary>
     [DomName("fromRect")]

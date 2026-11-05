@@ -29,6 +29,102 @@ namespace AngleSharp.Core.Tests.Library
             document = source.ToHtmlDocument();
         }
 
+        private sealed class TestSignal : EventTarget, IAbortSignal
+        {
+            public Boolean IsAborted { get; private set; }
+
+            public void Abort()
+            {
+                IsAborted = true;
+                Dispatch(new Event("abort"));
+            }
+        }
+
+        [Test]
+        public void OnceListenerIsOnlyCalledOnce()
+        {
+            var calls = 0;
+            ((EventTarget)document).AddEventListener("custom", (_, _) => calls++, new AddEventListenerOptions { Once = true });
+
+            document.Dispatch(new Event("custom"));
+            document.Dispatch(new Event("custom"));
+
+            Assert.AreEqual(1, calls);
+        }
+
+        [Test]
+        public void OnceListenerDispatchingAgainIsNotCalledAgain()
+        {
+            var calls = 0;
+            ((EventTarget)document).AddEventListener("custom", (_, _) =>
+            {
+                calls++;
+                document.Dispatch(new Event("custom"));
+            }, new AddEventListenerOptions { Once = true });
+
+            document.Dispatch(new Event("custom"));
+
+            Assert.AreEqual(1, calls);
+        }
+
+        [Test]
+        public void PassiveListenerCannotPreventTheDefault()
+        {
+            var passive = new Event("custom", false, true);
+            var normal = new Event("custom", false, true);
+            ((EventTarget)document).AddEventListener("custom", (_, ev) => ev.Cancel(), new AddEventListenerOptions { Passive = true });
+
+            document.Dispatch(passive);
+            Assert.IsFalse(passive.IsDefaultPrevented);
+
+            document.AddEventListener("custom", (_, ev) => ev.Cancel());
+            document.Dispatch(normal);
+            Assert.IsTrue(normal.IsDefaultPrevented);
+        }
+
+        [Test]
+        public void SignalRemovesTheListener()
+        {
+            var calls = 0;
+            var signal = new TestSignal();
+            ((EventTarget)document).AddEventListener("custom", (_, _) => calls++, new AddEventListenerOptions { Signal = signal });
+
+            document.Dispatch(new Event("custom"));
+            signal.Abort();
+            document.Dispatch(new Event("custom"));
+
+            Assert.AreEqual(1, calls);
+        }
+
+        [Test]
+        public void AbortedSignalDoesNotAddTheListener()
+        {
+            var calls = 0;
+            var signal = new TestSignal();
+            signal.Abort();
+            ((EventTarget)document).AddEventListener("custom", (_, _) => calls++, new AddEventListenerOptions { Signal = signal });
+
+            document.Dispatch(new Event("custom"));
+
+            Assert.AreEqual(0, calls);
+        }
+
+        [Test]
+        public void CaptureOptionCountsLikeTheFlag()
+        {
+            var calls = 0;
+            DomEventHandler listener = (_, _) => calls++;
+            ((EventTarget)document).AddEventListener("custom", listener, new AddEventListenerOptions { Capture = true });
+
+            document.RemoveEventListener("custom", listener, false);
+            document.Body.Dispatch(new Event("custom", true, false));
+            Assert.AreEqual(1, calls);
+
+            document.RemoveEventListener("custom", listener, new EventListenerOptions { Capture = true });
+            document.Body.Dispatch(new Event("custom", true, false));
+            Assert.AreEqual(1, calls);
+        }
+
         [Test]
         public void SameListenerAddedTwiceIsCalledOnce()
         {

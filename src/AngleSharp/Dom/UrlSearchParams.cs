@@ -39,7 +39,7 @@ namespace AngleSharp.Dom
         /// Creates a new instance filled from the provided string.
         /// </summary>
         [DomConstructor]
-        public UrlSearchParams(String init) : this() => ChangeTo(init, false);
+        public UrlSearchParams(String init) : this() => ChangeTo(init.StartsWith("?", StringComparison.Ordinal) ? init.Substring(1) : init, false);
 
         #endregion
 
@@ -160,6 +160,40 @@ namespace AngleSharp.Dom
         {
             _values.Sort((a, b) => a.Key.CompareTo(b.Key));
             RaiseChanged(false);
+        }
+
+        /// <summary>
+        /// Gets the pairs of a name and a value.
+        /// </summary>
+        /// <returns>The pairs in their order.</returns>
+        [DomName("entries")]
+        public String[][] Entries() => _values.Select(p => new[] { p.Key, p.Value }).ToArray();
+
+        /// <summary>
+        /// Gets the names.
+        /// </summary>
+        /// <returns>The names in their order.</returns>
+        [DomName("keys")]
+        public String[] Keys() => _values.Select(p => p.Key).ToArray();
+
+        /// <summary>
+        /// Gets the values.
+        /// </summary>
+        /// <returns>The values in their order.</returns>
+        [DomName("values")]
+        public String[] Values() => _values.Select(p => p.Value).ToArray();
+
+        /// <summary>
+        /// Calls the given function with the value and name of each pair.
+        /// </summary>
+        /// <param name="callback">The function to call.</param>
+        [DomName("forEach")]
+        public void ForEach(Action<String, String, UrlSearchParams> callback)
+        {
+            foreach (var pair in _values.ToArray())
+            {
+                callback(pair.Value, pair.Key, this);
+            }
         }
 
         /// <inheritdoc />

@@ -97,7 +97,7 @@ namespace AngleSharp.Dom
         {
             var node = _current;
 
-            while (node is not null && node != _root)
+            while (node != _root)
             {
                 var sibling = node.PreviousSibling;
 
@@ -108,28 +108,25 @@ namespace AngleSharp.Dom
 
                     while (result != FilterResult.Reject && node.HasChildNodes)
                     {
-                        node = node.LastChild;
+                        node = node.LastChild!;
                         result = Check(node);
-
-                        if (result == FilterResult.Accept)
-                        {
-                            _current = node;
-                            return node;
-                        }
                     }
+
+                    if (result == FilterResult.Accept)
+                    {
+                        _current = node;
+                        return node;
+                    }
+
+                    sibling = node.PreviousSibling;
                 }
 
-                if (node == _root)
+                if (node == _root || node.Parent is null)
                 {
                     break;
                 }
 
-                var parent = node.Parent;
-
-                if (parent is null)
-                {
-                    break;
-                }
+                node = node.Parent;
 
                 if (Check(node) == FilterResult.Accept)
                 {

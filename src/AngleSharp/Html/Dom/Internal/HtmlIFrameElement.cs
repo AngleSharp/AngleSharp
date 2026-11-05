@@ -77,7 +77,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.ReferrerPolicy, value);
         }
 
-        public IWindow? ContentWindow => NestedContext.Current;
+        public IWindow? ContentWindow => ContentDocument?.DefaultView;
 
         #endregion
 

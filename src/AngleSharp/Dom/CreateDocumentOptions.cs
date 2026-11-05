@@ -2,6 +2,7 @@ namespace AngleSharp.Dom
 {
     using AngleSharp.Io;
     using AngleSharp.Text;
+    using System;
     using System.IO;
     using System.Text;
 
@@ -69,6 +70,22 @@ namespace AngleSharp.Dom
         /// Gets the import ancestor, if any.
         /// </summary>
         public IDocument? ImportAncestor => _ancestor;
+
+        /// <summary>
+        /// Gets or sets if the document must not run any script, even though its browsing
+        /// context has a scripting service, like the document of a DOMParser. Its scripts
+        /// stay unexecuted, including those inserted later on, and its noscript elements
+        /// are parsed as markup.
+        /// </summary>
+        public Boolean IsScriptingDisabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets if creating the document is no navigation of its browsing context,
+        /// like the document of a DOMParser. The active document and the session history of
+        /// the context stay as they are, and the context will not dispose the new document.
+        /// A creator registered at the document factory has to respect this on its own.
+        /// </summary>
+        public Boolean IsNavigationDisabled { get; set; }
 
         #endregion
     }

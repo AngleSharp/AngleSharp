@@ -38,16 +38,53 @@ namespace AngleSharp.Html.Dom.Events
         /// <param name="metaKey">Sets if the meta key was pressed.</param>
         /// <param name="button">Sets which button has been pressed.</param>
         /// <param name="relatedTarget">The target of the mouse event.</param>
-        [DomConstructor]
-        [DomInitDict(offset: 1, optional: true)]
         public MouseEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null)
         {
             Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget);
         }
 
+        /// <summary>
+        /// Creates a new event with the members of a MouseEventInit.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
+        /// <param name="buttons">Sets the buttons being held.</param>
+        /// <param name="bubbles">If the event is bubbling.</param>
+        /// <param name="cancelable">If the event is cancelable.</param>
+        /// <param name="view">Sets the associated view for the UI event.</param>
+        /// <param name="detail">Sets the detail id for the UIEvent.</param>
+        /// <param name="screenX">Sets the screen X coordinate.</param>
+        /// <param name="screenY">Sets the screen Y coordinate.</param>
+        /// <param name="clientX">Sets the client X coordinate.</param>
+        /// <param name="clientY">Sets the client Y coordinate.</param>
+        /// <param name="ctrlKey">Sets if the control key is pressed.</param>
+        /// <param name="altKey">Sets if the alt key is pressed.</param>
+        /// <param name="shiftKey">Sets if the shift key is pressed.</param>
+        /// <param name="metaKey">Sets if the meta key is pressed.</param>
+        /// <param name="button">Sets which button has been pressed.</param>
+        /// <param name="relatedTarget">The target of the mouse event.</param>
+        [DomConstructor]
+        [DomInitDict(offset: 1, optional: true)]
+        public MouseEvent(String type, MouseButtons buttons, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null)
+            : this(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget)
+        {
+            Buttons = buttons;
+        }
+
         #endregion
 
         #region Properties 
+
+        /// <summary>
+        /// Gets the horizontal position in the viewport, the same as clientX.
+        /// </summary>
+        [DomName("x")]
+        public Int32 X => ClientX;
+
+        /// <summary>
+        /// Gets the vertical position in the viewport, the same as clientY.
+        /// </summary>
+        [DomName("y")]
+        public Int32 Y => ClientY;
 
         /// <summary>
         /// Gets the screen X coordinates.
@@ -146,7 +183,7 @@ namespace AngleSharp.Html.Dom.Events
         public MouseButtons Buttons
         {
             get;
-            private set;
+            protected set;
         }
 
         /// <summary>

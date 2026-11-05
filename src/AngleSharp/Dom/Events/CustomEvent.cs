@@ -24,12 +24,12 @@ namespace AngleSharp.Dom.Events
         /// <param name="type">The type of the event.</param>
         /// <param name="bubbles">If the event is bubbling.</param>
         /// <param name="cancelable">If the event is cancelable.</param>
-        /// <param name="details">Sets the details for the custom event.</param>
+        /// <param name="detail">Sets the details for the custom event.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public CustomEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object? details = null)
+        public CustomEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object? detail = null)
         {
-            Init(type, bubbles, cancelable, details);
+            Init(type, bubbles, cancelable, detail);
         }
 
         #endregion

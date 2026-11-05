@@ -24,6 +24,34 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void RecordsAlwaysHaveListsOfAddedAndRemovedNodes()
+        {
+            var document = Html("<div id=d></div>");
+            var div = document.QuerySelector("#d");
+            var records = new System.Collections.Generic.List<IMutationRecord>();
+            var observer = new MutationObserver((mut, _) => records.AddRange(mut));
+
+            observer.Connect(div, childList: true, subtree: true, attributes: true, characterData: true);
+            var text = document.CreateTextNode("a");
+            div.AppendChild(text);
+            text.Data = "b";
+            div.SetAttribute("a", "1");
+            div.RemoveChild(text);
+            observer.Trigger();
+
+            Assert.AreEqual(4, records.Count);
+            Assert.AreEqual(1, records[0].Added.Length);
+            Assert.AreEqual(0, records[0].Removed.Length);
+            Assert.AreEqual(0, records[1].Added.Length);
+            Assert.AreEqual(0, records[1].Removed.Length);
+            Assert.AreEqual(0, records[2].Added.Length);
+            Assert.AreEqual(0, records[2].Removed.Length);
+            Assert.AreEqual(0, records[3].Added.Length);
+            Assert.AreEqual(1, records[3].Removed.Length);
+            Assert.AreSame(records[1].Added, records[1].Added);
+        }
+
+        [Test]
         public void ConnectMutationObserverChildNodesTriggerManually()
         {
             var called = false;

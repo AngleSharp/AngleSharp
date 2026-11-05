@@ -103,6 +103,11 @@ namespace AngleSharp.Css
         public static readonly String Checked = "checked";
 
         /// <summary>
+        /// The defined pseudo class, for everything but custom elements waiting for a definition.
+        /// </summary>
+        public static readonly String Defined = "defined";
+
+        /// <summary>
         /// The unchecked pseudo class.
         /// </summary>
         public static readonly String Unchecked = "unchecked";

@@ -44,7 +44,9 @@ namespace AngleSharp.Html.Parser
         public Boolean IsNotSupportingFrames { get; set; }
 
         /// <summary>
-        /// Gets or sets if scripting is allowed.
+        /// Gets or sets if scripting is allowed. Without it the scripts of the parsed
+        /// document never run, even if the browsing context has a scripting service, and
+        /// noscript elements are parsed as markup.
         /// </summary>
         public Boolean IsScripting { get; set; }
 

@@ -1668,7 +1668,7 @@ namespace AngleSharp.Dom
             {
                 IsEmbedded = false,
                 IsStrictMode = false,
-                IsScripting = context.IsScripting(),
+                IsScripting = context.IsScripting() && !element.Owner.IsScriptingDisabled,
             };
             var parser = new HtmlDomBuilder(HtmlDomConstructionFactory.Instance, document, new HtmlTokenizerOptions(options));
             return parser.ParseFragment(options, element).DocumentElement;

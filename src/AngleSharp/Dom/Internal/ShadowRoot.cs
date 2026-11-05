@@ -122,11 +122,11 @@ namespace AngleSharp.Dom
 
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors) => ChildNodes.QuerySelectorAll(selectors, _host);
 
-        public IHtmlCollection<IElement> GetElementsByClassName(String classNames) => ChildNodes.GetElementsByClassName(classNames);
+        public IHtmlCollection<IElement> GetElementsByClassName(String classNames) => new LiveHtmlCollection(this, () => ChildNodes.GetElementsByClassName(classNames));
 
-        public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => ChildNodes.GetElementsByTagName(tagName);
+        public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => new LiveHtmlCollection(this, () => ChildNodes.GetElementsByTagName(tagName));
 
-        public IHtmlCollection<IElement> GetElementsByTagNameNS(String? namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
+        public IHtmlCollection<IElement> GetElementsByTagNameNS(String? namespaceURI, String tagName) => new LiveHtmlCollection(this, () => ChildNodes.GetElementsByTagName(namespaceURI, tagName));
 
         public IElement? GetElementById(String elementId) => ChildNodes.GetElementById(elementId);
 

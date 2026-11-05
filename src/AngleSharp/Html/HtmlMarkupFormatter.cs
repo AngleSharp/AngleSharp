@@ -61,6 +61,12 @@ namespace AngleSharp.Html
 
             temp.Append(element.LocalName);
 
+            // the name of the custom element it was created as is said by this when it comes back
+            if (element is Element custom && CustomElementRegistry.GetIsValue(custom) is { } isValue && !element.HasAttribute("is"))
+            {
+                temp.Append(" is=\"").Append(isValue).Append('"');
+            }
+
             foreach (var attribute in element.Attributes)
             {
                 temp.Append(' ').Append(Attribute(attribute));

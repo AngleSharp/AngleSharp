@@ -832,7 +832,7 @@ namespace AngleSharp.Html.Parser
                     }
                     else if (tagName.Is(TagNames.Script))
                     {
-                        var script = _elementFactory.CreateScript(_document, parserInserted: true, started: IsFragmentCase);
+                        var script = _elementFactory.CreateScript(_document, parserInserted: true, started: IsFragmentCase || !_options.IsScripting);
                         AddElement(script, ref token);
                         _tokenizer.State = HtmlParseMode.Script;
                         _previousMode = _currentMode;
@@ -4387,6 +4387,12 @@ namespace AngleSharp.Html.Parser
 
             _openElements.Add(element);
             _openDepths.Add(new OpenDepth(depth));
+
+            if (_document is Document { CustomElements: { HasDefinitions: true } registry } && element is Node inserted)
+            {
+                registry.NodeInserted(inserted);
+            }
+
             _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
         }
 

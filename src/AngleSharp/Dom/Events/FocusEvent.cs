@@ -26,12 +26,12 @@ namespace AngleSharp.Dom.Events
         /// <param name="cancelable">If the event is cancelable.</param>
         /// <param name="view">Sets the associated view for the UI event.</param>
         /// <param name="detail">Sets the detail id for the UIevent.</param>
-        /// <param name="target">The target that is being focused.</param>
+        /// <param name="relatedTarget">The target that is being focused.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public FocusEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, IEventTarget? target = null)
+        public FocusEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, IEventTarget? relatedTarget = null)
         {
-            Init(type, bubbles, cancelable, view, detail, target);
+            Init(type, bubbles, cancelable, view, detail, relatedTarget);
         }
 
         #endregion
