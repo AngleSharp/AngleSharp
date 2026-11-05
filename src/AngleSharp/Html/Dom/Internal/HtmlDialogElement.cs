@@ -11,6 +11,8 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private String? _returnValue;
+        private IElement? _anchor;
+        private Boolean _modal;
 
         #endregion
 
@@ -37,22 +39,34 @@ namespace AngleSharp.Html.Dom
             set => _returnValue = value;
         }
 
+        public IElement? Anchor => _anchor;
+
+        public Boolean IsModal => _modal;
+
+        #endregion
+
+        #region Methods
+
         public void Show(IElement? anchor = null)
         {
             Open = true;
-            //TODO
+            _anchor = anchor;
+            _modal = false;
         }
 
         public void ShowModal(IElement? anchor = null)
         {
             Open = true;
-            //TODO
+            _anchor = anchor;
+            _modal = true;
         }
 
         public void Close(String? returnValue = null)
         {
             Open = false;
             ReturnValue = returnValue;
+            _anchor = null;
+            _modal = false;
         }
 
         #endregion

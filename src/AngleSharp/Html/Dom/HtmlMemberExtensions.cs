@@ -176,4 +176,41 @@ namespace AngleSharp.Html.Dom
         [DomAccessor(Accessors.Setter)]
         public static void SetReferrerPolicy(this IHtmlImageElement image, String value) => image.SetAttribute("referrerpolicy", value);
     }
+    
+    /// <summary>
+    /// Members of HTML dialog elements exposed for convenience.
+    /// </summary>
+    public static class HtmlDialogMemberExtensions
+    {
+        /// <summary>
+        /// Gets if the dialog is a modal. Only relevant if "open" is true.
+        /// </summary>
+        /// <param name="dialog">The dialog element.</param>
+        /// <returns>True if the dialog has been opened as a modal, false otherwise.</returns>
+        public static Boolean GetIsModal(this IHtmlDialogElement dialog)
+        {
+            if (dialog is HtmlDialogElement d)
+            {
+                return d.IsModal;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the element, where the dialog is anchored.
+        /// Only relevant if "open" is true.
+        /// </summary>
+        /// <param name="dialog">The dialog element.</param>
+        /// <returns>The element, where the dialog is anchored, or null if not applicable.</returns>
+        public static IElement? GetAnchor(this IHtmlDialogElement dialog)
+        {
+            if (dialog is HtmlDialogElement d)
+            {
+                return d.Anchor;
+            }
+
+            return null;
+        }
+    }
 }
