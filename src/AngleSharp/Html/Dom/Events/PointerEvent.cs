@@ -40,10 +40,12 @@ namespace AngleSharp.Html.Dom.Events
         /// <param name="twist">Sets the rotation of a pen.</param>
         /// <param name="pointerType">Sets the type of the device, e.g. mouse.</param>
         /// <param name="isPrimary">Sets if it is the primary pointer.</param>
+        /// <param name="movementX">Sets the horizontal distance moved since the previous mouse event.</param>
+        /// <param name="movementY">Sets the vertical distance moved since the previous mouse event.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public PointerEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, MouseButtons buttons = default, IEventTarget? relatedTarget = null, Int32 pointerId = 0, Double width = 1.0, Double height = 1.0, Double pressure = 0.0, Double tangentialPressure = 0.0, Int32 tiltX = 0, Int32 tiltY = 0, Int32 twist = 0, String? pointerType = null, Boolean isPrimary = false)
-            : base(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget)
+        public PointerEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, MouseButtons buttons = default, IEventTarget? relatedTarget = null, Int32 pointerId = 0, Double width = 1.0, Double height = 1.0, Double pressure = 0.0, Double tangentialPressure = 0.0, Int32 tiltX = 0, Int32 tiltY = 0, Int32 twist = 0, String? pointerType = null, Boolean isPrimary = false, Int32 movementX = 0, Int32 movementY = 0)
+            : base(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget, movementX, movementY)
         {
             Buttons = buttons;
             PointerId = pointerId;

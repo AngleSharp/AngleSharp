@@ -132,7 +132,7 @@ namespace AngleSharp.Html.Dom
 
                 if (type.Is(InputTypeNames.Submit))
                 {
-                    await form.SubmitAsync(this).ConfigureAwait(false);
+                    await HtmlFormMemberExtensions.RequestSubmitAsync(form, this).ConfigureAwait(false);
                 }
                 else if (type.Is(InputTypeNames.Reset))
                 {

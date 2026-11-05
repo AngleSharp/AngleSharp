@@ -3,6 +3,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Html;
+    using AngleSharp.Html.Dom.Events;
     using AngleSharp.Html.Forms;
     using AngleSharp.Html.Forms.Submitters;
     using AngleSharp.Io;
@@ -123,19 +124,36 @@ namespace AngleSharp.Html.Dom
 
         public Task<IDocument> SubmitAsync(IHtmlElement sourceElement)
         {
+            if (SubmitEvent.IsSubmitButton(sourceElement))
+            {
+                return HtmlFormMemberExtensions.RequestSubmitAsync(this, sourceElement);
+            }
+
             var request = GetSubmission(sourceElement);
             if (request is null)
             {
                 return Task.FromResult<IDocument>(null!);
             }
 
-            var context = Context.ResolveTargetContext(Target);
+            var context = Context.ResolveTargetContext(GetTarget(sourceElement));
             return context.NavigateToAsync(request);
         }
 
-        public DocumentRequest GetSubmission() => SubmitForm(this, true)!;
+        internal Task<IDocument> SubmitRequestAsync(IHtmlElement? submitter)
+        {
+            var request = SubmitForm(submitter ?? this, true, submitter);
+            if (request is null)
+            {
+                return Task.FromResult<IDocument>(null!);
+            }
 
-        public DocumentRequest GetSubmission(IHtmlElement sourceElement) => SubmitForm(sourceElement ?? this, false)!;
+            var context = Context.ResolveTargetContext(GetTarget(submitter));
+            return context.NavigateToAsync(request);
+        }
+
+        public DocumentRequest GetSubmission() => SubmitForm(this, true, null)!;
+
+        public DocumentRequest GetSubmission(IHtmlElement sourceElement) => SubmitForm(sourceElement ?? this, false, sourceElement)!;
 
         public void Reset()
         {
@@ -205,7 +223,7 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
-        private DocumentRequest? SubmitForm(IHtmlElement from, Boolean submittedFromSubmitMethod)
+        private DocumentRequest? SubmitForm(IHtmlElement from, Boolean submittedFromSubmitMethod, IHtmlElement? submitter)
         {
             var owner = Owner;
 
@@ -216,22 +234,25 @@ namespace AngleSharp.Html.Dom
                 // for failures handled internally rather than thrown into the DOM.
                 Context.TrackError(new DomException(DomError.Security, "Blocked form submission by the browsing context sandbox."));
             }
-            else if (!submittedFromSubmitMethod && !from.HasAttribute(AttributeNames.FormNoValidate) && !NoValidate && !CheckValidity())
+            else if (!submittedFromSubmitMethod && !HasFormNoValidate(from) && !NoValidate && !CheckValidity())
             {
                 this.FireSimpleEvent(EventNames.Invalid);
             }
             else
             {
-                var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
+                var actionText = GetSubmitterAttribute(submitter, AttributeNames.FormAction) ?? Action;
+                var action = String.IsNullOrEmpty(actionText) ? new Url(owner.DocumentUri) : this.HyperReference(actionText);
                 var scheme = action.Scheme;
-                var method = Method.ToEnum(HttpMethod.Get);
-                return SubmitForm(method, scheme, action, from);
+                var methodText = GetSubmitterAttribute(submitter, AttributeNames.FormMethod);
+                var method = (methodText ?? Method).ToEnum(HttpMethod.Get);
+                var enctype = GetSubmitterEnctype(submitter);
+                return SubmitForm(method, scheme, action, submitter ?? this, enctype);
             }
 
             return null;
         }
 
-        private DocumentRequest SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter)
+        private DocumentRequest SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter, String enctype)
         {
             if (scheme.IsOneOf(ProtocolNames.Http, ProtocolNames.Https))
             {
@@ -241,7 +262,7 @@ namespace AngleSharp.Html.Dom
                 }
                 else if (method == HttpMethod.Post)
                 {
-                    return SubmitAsEntityBody(action, submitter);
+                    return SubmitAsEntityBody(action, submitter, enctype);
                 }
             }
             else if (scheme.Is(ProtocolNames.Data))
@@ -252,7 +273,7 @@ namespace AngleSharp.Html.Dom
                 }
                 else if (method == HttpMethod.Post)
                 {
-                    return PostToData(action, submitter);
+                    return PostToData(action, submitter, enctype);
                 }
             }
             else if (scheme.Is(ProtocolNames.Mailto))
@@ -263,7 +284,7 @@ namespace AngleSharp.Html.Dom
                 }
                 else if (method == HttpMethod.Post)
                 {
-                    return MailAsBody(action, submitter);
+                    return MailAsBody(action, submitter, enctype);
                 }
             }
             else if (scheme.IsOneOf(ProtocolNames.Ftp, ProtocolNames.JavaScript))
@@ -278,11 +299,10 @@ namespace AngleSharp.Html.Dom
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-data-post
         /// </summary>
-        private DocumentRequest PostToData(Url action, IHtmlElement submitter)
+        private DocumentRequest PostToData(Url action, IHtmlElement submitter, String enctype)
         {
             var charset = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
-            var enctype = Enctype;
             var htmlEncoder = Owner.Context.GetService<IHtmlEncoder>()!;
             var result = String.Empty;
             var stream = formDataSet.CreateBody(enctype, charset, htmlEncoder);
@@ -329,10 +349,9 @@ namespace AngleSharp.Html.Dom
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-body
         /// </summary>
-        private DocumentRequest MailAsBody(Url action, IHtmlElement submitter)
+        private DocumentRequest MailAsBody(Url action, IHtmlElement submitter, String enctype)
         {
             var formDataSet = ConstructDataSet(submitter);
-            var enctype = Enctype;
             var encoding = TextEncoding.UsAscii;
             var htmlEncoder = Owner.Context.GetService<IHtmlEncoder>()!;
             var stream = formDataSet.CreateBody(enctype, encoding, htmlEncoder);
@@ -357,11 +376,10 @@ namespace AngleSharp.Html.Dom
         /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        private DocumentRequest SubmitAsEntityBody(Url url, IHtmlElement submitter)
+        private DocumentRequest SubmitAsEntityBody(Url url, IHtmlElement submitter, String enctype)
         {
             var charset = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
-            var enctype = Enctype;
             var htmlEncoder = Owner.Context.GetService<IHtmlEncoder>()!;
             var body = formDataSet.CreateBody(enctype, charset, htmlEncoder);
 
@@ -407,6 +425,32 @@ namespace AngleSharp.Html.Dom
 
             return formDataSet;
         }
+
+        private String GetTarget(IHtmlElement? submitter) =>
+            GetSubmitterAttribute(submitter, AttributeNames.FormTarget) ?? Target;
+
+        private String GetSubmitterEnctype(IHtmlElement? submitter)
+        {
+            if (submitter is not null && SubmitEvent.IsSubmitButton(submitter) && submitter.HasAttribute(AttributeNames.FormEncType))
+            {
+                return submitter.GetAttribute(AttributeNames.FormEncType).ToEncodingType() ?? MimeTypeNames.UrlencodedForm;
+            }
+
+            return Enctype;
+        }
+
+        private static Boolean HasFormNoValidate(IHtmlElement element)
+        {
+            return element switch
+            {
+                IHtmlButtonElement button => button.FormNoValidate,
+                IHtmlInputElement input => input.FormNoValidate,
+                _ => element.HasAttribute(AttributeNames.FormNoValidate),
+            };
+        }
+
+        private static String? GetSubmitterAttribute(IHtmlElement? submitter, String name) =>
+            submitter is not null && SubmitEvent.IsSubmitButton(submitter) && submitter.HasAttribute(name) ? submitter.GetAttribute(name) : null;
 
         #endregion
     }

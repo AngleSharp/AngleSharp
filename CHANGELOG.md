@@ -37,6 +37,8 @@ Released on Friday, November 6 2026.
 - Added the constructor of `EventTarget`, which isn't abstract any more
 - Added `scrollingElement`, `hidden`, `visibilityState` and `charset` to documents
 - Added `requestSubmit` to forms, `reportValidity` to inputs, `item` to selects and `decode`, `decoding`, `loading` and `referrerPolicy` to images
+- Added `SubmitEvent` and `requestSubmit` validation, cancellation, and submitter reporting to forms
+- Added `movementX` and `movementY` to MouseEvent
 
 # 1.9.1
 

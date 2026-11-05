@@ -38,9 +38,12 @@ namespace AngleSharp.Html.Dom.Events
         /// <param name="metaKey">Sets if the meta key was pressed.</param>
         /// <param name="button">Sets which button has been pressed.</param>
         /// <param name="relatedTarget">The target of the mouse event.</param>
-        public MouseEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null)
+        /// <param name="movementX">Sets the horizontal distance moved since the previous mouse event.</param>
+        /// <param name="movementY">Sets the vertical distance moved since the previous mouse event.</param>
+        public MouseEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null, Int32 movementX = 0, Int32 movementY = 0)
         {
             Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget);
+            SetMovement(movementX, movementY);
         }
 
         /// <summary>
@@ -62,10 +65,12 @@ namespace AngleSharp.Html.Dom.Events
         /// <param name="metaKey">Sets if the meta key is pressed.</param>
         /// <param name="button">Sets which button has been pressed.</param>
         /// <param name="relatedTarget">The target of the mouse event.</param>
+        /// <param name="movementX">Sets the horizontal distance moved since the previous mouse event.</param>
+        /// <param name="movementY">Sets the vertical distance moved since the previous mouse event.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public MouseEvent(String type, MouseButtons buttons, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null)
-            : this(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget)
+        public MouseEvent(String type, MouseButtons buttons, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null, Int32 movementX = 0, Int32 movementY = 0)
+            : this(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget, movementX, movementY)
         {
             Buttons = buttons;
         }
@@ -121,6 +126,26 @@ namespace AngleSharp.Html.Dom.Events
         /// </summary>
         [DomName("clientY")]
         public Int32 ClientY
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the horizontal distance moved since the previous mouse event.
+        /// </summary>
+        [DomName("movementX")]
+        public Int32 MovementX
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the vertical distance moved since the previous mouse event.
+        /// </summary>
+        [DomName("movementY")]
+        public Int32 MovementY
         {
             get;
             private set;
@@ -207,6 +232,12 @@ namespace AngleSharp.Html.Dom.Events
             return false;//TODO
         }
 
+        private protected void SetMovement(Int32 movementX, Int32 movementY)
+        {
+            MovementX = movementX;
+            MovementY = movementY;
+        }
+
         #endregion
 
         #region Methods
@@ -243,6 +274,8 @@ namespace AngleSharp.Html.Dom.Events
             IsAltPressed = altKey;
             Button = button;
             Target = target;
+            MovementX = 0;
+            MovementY = 0;
         }
 
         #endregion

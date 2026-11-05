@@ -39,6 +39,17 @@ IDocument resultDocument = await form.SubmitAsync(submitButton);
 ```
 Note that the above scenario requires setting the form values via the more verbose mechanism.
 
+For behavior equivalent to activating a submit button, use `RequestSubmit`. It validates the form, dispatches a cancelable `SubmitEvent`, and exposes the button through `SubmitEvent.Submitter`. The no-argument `SubmitAsync()` method remains the direct submission path and does not dispatch a submit event.
+
+``` cs
+form.AddEventListener("submit", (_, ev) =>
+{
+    var submitter = ((SubmitEvent)ev).Submitter;
+    ev.Cancel();
+});
+form.RequestSubmit(submitButton);
+```
+
 An important aspect of submitting forms is that we require at least a default loader. Forms usually require making an HTTP request for loading a new document (mostly using the POST verb), which yields the demand for having a requester configured upfront. Note that sometimes forms even come with stronger requirements, especially if they are properly secured. In such cases the use of `WithCookies()` to configure a cookie container could be mandatory.
 
 The code for using a cookie container looks almost identical:

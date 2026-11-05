@@ -3,6 +3,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
+    using AngleSharp.Html.Dom.Events;
     using System;
     using System.Threading.Tasks;
 
@@ -22,15 +23,56 @@ namespace AngleSharp.Html.Dom
         [DomName("requestSubmit")]
         public static void RequestSubmit(this IHtmlFormElement form, IHtmlElement? submitter = null)
         {
-            if (!form.CheckValidity())
+            _ = RequestSubmitAsync(form, submitter);
+        }
+
+        internal static Task<IDocument> RequestSubmitAsync(IHtmlFormElement form, IHtmlElement? submitter)
+        {
+            if (submitter is not null)
             {
-                return;
+                if (!SubmitEvent.IsSubmitButton(submitter))
+                {
+                    throw new ArgumentException("The submitter must be a submit button.", nameof(submitter));
+                }
+
+                var submitterForm = submitter switch
+                {
+                    IHtmlButtonElement button => button.Form,
+                    IHtmlInputElement input => input.Form,
+                    _ => null,
+                };
+
+                if (!Object.ReferenceEquals(form, submitterForm))
+                {
+                    throw new DomException(DomError.NotFound);
+                }
             }
 
-            if (form.Dispatch(new Event(EventNames.Submit, true, true)))
+            var formNoValidate = submitter switch
             {
-                _ = submitter is null ? form.SubmitAsync() : form.SubmitAsync(submitter);
+                IHtmlButtonElement button => button.FormNoValidate,
+                IHtmlInputElement input => input.FormNoValidate,
+                _ => false,
+            };
+
+            if (!form.NoValidate && !formNoValidate && !form.CheckValidity())
+            {
+                return Task.FromResult<IDocument>(null!);
             }
+
+            var ev = new SubmitEvent(EventNames.Submit, true, true, submitter);
+
+            if (!form.Dispatch(ev))
+            {
+                return Task.FromResult<IDocument>(null!);
+            }
+
+            if (form is HtmlFormElement htmlForm)
+            {
+                return htmlForm.SubmitRequestAsync(submitter);
+            }
+
+            return submitter is null ? form.SubmitAsync() : form.SubmitAsync(submitter);
         }
     }
 

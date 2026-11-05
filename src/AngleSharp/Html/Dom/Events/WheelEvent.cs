@@ -38,9 +38,12 @@ namespace AngleSharp.Html.Dom.Events
         /// <param name="deltaY">The mouse wheel delta in Y direction.</param>
         /// <param name="deltaZ">The mouse wheel delta in Z direction.</param>
         /// <param name="deltaMode">The delta mode for the wheel event.</param>
-        public WheelEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, MouseButton button = MouseButton.Primary, IEventTarget? target = null, String? modifiersList = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel)
+        /// <param name="movementX">Sets the horizontal distance moved since the previous mouse event.</param>
+        /// <param name="movementY">Sets the vertical distance moved since the previous mouse event.</param>
+        public WheelEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, MouseButton button = MouseButton.Primary, IEventTarget? target = null, String? modifiersList = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel, Int32 movementX = 0, Int32 movementY = 0)
         {
             Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, button, target, modifiersList ?? String.Empty, deltaX, deltaY, deltaZ, deltaMode);
+            SetMovement(movementX, movementY);
         }
 
         /// <summary>
@@ -66,12 +69,15 @@ namespace AngleSharp.Html.Dom.Events
         /// <param name="deltaY">The wheel delta in Y direction.</param>
         /// <param name="deltaZ">The wheel delta in Z direction.</param>
         /// <param name="deltaMode">The delta mode for the wheel event.</param>
+        /// <param name="movementX">Sets the horizontal distance moved since the previous mouse event.</param>
+        /// <param name="movementY">Sets the vertical distance moved since the previous mouse event.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public WheelEvent(String type, MouseButtons buttons, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel)
+        public WheelEvent(String type, MouseButtons buttons, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel, Int32 movementX = 0, Int32 movementY = 0)
         {
             Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, button, relatedTarget, ModifierExtensions.ToModifierList(ctrlKey, shiftKey, altKey, metaKey), deltaX, deltaY, deltaZ, deltaMode);
             Buttons = buttons;
+            SetMovement(movementX, movementY);
         }
 
         #endregion

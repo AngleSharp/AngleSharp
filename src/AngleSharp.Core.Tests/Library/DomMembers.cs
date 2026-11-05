@@ -6,6 +6,7 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Dom.Events;
     using AngleSharp.Html.Parser;
+    using AngleSharp.Io;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -81,6 +82,36 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreEqual(3, ev.X);
             Assert.AreEqual(4, ev.Y);
             Assert.IsTrue(ev.IsCtrlPressed);
+        }
+
+        [Test]
+        public void MouseEventsTakeMovementDeltas()
+        {
+            var ev = new MouseEvent("mousemove", MouseButtons.Primary, movementX: 2, movementY: -3);
+            var pointer = new PointerEvent("pointermove", movementX: 5, movementY: 6);
+            var wheel = new WheelEvent("wheel", movementX: 7, movementY: 8);
+
+            Assert.AreEqual(2, ev.MovementX);
+            Assert.AreEqual(-3, ev.MovementY);
+            Assert.AreEqual(5, pointer.MovementX);
+            Assert.AreEqual(6, pointer.MovementY);
+            Assert.AreEqual(7, wheel.MovementX);
+            Assert.AreEqual(8, wheel.MovementY);
+            Assert.AreEqual(0, new MouseEvent("click").MovementX);
+            Assert.AreEqual(0, new MouseEvent("click").MovementY);
+        }
+
+        [Test]
+        public void SubmitEventKeepsItsSubmitter()
+        {
+            var document = Html("<form><button type='submit'>Save</button></form>");
+            var button = document.QuerySelector<IHtmlElement>("button");
+            var ev = new SubmitEvent("submit", true, true, button);
+
+            Assert.AreSame(button, ev.Submitter);
+            Assert.IsTrue(ev.IsBubbling);
+            Assert.IsTrue(ev.IsCancelable);
+            Assert.Throws<ArgumentException>(() => new SubmitEvent("submit", submitter: document.QuerySelector<IHtmlElement>("form")));
         }
 
         [Test]
@@ -265,7 +296,46 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void RequestSubmitFiresAnEventThatCanPreventIt()
         {
-            var form = (IHtmlFormElement)Html("<form></form>").QuerySelector("form");
+            var document = Html("<form><button name='save' value='yes'>Save</button></form>");
+            var form = document.QuerySelector<IHtmlFormElement>("form");
+            var button = document.QuerySelector<IHtmlElement>("button");
+            var fired = 0;
+            IHtmlElement submitter = null;
+            form.AddEventListener("submit", (_, ev) =>
+            {
+                fired++;
+                submitter = ((SubmitEvent)ev).Submitter;
+                ev.Cancel();
+            });
+
+            form.RequestSubmit(button);
+
+            Assert.AreEqual(1, fired);
+            Assert.AreSame(button, submitter);
+        }
+
+        [Test]
+        public void RequestSubmitWithoutSubmitterReportsNull()
+        {
+            var form = Html("<form></form>").QuerySelector<IHtmlFormElement>("form");
+            IHtmlElement submitter = null;
+            form.AddEventListener("submit", (_, ev) =>
+            {
+                submitter = ((SubmitEvent)ev).Submitter;
+                ev.Cancel();
+            });
+
+            form.RequestSubmit();
+
+            Assert.IsNull(submitter);
+        }
+
+        [Test]
+        public void SubmitAsyncWithSubmitterDispatchesSubmitEvent()
+        {
+            var document = Html("<form><button>Save</button></form>");
+            var form = document.QuerySelector<IHtmlFormElement>("form");
+            var button = document.QuerySelector<IHtmlElement>("button");
             var fired = 0;
             form.AddEventListener("submit", (_, ev) =>
             {
@@ -273,8 +343,9 @@ namespace AngleSharp.Core.Tests.Library
                 ev.Cancel();
             });
 
-            form.RequestSubmit();
+            var result = form.SubmitAsync(button);
 
+            Assert.IsTrue(result.IsCompleted);
             Assert.AreEqual(1, fired);
         }
 
@@ -288,6 +359,73 @@ namespace AngleSharp.Core.Tests.Library
             form.RequestSubmit();
 
             Assert.AreEqual(0, fired);
+        }
+
+        [Test]
+        public void RequestSubmitHonorsFormNoValidate()
+        {
+            var document = Html("<form><input required><button formnovalidate>Save</button></form>");
+            var form = document.QuerySelector<IHtmlFormElement>("form");
+            var button = document.QuerySelector<IHtmlElement>("button");
+            var fired = 0;
+            form.AddEventListener("submit", (_, ev) =>
+            {
+                fired++;
+                ev.Cancel();
+            });
+
+            form.RequestSubmit(button);
+
+            Assert.AreEqual(1, fired);
+        }
+
+        [Test]
+        public void RequestSubmitAcceptsAnImageInput()
+        {
+            var document = Html("<form><input type='image' name='map'></form>");
+            var form = document.QuerySelector<IHtmlFormElement>("form");
+            var image = document.QuerySelector<IHtmlElement>("input");
+            IHtmlElement submitter = null;
+            form.AddEventListener("submit", (_, ev) =>
+            {
+                submitter = ((SubmitEvent)ev).Submitter;
+                ev.Cancel();
+            });
+
+            form.RequestSubmit(image);
+
+            Assert.AreSame(image, submitter);
+        }
+
+        [Test]
+        public void RequestSubmitValidatesItsSubmitter()
+        {
+            var document = Html("<form><div></div><button>Save</button></form><form><button>Other</button></form>");
+            var form = document.QuerySelector<IHtmlFormElement>("form");
+            var otherButton = document.QuerySelectorAll<IHtmlElement>("button").ElementAt(1);
+
+            Assert.Throws<ArgumentException>(() => form.RequestSubmit(document.QuerySelector<IHtmlElement>("div")));
+            var error = Assert.Throws<DomException>(() => form.RequestSubmit(otherButton));
+            Assert.AreEqual(DomError.NotFound, (DomError)error.Code);
+        }
+
+        [Test]
+        public void FormSubmissionUsesSubmitterOverridesAndData()
+        {
+            var document = Html("<form action='https://example.com/original' method='get'><input name='q' value='term'><button name='save' value='yes' formaction='https://example.com/override' formmethod='post' formenctype='text/plain'>Save</button></form>");
+            var form = document.QuerySelector<IHtmlFormElement>("form");
+            var button = document.QuerySelector<IHtmlElement>("button");
+            var request = form.GetSubmission(button);
+
+            Assert.AreEqual("https://example.com/override", request.Target.Href);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("text/plain", request.MimeType);
+            using (var reader = new System.IO.StreamReader(request.Body))
+            {
+                var body = reader.ReadToEnd();
+                Assert.IsTrue(body.Contains("q=term"));
+                Assert.IsTrue(body.Contains("save=yes"));
+            }
         }
     }
 }
