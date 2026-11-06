@@ -50,8 +50,14 @@ namespace AngleSharp.Io.Processors
 
         protected override Task ProcessResponseAsync(IResponse response)
         {
+            // the document decides what may show it
+            if (!FramingPolicy.IsAllowed(response, _element.Owner))
+            {
+                return Task.CompletedTask;
+            }
+
             var cancel = CancellationToken.None;
-            var context = _element.NestedContext;
+            var context = ApplySandbox();
             var task = context.OpenAsync(response, cancel);
             return WaitResponse(task);
         }
@@ -60,10 +66,17 @@ namespace AngleSharp.Io.Processors
 
         #region Helpers
 
+        private IBrowsingContext ApplySandbox()
+        {
+            var context = _element.NestedContext;
+            (context as BrowsingContext)?.UpdateSecurity(_element.GetSandboxFlags());
+            return context;
+        }
+
         private Task ProcessResponse(String response)
         {
             var cancel = CancellationToken.None;
-            var context = _element.NestedContext;
+            var context = ApplySandbox();
             var task = context.OpenAsync(m => m.Content(response).Address("about:srcdoc"), cancel);
             return WaitResponse(task);
         }

@@ -367,13 +367,13 @@ namespace AngleSharp.Dom
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors) => ChildNodes.QuerySelectorAll(selectors, this);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByClassName(String classNames) => ChildNodes.GetElementsByClassName(classNames);
+        public IHtmlCollection<IElement> GetElementsByClassName(String classNames) => new LiveHtmlCollection(this, () => ChildNodes.GetElementsByClassName(classNames));
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => ChildNodes.GetElementsByTagName(tagName);
+        public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => new LiveHtmlCollection(this, () => ChildNodes.GetElementsByTagName(tagName));
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByTagNameNS(String? namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
+        public IHtmlCollection<IElement> GetElementsByTagNameNS(String? namespaceURI, String tagName) => new LiveHtmlCollection(this, () => ChildNodes.GetElementsByTagName(namespaceURI, tagName));
 
         /// <inheritdoc />
         public Boolean Matches(String selectorText)
@@ -638,6 +638,16 @@ namespace AngleSharp.Dom
                     attributeNamespace: namespaceUri,
                     previousValue: oldValue));
             }
+
+            CustomElementRegistry.NotifyAttributeChanged(this, localName, oldValue, newValue, namespaceUri);
+
+            if (this is AngleSharp.Html.Dom.HtmlElement htmlElement &&
+                namespaceUri is null &&
+                newValue is null &&
+                String.Equals(localName, AttributeNames.Popover, StringComparison.Ordinal))
+            {
+                AngleSharp.Html.Dom.HtmlPopoverMemberExtensions.PopoverAttributeChanged(htmlElement);
+            }
         }
 
         // Reads the attribute rather than the value it was handed: Configuration.With prepends, so
@@ -763,6 +773,7 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         protected void CloneElement(Element element, Document owner, Boolean deep)
         {
+            CustomElementRegistry.CopyIsValue(this, element);
             CloneNode(element, owner, deep);
 
             foreach (var attribute in _attributes)
@@ -773,6 +784,11 @@ namespace AngleSharp.Dom
             }
 
             element.SetupElement();
+
+            if (owner.CustomElements is { HasDefinitions: true } registry)
+            {
+                registry.ElementCloned(element);
+            }
         }
 
         #endregion

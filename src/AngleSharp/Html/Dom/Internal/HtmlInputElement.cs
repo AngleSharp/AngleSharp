@@ -305,9 +305,9 @@ namespace AngleSharp.Html.Dom
             {
                 var type = Type;
 
-                if (type.Is(InputTypeNames.Submit))
+                if (type.IsOneOf(InputTypeNames.Submit, InputTypeNames.Image))
                 {
-                    await form.SubmitAsync().ConfigureAwait(false);
+                    await HtmlFormMemberExtensions.RequestSubmitAsync(form, this).ConfigureAwait(false);
                 }
                 else if (type.Is(InputTypeNames.Reset))
                 {

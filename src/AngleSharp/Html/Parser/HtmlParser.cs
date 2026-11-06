@@ -373,6 +373,11 @@ namespace AngleSharp.Html.Parser
             return document;
         }
 
+        /// <summary>
+        /// Parses what was written to a document opened again, into that document.
+        /// </summary>
+        internal Task<IHtmlDocument> ParseWrittenTextAsync(HtmlDocument document) => ParseAsync(document, CancellationToken.None);
+
         private HtmlDomBuilder CreateBuilder(HtmlDocument document, String? stopAt)
         {
             var options = new HtmlTokenizerOptions(_options);
@@ -385,11 +390,23 @@ namespace AngleSharp.Html.Parser
             return parser;
         }
 
+        /// <summary>
+        /// Aligns the scripting flag of the options and the document for parsing: either one
+        /// is enough to disable scripting, and the document keeps it for what comes after.
+        /// </summary>
+        private HtmlParserOptions GetOptions(HtmlDocument document)
+        {
+            var options = _options;
+            options.IsScripting = options.IsScripting && !document.IsScriptingDisabled;
+            document.IsScriptingDisabled = !options.IsScripting;
+            return options;
+        }
+
         private IHtmlDocument Parse(HtmlDocument document, String? stopAt = null)
         {
             var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
-            parser.Parse(_options);
+            parser.Parse(GetOptions(document));
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
@@ -398,7 +415,7 @@ namespace AngleSharp.Html.Parser
         {
             var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
-            await parser.ParseAsync(_options, null, cancel).ConfigureAwait(false);
+            await parser.ParseAsync(GetOptions(document), null, cancel).ConfigureAwait(false);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }

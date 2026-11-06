@@ -2,8 +2,10 @@ namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Browser;
     using AngleSharp.Dom;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Io;
     using AngleSharp.Io.Processors;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -50,7 +52,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.Scrolling, value);
         }
 
-        public IDocument? ContentDocument => _context?.Active;
+        public IDocument? ContentDocument => _context?.Active ?? GetInitialDocument();
 
         public String? LongDesc
         {
@@ -64,11 +66,71 @@ namespace AngleSharp.Html.Dom
             set => this.SetOwnAttribute(AttributeNames.FrameBorder, value);
         }
 
-        public IBrowsingContext NestedContext => _context ??= NewChildContext();
+        public IBrowsingContext NestedContext
+        {
+            get
+            {
+                // a download finishing on another thread must end up in the same context
+                lock (_request)
+                {
+                    return _context ??= NewChildContext();
+                }
+            }
+        }
 
         #endregion
 
         #region Internal Methods
+
+        /// <summary>
+        /// A frame in a document shows a document from the start: about:blank, unless it has
+        /// something else to show (HTML 4.8.5). It's made once somebody asks for it, so that a
+        /// page isn't paying for frames only a script could tell the difference of.
+        /// </summary>
+        private IDocument? GetInitialDocument()
+        {
+            if (!HasNothingToLoad || !CustomElementRegistry.IsConnected(this))
+            {
+                return null;
+            }
+
+            lock (_request)
+            {
+                var context = NestedContext;
+
+                if (context.Active is null)
+                {
+                    (context as BrowsingContext)?.UpdateSecurity(GetSandboxFlags());
+                    var parser = context.GetService<IHtmlParser>() as HtmlParser ?? new HtmlParser(context);
+                    var document = parser.ParseDocument(String.Empty);
+                    ((Document)document).UseBaseUrlOfCreator();
+                    context.Active = document;
+                }
+
+                return context.Active;
+            }
+        }
+
+        private Boolean HasNothingToLoad
+        {
+            get
+            {
+                var source = this.GetOwnAttribute(AttributeNames.Src);
+                return (String.IsNullOrEmpty(source) || source.Isi("about:blank")) && GetContentHtml() is null;
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void OnParentChanged()
+        {
+            base.OnParentChanged();
+
+            // not right here: the insertion isn't done yet, and a listener may do anything
+            if (HasNothingToLoad && CustomElementRegistry.IsConnected(this))
+            {
+                Owner.QueueTask(() => this.FireSimpleEvent(EventNames.Load));
+            }
+        }
 
         internal virtual String GetContentHtml()
         {
@@ -79,7 +141,8 @@ namespace AngleSharp.Html.Dom
         {
             base.SetupElement();
 
-            _context ??= NewChildContext();
+            _ = NestedContext;
+
             if (this.GetOwnAttribute(AttributeNames.Src) != null)
             {
                 UpdateSource();
@@ -101,6 +164,12 @@ namespace AngleSharp.Html.Dom
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// The flags the frame is sandboxed with for the next document (a change of the attribute
+        /// only applies once the frame navigates): its own and those of what is around it.
+        /// </summary>
+        internal virtual Sandboxes GetSandboxFlags() => Context?.Security ?? Sandboxes.None;
 
         private IBrowsingContext NewChildContext()
         {

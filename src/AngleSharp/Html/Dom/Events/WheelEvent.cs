@@ -38,11 +38,46 @@ namespace AngleSharp.Html.Dom.Events
         /// <param name="deltaY">The mouse wheel delta in Y direction.</param>
         /// <param name="deltaZ">The mouse wheel delta in Z direction.</param>
         /// <param name="deltaMode">The delta mode for the wheel event.</param>
-        [DomConstructor]
-        [DomInitDict(offset: 1, optional: true)]
-        public WheelEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, MouseButton button = MouseButton.Primary, IEventTarget? target = null, String? modifiersList = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel)
+        /// <param name="movementX">Sets the horizontal distance moved since the previous mouse event.</param>
+        /// <param name="movementY">Sets the vertical distance moved since the previous mouse event.</param>
+        public WheelEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, MouseButton button = MouseButton.Primary, IEventTarget? target = null, String? modifiersList = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel, Int32 movementX = 0, Int32 movementY = 0)
         {
             Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, button, target, modifiersList ?? String.Empty, deltaX, deltaY, deltaZ, deltaMode);
+            SetMovement(movementX, movementY);
+        }
+
+        /// <summary>
+        /// Creates a new event with the members of a WheelEventInit.
+        /// </summary>
+        /// <param name="type">The type of the event.</param>
+        /// <param name="buttons">Sets the buttons being held.</param>
+        /// <param name="bubbles">If the event is bubbling.</param>
+        /// <param name="cancelable">If the event is cancelable.</param>
+        /// <param name="view">Sets the associated view for the UI event.</param>
+        /// <param name="detail">Sets the detail id for the UIEvent.</param>
+        /// <param name="screenX">Sets the screen X coordinate.</param>
+        /// <param name="screenY">Sets the screen Y coordinate.</param>
+        /// <param name="clientX">Sets the client X coordinate.</param>
+        /// <param name="clientY">Sets the client Y coordinate.</param>
+        /// <param name="ctrlKey">Sets if the control key is pressed.</param>
+        /// <param name="altKey">Sets if the alt key is pressed.</param>
+        /// <param name="shiftKey">Sets if the shift key is pressed.</param>
+        /// <param name="metaKey">Sets if the meta key is pressed.</param>
+        /// <param name="button">Sets which button has been pressed.</param>
+        /// <param name="relatedTarget">The target of the mouse event.</param>
+        /// <param name="deltaX">The wheel delta in X direction.</param>
+        /// <param name="deltaY">The wheel delta in Y direction.</param>
+        /// <param name="deltaZ">The wheel delta in Z direction.</param>
+        /// <param name="deltaMode">The delta mode for the wheel event.</param>
+        /// <param name="movementX">Sets the horizontal distance moved since the previous mouse event.</param>
+        /// <param name="movementY">Sets the vertical distance moved since the previous mouse event.</param>
+        [DomConstructor]
+        [DomInitDict(offset: 1, optional: true)]
+        public WheelEvent(String type, MouseButtons buttons, Boolean bubbles = false, Boolean cancelable = false, IWindow? view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget? relatedTarget = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel, Int32 movementX = 0, Int32 movementY = 0)
+        {
+            Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, button, relatedTarget, ModifierExtensions.ToModifierList(ctrlKey, shiftKey, altKey, metaKey), deltaX, deltaY, deltaZ, deltaMode);
+            Buttons = buttons;
+            SetMovement(movementX, movementY);
         }
 
         #endregion

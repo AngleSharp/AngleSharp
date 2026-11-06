@@ -48,6 +48,19 @@ public class DomPointReadOnly : IDomPointReadOnly
     public virtual Double W { get; protected set; }
 
     /// <summary>
+    /// Gets the members of the point as they are serialized.
+    /// </summary>
+    /// <returns>A record of the members.</returns>
+    [DomName("toJSON")]
+    public System.Collections.Generic.IDictionary<String, Object> ToJson() => new System.Collections.Generic.Dictionary<String, Object>
+    {
+        ["x"] = X,
+        ["y"] = Y,
+        ["z"] = Z,
+        ["w"] = W,
+    };
+
+    /// <summary>
     /// Provides the member value.
     /// </summary>
     [DomName("fromPoint")]

@@ -15,12 +15,12 @@ namespace AngleSharp
 
         private readonly IEnumerable<Object> _originalServices;
         private readonly List<Object> _services;
-        private readonly Sandboxes _security;
         private readonly IBrowsingContext? _parent;
         private readonly IDocument? _creator;
         private readonly Boolean _isFrameContext;
         private readonly IHistory? _history;
         private readonly Dictionary<String, WeakReference<IBrowsingContext>> _children;
+        private Sandboxes _security;
 
         // The auxiliary (window) contexts of this group, shared by reference with every
         // context in it. An auxiliary context has no owning element - unlike a frame
@@ -131,6 +131,11 @@ namespace AngleSharp
         /// Gets the sandboxing flag of the context.
         /// </summary>
         public Sandboxes Security => _security;
+
+        /// <summary>
+        /// Sets what the context is sandboxed from for the documents to come (the `sandbox` of an iframe).
+        /// </summary>
+        internal void UpdateSecurity(Sandboxes security) => _security = security;
 
         #endregion
 

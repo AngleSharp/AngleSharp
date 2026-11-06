@@ -14,6 +14,66 @@
             return code.ToHtmlDocument();
         }
 
+        private static System.String Walk(System.Func<INode> move)
+        {
+            var names = new System.Collections.Generic.List<System.String>();
+
+            for (var node = move(); node != null && names.Count < 20; node = move())
+            {
+                names.Add(node.NodeName.ToLowerInvariant());
+            }
+
+            return System.String.Join(",", names);
+        }
+
+        [Test]
+        public void TreeWalkerPreviousNodeGoesBackThroughTheTree()
+        {
+            var doc = Html("<div id=r><a><b></b><i></i></a><u></u><s><em></em></s></div>");
+            var walker = doc.CreateTreeWalker(doc.GetElementById("r"), FilterSettings.Element);
+            walker.Current = doc.QuerySelector("em");
+
+            Assert.AreEqual("s,u,i,b,a,div", Walk(walker.ToPrevious));
+            Assert.AreEqual("div", walker.Current.NodeName.ToLowerInvariant());
+        }
+
+        [Test]
+        public void TreeWalkerPreviousNodeStopsAtTheRootWithoutASibling()
+        {
+            var doc = Html("<p></p><div id=r></div>");
+            var walker = doc.CreateTreeWalker(doc.GetElementById("r"), FilterSettings.Element);
+
+            Assert.IsNull(walker.ToPrevious());
+        }
+
+        [Test]
+        public void TreeWalkerPreviousNodeSkipsAndRejectsAsFiltered()
+        {
+            var doc = Html("<div id=r><a><b></b></a><u><em></em></u><s></s></div>");
+            var walker = doc.CreateTreeWalker(doc.GetElementById("r"), FilterSettings.Element, node =>
+                node.NodeName == "U" ? FilterResult.Reject : node.NodeName == "A" ? FilterResult.Skip : FilterResult.Accept);
+            walker.Current = doc.QuerySelector("s");
+
+            Assert.AreEqual("b,div", Walk(walker.ToPrevious));
+        }
+
+        [Test]
+        public void TreeWalkerGoesToTheLastAndBackAsAFocusZoneDoes()
+        {
+            var doc = Html("<div id=r><button>1</button><span><button>2</button></span><button>3</button></div>");
+            var walker = doc.CreateTreeWalker(doc.GetElementById("r"), FilterSettings.Element, node =>
+                node.NodeName == "BUTTON" ? FilterResult.Accept : FilterResult.Skip);
+            INode node = null;
+
+            for (var next = walker.ToLast(); next != null; next = walker.ToLast())
+            {
+                node = next;
+            }
+
+            Assert.AreEqual("3", node.TextContent);
+            Assert.AreEqual("button,button", Walk(walker.ToPrevious));
+        }
+
         [Test]
         public void TreeWalkerJavaScriptKitDivision()
         {

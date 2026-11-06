@@ -312,6 +312,12 @@
         event DomEventHandler Selected;
 
         /// <summary>
+        /// Event triggered before a popover or details element changes state.
+        /// </summary>
+        [DomName("onbeforetoggle")]
+        event DomEventHandler BeforeToggle;
+
+        /// <summary>
         /// Event triggered after being shown.
         /// </summary>
         [DomName("onshow")]

@@ -14,7 +14,7 @@ namespace AngleSharp.Css
         {
             { PseudoElementNames.Before, CreatePseudoElementSelector(PseudoElementNames.Before) },
             { PseudoElementNames.After, CreatePseudoElementSelector(PseudoElementNames.After) },
-            { PseudoElementNames.Selection, CreateUnsupportedPseudoElementSelector(PseudoElementNames.Selection) },
+            { PseudoElementNames.Selection, CreatePseudoElementSelector(PseudoElementNames.Selection) },
             { PseudoElementNames.FootnoteCall, CreateUnsupportedPseudoElementSelector(PseudoElementNames.FootnoteCall) },
             { PseudoElementNames.FootnoteMarker, CreateUnsupportedPseudoElementSelector(PseudoElementNames.FootnoteMarker) },
             { PseudoElementNames.FirstLine, CreateUnsupportedPseudoElementSelector(PseudoElementNames.FirstLine) },

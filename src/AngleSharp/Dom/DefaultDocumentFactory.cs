@@ -94,9 +94,17 @@ namespace AngleSharp.Dom
         protected static Task<IDocument> LoadHtmlAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
         {
             var parser = context.GetService<IHtmlParser>()!;
-            var document = new HtmlDocument(context, options.Source);
+            var document = new HtmlDocument(context, options.Source)
+            {
+                IsScriptingDisabled = options.IsScriptingDisabled,
+            };
             document.Setup(options.Response, options.ContentType, options.ImportAncestor);
-            context.NavigateTo(document);
+
+            if (!options.IsNavigationDisabled)
+            {
+                context.NavigateTo(document);
+            }
+
             return parser.ParseDocumentAsync(document, cancellationToken);
         }
 
@@ -107,7 +115,12 @@ namespace AngleSharp.Dom
         {
             var document = new HtmlDocument(context, options.Source);
             document.Setup(options.Response, options.ContentType, options.ImportAncestor);
-            context.NavigateTo(document);
+
+            if (!options.IsNavigationDisabled)
+            {
+                context.NavigateTo(document);
+            }
+
             var root = document.CreateElement(TagNames.Html);
             var head = document.CreateElement(TagNames.Head);
             var body = document.CreateElement(TagNames.Body);

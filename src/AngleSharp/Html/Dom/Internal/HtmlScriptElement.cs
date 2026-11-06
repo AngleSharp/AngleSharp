@@ -157,6 +157,13 @@ namespace AngleSharp.Html.Dom
 
             _started = true;
 
+            // Only after being marked as started: such a script does not run either once
+            // it is moved to a document with scripting enabled.
+            if (document.IsScriptingDisabled)
+            {
+                return false;
+            }
+
             if (eventAttr is { Length: > 0 } && forAttr is { Length: >0 })
             {
                 eventAttr = eventAttr.Trim();

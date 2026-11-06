@@ -233,6 +233,11 @@ namespace AngleSharp.Dom
                         if (oldDocument is not null)
                         {
                             descendantAndSelf.NodeIsAdopted(oldDocument);
+
+                            if (oldDocument.CustomElements is { } registry && descendantAndSelf is Element element && value is Document newDocument)
+                            {
+                                registry.ElementMoved(element, oldDocument, newDocument);
+                            }
                         }
                     }
                 }
@@ -330,6 +335,9 @@ namespace AngleSharp.Dom
                 n = _children.Length;
             }
 
+            var customElements = OwningDocument?.CustomElements;
+            var inserted = customElements is { HasDefinitions: true } ? new List<Node>() : null;
+
             if (newElement._type == NodeType.DocumentFragment)
             {
                 var end = n;
@@ -347,6 +355,7 @@ namespace AngleSharp.Dom
                 {
                     var child = _children[start];
                     addedNodes?.Add(child);
+                    inserted?.Add(child);
                     NodeIsInserted(child);
 
                     if (!suppressBaseUrlUpdates)
@@ -360,6 +369,7 @@ namespace AngleSharp.Dom
             else
             {
                 addedNodes?.Add(newElement);
+                inserted?.Add(newElement);
                 InsertNode(n, newElement);
                 NodeIsInserted(newElement);
 
@@ -383,6 +393,15 @@ namespace AngleSharp.Dom
                         addedNodes: addedNodes,
                         previousSibling: n > 0 ? _children[n - 1] : null,
                         nextSibling: referenceElement));
+                }
+            }
+
+            // only now, as they may change the tree in any way
+            if (inserted is not null)
+            {
+                foreach (var node in inserted)
+                {
+                    customElements!.NodeInserted(node);
                 }
             }
 
@@ -428,9 +447,16 @@ namespace AngleSharp.Dom
                 }
             }
 
+            var registry = owningDocument?.CustomElements;
+            var wasConnected = registry is { HasDefinitions: true } && CustomElementRegistry.IsConnected(node);
             RemoveNode(index, node);
             NodeIsRemoved(node, oldPreviousSibling);
             owningDocument?.RefreshBaseUrlForTreeChange(node);
+
+            if (wasConnected)
+            {
+                registry!.NodeRemoved(node);
+            }
         }
 
         internal Node ReplaceChild(Node node, Node child, Boolean suppressObservers)
@@ -696,7 +722,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public Boolean Contains(INode otherNode) => this.IsInclusiveAncestorOf(otherNode);
+        public Boolean Contains(INode otherNode) => otherNode is not null && this.IsInclusiveAncestorOf(otherNode);
 
         /// <inheritdoc />
         public void Normalize() => Normalize(0);
@@ -1104,7 +1130,11 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Specifications may define removing steps for all or some nodes.
         /// </summary>
-        protected virtual void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling) => removedNode.OnParentChanged();
+        protected virtual void NodeIsRemoved(Node removedNode, Node? oldPreviousSibling)
+        {
+            removedNode.OnParentChanged();
+            AngleSharp.Html.Dom.HtmlPopoverMemberExtensions.RemoveDisconnectedPopovers(removedNode);
+        }
 
         /// <inheritdoc />
         protected virtual void OnParentChanged()

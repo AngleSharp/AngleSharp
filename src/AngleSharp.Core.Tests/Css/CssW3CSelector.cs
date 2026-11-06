@@ -1,8 +1,10 @@
 namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class CssW3CSelectorTests
@@ -6337,6 +6339,31 @@ This div should have three addresses above it.</div>";
 	        Assert.AreEqual(0, selector1.Length);
 
             Assert.Catch(() => doc.QuerySelectorAll(":selection"));
+        }
+
+        [Test]
+        public void SelectionPseudoElementSelectorMatchesThatPseudoElement()
+        {
+            var selector = new DefaultPseudoElementSelectorFactory().Create(PseudoElementNames.Selection);
+
+            Assert.IsTrue(selector.Match(PseudoElementStub.Create(PseudoElementNames.Selection), null));
+            Assert.IsFalse(selector.Match(PseudoElementStub.Create(PseudoElementNames.Before), null));
+        }
+
+        // .NET Framework generates the proxy in a separate assembly, so its base type must be public.
+        public class PseudoElementStub : System.Reflection.DispatchProxy
+        {
+            private String _name;
+
+            public static IPseudoElement Create(String name)
+            {
+                var stub = Create<IPseudoElement, PseudoElementStub>();
+                ((PseudoElementStub)(Object)stub)._name = name;
+                return stub;
+            }
+
+            protected override Object Invoke(System.Reflection.MethodInfo targetMethod, Object[] args) =>
+                targetMethod.Name == "get_" + nameof(IPseudoElement.PseudoName) ? _name : null;
         }
 
         /// <summary>

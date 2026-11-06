@@ -252,9 +252,46 @@ namespace AngleSharp.Dom.Events
         }
 
         /// <summary>
-        /// Prevents further propagation of the event.
+        /// Gets if the propagation has been stopped; setting it to true stops it.
         /// </summary>
-        [DomName("stopPropagation")]
+        [DomName("cancelBubble")]
+        public Boolean CancelBubble
+        {
+            get => (_flags & EventFlags.StopPropagation) == EventFlags.StopPropagation;
+            set
+            {
+                if (value)
+                {
+                    Stop();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets if the default action is still to be taken; setting it to false prevents it.
+        /// </summary>
+        [DomName("returnValue")]
+        public Boolean ReturnValue
+        {
+            get => !IsDefaultPrevented;
+            set
+            {
+                if (!value)
+                {
+                    Cancel();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets if a passive listener is being called, which may not prevent the default.
+        /// </summary>
+        internal Boolean IsInPassiveListener { get; set; }
+
+        /// <summary>
+        /// Stops the propagation.
+        /// </summary>
+                [DomName("stopPropagation")]
         public void Stop()
         {
             _flags |= EventFlags.StopPropagation;
@@ -275,7 +312,7 @@ namespace AngleSharp.Dom.Events
         [DomName("preventDefault")]
         public void Cancel()
         {
-            if (_cancelable)
+            if (_cancelable && !IsInPassiveListener)
             {
                 _flags |= EventFlags.Canceled;
             }

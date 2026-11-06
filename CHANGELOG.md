@@ -1,3 +1,46 @@
+# 1.10.0
+
+Released on Friday, November 6 2026.
+
+- Fixed `addedNodes` and `removedNodes` of a `MutationRecord` being null instead of an empty list
+- Fixed `document.open` throwing in a top-level browsing context or without a resource loader, stopping the event loop, and `document.write` after loading losing what was written: it is parsed on `close` or when the current task ends
+- Fixed a frame without `src` or `srcdoc` having no document and window, and it not firing `load` when inserted by a script
+- Fixed `getElementsByClassName`, `getElementsByTagName`, `getElementsByTagNameNS` and `getElementsByName` not being live, which made a loop like `while (list.length) list[0].remove()` run forever
+- Fixed `previousNode` of a `TreeWalker` never returning for a node with a previous sibling
+- Fixed the `detail` of a `CustomEvent` and the `relatedTarget` of a `FocusEvent` being lost when given to their constructors by script
+- Fixed `ctrlKey`, `shiftKey`, `altKey` and `metaKey` of a `KeyboardEvent` always being false, also for `initKeyboardEvent` and the wheel
+- Fixed the options of `KeyboardEvent`, `MouseEvent` and `WheelEvent` for script not taking `ctrlKey` and the like, `code`, `buttons` or `relatedTarget`
+- Fixed `URLSearchParams` keeping the leading `?` of the string it is created from as part of the first name
+- Fixed `ErrorEvent` initialized with its details having no type, so that it never reached listeners of `error`
+- Fixed `ErrorEvent.Message` throwing without an error
+- Fixed the same listener being called repeatedly when added repeatedly for a type and capture; this includes `+=` on the events of the DOM
+- Fixed `a` and `area` elements not having the stringifier of the DOM: `ToString` gives their `href`
+- Fixed the document of a frame getting lost when its download finished while the element was still being set up
+- Fixed `contains` of a node throwing for `null`
+- Fixed `replaceWith` of nodes only being known as `replace`
+- Fixed scripts running with `IsScripting = false` when the browsing context has a scripting service: such a document runs none of its scripts, not even those inserted later, so a custom parser with default options needs `IsScripting = true` to run scripts
+- Added `CreateDocumentOptions.IsScriptingDisabled` to create a document without scripting, as `DOMParser` requires
+- Added the options of `addEventListener` and `removeEventListener`: `capture`, `once`, `passive` and `signal`, where a signal is an `IAbortSignal`
+- Added `CreateDocumentOptions.IsNavigationDisabled` to create a document without it becoming the active document of its context or entering the session history, as `DOMParser` requires
+- Added the `sandbox` attribute of `iframe` applying to its browsing context (`IBrowsingContext.Security`), together with the flags of what is around it
+- Added `isConnected` of nodes and `toggleAttribute` of elements
+- Added custom elements: `customElements` of the window with `define`, `get`, `getName`, `whenDefined` and `upgrade`, as well as the `:defined` pseudo class; the scripts are run through `ICustomElementHost`, which can hold back the reactions until a call of a script returns; `createElement` with `is` and `adoptedCallback` included
+- Added support for `::selection` pseudo element
+- Added `X-Frame-Options` and the `frame-ancestors` directive of `Content-Security-Policy`, against every document around a frame: a frame refusing to be shown gets no document
+- Added `replaceChildren` as an extension of `IParentNode`
+- Added `entries`, `keys`, `values` and `forEach` to `URLSearchParams`
+- Added `IScriptValueCloner` for keeping what script gives without its engine
+- Added `getRootNode` as an extension of `INode`
+- Added `toJSON` to `DOMRect` and `DOMPoint`
+- Added `getAttributeNames`, `hasAttributes`, `insertAdjacentElement`, `insertAdjacentText` and `inert` to elements, `isSameNode` to nodes and `replace` and `value` to `DOMTokenList`
+- Added `PointerEvent`, `code` and `isComposing` to `KeyboardEvent`, `x` and `y` to `MouseEvent`, `cancelBubble` and `returnValue` to `Event`
+- Added the constructor of `EventTarget`, which isn't abstract any more
+- Added `scrollingElement`, `hidden`, `visibilityState` and `charset` to documents
+- Added `requestSubmit` to forms, `reportValidity` to inputs, `item` to selects and `decode`, `decoding`, `loading` and `referrerPolicy` to images
+- Added `SubmitEvent` and `requestSubmit` validation, cancellation, and submitter reporting to forms
+- Added `movementX` and `movementY` to MouseEvent
+- Added handling of `popover` attribute (popover API)
+
 # 1.9.1
 
 Released on Sunday, November 1 2026.

@@ -462,7 +462,7 @@ namespace AngleSharp.Core.Tests.Library
             var source = @"<iframe src="""" class=""updates-iframe""></iframe>";
             var document = await context.OpenAsync(res => res.Content(source));
             var iframe = document.QuerySelector<HtmlIFrameElement>("iframe");
-            Assert.IsNull(iframe.ContentDocument);
+            Assert.AreEqual("about:blank", iframe.ContentDocument.Url);
         }
     }
 }

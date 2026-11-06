@@ -1,5 +1,6 @@
 namespace AngleSharp.Dom
 {
+    using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
     using AngleSharp.Html;
     using AngleSharp.Text;
@@ -9,7 +10,8 @@ namespace AngleSharp.Dom
     /// <summary>
     /// Event target base of all DOM nodes.
     /// </summary>
-    public abstract class EventTarget : IEventTarget
+    [DomName("EventTarget")]
+    public class EventTarget : IEventTarget
     {
         #region Fields
 
@@ -23,6 +25,18 @@ namespace AngleSharp.Dom
         /// script execution until this notification returns.
         /// </summary>
         public event EventHandler? OnReset;
+
+        #endregion
+
+        #region ctor
+
+        /// <summary>
+        /// Creates an event target, which is only that; script may derive from it.
+        /// </summary>
+        [DomConstructor]
+        public EventTarget()
+        {
+        }
 
         #endregion
 
@@ -46,15 +60,44 @@ namespace AngleSharp.Dom
         /// upward through the tree will not trigger a listener designated to
         /// use capture.
         /// </param>
-        public void AddEventListener(String type, DomEventHandler? callback = null, Boolean capture = false)
+        public void AddEventListener(String type, DomEventHandler? callback = null, Boolean capture = false) =>
+            AddListener(type, callback, capture, false, false);
+
+        /// <summary>
+        /// Registers an event handler of a specific event type on the Node.
+        /// </summary>
+        /// <param name="type">A string representing the event type to listen for.</param>
+        /// <param name="callback">The listener receiving the events.</param>
+        /// <param name="options">How the listener is registered.</param>
+        public void AddEventListener(String type, DomEventHandler? callback, AddEventListenerOptions? options)
+        {
+            var signal = options?.Signal;
+
+            if (callback is null || (signal?.IsAborted ?? false))
+            {
+                return;
+            }
+
+            var capture = options?.Capture ?? false;
+            AddListener(type, callback, capture, options?.Once ?? false, options?.Passive ?? false);
+            signal?.AddEventListener(EventNames.Abort, (_, _) => RemoveEventListener(type, callback, capture));
+        }
+
+        private void AddListener(String type, DomEventHandler? callback, Boolean capture, Boolean once, Boolean passive)
         {
             if (callback != null)
             {
-                var listener = new RegisteredEventListener(type, callback, capture);
+                var listener = new RegisteredEventListener(type, callback, capture, once, passive);
                 var current = Volatile.Read(ref _listeners);
 
                 while (true)
                 {
+                    // a listener is only there once for its type and capture (DOM 2.7)
+                    if (current != null && IndexOf(current, listener) >= 0)
+                    {
+                        break;
+                    }
+
                     var length = current?.Length ?? 0;
                     var updated = new RegisteredEventListener[length + 1];
 
@@ -161,7 +204,14 @@ namespace AngleSharp.Dom
 
                         if ((!listener.IsCaptured || phase != EventPhase.Bubbling) && (listener.IsCaptured || phase != EventPhase.Capturing))
                         {
+                            if (listener.IsOnce)
+                            {
+                                RemoveEventListener(listener.Type, listener.Callback, listener.IsCaptured);
+                            }
+
+                            ev.IsInPassiveListener = listener.IsPassive;
                             listener.Callback(target!, ev);
+                            ev.IsInPassiveListener = false;
                         }
                     }
                 }
@@ -240,16 +290,20 @@ namespace AngleSharp.Dom
 
         private readonly struct RegisteredEventListener : IEquatable<RegisteredEventListener>
         {
-            public RegisteredEventListener(String type, DomEventHandler callback, Boolean isCaptured)
+            public RegisteredEventListener(String type, DomEventHandler callback, Boolean isCaptured, Boolean isOnce = false, Boolean isPassive = false)
             {
                 Type = type;
                 Callback = callback;
                 IsCaptured = isCaptured;
+                IsOnce = isOnce;
+                IsPassive = isPassive;
             }
 
             public readonly String Type;
             public readonly DomEventHandler Callback;
             public readonly Boolean IsCaptured;
+            public readonly Boolean IsOnce;
+            public readonly Boolean IsPassive;
 
             public Boolean Equals(RegisteredEventListener other) =>
                 IsCaptured == other.IsCaptured && Type.Is(other.Type) && Callback.Equals(other.Callback);

@@ -1,5 +1,6 @@
 namespace AngleSharp.Dom
 {
+    using AngleSharp.Attributes;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -7,6 +8,10 @@ namespace AngleSharp.Dom
     /// <summary>
     /// Useful methods for parent node objects.
     /// </summary>
+    [DomExposed("Element")]
+    [DomExposed("Document")]
+    [DomExposed("DocumentFragment")]
+    [DomExposed("ShadowRoot")]
     public static class ParentNodeExtensions
     {
         /// <summary>
@@ -59,6 +64,32 @@ namespace AngleSharp.Dom
                 var node = parent.MutationMacro(nodes);
                 parent.PreInsert(node, null);
             }
+        }
+
+        /// <summary>
+        /// Replaces the children of the parent node with the given nodes.
+        /// </summary>
+        /// <param name="parent">The parent, whose children are replaced.</param>
+        /// <param name="nodes">The nodes to have as children.</param>
+        [DomName("replaceChildren")]
+        public static void ReplaceChildren(this IParentNode parent, params INode[] nodes) =>
+            ((INode)parent).ReplaceNodes(nodes);
+
+        /// <summary>
+        /// Replaces the children of the parent node with the given nodes.
+        /// </summary>
+        /// <param name="parent">The parent, whose children are replaced.</param>
+        /// <param name="nodes">The nodes to have as children.</param>
+        public static void ReplaceNodes(this INode parent, params INode[] nodes)
+        {
+            var node = nodes.Length > 0 ? parent.MutationMacro(nodes) : null;
+
+            if (node is not null)
+            {
+                parent.EnsurePreInsertionValidity(node, null);
+            }
+
+            ((Node)parent).ReplaceAll((Node?)node, false);
         }
 
         /// <summary>

@@ -13,6 +13,7 @@ namespace AngleSharp.Dom
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using Html.Construction;
@@ -34,10 +35,10 @@ namespace AngleSharp.Dom
         private readonly Window _view;
         private readonly IResourceLoader? _loader;
         private readonly Location _location;
-        private readonly TextSource _source;
         private readonly Object _importedUrisLock = new();
-        private IAttributeObserver[]? _attributeObservers;
 
+        private TextSource _source;
+        private IAttributeObserver[]? _attributeObservers;
         private QuirksMode _quirksMode;
         private Sandboxes _sandbox;
         private Boolean _async;
@@ -64,6 +65,8 @@ namespace AngleSharp.Dom
         private HttpStatusCode _statusCode;
         private HashSet<Uri>? _importedUris;
         private Int64 _mutationVersion;
+        private StringBuilder? _writtenText;
+        private Boolean _isParsingWrittenText;
 
         #endregion
 
@@ -462,6 +465,13 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
+        public event DomEventHandler BeforeToggle
+        {
+            add { AddEventListener(EventNames.BeforeToggle, value); }
+            remove { RemoveEventListener(EventNames.BeforeToggle, value); }
+        }
+
+        /// <inheritdoc />
         public event DomEventHandler Toggled
         {
             add { AddEventListener(EventNames.Toggle, value); }
@@ -788,6 +798,8 @@ namespace AngleSharp.Dom
 
         internal Url FallbackBaseUrl => _fallbackBaseUrl ?? DocumentUrl;
 
+        internal void UseBaseUrlOfCreator() => _fallbackBaseUrl = _context.Creator is Node { BaseUrl: Url url } ? new Url(url) : null;
+
         internal void RefreshBaseUrl(HtmlBaseElement? changedElement = null)
         {
             HtmlBaseElement? firstBase = null;
@@ -892,6 +904,8 @@ namespace AngleSharp.Dom
         /// this counter must therefore treat a parser boundary as an invalidation point of its own:
         /// a cache is valid across two equal readings of one parsed document, never across the parse
         /// that produced it.
+        /// The only thing it advances for is custom elements that were upgraded on the way, which
+        /// count as a single change once the parse has finished.
         /// </para>
         /// <para>
         /// It deliberately does not cover a node while it is detached from every document either
@@ -1011,6 +1025,18 @@ namespace AngleSharp.Dom
             set => _sandbox = value;
         }
 
+        /// <summary>
+        /// Gets or sets if scripting is disabled for this document, whatever services its
+        /// browsing context has. Lives on the document, as the scripting flag of the spec
+        /// does, since the scripts of a document may be inserted long after it was parsed.
+        /// </summary>
+        internal Boolean IsScriptingDisabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the registry of custom elements, once somebody asked for it.
+        /// </summary>
+        internal CustomElementRegistry? CustomElements { get; set; }
+
         internal void AddScript(HtmlScriptElement script)
         {
             _loadingScripts.Enqueue(script);
@@ -1034,6 +1060,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public virtual void Dispose()
         {
+            // going away with the document is no removal scripts get to see
+            CustomElements = null;
             //Important to fix #45
             Clear();
             _loop?.CancelAll();
@@ -1060,78 +1088,96 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidState);
             }
 
-            if (!IsInBrowsingContext || Object.ReferenceEquals(_context.Active, this))
+            // what a script does while the parser is running stays part of that parse
+            if (IsLoading && CurrentScript is not null)
             {
-                var responsibleDocument = _context?.Parent!.Active;
-
-                if (responsibleDocument != null && !responsibleDocument.Origin.Is(Origin))
-                {
-                    throw new DomException(DomError.Security);
-                }
-
-                if (!_firedUnload && _loadingScripts.Count == 0)
-                {
-                    var shallReplace = replace.Isi(Keywords.Replace);
-                    var history = _context!.SessionHistory;
-                    var index = type?.IndexOf(Symbols.Semicolon) ?? -1;
-
-                    if (!shallReplace && history != null)
-                    {
-                        shallReplace = history.Length == 1 && history[0].Url is "about:blank";
-                    }
-
-                    _salvageable = false;
-
-                    var shouldUnload = PromptToUnloadAsync().Result;
-
-                    if (!shouldUnload)
-                    {
-                        return this;
-                    }
-
-                    // Moved up, i.e., before any destructive action as per #1276
-                    _source.CurrentEncoding = TextEncoding.Utf8;
-
-                    Unload(recycle: true).Wait();
-                    Abort();
-                    RemoveEventListeners();
-
-                    foreach (var element in this.Descendants<Element>())
-                    {
-                        element.RemoveEventListeners();
-                    }
-
-                    _loop?.CancelAll();
-                    ReplaceAll(null, suppressObservers: true);
-                    _salvageable = true;
-                    _ready = DocumentReadyState.Loading;
-
-                    if (type.Isi(Keywords.Replace))
-                    {
-                        type = MimeTypeNames.Html;
-                    }
-                    else if (index >= 0)
-                    {
-                        type = type!.Substring(0, index);
-                    }
-
-                    type = type!.StripLeadingTrailingSpaces();
-
-                    if (!type.Isi(MimeTypeNames.Html))
-                    {
-                        //Act as if the tokenizer had emitted a start tag token with the tag name "pre" followed by a single
-                        //U+000A LINE FEED(LF) character, then switch the HTML parser's tokenizer to the PLAINTEXT state.
-                    }
-
-                    ContentType = type;
-                    _firedUnload = false;
-                    _source.Index = _source.Length;
-                }
-
                 return this;
             }
 
-            return null!;
+            var responsibleDocument = _context?.Parent?.Active;
+
+            // about:srcdoc and about:blank have no origin of their own, but the one of their creator
+            if (responsibleDocument != null && !DocumentUri.StartsWith("about:", StringComparison.Ordinal) && !responsibleDocument.Origin.Is(Origin))
+            {
+                throw new DomException(DomError.Security);
+            }
+
+            if (_writtenText is not null || _firedUnload || _loadingScripts.Count > 0)
+            {
+                return this;
+            }
+
+            // Moved up, i.e., before any destructive action as per #1276
+            _source.CurrentEncoding = TextEncoding.Utf8;
+
+            // No unloading (HTML 8.4.2): a script may be calling this from the event loop, which
+            // therefore could not run anything that had to be waited for here.
+            CancelTasks();
+            Abort();
+            RemoveEventListeners();
+
+            foreach (var element in this.Descendants<Element>())
+            {
+                element.RemoveEventListeners();
+            }
+
+            // not the event loop's tasks: that ends the loop for good, and with it all of the page
+            ReplaceAll(null, suppressObservers: true);
+            _ready = DocumentReadyState.Loading;
+
+            var index = type?.IndexOf(Symbols.Semicolon) ?? -1;
+
+            if (type.Isi(Keywords.Replace))
+            {
+                type = MimeTypeNames.Html;
+            }
+            else if (index >= 0)
+            {
+                type = type!.Substring(0, index);
+            }
+
+            type = type!.StripLeadingTrailingSpaces();
+
+            if (!type.Isi(MimeTypeNames.Html))
+            {
+                //Act as if the tokenizer had emitted a start tag token with the tag name "pre" followed by a single
+                //U+000A LINE FEED(LF) character, then switch the HTML parser's tokenizer to the PLAINTEXT state.
+            }
+
+            ContentType = type;
+            _writtenText = new StringBuilder();
+            ScheduleParsingOfWrittenText(_writtenText);
+            return this;
+        }
+
+        // What's written is parsed in one go, which is when this task ends unless close comes first,
+        // as a document doesn't have to be closed to show what was written to it.
+        private void ScheduleParsingOfWrittenText(StringBuilder text)
+        {
+            _loop?.Enqueue(() =>
+            {
+                if (ReferenceEquals(_writtenText, text))
+                {
+                    ParseWrittenText();
+                }
+            });
+        }
+
+        private void ParseWrittenText()
+        {
+            var text = _writtenText!.ToString();
+            _writtenText = null;
+            _isParsingWrittenText = true;
+
+            var previous = _source;
+            _source = new TextSource(text);
+            previous.Dispose();
+
+            if (this is HtmlDocument document)
+            {
+                var parser = _context.GetService<IHtmlParser>() as HtmlParser ?? new HtmlParser(_context);
+                _ = parser.ParseWrittenTextAsync(document);
+            }
         }
 
         /// <inheritdoc />
@@ -1139,7 +1185,11 @@ namespace AngleSharp.Dom
 
         void IDocument.Close()
         {
-            if (IsLoading)
+            if (_writtenText is not null)
+            {
+                ParseWrittenText();
+            }
+            else if (IsLoading)
             {
                 FinishLoadingAsync().Wait();
             }
@@ -1150,11 +1200,14 @@ namespace AngleSharp.Dom
         {
             if (IsReady)
             {
-                var source = content ?? String.Empty;
-                var newDocument = Open();
-                newDocument.Write(source);
+                Open();
             }
-            else
+
+            if (_writtenText is not null)
+            {
+                _writtenText.Append(content);
+            }
+            else if (!IsReady)
             {
                 if (_source is ITextSource wts)
                 {
@@ -1167,12 +1220,12 @@ namespace AngleSharp.Dom
         public void WriteLine(String content) => Write(content + Symbols.LineFeed);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByName(String name)
+        public IHtmlCollection<IElement> GetElementsByName(String name) => new LiveHtmlCollection(this, () =>
         {
             var result = new List<IElement>();
             ChildNodes.GetElementsByName(name, result);
             return new HtmlCollection<IElement>(result);
-        }
+        });
 
         /// <inheritdoc />
         public INode Import(INode externalNode, Boolean deep = true)
@@ -1239,6 +1292,13 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public IElement CreateElement(String localName)
         {
+            var element = CreateUncustomizedElement(localName);
+            CustomElements?.ElementCreated(element);
+            return element;
+        }
+
+        internal Element CreateUncustomizedElement(String localName)
+        {
             if (localName.IsXmlName())
             {
                 var factory = _context.GetFactory<IElementFactory<Document, HtmlElement>>();
@@ -1260,6 +1320,7 @@ namespace AngleSharp.Dom
                 var factory = _context.GetFactory<IElementFactory<Document, HtmlElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
+                CustomElements?.ElementCreated(element);
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.SvgUri))
@@ -1314,13 +1375,13 @@ namespace AngleSharp.Dom
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors) => ChildNodes.QuerySelectorAll(selectors, DocumentElement);
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByClassName(String classNames) => ChildNodes.GetElementsByClassName(classNames);
+        public IHtmlCollection<IElement> GetElementsByClassName(String classNames) => new LiveHtmlCollection(this, () => ChildNodes.GetElementsByClassName(classNames));
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => ChildNodes.GetElementsByTagName(tagName);
+        public IHtmlCollection<IElement> GetElementsByTagName(String tagName) => new LiveHtmlCollection(this, () => ChildNodes.GetElementsByTagName(tagName));
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> GetElementsByTagName(String? namespaceURI, String tagName) => ChildNodes.GetElementsByTagName(namespaceURI, tagName);
+        public IHtmlCollection<IElement> GetElementsByTagName(String? namespaceURI, String tagName) => new LiveHtmlCollection(this, () => ChildNodes.GetElementsByTagName(namespaceURI, tagName));
 
         /// <inheritdoc />
         public Boolean HasFocus() => Object.ReferenceEquals(_context.Active, this);
@@ -1438,6 +1499,15 @@ namespace AngleSharp.Dom
         internal async Task FinishLoadingAsync()
         {
             var tasks = GetAttachedReferences<Task>().ToArray();
+            CustomElements?.ParsingFinished();
+
+            // unlike the first one, this parse replaced a tree somebody may have looked at
+            if (_isParsingWrittenText)
+            {
+                _isParsingWrittenText = false;
+                MarkMutated();
+            }
+
             ReadyState = DocumentReadyState.Interactive;
 
             while (_loadingScripts.Count > 0)
@@ -1631,7 +1701,7 @@ namespace AngleSharp.Dom
                 }
             }
 
-            var downloads = _loader!.GetDownloads().Where(m => !m.IsCompleted);
+            var downloads = (_loader?.GetDownloads() ?? Enumerable.Empty<IDownload>()).Where(m => !m.IsCompleted);
 
             foreach (var download in downloads)
             {
@@ -1723,6 +1793,7 @@ namespace AngleSharp.Dom
             document._location.Href = _location.Href;
             document._quirksMode = _quirksMode;
             document._sandbox = _sandbox;
+            document.IsScriptingDisabled = IsScriptingDisabled;
             document._async = _async;
             document.ContentType = ContentType;
             document._fallbackBaseUrl = _fallbackBaseUrl is null ? null : new Url(_fallbackBaseUrl);
