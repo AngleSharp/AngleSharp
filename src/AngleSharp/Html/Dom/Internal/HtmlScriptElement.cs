@@ -110,8 +110,26 @@ namespace AngleSharp.Html.Dom
         protected override void OnParentChanged()
         {
             base.OnParentChanged();
+            PrepareInserted();
+        }
 
-            if (!_parserInserted && Prepare(Owner))
+        protected override void NodeIsInserted(Node newNode)
+        {
+            base.NodeIsInserted(newNode);
+
+            // a script inserted without text runs once it gets some
+            if (!ReferenceEquals(newNode, this))
+            {
+                PrepareInserted();
+            }
+        }
+
+        /// <summary>
+        /// Prepares a script inserted by other means than the parser, but not one being removed.
+        /// </summary>
+        private void PrepareInserted()
+        {
+            if (!_parserInserted && Parent is not null && Prepare(Owner))
             {
                 RunAsync(CancellationToken.None);
             }
@@ -195,6 +213,14 @@ namespace AngleSharp.Html.Dom
             else
             {
                 _request.Process(Text);
+
+                // a module of the parser is deferred, even when it is written inline
+                if (_parserInserted && IsModule)
+                {
+                    document.AddScript(this);
+                    return false;
+                }
+
                 return true;
             }
 
@@ -210,7 +236,8 @@ namespace AngleSharp.Html.Dom
             var executeDirectly = true;
 
             //Just add to the (end of) set of scripts
-            if (_parserInserted && (IsDeferred || IsAsync))
+            // a module is deferred without being marked as such
+            if (_parserInserted && (IsDeferred || IsAsync || IsModule))
             {
                 document.AddScript(this);
                 executeDirectly = false;
@@ -219,6 +246,8 @@ namespace AngleSharp.Html.Dom
             this.Process(_request, url);
             return executeDirectly;
         }
+
+        private Boolean IsModule => Type?.Trim().Isi("module") == true;
 
         private void FireErrorEvent() => Owner.QueueTask(() => this.FireSimpleEvent(EventNames.Error));
 
