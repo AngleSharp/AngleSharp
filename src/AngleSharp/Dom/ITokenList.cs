@@ -29,6 +29,11 @@ public interface ITokenList :
     [DomName("item")]
     [DomAccessor(Accessors.Getter)]
 #if NET8_0_OR_GREATER
+    // Declared on every target: code built against the netstandard2.0 build calls this
+    // member, not the IReadOnlyList<T> one, so it has to exist here too. Implementers still
+    // provide the IReadOnlyList<T> indexer (a public this[Int32] covers both).
+    new String this[Int32 index] => ((IReadOnlyList<String>)this)[index];
+
     abstract String IReadOnlyList<String>.this[Int32 index] { get; }
 #else
     String this[Int32 index] { get; }

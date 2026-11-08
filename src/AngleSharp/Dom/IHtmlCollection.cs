@@ -33,6 +33,11 @@ public interface IHtmlCollection<T> :
     [DomName("item")]
     [DomAccessor(Accessors.Getter)]
 #if NET8_0_OR_GREATER
+    // Declared on every target: code built against the netstandard2.0 build calls this
+    // member, not the IReadOnlyList<T> one, so it has to exist here too. Implementers still
+    // provide the IReadOnlyList<T> indexer (a public this[Int32] covers both).
+    new T this[Int32 index] => ((IReadOnlyList<T>)this)[index];
+
     abstract T IReadOnlyList<T>.this[Int32 index] { get; }
 #else
     T this[Int32 index] { get; }
