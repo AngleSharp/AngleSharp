@@ -4,7 +4,7 @@ Released on Saturday, November 7 2026.
 
 - Fixed module scripts of the parser (`<script type="module">`) running right away instead deferring
 - Fixed a script inserted without text not waiting for the text to be set before running
-- Fixed calling the indexers of `IHtmlCollection<T>`, `IStringList` and `ITokenList` from netstandard2.0 libraries on .NET 8 @michaelthyregod
+- Fixed calling the indexers of `IHtmlCollection<T>`, `IStringList` and `ITokenList` from netstandard2.0 libraries on .NET 8 (#1410) @michaelthyregod
 
 # 1.10.0
 
