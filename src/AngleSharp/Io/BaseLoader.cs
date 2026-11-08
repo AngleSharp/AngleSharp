@@ -147,30 +147,42 @@ namespace AngleSharp.Io
             var redirectCount = 0;
             AppendCookieTo(request);
 
-            do
+            while (true)
             {
-                if (response != null)
-                {
-                    redirectCount++;
-                    ExtractCookieFrom(response);
-                    request = CreateNewRequest(request, response);
-                    AppendCookieTo(request);
-                }
+                var requester = default(IRequester);
 
-                foreach (var requester in requesters)
+                foreach (var candidate in requesters)
                 {
-                    if (requester.SupportsProtocol(request.Address.Scheme))
+                    if (candidate.SupportsProtocol(request.Address.Scheme))
                     {
-                        _context.Fire(new RequestEvent(request, null));
-                        response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-                        _context.Fire(new RequestEvent(request, response));
+                        requester = candidate;
                         break;
                     }
                 }
-            }
-            while (response != null && response.StatusCode.IsRedirected() && redirectCount < MaxRedirects);
 
-            return response!;
+                // Nothing can follow the redirect, so its response is the result
+                if (requester is null)
+                {
+                    return response!;
+                }
+
+                // Everything needed from the redirect is read by now; releasing it before the next
+                // request frees its connection and keeps it from leaking if that request fails
+                response?.Dispose();
+                _context.Fire(new RequestEvent(request, null));
+                response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
+                _context.Fire(new RequestEvent(request, response));
+
+                if (response is null || !response.StatusCode.IsRedirected() || redirectCount >= MaxRedirects)
+                {
+                    return response!;
+                }
+
+                redirectCount++;
+                ExtractCookieFrom(response);
+                request = CreateNewRequest(request, response);
+                AppendCookieTo(request);
+            }
         }
 
         /// <summary>
