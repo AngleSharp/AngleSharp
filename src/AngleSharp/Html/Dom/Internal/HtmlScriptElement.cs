@@ -43,6 +43,8 @@ namespace AngleSharp.Html.Dom
 
         public IDownload? CurrentDownload => _request?.Download;
 
+        public Boolean IsStarted => _started;
+
         public String? Source
         {
             get => this.GetOwnAttribute(AttributeNames.Src);

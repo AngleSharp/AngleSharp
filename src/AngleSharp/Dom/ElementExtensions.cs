@@ -1632,7 +1632,7 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Returns the property attribute. Widely used for meta tags for Open Graph protocols
         /// </summary>
-        /// <param name="element"></param>
+        /// <param name="element">The element to get the property attribute from.</param>
         /// <returns>The value of property attribute</returns>
         public static String? GetProperty(this IHtmlMetaElement element)
         {
@@ -1642,11 +1642,26 @@ namespace AngleSharp.Dom
         /// <summary>
         /// Sets the property value
         /// </summary>
-        /// <param name="element"></param>
-        /// <param name="value"></param>
+        /// <param name="element">The element to set the property attribute on.</param>
+        /// <param name="value">The value to set for the property attribute.</param>
         public static void SetProperty(this IHtmlMetaElement element, String value)
         {
             element.SetAttribute("property", value);
+        }
+
+        /// <summary>
+        /// Checks if the script element has started execution.
+        /// </summary>
+        /// <param name="element">The script element to check.</param>
+        /// <returns>True if the script has started, otherwise false.</returns>
+        public static Boolean IsScriptStarted(this IHtmlScriptElement element)
+        {
+            if (element is HtmlScriptElement script)
+            {
+                return script.IsStarted;
+            }
+
+            return false;
         }
 
         /// <summary>
