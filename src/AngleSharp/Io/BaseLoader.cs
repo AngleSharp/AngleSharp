@@ -145,10 +145,10 @@ namespace AngleSharp.Io
             var requesters = _context.GetServices<IRequester>();
             var response = default(IResponse);
             var redirectCount = 0;
-            AppendCookieTo(request);
 
             while (true)
             {
+                AppendCookieTo(request);
                 var requester = default(IRequester);
 
                 foreach (var candidate in requesters)
@@ -181,7 +181,6 @@ namespace AngleSharp.Io
                 redirectCount++;
                 ExtractCookieFrom(response);
                 request = CreateNewRequest(request, response);
-                AppendCookieTo(request);
             }
         }
 
