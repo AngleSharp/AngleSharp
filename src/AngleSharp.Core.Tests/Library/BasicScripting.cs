@@ -377,6 +377,76 @@
         }
 
         [Test]
+        public async Task ExternalModuleScriptInHeadRunsAfterParsing()
+        {
+            var found = default(IElement);
+            var scripting = new CallbackScriptEngine(options => found = options.Document.GetElementById("app"), "module");
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<head><script type='module' src='index.js'></script></head><body><div id='app'></div>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+
+            Assert.IsNotNull(found);
+            Assert.AreSame(document.GetElementById("app"), found);
+        }
+
+        [Test]
+        public async Task InlineModuleScriptInHeadRunsAfterParsing()
+        {
+            var found = default(IElement);
+            var scripting = new CallbackScriptEngine(options => found = options.Document.GetElementById("app"), "module");
+            var config = Configuration.Default.WithScripts(scripting);
+            var source = "<head><script type='module'>//...</script></head><body><div id='app'></div>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source));
+
+            Assert.IsNotNull(found);
+        }
+
+        [Test]
+        public async Task ModuleScriptRunsAfterClassicScriptsOfTheParser()
+        {
+            var order = new List<String>();
+            var scripting = new CallbackScriptEngine(options => order.Add(options.Element.GetAttribute("id")), "module");
+            var classic = new CallbackScriptEngine(options => order.Add(options.Element.GetAttribute("id")));
+            var config = Configuration.Default.WithScripts(scripting).WithScripts(classic);
+            var source = "<head><script id='first' type='module'>//...</script><script id='second' type='c-sharp'>//...</script></head><body>";
+            await BrowsingContext.New(config).OpenAsync(m => m.Content(source));
+
+            CollectionAssert.AreEqual(new[] { "second", "first" }, order);
+        }
+
+        [Test]
+        public async Task InsertedScriptWithoutTextRunsOnceItGetsSome()
+        {
+            var order = new List<String>();
+            var config = Configuration.Default.WithScripts(new CallbackScriptEngine(options => order.Add(options.Element.Text)));
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<body>"));
+            var script = document.CreateElement("script");
+            script.SetAttribute("type", "c-sharp");
+            document.Head.AppendChild(script);
+
+            script.TextContent = "later";
+            script.TextContent = "again";
+
+            CollectionAssert.AreEqual(new[] { "later" }, order);
+        }
+
+        [Test]
+        public async Task ScriptWithoutTextDoesNotRunWhenRemoved()
+        {
+            var order = new List<String>();
+            var config = Configuration.Default.WithScripts(new CallbackScriptEngine(options => order.Add(options.Element.Text)));
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<body>"));
+            var script = document.CreateElement("script");
+            script.SetAttribute("type", "c-sharp");
+            document.Head.AppendChild(script);
+            script.Remove();
+
+            script.TextContent = "detached";
+
+            CollectionAssert.IsEmpty(order);
+        }
+
+        [Test]
         public async Task ParsingSynchronouslyTracksExceptionEscapingHostEventListener_Issue1309()
         {
             var scripting = new CallbackScriptEngine(_ => { });

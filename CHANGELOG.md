@@ -1,3 +1,11 @@
+# 1.10.1
+
+Released on Saturday, November 7 2026.
+
+- Fixed module scripts of the parser (`<script type="module">`) running right away instead deferring
+- Fixed a script inserted without text not waiting for the text to be set before running
+- Improved the loader to dispose the responses of followed redirects (#1409) @michaelthyregod
+
 # 1.10.0
 
 Released on Friday, November 6 2026.
