@@ -8,11 +8,12 @@ namespace AngleSharp.Html.Dom
     /// <summary>
     /// Represents the embed element.
     /// </summary>
-    sealed class HtmlEmbedElement : HtmlElement, IHtmlEmbedElement
+    sealed class HtmlEmbedElement : HtmlElement, IHtmlEmbedElement, IConnectedResourceElement
     {
         #region Fields
 
         private readonly ObjectRequestProcessor _request;
+        private Boolean _isSetUp;
 
         #endregion
 
@@ -61,14 +62,27 @@ namespace AngleSharp.Html.Dom
         internal override void SetupElement()
         {
             base.SetupElement();
+            _isSetUp = true;
             UpdateSource(this.GetOwnAttribute(AttributeNames.Src));
+        }
+
+        /// <summary>
+        /// The resource is only fetched while the element is in a document (HTML 4.8.3/4.8.4),
+        /// e.g. once innerHTML put it there.
+        /// </summary>
+        void IConnectedResourceElement.OnConnected()
+        {
+            if (_isSetUp)
+            {
+                UpdateSource(this.GetOwnAttribute(AttributeNames.Src));
+            }
         }
 
         internal void UpdateSource(String? value)
         {
-            if (value != null)
+            // resolved against the document, which the attribute isn't
+            if (value != null && this.IsInLoadingTree() && this.HyperReference(value) is { } url)
             {
-                var url = new Url(Source!);
                 this.Process(_request, url);
             }
         }

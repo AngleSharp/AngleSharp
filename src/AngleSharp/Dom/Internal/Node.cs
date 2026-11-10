@@ -357,6 +357,7 @@ namespace AngleSharp.Dom
                     addedNodes?.Add(child);
                     inserted?.Add(child);
                     NodeIsInserted(child);
+                    NotifyConnected(child);
 
                     if (!suppressBaseUrlUpdates)
                     {
@@ -372,6 +373,7 @@ namespace AngleSharp.Dom
                 inserted?.Add(newElement);
                 InsertNode(n, newElement);
                 NodeIsInserted(newElement);
+                NotifyConnected(newElement);
 
                 if (!suppressBaseUrlUpdates)
                 {
@@ -1126,6 +1128,28 @@ namespace AngleSharp.Dom
         /// Specifications may define insertion steps for all or some nodes.
         /// </summary>
         protected virtual void NodeIsInserted(Node newNode) => newNode.OnParentChanged();
+
+        /// <summary>
+        /// Runs the insertion steps of the elements loading only while in a document (e.g. an
+        /// iframe) among the inserted node and its descendants, once they are in one.
+        /// </summary>
+        private void NotifyConnected(Node node)
+        {
+            if (node is not Element)
+            {
+                return;
+            }
+
+            var isConnected = default(Boolean?);
+
+            foreach (var element in node.DescendantsAndSelf<Element>())
+            {
+                if (element is IConnectedResourceElement resource && (isConnected ??= element.IsInLoadingTree()))
+                {
+                    resource.OnConnected();
+                }
+            }
+        }
 
         /// <summary>
         /// Specifications may define removing steps for all or some nodes.

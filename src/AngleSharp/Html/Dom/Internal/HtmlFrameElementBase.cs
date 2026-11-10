@@ -11,12 +11,13 @@ namespace AngleSharp.Html.Dom
     /// <summary>
     /// Represents the base class for frame elements.
     /// </summary>
-    abstract class HtmlFrameElementBase : HtmlFrameOwnerElement
+    abstract class HtmlFrameElementBase : HtmlFrameOwnerElement, IConnectedResourceElement
     {
         #region Fields
 
         private IBrowsingContext? _context;
         private FrameRequestProcessor _request;
+        private Boolean _isSetUp;
 
         #endregion
 
@@ -140,6 +141,7 @@ namespace AngleSharp.Html.Dom
         internal override void SetupElement()
         {
             base.SetupElement();
+            _isSetUp = true;
 
             _ = NestedContext;
 
@@ -149,8 +151,27 @@ namespace AngleSharp.Html.Dom
             }
         }
 
+        /// <summary>
+        /// A frame navigates once it is inserted into a document (HTML 4.8.5), e.g. after
+        /// innerHTML parsed it, or a script made it and set its source before appending it.
+        /// </summary>
+        void IConnectedResourceElement.OnConnected()
+        {
+            // the parser inserts a frame before it set it up, which loads it then
+            if (_isSetUp && !HasNothingToLoad)
+            {
+                UpdateSource();
+            }
+        }
+
         internal void UpdateSource()
         {
+            // a frame outside of a document has no browsing context to navigate
+            if (!this.IsInLoadingTree())
+            {
+                return;
+            }
+
             var content = GetContentHtml();
             var source = Source;
 

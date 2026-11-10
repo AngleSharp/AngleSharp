@@ -1033,6 +1033,13 @@ namespace AngleSharp.Dom
         internal Boolean IsScriptingDisabled { get; set; }
 
         /// <summary>
+        /// Gets or sets if the document only holds a fragment while it is parsed (e.g. for
+        /// innerHTML), before its nodes are adopted by the document of the context element.
+        /// Like a document without a browsing context, it fetches no images.
+        /// </summary>
+        internal Boolean IsFragmentParsing { get; set; }
+
+        /// <summary>
         /// Gets or sets the registry of custom elements, once somebody asked for it.
         /// </summary>
         internal CustomElementRegistry? CustomElements { get; set; }

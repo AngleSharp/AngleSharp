@@ -46,6 +46,10 @@ namespace AngleSharp.Dom
         private String? _username;
         private String? _password;
         private Boolean _relative;
+        // a non-special URL with a path, but without an authority (e.g. "sc:/path")
+        private Boolean _noAuthority;
+        // a non-special URL with an authority, but not even an empty path (e.g. "sc://host")
+        private Boolean _pathless;
         private String _schemeData;
         private UrlSearchParams? _params;
         private Boolean _error;
@@ -124,6 +128,8 @@ namespace AngleSharp.Dom
             _username = address._username;
             _password = address._password;
             _relative = address._relative;
+            _noAuthority = address._noAuthority;
+            _pathless = address._pathless;
             _schemeData = address._schemeData;
         }
 
@@ -212,6 +218,12 @@ namespace AngleSharp.Dom
         /// Gets if the stored url is absolute.
         /// </summary>
         public Boolean IsAbsolute => !IsRelative;
+
+        /// <summary>
+        /// Gets if the URL has an opaque path (e.g. "mailto:x"), i.e., its data is all
+        /// there is after the scheme, instead of a host and a hierarchical path.
+        /// </summary>
+        internal Boolean HasOpaquePath => !_relative;
 
         /// <summary>
         /// Gets or sets the username for authorization.
@@ -329,6 +341,7 @@ namespace AngleSharp.Dom
             set
             {
                 var input = value ?? String.Empty;
+                _pathless = false;
                 ParsePath(input, 0, input.Length, true);
             }
         }
@@ -339,7 +352,7 @@ namespace AngleSharp.Dom
         [DomName("pathname")]
         public String PathName
         {
-            get => $"/{_path}";
+            get => _pathless ? String.Empty : $"/{_path}";
             set => Path = value;
         }
 
@@ -535,7 +548,11 @@ namespace AngleSharp.Dom
 
             if (_relative)
             {
-                if (!String.IsNullOrEmpty(_host) || !String.IsNullOrEmpty(_scheme))
+                if (_noAuthority)
+                {
+                    output.Append(Symbols.Solidus);
+                }
+                else if (!String.IsNullOrEmpty(_host) || !String.IsNullOrEmpty(_scheme))
                 {
                     output.Append(Symbols.Solidus).Append(Symbols.Solidus);
 
@@ -558,7 +575,10 @@ namespace AngleSharp.Dom
                         output.Append(Symbols.Colon).Append(_port);
                     }
 
-                    output.Append(Symbols.Solidus);
+                    if (!_pathless)
+                    {
+                        output.Append(Symbols.Solidus);
+                    }
                 }
 
                 output.Append(_path);
@@ -602,6 +622,9 @@ namespace AngleSharp.Dom
             _query = baseUrl._query;
             _port = baseUrl._port;
             _relative = ProtocolNames.IsRelative(_scheme);
+            // a relative reference keeps the base's form, but always gets a path
+            _noAuthority = baseUrl._noAuthority;
+            _pathless = false;
         }
 
         private Boolean ParseScheme(String input, Int32 length, Boolean onlyScheme = false)
@@ -626,6 +649,8 @@ namespace AngleSharp.Dom
                         if (!onlyScheme)
                         {
                             _relative = ProtocolNames.IsRelative(_scheme);
+                            _noAuthority = false;
+                            _pathless = false;
 
                             if (_scheme.Is(ProtocolNames.File))
                             {
@@ -640,6 +665,15 @@ namespace AngleSharp.Dom
                                 _port = String.Empty;
                                 _path = String.Empty;
                                 _query = null;
+
+                                // like the special schemes, a non-special one followed by a path
+                                // (e.g. "sc://host/path" or "sc:/path") is hierarchical, so that
+                                // relative references resolve against it; others are opaque
+                                if (index + 1 < length && input[index + 1] == Symbols.Solidus)
+                                {
+                                    return ParseNonSpecialHierarchy(input, index + 1, length);
+                                }
+
                                 return ParseSchemeData(input, index + 1, length);
                             }
                             else if (_scheme.Is(originalScheme))
@@ -676,6 +710,77 @@ namespace AngleSharp.Dom
             }
 
             return !onlyScheme && RelativeState(input, 0, length);
+        }
+
+        private Boolean ParseNonSpecialHierarchy(String input, Int32 index, Int32 length)
+        {
+            // the data stays the text after the scheme, as for an opaque URL
+            _schemeData = ReadSchemeData(input, index, length, out _);
+            _relative = true;
+            _username = null;
+            _password = null;
+
+            if (index + 1 < length && input[index + 1] == Symbols.Solidus)
+            {
+                var start = index + 2;
+                var end = start;
+
+                while (end < length && !(input[end] is Symbols.Solidus or Symbols.QuestionMark or Symbols.Num))
+                {
+                    end++;
+                }
+
+                var result = true;
+
+                if (end == start)
+                {
+                    // an empty host, e.g. "sc:///path" or "sc://"
+                    result = end == length ? true
+                        : input[end] == Symbols.Solidus ? ParsePath(input, end, length)
+                        : input[end] == Symbols.QuestionMark ? ParseQuery(input, end + 1, length)
+                        : ParseFragment(input, end + 1, length);
+                }
+                else
+                {
+                    result = ParseAuthority(input, start, length);
+                }
+
+                _pathless = end == length || input[end] != Symbols.Solidus;
+                return result;
+            }
+
+            _noAuthority = true;
+            return ParsePath(input, index, length);
+        }
+
+        private static String ReadSchemeData(String input, Int32 index, Int32 length, out Int32 end)
+        {
+            var buffer = StringBuilderPool.Obtain();
+
+            while (index < length)
+            {
+                var c = input[index];
+
+                if (c is Symbols.QuestionMark or Symbols.Num)
+                {
+                    break;
+                }
+                else if (c == Symbols.Percent && index + 2 < length && input[index + 1].IsHex() && input[index + 2].IsHex())
+                {
+                    buffer.Append(input[index++]);
+                    buffer.Append(input[index++]);
+                    buffer.Append(input[index]);
+                }
+                else if (c.IsInRange(0x20, 0x7e))
+                {
+                    buffer.Append(c);
+                }
+
+                index++;
+            }
+
+            end = index;
+            return buffer.ToPool();
         }
 
         private Boolean ParseSchemeData(String input, Int32 index, Int32 length)
@@ -791,6 +896,7 @@ namespace AngleSharp.Dom
             var buffer = StringBuilderPool.Obtain();
             var user = default(String);
             var pass = default(String);
+            _noAuthority = false;
             _username = null;
             _password = null;
 

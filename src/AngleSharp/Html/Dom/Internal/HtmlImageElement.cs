@@ -13,7 +13,7 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private readonly ImageRequestProcessor _request;
+        private ImageRequestProcessor _request;
         private Boolean _isSettingUp;
 
         #endregion
@@ -123,8 +123,30 @@ namespace AngleSharp.Html.Dom
             UpdateSourceCore();
         }
 
+        /// <summary>
+        /// Adopting an image is a relevant mutation: its source is resolved against the
+        /// new document (e.g. after innerHTML parsed it in a document of its own).
+        /// </summary>
+        protected override void NodeIsAdopted(Document oldDocument)
+        {
+            base.NodeIsAdopted(oldDocument);
+
+            // the image loads with the loader of its new document
+            if (!ReferenceEquals(oldDocument.Context, Owner.Context))
+            {
+                _request = new ImageRequestProcessor(Owner.Context);
+            }
+
+            UpdateSource();
+        }
+
         private void UpdateSourceCore()
         {
+            if (Owner is { IsFragmentParsing: true })
+            {
+                return;
+            }
+
             var url = this.GetImageCandidate();
 
             if (url != null)
