@@ -602,7 +602,8 @@ namespace AngleSharp.Dom
             {
                 var observers = Owner.AttributeObservers;
 
-                foreach (var attr in attrs)
+                // Not through the map's enumerator: that one is an object per element.
+                foreach (var attr in attrs.Items)
                 {
                     var name = attr.LocalName;
                     var value = attr.Value;
@@ -776,7 +777,9 @@ namespace AngleSharp.Dom
             CustomElementRegistry.CopyIsValue(this, element);
             CloneNode(element, owner, deep);
 
-            foreach (var attribute in _attributes)
+            element._attributes.Reserve(_attributes.Length);
+
+            foreach (var attribute in _attributes.Items)
             {
                 var attr = new Attr(attribute.Prefix, attribute.LocalName, attribute.Value, attribute.NamespaceUri);
                 attr.Container = element._attributes;
@@ -819,14 +822,23 @@ namespace AngleSharp.Dom
 
         void IConstructableElement.SetAttributes(StructAttributes tagAttributes)
         {
-            var container = Attributes;
+            var count = tagAttributes.Count;
 
-            for (var i = 0; i < tagAttributes.Count; i++)
+            if (count != 0)
             {
-                var attribute = tagAttributes[i];
-                var item = new Attr(attribute.Name.ToString(), attribute.Value.ToString());
-                item.Container = container;
-                container.FastAddItem(item);
+                var container = Attributes;
+                var document = Owner;
+                container.Reserve(count);
+
+                for (var i = 0; i < count; i++)
+                {
+                    var attribute = tagAttributes[i];
+                    var name = document.GetConstructionString(attribute.Name);
+                    var value = document.GetConstructionString(attribute.Value);
+                    var item = new Attr(name, value);
+                    item.Container = container;
+                    container.FastAddItem(item);
+                }
             }
         }
 

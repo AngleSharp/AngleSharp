@@ -406,7 +406,9 @@ namespace AngleSharp.Html.Parser
         {
             var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
-            parser.Parse(GetOptions(document));
+            var options = GetOptions(document);
+            parser.Parse(options);
+            parser.Release(options);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
@@ -415,7 +417,9 @@ namespace AngleSharp.Html.Parser
         {
             var parser = CreateBuilder(document, stopAt);
             InvokeHtmlParseEvent(document, completed: false);
-            await parser.ParseAsync(GetOptions(document), null, cancel).ConfigureAwait(false);
+            var options = GetOptions(document);
+            await parser.ParseAsync(options, null, cancel).ConfigureAwait(false);
+            parser.Release(options);
             InvokeHtmlParseEvent(document, completed: true);
             return document;
         }
@@ -443,6 +447,7 @@ namespace AngleSharp.Html.Parser
                 var origin = element;
                 element = CreateContextElement(document, element);
                 var fragment = parser.ParseFragment(_options, element, origin).DocumentElement;
+                parser.Release(_options);
 
                 // Detached from the back, where a removal shifts nothing, then appended in
                 // order to the detached copy. AppendNodes would first gather them in a
@@ -462,7 +467,9 @@ namespace AngleSharp.Html.Parser
                 return element.ChildNodes;
             }
 
-            return parser.Parse(_options).ChildNodes;
+            var children = parser.Parse(_options).ChildNodes;
+            parser.Release(_options);
+            return children;
         }
 
         /// <summary>

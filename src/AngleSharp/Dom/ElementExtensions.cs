@@ -1694,7 +1694,9 @@ namespace AngleSharp.Dom
                 IsScripting = context.IsScripting() && !element.Owner.IsScriptingDisabled,
             };
             var parser = new HtmlDomBuilder(HtmlDomConstructionFactory.Instance, document, new HtmlTokenizerOptions(options));
-            return parser.ParseFragment(options, element).DocumentElement;
+            var root = parser.ParseFragment(options, element).DocumentElement;
+            parser.Release(options);
+            return root;
         }
     }
 }

@@ -9,7 +9,7 @@ using Common;
 static class HtmlAttributesLookup
 {
     private static readonly Dictionary<StringOrMemory, String> WellKnownAttributeNames =
-        new(OrdinalStringOrMemoryComparer.Instance)
+        new(WellKnownNameComparer.Instance)
         {
             { "name", "name" },
             { "http-equiv", "http-equiv" },
@@ -180,6 +180,19 @@ static class HtmlAttributesLookup
 
     private static readonly Int32 MaxLength =
         WellKnownAttributeNames.Keys.Select(x => x.Length).Max();
+
+    /// <summary>
+    /// Looks the name up where it already lies in memory, without copying it anywhere.
+    /// </summary>
+    public static String? TryGetWellKnownAttributeName(ReadOnlyMemory<Char> name)
+    {
+        if (name.Length <= MaxLength && WellKnownAttributeNames.TryGetValue(new StringOrMemory(name), out var result))
+        {
+            return result;
+        }
+
+        return null;
+    }
 
     public static String? TryGetWellKnownAttributeName(ICharBuffer builder)
     {

@@ -6,7 +6,28 @@ namespace AngleSharp.Html.Parser
 
     static class HtmlTagNameLookup
     {
+        private const Int32 MaxLength = 14;
+
         public static String? TryGetWellKnownTagName(ICharBuffer builder)
+        {
+            var length = builder.Length;
+
+            if (length > MaxLength)
+            {
+                return null;
+            }
+
+            Span<Char> name = stackalloc Char[MaxLength];
+
+            for (var i = 0; i < length; i++)
+            {
+                name[i] = builder[i];
+            }
+
+            return TryGetWellKnownTagName(name.Slice(0, length));
+        }
+
+        public static String? TryGetWellKnownTagName(ReadOnlySpan<Char> builder)
         {
             switch (builder.Length)
             {
@@ -553,17 +574,8 @@ namespace AngleSharp.Html.Parser
             }
         }
 
-        private static Boolean CharsAreEqual(ICharBuffer builder, String tagName)
-        {
-            for ( var i = 0; i < tagName.Length; i++ )
-            {
-                if ( tagName[ i ] != builder[ i ] )
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
+        // Only ever asked about a name of the length the buffer has.
+        private static Boolean CharsAreEqual(ReadOnlySpan<Char> builder, String tagName) =>
+            builder.SequenceEqual(tagName.AsSpan());
     }
 }

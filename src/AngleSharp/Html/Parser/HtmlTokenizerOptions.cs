@@ -21,7 +21,7 @@ public struct HtmlTokenizerOptions
         SkipRawText = htmlParserOptions.SkipRawText;
         SkipScriptText = htmlParserOptions.SkipScriptText;
         SkipDataText = htmlParserOptions.SkipDataText;
-        ShouldEmitAttribute = htmlParserOptions.ShouldEmitAttribute ?? (static (ref StructHtmlToken _, ReadOnlyMemory<Char> _) => true);
+        ShouldEmitAttribute = htmlParserOptions.ShouldEmitAttribute ?? HtmlTokenizer.EmitEveryAttribute;
         SkipDataText = htmlParserOptions.SkipDataText;
         SkipScriptText = htmlParserOptions.SkipScriptText;
         SkipRawText = htmlParserOptions.SkipRawText;

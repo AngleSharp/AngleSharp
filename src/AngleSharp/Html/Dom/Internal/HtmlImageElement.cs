@@ -13,7 +13,7 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private ImageRequestProcessor _request;
+        private ImageRequestProcessor? _request;
         private Boolean _isSettingUp;
 
         #endregion
@@ -23,7 +23,7 @@ namespace AngleSharp.Html.Dom
         public HtmlImageElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _request = new ImageRequestProcessor(owner.Context);
+            _request = CreateRequest(owner);
         }
 
         #endregion
@@ -32,7 +32,7 @@ namespace AngleSharp.Html.Dom
 
         public IDownload? CurrentDownload => _request?.Download;
 
-        public String ActualSource => IsCompleted ? _request.Source : String.Empty;
+        public String ActualSource => _request is { IsReady: true } request ? request.Source : String.Empty;
 
         public String? SourceSet
         {
@@ -134,7 +134,7 @@ namespace AngleSharp.Html.Dom
             // the image loads with the loader of its new document
             if (!ReferenceEquals(oldDocument.Context, Owner.Context))
             {
-                _request = new ImageRequestProcessor(Owner.Context);
+                _request = CreateRequest(Owner);
             }
 
             UpdateSource();
@@ -147,13 +147,29 @@ namespace AngleSharp.Html.Dom
                 return;
             }
 
+            var request = _request;
+
+            // Without a resource loader nothing is fetched whatever the candidate turns out to
+            // be, and selecting one means parsing srcset, sizes and a URL - for every image
+            // of a document that was only ever going to be parsed.
+            if (request is null)
+            {
+                return;
+            }
+
             var url = this.GetImageCandidate();
 
             if (url != null)
             {
-                this.Process(_request, url);
+                this.Process(request, url);
             }
         }
+
+        // The document has asked its context for the loader once already. Without one there is
+        // nothing a processor could do, while asking again walks the whole list of services -
+        // for every image.
+        private static ImageRequestProcessor? CreateRequest(Document owner) =>
+            owner.ResourceLoader is not null ? new ImageRequestProcessor(owner.Context) : null;
 
         #endregion
     }

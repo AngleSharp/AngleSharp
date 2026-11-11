@@ -13,6 +13,7 @@ namespace AngleSharp.Dom
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Runtime.InteropServices;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -67,6 +68,8 @@ namespace AngleSharp.Dom
         private Int64 _mutationVersion;
         private StringBuilder? _writtenText;
         private Boolean _isParsingWrittenText;
+        private StringCache? _constructionStrings;
+        private Int32 _constructionStringCount;
 
         #endregion
 
@@ -788,9 +791,49 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public IBrowsingContext Context => _context;
 
+        internal IResourceLoader? ResourceLoader => _loader;
+
         // Typed as the array it already is: through IReadOnlyList a foreach goes via the interface
         // and boxes an enumerator on every attribute change, which is 32 bytes on a path classList
         // now walks too.
+        /// <summary>
+        /// Turns a piece of token text into the string a node of the tree under construction
+        /// keeps: the same instance for the same characters, where the text is short enough for
+        /// that to be likely (see <see cref="StringCache"/>).
+        /// </summary>
+        /// <remarks>
+        /// Only for the tree builder, which is the one thing that fills a document from a single
+        /// thread and in bulk. The cache is not set up before a few strings were asked for, so
+        /// that parsing a small fragment - an innerHTML of a handful of nodes - does not pay for
+        /// a table it has no use for; it is dropped when the document has finished loading.
+        /// </remarks>
+        internal String GetConstructionString(StringOrMemory text, Int32 maximumLength = StringCache.MaximumLength)
+        {
+            var memory = text.Memory;
+            var length = memory.Length;
+
+            // Text that is a string already (a well-known name, or a tokenizer buffering in a
+            // StringBuilder) is not backed by an array, and needs nothing done.
+            if ((UInt32)(length - 1) < (UInt32)maximumLength && MemoryMarshal.TryGetArray(memory, out var segment))
+            {
+                var strings = _constructionStrings;
+
+                if (strings is null)
+                {
+                    if (++_constructionStringCount <= 16)
+                    {
+                        return memory.ToString();
+                    }
+
+                    _constructionStrings = strings = new StringCache();
+                }
+
+                return strings.Get(segment.AsSpan());
+            }
+
+            return text.ToString();
+        }
+
         internal IAttributeObserver[] AttributeObservers =>
             _attributeObservers ??= _context.GetServices<IAttributeObserver>().ToArray();
 
@@ -1505,6 +1548,10 @@ namespace AngleSharp.Dom
         /// </summary>
         internal async Task FinishLoadingAsync()
         {
+            // Only the tree builder shares strings, and it is done.
+            _constructionStrings = null;
+            _constructionStringCount = 0;
+
             var tasks = GetAttachedReferences<Task>().ToArray();
             CustomElements?.ParsingFinished();
 

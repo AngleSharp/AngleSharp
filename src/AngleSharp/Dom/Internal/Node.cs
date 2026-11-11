@@ -1408,7 +1408,7 @@ namespace AngleSharp.Dom
                 return;
             }
 
-            AppendText(text.ToString());
+            AppendText(GetConstructionText(text));
         }
 
         void IConstructableNode.InsertText(Int32 idx, StringOrMemory text, Boolean emitWhiteSpaceOnly)
@@ -1418,8 +1418,13 @@ namespace AngleSharp.Dom
                 return;
             }
 
-            InsertText(idx, text.ToString());
+            InsertText(idx, GetConstructionText(text));
         }
+
+        // Short runs only: the whitespace between two tags and the one-word labels are what a
+        // document repeats, a sentence is not.
+        private String GetConstructionText(StringOrMemory text) =>
+            OwningDocument?.GetConstructionString(text, maximumLength: 32) ?? text.ToString();
 
         #endregion
     }

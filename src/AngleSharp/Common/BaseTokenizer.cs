@@ -4,6 +4,7 @@ namespace AngleSharp.Common
     using System;
     using System.Buffers;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
     using System.Text;
 
     /// <summary>
@@ -29,6 +30,7 @@ namespace AngleSharp.Common
         private Char _current;
         private Boolean _normalized;
         private Boolean _disableElementPositionTracking;
+        private Boolean _disposed;
 
         #endregion
 
@@ -117,6 +119,12 @@ namespace AngleSharp.Common
         private protected IMutableCharBuffer CharBuffer => _charBuffer;
 
         /// <summary>
+        /// Gets the character buffer if it is the pooled one, which keeps what has been
+        /// appended in one block of memory - there to be looked at without copying it out.
+        /// </summary>
+        private protected ArrayPoolBuffer? PooledBuffer => _apb;
+
+        /// <summary>
         /// Gets if the current index has been normalized (CRLF -> LF).
         /// </summary>
         protected Boolean IsNormalized => _normalized;
@@ -171,16 +179,33 @@ namespace AngleSharp.Common
         /// </summary>
         public void Dispose()
         {
-            var isDisposed = _charBuffer is null;
-            if (!isDisposed)
+            if (!_disposed)
             {
+                _disposed = true;
                 _source.Dispose();
+                ReleaseBuffers();
+            }
+        }
 
+        /// <summary>
+        /// Gives the buffers back to their pools without disposing the source. For a tokenizer
+        /// that has delivered its last token while its owner lives on: the character buffer is
+        /// as long as the source, and the next tokenizer can have it right away instead of a
+        /// newly allocated one.
+        /// </summary>
+        /// <remarks>
+        /// Every token text handed out so far is a slice of that buffer, so this is only for a
+        /// caller that knows none of them is kept. No token can be read afterwards.
+        /// </remarks>
+        internal void ReleaseBuffers()
+        {
+            if (_charBuffer is not null)
+            {
                 _stringBuilder.Clear();
                 _stringBuilder.ReturnToPool();
                 _stringBuilder = null!;
 
-                _charBuffer!.Discard();
+                _charBuffer.Discard();
                 _charBuffer.Dispose();
                 _charBuffer = null!;
             }
@@ -416,69 +441,199 @@ namespace AngleSharp.Common
             }
         }
 
+        /// <summary>
+        /// The kinds of plain text a tokenizer reads in bulk, by what ends a run of it. A line
+        /// break and a NUL end every one of them: the first needs its row counted and a CR
+        /// normalized, the second is replaced.
+        /// </summary>
+        private protected enum TextRun : Byte
+        {
+            /// <summary>Ended by &lt; and &amp;: data and RCDATA.</summary>
+            Data,
+            /// <summary>Ended by &lt;: RAWTEXT and script data.</summary>
+            RawText,
+            /// <summary>Ended by &lt; and -: escaped script data.</summary>
+            EscapedScript,
+            /// <summary>Ended by " and &amp;: a double-quoted attribute value.</summary>
+            DoubleQuoted,
+            /// <summary>Ended by ' and &amp;: a single-quoted attribute value.</summary>
+            SingleQuoted,
+            /// <summary>Ended by -: a comment.</summary>
+            Comment,
+            /// <summary>Ended by nothing else: PLAINTEXT.</summary>
+            Plaintext,
+            /// <summary>
+            /// Ended by white space, / &gt; = " ' &lt; and the upper-case letters: what a tag
+            /// name or an attribute name takes over as it is written.
+            /// </summary>
+            Name,
+        }
+
 #if NET8_0_OR_GREATER
-        private static readonly SearchValues<Char> DataTextTerminators =
-            SearchValues.Create(['<', '&', '\0', '\r', '\n']);
+        // Indexed by TextRun.
+        private static readonly SearchValues<Char>[] RunTerminators =
+        [
+            SearchValues.Create("<&\0\r\n"),
+            SearchValues.Create("<\0\r\n"),
+            SearchValues.Create("<-\0\r\n"),
+            SearchValues.Create("\"&\0\r\n"),
+            SearchValues.Create("'&\0\r\n"),
+            SearchValues.Create("-\0\r\n"),
+            SearchValues.Create("\0\r\n"),
+            SearchValues.Create("\t\n\f\r \"'/<=>\0ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+        ];
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Int32 IndexOfTerminator(ReadOnlySpan<Char> text, TextRun run) =>
+            text.IndexOfAny(RunTerminators[(Int32)run]);
+#else
+        // Without SearchValues there is no single search for five characters, so this is one
+        // for the terminators of the content model and one for the line breaks in front of
+        // them. Each of the two is only ever let loose on a window: on all that is left of the
+        // source, the one whose characters are rare would run to the end of it again for every
+        // hit of the other - quadratic for a long script without a "<", or a long text
+        // without a line break.
+        private static Int32 IndexOfTerminator(ReadOnlySpan<Char> text, TextRun run)
+        {
+            const Int32 window = 256;
+
+            if (run == TextRun.Name)
+            {
+                return IndexOfNameEnd(text);
+            }
+
+            for (var offset = 0; offset < text.Length; offset += window)
+            {
+                var part = text.Slice(offset, Math.Min(window, text.Length - offset));
+                Int32 found;
+
+                switch (run)
+                {
+                    case TextRun.Data:
+                        found = part.IndexOfAny(Symbols.LessThan, Symbols.Ampersand, Symbols.Null);
+                        break;
+                    case TextRun.RawText:
+                        found = part.IndexOfAny(Symbols.LessThan, Symbols.Null);
+                        break;
+                    case TextRun.EscapedScript:
+                        found = part.IndexOfAny(Symbols.LessThan, Symbols.Minus, Symbols.Null);
+                        break;
+                    case TextRun.DoubleQuoted:
+                        found = part.IndexOfAny(Symbols.DoubleQuote, Symbols.Ampersand, Symbols.Null);
+                        break;
+                    case TextRun.SingleQuoted:
+                        found = part.IndexOfAny(Symbols.SingleQuote, Symbols.Ampersand, Symbols.Null);
+                        break;
+                    case TextRun.Comment:
+                        found = part.IndexOfAny(Symbols.Minus, Symbols.Null);
+                        break;
+                    default:
+                        found = part.IndexOf(Symbols.Null);
+                        break;
+                }
+
+                var line = (found < 0 ? part : part.Slice(0, found)).IndexOfAny(Symbols.CarriageReturn, Symbols.LineFeed);
+
+                if (line >= 0)
+                {
+                    return offset + line;
+                }
+                else if (found >= 0)
+                {
+                    return offset + found;
+                }
+            }
+
+            return -1;
+        }
+
+        // The characters that end a run of TextRun.Name, as one bit each: those below 64 and
+        // the upper-case letters, which all lie in the 64 above.
+        private const UInt64 NameEndLow =
+            (1UL << Symbols.Null) | (1UL << Symbols.Tab) | (1UL << Symbols.LineFeed) | (1UL << Symbols.FormFeed) |
+            (1UL << Symbols.CarriageReturn) | (1UL << Symbols.Space) | (1UL << Symbols.DoubleQuote) |
+            (1UL << Symbols.SingleQuote) | (1UL << Symbols.Solidus) | (1UL << Symbols.LessThan) |
+            (1UL << Symbols.Equality) | (1UL << Symbols.GreaterThan);
+        private const UInt64 NameEndHigh = ((1UL << 26) - 1) << ('A' - 64);
+
+        // Names are a handful of characters long, which a plain loop is good for; there is
+        // nothing in IndexOfAny for a set of this size anyway.
+        private static Int32 IndexOfNameEnd(ReadOnlySpan<Char> text)
+        {
+            for (var i = 0; i < text.Length; i++)
+            {
+                var c = text[i];
+
+                if (c < 128 && (((c < 64 ? NameEndLow >> c : NameEndHigh >> (c - 64)) & 1UL) != 0UL))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
 #endif
 
         /// <summary>
-        /// Scans ahead in the underlying source for plain text runs,
-        /// bulk-appending characters until a DataText terminator is found.
-        /// Returns the next character that needs per-char handling.
+        /// Reads on from the current position: appends the run of plain text that follows, if
+        /// there is one, in a single copy, and returns the character after it - the one that
+        /// needs the attention of the state machine. Where the source cannot be read in bulk
+        /// this is <see cref="GetNext"/>, so a state calls it wherever it would have asked for
+        /// the next character only to append that as well.
         /// </summary>
-        private protected Char ScanDataText()
+        /// <param name="run">The kind of text, i.e., what ends a run of it.</param>
+        private protected Char ScanText(TextRun run)
         {
             ReadOnlySpan<Char> remaining;
             Int32 index;
 
-            if (_cats is not null)
-            {
-                index = _cats.Index;
-                if (index >= _cats.Length) return GetNext();
-                remaining = _cats.Array.AsSpan(index, _cats.Length - index);
-            }
-            else if (_roms is not null)
+            if (_roms is not null)
             {
                 index = _roms.Index;
-                if (index >= _roms.Length) return GetNext();
-                remaining = _roms.Memory.Span.Slice(index, _roms.Length - index);
+
+                if (index >= _roms.Length)
+                {
+                    return GetNext();
+                }
+
+                remaining = _roms.Remaining;
+            }
+            else if (_cats is not null)
+            {
+                index = _cats.Index;
+
+                if (index >= _cats.Length)
+                {
+                    return GetNext();
+                }
+
+                remaining = _cats.Array.AsSpan(index, _cats.Length - index);
             }
             else
             {
                 return GetNext();
             }
 
-#if NET8_0_OR_GREATER
-            var found = remaining.IndexOfAny(DataTextTerminators);
-#else
-            var found = remaining.IndexOfAny('<', '&', '\0');
-            var nlSearchSpace = found < 0 ? remaining : remaining.Slice(0, found);
-            var nlIdx = nlSearchSpace.IndexOfAny('\r', '\n');
-            if (nlIdx >= 0 && (found < 0 || nlIdx < found))
-            {
-                found = nlIdx;
-            }
-#endif
-
+            var found = IndexOfTerminator(remaining, run);
             var runLength = found < 0 ? remaining.Length : found;
 
             if (runLength > 0)
             {
-                var run = remaining.Slice(0, runLength);
+                var text = remaining.Slice(0, runLength);
 
                 if (_apb != null)
                 {
-                    _apb.Append(run);
+                    _apb.Append(text);
                 }
                 else
                 {
 #if NETSTANDARD2_0 || NET462 || NET472
-                    for (var i = 0; i < run.Length; i++)
+                    for (var i = 0; i < text.Length; i++)
                     {
-                        _sbb!._sb.Append(run[i]);
+                        _sbb!._sb.Append(text[i]);
                     }
 #else
-                    _sbb!._sb.Append(run);
+                    _sbb!._sb.Append(text);
 #endif
                 }
 
@@ -496,16 +651,15 @@ namespace AngleSharp.Common
                     }
                 }
 
-                var newIndex = index + runLength;
-                if (_cats is not null)
+                _current = text[runLength - 1];
+
+                if (_roms is not null)
                 {
-                    _cats.Index = newIndex;
-                    _current = _cats.Array[newIndex - 1];
+                    _roms.Index = index + runLength;
                 }
                 else
                 {
-                    _roms!.Index = newIndex;
-                    _current = _roms.Memory.Span[newIndex - 1];
+                    _cats!.Index = index + runLength;
                 }
             }
 
@@ -608,7 +762,22 @@ namespace AngleSharp.Common
             return Symbols.LineFeed;
         }
 
-        private Char ReadCharFromSource() => _source.ReadCharacter();
+        // The two sources a string or a buffer is parsed from are sealed, so their reads are
+        // direct calls rather than one through the interface for every character.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private Char ReadCharFromSource()
+        {
+            if (_roms is not null)
+            {
+                return _roms.ReadCharacter();
+            }
+            else if (_cats is not null)
+            {
+                return _cats.ReadCharacter();
+            }
+
+            return _source.ReadCharacter();
+        }
 
         #endregion
     }

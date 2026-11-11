@@ -1493,9 +1493,9 @@ namespace AngleSharp.Html.Parser
                     var input = StructHtmlToken.Open(TagNames.Input);
                     input.AddAttribute(AttributeNames.Name, TagNames.IsIndex);
 
-                    for (var i = 0; i < tag.Attributes.Count; i++)
+                    for (var i = 0; i < tag.AttributeCount; i++)
                     {
-                        var attr = tag.Attributes[i];
+                        var attr = tag.GetAttributeAt(i);
 
                         if (!attr.Name.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt))
                         {
@@ -3733,9 +3733,9 @@ namespace AngleSharp.Html.Parser
 
                     if (tagName.Is(TagNames.Font))
                     {
-                        for (var i = 0; i != token.Attributes.Count; i++)
+                        for (var i = 0; i != token.AttributeCount; i++)
                         {
-                            if (token.Attributes[i].Name.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
+                            if (token.GetAttributeAt(i).Name.IsOneOf(AttributeNames.Color, AttributeNames.Face, AttributeNames.Size))
                             {
                                 ForeignNormalTag(ref token);
                                 return;
@@ -4827,6 +4827,13 @@ namespace AngleSharp.Html.Parser
         {
             _tokenizer.Dispose();
         }
+
+        /// <summary>
+        /// Gets if the token texts stayed within the parser, i.e., no delegate has seen them.
+        /// </summary>
+        private protected Boolean HasPrivateTokens => !_tokenizer.IsFilteringAttributes;
+
+        private protected void ReleaseTokenizerBuffers() => _tokenizer.ReleaseBuffers();
     }
 
     sealed class HtmlDomBuilder : HtmlDomBuilder<Document, Element>
@@ -4843,6 +4850,29 @@ namespace AngleSharp.Html.Parser
                 emitWhitespaceTextNodes: true,
                 shouldEnd: stopAt is not null ? e => e.Prefix.Length == 0 && e.LocalName.Is(stopAt) : null)
         {
+            _copiesTokens = elementFactory is HtmlDomConstructionFactory;
+        }
+
+        private readonly Boolean _copiesTokens;
+
+        /// <summary>
+        /// Gives the tokenizer's buffers back to their pools, to be called once the tree is
+        /// built. The builder stays attached to its document until that is disposed, which
+        /// most documents never are - and so each of them kept a rented buffer as long as its
+        /// source, and made the next parse allocate another.
+        /// </summary>
+        /// <remarks>
+        /// The nodes of the DOM keep strings, never the token texts themselves, so nothing
+        /// refers to the buffer any more - provided nothing else has seen a token: not with a
+        /// foreign element factory or an attribute filter. And not with scripting either, where
+        /// document.write may still come in.
+        /// </remarks>
+        public void Release(HtmlParserOptions options)
+        {
+            if (_copiesTokens && HasPrivateTokens && !options.IsScripting)
+            {
+                ReleaseTokenizerBuffers();
+            }
         }
     }
 }
