@@ -89,9 +89,9 @@ namespace AngleSharp.Html.Parser
         public static void SetUniqueAttributes<TElement>(this TElement element, ref StructHtmlToken token)
             where TElement: class, IConstructableElement
         {
-            for (var i = token.Attributes.Count - 1; i >= 0; i--)
+            for (var i = token.AttributeCount - 1; i >= 0; i--)
             {
-                if (element.HasAttribute(token.Attributes[i].Name))
+                if (element.HasAttribute(token.GetAttributeAt(i).Name))
                 {
                     token.RemoveAttributeAt(i);
                 }

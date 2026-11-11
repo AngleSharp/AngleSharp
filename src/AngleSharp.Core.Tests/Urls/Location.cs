@@ -293,12 +293,12 @@ namespace AngleSharp.Core.Tests.Urls
             var url = "telnet://192.0.2.16:80/";
             var location = new Location(url);
             Assert.AreEqual("", location.Hash);
-            Assert.AreEqual("", location.Port);
+            Assert.AreEqual("80", location.Port);
             Assert.AreEqual("", location.Search);
             Assert.AreEqual("telnet:", location.Protocol);
-            Assert.AreEqual("//192.0.2.16:80/", location.PathName);
-            Assert.AreEqual("", location.Host);
-            Assert.AreEqual("", location.HostName);
+            Assert.AreEqual("/", location.PathName);
+            Assert.AreEqual("192.0.2.16:80", location.Host);
+            Assert.AreEqual("192.0.2.16", location.HostName);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }
@@ -372,8 +372,8 @@ namespace AngleSharp.Core.Tests.Urls
             Assert.AreEqual("", location.Port);
             Assert.AreEqual("?objectClass?one", location.Search);
             Assert.AreEqual("ldap:", location.Protocol);
-            Assert.AreEqual("", location.Host);
-            Assert.AreEqual("//[2001:db8::7]/c=GB", location.PathName);
+            Assert.AreEqual("[2001:db8::7]", location.Host);
+            Assert.AreEqual("/c=GB", location.PathName);
             Assert.AreEqual(url, location.Href);
             Assert.IsFalse(location.IsRelative);
         }

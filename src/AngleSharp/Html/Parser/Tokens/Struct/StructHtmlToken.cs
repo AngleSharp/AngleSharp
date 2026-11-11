@@ -21,8 +21,8 @@ public struct StructHtmlToken
     #region Fields
 
     // token
-    private readonly HtmlTokenType _type;
-    private readonly TextPosition _position;
+    private HtmlTokenType _type;
+    private TextPosition _position;
     private StringOrMemory _name;
 
     // tag token
@@ -52,6 +52,25 @@ public struct StructHtmlToken
     #endregion
 
     #region Creators
+
+    /// <summary>
+    /// Turns the token into a fresh one of the given type, in place.
+    /// </summary>
+    /// <remarks>
+    /// The tokenizer starts every token this way rather than by assigning a new one: the
+    /// struct is a few hundred bytes of mostly references, and assigning it to the field it
+    /// lives in copies all of that through the write barrier - once per token.
+    /// </remarks>
+    internal void Reset(HtmlTokenType type, TextPosition position, StringOrMemory name = default)
+    {
+        _type = type;
+        _position = position;
+        _name = name;
+        _attributes.Clear();
+        _selfClosing = false;
+        IsProcessingInstruction = false;
+        _structTokenDoctypeData = null;
+    }
 
     internal static StructHtmlToken Skipped(HtmlTokenType htmlTokenType, TextPosition position) =>
         new(htmlTokenType, position);
@@ -194,6 +213,12 @@ public struct StructHtmlToken
     /// Gets the list of attributes.
     /// </summary>
     public StructAttributes Attributes => _attributes;
+
+    // Attributes hands out a copy of the whole list, which is what a loop over it must not
+    // ask for on every turn.
+    internal Int32 AttributeCount => _attributes.Count;
+
+    internal MemoryHtmlAttributeToken GetAttributeAt(Int32 index) => _attributes[index];
 
     #endregion
 

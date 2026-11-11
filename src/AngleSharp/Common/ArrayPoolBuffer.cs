@@ -73,6 +73,11 @@ internal sealed class ArrayPoolBuffer(Int32 length) : IMutableCharBuffer
 
     public Int32 Length => _idx;
 
+    /// <summary>
+    /// Gets what has been appended since the last flush, where it lies in the buffer.
+    /// </summary>
+    public ReadOnlyMemory<Char> Pending => new(_buffer, _start, _idx);
+
     public Int32 Capacity => _buffer.Length;
 
     public IMutableCharBuffer Remove(Int32 startIndex, Int32 length)

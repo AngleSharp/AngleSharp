@@ -313,5 +313,61 @@ namespace AngleSharp.Core.Tests.Urls
             var result = new Url(baseAddress, newAddress);
             Assert.AreEqual("https://localhost:8080/section/4", result.Href);
         }
+
+        [Test]
+        public void NonSpecialSchemeWithAuthorityHasHostAndPath()
+        {
+            var result = new Url("app://localhost/css/app.css");
+            Assert.That(result.IsInvalid, Is.False);
+            Assert.That(result.HostName, Is.EqualTo("localhost"));
+            Assert.That(result.PathName, Is.EqualTo("/css/app.css"));
+            Assert.That(result.Href, Is.EqualTo("app://localhost/css/app.css"));
+        }
+
+        [TestCase("app://localhost/", "gallery", "app://localhost/gallery")]
+        [TestCase("app://localhost/", "images/logo.png", "app://localhost/images/logo.png")]
+        [TestCase("app://localhost/css/app.css", "../images/pattern.png", "app://localhost/images/pattern.png")]
+        [TestCase("app://localhost/css/app.css", "/settings?tab=1#top", "app://localhost/settings?tab=1#top")]
+        [TestCase("app://localhost/css/app.css", "//other/x", "app://other/x")]
+        public void RelativeReferenceResolvesAgainstNonSpecialBase(String baseHref, String relative, String expected)
+        {
+            var baseAddress = new Url(baseHref);
+            var result = new Url(baseAddress, relative);
+            Assert.That(result.IsInvalid, Is.False);
+            Assert.That(result.Href, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void RelativeReferenceResolvesAgainstNonSpecialBaseWithoutAuthority()
+        {
+            var result = new Url(new Url("foo:/a/b"), "c");
+            Assert.That(result.Href, Is.EqualTo("foo:/a/c"));
+            Assert.That(result.HostName, Is.EqualTo(String.Empty));
+        }
+
+        [Test]
+        public void NonSpecialSchemeWithoutPathKeepsItsForm()
+        {
+            var result = new Url("sc://host");
+            Assert.That(result.Href, Is.EqualTo("sc://host"));
+            Assert.That(result.PathName, Is.EqualTo(String.Empty));
+            Assert.That(new Url(result, "x").Href, Is.EqualTo("sc://host/x"));
+        }
+
+        [Test]
+        public void NonSpecialHierarchicalUrlKeepsItsData()
+        {
+            var result = new Url("javascript://comment%0Aalert(1)");
+            Assert.That(result.Data, Is.EqualTo("//comment%0Aalert(1)"));
+            Assert.That(result.Href, Is.EqualTo("javascript://comment%0Aalert(1)"));
+        }
+
+        [Test]
+        public void OpaqueUrlIsUnchanged()
+        {
+            var result = new Url("mailto:someone@example.com?subject=hi");
+            Assert.That(result.Data, Is.EqualTo("someone@example.com"));
+            Assert.That(result.Href, Is.EqualTo("mailto:someone@example.com?subject=hi"));
+        }
     }
 }

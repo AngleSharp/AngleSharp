@@ -15,7 +15,7 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private readonly MediaRequestProcessor<TResource> _request;
+        private MediaRequestProcessor<TResource> _request;
         private ITextTrackList? _texts;
 
         #endregion
@@ -282,11 +282,27 @@ namespace AngleSharp.Html.Dom
             UpdateSource(this.GetOwnAttribute(AttributeNames.Src));
         }
 
+        /// <summary>
+        /// Like an image, a media element loads outside of a document, too, but not in the one
+        /// of the fragment parser: adopting it resolves its source against the new document.
+        /// </summary>
+        protected override void NodeIsAdopted(Document oldDocument)
+        {
+            base.NodeIsAdopted(oldDocument);
+
+            // it loads with the loader of its new document
+            if (!ReferenceEquals(oldDocument.Context, Owner.Context))
+            {
+                _request = new MediaRequestProcessor<TResource>(Owner.Context);
+            }
+
+            UpdateSource(this.GetOwnAttribute(AttributeNames.Src));
+        }
+
         internal void UpdateSource(String? value)
         {
-            if (value != null)
+            if (value != null && Owner is not { IsFragmentParsing: true } && this.HyperReference(value) is { } url)
             {
-                var url = new Url(value);
                 this.Process(_request, url);
             }
         }

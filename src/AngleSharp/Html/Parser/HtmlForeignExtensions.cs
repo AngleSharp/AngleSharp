@@ -18,7 +18,7 @@ namespace AngleSharp.Html.Parser
     {
         #region Fields
         private static readonly Dictionary<StringOrMemory, String> _svgAttributeNamesDict =
-            new(OrdinalStringOrMemoryComparer.Instance)
+            new(WellKnownNameComparer.Instance)
         {
             { "attributename", "attributeName" },
             { "attributetype", "attributeType" },
@@ -85,7 +85,7 @@ namespace AngleSharp.Html.Parser
         };
 
         private static readonly Dictionary<StringOrMemory, String> _svgAdjustedTagNamesDict =
-            new(OrdinalStringOrMemoryComparer.Instance)
+            new(WellKnownNameComparer.Instance)
         {
              { "altglyph", "altGlyph" },
              { "altglyphdef", "altGlyphDef" },
@@ -126,8 +126,8 @@ namespace AngleSharp.Html.Parser
         };
 
 #if NET8_0_OR_GREATER
-        private static readonly FrozenDictionary<StringOrMemory, String> svgAttributeNames = _svgAttributeNamesDict.ToFrozenDictionary(OrdinalStringOrMemoryComparer.Instance);
-        private static readonly FrozenDictionary<StringOrMemory, String> svgAdjustedTagNames = _svgAdjustedTagNamesDict.ToFrozenDictionary(OrdinalStringOrMemoryComparer.Instance);
+        private static readonly FrozenDictionary<StringOrMemory, String> svgAttributeNames = _svgAttributeNamesDict.ToFrozenDictionary(WellKnownNameComparer.Instance);
+        private static readonly FrozenDictionary<StringOrMemory, String> svgAdjustedTagNames = _svgAdjustedTagNamesDict.ToFrozenDictionary(WellKnownNameComparer.Instance);
 #else
         private static readonly Dictionary<StringOrMemory, String> svgAttributeNames = _svgAttributeNamesDict;
         private static readonly Dictionary<StringOrMemory, String> svgAdjustedTagNames = _svgAdjustedTagNamesDict;
@@ -160,11 +160,11 @@ namespace AngleSharp.Html.Parser
         /// <returns>The finished element.</returns>
         public static IConstructableMathElement Setup(this IConstructableMathElement element, ref StructHtmlToken tag)
         {
-            var count = tag.Attributes.Count;
+            var count = tag.AttributeCount;
 
             for (var i = 0; i < count; i++)
             {
-                var attr = tag.Attributes[i];
+                var attr = tag.GetAttributeAt(i);
                 var name = attr.Name;
                 var value = attr.Value;
                 element.AdjustAttribute(name.AdjustToMathAttribute(), value);
@@ -181,11 +181,11 @@ namespace AngleSharp.Html.Parser
         /// <returns>The finished element.</returns>
         public static IConstructableSvgElement Setup(this IConstructableSvgElement element, ref StructHtmlToken tag)
         {
-            var count = tag.Attributes.Count;
+            var count = tag.AttributeCount;
 
             for (var i = 0; i < count; i++)
             {
-                var attr = tag.Attributes[i];
+                var attr = tag.GetAttributeAt(i);
                 var name = attr.Name;
                 var value = attr.Value;
                 element.AdjustAttribute(name.AdjustToSvgAttribute(), value);

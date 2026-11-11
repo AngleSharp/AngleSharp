@@ -133,7 +133,7 @@ namespace AngleSharp.Dom
             get
             {
                 var data = _url.Data;
-                return String.IsNullOrEmpty(data) ? "/" + _url.Path : data;
+                return _url.HasOpaquePath && !String.IsNullOrEmpty(data) ? data : _url.PathName;
             }
             set
             {

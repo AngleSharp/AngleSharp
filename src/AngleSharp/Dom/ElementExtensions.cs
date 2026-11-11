@@ -1389,6 +1389,13 @@ namespace AngleSharp.Dom
         }
 
         /// <summary>
+        /// Gets if the element is in a document that loads what is in it: connected, and not in
+        /// the document of the fragment parser (e.g. for innerHTML), which the nodes leave.
+        /// </summary>
+        internal static Boolean IsInLoadingTree(this Element element) =>
+            element.Owner is not { IsFragmentParsing: true } && CustomElementRegistry.IsConnected(element);
+
+        /// <summary>
         /// Creates a task to use the processor for loading and processing the
         /// resource from the provided url.
         /// </summary>
@@ -1678,6 +1685,7 @@ namespace AngleSharp.Dom
             var document = new HtmlDocument(context, source)
             {
                 QuirksMode = element.Owner.QuirksMode,
+                IsFragmentParsing = true,
             };
             var options = new HtmlParserOptions
             {
@@ -1686,7 +1694,9 @@ namespace AngleSharp.Dom
                 IsScripting = context.IsScripting() && !element.Owner.IsScriptingDisabled,
             };
             var parser = new HtmlDomBuilder(HtmlDomConstructionFactory.Instance, document, new HtmlTokenizerOptions(options));
-            return parser.ParseFragment(options, element).DocumentElement;
+            var root = parser.ParseFragment(options, element).DocumentElement;
+            parser.Release(options);
+            return root;
         }
     }
 }

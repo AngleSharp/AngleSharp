@@ -54,6 +54,17 @@ public struct StructAttributes
     public Int32 Count => _count;
 
     /// <summary>
+    /// Empties the list for the next tag. The inline slots keep their stale entries, which
+    /// nothing reads past the count; the tail is dropped rather than cleared, as a copy of
+    /// the previous token may still share it.
+    /// </summary>
+    internal void Clear()
+    {
+        _count = 0;
+        _tail = null!;
+    }
+
+    /// <summary>
     /// Removes the attribute at the given index.
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException"></exception>

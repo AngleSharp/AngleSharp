@@ -9,11 +9,12 @@ namespace AngleSharp.Html.Dom
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
-    sealed class HtmlObjectElement : HtmlFormControlElement, IHtmlObjectElement
+    sealed class HtmlObjectElement : HtmlFormControlElement, IHtmlObjectElement, IConnectedResourceElement
     {
         #region Fields
 
         private readonly ObjectRequestProcessor _request;
+        private Boolean _isSetUp;
 
         #endregion
 
@@ -91,12 +92,25 @@ namespace AngleSharp.Html.Dom
         internal override void SetupElement()
         {
             base.SetupElement();
+            _isSetUp = true;
             UpdateSource(this.GetOwnAttribute(AttributeNames.Data));
+        }
+
+        /// <summary>
+        /// The resource is only fetched while the element is in a document (HTML 4.8.3/4.8.4),
+        /// e.g. once innerHTML put it there.
+        /// </summary>
+        void IConnectedResourceElement.OnConnected()
+        {
+            if (_isSetUp)
+            {
+                UpdateSource(this.GetOwnAttribute(AttributeNames.Data));
+            }
         }
 
         internal void UpdateSource(String? value)
     {
-            if (value != null)
+            if (value != null && this.IsInLoadingTree())
             {
                 var url = new Url(Source!);
                 this.Process(_request, url);

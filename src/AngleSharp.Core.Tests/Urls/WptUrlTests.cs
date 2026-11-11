@@ -22,7 +22,7 @@ namespace AngleSharp.Core.Tests.Urls
         /// The number of entries from the WPT url test data that are currently parsed correctly.
         /// This is a ratchet: raise it whenever the parser improves, never lower it.
         /// </summary>
-        private const Int32 MinimumPassing = 520;
+        private const Int32 MinimumPassing = 636;
 
         /// <summary>
         /// How many failing entries to include in the message of a failing run.

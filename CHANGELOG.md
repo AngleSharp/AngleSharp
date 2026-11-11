@@ -1,10 +1,22 @@
+# 1.10.2
+
+Released on Wednesday, November 11 2026.
+
+- Improved performance of the HTML parser to cut up to 50% of parsing time
+- Improved performance of parsing `img` elements without a resource loader
+- Updated the attributes of an element to be enumerable while they change
+- Fixed URLs of a non-special scheme with a path (e.g. `app://localhost/` or `foo:/a`) being opaque
+- Fixed resources of HTML parsed via `innerHTML` (or `insertAdjacentHTML`) loading against `about:blank`
+- Fixed `iframe`, `frame`, `object` and `embed` elements loading outside of a document
+- Fixed relative sources of `audio`, `video` and `embed` elements not being resolved against the document
+
 # 1.10.1
 
-Released on Saturday, November 7 2026.
+Released on Sunday, November 8 2026.
 
+- Improved the loader to dispose the responses of followed redirects (#1409) @michaelthyregod
 - Fixed module scripts of the parser (`<script type="module">`) running right away instead deferring
 - Fixed a script inserted without text not waiting for the text to be set before running
-- Improved the loader to dispose the responses of followed redirects (#1409) @michaelthyregod
 
 # 1.10.0
 
@@ -54,9 +66,9 @@ Released on Friday, November 6 2026.
 Released on Sunday, November 1 2026.
 
 - Improved performance of inserting a newly created node (`AppendChild`, `InsertBefore`, ...) into a deep tree (#1401) @michaelthyregod
+- Improved handling of deeply nested selector functions (#1402) @michaelthyregod
 - Fixed `classList.toggle(token, false)` adding an absent token instead of removing it: the DOM's `toggle` is now `DomTokenListExtensions.ToggleToken`
 - Fixed exponential matching of nested `:nth-child(… of …)` selectors (#1403) @michaelthyregod
-- Improved handling of deeply nested selector functions (#1402) @michaelthyregod
 
 # 1.9.0
 

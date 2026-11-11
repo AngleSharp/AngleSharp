@@ -1,6 +1,7 @@
 namespace AngleSharp.Text;
 
 using System;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,13 @@ public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
     private readonly ReadOnlyMemory<Char> _memory;
     private readonly Int32 _length;
 
+    // What the memory is a view of, where that is a string or an array - which it nearly always
+    // is. Getting a span out of a memory is a type test and a slice every time, too much for
+    // the tokenizer to pay for each single character it reads.
+    private readonly String? _text;
+    private readonly Char[]? _array;
+    private readonly Int32 _start;
+
     #region ctor
 
     /// <summary>
@@ -26,6 +34,17 @@ public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
     {
         _memory = memory;
         _length = memory.Length;
+
+        if (MemoryMarshal.TryGetString(memory, out var text, out var start, out _))
+        {
+            _text = text;
+            _start = start;
+        }
+        else if (MemoryMarshal.TryGetArray(memory, out var segment))
+        {
+            _array = segment.Array;
+            _start = segment.Offset;
+        }
     }
 
     /// <summary>
@@ -37,6 +56,7 @@ public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
         _content = str;
         _memory = str.AsMemory();
         _length = _memory.Length;
+        _text = str;
     }
 
     #endregion
@@ -56,6 +76,29 @@ public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
     /// Gets the underlying memory buffer.
     /// </summary>
     internal ReadOnlyMemory<Char> Memory => _memory;
+
+    /// <summary>
+    /// Gets everything from the current index on. Only valid while that is within the source.
+    /// </summary>
+    internal ReadOnlySpan<Char> Remaining
+    {
+        get
+        {
+            var index = _index;
+            var count = _length - index;
+
+            if (_text is not null)
+            {
+                return _text.AsSpan(_start + index, count);
+            }
+            else if (_array is not null)
+            {
+                return _array.AsSpan(_start + index, count);
+            }
+
+            return _memory.Span.Slice(index, count);
+        }
+    }
 
     /// <ihneritdoc />
     public Char this[Int32 index] => _content != null ? _content[index] : _memory.Span[index];
@@ -93,12 +136,23 @@ public sealed class ReadOnlyMemoryTextSource : IReadOnlyTextSource
     /// <ihneritdoc />
     public Char ReadCharacter()
     {
-        if (_index < _length)
+        var index = _index;
+        _index = index + 1;
+
+        if ((UInt32)index < (UInt32)_length)
         {
-            return _memory.Span[_index++];
+            if (_text is not null)
+            {
+                return _text[_start + index];
+            }
+            else if (_array is not null)
+            {
+                return _array[_start + index];
+            }
+
+            return _memory.Span[index];
         }
 
-        _index += 1;
         return Symbols.EndOfFile;
     }
 

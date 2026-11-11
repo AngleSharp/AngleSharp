@@ -216,8 +216,11 @@ dotnet run -c Release --project src/AngleSharp.Benchmarks -f net8.0 -- --list fl
 
 `MemoryDiagnoser` is enabled on every benchmark class, so always report the allocation column
 alongside the timing. `SelectorBenchmark` and `StreamingTextSourceBenchmark` work offline off
-`page.html`, `ScanDataTextBenchmark` off synthetic input; `ParserBenchmark` fetches ~20 real
-sites and caches them under `temp/`, so it needs network on the first run. `net472` is a
+`page.html`, `ScanDataTextBenchmark` and `ComplexDocumentBenchmark` off synthetic input (the
+latter a generated 2 MB page that is far denser in elements than a real one, so its time is half
+GC and it weighs what a tree retains); `ParserBenchmark` fetches ~20 real sites and caches them
+under `temp/`, so it needs network on the first run - and BenchmarkDotNet evaluates its
+`ParamsSource` even when a `--filter` selects another class. `net472` is a
 benchmark target as well, and the framework-vs-core gap is where `#if`-guarded fast paths get
 lost — check both when touching them.
 
@@ -246,9 +249,16 @@ Techniques the codebase relies on; match them in new code:
   then uses `ReferenceEquals` for zero-cost dispatch — `HtmlElementFactory.Create` has a
   reference-equality fast path for the hottest tags before touching a dictionary. Do not break
   that invariant by handing the parser non-interned names.
-- **Bulk-scan with spans.** `BaseTokenizer.ScanDataText` finds the next terminator with
-  `IndexOfAny` and appends the whole run at once instead of looping per character. Character-
-  at-a-time loops over large runs are exactly the shape that produced the last `O(n²)` bug.
+- **Bulk-scan with spans.** `BaseTokenizer.ScanText` finds the next terminator of a `TextRun`
+  (data, raw text, quoted attribute value, comment, name, ...) with `IndexOfAny` and appends the
+  whole run at once instead of looping per character. Character-at-a-time loops over large runs
+  are exactly the shape that produced the last `O(n²)` bug. Only a string, memory or array source
+  is read this way; a stream is read per character, and `HtmlBulkScanningTests` holds the two
+  against each other - a state that starts scanning gets an input there.
+- **Share what repeats.** `Document.GetConstructionString` hands out one string for equal
+  attribute names, attribute values and short texts while a tree is built (`StringCache`, direct
+  mapped, dropped when loading finishes). Two thirds of the attribute values of a real page are
+  repeats.
 - **Guard newer BCL APIs, keep a real fallback.** `FrozenDictionary` (`HtmlElementFactory`,
   `CssSelectorConstructor`) and `SearchValues` (`BaseTokenizer`) sit behind
   `#if NET8_0_OR_GREATER` with a `Dictionary` / manual `IndexOfAny` alternative. `Span<T>`,
