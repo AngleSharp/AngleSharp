@@ -3,6 +3,7 @@
 Released on Friday, November 13 2026.
 
 - Fixed other scripts running between a script and its `load` event when there is an event loop, so that SystemJS gave modules the registration of another script (e.g. failing micro frontends loaded with it)
+- Fixed the `code` of a keyboard event created from a key value being empty for the modifier keys (e.g. `ControlLeft` for `Control`) and the function keys
 
 # 1.10.2
 

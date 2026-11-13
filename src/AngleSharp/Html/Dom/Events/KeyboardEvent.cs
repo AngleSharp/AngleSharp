@@ -196,6 +196,17 @@ namespace AngleSharp.Html.Dom.Events
                 case "ArrowLeft":
                 case "ArrowRight":
                     return key;
+                // one can't tell the left modifier from the right one
+                case "Shift":
+                case "Control":
+                case "Alt":
+                case "Meta":
+                    return key + "Left";
+            }
+
+            if (key.Length > 1 && key[0] == 'F' && Int32.TryParse(key.Substring(1), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var number) && number >= 1 && number <= 24)
+            {
+                return key;
             }
 
             if (key.Length == 1)
