@@ -2,6 +2,9 @@
 
 Released on Friday, November 13 2026.
 
+- Fixed events of a document's nodes not reaching its window (except `load`)
+- Fixed `composedPath()` of an event giving scripts no array and not starting with the target
+- Fixed a script element parsed with another type never running once a script gives it a source
 - Fixed other scripts running between a script and its `load` event when there is an event loop, so that SystemJS gave modules the registration of another script (e.g. failing micro frontends loaded with it)
 - Fixed the `code` of a keyboard event created from a key value being empty for the modifier keys (e.g. `ControlLeft` for `Control`) and the function keys
 

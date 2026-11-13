@@ -18,7 +18,7 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private readonly Boolean _parserInserted;
+        private Boolean _parserInserted;
         private readonly ScriptRequestProcessor _request;
 
         private Boolean _started;
@@ -127,6 +127,17 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <summary>
+        /// Prepares a connected script that has not started yet once it gets a source.
+        /// </summary>
+        internal void UpdateSource(String? value)
+        {
+            if (value is not null)
+            {
+                PrepareInserted();
+            }
+        }
+
+        /// <summary>
         /// Prepares a script inserted by other means than the parser, but not one being removed.
         /// </summary>
         private void PrepareInserted()
@@ -159,6 +170,9 @@ namespace AngleSharp.Html.Dom
             }
             else if (wasParserInserted)
             {
+                // the parser only gets one try: a script that does not start now (e.g.,
+                // one of another type) starts like an inserted one, e.g., once it gets a source
+                _parserInserted = false;
                 _forceAsync = !IsAsync;
             }
 
@@ -207,7 +221,7 @@ namespace AngleSharp.Html.Dom
             {
                 if (src.Length != 0)
                 {
-                    return InvokeLoadingScript(document, this.HyperReference(src)!);
+                    return InvokeLoadingScript(document, this.HyperReference(src)!, wasParserInserted);
                 }
 
                 document.QueueTask(FireErrorEvent);
@@ -217,7 +231,7 @@ namespace AngleSharp.Html.Dom
                 _request.Process(Text);
 
                 // a module of the parser is deferred, even when it is written inline
-                if (_parserInserted && IsModule)
+                if (wasParserInserted && IsModule)
                 {
                     document.AddScript(this);
                     return false;
@@ -233,13 +247,13 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
-        private Boolean InvokeLoadingScript(Document document, Url url)
+        private Boolean InvokeLoadingScript(Document document, Url url, Boolean parserInserted)
         {
             var executeDirectly = true;
 
             //Just add to the (end of) set of scripts
             // a module is deferred without being marked as such
-            if (_parserInserted && (IsDeferred || IsAsync || IsModule))
+            if (parserInserted && (IsDeferred || IsAsync || IsModule))
             {
                 document.AddScript(this);
                 executeDirectly = false;

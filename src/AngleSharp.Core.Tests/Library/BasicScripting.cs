@@ -12,6 +12,7 @@
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
@@ -38,6 +39,44 @@
             Assert.AreEqual("//...Dynamically written", document.Body.TextContent);
             Assert.AreEqual(1, document.QuerySelectorAll("b").Length);
             Assert.AreEqual("Dynamically written", bold.TextContent);
+        }
+
+        [Test]
+        public async Task ParsedScriptOfAnotherTypeRunsOnceItGetsTheTypeAndASource()
+        {
+            var runs = 0;
+            var scripting = new CallbackScriptEngine(options => runs++);
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester(_ => { });
+            var source = "<title>Some title</title><body><script type='text/lazy'>// ...</script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+            var script = (IHtmlScriptElement)document.QuerySelector("script");
+
+            Assert.AreEqual(0, runs);
+            script.Type = "c-sharp";
+            Assert.AreEqual(0, runs);
+            script.Source = "foo.cs";
+            await Task.WhenAll(document.GetDownloads().Select(m => m.Task));
+            await Task.Delay(50);
+
+            Assert.AreEqual(1, runs);
+        }
+
+        [Test]
+        public async Task ParsedScriptThatRanDoesNotRunAgainWithANewSource()
+        {
+            var runs = 0;
+            var scripting = new CallbackScriptEngine(options => runs++);
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester(_ => { });
+            var source = "<title>Some title</title><body><script type='c-sharp'>// ...</script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+            var script = (IHtmlScriptElement)document.QuerySelector("script");
+
+            Assert.AreEqual(1, runs);
+            script.Source = "foo.cs";
+            await Task.WhenAll(document.GetDownloads().Select(m => m.Task));
+            await Task.Delay(50);
+
+            Assert.AreEqual(1, runs);
         }
 
         [Test]
