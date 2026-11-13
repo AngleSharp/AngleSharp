@@ -358,6 +358,61 @@
         }
 
         [Test]
+        public async Task LoadEventOfAnInsertedScriptComesBeforeTheNextScriptRuns()
+        {
+            // SystemJS takes the module a script registered in its load event, which
+            // has to come right after the script ran, before any other one does
+            const Int32 count = 8;
+            var lastRan = default(String);
+            var seen = new List<String>();
+            var done = new TaskCompletionSource<Boolean>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var scripting = new LoopScriptEngine(options => lastRan = options.Element.Source);
+
+            using (var loop = new PriorityEventLoop())
+            {
+                var config = Configuration.Default
+                    .WithScripts(scripting)
+                    .WithMockRequester()
+                    .With<IEventLoop>(_ => loop);
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(m => m.Content("<body>").Address("http://www.example.com")).ConfigureAwait(false);
+
+                await loop.EnqueueAsync(_ =>
+                {
+                    for (var i = 0; i < count; i++)
+                    {
+                        var script = document.CreateElement<IHtmlScriptElement>();
+                        script.Type = scripting.Type;
+                        script.Source = $"http://www.example.com/{i}.cs";
+                        script.AddEventListener("load", (s, ev) =>
+                        {
+                            var source = ((IHtmlScriptElement)s).Source;
+
+                            lock (seen)
+                            {
+                                seen.Add(source == lastRan ? source : $"{source} after {lastRan}");
+
+                                if (seen.Count == count)
+                                {
+                                    done.TrySetResult(true);
+                                }
+                            }
+                        });
+                        document.Body.AppendChild(script);
+                    }
+
+                    return true;
+                }).ConfigureAwait(false);
+
+                var finished = await Task.WhenAny(done.Task, Task.Delay(10000)).ConfigureAwait(false);
+
+                Assert.AreSame(done.Task, finished, "not all load events fired");
+                CollectionAssert.AllItemsAreUnique(seen);
+                Assert.IsFalse(seen.Exists(m => m.Contains(" after ")), String.Join(", ", seen));
+            }
+        }
+
+        [Test]
         public void CurrentScriptIsNullWhileRunningAModuleScript()
         {
             var didRun = false;

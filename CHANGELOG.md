@@ -1,3 +1,9 @@
+# 1.10.3
+
+Released on Friday, November 13 2026.
+
+- Fixed other scripts running between a script and its `load` event when there is an event loop, so that SystemJS gave modules the registration of another script (e.g. failing micro frontends loaded with it)
+
 # 1.10.2
 
 Released on Wednesday, November 11 2026.
