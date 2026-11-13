@@ -549,6 +549,12 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public IEventLoop? Loop => _loop;
 
+        /// <summary>
+        /// Gets the gate a script holds from running until its load event, so that no
+        /// other script runs in between (as with an event loop these are separate tasks).
+        /// </summary>
+        internal SemaphoreSlim ScriptExecution { get; } = new SemaphoreSlim(1, 1);
+
         /// <inheritdoc />
         public String DesignMode
         {

@@ -58,6 +58,12 @@ namespace AngleSharp.Core.Tests.Library
         [TestCase(" ", "Space")]
         [TestCase("Enter", "Enter")]
         [TestCase("ArrowUp", "ArrowUp")]
+        [TestCase("Control", "ControlLeft")]
+        [TestCase("Shift", "ShiftLeft")]
+        [TestCase("Alt", "AltLeft")]
+        [TestCase("Meta", "MetaLeft")]
+        [TestCase("F5", "F5")]
+        [TestCase("Fx", "")]
         [TestCase("ß", "")]
         public void KeyboardEventOfAHostTellsTheCodeOfItsKey(String key, String expected)
         {

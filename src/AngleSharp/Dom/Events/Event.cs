@@ -248,7 +248,8 @@ namespace AngleSharp.Dom.Events
                 }
             }
 
-            return composedPath;
+            // an array, so that scripts get a JS array (as the spec's sequence)
+            return composedPath.ToArray();
         }
 
         /// <summary>
@@ -388,9 +389,43 @@ namespace AngleSharp.Dom.Events
                 }
             }
 
+            // the parent of a document is its window, except for load events
+            // https://dom.spec.whatwg.org/#ref-for-get-the-parent%E2%91%A6
+            var top = eventPath.Count > 0 ? eventPath[eventPath.Count - 1].InvocationTarget : target;
+
+            if (top is IDocument document && document.DefaultView is EventTarget window && !String.Equals(_type, EventNames.Load, StringComparison.Ordinal))
+            {
+                eventPath.Add(new EventPathItem
+                {
+                    InvocationTarget = window,
+                    IsInvocationTargetInShadowTree = false,
+                    IsSlotInClosedTree = false,
+                    IsRootOfClosedTree = false,
+                    RelatedTarget = null,
+                    ShadowAdjustedTarget = null,
+                });
+            }
+
+            // the path starts with the target itself (see composedPath)
+            var ancestors = eventPath.Count;
+
+            if (target is EventTarget self)
+            {
+                eventPath.Insert(0, new EventPathItem
+                {
+                    InvocationTarget = self,
+                    IsInvocationTargetInShadowTree = self is IElement se && se.GetRoot() is IShadowRoot,
+                    IsSlotInClosedTree = false,
+                    IsRootOfClosedTree = self is IShadowRoot sr && sr.Mode == ShadowRootMode.Closed,
+                    RelatedTarget = null,
+                    ShadowAdjustedTarget = null,
+                });
+            }
+
+            var parents = eventPath.Skip(eventPath.Count - ancestors);
             _currentPath = eventPath;
             _phase = EventPhase.Capturing;
-            DispatchAt(eventPath.Reverse<EventPathItem>());
+            DispatchAt(parents.Reverse());
             _phase = EventPhase.AtTarget;
 
             if ((_flags & EventFlags.StopPropagation) != EventFlags.StopPropagation)
@@ -401,7 +436,7 @@ namespace AngleSharp.Dom.Events
             if (_bubbles)
             {
                 _phase = EventPhase.Bubbling;
-                DispatchAt(eventPath);
+                DispatchAt(parents);
             }
 
             _flags &= ~EventFlags.Dispatch;

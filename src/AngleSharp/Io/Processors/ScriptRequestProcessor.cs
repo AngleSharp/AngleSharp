@@ -87,6 +87,31 @@ namespace AngleSharp.Io.Processors
 
             if (_response != null)
             {
+                // The load event follows the script before any other script runs, e.g., SystemJS
+                // takes the module a script registered in its load event. With an event loop the
+                // steps are tasks of their own; without one they run right away anyway.
+                var gate = _document.Loop != null ? _document.ScriptExecution : null;
+
+                if (gate != null)
+                {
+                    await gate.WaitAsync(cancel).ConfigureAwait(false);
+                }
+
+                try
+                {
+                    await ExecuteAsync(cancel).ConfigureAwait(false);
+                }
+                finally
+                {
+                    gate?.Release();
+                }
+            }
+        }
+
+        private async Task ExecuteAsync(CancellationToken cancel)
+        {
+            if (_response != null)
+            {
                 var cancelled = await _document.QueueTaskAsync(FireBeforeScriptExecuteEvent).ConfigureAwait(false);
 
                 if (!cancelled)

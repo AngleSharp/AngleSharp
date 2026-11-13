@@ -557,6 +557,54 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public async Task BubblingEventsReachTheWindowOfTheDocument()
+        {
+            var context = BrowsingContext.New();
+            var doc = await context.OpenAsync(res => res.Content("<div id=x></div>"));
+            var window = (EventTarget)doc.DefaultView;
+            var calls = String.Empty;
+            window.AddEventListener("custom", (_, _) => calls += "w-capture,", capture: true);
+            window.AddEventListener("custom", (_, _) => calls += "w-bubble,");
+            doc.AddEventListener("custom", (_, _) => calls += "d,");
+
+            doc.GetElementById("x").Dispatch(new Event("custom", true, false));
+
+            Assert.AreEqual("w-capture,d,w-bubble,", calls);
+        }
+
+        [Test]
+        public async Task ComposedPathStartsAtTheTargetAndEndsWithTheWindow()
+        {
+            var context = BrowsingContext.New();
+            var doc = await context.OpenAsync(res => res.Content("<div id=x></div>"));
+            var window = (EventTarget)doc.DefaultView;
+            var target = doc.GetElementById("x");
+            IEventTarget[] atWindow = null, atTarget = null;
+            window.AddEventListener("custom", (_, ev) => atWindow = ((Event)ev).GetComposedPath() as IEventTarget[]);
+            target.AddEventListener("custom", (_, ev) => atTarget = ((Event)ev).GetComposedPath() as IEventTarget[]);
+
+            target.Dispatch(new Event("custom", true, false));
+
+            var expected = new IEventTarget[] { target, doc.Body, doc.DocumentElement, doc, doc.DefaultView };
+            CollectionAssert.AreEqual(expected, atWindow);
+            CollectionAssert.AreEqual(expected, atTarget);
+        }
+
+        [Test]
+        public async Task LoadEventsOfElementsDoNotReachTheWindow()
+        {
+            var context = BrowsingContext.New();
+            var doc = await context.OpenAsync(res => res.Content("<img id=x>"));
+            var window = (EventTarget)doc.DefaultView;
+            var calls = 0;
+            window.AddEventListener("load", (_, _) => calls++, capture: true);
+
+            doc.GetElementById("x").Dispatch(new Event("load"));
+
+            Assert.AreEqual(0, calls);
+        }
+
+        [Test]
         public void EventsDocumentFinished()
         {
             document.ReadyStateChanged += (_, _) =>
