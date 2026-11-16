@@ -71,9 +71,9 @@ namespace AngleSharp.Media.Dom
         Boolean IsPaused { get; }
 
         /// <summary>
-        /// Plays the underlying media.
+        /// Plays the underlying media. The play method of scripts, which gives a promise, is
+        /// <see cref="AngleSharp.Html.Dom.HtmlMediaElementExtensions.PlayAsync"/>.
         /// </summary>
-        [DomName("play")]
         void Play();
 
         /// <summary>

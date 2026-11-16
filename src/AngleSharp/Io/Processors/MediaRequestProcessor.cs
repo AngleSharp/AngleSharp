@@ -2,6 +2,7 @@ namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Media;
     using AngleSharp.Media.Dom;
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -12,11 +13,20 @@ namespace AngleSharp.Io.Processors
     sealed class MediaRequestProcessor<TMediaInfo> :ResourceRequestProcessor<TMediaInfo>
         where TMediaInfo : IMediaInfo
     {
+        #region Fields
+
+        private readonly Action<TMediaInfo>? _created;
+        private readonly Action<MediaErrorCode>? _failed;
+
+        #endregion
+
         #region ctor
 
-        public MediaRequestProcessor(IBrowsingContext context)
+        public MediaRequestProcessor(IBrowsingContext context, Action<TMediaInfo>? created = null, Action<MediaErrorCode>? failed = null)
             : base(context)
         {
+            _created = created;
+            _failed = failed;
         }
 
         #endregion
@@ -55,14 +65,49 @@ namespace AngleSharp.Io.Processors
 
         #region Methods
 
+        public override async Task ProcessAsync(ResourceRequest request)
+        {
+            try
+            {
+                await base.ProcessAsync(request).ConfigureAwait(false);
+            }
+            catch (Exception) when (Download is { Task.IsFaulted: true })
+            {
+                //  the request failed (the processing of a response reports its own errors)
+                _failed?.Invoke(MediaErrorCode.Network);
+            }
+        }
+
         protected override async Task ProcessResponseAsync(IResponse response)
         {
             var service = GetService(response);
 
-            if (service != null)
+            if (service is null)
             {
-                var cancel = CancellationToken.None;
-                Media = await service.CreateAsync(response, cancel).ConfigureAwait(false);
+                //  fails, so the element gets an error event
+                _failed?.Invoke(MediaErrorCode.SourceNotSupported);
+                throw new NotSupportedException($"No media service for {response.GetContentType().Content}.");
+            }
+
+            var cancel = CancellationToken.None;
+            var media = default(TMediaInfo);
+
+            try
+            {
+                media = await service.CreateAsync(response, cancel).ConfigureAwait(false);
+            }
+            catch
+            {
+                _failed?.Invoke(MediaErrorCode.Decode);
+                throw;
+            }
+
+            Media = media;
+            Resource = media;
+
+            if (media != null)
+            {
+                _created?.Invoke(media);
             }
         }
 

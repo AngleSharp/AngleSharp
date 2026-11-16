@@ -1,3 +1,16 @@
+# 1.10.4
+
+Released on Sunday, November 15 2026.
+
+- Fixed media elements never getting the controller of their resource
+- Fixed media elements forgetting what a script set before their resource arrived (e.g. `new Audio(src).play()` or the volume)
+- Fixed media elements not loading their `source` elements, and loading the first one regardless of its type
+- Fixed `paused` of a media element being false before it plays, and `duration` being 0 instead of `NaN` without a resource
+- Added the events of a media element's controller reaching the element and those of the state the element changes itself
+- Added `loop` and `autoplay` to media elements and media pausing once removed from their document
+- Added the `error` of a media element whose resource can't be played or decoded
+- Added `play()` of media elements giving a promise (`HtmlMediaElementExtensions.PlayAsync`)
+
 # 1.10.3
 
 Released on Friday, November 13 2026.
