@@ -305,7 +305,7 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            var length = refNode.ChildNodes.Length;
+            var length = GetNodeLength(refNode);
             _start = new Boundary(refNode, 0);
             _end = new Boundary(refNode, length);
         }
@@ -539,12 +539,12 @@ namespace AngleSharp.Dom
                     throw new DomException(DomError.InvalidNodeType);
                 }
 
-                if (offset > node.ChildNodes.Length)
+                if (offset > GetNodeLength(node))
                 {
                     throw new DomException(DomError.IndexSizeError);
                 }
-                var length = node is IDocumentType || node is IAttr ? 0 : (node is ICharacterData charData ? charData.Data.Length : node.ChildNodes.Length);
-                return new Boundary(node, offset) > _start && new Boundary(node, length) < _end;
+
+                return new Boundary(node, offset) > _start && new Boundary(node, GetNodeLength(node)) < _end;
             }
 
             return false;
@@ -611,7 +611,7 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            if (offset > node.ChildNodes.Length)
+            if (offset > GetNodeLength(node))
             {
                 throw new DomException(DomError.IndexSizeError);
             }
