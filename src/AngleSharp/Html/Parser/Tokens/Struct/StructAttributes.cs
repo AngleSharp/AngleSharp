@@ -54,12 +54,19 @@ public struct StructAttributes
     public Int32 Count => _count;
 
     /// <summary>
-    /// Empties the list for the next tag. The inline slots keep their stale entries, which
-    /// nothing reads past the count; the tail is dropped rather than cleared, as a copy of
-    /// the previous token may still share it.
+    /// Empties the list for the next tag. The tail is dropped rather than cleared, as a copy
+    /// of the previous token may still share it.
     /// </summary>
     internal void Clear()
     {
+        if (_count > 0)
+        {
+            _t0 = default;
+            _t1 = default;
+            _t2 = default;
+            _t3 = default;
+        }
+
         _count = 0;
         _tail = null!;
     }

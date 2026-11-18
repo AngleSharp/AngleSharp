@@ -4,10 +4,12 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
+    using AngleSharp.Html.Parser.Tokens.Struct;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Text;
 
     /// <summary>
@@ -273,6 +275,18 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void ClearedAttributesDoNotKeepTheirTokenBufferAlive()
+        {
+            var (buffer, holder) = CreateClearedAttributeBufferReference();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+
+            Assert.IsFalse(buffer.IsAlive);
+            GC.KeepAlive(holder);
+        }
+
+        [Test]
         public void ParsedDocumentKeepsItsContentWithAnAttributeFilter()
         {
             var first = Markup('a');
@@ -356,6 +370,28 @@ namespace AngleSharp.Core.Tests.Library
             }
 
             return sb.ToString();
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static (WeakReference, AttributeHolder) CreateClearedAttributeBufferReference()
+        {
+            var buffer = new Char[32];
+            var reference = new WeakReference(buffer);
+            var memory = new ReadOnlyMemory<Char>(buffer);
+            var holder = new AttributeHolder();
+
+            for (var i = 0; i < 5; i++)
+            {
+                holder.Attributes.Add(new MemoryHtmlAttributeToken(default, memory, memory));
+            }
+
+            holder.Attributes.Clear();
+            return (reference, holder);
+        }
+
+        private sealed class AttributeHolder
+        {
+            public StructAttributes Attributes;
         }
     }
 }
