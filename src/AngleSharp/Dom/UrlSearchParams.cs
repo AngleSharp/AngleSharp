@@ -158,7 +158,9 @@ namespace AngleSharp.Dom
         [DomName("sort")]
         public void Sort()
         {
-            _values.Sort((a, b) => a.Key.CompareTo(b.Key));
+            var sorted = _values.OrderBy(p => p.Key, StringComparer.Ordinal).ToList();
+            _values.Clear();
+            _values.AddRange(sorted);
             RaiseChanged(false);
         }
 

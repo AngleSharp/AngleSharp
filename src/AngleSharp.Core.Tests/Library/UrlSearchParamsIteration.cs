@@ -5,6 +5,7 @@ namespace AngleSharp.Core.Tests.Library
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     [TestFixture]
     public class UrlSearchParamsIterationTests
@@ -33,6 +34,29 @@ namespace AngleSharp.Core.Tests.Library
         {
             Assert.AreEqual(new[] { "a", "1" }, new UrlSearchParams("?a=1").Entries()[0]);
             Assert.IsEmpty(new UrlSearchParams("?").Entries());
+        }
+
+        [Test]
+        public void SortOrdersTheNamesByCodeUnitsNotByCulture()
+        {
+            var parameters = new UrlSearchParams("b=1&B=2&a=3&A=4&I=5&ı=6&i=7");
+
+            parameters.Sort();
+
+            Assert.AreEqual(new[] { "A", "B", "I", "a", "b", "i", "ı" }, parameters.Keys());
+        }
+
+        [Test]
+        public void SortKeepsTheOrderOfPairsWithTheSameName()
+        {
+            var query = String.Join("&", Enumerable.Range(0, 40).Select(i => (i % 2 == 0 ? "b=" : "a=") + i));
+            var parameters = new UrlSearchParams(query);
+
+            parameters.Sort();
+
+            var values = parameters.Values().Select(Int32.Parse).ToArray();
+            var expected = Enumerable.Range(0, 40).Where(i => i % 2 == 1).Concat(Enumerable.Range(0, 40).Where(i => i % 2 == 0)).ToArray();
+            Assert.AreEqual(expected, values);
         }
 
         [Test]
