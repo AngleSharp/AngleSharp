@@ -1,8 +1,10 @@
 # 1.10.5
 
-Released on tbd
+Released on Wednesday, November 18 2026.
 
 - Fixed `URLSearchParams.sort()` comparing names with the current culture and reordering pairs with the same name (#1415) @menes97
+- Fixed `selectNodeContents` of a text node ending at its start instead of its end
+- Fixed `comparePoint` and `isPointInRange` refusing offsets within a text node
 
 # 1.10.4
 

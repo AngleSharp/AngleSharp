@@ -210,6 +210,38 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public void SelectContentOfTextNodeEndsAfterItsText()
+        {
+            var document = "<body><p>Hello world</p></body>".ToHtmlDocument();
+            var text = document.QuerySelector("p").FirstChild;
+            var range = document.CreateRange();
+
+            range.SelectContent(text);
+
+            Assert.AreEqual(text, range.Head);
+            Assert.AreEqual(0, range.Start);
+            Assert.AreEqual(text, range.Tail);
+            Assert.AreEqual(11, range.End);
+            Assert.IsFalse(range.IsCollapsed);
+            Assert.AreEqual("Hello world", range.ToString());
+        }
+
+        [Test]
+        public void CanComparePointsWithinTextNodes()
+        {
+            var document = "<body><p>Hello world</p></body>".ToHtmlDocument();
+            var text = document.QuerySelector("p").FirstChild;
+            var range = document.CreateRange();
+            range.StartWith(text, 2);
+            range.EndWith(text, 5);
+
+            Assert.AreEqual(RangePosition.Before, range.CompareTo(text, 1));
+            Assert.AreEqual(RangePosition.Equal, range.CompareTo(text, 3));
+            Assert.AreEqual(RangePosition.After, range.CompareTo(text, 8));
+            Assert.Throws<DomException>(() => range.CompareTo(text, 12));
+        }
+
+        [Test]
         public void CanCopyContentWithPartiallyContainedTextNodes()
         {
             var document = "<p>abc<b>def</b>ghi</p>".ToHtmlDocument();
