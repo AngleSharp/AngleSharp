@@ -1,3 +1,9 @@
+# 1.10.5
+
+Released on tbd
+
+- Fixed `URLSearchParams.sort()` comparing names with the current culture and reordering pairs with the same name (#1415) @menes97
+
 # 1.10.4
 
 Released on Sunday, November 15 2026.
