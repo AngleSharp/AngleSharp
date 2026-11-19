@@ -15,7 +15,7 @@ using Common;
 /// The source retains the original bytes so that an encoding declaration discovered by the HTML
 /// tokenizer can re-decode the document without reopening or copying an input stream.
 /// </remarks>
-public sealed class ReadOnlyByteTextSource : IReadOnlyTextSource
+public sealed class ReadOnlyByteTextSource : IReadOnlyTextSource, IPooledTextSource
 {
     private readonly ReadOnlyMemory<Byte> _bytes;
     private readonly Int32 _preambleLength;
@@ -98,10 +98,18 @@ public sealed class ReadOnlyByteTextSource : IReadOnlyTextSource
     }
 
     /// <inheritdoc />
-    public String ReadCharacters(Int32 characters) => ReadMemory(characters).ToString();
+    public String ReadCharacters(Int32 characters) => ReadSlice(characters).ToString();
 
     /// <inheritdoc />
-    public StringOrMemory ReadMemory(Int32 characters)
+    /// <remarks>
+    /// Returns a copy: the characters live in a pooled array that <see cref="Dispose"/> and an
+    /// encoding change give back to the pool.
+    /// </remarks>
+    public StringOrMemory ReadMemory(Int32 characters) => ReadCharacters(characters);
+
+    StringOrMemory IPooledTextSource.ReadPooledMemory(Int32 characters) => ReadSlice(characters);
+
+    private ReadOnlyMemory<Char> ReadSlice(Int32 characters)
     {
         var start = _index;
         var end = start + characters;

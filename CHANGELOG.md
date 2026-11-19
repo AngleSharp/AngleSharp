@@ -6,6 +6,7 @@ Released on Wednesday, November 18 2026.
 - Fixed `selectNodeContents` of a text node ending at its start instead of its end
 - Fixed `comparePoint` and `isPointInRange` refusing offsets within a text node
 - Fixed HTML parsing retaining pooled tokenizer buffers through stale attribute references (#1416)
+- Fixed `ReadMemory` of byte and streaming text sources returning slices of buffers that are later recycled or overwritten (#1418) @vinhch
 
 # 1.10.4
 

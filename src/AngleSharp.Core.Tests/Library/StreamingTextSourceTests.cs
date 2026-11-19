@@ -249,6 +249,22 @@ public sealed class StreamingTextSourceTests
     }
 
     [Test]
+    public void MemoryReadKeepsItsContentWhileTheSourceReadsOn()
+    {
+        var payload = Encoding.UTF8.GetBytes("<title>original</title>" + new String('x', 32_000));
+        using var stream = new MemoryStream(payload);
+        using var source = new StreamingTextSource(stream, 128, 64);
+        var memory = source.ReadMemory(15);
+
+        for (var index = 0; index < 20_000; index++)
+        {
+            source.ReadCharacter();
+        }
+
+        Assert.That(memory.ToString(), Is.EqualTo("<title>original"));
+    }
+
+    [Test]
     public void EndOfFileReadCanBeReconsumed()
     {
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes("x"));
