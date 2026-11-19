@@ -1,3 +1,22 @@
+# 1.10.6
+
+Released on tbd.
+
+- Fixed `click()` dispatching its `click` event later instead of before it returns
+- Fixed `click()` on a checkbox or radio button not checking it (and not firing `input` and `change`)
+- Fixed `stopPropagation()` in a capturing listener of an element still running its bubbling listeners
+- Fixed `form.elements` of a form not in the document being empty
+- Fixed a style sheet served as another type than `text/css` (e.g. `text/html`) being applied in standards mode
+- Fixed a navigated image (e.g. a PNG in an iframe) being parsed as HTML; it is shown in a document of its own
+- Fixed text documents (e.g. `text/plain`) never completing, i.e. no `load` event
+- Fixed `setEnd` of a new range moving its start along, and `setStartBefore` (and the like) not collapsing a range they reverse
+- Fixed comparing the boundary points of a range in sibling nodes, which made `toString()` and `cloneContents()` include text outside the range
+- Fixed `Range.toString()` taking the whole text of adjacent text nodes for each of them
+- Fixed `cloneContents()` and `extractContents()` of a range in the document itself throwing
+- Fixed ranges being changed by splitting, normalizing or editing text as if set by script (`splitText` also moved the start where the end belonged)
+- Fixed a `NodeIterator` returning the wrong node after its filter removed the node it looked at
+- Fixed `createElementNS` accepting qualified names with an empty prefix or local name (e.g. `:div`)
+
 # 1.10.5
 
 Released on Wednesday, November 18 2026.

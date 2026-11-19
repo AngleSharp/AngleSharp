@@ -18,6 +18,7 @@ namespace AngleSharp.Html.Dom
         private StringMap? _dataset;
         private IHtmlMenuElement? _menu;
         private SettableTokenList? _dropZone;
+        private Boolean _isClickingSynchronously;
 
         #endregion
 
@@ -669,7 +670,12 @@ namespace AngleSharp.Html.Dom
         {
             try
             {
-                await ClickAsync().ConfigureAwait(false);
+                // click() dispatches the event synchronously (a script sees its listeners run
+                // before click() returns), the activation behavior may continue later
+                _isClickingSynchronously = true;
+                var task = ClickAsync();
+                _isClickingSynchronously = false;
+                await task.ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -678,10 +684,20 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        protected Task<Boolean> IsClickedCancelled() =>
-            Owner.QueueTaskAsync(_ =>
-                this.Fire<MouseEvent>(m =>
-                    m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this)));
+        protected Task<Boolean> IsClickedCancelled()
+        {
+            if (_isClickingSynchronously)
+            {
+                _isClickingSynchronously = false;
+                return Task.FromResult(FireClick());
+            }
+
+            return Owner.QueueTaskAsync(_ => FireClick());
+        }
+
+        private Boolean FireClick() =>
+            this.Fire<MouseEvent>(m =>
+                m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
 
         /// <inheritdoc />
         protected IHtmlFormElement? GetAssignedForm()

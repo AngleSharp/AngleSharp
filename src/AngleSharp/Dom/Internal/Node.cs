@@ -854,19 +854,19 @@ namespace AngleSharp.Dom
                 {
                     if (m.Head == sibling)
                     {
-                        m.StartWith(text, length);
+                        m.MoveStart(text, length + m.Start);
                     }
                     if (m.Tail == sibling)
                     {
-                        m.EndWith(text, length);
+                        m.MoveEnd(text, length + m.End);
                     }
                     if (m.Head == sibling.Parent && m.Start == end)
                     {
-                        m.StartWith(text, length);
+                        m.MoveStart(text, length);
                     }
                     if (m.Tail == sibling.Parent && m.End == end)
                     {
-                        m.EndWith(text, length);
+                        m.MoveEnd(text, length);
                     }
                 }
 

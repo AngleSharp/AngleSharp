@@ -3,6 +3,7 @@ namespace AngleSharp.Dom
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
     using AngleSharp.Io;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -85,7 +86,41 @@ namespace AngleSharp.Dom
                 }
             }
 
+            // an image (other than SVG, which has a creator of its own when supported) is shown
+            // in a document of its own, its data isn't markup (e.g. a PNG in an iframe)
+            if (contentType.GeneralType.Is("image") && !contentType.Content.Is(MimeTypeNames.Svg))
+            {
+                return LoadImageAsync(context, options, cancellationToken);
+            }
+
             return CreateDefaultAsync(context, options, cancellationToken);
+        }
+
+        /// <summary>
+        /// Shows the response, an image, like a browser does: in a document with just that image.
+        /// </summary>
+        private static async Task<IDocument> LoadImageAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
+        {
+            var document = new HtmlDocument(context, options.Source);
+            document.Setup(options.Response, options.ContentType, options.ImportAncestor);
+
+            if (!options.IsNavigationDisabled)
+            {
+                context.NavigateTo(document);
+            }
+
+            var root = document.CreateElement(TagNames.Html);
+            var head = document.CreateElement(TagNames.Head);
+            var body = document.CreateElement(TagNames.Body);
+            var image = document.CreateElement(TagNames.Img);
+            document.AppendChild(root);
+            root.AppendChild(head);
+            root.AppendChild(body);
+            body.AppendChild(image);
+            image.SetAttribute(AttributeNames.Src, document.DocumentUri);
+            // like a parsed document, it completes (with a load event) once the image is there
+            await document.FinishLoadingAsync().ConfigureAwait(false);
+            return document;
         }
 
         /// <summary>
@@ -132,6 +167,8 @@ namespace AngleSharp.Dom
             pre.SetAttribute(AttributeNames.Style, "word-wrap: break-word; white-space: pre-wrap;");
             await options.Source.PrefetchAllAsync(cancellationToken).ConfigureAwait(false);
             pre.TextContent = options.Source.Text;
+            // like a parsed document, it completes (with a load event)
+            await document.FinishLoadingAsync().ConfigureAwait(false);
             return document;
         }
     }
