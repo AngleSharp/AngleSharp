@@ -1158,9 +1158,61 @@ namespace AngleSharp.Css.Parser
                     _state = ParseState.Offset;
                     return false;
                 }
+                else if (token.Type == CssTokenType.Ident && OnDashedN(token.Data))
+                {
+                    return false;
+                }
 
                 _valid = false;
                 return token.Type == CssTokenType.RoundBracketClose;
+            }
+
+            // Handles the idents "n-", "-n-", "n-<digits>" and "-n-<digits>",
+            // which the tokenizer produces for e.g. "n- 1" and "n-1".
+            private Boolean OnDashedN(String data)
+            {
+                var negative = data.Length > 0 && data[0] == '-';
+
+                if (negative && _state != ParseState.Initial)
+                {
+                    return false;
+                }
+
+                var start = negative ? 1 : 0;
+
+                if (data.Length < start + 2 || (data[start] != 'n' && data[start] != 'N') || data[start + 1] != '-')
+                {
+                    return false;
+                }
+
+                var digits = data.Substring(start + 2);
+
+                if (digits.Length == 0)
+                {
+                    _step = negative ? -1 : _sign;
+                    _sign = -1;
+                    _state = ParseState.AfterOffsetSign;
+                    return true;
+                }
+
+                foreach (var c in digits)
+                {
+                    if (c < '0' || c > '9')
+                    {
+                        return false;
+                    }
+                }
+
+                if (!Int32.TryParse(digits, NumberStyles.None, CultureInfo.InvariantCulture, out var offset))
+                {
+                    return false;
+                }
+
+                _step = negative ? -1 : _sign;
+                _sign = 1;
+                _offset = -offset;
+                _state = ParseState.BeforeOf;
+                return true;
             }
 
             private Boolean OnAfter(CssSelectorToken token)
@@ -1202,6 +1254,13 @@ namespace AngleSharp.Css.Parser
                 if (token.Type == CssTokenType.Whitespace)
                 {
                     _state = ParseState.AfterOffsetWhitespace;
+                    return false;
+                }
+
+                if (token.Type == CssTokenType.Delim && token.Data.IsOneOf("+", "-"))
+                {
+                    _sign = token.Data is "-" ? -1 : +1;
+                    _state = ParseState.AfterOffsetSign;
                     return false;
                 }
 

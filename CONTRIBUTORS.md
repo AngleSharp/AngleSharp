@@ -74,6 +74,8 @@ AngleSharp contains code written by (in order of first pull request / commit):
 * [Przemysław Kłys](https://github.com/PrzemyslawKlys)
 * [Iain](https://github.com/NotAFlightRisk)
 * [Michael Thyregod](https://github.com/michaelthyregod)
+* [Enes Özdoğan](https://github.com/menes97)
+* [bardrop](https://github.com/bardrop)
 
 Without these awesome people AngleSharp could not exist. Thanks to everyone for your contributions! :beers:
 
