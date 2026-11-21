@@ -21,9 +21,9 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
-        internal override async Task ClickAsync()
+        internal override async Task ClickAsync(Boolean immediate)
         {
-            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
+            var cancelled = await IsClickedCancelled(immediate).ConfigureAwait(false);
 
             if (!cancelled && Parent is HtmlDetailsElement details && IsSummaryFor(details))
             {

@@ -651,7 +651,7 @@ namespace AngleSharp.Html.Dom
         /// Fires the click event and, unless a listener canceled it, runs the element's
         /// activation behavior (navigation, form submission, ...).
         /// </summary>
-        internal virtual Task ClickAsync() => IsClickedCancelled();
+        internal virtual Task ClickAsync(Boolean immediate) => IsClickedCancelled(immediate);
 
         private Boolean HasValidTabIndex()
         {
@@ -669,7 +669,10 @@ namespace AngleSharp.Html.Dom
         {
             try
             {
-                await ClickAsync().ConfigureAwait(false);
+                // click() dispatches the event synchronously (a script sees its listeners run
+                // before click() returns), the activation behavior may continue later
+                var task = ClickAsync(true);
+                await task.ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -678,10 +681,19 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        protected Task<Boolean> IsClickedCancelled() =>
-            Owner.QueueTaskAsync(_ =>
-                this.Fire<MouseEvent>(m =>
-                    m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this)));
+        protected Task<Boolean> IsClickedCancelled(Boolean immediate)
+        {
+            if (immediate)
+            {
+                return Task.FromResult(FireClick());
+            }
+
+            return Owner.QueueTaskAsync(_ => FireClick());
+        }
+
+        private Boolean FireClick() =>
+            this.Fire<MouseEvent>(m =>
+                m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
 
         /// <inheritdoc />
         protected IHtmlFormElement? GetAssignedForm()

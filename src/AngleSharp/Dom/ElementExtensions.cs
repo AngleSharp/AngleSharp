@@ -767,7 +767,7 @@ namespace AngleSharp.Dom
         {
             if (element is HtmlElement html)
             {
-                return html.ClickAsync();
+                return html.ClickAsync(false);
             }
 
             element.DoClick();

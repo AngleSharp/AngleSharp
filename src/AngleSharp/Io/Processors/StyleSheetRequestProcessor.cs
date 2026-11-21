@@ -65,6 +65,12 @@ namespace AngleSharp.Io.Processors
 
         protected override async Task ProcessResponseAsync(IResponse response)
         {
+            if (!IsAcceptedContentType(response))
+            {
+                // results in an error event instead of a load event
+                throw new InvalidOperationException("The style sheet was not served as text/css.");
+            }
+
             var cancel = CancellationToken.None;
             var options = new StyleOptions(_link.Owner!)
             {
@@ -77,6 +83,36 @@ namespace AngleSharp.Io.Processors
             var sheet = await task.ConfigureAwait(false);
             sheet.Media.MediaText = _link.Media ?? String.Empty;
             Sheet = sheet;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// A style sheet served with another type than text/css is only applied in quirks
+        /// mode (and there only from the same origin), see the HTML spec's "fetch and
+        /// process the linked resource" for stylesheet links.
+        /// </summary>
+        private Boolean IsAcceptedContentType(IResponse response)
+        {
+            var header = response.Headers.GetOrDefault(HeaderNames.ContentType, null);
+
+            if (String.IsNullOrEmpty(header) || !LinkType.Is(MimeTypeNames.Css))
+            {
+                return true;
+            }
+
+            var type = new MimeType(header!);
+
+            if (type.Content.Is(MimeTypeNames.Css))
+            {
+                return true;
+            }
+
+            var owner = _link.Owner as Document;
+            return owner is not null && owner.QuirksMode == QuirksMode.On &&
+                owner.Origin is { } origin && origin.Is(response.Address.Origin);
         }
 
         #endregion

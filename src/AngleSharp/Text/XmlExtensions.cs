@@ -108,20 +108,23 @@
                 return str.IsXmlName();
             }
 
-            if (colon > 0 && str[0].IsXmlNameStart())
+            // the prefix and the local name are both non-empty names without a colon (e.g. not ":div")
+            if (colon == 0 || !str[0].IsXmlNameStart())
             {
-                for (var i = 1; i < colon; i++)
-                {
-                    if (!str[i].IsXmlName())
-                    {
-                        return false;
-                    }
-                }
-
-                colon++;
+                return false;
             }
 
-            if (str.Length > colon && str[colon++].IsXmlNameStart())
+            for (var i = 1; i < colon; i++)
+            {
+                if (!str[i].IsXmlName())
+                {
+                    return false;
+                }
+            }
+
+            colon++;
+
+            if (str.Length > colon && str[colon] != Symbols.Colon && str[colon++].IsXmlNameStart())
             {
                 for (var i = colon; i < str.Length; i++)
                 {

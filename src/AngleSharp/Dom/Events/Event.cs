@@ -455,12 +455,14 @@ namespace AngleSharp.Dom.Events
         {
             foreach (var item in path)
             {
-                CallListeners(item.InvocationTarget);
-
+                // checked ahead, as a listener of an earlier phase may have stopped it (e.g. a
+                // capturing listener of the element, whose bubbling listeners then never run)
                 if ((_flags & EventFlags.StopPropagation) == EventFlags.StopPropagation)
                 {
                     break;
                 }
+
+                CallListeners(item.InvocationTarget);
             }
         }
 

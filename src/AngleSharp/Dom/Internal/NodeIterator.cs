@@ -17,6 +17,8 @@ namespace AngleSharp.Dom
         private readonly IEnumerable<INode> _iterator;
         private INode _reference;
         private Boolean _beforeNode;
+        private INode? _candidate;
+        private Boolean _candidateBefore;
 
         #endregion
 
@@ -54,10 +56,21 @@ namespace AngleSharp.Dom
         {
             // Algorithm according to:
             // https://dom.spec.whatwg.org/#nodeiterator-pre-removing-steps
+            // which also applies to the node a filter is looking at (e.g. one removing it), as
+            // the iterator continues from there once it has been accepted (Acid3 test 2)
+            Adjust(parent, node, ref _reference, ref _beforeNode);
 
-            if (Root != node && node.IsInclusiveAncestorOf(Reference))
+            if (_candidate is not null)
             {
-                if (IsBeforeReference)
+                Adjust(parent, node, ref _candidate, ref _candidateBefore);
+            }
+        }
+
+        private void Adjust(Node parent, Node node, ref INode reference, ref Boolean beforeNode)
+        {
+            if (Root != node && node.IsInclusiveAncestorOf(reference))
+            {
+                if (beforeNode)
                 {
                     var next = Root.GetDescendants()
                         .SkipWhile(m => !Object.ReferenceEquals(m, node))
@@ -65,20 +78,20 @@ namespace AngleSharp.Dom
 
                     if (next is not null)
                     {
-                        _reference = next;
+                        reference = next;
                         return;
                     }
-                    
-                    _beforeNode = false;
+
+                    beforeNode = false;
                 }
 
                 if (node.PreviousSibling is null)
                 {
-                    _reference = parent;
+                    reference = parent;
                 }
                 else
                 {
-                    _reference = node.PreviousSibling.GetDescendantsAndSelf().Last();
+                    reference = node.PreviousSibling.GetDescendantsAndSelf().Last();
                 }
             }
         }
@@ -87,56 +100,60 @@ namespace AngleSharp.Dom
 
         #region Methods
 
-        public INode? Next()
+        public INode? Next() => Traverse(forward: true);
+
+        public INode? Previous() => Traverse(forward: false);
+
+        private INode? Traverse(Boolean forward)
         {
-            var node = _reference;
-            var beforeNode = _beforeNode;
-            
-            do
+            _candidate = _reference;
+            _candidateBefore = _beforeNode;
+
+            try
             {
-                if (!beforeNode)
+                while (true)
                 {
-                    node = _iterator.SkipWhile(m => !Object.ReferenceEquals(m, node)).Skip(1).FirstOrDefault();
-                }
+                    if (forward && !_candidateBefore)
+                    {
+                        var current = _candidate;
+                        var next = _iterator.SkipWhile(m => !Object.ReferenceEquals(m, current)).Skip(1).FirstOrDefault();
 
-                if (node is null)
-                {
-                    return null;
-                }
+                        if (next is null)
+                        {
+                            return null;
+                        }
 
-                beforeNode = false;
+                        _candidate = next;
+                    }
+                    else if (!forward && _candidateBefore)
+                    {
+                        var current = _candidate;
+                        var previous = _iterator.TakeWhile(m => !Object.ReferenceEquals(m, current)).LastOrDefault();
+
+                        if (previous is null)
+                        {
+                            return null;
+                        }
+
+                        _candidate = previous;
+                    }
+
+                    _candidateBefore = !forward;
+                    var node = _candidate;
+
+                    if (_settings.Accepts(node) && _filter.Invoke(node) == FilterResult.Accept)
+                    {
+                        // the filter may have removed the node, which moved the candidate
+                        _reference = _candidate;
+                        _beforeNode = _candidateBefore;
+                        return node;
+                    }
+                }
             }
-            while (!_settings.Accepts(node) || _filter.Invoke(node) != FilterResult.Accept);
-
-            _beforeNode = false;
-            _reference = node;
-            return node;
-        }
-
-        public INode? Previous()
-        {
-            var node = _reference;
-            var beforeNode = _beforeNode;
-
-            do
+            finally
             {
-                if (beforeNode)
-                {
-                    node = _iterator.TakeWhile(m => !Object.ReferenceEquals(m, node)).LastOrDefault();
-                }
-
-                if (node is null)
-                {
-                    return null;
-                }
-
-                beforeNode = true;
+                _candidate = null;
             }
-            while (!_settings.Accepts(node) || _filter(node) != FilterResult.Accept);
-
-            _beforeNode = true;
-            _reference = node;
-            return node;
         }
 
         #endregion

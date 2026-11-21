@@ -434,6 +434,109 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public async Task FailingToCreateADocumentPropagatesWithoutAnErrorHandler()
+        {
+            var config = Configuration.Default.WithOnly<IDocumentFactory>(CreateFailingFactory());
+            var context = BrowsingContext.New(config);
+
+            try
+            {
+                await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
+                Assert.Fail("The error should propagate.");
+            }
+            catch (FormatException)
+            {
+            }
+        }
+
+        [Test]
+        public async Task FailingToCreateADocumentIsGivenToTheErrorHandler()
+        {
+            var handler = new ErrorDocumentHandler();
+            var config = Configuration.Default.WithOnly<IDocumentFactory>(CreateFailingFactory()).With(handler);
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res => res.Content("").Address("http://localhost/doc.md").Header(HeaderNames.ContentType, "text/markdown"));
+            Assert.IsInstanceOf<FormatException>(handler.Error);
+            Assert.AreEqual("http://localhost/doc.md", handler.Address);
+            Assert.AreEqual("not markdown", document.Body.TextContent);
+        }
+
+        [Test]
+        public async Task FailingToCreateTheDocumentOfAFrameIsGivenToTheErrorHandler()
+        {
+            var handler = new ErrorDocumentHandler();
+            var config = Configuration.Default
+                .WithOnly<IDocumentFactory>(CreateFailingFactory())
+                .With(handler)
+                .WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true })
+                .With(new MarkdownRequester());
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res => res.Content("<iframe src='http://localhost/doc.md'></iframe>").Address("http://localhost/"));
+            var iframe = document.QuerySelector<IHtmlInlineFrameElement>("iframe");
+            await iframe.CurrentDownload.Task;
+            Assert.AreEqual("http://localhost/doc.md", handler.Address);
+            Assert.AreEqual("not markdown", iframe.ContentDocument.Body.TextContent);
+        }
+
+        [Test]
+        public async Task ErrorHandlerNotHandlingTheErrorLetsItPropagate()
+        {
+            var config = Configuration.Default.WithOnly<IDocumentFactory>(CreateFailingFactory()).With(new ErrorDocumentHandler { IsHandling = false });
+            var context = BrowsingContext.New(config);
+
+            try
+            {
+                await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
+                Assert.Fail("The error should propagate.");
+            }
+            catch (FormatException)
+            {
+            }
+        }
+
+        private static DefaultDocumentFactory CreateFailingFactory()
+        {
+            var factory = new DefaultDocumentFactory();
+            factory.Register("text/markdown", (ctx, options, _) => throw new FormatException("not markdown"));
+            return factory;
+        }
+
+        private sealed class ErrorDocumentHandler : IDocumentErrorHandler
+        {
+            public Boolean IsHandling { get; set; } = true;
+
+            public Exception Error { get; private set; }
+
+            public String Address { get; private set; }
+
+            public async Task<IDocument> HandleAsync(IBrowsingContext context, CreateDocumentOptions options, Exception error, System.Threading.CancellationToken cancellationToken)
+            {
+                Error = error;
+                Address = options.Response.Address.Href;
+
+                if (!IsHandling)
+                {
+                    return null;
+                }
+
+                var factory = context.GetFactory<IDocumentFactory>();
+                var response = VirtualResponse.Create(res => res.Address(options.Response.Address).Content(error.Message));
+                return await factory.CreateAsync(context, new CreateDocumentOptions(response, null, options.ImportAncestor), cancellationToken);
+            }
+        }
+
+        private sealed class MarkdownRequester : BaseRequester
+        {
+            public override Boolean SupportsProtocol(String protocol) => protocol == ProtocolNames.Http;
+
+            protected override Task<IResponse> PerformRequestAsync(Request request, System.Threading.CancellationToken cancel)
+            {
+                var response = VirtualResponse.Create(res => res.Address(request.Address).Content("# title").Header(HeaderNames.ContentType, "text/markdown"));
+                return Task.FromResult(response);
+            }
+        }
+
+        [Test]
         public async Task LoadingResourcesFromAStreamShouldNotFail()
         {
             if (Helper.IsNetworkAvailable())
