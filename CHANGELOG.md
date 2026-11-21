@@ -2,6 +2,7 @@
 
 Released on tbd.
 
+- Improved performance of parsing CSS selectors, cutting 15-25% of the time and up to a quarter of the allocations
 - Fixed `click()` dispatching its `click` event later instead of before it returns
 - Fixed `click()` on a checkbox or radio button not checking it (and not firing `input` and `change`)
 - Fixed `stopPropagation()` in a capturing listener of an element still running its bubbling listeners

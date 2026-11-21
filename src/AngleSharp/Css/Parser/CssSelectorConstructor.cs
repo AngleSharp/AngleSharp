@@ -65,7 +65,12 @@ namespace AngleSharp.Css.Parser
 #endif
 
         private readonly CssTokenizer _tokenizer = tokenizer;
-        private readonly Stack<CssCombinator> _combinators = new Stack<CssCombinator>();
+        // The combinators seen since the last compound. Only what GetCombinator needs is kept
+        // rather than a stack of them, which cost two allocations per constructor - and every
+        // nested function has its own constructor. Null when none is pending.
+        private CssCombinator? _combinator;
+        private CssCombinator? _lastCombinator;
+        private Boolean _combinatorConflict;
         private readonly IAttributeSelectorFactory _attributeSelector = attributeSelector;
         private readonly IPseudoElementSelectorFactory _pseudoElementSelector = pseudoElementSelector;
         private readonly IPseudoClassSelectorFactory _pseudoClassSelector = pseudoClassSelector;
@@ -489,7 +494,7 @@ namespace AngleSharp.Css.Parser
         {
             if (_temp is not null)
             {
-                if (_combinators.Count == 0)
+                if (_combinator is null)
                 {
                     if (_temp is not CompoundSelector compound)
                     {
@@ -510,36 +515,43 @@ namespace AngleSharp.Css.Parser
             }
             else
             {
-                _combinators.Clear();
+                ClearCombinators();
                 _temp = selector;
             }
         }
 
         private CssCombinator GetCombinator()
         {
-            //Remove all trailing whitespaces
-            while (_combinators.Count > 1 && _combinators.Peek() == CssCombinator.Descendant)
-            {
-                _combinators.Pop();
-            }
-
-            if (_combinators.Count > 1)
-            {
-                var last = _combinators.Pop();
-
-                //Remove all leading whitespaces, invalid if mixed
-                while (_combinators.Count > 0)
-                {
-                    _valid = _combinators.Pop() == CssCombinator.Descendant && _valid;
-                }
-
-                return last;
-            }
-
-            return _combinators.Pop();
+            // Whitespace around a combinator is insignificant, so the pending ones mean the one
+            // that is not a descendant (whitespace) combinator, or a descendant combinator if
+            // all are; more than one other kind, e.g. "a > + b", is invalid.
+            var combinator = _combinator!;
+            _valid = _valid && !_combinatorConflict;
+            ClearCombinators();
+            return combinator;
         }
 
-        private void Insert(CssCombinator cssCombinator) => _combinators.Push(cssCombinator);
+        private void Insert(CssCombinator cssCombinator)
+        {
+            if (cssCombinator != CssCombinator.Descendant)
+            {
+                _combinatorConflict = _combinatorConflict || (_combinator is not null && _combinator != CssCombinator.Descendant);
+                _combinator = cssCombinator;
+            }
+            else
+            {
+                _combinator ??= cssCombinator;
+            }
+
+            _lastCombinator = cssCombinator;
+        }
+
+        private void ClearCombinators()
+        {
+            _combinator = null;
+            _lastCombinator = null;
+            _combinatorConflict = false;
+        }
 
         #endregion
 
@@ -575,7 +587,7 @@ namespace AngleSharp.Css.Parser
                     break;
 
                 case Symbols.Pipe:
-                    if (_combinators.Count > 0 && _combinators.Peek() == CssCombinator.Descendant)
+                    if (_lastCombinator == CssCombinator.Descendant)
                     {
                         Insert(new TypeSelector(String.Empty));
                     }
@@ -695,13 +707,13 @@ namespace AngleSharp.Css.Parser
             public override ISelector? Produce()
             {
                 var valid = _selector.IsValid;
-                var sel = _selector.GetResult();
+                // Only null for an invalid argument
+                var sel = _selector.GetResult()!;
 
                 if (valid)
                 {
-                    var code = PseudoClassNames.Not.CssFunction(sel!.Text);
                     var specificity = ResolveMostSpecificParameter(sel);
-                    return new PseudoClassSelector(el => !sel.Match(el), code, specificity);
+                    return new PseudoClassSelector(el => !sel.Match(el), PseudoClassNames.Not, sel, specificity);
                 }
 
                 return null;
@@ -744,14 +756,13 @@ namespace AngleSharp.Css.Parser
                 }
 
                 var sel = _nested.GetResult()!;
-                var selText = sel.Text;
-                var anchored = _matchSiblings || selText.Contains(":" + PseudoClassNames.Scope);
-                var code = PseudoClassNames.Has.CssFunction(selText);
+                // Serializing the argument is only needed when no leading combinator decided it
+                var anchored = _matchSiblings || sel.Text.Contains(":" + PseudoClassNames.Scope);
                 var specificity = sel is ListSelector list && list.Length == 0
                     ? Priority.Zero
                     : ResolveMostSpecificParameter(sel);
 
-                return new HasSelector(sel, code, specificity, anchored);
+                return new HasSelector(sel, specificity, anchored);
             }
         }
 
@@ -781,15 +792,15 @@ namespace AngleSharp.Css.Parser
             public override ISelector? Produce()
             {
                 var valid = _selector.IsValid;
-                var sel = _selector.GetResult();
+                // Only null for an invalid argument
+                var sel = _selector.GetResult()!;
 
                 if (valid)
                 {
-                    var code = Name.CssFunction(sel!.Text);
                     var specificity = sel is ListSelector list && list.Length == 0
                         ? Priority.Zero
                         : DecideSpecificity(sel);
-                    return new PseudoClassSelector(sel.Match, code, specificity);
+                    return new PseudoClassSelector(sel.Match, Name, sel, specificity);
                 }
 
                 return null;
@@ -1027,11 +1038,11 @@ namespace AngleSharp.Css.Parser
             public override ISelector? Produce()
             {
                 var valid = _selector.IsValid;
-                var sel = _selector.GetResult();
+                // Only null for an invalid argument
+                var sel = _selector.GetResult()!;
 
                 if (valid)
                 {
-                    var code = PseudoClassNames.HostContext.CssFunction(sel!.Text);
                     return new PseudoClassSelector(el =>
                     {
                         var shadowRoot = el.Parent as IShadowRoot;
@@ -1048,7 +1059,7 @@ namespace AngleSharp.Css.Parser
                         }
 
                         return false;
-                    }, code);
+                    }, PseudoClassNames.HostContext, sel);
                 }
 
                 return null;
@@ -1077,12 +1088,12 @@ namespace AngleSharp.Css.Parser
             public override ISelector? Produce()
             {
                 var valid = _selector.IsValid;
-                var sel = _selector.GetResult();
+                // Only null for an invalid argument
+                var sel = _selector.GetResult()!;
 
                 if (valid)
                 {
-                    var code = PseudoClassNames.Host.CssFunction(sel!.Text);
-                    return new PseudoClassSelector((el, scope) => Object.ReferenceEquals(el, scope) && el.ShadowRoot is not null && sel.Match(el, scope), code);
+                    return new PseudoClassSelector((el, scope) => Object.ReferenceEquals(el, scope) && el.ShadowRoot is not null && sel.Match(el, scope), PseudoClassNames.Host, sel);
                 }
 
                 return null;

@@ -40,6 +40,62 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreNotSame(first, second);
         }
 
+        [TestCase(".foo\\:bar", "<p class='foo:bar'></p>")]
+        [TestCase("#a\\31 b", "<p id='a1b'></p>")]
+        [TestCase("#-x\\79", "<p id='-xy'></p>")]
+        [TestCase("p\\.q", "<p.q></p.q>")]
+        [TestCase(".-x\\79 z", "<p class='-xyz'></p>")]
+        [TestCase("p:not(.a\\62 c)", "<p class='abc'></p><p></p>")]
+        [TestCase("[da\\74 a-x]", "<p data-x></p>")]
+        public void ParseSelector_WithEscapeAfterPlainPrefix_KeepsWholeName(String text, String html)
+        {
+            // Names are cut out of the selector text until an escape forces a copy, so the
+            // part before the escape has to carry over into the copied name.
+            var document = html.ToHtmlDocument();
+
+            var selector = new CssSelectorParser().ParseSelector(text);
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(1, document.QuerySelectorAll(text).Length);
+        }
+
+        [TestCase("div p", "div p")]
+        [TestCase("div   >   p", "div>p")]
+        [TestCase(" div > p", "div>p")]
+        [TestCase("div >p ~ a", "div>p~a")]
+        [TestCase("div\t+\np", "div+p")]
+        [TestCase("div > + p", null)]
+        [TestCase("div ~ > p", null)]
+        [TestCase("div >> > p", "div>p")]
+        [TestCase("div>>p", "div p")]
+        public void ParseSelector_WithCombinatorsAndWhitespace_UsesSingleCombinator(String text, String expected)
+        {
+            // Whitespace around a combinator is insignificant, and so is ">>" (the descendant
+            // combinator spelled out); two other combinators in a row are invalid
+            var selector = new CssSelectorParser().ParseSelector(text);
+
+            Assert.AreEqual(expected, selector?.Text);
+        }
+
+        [TestCase(":not(.a, .b)")]
+        [TestCase(":is(div, p).c")]
+        [TestCase("li:has(:scope>a.c)")]
+        [TestCase("body :has(.c):first-child")]
+        [TestCase(":where(:is(nav, header) :not(.c)>a)")]
+        [TestCase(":is(:not(.a), :where(.c>p))")]
+        [TestCase(":host(.a)")]
+        public void ParseSelector_WithFunctionalPseudoClass_SerializesArgument(String text)
+        {
+            // The text of a function is only built when first read, from its parsed argument
+            var parser = new CssSelectorParser();
+
+            var selector = parser.ParseSelector(text);
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(text, selector!.Text);
+            Assert.AreEqual(text, parser.ParseSelector(selector.Text)!.Text);
+        }
+
         [Test]
         public void ParseSelector_WithHostPseudoClass_ReturnsSelector()
         {

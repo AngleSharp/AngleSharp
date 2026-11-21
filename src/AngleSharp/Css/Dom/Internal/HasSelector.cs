@@ -2,6 +2,7 @@ namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Buffers;
 
@@ -24,7 +25,8 @@ namespace AngleSharp.Css.Dom
         private const Int32 InitialDepth = 16;
 
         private readonly ISelector _selector;
-        private readonly String _code;
+        // Built on first read, as for PseudoClassSelector
+        private String? _code;
         private readonly HasReach _reach;
         private readonly Int32 _maxDepth;
         private readonly Boolean _nextSiblingOnly;
@@ -33,10 +35,9 @@ namespace AngleSharp.Css.Dom
 
         #region ctor
 
-        public HasSelector(ISelector selector, String code, Priority specificity, Boolean anchored)
+        public HasSelector(ISelector selector, Priority specificity, Boolean anchored)
         {
             _selector = selector;
-            _code = code;
             Specificity = specificity;
             _maxDepth = Unbounded;
 
@@ -57,13 +58,15 @@ namespace AngleSharp.Css.Dom
 
         public Priority Specificity { get; }
 
-        public String Text => PseudoClassNames.Separator + _code;
+        public String Text => PseudoClassNames.Separator + Code;
+
+        private String Code => _code ??= PseudoClassNames.Has.CssFunction(_selector.Text);
 
         #endregion
 
         #region Methods
 
-        public void Accept(ISelectorVisitor visitor) => visitor.PseudoClass(_code);
+        public void Accept(ISelectorVisitor visitor) => visitor.PseudoClass(Code);
 
         public Boolean Match(IElement element, IElement? scope)
         {
