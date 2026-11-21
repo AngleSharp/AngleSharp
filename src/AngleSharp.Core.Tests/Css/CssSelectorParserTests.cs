@@ -77,6 +77,22 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(expected, selector?.Text);
         }
 
+        [TestCase("p:NOT(.a)", ":not(.a)")]
+        [TestCase("p:Is(.b)", ":is(.b)")]
+        [TestCase("p:nth-CHILD(1)", ":nth-child(0n+1)")]
+        public void ParseSelector_WithFunctionNameInOtherCase_IsStillKnown(String text, String part)
+        {
+            // Known function names come from a table matched exactly; any other spelling is
+            // sliced from the text and still resolved case-insensitively.
+            var document = "<p class='a'></p><p class='b'></p>".ToHtmlDocument();
+
+            var selector = new CssSelectorParser().ParseSelector(text);
+
+            Assert.NotNull(selector);
+            Assert.AreEqual(1, document.QuerySelectorAll(text).Length);
+            StringAssert.Contains(part, selector!.Text);
+        }
+
         [TestCase(":not(.a, .b)")]
         [TestCase(":is(div, p).c")]
         [TestCase("li:has(:scope>a.c)")]

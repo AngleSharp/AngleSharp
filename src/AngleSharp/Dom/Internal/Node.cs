@@ -23,6 +23,12 @@ namespace AngleSharp.Dom
         private NodeList _children;
         private Document? _owner;
 
+        // Where this node was last seen in a NodeList (in practice its parent's children); see
+        // NodeList.Index. Never trusted without checking that slot, so a mutation only costs
+        // the next lookup one scan rather than needing any upkeep. 16 bits fill the padding
+        // the type and flags leave, so a node is no larger for it.
+        internal UInt16 IndexHint;
+
         // See CloneChildren; real documents rarely nest deeper than 40 levels
         private const Int32 MaximumCloneRecursion = 64;
 
@@ -149,14 +155,11 @@ namespace AngleSharp.Dom
             {
                 if (_parent is not null)
                 {
-                    var n = _parent._children.Length;
+                    var index = _parent._children.Index(this);
 
-                    for (var i = 1; i < n; i++)
+                    if (index > 0)
                     {
-                        if (Object.ReferenceEquals(_parent._children[i], this))
-                        {
-                            return _parent._children[i - 1];
-                        }
+                        return _parent._children[index - 1];
                     }
                 }
 
@@ -170,14 +173,12 @@ namespace AngleSharp.Dom
             {
                 if (_parent is not null)
                 {
-                    var n = _parent._children.Length - 1;
+                    var children = _parent._children;
+                    var index = children.Index(this);
 
-                    for (var i = 0; i < n; i++)
+                    if (index >= 0 && index < children.Length - 1)
                     {
-                        if (Object.ReferenceEquals(_parent._children[i], this))
-                        {
-                            return _parent._children[i + 1];
-                        }
+                        return children[index + 1];
                     }
                 }
 

@@ -837,7 +837,9 @@ namespace AngleSharp.Dom
         public static Boolean IsOnlyChild(this IElement element)
         {
             var parent = element.ParentElement;
-            return parent != null && parent.ChildElementCount == 1 && parent.FirstElementChild == element;
+
+            // Not ChildElementCount == 1: that counts every child, for each one tested
+            return parent != null && parent.FirstElementChild == element && parent.LastElementChild == element;
         }
 
         /// <summary>

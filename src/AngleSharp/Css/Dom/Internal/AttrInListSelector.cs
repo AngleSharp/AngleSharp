@@ -22,8 +22,38 @@ namespace AngleSharp.Css.Dom
         {
             if (!String.IsNullOrEmpty(_value))
             {
-                var actual = element.GetAttribute(Name) ?? String.Empty;
-                return actual.SplitSpaces().Contains(_value, Comparison);
+                var actual = element.GetAttribute(Name);
+                return actual is not null && ContainsToken(actual, _value, Comparison);
+            }
+
+            return false;
+        }
+
+        // The same as actual.SplitSpaces().Contains(value), which allocated an array and a
+        // string per token for every element tested
+        private static Boolean ContainsToken(String list, String value, StringComparison comparison)
+        {
+            var i = 0;
+            var n = list.Length;
+
+            while (i < n)
+            {
+                while (i < n && list[i].IsSpaceCharacter())
+                {
+                    i++;
+                }
+
+                var start = i;
+
+                while (i < n && !list[i].IsSpaceCharacter())
+                {
+                    i++;
+                }
+
+                if (i - start == value.Length && list.AsSpan(start, i - start).Equals(value.AsSpan(), comparison))
+                {
+                    return true;
+                }
             }
 
             return false;

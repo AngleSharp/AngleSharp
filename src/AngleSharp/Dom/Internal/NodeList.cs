@@ -67,6 +67,7 @@ namespace AngleSharp.Dom
                 }
 
                 _items[_start + index] = value;
+                Remember(value, index);
                 _version++;
             }
         }
@@ -87,6 +88,15 @@ namespace AngleSharp.Dom
             get => _count;
         }
 
+        /// <summary>
+        /// Gets a number that changes whenever the list does, for anything derived from it.
+        /// </summary>
+        internal Int32 Version
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _version;
+        }
+
         #endregion
 
         #region Internal Methods
@@ -102,6 +112,7 @@ namespace AngleSharp.Dom
             }
 
             _items[end] = node;
+            Remember(node, _count);
             _count++;
             _version++;
         }
@@ -149,6 +160,7 @@ namespace AngleSharp.Dom
             }
 
             _items[_start + index] = node;
+            Remember(node, index);
             _count++;
             _version++;
         }
@@ -196,32 +208,54 @@ namespace AngleSharp.Dom
 
         /// <summary>
         /// Gets the index of the given node, or -1. Shadows the IEnumerable extension, which
-        /// boxes an enumerator, and answers for the last entry first: removing from the end
-        /// is the usual way to empty a node and would otherwise scan the whole list each time.
+        /// boxes an enumerator, and answers from the node's IndexHint first, then for the last
+        /// entry: removing from the end is the usual way to empty a node and would otherwise
+        /// scan the whole list each time.
         /// </summary>
         internal Int32 Index(INode? node)
         {
             var last = _count - 1;
 
-            // A null reference child is how an append asks, so it must not cost a scan.
-            if (node is null)
+            // A null reference child is how an append asks, so it must not cost a scan; any
+            // other INode cannot be among the items, which are Nodes.
+            if (node is not Node n)
             {
                 return -1;
             }
-            else if (last >= 0 && Object.ReferenceEquals(_items[_start + last], node))
+
+            // Exact unless the list changed since the node was added or last looked up
+            var hint = n.IndexHint;
+
+            if (hint <= last && Object.ReferenceEquals(_items[_start + hint], n))
             {
+                return hint;
+            }
+            else if (last >= 0 && Object.ReferenceEquals(_items[_start + last], n))
+            {
+                Remember(n, last);
                 return last;
             }
 
             for (var i = 0; i < last; i++)
             {
-                if (Object.ReferenceEquals(_items[_start + i], node))
+                if (Object.ReferenceEquals(_items[_start + i], n))
                 {
+                    Remember(n, i);
                     return i;
                 }
             }
 
             return -1;
+        }
+
+        // Benign under races: a hint is only ever a guess that Index verifies.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void Remember(Node node, Int32 index)
+        {
+            if (index < UInt16.MaxValue)
+            {
+                node.IndexHint = (UInt16)index;
+            }
         }
 
         #endregion

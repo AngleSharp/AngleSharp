@@ -148,25 +148,15 @@ namespace AngleSharp.Dom
                 if (parent is not null)
                 {
                     var children = parent.ChildNodes;
-                    var found = false;
 
-                    // Scanning backwards matters: the preceding element sibling is usually
-                    // right next to this node, so the loop normally ends shortly after the
-                    // node is located. A forward scan would always pay the full prefix.
-                    for (var i = children.Length - 1; i >= 0; i--)
+                    // Index answers from the node's hint, so only the gap to the sibling is walked
+                    for (var i = children.Index(this) - 1; i >= 0; i--)
                     {
                         var node = children[i];
 
-                        if (found)
+                        if (node.NodeType == NodeType.Element)
                         {
-                            if (node.NodeType == NodeType.Element)
-                            {
-                                return (Element)node;
-                            }
-                        }
-                        else if (Object.ReferenceEquals(node, this))
-                        {
-                            found = true;
+                            return (Element)node;
                         }
                     }
                 }
@@ -186,22 +176,19 @@ namespace AngleSharp.Dom
                 {
                     var children = parent.ChildNodes;
                     var n = children.Length;
-                    var found = false;
+                    var index = children.Index(this);
 
-                    for (var i = 0; i < n; i++)
+                    // As above; a child is always found, so index is never -1 here
+                    if (index >= 0)
                     {
-                        var node = children[i];
-
-                        if (found)
+                        for (var i = index + 1; i < n; i++)
                         {
+                            var node = children[i];
+
                             if (node.NodeType == NodeType.Element)
                             {
                                 return (Element)node;
                             }
-                        }
-                        else if (Object.ReferenceEquals(node, this))
-                        {
-                            found = true;
                         }
                     }
                 }

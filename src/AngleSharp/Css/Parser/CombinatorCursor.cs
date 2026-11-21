@@ -186,22 +186,14 @@ namespace AngleSharp.Css.Parser
             {
                 _started = true;
 
-                // Walking PreviousElementSibling repeatedly is quadratic, since each step
-                // has to locate the element in its parent again. Scan the child list once
-                // and then walk it backwards by index.
+                // Walking PreviousElementSibling repeatedly would locate the element in its
+                // parent again on every step. Locate it once (from its index hint) and then
+                // walk the child list backwards by index.
                 if (_source is Node node && node.Parent is Node parent)
                 {
                     var children = parent.ChildNodes;
                     _siblings = children;
-
-                    for (var i = 0; i < children.Length; i++)
-                    {
-                        if (Object.ReferenceEquals(children[i], node))
-                        {
-                            _index = i;
-                            break;
-                        }
-                    }
+                    _index = Math.Max(children.Index(node), 0);
                 }
                 else
                 {

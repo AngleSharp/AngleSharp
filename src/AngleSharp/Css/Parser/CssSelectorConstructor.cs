@@ -64,6 +64,10 @@ namespace AngleSharp.Css.Parser
         private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoElementFunctions = _pseudoElementFunctionsDict;
 #endif
 
+        // Every name either dictionary knows, so the tokenizer can hand out these strings for a
+        // function token instead of allocating a name that is only looked up and dropped.
+        private static readonly String[] _functionNames = [.. _pseudoClassFunctionsDict.Keys, .. _pseudoElementFunctionsDict.Keys];
+
         private readonly CssTokenizer _tokenizer = tokenizer;
         // The combinators seen since the last compound. Only what GetCombinator needs is kept
         // rather than a stack of them, which cost two allocations per constructor - and every
@@ -96,6 +100,24 @@ namespace AngleSharp.Css.Parser
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the known function name spelled exactly as given, if any.
+        /// </summary>
+        internal static String? FindFunctionName(ReadOnlySpan<Char> name)
+        {
+            var names = _functionNames;
+
+            for (var i = 0; i < names.Length; i++)
+            {
+                if (names[i].Length == name.Length && name.SequenceEqual(names[i].AsSpan()))
+                {
+                    return names[i];
+                }
+            }
+
+            return null;
+        }
 
         public Boolean IsValid => _invoked && _valid && _ready;
 
@@ -677,10 +699,29 @@ namespace AngleSharp.Css.Parser
 
             protected abstract Boolean OnToken(CssSelectorToken token);
 
-            protected Priority ResolveMostSpecificParameter(ISelector parameter) =>
-                parameter is ListSelector list
-                    ? list.Max(x => x.Specificity)
-                    : parameter.Specificity;
+            protected Priority ResolveMostSpecificParameter(ISelector parameter)
+            {
+                if (parameter is ListSelector list)
+                {
+                    // Not LINQ's Max: that boxes the list's enumerator for every function parsed.
+                    // Callers rule out an empty list, on which Max threw.
+                    var max = list.Length > 0 ? list[0].Specificity : Priority.Zero;
+
+                    for (var i = 1; i < list.Length; i++)
+                    {
+                        var specificity = list[i].Specificity;
+
+                        if (specificity > max)
+                        {
+                            max = specificity;
+                        }
+                    }
+
+                    return max;
+                }
+
+                return parameter.Specificity;
+            }
         }
 
         private sealed class NotFunctionState : FunctionState
@@ -713,7 +754,7 @@ namespace AngleSharp.Css.Parser
                 if (valid)
                 {
                     var specificity = ResolveMostSpecificParameter(sel);
-                    return new PseudoClassSelector(el => !sel.Match(el), PseudoClassNames.Not, sel, specificity);
+                    return new ArgumentPseudoClassSelector(PseudoClassNames.Not, sel, specificity, negate: true);
                 }
 
                 return null;
@@ -722,6 +763,8 @@ namespace AngleSharp.Css.Parser
 
         private sealed class HasFunctionState(CssSelectorConstructor parent) : FunctionState
         {
+            private static readonly String ScopeText = PseudoClassNames.Separator + PseudoClassNames.Scope;
+
             private readonly CssSelectorConstructor _nested = parent.CreateChild(true);
             private Boolean _firstToken = true;
             private Boolean _matchSiblings = false;
@@ -757,7 +800,7 @@ namespace AngleSharp.Css.Parser
 
                 var sel = _nested.GetResult()!;
                 // Serializing the argument is only needed when no leading combinator decided it
-                var anchored = _matchSiblings || sel.Text.Contains(":" + PseudoClassNames.Scope);
+                var anchored = _matchSiblings || sel.Text.Contains(ScopeText);
                 var specificity = sel is ListSelector list && list.Length == 0
                     ? Priority.Zero
                     : ResolveMostSpecificParameter(sel);
@@ -800,7 +843,7 @@ namespace AngleSharp.Css.Parser
                     var specificity = sel is ListSelector list && list.Length == 0
                         ? Priority.Zero
                         : DecideSpecificity(sel);
-                    return new PseudoClassSelector(sel.Match, Name, sel, specificity);
+                    return new ArgumentPseudoClassSelector(Name, sel, specificity, negate: false);
                 }
 
                 return null;

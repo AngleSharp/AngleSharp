@@ -611,7 +611,7 @@ namespace AngleSharp.Css.Parser
 
             if (current == Symbols.RoundBracketOpen)
             {
-                var name = Slice(start);
+                var name = CssSelectorConstructor.FindFunctionName(_source.Content.AsSpan(start, _source.Index - start)) ?? Slice(start);
 
                 if (name.Isi(Keywords.Url))
                 {
