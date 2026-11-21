@@ -42,8 +42,7 @@ namespace AngleSharp.Io.Processors
             var context = new BrowsingContext(_context, Sandboxes.None, false);
             var encoding = _context.GetDefaultEncoding();
             var options = new CreateDocumentOptions(response, encoding, _parentDocument);
-            var factory = _context.GetFactory<IDocumentFactory>();
-            ChildDocument = await factory.CreateAsync(context, options, CancellationToken.None).ConfigureAwait(false);
+            ChildDocument = await context.CreateDocumentAsync(options, CancellationToken.None).ConfigureAwait(false);
         }
 
         #endregion

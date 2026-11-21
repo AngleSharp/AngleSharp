@@ -16,6 +16,7 @@ Released on tbd.
 - Fixed ranges being changed by splitting, normalizing or editing text as if set by script (`splitText` also moved the start where the end belonged)
 - Fixed a `NodeIterator` returning the wrong node after its filter removed the node it looked at
 - Fixed `createElementNS` accepting qualified names with an empty prefix or local name (e.g. `:div`)
+- Added `IDocumentErrorHandler` services, which may provide a document when creating one from a response failed (e.g. to show the error)
 
 # 1.10.5
 
