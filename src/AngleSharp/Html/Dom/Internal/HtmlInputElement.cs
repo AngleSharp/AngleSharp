@@ -296,7 +296,7 @@ namespace AngleSharp.Html.Dom
             return node;
         }
 
-        internal override async Task ClickAsync()
+        internal override async Task ClickAsync(Boolean immediate)
         {
             // the legacy-pre-activation behavior: a checkbox or radio button is checked before
             // the listeners see the click, and goes back if one of them cancels it
@@ -315,7 +315,7 @@ namespace AngleSharp.Html.Dom
                 IsChecked = true;
             }
 
-            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
+            var cancelled = await IsClickedCancelled(immediate).ConfigureAwait(false);
 
             if (isCheckbox || isRadio)
             {

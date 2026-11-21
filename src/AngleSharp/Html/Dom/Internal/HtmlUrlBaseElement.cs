@@ -163,9 +163,9 @@ namespace AngleSharp.Html.Dom
         /// <returns>The value of the href property.</returns>
         public override String ToString() => Href;
 
-        internal override async Task ClickAsync()
+        internal override async Task ClickAsync(Boolean immediate)
         {
-            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
+            var cancelled = await IsClickedCancelled(immediate).ConfigureAwait(false);
 
             if (!cancelled)
             {

@@ -18,7 +18,6 @@ namespace AngleSharp.Html.Dom
         private StringMap? _dataset;
         private IHtmlMenuElement? _menu;
         private SettableTokenList? _dropZone;
-        private Boolean _isClickingSynchronously;
 
         #endregion
 
@@ -652,7 +651,7 @@ namespace AngleSharp.Html.Dom
         /// Fires the click event and, unless a listener canceled it, runs the element's
         /// activation behavior (navigation, form submission, ...).
         /// </summary>
-        internal virtual Task ClickAsync() => IsClickedCancelled();
+        internal virtual Task ClickAsync(Boolean immediate) => IsClickedCancelled(immediate);
 
         private Boolean HasValidTabIndex()
         {
@@ -672,9 +671,7 @@ namespace AngleSharp.Html.Dom
             {
                 // click() dispatches the event synchronously (a script sees its listeners run
                 // before click() returns), the activation behavior may continue later
-                _isClickingSynchronously = true;
-                var task = ClickAsync();
-                _isClickingSynchronously = false;
+                var task = ClickAsync(true);
                 await task.ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -684,11 +681,10 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        protected Task<Boolean> IsClickedCancelled()
+        protected Task<Boolean> IsClickedCancelled(Boolean immediate)
         {
-            if (_isClickingSynchronously)
+            if (immediate)
             {
-                _isClickingSynchronously = false;
                 return Task.FromResult(FireClick());
             }
 
