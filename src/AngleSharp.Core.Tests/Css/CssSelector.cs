@@ -153,6 +153,22 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(2, result.Length);
         }
 
+        [TestCase("n-1", 5)]
+        [TestCase("N-1", 5)]
+        [TestCase("-n-1", 0)]
+        [TestCase("n- 2", 5)]
+        [TestCase("+n- 1", 5)]
+        [TestCase("2n+ 1", 3)]
+        [TestCase("2n- 1", 3)]
+        [TestCase("-n+ 3", 3)]
+        public void NthChildWithDashedNOrSignBeforeWhitespace(String formula, Int32 count)
+        {
+            var document = "<ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul>".ToHtmlDocument();
+            var result = RunQuery(document, $"li:nth-child({formula})");
+
+            Assert.AreEqual(count, result.Length);
+        }
+
         [Test]
         public void NthChildWithOfSyntax()
         {
