@@ -1,6 +1,7 @@
 namespace AngleSharp.Core.Tests.Library;
 
 using System;
+using System.Buffers;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -72,7 +73,33 @@ public sealed class ReadOnlyByteTextSourceTests
         Assert.That(source.CurrentEncoding, Is.EqualTo(Encoding.UTF8));
         Assert.That(source.Text, Is.EqualTo("abcé"));
     }
+
+    [Test]
+    public void MemoryReadBeforeRedecodeKeepsItsContent()
+    {
+        var bytes = Bytes("abcdef");
+        using var source = new ReadOnlyByteTextSource(bytes);
+        var memory = source.ReadMemory(3);
+
+        source.CurrentEncoding = Encoding.Latin1;
+        OverwriteNextRental(Encoding.UTF8.GetMaxCharCount(bytes.Length));
+
+        Assert.That(memory.ToString(), Is.EqualTo("abc"));
+    }
 #endif
+
+    [Test]
+    public void MemoryReadBeforeDisposeKeepsItsContent()
+    {
+        var bytes = Bytes("<title>original</title>");
+        var source = new ReadOnlyByteTextSource(bytes);
+        var memory = source.ReadMemory(15);
+
+        source.Dispose();
+        OverwriteNextRental(Encoding.UTF8.GetMaxCharCount(bytes.Length));
+
+        Assert.That(memory.ToString(), Is.EqualTo("<title>original"));
+    }
 
     [Test]
     public void ParserOverloadHonorsReadOnlyMemorySliceAndByteOrderMark()
@@ -140,6 +167,10 @@ public sealed class ReadOnlyByteTextSourceTests
         Assert.That(actual.ToHtml(), Is.EqualTo(expected.ToHtml()));
         Assert.That(actual.CharacterSet, Is.EqualTo(expected.CharacterSet));
     }
+
+    // The array a source just returned to the pool is the next one this thread rents at that size.
+    private static void OverwriteNextRental(Int32 length) =>
+        ArrayPool<Char>.Shared.Rent(length).AsSpan().Fill('X');
 
     private static Byte[] Bytes(params Object[] parts)
     {

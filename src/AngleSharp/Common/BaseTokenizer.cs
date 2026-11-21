@@ -17,6 +17,7 @@ namespace AngleSharp.Common
         private readonly Stack<UInt16> _columns;
 
         private readonly IReadOnlyTextSource _source;
+        private readonly IPooledTextSource? _pooled;
         private readonly CharArrayTextSource? _cats;
         private readonly ReadOnlyMemoryTextSource? _roms;
 
@@ -54,6 +55,7 @@ namespace AngleSharp.Common
             }
 
             _source = source.GetUnderlyingTextSource();
+            _pooled = _source as IPooledTextSource;
 
             if (_source is CharArrayTextSource cats)
             {
@@ -258,13 +260,17 @@ namespace AngleSharp.Common
         /// <summary>
         /// Will try to get the reference to the memory or will create new string formed by the next characters.
         /// </summary>
+        /// <remarks>
+        /// The result may be a slice of the source's buffer, valid only until the tokenizer reads on.
+        /// </remarks>
         /// <param name="length">The length of the string.</param>
         /// <returns>The upcoming string.</returns>
         protected StringOrMemory PeekStringFast(Int32 length)
         {
             var mark = _source.Index;
             _source.Index--;
-            var content = _source.ReadMemory(length);
+            // A pooled source copies in ReadMemory; the peek is compared and dropped, so take the slice.
+            var content = _pooled is not null ? _pooled.ReadPooledMemory(length) : _source.ReadMemory(length);
             _source.Index = mark;
             return content;
         }

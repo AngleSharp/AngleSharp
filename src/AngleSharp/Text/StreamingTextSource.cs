@@ -15,7 +15,7 @@ using Common;
 /// This source preserves a small lookback window for tokenizer reconsumption. Automatic mode additionally retains
 /// a provisional 1024-byte prefix so the existing parser restart path can change encoding before the source freezes.
 /// </remarks>
-internal sealed class StreamingTextSource : IReadOnlyTextSource
+internal sealed class StreamingTextSource : IReadOnlyTextSource, IPooledTextSource
 {
     private const Int32 DefaultBufferSize = 4096;
     private const Int32 DefaultLookback = 64;
@@ -235,7 +235,13 @@ internal sealed class StreamingTextSource : IReadOnlyTextSource
     }
 
     /// <inheritdoc />
-    public StringOrMemory ReadMemory(Int32 characters)
+    /// <remarks>
+    /// Returns a copy: the characters live in a pooled window that later reads overwrite and
+    /// <see cref="Dispose"/> gives back to the pool.
+    /// </remarks>
+    public StringOrMemory ReadMemory(Int32 characters) => new(ReadCharacters(characters));
+
+    StringOrMemory IPooledTextSource.ReadPooledMemory(Int32 characters)
     {
         if (characters < 0)
         {
