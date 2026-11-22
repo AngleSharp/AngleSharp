@@ -157,6 +157,21 @@ namespace AngleSharp.Html.Dom
         /// More information available at:
         /// http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script
         /// </summary>
+        // what is in a template (also while the parser has it on the template) belongs to its
+        // inert contents, which never run scripts (HTML 4.12.3)
+        private Boolean IsInTemplate()
+        {
+            for (var node = Parent; node is not null; node = node.Parent)
+            {
+                if (node is IHtmlTemplateElement || node is DocumentFragment { TemplateHost: not null })
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         internal Boolean Prepare(Document document)
         {
             var eventAttr = this.GetOwnAttribute(AttributeNames.Event);
@@ -164,7 +179,7 @@ namespace AngleSharp.Html.Dom
             var src = Source;
             var wasParserInserted = _parserInserted;
 
-            if (_started)
+            if (_started || IsInTemplate())
             {
                 return false;
             }

@@ -159,6 +159,12 @@ namespace AngleSharp.Html.Parser
         public Boolean IsFragmentCase => _fragmentContext is not null;
 
         /// <summary>
+        /// Gets or sets if parsing a fragment on this thread creates declarative shadow roots.
+        /// </summary>
+        [ThreadStatic]
+        internal static Boolean AllowsDeclarativeShadowRoots;
+
+        /// <summary>
         /// Gets the adjusted current node.
         /// </summary>
         public IConstructableElement? AdjustedCurrentNode =>
@@ -3051,8 +3057,9 @@ namespace AngleSharp.Html.Parser
 
                 if (currentNode is IConstructableTemplateElement template)
                 {
-                    // fragment parsing (e.g. innerHTML) does not create declarative shadow roots
-                    if (IsFragmentCase || currentNode is not HtmlTemplateElement declarative || !declarative.TryAttachDeclarativeShadowRoot())
+                    // fragment parsing (e.g. innerHTML) does not create declarative shadow roots,
+                    // unless asked to (setHTMLUnsafe)
+                    if ((IsFragmentCase && !AllowsDeclarativeShadowRoots) || currentNode is not HtmlTemplateElement declarative || !declarative.TryAttachDeclarativeShadowRoot())
                     {
                         template.PopulateFragment();
                     }

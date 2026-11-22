@@ -264,7 +264,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String InnerHtml
         {
-            get => ChildNodes.ToHtml();
+            // what a template holds is its content (HTML 4.12.3)
+            get => this is Html.Dom.IHtmlTemplateElement template && !HasChildNodes ? template.Content.ChildNodes.ToHtml() : ChildNodes.ToHtml();
             set => ReplaceAll(new DocumentFragment(this, value), false);
         }
 
@@ -311,7 +312,8 @@ namespace AngleSharp.Dom
                     // currently be focused, silently stealing their focus (and firing a spurious
                     // blur on them) whenever an unrelated, never-focused element's own IsFocused is
                     // set to false (e.g. a DoBlur() call on an element that was never focused).
-                    document.QueueTask(() => document.SetFocus(value ? this : null));
+                    // the focus moves (and blur and focus are fired) right away (HTML 6.6.4)
+                    document.SetFocus(value ? this : null);
                 }
 
             }
@@ -340,7 +342,7 @@ namespace AngleSharp.Dom
 
             if (ShadowRoot != null)
             {
-                throw new DomException(DomError.InvalidState);
+                throw new DomException(DomError.NotSupported);
             }
 
             _shadowRoot = new ShadowRoot(this, mode);

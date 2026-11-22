@@ -70,6 +70,8 @@ namespace AngleSharp.Dom
         private Boolean _isParsingWrittenText;
         private StringCache? _constructionStrings;
         private Int32 _constructionStringCount;
+        private Document? _templateContentsOwner;
+        private Boolean _isTemplateContentsOwner;
 
         #endregion
 
@@ -846,6 +848,33 @@ namespace AngleSharp.Dom
         internal Url? ActiveBaseUrl => _activeBaseElement?.FrozenBaseUrl;
 
         internal Url FallbackBaseUrl => _fallbackBaseUrl ?? DocumentUrl;
+
+        /// <summary>
+        /// Gets the inert document the contents of the templates of this document belong to
+        /// (HTML 4.12.3). It has the services of this one's browsing context (e.g. the styles of
+        /// its elements), but is never shown in it, and its scripts don't run.
+        /// </summary>
+        internal Document TemplateContentsOwner
+        {
+            get
+            {
+                if (_isTemplateContentsOwner)
+                {
+                    return this;
+                }
+
+                if (_templateContentsOwner is null)
+                {
+                    var inert = new Html.Dom.HtmlDocument(_context);
+                    inert._isTemplateContentsOwner = true;
+                    // what the contents refer to is still resolved against this document
+                    inert._fallbackBaseUrl = new Url(BaseUrl ?? DocumentUrl);
+                    _templateContentsOwner = inert;
+                }
+
+                return _templateContentsOwner;
+            }
+        }
 
         internal void UseBaseUrlOfCreator() => _fallbackBaseUrl = _context.Creator is Node { BaseUrl: Url url } ? new Url(url) : null;
 
