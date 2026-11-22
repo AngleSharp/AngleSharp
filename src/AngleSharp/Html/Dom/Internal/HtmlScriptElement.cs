@@ -213,6 +213,14 @@ namespace AngleSharp.Html.Dom
                 return false;
             }
 
+            // what is written for those not running modules is skipped by those running them
+            if (this.GetOwnAttribute(AttributeNames.NoModule) is not null &&
+                MimeTypeNames.IsJavaScript(_request.ScriptLanguage) &&
+                document.Context.GetScripting("module") is not null)
+            {
+                return false;
+            }
+
             if (eventAttr is { Length: > 0 } && forAttr is { Length: >0 })
             {
                 eventAttr = eventAttr.Trim();

@@ -1,6 +1,7 @@
 namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -8,6 +9,13 @@ namespace AngleSharp.Html.Dom
     /// </summary>
     sealed class HtmlMenuElement : HtmlElement, IHtmlMenuElement
     {
+        #region Fields
+
+        private const String ContextType = "context";
+        private const String ToolbarType = "toolbar";
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -23,11 +31,26 @@ namespace AngleSharp.Html.Dom
         #region Properties
 
         /// <summary>
-        /// Gets or sets the type of the menu element.
+        /// Gets or sets the type of the menu element: context or toolbar (the
+        /// default), unless it is in a context menu, whose type it has then.
         /// </summary>
         public String? Type
         {
-            get => this.GetOwnAttribute(AttributeNames.Type);
+            get
+            {
+                var type = this.GetOwnAttribute(AttributeNames.Type);
+
+                if (type.Isi(ContextType))
+                {
+                    return ContextType;
+                }
+                else if (type.Isi(ToolbarType))
+                {
+                    return ToolbarType;
+                }
+
+                return Parent is HtmlMenuElement menu && menu.Type == ContextType ? ContextType : ToolbarType;
+            }
             set => this.SetOwnAttribute(AttributeNames.Type, value);
         }
 
