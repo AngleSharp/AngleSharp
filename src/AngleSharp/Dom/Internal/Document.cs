@@ -67,6 +67,7 @@ namespace AngleSharp.Dom
         private HashSet<Uri>? _importedUris;
         private Int64 _mutationVersion;
         private StringBuilder? _writtenText;
+        private Int32 _insertions;
         private Boolean _isParsingWrittenText;
         private StringCache? _constructionStrings;
         private Int32 _constructionStringCount;
@@ -556,6 +557,11 @@ namespace AngleSharp.Dom
         /// other script runs in between (as with an event loop these are separate tasks).
         /// </summary>
         internal SemaphoreSlim ScriptExecution { get; } = new SemaphoreSlim(1, 1);
+
+        /// <summary>
+        /// Gets the number of times text was written into the source while it is parsed.
+        /// </summary>
+        internal Int32 Insertions => _insertions;
 
         /// <inheritdoc />
         public String DesignMode
@@ -1297,6 +1303,7 @@ namespace AngleSharp.Dom
                 if (_source is ITextSource wts)
                 {
                     wts.InsertText(content);
+                    _insertions++;
                 }
             }
         }

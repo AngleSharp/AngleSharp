@@ -118,6 +118,7 @@ namespace AngleSharp.Io.Processors
                 {
                     var options = CreateOptions();
                     var insert = _document.Source.Index;
+                    var insertions = _document.Insertions;
                     var previousScript = _document.CurrentScript;
 
                     //https://html.spec.whatwg.org/multipage/scripting.html#execute-the-script-element
@@ -137,7 +138,13 @@ namespace AngleSharp.Io.Processors
                         _document.CurrentScript = previousScript;
                     }
 
-                    _document.Source.Index = insert;
+                    // the parser goes on with what the script wrote; it may have gone on meanwhile
+                    // (an async script), so its position only changes if the script wrote
+                    if (_document.Insertions != insertions)
+                    {
+                        _document.Source.Index = insert;
+                    }
+
                     await _document.QueueTaskAsync(FireAfterScriptExecuteEvent).ConfigureAwait(false);
                     await _document.QueueTaskAsync(FireLoadEvent).ConfigureAwait(false);
                     _response.Dispose();
