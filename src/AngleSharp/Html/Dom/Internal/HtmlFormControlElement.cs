@@ -11,7 +11,6 @@ namespace AngleSharp.Html.Dom
     {
         #region Fields
 
-        private readonly NodeList _labels;
         private readonly ValidityState _vstate;
         private String? _error;
 
@@ -23,7 +22,6 @@ namespace AngleSharp.Html.Dom
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
             _vstate = new ValidityState();
-            _labels = [];
         }
 
         #endregion
@@ -83,7 +81,7 @@ namespace AngleSharp.Html.Dom
             set => this.SetBoolAttribute(AttributeNames.AutoFocus, value);
         }
 
-        public INodeList Labels => _labels;
+        public INodeList Labels => HtmlLabelElement.FindLabels(this);
 
         public String? ValidationMessage => _vstate.IsCustomError ? _error : String.Empty;
 

@@ -12,25 +12,18 @@
     /// </summary>
     sealed class HtmlMeterElement : HtmlElement, IHtmlMeterElement
     {
-        #region Fields
-
-        private readonly NodeList _labels;
-
-        #endregion
-
         #region ctor
 
         public HtmlMeterElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Meter, prefix)
         {
-            _labels = [];
         }
 
         #endregion
 
         #region Properties
 
-        public INodeList Labels => _labels;
+        public INodeList Labels => HtmlLabelElement.FindLabels(this);
 
         public Double Value
         {
