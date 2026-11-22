@@ -157,7 +157,19 @@ namespace AngleSharp.Text
         public String ReadCharacters(Int32 characters) => _readOnlyTextSource.ReadCharacters(characters);
 
         /// <inheritdoc/>
-        public StringOrMemory ReadMemory(Int32 characters) => _readOnlyTextSource.ReadMemory(characters);
+        /// <remarks>
+        /// Copies results from pooled byte and streaming sources so they remain valid after
+        /// further reads, encoding changes, or disposal. Other sources retain their existing
+        /// memory ownership requirements.
+        /// </remarks>
+        public StringOrMemory ReadMemory(Int32 characters)
+        {
+            var content = _readOnlyTextSource.ReadMemory(characters);
+
+            return _readOnlyTextSource is ReadOnlyByteTextSource or StreamingTextSource
+                ? new StringOrMemory(content.ToString())
+                : content;
+        }
 
         /// <summary>
         /// Prefetches the number of bytes by expanding the internal buffer.
@@ -204,6 +216,11 @@ namespace AngleSharp.Text
         /// <summary>
         /// Gets underlying text source.
         /// </summary>
+        /// <remarks>
+        /// Intended for parsers and other consumers that manage the source's lifetime directly.
+        /// Reading memory from this source bypasses the copies made by <see cref="ReadMemory"/>
+        /// for pooled sources; the returned memory may be borrowed and must not be retained.
+        /// </remarks>
         /// <returns></returns>
         public IReadOnlyTextSource GetUnderlyingTextSource() => _readOnlyTextSource;
     }

@@ -20,6 +20,7 @@ Released on tbd.
 - Fixed a `NodeIterator` returning the wrong node after its filter removed the node it looked at
 - Fixed `createElementNS` accepting qualified names with an empty prefix or local name (e.g. `:div`)
 - Fixed `nth-child` selector not accepting some valid combinations (#1420) @bardrop
+- Fixed `TextSource.ReadMemory()` returning pooled memory that could change after further reads, encoding changes, or disposal; direct underlying-source reads still borrow memory (#1418)
 - Fixed a `form` with `method="dialog"` navigating instead of closing its dialog (with the value of the submitter as `returnValue`)
 - Fixed `showModal()` of an open or a disconnected dialog not throwing an `InvalidStateError`
 - Fixed scripts in a `template` running while it is parsed
