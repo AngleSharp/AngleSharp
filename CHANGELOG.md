@@ -10,7 +10,6 @@ Released on tbd.
 - Fixed `stopPropagation()` in a capturing listener of an element still running its bubbling listeners
 - Fixed `form.elements` of a form not in the document being empty
 - Fixed a style sheet served as another type than `text/css` (e.g. `text/html`) being applied in standards mode
-- Fixed a navigated image (e.g. a PNG in an iframe) being parsed as HTML; it is shown in a document of its own
 - Fixed text documents (e.g. `text/plain`) never completing, i.e. no `load` event
 - Fixed `setEnd` of a new range moving its start along, and `setStartBefore` (and the like) not collapsing a range they reverse
 - Fixed comparing the boundary points of a range in sibling nodes, which made `toString()` and `cloneContents()` include text outside the range

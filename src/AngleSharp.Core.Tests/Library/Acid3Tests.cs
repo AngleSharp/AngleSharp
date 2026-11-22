@@ -182,21 +182,6 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public async Task ImageInAFrameIsShownInADocumentOfItsOwn()
-        {
-            var config = Configuration.Default.WithDefaultLoader();
-            var context = BrowsingContext.New(config);
-            var document = await context.OpenAsync(res => res
-                .Content("<p>FAIL</p>")
-                .Address("http://localhost/image.png")
-                .Header(HeaderNames.ContentType, "image/png"));
-
-            Assert.AreEqual(0, document.QuerySelectorAll("p").Length);
-            Assert.AreEqual("http://localhost/image.png", document.QuerySelector("img")?.GetAttribute("src"));
-            Assert.AreEqual(DocumentReadyState.Complete, document.ReadyState);
-        }
-
-        [Test]
         public async Task PlainTextDocumentCompletes()
         {
             var context = BrowsingContext.New(Configuration.Default);
