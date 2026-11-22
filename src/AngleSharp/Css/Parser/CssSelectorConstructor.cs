@@ -41,6 +41,7 @@ namespace AngleSharp.Css.Parser
             { PseudoClassNames.NthLastColumn, ctx => new ChildFunctionState((step, offset, kind) => new LastColumnSelector(step, offset, kind), ctx, withOptionalSelector: false) },
             { PseudoClassNames.Not, ctx => new NotFunctionState(ctx) },
             { PseudoClassNames.Dir, _ => new DirFunctionState() },
+            { PseudoClassNames.State, _ => new StateFunctionState() },
             { PseudoClassNames.Lang, _ => new LangFunctionState() },
             { PseudoClassNames.Contains, _ => new ContainsFunctionState() },
             { PseudoClassNames.Has, ctx => new HasFunctionState(ctx) },
@@ -54,6 +55,7 @@ namespace AngleSharp.Css.Parser
         private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> _pseudoElementFunctionsDict = new(StringComparer.OrdinalIgnoreCase)
         {
             { PseudoElementNames.Picker, _ => new PickerFunctionState() },
+            { PseudoElementNames.Part, _ => new PartFunctionState() },
         };
 
 #if NET8_0_OR_GREATER
@@ -871,6 +873,42 @@ namespace AngleSharp.Css.Parser
             protected override Priority DecideSpecificity(ISelector innerSelector) => Priority.Zero;
         }
 
+        private sealed class StateFunctionState : FunctionState
+        {
+            private Boolean _valid = true;
+            private String? _value;
+
+            protected override Boolean OnToken(CssSelectorToken token)
+            {
+                if (token.Type == CssTokenType.Ident && _value is null)
+                {
+                    _value = token.Data;
+                }
+                else if (token.Type == CssTokenType.RoundBracketClose)
+                {
+                    return true;
+                }
+                else if (token.Type != CssTokenType.Whitespace)
+                {
+                    _valid = false;
+                }
+
+                return false;
+            }
+
+            public override ISelector? Produce()
+            {
+                if (_valid && _value is not null)
+                {
+                    var name = _value;
+                    var code = PseudoClassNames.State.CssFunction(name);
+                    return new PseudoClassSelector(el => ElementInternals.Of(el)?.States.Has(name) == true, code);
+                }
+
+                return null;
+            }
+        }
+
         private sealed class DirFunctionState : FunctionState
         {
             private Boolean _valid;
@@ -1019,6 +1057,33 @@ namespace AngleSharp.Css.Parser
 
                 return null;
             }
+        }
+
+        private sealed class PartFunctionState : FunctionState
+        {
+            private readonly List<String> _names = new();
+            private Boolean _valid = true;
+
+            protected override Boolean OnToken(CssSelectorToken token)
+            {
+                if (token.Type == CssTokenType.Ident)
+                {
+                    _names.Add(token.Data);
+                }
+                else if (token.Type == CssTokenType.RoundBracketClose)
+                {
+                    return true;
+                }
+                else if (token.Type != CssTokenType.Whitespace)
+                {
+                    _valid = false;
+                }
+
+                return false;
+            }
+
+            public override ISelector? Produce() =>
+                _valid && _names.Count > 0 ? new PartPseudoElementSelector(_names.ToArray()) : null;
         }
 
         private sealed class ContainsFunctionState : FunctionState

@@ -56,6 +56,17 @@ namespace AngleSharp.Html.Dom
 
         public void ShowModal(IElement? anchor = null)
         {
+            if (Open && _modal)
+            {
+                return;
+            }
+
+            // an open (non-modal) or a disconnected dialog can't become a modal (HTML 4.11.4)
+            if (Open || !this.IsConnected())
+            {
+                throw new DomException(DomError.InvalidState);
+            }
+
             Open = true;
             _anchor = anchor;
             _modal = true;

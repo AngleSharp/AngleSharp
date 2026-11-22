@@ -162,6 +162,12 @@ namespace AngleSharp.Html.Dom
             var state = _states.GetOrCreateValue(html);
             var stack = _stacks.GetOrCreateValue(html.Owner);
 
+            // showing a shown popover does nothing (HTML 6.12.2, "check popover validity")
+            if (state.IsOpen && !state.IsTransitioning)
+            {
+                return;
+            }
+
             if (state.IsOpen || state.IsTransitioning || stack.IsShowingPopover || stack.HidingPopoverNestingCount != 0)
             {
                 throw new DomException(DomError.InvalidState);

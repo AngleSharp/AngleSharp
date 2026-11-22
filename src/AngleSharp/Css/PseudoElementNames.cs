@@ -68,6 +68,12 @@ namespace AngleSharp.Css
         public static readonly String Picker = "picker";
 
         /// <summary>
+        /// The part pseudo element (CSS Shadow Parts 1): ::part(name) of a shadow host is an
+        /// element of its shadow tree with that name in its part attribute.
+        /// </summary>
+        public static readonly String Part = "part";
+
+        /// <summary>
         /// The separating double-colon.
         /// </summary>
         public static readonly String Separator = "::";
