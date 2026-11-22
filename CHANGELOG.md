@@ -5,6 +5,7 @@ Released on tbd.
 - Improved performance of parsing CSS selectors, cutting 15-30% of the time and 20-35% of the allocations
 - Improved performance of matching `:nth-child()`, `:nth-last-child()`, `:only-child`, the sibling combinators (`+`, `~`) and `[attr~=value]` (up to 70% less time)
 - Improved performance of finding a node among its siblings (e.g. `previousElementSibling`, `nextElementSibling`), which usually no longer scans the parent's children
+- Fixed setting the `value` of an `input` or `textarea` not moving the cursor to its end
 - Fixed `click()` dispatching its `click` event later instead of before it returns
 - Fixed `click()` on a checkbox or radio button not checking it (and not firing `input` and `change`)
 - Fixed `stopPropagation()` in a capturing listener of an element still running its bubbling listeners
