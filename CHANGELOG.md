@@ -1,4 +1,4 @@
-# 1.10.6
+# 1.11.0
 
 Released on tbd.
 
@@ -20,7 +20,21 @@ Released on tbd.
 - Fixed a `NodeIterator` returning the wrong node after its filter removed the node it looked at
 - Fixed `createElementNS` accepting qualified names with an empty prefix or local name (e.g. `:div`)
 - Fixed `nth-child` selector not accepting some valid combinations (#1420) @bardrop
+- Fixed a `form` with `method="dialog"` navigating instead of closing its dialog (with the value of the submitter as `returnValue`)
+- Fixed `showModal()` of an open or a disconnected dialog not throwing an `InvalidStateError`
+- Fixed scripts in a `template` running while it is parsed
+- Fixed `innerHTML` of a `template` not serializing its content
+- Fixed `showPopover()` of a shown popover throwing instead of doing nothing
+- Fixed `attachShadow()` of a shadow host throwing an `InvalidStateError` instead of a `NotSupportedError`
+- Fixed `shadowRoot` giving scripts a closed shadow root (C# still gets it via `ShadowRoot`)
+- Fixed `focus()` moving the focus (and firing `focus` and `blur`) only in a later task
+- Fixed the contents of a `template` belonging to its document instead of an inert one (`template.content.ownerDocument`)
+- Added `attachInternals()` and `ElementInternals` (form owner, `setFormValue`, `setValidity`, `checkValidity`) for form-associated custom elements, which are submitted, validated and reset (`formResetCallback`) with their form
+- Added the `::part()` pseudo-element to selectors
+- Added `assignedNodes()` and `assignedElements()` of slots
 - Added `IDocumentErrorHandler` services, which may provide a document when creating one from a response failed (e.g. to show the error)
+- Added `ElementInternals.states` (`CustomStateSet`) and the `:state()` pseudo-class
+- Added `setHTMLUnsafe()`, which also creates declarative shadow roots
 
 # 1.10.5
 
