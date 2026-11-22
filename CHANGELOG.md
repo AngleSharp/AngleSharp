@@ -28,6 +28,15 @@ Released on tbd.
 - Fixed `showPopover()` of a shown popover throwing instead of doing nothing
 - Fixed `attachShadow()` of a shadow host throwing an `InvalidStateError` instead of a `NotSupportedError`
 - Fixed `shadowRoot` giving scripts a closed shadow root (C# still gets it via `ShadowRoot`)
+- Fixed the validity of a field staying invalid (`badInput`) once it had an invalid value
+- Fixed the value sanatization of `date`, `month`, `week`, `time`, `datetime-local`, `number`, `range` and `color`
+- Fixed `labels` of form controls, `meter` and `progress` always being empty
+- Fixed `label.control` not finding the control a label without `for` contains, and finding a hidden input
+- Fixed `formEnctype` of inputs and buttons being exposed as `formEncType` to scripts
+- Fixed `toDataURL()` of a canvas giving just the base64 of the image instead of a `data:` URL
+- Fixed a redirect with the status 308 not being followed
+- Fixed the parser duplicating a part of the document under certain conditions
+- Fixed the `type` of a `menu` not being `toolbar` by default
 - Fixed `focus()` moving the focus (and firing `focus` and `blur`) only in a later task
 - Fixed the contents of a `template` belonging to its document instead of an inert one (`template.content.ownerDocument`)
 - Added `attachInternals()` and `ElementInternals` (form owner, `setFormValue`, `setValidity`, `checkValidity`) for form-associated custom elements, which are submitted, validated and reset (`formResetCallback`) with their form
