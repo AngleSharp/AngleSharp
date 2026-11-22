@@ -22,7 +22,7 @@
 
             if (IsInvalidPattern(Input.Pattern, Input.Value ?? String.Empty))
             {
-                result ^= ValidationErrors.PatternMismatch;
+                result |= ValidationErrors.PatternMismatch;
             }
 
             return result;

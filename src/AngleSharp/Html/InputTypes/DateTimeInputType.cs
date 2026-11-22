@@ -27,6 +27,11 @@ namespace AngleSharp.Html.InputTypes
             return CheckTime(current, value, date, min, max);
         }
 
+        public override String Sanitize(String value)
+        {
+            return ConvertToNumber(value).HasValue ? value : String.Empty;
+        }
+
         public override Double? ConvertToNumber(String? value)
         {
             var dt = ConvertFromDateTime(value);

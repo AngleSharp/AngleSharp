@@ -93,7 +93,7 @@ namespace AngleSharp.Html.Dom
         [AllowNull]
         public String Value
         {
-            get => _value ?? DefaultValue;
+            get => SanitizeValue(_value ?? DefaultValue);
             set
             {
                 var previous = Value;
@@ -242,6 +242,11 @@ namespace AngleSharp.Html.Dom
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Applies the value sanitization algorithm of the control to the value.
+        /// </summary>
+        protected virtual String SanitizeValue(String value) => value;
 
         protected override void Check(ValidityState state)
         {

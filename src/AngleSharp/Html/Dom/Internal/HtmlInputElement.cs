@@ -21,6 +21,7 @@ namespace AngleSharp.Html.Dom
         private static readonly ConditionalWeakTable<Document, InputCollection> _inputs = new();
         private BaseInputType? _type;
         private Boolean? _checked;
+        private Boolean _isCheckingRawValue;
         private Boolean _uncheckedByGroup;
 
         #endregion
@@ -405,6 +406,9 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
+        protected override String SanitizeValue(String value) =>
+            _type is null || _isCheckingRawValue ? value : _type.Sanitize(value);
+
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             if (_type!.IsAppendingData(submitter))
@@ -509,9 +513,20 @@ namespace AngleSharp.Html.Dom
 
         protected override void Check(ValidityState state)
         {
-            base.Check(state);
-            var result = _type!.Check(state);
-            state.Reset(result);
+            // the validity is the one of what was given, e.g., a color that isn't one is a bad
+            // input, even though the value is sanitized to black
+            _isCheckingRawValue = true;
+
+            try
+            {
+                base.Check(state);
+                var result = _type!.Check(state);
+                state.Reset(result);
+            }
+            finally
+            {
+                _isCheckingRawValue = false;
+            }
         }
 
         protected override Boolean CanBeValidated() =>
