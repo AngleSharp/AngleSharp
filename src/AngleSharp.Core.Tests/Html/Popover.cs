@@ -138,7 +138,9 @@ namespace AngleSharp.Core.Tests.Html
             Assert.Throws<DomException>(() => detached.ShowPopover());
 
             popover.ShowPopover();
-            Assert.Throws<DomException>(() => popover.ShowPopover());
+            // showing a shown popover does nothing (HTML, "check popover validity")
+            Assert.DoesNotThrow(() => popover.ShowPopover());
+            Assert.IsTrue(popover.IsPopoverOpen());
             Assert.IsTrue(popover.TogglePopover(true));
         }
 
