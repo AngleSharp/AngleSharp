@@ -13,6 +13,7 @@ namespace AngleSharp.Io.Processors
         #region Fields
 
         private readonly IResourceLoader _loader;
+        private Task? _finishing;
 
         #endregion
 
@@ -49,7 +50,8 @@ namespace AngleSharp.Io.Processors
         #region Methods
 
         /// <summary>
-        /// Processes the given request asynchronously.
+        /// Processes the given request asynchronously. Asked again for what it downloads
+        /// already, the task of that download (and its processing) is returned.
         /// </summary>
         public virtual Task ProcessAsync(ResourceRequest request)
         {
@@ -57,10 +59,10 @@ namespace AngleSharp.Io.Processors
             {
                 CancelDownload();
                 Download = _loader.FetchAsync(request);
-                return FinishDownloadAsync();
+                return _finishing = FinishDownloadAsync();
             }
 
-            return Task.CompletedTask;
+            return _finishing ?? Task.CompletedTask;
         }
 
         #endregion

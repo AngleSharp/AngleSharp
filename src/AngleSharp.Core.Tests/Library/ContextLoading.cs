@@ -11,6 +11,7 @@ namespace AngleSharp.Core.Tests.Library
     using System;
     using System.Linq;
     using System.Net.Http;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -349,6 +350,38 @@ namespace AngleSharp.Core.Tests.Library
 
             Assert.AreEqual(width, img.OriginalWidth);
             Assert.AreEqual(height, img.OriginalHeight);
+        }
+
+        [Test]
+        public async Task LoadingAnImageAgainWaitsForTheLoadInFlight()
+        {
+            var processing = new TaskCompletionSource<IImageInfo>();
+            var imageService = new SlowImageService(processing.Task);
+            var config = Configuration.Default.With(new DelayRequester(0)).WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).With(imageService);
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<img>").Address("http://localhost/"));
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            var source = new Url("http://localhost/whatever.jpg");
+
+            var first = img.LoadAsync(source);
+            await ((ILoadableElement)img).CurrentDownload.Task;
+            var second = img.LoadAsync(source);
+
+            Assert.IsFalse(second.IsCompleted);
+            processing.SetResult(new MockImageInfo { Source = source, Width = 20, Height = 10 });
+            await second;
+            Assert.AreEqual(20, img.OriginalWidth);
+            await first;
+        }
+
+        private sealed class SlowImageService : IResourceService<IImageInfo>
+        {
+            private readonly Task<IImageInfo> _result;
+
+            public SlowImageService(Task<IImageInfo> result) => _result = result;
+
+            public Boolean SupportsType(String mimeType) => true;
+
+            public Task<IImageInfo> CreateAsync(IResponse response, CancellationToken cancel) => _result;
         }
 
         [Test]

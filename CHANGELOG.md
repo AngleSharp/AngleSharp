@@ -1,6 +1,6 @@
 # 1.11.0
 
-Released on tbd.
+Released on Monday, November 23 2026.
 
 - Improved performance of parsing CSS selectors, cutting 15-30% of the time and 20-35% of the allocations
 - Improved performance of matching `:nth-child()`, `:nth-last-child()`, `:only-child`, the sibling combinators (`+`, `~`) and `[attr~=value]` (up to 70% less time)
