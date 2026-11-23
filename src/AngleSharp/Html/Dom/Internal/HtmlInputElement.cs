@@ -1,6 +1,7 @@
 namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
     using AngleSharp.Io.Dom;
@@ -301,7 +302,7 @@ namespace AngleSharp.Html.Dom
             Type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio, InputTypeNames.Submit, InputTypeNames.Image) ||
             Type.IsOneOf(InputTypeNames.Reset, InputTypeNames.Button);
 
-        internal override async Task ClickAsync(Boolean immediate)
+        internal override async Task ClickAsync(Boolean immediate, Event? dispatched = null, IEventTarget? target = null)
         {
             // the legacy-pre-activation behavior: a checkbox or radio button is checked before
             // the listeners see the click, and goes back if one of them cancels it
@@ -320,7 +321,7 @@ namespace AngleSharp.Html.Dom
                 IsChecked = true;
             }
 
-            var cancelled = await IsClickedCancelled(immediate).ConfigureAwait(false);
+            var cancelled = await IsClickedCancelled(immediate, dispatched, target).ConfigureAwait(false);
 
             if (isCheckbox || isRadio)
             {

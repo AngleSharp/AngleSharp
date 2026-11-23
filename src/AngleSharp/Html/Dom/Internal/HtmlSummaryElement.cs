@@ -1,6 +1,7 @@
 namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using System;
     using System.Threading.Tasks;
 
@@ -23,9 +24,9 @@ namespace AngleSharp.Html.Dom
 
         internal override Boolean HasActivationBehavior => Parent is HtmlDetailsElement details && IsSummaryFor(details);
 
-        internal override async Task ClickAsync(Boolean immediate)
+        internal override async Task ClickAsync(Boolean immediate, Event? dispatched = null, IEventTarget? target = null)
         {
-            var cancelled = await IsClickedCancelled(immediate).ConfigureAwait(false);
+            var cancelled = await IsClickedCancelled(immediate, dispatched, target).ConfigureAwait(false);
 
             if (!cancelled && Parent is HtmlDetailsElement details && IsSummaryFor(details))
             {

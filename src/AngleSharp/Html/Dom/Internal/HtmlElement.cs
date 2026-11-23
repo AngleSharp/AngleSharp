@@ -2,6 +2,7 @@ namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Html.Dom.Events;
     using AngleSharp.Text;
     using System;
@@ -649,9 +650,48 @@ namespace AngleSharp.Html.Dom
 
         /// <summary>
         /// Fires the click event and, unless a listener canceled it, runs the element's
-        /// activation behavior (navigation, form submission, ...).
+        /// activation behavior (navigation, form submission, ...). For the click a script
+        /// dispatched (and its target), that one is dispatched instead of firing a new one.
         /// </summary>
-        internal virtual Task ClickAsync(Boolean immediate) => IsClickedCancelled(immediate);
+        internal virtual Task ClickAsync(Boolean immediate, Event? dispatched = null, IEventTarget? target = null) =>
+            IsClickedCancelled(immediate, dispatched, target);
+
+        /// <summary>
+        /// Gets if a click on the element (or one bubbling to it) does something, which is what
+        /// overriding <see cref="ClickAsync(Boolean, Event, IEventTarget)"/> does.
+        /// </summary>
+        internal virtual Boolean HasActivationBehavior => false;
+
+        /// <summary>
+        /// Finds the element whose activation behavior a click at the target runs: the target, or
+        /// for a bubbling click the closest ancestor having one.
+        /// https://dom.spec.whatwg.org/#concept-event-dispatch
+        /// </summary>
+        internal static HtmlElement? FindActivationTarget(IEventTarget target, Boolean bubbles)
+        {
+            if (target is HtmlElement { HasActivationBehavior: true } element)
+            {
+                return element;
+            }
+            else if (bubbles && target is Node node)
+            {
+                for (var parent = node.Parent; parent is not null; parent = parent.Parent)
+                {
+                    if (parent is HtmlElement { HasActivationBehavior: true } ancestor)
+                    {
+                        return ancestor;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Runs the activation of the element for a click a script dispatched at the target, which
+        /// is dispatched in place of the one the element would fire itself.
+        /// </summary>
+        internal void ActivateWith(Event click, IEventTarget target) => RunClick(click, target);
 
         private Boolean HasValidTabIndex()
         {
@@ -665,13 +705,13 @@ namespace AngleSharp.Html.Dom
         /// would be rethrown on the thread pool and take the process down; it is reported as a
         /// context error instead. Hosts that want to await or catch it use DoClickAsync.
         /// </summary>
-        private async void RunClick()
+        private async void RunClick(Event? dispatched = null, IEventTarget? target = null)
         {
             try
             {
                 // click() dispatches the event synchronously (a script sees its listeners run
                 // before click() returns), the activation behavior may continue later
-                var task = ClickAsync(true);
+                var task = ClickAsync(true, dispatched, target);
                 await task.ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -681,9 +721,19 @@ namespace AngleSharp.Html.Dom
         }
 
         /// <inheritdoc />
-        protected Task<Boolean> IsClickedCancelled(Boolean immediate)
+        protected Task<Boolean> IsClickedCancelled(Boolean immediate) => IsClickedCancelled(immediate, null, null);
+
+        /// <summary>
+        /// Fires the click event, or dispatches the one a script dispatched at its target, and
+        /// gives if a listener canceled it.
+        /// </summary>
+        internal Task<Boolean> IsClickedCancelled(Boolean immediate, Event? dispatched, IEventTarget? target)
         {
-            if (immediate)
+            if (dispatched is not null)
+            {
+                return Task.FromResult(dispatched.Dispatch(target ?? this));
+            }
+            else if (immediate)
             {
                 return Task.FromResult(FireClick());
             }
@@ -726,5 +776,6 @@ namespace AngleSharp.Html.Dom
         private static String Combine(String? prefix, String localName) => (prefix is not null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant();
 
         #endregion
+
     }
 }
