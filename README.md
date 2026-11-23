@@ -81,9 +81,11 @@ AngleSharp.Core is the foundation. Additional repositories provide higher-level 
 |---|---|---|
 | AngleSharp.Css | Full CSS parser, CSSOM, and styling services | https://github.com/AngleSharp/AngleSharp.Css |
 | AngleSharp.Js | JavaScript integration for browsing contexts | https://github.com/AngleSharp/AngleSharp.Js |
+| AngleSharp.Io | More APIs for accessing the file system, network, and other resources | https://github.com/AngleSharp/AngleSharp.Io |
 | AngleSharp.Wasm | WebAssembly-oriented integration work for AngleSharp | https://github.com/AngleSharp/AngleSharp.Wasm |
 | AngleSharp.Xml | XML, XHTML, and related XML-oriented parsing support | https://github.com/AngleSharp/AngleSharp.Xml |
 | AngleSharp.Renderer | Rendering-focused companion project | https://github.com/AngleSharp/AngleSharp.Renderer |
+| AngleSharp.Browser | Aggregation of all extensions into a full browser | https://github.com/AngleSharp/AngleSharp.Browser |
 | AngleSharp.Diffing | DOM and markup diffing utilities | https://github.com/AngleSharp/AngleSharp.Diffing |
 | AngleSharp.XPath | XPath support on top of the AngleSharp DOM | https://github.com/AngleSharp/AngleSharp.XPath |
 
