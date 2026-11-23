@@ -203,7 +203,7 @@ The picture element is the solution to responsive images and their problems. Ima
 
 However, if we want a more fine-grained solution than provided by the new `img`-attributes, then we should look at the `picture`-element. The element has been implemented in the `HtmlPictureElement` class, however, nothing has yet been included. A solution that might work just fine is to port the polyfill to the element. That solution would be a great start and could then be adjusted, if necessary.
 
-*Status*: Element available, `srcset` attribute and `source` children are taken into account. Currently, no device validation possible (part of CSS improvements for v1.0). Hence quasi static.
+*Status*: Element available. An `img` requests nothing by itself, as only what shows it knows which source fits the device and when the image is needed: AngleSharp.Css picks the source (`GetImageSource()`, considering `srcset`, `sizes` and the `source` children of a picture), and AngleSharp.Renderer loads it via `LoadAsync` once it lays the image out (or right away for an image not in a document).
 
 More information can be found at:
 

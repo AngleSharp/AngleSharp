@@ -1617,6 +1617,12 @@ namespace AngleSharp.Dom
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
 
+            // what started loading meanwhile (e.g. the images a renderer showed) is waited for too
+            while (GetAttachedReferences<Task>().Where(static task => !task.IsCompleted).ToArray() is { Length: > 0 } pending)
+            {
+                await Task.WhenAll(pending.Select(static task => task.ContinueWith(static _ => { }, TaskScheduler.Default))).ConfigureAwait(false);
+            }
+
             ReadyState = DocumentReadyState.Complete;
 
             Body?.FireSimpleEvent(EventNames.Load);

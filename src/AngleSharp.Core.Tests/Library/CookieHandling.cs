@@ -297,13 +297,15 @@ namespace AngleSharp.Core.Tests.Library
             var imgCookie = String.Empty;
             var initial =
                 VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Cookie(cookieValue));
-            await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
+            var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
             {
                 var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
                 imgCookie = req.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
                 requestCount++;
                 return res;
             });
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            await img.LoadAsync(new Url(img.Source));
 
             Assert.AreEqual(1, requestCount);
             Assert.AreEqual(cookieValue, imgCookie);
@@ -318,13 +320,15 @@ namespace AngleSharp.Core.Tests.Library
             var imgCookie = String.Empty;
             var initial =
                 VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Cookie(cookieValue));
-            await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
+            var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
             {
                 var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
                 imgCookie = req.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
                 requestCount++;
                 return res;
             });
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            await img.LoadAsync(new Url(img.Source));
 
             Assert.AreEqual(1, requestCount);
             Assert.AreEqual(String.Empty, imgCookie);
@@ -377,13 +381,15 @@ namespace AngleSharp.Core.Tests.Library
             var imgCookie = String.Empty;
             var initial =
                 VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Cookie(cookieValue));
-            await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
+            var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
             {
                 var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
                 imgCookie = req.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
                 requestCount++;
                 return res;
             });
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            await img.LoadAsync(new Url(img.Source));
 
             Assert.AreEqual(1, requestCount);
             Assert.AreEqual(cookieValue, imgCookie);

@@ -5,6 +5,7 @@ namespace AngleSharp.Html.Dom
     using AngleSharp.Io.Processors;
     using AngleSharp.Text;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
@@ -14,7 +15,6 @@ namespace AngleSharp.Html.Dom
         #region Fields
 
         private ImageRequestProcessor? _request;
-        private Boolean _isSettingUp;
 
         #endregion
 
@@ -23,7 +23,6 @@ namespace AngleSharp.Html.Dom
         public HtmlImageElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _request = CreateRequest(owner);
         }
 
         #endregion
@@ -98,76 +97,43 @@ namespace AngleSharp.Html.Dom
 
         #region Internal Methods
 
-        internal override void SetupElement()
+        /// <summary>
+        /// Loads the given source as the image (see <see cref="ImageExtensions.LoadAsync(IHtmlImageElement, Url, Double)"/>):
+        /// the element itself requests nothing, as only what shows it knows which candidate
+        /// fits and when it is needed.
+        /// </summary>
+        internal Task LoadAsync(Url source, Double density)
         {
-            _isSettingUp = true;
-            try
+            // created on the first load, as most images are only ever parsed
+            var request = _request ??= CreateRequest(Owner);
+
+            if (request is null)
             {
-                base.SetupElement();
-            }
-            finally
-            {
-                _isSettingUp = false;
+                return Task.CompletedTask;
             }
 
-            UpdateSourceCore();
-        }
+            request.Density = density > 0 && !Double.IsInfinity(density) ? density : 1.0;
 
-        internal void UpdateSource()
-        {
-            if (_isSettingUp)
-            {
-                return;
-            }
-
-            UpdateSourceCore();
+            var task = request.ProcessAsync(this.CreateRequestFor(source));
+            Owner.DelayLoad(task);
+            return task;
         }
 
         /// <summary>
-        /// Adopting an image is a relevant mutation: its source is resolved against the
-        /// new document (e.g. after innerHTML parsed it in a document of its own).
+        /// An adopted image loads with the loader of its new document, once it is asked to.
         /// </summary>
         protected override void NodeIsAdopted(Document oldDocument)
         {
             base.NodeIsAdopted(oldDocument);
 
-            // the image loads with the loader of its new document
             if (!ReferenceEquals(oldDocument.Context, Owner.Context))
             {
-                _request = CreateRequest(Owner);
-            }
-
-            UpdateSource();
-        }
-
-        private void UpdateSourceCore()
-        {
-            if (Owner is { IsFragmentParsing: true })
-            {
-                return;
-            }
-
-            var request = _request;
-
-            // Without a resource loader nothing is fetched whatever the candidate turns out to
-            // be, and selecting one means parsing srcset, sizes and a URL - for every image
-            // of a document that was only ever going to be parsed.
-            if (request is null)
-            {
-                return;
-            }
-
-            var url = this.GetImageCandidate();
-
-            if (url != null)
-            {
-                this.Process(request, url);
+                _request = null;
             }
         }
 
         // The document has asked its context for the loader once already. Without one there is
-        // nothing a processor could do, while asking again walks the whole list of services -
-        // for every image.
+        // nothing a processor could do.
         private static ImageRequestProcessor? CreateRequest(Document owner) =>
             owner.ResourceLoader is not null ? new ImageRequestProcessor(owner.Context) : null;
 

@@ -6,9 +6,9 @@ namespace AngleSharp.Core.Tests.Mocks
 
     class MockImageInfo : IImageInfo
     {
-        public Int32 Width => 0;
+        public Int32 Width { get; set; }
 
-        public Int32 Height => 0;
+        public Int32 Height { get; set; }
 
         public Url Source
         {
