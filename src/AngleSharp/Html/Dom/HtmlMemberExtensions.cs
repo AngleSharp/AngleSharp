@@ -62,7 +62,8 @@ namespace AngleSharp.Html.Dom
 
             var ev = new SubmitEvent(EventNames.Submit, true, true, submitter);
 
-            if (!form.Dispatch(ev))
+            // the form fires it, so it is trusted, whoever asked for the submission
+            if (form.Fire(ev))
             {
                 return Task.FromResult<IDocument>(null!);
             }

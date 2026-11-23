@@ -669,5 +669,46 @@
             parser.Parsing += (_, ev) => ((HtmlParseEvent)ev).Document.AddEventListener(
                 eventName, (_, _) => throw new InvalidOperationException(message), capture: true);
         }
-    }
+    
+        // runs classic scripts and, if asked to, module scripts, telling which ones ran
+        private sealed class ModuleScriptEngine : AngleSharp.Scripting.IScriptingService
+        {
+            private readonly Boolean _runsModules;
+
+            public ModuleScriptEngine(Boolean runsModules) => _runsModules = runsModules;
+
+            public List<String> Ran { get; } = new List<String>();
+
+            public Boolean SupportsType(String mimeType) =>
+                MimeTypeNames.IsJavaScript(mimeType) || (_runsModules && mimeType.Equals("module", StringComparison.OrdinalIgnoreCase));
+
+            public Task EvaluateScriptAsync(IResponse response, AngleSharp.Scripting.ScriptOptions options, System.Threading.CancellationToken cancel)
+            {
+                Ran.Add(options.Element.Id);
+                return Task.CompletedTask;
+            }
+        }
+
+        [Test]
+        public void NoModuleScriptIsSkippedWhereModulesRun()
+        {
+            var scripting = new ModuleScriptEngine(runsModules: true);
+            var config = Configuration.Default.WithScripts(scripting);
+
+            "<script id=a>1</script><script id=b nomodule>2</script><script id=c>3</script>".ToHtmlDocument(config);
+
+            CollectionAssert.AreEqual(new[] { "a", "c" }, scripting.Ran);
+        }
+
+        [Test]
+        public void NoModuleScriptRunsWhereModulesDoNot()
+        {
+            var scripting = new ModuleScriptEngine(runsModules: false);
+            var config = Configuration.Default.WithScripts(scripting);
+
+            "<script id=a>1</script><script id=b nomodule>2</script>".ToHtmlDocument(config);
+
+            CollectionAssert.AreEqual(new[] { "a", "b" }, scripting.Ran);
+        }
+}
 }

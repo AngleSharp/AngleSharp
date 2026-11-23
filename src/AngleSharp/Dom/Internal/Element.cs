@@ -22,7 +22,7 @@ namespace AngleSharp.Dom
         private readonly String _namespace;
         private readonly String? _prefix;
         private readonly String _localName;
-        private HtmlCollection<IElement>? _elements;
+        private ChildElementCollection? _elements;
         private TokenList? _classList;
         private IShadowRoot? _shadowRoot;
 
@@ -219,7 +219,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Children => _elements ??= new HtmlCollection<IElement>(this, deep: false);
+        public IHtmlCollection<IElement> Children => _elements ??= new ChildElementCollection(this);
 
         /// <inheritdoc />
         public IElement? FirstElementChild

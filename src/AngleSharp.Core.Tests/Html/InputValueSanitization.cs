@@ -17,6 +17,8 @@ namespace AngleSharp.Core.Tests.Html
         [TestCase("time", "foobar", "")]
         [TestCase("time", "12:30", "12:30")]
         [TestCase("datetime-local", "foobar", "")]
+        [TestCase("datetime-local", "2024-05-03T13:05", "2024-05-03T13:05")]
+        [TestCase("datetime-local", "2024-05-03T13:05:30", "2024-05-03T13:05:30")]
         [TestCase("number", "foobar", "")]
         [TestCase("number", "1e3", "1e3")]
         [TestCase("range", "foobar", "50")]

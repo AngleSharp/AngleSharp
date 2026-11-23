@@ -163,6 +163,8 @@ namespace AngleSharp.Html.Dom
         /// <returns>The value of the href property.</returns>
         public override String ToString() => Href;
 
+        internal override Boolean HasActivationBehavior => this.HasOwnAttribute(AttributeNames.Href);
+
         internal override async Task ClickAsync(Boolean immediate)
         {
             var cancelled = await IsClickedCancelled(immediate).ConfigureAwait(false);

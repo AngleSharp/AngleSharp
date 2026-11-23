@@ -5,6 +5,8 @@ Released on tbd.
 - Improved performance of parsing CSS selectors, cutting 15-30% of the time and 20-35% of the allocations
 - Improved performance of matching `:nth-child()`, `:nth-last-child()`, `:only-child`, the sibling combinators (`+`, `~`) and `[attr~=value]` (up to 70% less time)
 - Improved performance of finding a node among its siblings (e.g. `previousElementSibling`, `nextElementSibling`), which usually no longer scans the parent's children
+- Improved performance of moving and removing many nodes while a `MutationObserver` is active
+- Improved performance of `children`, which is only gathered again once the child list changed
 - Fixed setting the `value` of an `input` or `textarea` not moving the cursor to its end
 - Fixed `click()` dispatching its `click` event later instead of before it returns
 - Fixed `click()` on a checkbox or radio button not checking it (and not firing `input` and `change`)
@@ -39,6 +41,10 @@ Released on tbd.
 - Fixed the `type` of a `menu` not being `toolbar` by default
 - Fixed `focus()` moving the focus (and firing `focus` and `blur`) only in a later task
 - Fixed the contents of a `template` belonging to its document instead of an inert one (`template.content.ownerDocument`)
+- Fixed a `click` event a script dispatched not running the activation behavior
+- Fixed the `submit` event of a form submission not being trusted
+- Fixed a script with `nomodule` running even though module scripts are supported
+- Fixed a `datetime-local` value without seconds being sanitized to an empty string
 - Added `attachInternals()` and `ElementInternals` (form owner, `setFormValue`, `setValidity`, `checkValidity`) for form-associated custom elements, which are submitted, validated and reset (`formResetCallback`) with their form
 - Added the `::part()` pseudo-element to selectors
 - Added `assignedNodes()` and `assignedElements()` of slots

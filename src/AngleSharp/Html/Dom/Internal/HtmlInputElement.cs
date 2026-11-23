@@ -297,6 +297,10 @@ namespace AngleSharp.Html.Dom
             return node;
         }
 
+        internal override Boolean HasActivationBehavior =>
+            Type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio, InputTypeNames.Submit, InputTypeNames.Image) ||
+            Type.IsOneOf(InputTypeNames.Reset, InputTypeNames.Button);
+
         internal override async Task ClickAsync(Boolean immediate)
         {
             // the legacy-pre-activation behavior: a checkbox or radio button is checked before

@@ -259,6 +259,15 @@ namespace AngleSharp.Dom
             }
 
             ev.IsTrusted = false;
+
+            // A click a script dispatched runs the activation behavior too, e.g. submitting the form
+            // of a button, which the element does as it does for its own click (HTML click()).
+            if (ev is Html.Dom.Events.MouseEvent && ev.Type.Is(EventNames.Click) && Html.Dom.HtmlElement.FindActivationTarget(this, ev.IsBubbling) is { } activation)
+            {
+                activation.ActivateWith(ev, this);
+                return !ev.IsDefaultPrevented;
+            }
+
             // The internal dispatch reports cancellation (as the Fire* helpers do), while
             // dispatchEvent reports the opposite: whether the default action may proceed.
             return !ev.Dispatch(this);

@@ -285,13 +285,14 @@ namespace AngleSharp.Dom
         {
             private readonly INode _target = target;
             private readonly MutationOptions _options = options;
-            private readonly List<INode> _transientNodes = [];
+            // a script moving many nodes adds each one until the records are delivered
+            private readonly HashSet<INode> _transientNodes = [];
 
             public INode Target => _target;
 
             public MutationOptions Options => _options;
 
-            public List<INode> TransientNodes => _transientNodes;
+            public HashSet<INode> TransientNodes => _transientNodes;
         }
 
         #endregion

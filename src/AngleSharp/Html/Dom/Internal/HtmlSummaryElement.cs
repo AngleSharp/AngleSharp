@@ -21,6 +21,8 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
+        internal override Boolean HasActivationBehavior => Parent is HtmlDetailsElement details && IsSummaryFor(details);
+
         internal override async Task ClickAsync(Boolean immediate)
         {
             var cancelled = await IsClickedCancelled(immediate).ConfigureAwait(false);

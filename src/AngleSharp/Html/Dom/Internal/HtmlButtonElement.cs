@@ -121,6 +121,8 @@ namespace AngleSharp.Html.Dom
 
         #region Methods
 
+        internal override Boolean HasActivationBehavior => true;
+
         internal override async Task ClickAsync(Boolean immediate)
         {
             var cancelled = await IsClickedCancelled(immediate).ConfigureAwait(false);

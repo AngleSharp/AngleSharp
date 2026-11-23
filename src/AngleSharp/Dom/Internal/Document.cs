@@ -51,7 +51,7 @@ namespace AngleSharp.Dom
         private IElement? _focus;
         private HtmlAllCollection? _all;
         private HtmlCollection<IHtmlAnchorElement>? _anchors;
-        private HtmlCollection<IElement>? _children;
+        private ChildElementCollection? _children;
         private DomImplementation? _implementation;
         private IStringList? _styleSheetSets;
         private HtmlCollection<IHtmlFormElement>? _forms;
@@ -580,7 +580,7 @@ namespace AngleSharp.Dom
         public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Children => _children ??= new HtmlCollection<IElement>(ChildNodes.OfType<Element>());
+        public IHtmlCollection<IElement> Children => _children ??= new ChildElementCollection(this);
 
         /// <inheritdoc />
         public IElement? FirstElementChild

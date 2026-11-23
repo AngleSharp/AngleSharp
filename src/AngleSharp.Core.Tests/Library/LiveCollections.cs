@@ -208,5 +208,52 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreSame(shadow, inner.GetRootNode());
             Assert.AreSame(doc, inner.GetRootNode(new GetRootNodeOptions { IsComposed = true }));
         }
-    }
+    
+        [Test]
+        public void ChildrenFollowTheChildList()
+        {
+            var doc = Html("<div id=r><i></i>text<b></b></div>");
+            var root = doc.GetElementById("r");
+            var children = root.Children;
+
+            Assert.AreEqual(2, children.Length);
+            root.AppendChild(doc.CreateElement("u"));
+            Assert.AreEqual(3, children.Length);
+            Assert.AreEqual("U", children[2].TagName);
+            root.InsertBefore(children[2], children[0]);
+            Assert.AreEqual("U", children[0].TagName);
+            children[1].Remove();
+            Assert.AreEqual("U,B", String.Join(",", children.Select(m => m.TagName)));
+        }
+
+        [Test]
+        public void ChildrenStayTheSameWhenOnlyTheirContentChanges()
+        {
+            var doc = Html("<div id=r><i></i><b></b></div>");
+            var root = doc.GetElementById("r");
+            var children = root.Children;
+            var first = children[0];
+
+            first.SetAttribute("class", "x");
+            first.TextContent = "changed";
+            first.AppendChild(doc.CreateElement("span"));
+
+            Assert.AreEqual(2, children.Length);
+            Assert.AreSame(first, children[0]);
+        }
+
+        [Test]
+        public void ChildrenOfTheDocumentFollowItsRoot()
+        {
+            var doc = Html("<p>x</p>");
+            var children = doc.Children;
+            var root = doc.DocumentElement;
+
+            Assert.AreSame(root, children[0]);
+            root.Remove();
+            Assert.AreEqual(0, children.Length);
+            doc.AppendChild(doc.CreateElement("html"));
+            Assert.AreEqual(1, children.Length);
+        }
+}
 }

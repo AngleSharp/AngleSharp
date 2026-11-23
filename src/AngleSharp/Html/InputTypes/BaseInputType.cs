@@ -506,7 +506,8 @@ namespace AngleSharp.Html.InputTypes
         /// </summary>
         protected static Boolean PositionIsValidForDateTime(String value, Int32 position)
         {
-            return position >= 4 && position <= value.Length - 13 &&
+            // -MM-DDTHH:MM at least, as the seconds may be left out
+            return position >= 4 && position <= value.Length - 12 &&
                     value[position + 0] == Symbols.Minus &&
                     value[position + 1].IsDigit() &&
                     value[position + 2].IsDigit() &&
