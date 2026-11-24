@@ -1,6 +1,7 @@
 namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
     using AngleSharp.Io.Dom;
@@ -21,6 +22,7 @@ namespace AngleSharp.Html.Dom
         private static readonly ConditionalWeakTable<Document, InputCollection> _inputs = new();
         private BaseInputType? _type;
         private Boolean? _checked;
+        private Boolean _isCheckingRawValue;
         private Boolean _uncheckedByGroup;
 
         #endregion
@@ -296,9 +298,47 @@ namespace AngleSharp.Html.Dom
             return node;
         }
 
-        internal override async Task ClickAsync()
+        internal override Boolean HasActivationBehavior =>
+            Type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio, InputTypeNames.Submit, InputTypeNames.Image) ||
+            Type.IsOneOf(InputTypeNames.Reset, InputTypeNames.Button);
+
+        internal override async Task ClickAsync(Boolean immediate, Event? dispatched = null, IEventTarget? target = null)
         {
-            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
+            // the legacy-pre-activation behavior: a checkbox or radio button is checked before
+            // the listeners see the click, and goes back if one of them cancels it
+            var isCheckbox = Type.Is(InputTypeNames.Checkbox);
+            var isRadio = Type.Is(InputTypeNames.Radio);
+            var wasChecked = IsChecked;
+            var wasIndeterminate = IsIndeterminate;
+
+            if (isCheckbox)
+            {
+                IsChecked = !wasChecked;
+                IsIndeterminate = false;
+            }
+            else if (isRadio)
+            {
+                IsChecked = true;
+            }
+
+            var cancelled = await IsClickedCancelled(immediate, dispatched, target).ConfigureAwait(false);
+
+            if (isCheckbox || isRadio)
+            {
+                if (cancelled)
+                {
+                    IsChecked = wasChecked;
+                    IsIndeterminate = wasIndeterminate;
+                }
+                else if (wasChecked != IsChecked)
+                {
+                    this.FireSimpleEvent(EventNames.Input, bubble: true);
+                    this.FireSimpleEvent(EventNames.Change, bubble: true);
+                }
+
+                return;
+            }
+
             var form = Form;
 
             if (!cancelled && form != null)
@@ -370,6 +410,9 @@ namespace AngleSharp.Html.Dom
         #endregion
 
         #region Helpers
+
+        protected override String SanitizeValue(String value) =>
+            _type is null || _isCheckingRawValue ? value : _type.Sanitize(value);
 
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
@@ -475,9 +518,20 @@ namespace AngleSharp.Html.Dom
 
         protected override void Check(ValidityState state)
         {
-            base.Check(state);
-            var result = _type!.Check(state);
-            state.Reset(result);
+            // the validity is the one of what was given, e.g., a color that isn't one is a bad
+            // input, even though the value is sanitized to black
+            _isCheckingRawValue = true;
+
+            try
+            {
+                base.Check(state);
+                var result = _type!.Check(state);
+                state.Reset(result);
+            }
+            finally
+            {
+                _isCheckingRawValue = false;
+            }
         }
 
         protected override Boolean CanBeValidated() =>

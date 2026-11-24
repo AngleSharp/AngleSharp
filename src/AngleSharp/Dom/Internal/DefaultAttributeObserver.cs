@@ -53,10 +53,6 @@ namespace AngleSharp.Dom
             RegisterObserver<HtmlObjectElement>(AttributeNames.Data, (element, value) => element.UpdateSource(value));
             RegisterObserver<HtmlAudioElement>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
             RegisterObserver<HtmlVideoElement>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
-            RegisterObserver<HtmlImageElement>(AttributeNames.Src, (element, _) => element.UpdateSource());
-            RegisterObserver<HtmlImageElement>(AttributeNames.SrcSet, (element, _) => element.UpdateSource());
-            RegisterObserver<HtmlImageElement>(AttributeNames.Sizes, (element, _) => element.UpdateSource());
-            RegisterObserver<HtmlImageElement>(AttributeNames.CrossOrigin, (element, _) => element.UpdateSource());
             RegisterObserver<HtmlIFrameElement>(AttributeNames.Sandbox, (element, _) => element.UpdateSandbox());
             RegisterObserver<HtmlIFrameElement>(AttributeNames.SrcDoc, (element, _) => element.UpdateSource());
             RegisterObserver<HtmlFrameElementBase>(AttributeNames.Src, (element, _) => element.UpdateSource());

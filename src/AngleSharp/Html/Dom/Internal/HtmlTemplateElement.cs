@@ -21,7 +21,7 @@ namespace AngleSharp.Html.Dom
         public HtmlTemplateElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Template, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
-            _content = new DocumentFragment(owner, this);
+            _content = new DocumentFragment(owner.TemplateContentsOwner, this);
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace AngleSharp.Html.Dom
             // The contents are cloned only with the children, as the template's cloning steps say
             if (deep)
             {
-                CloneChildren(_content, template._content, owner);
+                CloneChildren(_content, template._content, template._content.Owner);
             }
 
             return template;
@@ -87,6 +87,7 @@ namespace AngleSharp.Html.Dom
             {
                 var node = ChildNodes[0];
                 RemoveNode(0, node);
+                node.Owner = _content.Owner;
                 _content.AddNode(node);
             }
 
@@ -105,7 +106,7 @@ namespace AngleSharp.Html.Dom
 
         protected override void ReplacedAll() => PopulateFragment();
 
-        protected override void NodeIsAdopted(Document oldDocument) => _content.Owner = Owner;
+        protected override void NodeIsAdopted(Document oldDocument) => _content.Owner = Owner.TemplateContentsOwner;
 
         #endregion
     }

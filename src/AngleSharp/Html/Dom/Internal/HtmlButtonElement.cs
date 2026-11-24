@@ -1,6 +1,7 @@
 namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
@@ -121,9 +122,11 @@ namespace AngleSharp.Html.Dom
 
         #region Methods
 
-        internal override async Task ClickAsync()
+        internal override Boolean HasActivationBehavior => true;
+
+        internal override async Task ClickAsync(Boolean immediate, Event? dispatched = null, IEventTarget? target = null)
         {
-            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
+            var cancelled = await IsClickedCancelled(immediate, dispatched, target).ConfigureAwait(false);
             var form = Form;
 
             if (!cancelled && form != null)

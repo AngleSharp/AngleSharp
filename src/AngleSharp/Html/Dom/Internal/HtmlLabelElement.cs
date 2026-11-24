@@ -1,6 +1,7 @@
 namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -17,6 +18,31 @@ namespace AngleSharp.Html.Dom
 
         #endregion
 
+        #region Helpers
+
+        private static Boolean IsHiddenInput(IHtmlElement element) =>
+            element is IHtmlInputElement input && input.Type.Isi(InputTypeNames.Hidden);
+
+        /// <summary>
+        /// Finds the labels of the given control in its tree (HTML 4.10.4).
+        /// </summary>
+        internal static NodeList FindLabels(Element control)
+        {
+            var labels = new NodeList();
+
+            foreach (var node in control.GetRoot().GetDescendants())
+            {
+                if (node is HtmlLabelElement label && label.Control == control)
+                {
+                    labels.Add(label);
+                }
+            }
+
+            return labels;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -28,16 +54,21 @@ namespace AngleSharp.Html.Dom
             {
                 var controlId = HtmlFor;
 
-                if (controlId is { Length: > 0 })
+                if (controlId is not null)
                 {
-                    var control = Owner.GetElementById(controlId) as IHtmlElement;
+                    var control = controlId.Length > 0 ? Owner.GetElementById(controlId) as IHtmlElement : null;
+                    return control is ILabelabelElement ? control : null;
+                }
 
-                    if (control is ILabelabelElement)
+                // without a for attribute it is the first labelable descendant (HTML 4.10.4)
+                foreach (var descendant in this.GetDescendants())
+                {
+                    if (descendant is ILabelabelElement && descendant is IHtmlElement element && !IsHiddenInput(element))
                     {
-                        return control;
+                        return element;
                     }
                 }
-                
+
                 return null;
             }
         }

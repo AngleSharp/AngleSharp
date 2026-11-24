@@ -183,6 +183,12 @@ namespace AngleSharp.Css
         public static readonly String Dir = "dir";
 
         /// <summary>
+        /// The state pseudo class: :state(name) matches a custom element whose internals have
+        /// the custom state.
+        /// </summary>
+        public static readonly String State = "state";
+
+        /// <summary>
         /// The has pseudo function.
         /// </summary>
         public static readonly String Has = "has";

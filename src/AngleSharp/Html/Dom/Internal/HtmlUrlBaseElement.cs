@@ -1,6 +1,7 @@
 namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using System;
     using System.Threading.Tasks;
 
@@ -163,9 +164,11 @@ namespace AngleSharp.Html.Dom
         /// <returns>The value of the href property.</returns>
         public override String ToString() => Href;
 
-        internal override async Task ClickAsync()
+        internal override Boolean HasActivationBehavior => this.HasOwnAttribute(AttributeNames.Href);
+
+        internal override async Task ClickAsync(Boolean immediate, Event? dispatched = null, IEventTarget? target = null)
         {
-            var cancelled = await IsClickedCancelled().ConfigureAwait(false);
+            var cancelled = await IsClickedCancelled(immediate, dispatched, target).ConfigureAwait(false);
 
             if (!cancelled)
             {

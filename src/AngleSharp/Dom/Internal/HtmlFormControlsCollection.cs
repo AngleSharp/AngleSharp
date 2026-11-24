@@ -22,7 +22,7 @@ namespace AngleSharp.Dom
         #region Fields
 
         private readonly IElement _form;
-        private readonly Element _root;
+        private readonly Element? _root;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace AngleSharp.Dom
             _form = form;
             // The walk uses the internal node links, and both call sites - a form element and a
             // fieldset element - hand in a node of this DOM.
-            _root = (Element)(root ?? form.Owner!.DocumentElement)!;
+            _root = (Element?)root;
         }
 
         #endregion
@@ -106,7 +106,23 @@ namespace AngleSharp.Dom
             }
         }
 
-        public Enumerator GetEnumerator() => new(_root, _form);
+        public Enumerator GetEnumerator() => new(_root ?? GetTopmostElement(), _form);
+
+        /// <summary>
+        /// The controls of a form are those in its tree, which is the document's or, for a
+        /// form a script hasn't inserted yet, the one of its topmost ancestor.
+        /// </summary>
+        private Element GetTopmostElement()
+        {
+            var top = (Element)_form;
+
+            while (top.ParentElement is Element parent)
+            {
+                top = parent;
+            }
+
+            return top;
+        }
 
         #endregion
 

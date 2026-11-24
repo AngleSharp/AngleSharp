@@ -24,6 +24,13 @@ namespace AngleSharp.Css.Dom
                 // remove interface dispatch overhead
                 if (parent.ChildNodes is NodeList nodeList)
                 {
+                    // Without an of-clause the position only depends on the tree: see ChildPositionMemo
+                    if (ReferenceEquals(Kind, AllSelector.Instance) && element is Node node)
+                    {
+                        var position = ChildPositionMemo.GetPosition(nodeList, node, fromEnd: false);
+                        return position > 0 && IsPosition(position);
+                    }
+
                     return DoMatch(new ConcreteNodeListAccessor(nodeList), element, scope);
                 }
 

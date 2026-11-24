@@ -85,6 +85,15 @@ namespace AngleSharp.Html.InputTypes
         }
 
         /// <summary>
+        /// Applies the value sanitization algorithm of the type to the given
+        /// value, e.g., an empty string for a date that is not valid.
+        /// </summary>
+        public virtual String Sanitize(String value)
+        {
+            return value;
+        }
+
+        /// <summary>
         /// Tries to convert the given string to a number.
         /// </summary>
         public virtual Double? ConvertToNumber(String? value)
@@ -228,29 +237,24 @@ namespace AngleSharp.Html.InputTypes
         {
             var result = ValidationErrors.None;
 
-            if (state.IsBadInput)
-            {
-                result ^= ValidationErrors.BadInput;
-            }
-
             if (state.IsTooShort)
             {
-                result ^= ValidationErrors.TooShort;
+                result |= ValidationErrors.TooShort;
             }
 
             if (state.IsTooLong)
             {
-                result ^= ValidationErrors.TooLong;
+                result |= ValidationErrors.TooLong;
             }
 
             if (state.IsValueMissing)
             {
-                result ^= ValidationErrors.ValueMissing;
+                result |= ValidationErrors.ValueMissing;
             }
 
             if (state.IsCustomError)
             {
-                result ^= ValidationErrors.Custom;
+                result |= ValidationErrors.Custom;
             }
 
             return result;
@@ -269,29 +273,29 @@ namespace AngleSharp.Html.InputTypes
             {
                 if (min.HasValue && date < min.Value)
                 {
-                    result ^= ValidationErrors.RangeUnderflow;
+                    result |= ValidationErrors.RangeUnderflow;
                 }
 
                 if (max.HasValue && date > max.Value)
                 {
-                    result ^= ValidationErrors.RangeOverflow;
+                    result |= ValidationErrors.RangeOverflow;
                 }
 
                 if (IsStepMismatch())
                 {
-                    result ^= ValidationErrors.StepMismatch;
+                    result |= ValidationErrors.StepMismatch;
                 }
             }
             else
             {
                 if (Input.IsRequired)
                 {
-                    result ^= ValidationErrors.ValueMissing;
+                    result |= ValidationErrors.ValueMissing;
                 }
 
                 if (!String.IsNullOrEmpty(value))
                 {
-                    result ^= ValidationErrors.BadInput;
+                    result |= ValidationErrors.BadInput;
                 }
             }
 
@@ -502,7 +506,8 @@ namespace AngleSharp.Html.InputTypes
         /// </summary>
         protected static Boolean PositionIsValidForDateTime(String value, Int32 position)
         {
-            return position >= 4 && position <= value.Length - 13 &&
+            // -MM-DDTHH:MM at least, as the seconds may be left out
+            return position >= 4 && position <= value.Length - 12 &&
                     value[position + 0] == Symbols.Minus &&
                     value[position + 1].IsDigit() &&
                     value[position + 2].IsDigit() &&

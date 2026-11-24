@@ -91,16 +91,24 @@ namespace AngleSharp.Css.Parser
                     return;
                 }
 
-                var node = new LinkedListNode<CachedSelector>(new CachedSelector(selectorText, selector));
+                LinkedListNode<CachedSelector> node;
+
+                if (_selectorCache.Count >= MaxCachedSelectors)
+                {
+                    // Evict first and reuse the evicted node: a style sheet with more selectors
+                    // than fit misses on every one, and would allocate a node for each.
+                    node = _selectorCacheOrder.Last!;
+                    _selectorCache.Remove(node.Value.Key);
+                    _selectorCacheOrder.RemoveLast();
+                    node.Value = new CachedSelector(selectorText, selector);
+                }
+                else
+                {
+                    node = new LinkedListNode<CachedSelector>(new CachedSelector(selectorText, selector));
+                }
+
                 _selectorCacheOrder.AddFirst(node);
                 _selectorCache[selectorText] = node;
-
-                if (_selectorCache.Count > MaxCachedSelectors)
-                {
-                    var last = _selectorCacheOrder.Last!;
-                    _selectorCache.Remove(last.Value.Key);
-                    _selectorCacheOrder.RemoveLast();
-                }
             }
         }
 

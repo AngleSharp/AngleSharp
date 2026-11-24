@@ -51,7 +51,7 @@ namespace AngleSharp.Dom
         private IElement? _focus;
         private HtmlAllCollection? _all;
         private HtmlCollection<IHtmlAnchorElement>? _anchors;
-        private HtmlCollection<IElement>? _children;
+        private ChildElementCollection? _children;
         private DomImplementation? _implementation;
         private IStringList? _styleSheetSets;
         private HtmlCollection<IHtmlFormElement>? _forms;
@@ -67,9 +67,12 @@ namespace AngleSharp.Dom
         private HashSet<Uri>? _importedUris;
         private Int64 _mutationVersion;
         private StringBuilder? _writtenText;
+        private Int32 _insertions;
         private Boolean _isParsingWrittenText;
         private StringCache? _constructionStrings;
         private Int32 _constructionStringCount;
+        private Document? _templateContentsOwner;
+        private Boolean _isTemplateContentsOwner;
 
         #endregion
 
@@ -555,6 +558,11 @@ namespace AngleSharp.Dom
         /// </summary>
         internal SemaphoreSlim ScriptExecution { get; } = new SemaphoreSlim(1, 1);
 
+        /// <summary>
+        /// Gets the number of times text was written into the source while it is parsed.
+        /// </summary>
+        internal Int32 Insertions => _insertions;
+
         /// <inheritdoc />
         public String DesignMode
         {
@@ -572,7 +580,7 @@ namespace AngleSharp.Dom
         public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Children => _children ??= new HtmlCollection<IElement>(ChildNodes.OfType<Element>());
+        public IHtmlCollection<IElement> Children => _children ??= new ChildElementCollection(this);
 
         /// <inheritdoc />
         public IElement? FirstElementChild
@@ -846,6 +854,33 @@ namespace AngleSharp.Dom
         internal Url? ActiveBaseUrl => _activeBaseElement?.FrozenBaseUrl;
 
         internal Url FallbackBaseUrl => _fallbackBaseUrl ?? DocumentUrl;
+
+        /// <summary>
+        /// Gets the inert document the contents of the templates of this document belong to
+        /// (HTML 4.12.3). It has the services of this one's browsing context (e.g. the styles of
+        /// its elements), but is never shown in it, and its scripts don't run.
+        /// </summary>
+        internal Document TemplateContentsOwner
+        {
+            get
+            {
+                if (_isTemplateContentsOwner)
+                {
+                    return this;
+                }
+
+                if (_templateContentsOwner is null)
+                {
+                    var inert = new Html.Dom.HtmlDocument(_context);
+                    inert._isTemplateContentsOwner = true;
+                    // what the contents refer to is still resolved against this document
+                    inert._fallbackBaseUrl = new Url(BaseUrl ?? DocumentUrl);
+                    _templateContentsOwner = inert;
+                }
+
+                return _templateContentsOwner;
+            }
+        }
 
         internal void UseBaseUrlOfCreator() => _fallbackBaseUrl = _context.Creator is Node { BaseUrl: Url url } ? new Url(url) : null;
 
@@ -1268,6 +1303,7 @@ namespace AngleSharp.Dom
                 if (_source is ITextSource wts)
                 {
                     wts.InsertText(content);
+                    _insertions++;
                 }
             }
         }
@@ -1580,6 +1616,12 @@ namespace AngleSharp.Dom
             _view.FireSimpleEvent(EventNames.DomContentLoaded);
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            // what started loading meanwhile (e.g. the images a renderer showed) is waited for too
+            while (GetAttachedReferences<Task>().Where(static task => !task.IsCompleted).ToArray() is { Length: > 0 } pending)
+            {
+                await Task.WhenAll(pending.Select(static task => task.ContinueWith(static _ => { }, TaskScheduler.Default))).ConfigureAwait(false);
+            }
 
             ReadyState = DocumentReadyState.Complete;
 

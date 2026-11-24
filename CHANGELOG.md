@@ -1,3 +1,61 @@
+# 1.11.0
+
+Released on Tuesday, November 24 2026.
+
+- Improved performance of parsing CSS selectors, cutting 15-30% of the time and 20-35% of the allocations
+- Improved performance of matching `:nth-child()`, `:nth-last-child()`, `:only-child`, the sibling combinators (`+`, `~`) and `[attr~=value]` (up to 70% less time)
+- Improved performance of finding a node among its siblings (e.g. `previousElementSibling`, `nextElementSibling`), which usually no longer scans the parent's children
+- Improved performance of moving and removing many nodes while a `MutationObserver` is active
+- Improved performance of `children`, which is only gathered again once the child list changed
+- Updated `img` elements to request nothing by themselves
+- Fixed setting the `value` of an `input` or `textarea` not moving the cursor to its end
+- Fixed `click()` dispatching its `click` event later instead of before it returns
+- Fixed `click()` on a checkbox or radio button not checking it (and not firing `input` and `change`)
+- Fixed `stopPropagation()` in a capturing listener of an element still running its bubbling listeners
+- Fixed `form.elements` of a form not in the document being empty
+- Fixed a style sheet served as another type than `text/css` (e.g. `text/html`) being applied in standards mode
+- Fixed text documents (e.g. `text/plain`) never completing, i.e. no `load` event
+- Fixed `setEnd` of a new range moving its start along, and `setStartBefore` (and the like) not collapsing a range they reverse
+- Fixed comparing the boundary points of a range in sibling nodes, which made `toString()` and `cloneContents()` include text outside the range
+- Fixed `Range.toString()` taking the whole text of adjacent text nodes for each of them
+- Fixed `cloneContents()` and `extractContents()` of a range in the document itself throwing
+- Fixed ranges being changed by splitting, normalizing or editing text as if set by script (`splitText` also moved the start where the end belonged)
+- Fixed a `NodeIterator` returning the wrong node after its filter removed the node it looked at
+- Fixed `createElementNS` accepting qualified names with an empty prefix or local name (e.g. `:div`)
+- Fixed `nth-child` selector not accepting some valid combinations (#1420) @bardrop
+- Fixed `TextSource.ReadMemory()` returning pooled memory that could change after further reads, encoding changes, or disposal; direct underlying-source reads still borrow memory (#1418)
+- Fixed a `form` with `method="dialog"` navigating instead of closing its dialog (with the value of the submitter as `returnValue`)
+- Fixed `showModal()` of an open or a disconnected dialog not throwing an `InvalidStateError`
+- Fixed scripts in a `template` running while it is parsed
+- Fixed `innerHTML` of a `template` not serializing its content
+- Fixed `showPopover()` of a shown popover throwing instead of doing nothing
+- Fixed `attachShadow()` of a shadow host throwing an `InvalidStateError` instead of a `NotSupportedError`
+- Fixed `shadowRoot` giving scripts a closed shadow root (C# still gets it via `ShadowRoot`)
+- Fixed the validity of a field staying invalid (`badInput`) once it had an invalid value
+- Fixed the value sanatization of `date`, `month`, `week`, `time`, `datetime-local`, `number`, `range` and `color`
+- Fixed `labels` of form controls, `meter` and `progress` always being empty
+- Fixed `label.control` not finding the control a label without `for` contains, and finding a hidden input
+- Fixed `formEnctype` of inputs and buttons being exposed as `formEncType` to scripts
+- Fixed `toDataURL()` of a canvas giving just the base64 of the image instead of a `data:` URL
+- Fixed a redirect with the status 308 not being followed
+- Fixed the parser duplicating a part of the document under certain conditions
+- Fixed the `type` of a `menu` not being `toolbar` by default
+- Fixed `focus()` moving the focus (and firing `focus` and `blur`) only in a later task
+- Fixed the contents of a `template` belonging to its document instead of an inert one (`template.content.ownerDocument`)
+- Fixed a `click` event a script dispatched not running the activation behavior
+- Fixed the `submit` event of a form submission not being trusted
+- Fixed a script with `nomodule` running even though module scripts are supported
+- Fixed a `datetime-local` value without seconds being sanitized to an empty string
+- Fixed the `load` event of a document not waiting for what started loading after the document was parsed but before it finished loading
+- Added `attachInternals()` and `ElementInternals` (form owner, `setFormValue`, `setValidity`, `checkValidity`) for form-associated custom elements, which are submitted, validated and reset (`formResetCallback`) with their form
+- Added the `::part()` pseudo-element to selectors
+- Added `assignedNodes()` and `assignedElements()` of slots
+- Added `IDocumentErrorHandler` services, which may provide a document when creating one from a response failed (e.g. to show the error)
+- Added `ElementInternals.states` (`CustomStateSet`) and the `:state()` pseudo-class
+- Added `setHTMLUnsafe()`, which also creates declarative shadow roots
+- Added `DomRegistry` and `DomRegistration` to declare APIs to a scripting engine without reflection
+- Added a source generator to declare a `DomRegistration` efficiently
+
 # 1.10.5
 
 Released on Wednesday, November 18 2026.

@@ -11,25 +11,18 @@
     /// </summary>
     sealed class HtmlProgressElement : HtmlElement, IHtmlProgressElement
     {
-        #region Fields
-
-        private readonly NodeList _labels;
-
-        #endregion
-
         #region ctor
 
         public HtmlProgressElement(Document owner, String? prefix = null)
             : base(owner, TagNames.Progress, prefix)
         {
-            _labels = [];
         }
 
         #endregion
 
         #region Properties
 
-        public INodeList Labels => _labels;
+        public INodeList Labels => HtmlLabelElement.FindLabels(this);
 
         public Boolean IsDeterminate => !String.IsNullOrEmpty(this.GetOwnAttribute(AttributeNames.Value));
 

@@ -249,6 +249,26 @@ public sealed class StreamingTextSourceTests
     }
 
     [Test]
+    public void FacadeMemoryReadKeepsItsContentWhileTheSourceReadsOn()
+    {
+        var payload = Encoding.UTF8.GetBytes("<title>original</title>" + new String('x', 32_000));
+        using var stream = new MemoryStream(payload);
+        using var source = new TextSource(stream, Encoding.UTF8, StreamTextSourceMode.Bounded, encodingIsCertain: true);
+        var memory = source.ReadMemory(15);
+
+        Assert.That(source.Index, Is.EqualTo(15));
+
+        for (var index = 0; index < 20_000; index++)
+        {
+            source.ReadCharacter();
+        }
+
+        source.Dispose();
+
+        Assert.That(memory.ToString(), Is.EqualTo("<title>original"));
+    }
+
+    [Test]
     public void EndOfFileReadCanBeReconsumed()
     {
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes("x"));

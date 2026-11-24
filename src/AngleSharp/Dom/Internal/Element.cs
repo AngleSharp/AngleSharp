@@ -22,7 +22,7 @@ namespace AngleSharp.Dom
         private readonly String _namespace;
         private readonly String? _prefix;
         private readonly String _localName;
-        private HtmlCollection<IElement>? _elements;
+        private ChildElementCollection? _elements;
         private TokenList? _classList;
         private IShadowRoot? _shadowRoot;
 
@@ -148,25 +148,15 @@ namespace AngleSharp.Dom
                 if (parent is not null)
                 {
                     var children = parent.ChildNodes;
-                    var found = false;
 
-                    // Scanning backwards matters: the preceding element sibling is usually
-                    // right next to this node, so the loop normally ends shortly after the
-                    // node is located. A forward scan would always pay the full prefix.
-                    for (var i = children.Length - 1; i >= 0; i--)
+                    // Index answers from the node's hint, so only the gap to the sibling is walked
+                    for (var i = children.Index(this) - 1; i >= 0; i--)
                     {
                         var node = children[i];
 
-                        if (found)
+                        if (node.NodeType == NodeType.Element)
                         {
-                            if (node.NodeType == NodeType.Element)
-                            {
-                                return (Element)node;
-                            }
-                        }
-                        else if (Object.ReferenceEquals(node, this))
-                        {
-                            found = true;
+                            return (Element)node;
                         }
                     }
                 }
@@ -186,22 +176,19 @@ namespace AngleSharp.Dom
                 {
                     var children = parent.ChildNodes;
                     var n = children.Length;
-                    var found = false;
+                    var index = children.Index(this);
 
-                    for (var i = 0; i < n; i++)
+                    // As above; a child is always found, so index is never -1 here
+                    if (index >= 0)
                     {
-                        var node = children[i];
-
-                        if (found)
+                        for (var i = index + 1; i < n; i++)
                         {
+                            var node = children[i];
+
                             if (node.NodeType == NodeType.Element)
                             {
                                 return (Element)node;
                             }
-                        }
-                        else if (Object.ReferenceEquals(node, this))
-                        {
-                            found = true;
                         }
                     }
                 }
@@ -232,7 +219,7 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IHtmlCollection<IElement> Children => _elements ??= new HtmlCollection<IElement>(this, deep: false);
+        public IHtmlCollection<IElement> Children => _elements ??= new ChildElementCollection(this);
 
         /// <inheritdoc />
         public IElement? FirstElementChild
@@ -277,7 +264,8 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public String InnerHtml
         {
-            get => ChildNodes.ToHtml();
+            // what a template holds is its content (HTML 4.12.3)
+            get => this is Html.Dom.IHtmlTemplateElement template && !HasChildNodes ? template.Content.ChildNodes.ToHtml() : ChildNodes.ToHtml();
             set => ReplaceAll(new DocumentFragment(this, value), false);
         }
 
@@ -324,7 +312,8 @@ namespace AngleSharp.Dom
                     // currently be focused, silently stealing their focus (and firing a spurious
                     // blur on them) whenever an unrelated, never-focused element's own IsFocused is
                     // set to false (e.g. a DoBlur() call on an element that was never focused).
-                    document.QueueTask(() => document.SetFocus(value ? this : null));
+                    // the focus moves (and blur and focus are fired) right away (HTML 6.6.4)
+                    document.SetFocus(value ? this : null);
                 }
 
             }
@@ -353,7 +342,7 @@ namespace AngleSharp.Dom
 
             if (ShadowRoot != null)
             {
-                throw new DomException(DomError.InvalidState);
+                throw new DomException(DomError.NotSupported);
             }
 
             _shadowRoot = new ShadowRoot(this, mode);

@@ -101,6 +101,11 @@ public sealed class ReadOnlyByteTextSource : IReadOnlyTextSource
     public String ReadCharacters(Int32 characters) => ReadMemory(characters).ToString();
 
     /// <inheritdoc />
+    /// <remarks>
+    /// Returns borrowed memory from a pooled array. Consume it before changing the encoding
+    /// or disposing the source or its owning document. To retain the content, use
+    /// <see cref="ReadCharacters"/> or call <see cref="StringOrMemory.ToString"/> while valid.
+    /// </remarks>
     public StringOrMemory ReadMemory(Int32 characters)
     {
         var start = _index;

@@ -30,12 +30,12 @@ namespace AngleSharp.Html.InputTypes
 
             if (IsInvalidPattern(Input.Pattern, value))
             {
-                result ^= ValidationErrors.PatternMismatch;
+                result |= ValidationErrors.PatternMismatch;
             }
 
             if (IsInvalidEmail(Input.IsMultiple, value) && !String.IsNullOrEmpty(value))
             {
-                result ^= ValidationErrors.TypeMismatch | ValidationErrors.BadInput;
+                result |= ValidationErrors.TypeMismatch | ValidationErrors.BadInput;
             }
 
             return result;

@@ -1447,7 +1447,7 @@ namespace AngleSharp.Core.Tests.Library
             Assert.AreSame(newdocument, import.QuerySelector("p").Owner);
             Assert.AreSame(newdocument, import.QuerySelector("p").FirstChild.Owner);
             Assert.AreSame(newdocument, import.QuerySelector("p").LastChild.Owner);
-            Assert.AreSame(newdocument, template.Content.FirstChild.Owner);
+            Assert.AreSame(newdocument.CreateElement<IHtmlTemplateElement>().Content.Owner, template.Content.FirstChild.Owner);
             Assert.AreSame(newdocument, newdocument.Import(document.QuerySelector("p"), false).Owner);
             Assert.AreSame(document, document.QuerySelector("div").Owner);
         }
@@ -1488,8 +1488,11 @@ namespace AngleSharp.Core.Tests.Library
 
             Assert.AreEqual("<p>a<template><i>b</i></template></p><style>p{}</style>", clone.Content.ToHtml());
             Assert.AreNotSame(template.Content.FirstChild, paragraph);
-            Assert.AreSame(newdocument, paragraph.Owner);
-            Assert.AreSame(newdocument, inner.Content.FirstChild.Owner);
+            // the contents of templates belong to the inert document of the new one (HTML 4.12.3)
+            var contents = newdocument.CreateElement<IHtmlTemplateElement>().Content.Owner;
+            Assert.AreSame(newdocument, clone.Owner);
+            Assert.AreSame(contents, paragraph.Owner);
+            Assert.AreSame(contents, inner.Content.FirstChild.Owner);
             Assert.AreEqual("<i>b</i>", inner.Content.ToHtml());
         }
 

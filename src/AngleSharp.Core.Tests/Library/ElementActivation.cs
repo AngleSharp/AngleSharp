@@ -3,6 +3,7 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp.Browser;
     using AngleSharp.Browser.Dom.Events;
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Html.Dom;
     using AngleSharp.Io;
     using NUnit.Framework;
@@ -133,5 +134,108 @@ namespace AngleSharp.Core.Tests.Library
 
             Assert.IsFalse(details.IsOpen);
         }
-    }
+    
+        private static IHtmlDocument Form(String html) => (IHtmlDocument)html.ToHtmlDocument();
+
+        [Test]
+        public void ClickDispatchedAtASubmitButtonSubmitsItsForm()
+        {
+            var document = Form("<form id=f><input name=x><button id=b>Add</button></form>");
+            var submits = new List<Event>();
+            document.GetElementById("f").AddEventListener(EventNames.Submit, (_, ev) => { submits.Add(ev); ev.Cancel(); });
+
+            var proceeds = document.GetElementById("b").Dispatch(new AngleSharp.Html.Dom.Events.MouseEvent(EventNames.Click, bubbles: true, cancelable: true));
+
+            Assert.IsTrue(proceeds);
+            Assert.AreEqual(1, submits.Count);
+            Assert.AreSame(document.GetElementById("b"), ((AngleSharp.Html.Dom.Events.SubmitEvent)submits[0]).Submitter);
+        }
+
+        [Test]
+        public void ClickDispatchedAtTheContentOfAButtonSubmitsItsForm()
+        {
+            var document = Form("<form id=f><button><span id=s>Add</span></button></form>");
+            var submits = 0;
+            document.GetElementById("f").AddEventListener(EventNames.Submit, (_, ev) => { submits++; ev.Cancel(); });
+
+            document.GetElementById("s").Dispatch(new AngleSharp.Html.Dom.Events.MouseEvent(EventNames.Click, bubbles: true, cancelable: true));
+
+            Assert.AreEqual(1, submits);
+        }
+
+        [Test]
+        public void CanceledClickDispatchedAtASubmitButtonDoesNotSubmit()
+        {
+            var document = Form("<form id=f><button id=b>Add</button></form>");
+            var submits = 0;
+            var button = document.GetElementById("b");
+            document.GetElementById("f").AddEventListener(EventNames.Submit, (_, ev) => { submits++; ev.Cancel(); });
+            button.AddEventListener(EventNames.Click, (_, ev) => ev.Cancel());
+
+            var proceeds = button.Dispatch(new AngleSharp.Html.Dom.Events.MouseEvent(EventNames.Click, bubbles: true, cancelable: true));
+
+            Assert.IsFalse(proceeds);
+            Assert.AreEqual(0, submits);
+        }
+
+        [Test]
+        public void ClickDispatchedAtACheckboxChecksItBeforeTheListenersSeeIt()
+        {
+            var document = Form("<input type=checkbox id=c>");
+            var checkbox = (IHtmlInputElement)document.GetElementById("c");
+            var seen = new List<Boolean>();
+            var changes = 0;
+            checkbox.AddEventListener(EventNames.Click, (_, _) => seen.Add(checkbox.IsChecked));
+            checkbox.AddEventListener(EventNames.Change, (_, _) => changes++);
+
+            checkbox.Dispatch(new AngleSharp.Html.Dom.Events.MouseEvent(EventNames.Click, bubbles: true, cancelable: true));
+
+            Assert.IsTrue(checkbox.IsChecked);
+            CollectionAssert.AreEqual(new[] { true }, seen);
+            Assert.AreEqual(1, changes);
+        }
+
+        [Test]
+        public void CanceledClickDispatchedAtACheckboxLeavesItAsItWas()
+        {
+            var document = Form("<input type=checkbox id=c>");
+            var checkbox = (IHtmlInputElement)document.GetElementById("c");
+            checkbox.AddEventListener(EventNames.Click, (_, ev) => ev.Cancel());
+
+            checkbox.Dispatch(new AngleSharp.Html.Dom.Events.MouseEvent(EventNames.Click, bubbles: true, cancelable: true));
+
+            Assert.IsFalse(checkbox.IsChecked);
+        }
+
+        [Test]
+        public void DispatchedClickThatIsNoMouseEventDoesNothingElse()
+        {
+            var document = Form("<input type=checkbox id=c>");
+            var checkbox = (IHtmlInputElement)document.GetElementById("c");
+            var clicks = 0;
+            checkbox.AddEventListener(EventNames.Click, (_, _) => clicks++);
+
+            checkbox.Dispatch(new Event(EventNames.Click, bubbles: true, cancelable: true));
+
+            Assert.AreEqual(1, clicks);
+            Assert.IsFalse(checkbox.IsChecked);
+        }
+
+        [Test]
+        public void ClickOfASubmitButtonSubmitsOnceWithATrustedEvent()
+        {
+            var document = Form("<form id=f><button id=b>Add</button></form>");
+            var submits = new List<Event>();
+            var clicks = 0;
+            var button = (IHtmlElement)document.GetElementById("b");
+            button.AddEventListener(EventNames.Click, (_, _) => clicks++);
+            document.GetElementById("f").AddEventListener(EventNames.Submit, (_, ev) => { submits.Add(ev); ev.Cancel(); });
+
+            button.DoClick();
+
+            Assert.AreEqual(1, clicks);
+            Assert.AreEqual(1, submits.Count);
+            Assert.IsTrue(submits[0].IsTrusted);
+        }
+}
 }

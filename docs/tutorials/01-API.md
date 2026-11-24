@@ -60,6 +60,37 @@ Officially, we try to establish `AngleSharp.Js` as the solution. This is a separ
 
 Script hosts that cache event-handler properties can subscribe to the .NET `EventTarget.OnReset` event. `RemoveEventListeners` clears native registrations and then raises the event once, allowing the host to discard its cached handlers for that target. `ListenerResetVersion` changes before notification so a handler assigned by an earlier subscriber during the reset is not discarded by a later subscriber. Individual `RemoveEventListener` calls do not raise the event. These are CLR integration members, not DOM events or properties exposed to scripts.
 
+#### Declaring the DOM without reflection
+
+By default a script engine finds the DOM surface by reflecting over the WebIDL attributes (`DomName` and friends) of every library in use. Reflection keeps no type alive for the trimmer and is unavailable under native AoT, so the namespace `AngleSharp.Scripting` also contains a contract by which the DOM can be declared in code instead:
+
+- `DomRegistration` is a delegate taking a `DomRegistry`. Each AngleSharp library ships one for its own DOM, so it always matches the version in use.
+- `DomRegistry` declares types (`Type<T>`), mixins (`Mixin<T>`), constant objects, WebIDL enumerations (`Literals<TEnum>`), named constructors and window instances. Each type then gets its prototype chain, members, constructors, static members, indexers and event handlers.
+- `DomArguments` gives a registered member the arguments script passed, converted on request, and `DomCallback` stands for a function passed by script.
+- `DomRegistrations.Combine` joins the registrations of several libraries. They run in order, so a later library can add members to a type declared by an earlier one.
+
+```cs
+DomRegistration registration = registry =>
+{
+    registry.Type<INode>("Node")
+        .Property("textContent", node => node.TextContent, (node, value) => node.TextContent = value);
+
+    registry.Type<IElement>("Element")
+        .Inherits<INode>()
+        .Method("getAttribute", (element, args) => element.GetAttribute(args.Get<String>(0)), length: 1);
+};
+```
+
+Every member is a strongly typed delegate, so an engine needs no reflection to invoke it, and what is registered is exactly what the trimmer keeps. The registry is implemented by the engine; `AngleSharp.Js` takes a registration through `WithJs(registration)` and falls back to reflection when none is given.
+
+Writing such a registration by hand is not needed for a library that already carries the DOM attributes: the package of AngleSharp includes a source generator that writes it at build time. A library asks for it with an assembly attribute naming the static class to generate:
+
+```cs
+[assembly: GenerateDomRegistration("MyLibrary.MyLibraryDom")]
+```
+
+The generated `MyLibraryDom.Register` follows the rules a reflecting engine applies to the same attributes, including the members the library adds to the DOM of others (`[DomExposed]`). Members it cannot express are reported as warnings (`ASDOM001` to `ASDOM003`). The DOM of AngleSharp itself is declared by `AngleSharp.Scripting.CoreDom.Register`.
+
 ### ISpellCheckService
 
 Allows registration of individual spell-checkers. Each spell-checker is registered with its culture, making it sensitive to whatever culture the webpage or text is probably using.

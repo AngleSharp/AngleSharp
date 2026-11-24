@@ -276,19 +276,19 @@ namespace AngleSharp.Dom
             {
                 if (m.Head == this && m.Start > offset && m.Start <= offset + count)
                 {
-                    m.StartWith(this, offset);
+                    m.MoveStart(this, offset);
                 }
                 if (m.Tail == this && m.End > offset && m.End <= offset + count)
                 {
-                    m.EndWith(this, offset);
+                    m.MoveEnd(this, offset);
                 }
                 if (m.Head == this && m.Start > offset + count)
                 {
-                    m.StartWith(this, m.Start + data.Length - count);
+                    m.MoveStart(this, m.Start + data.Length - count);
                 }
                 if (m.Tail == this && m.End > offset + count)
                 {
-                    m.EndWith(this, m.End + data.Length - count);
+                    m.MoveEnd(this, m.End + data.Length - count);
                 }
             }
         }

@@ -27,7 +27,11 @@ namespace AngleSharp.Io
             status == HttpStatusCode.RedirectMethod ||
             status == HttpStatusCode.TemporaryRedirect ||
             status == HttpStatusCode.MovedPermanently ||
+            status == PermanentRedirect ||
             status == HttpStatusCode.MultipleChoices;
+
+        // HttpStatusCode.PermanentRedirect is missing in .NET Standard 2.0
+        private const HttpStatusCode PermanentRedirect = (HttpStatusCode)308;
 
         /// <summary>
         /// Performs a potentially CORS-enabled fetch from the given URI by

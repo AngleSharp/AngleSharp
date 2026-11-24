@@ -109,22 +109,22 @@ namespace AngleSharp.Dom
                 {
                     if (m.Head == this && m.Start > offset)
                     {
-                        m.StartWith(newNode, m.Start - offset);
+                        m.MoveStart(newNode, m.Start - offset);
                     }
 
                     if (m.Tail == this && m.End > offset)
                     {
-                        m.EndWith(newNode, m.End - offset);
+                        m.MoveEnd(newNode, m.End - offset);
                     }
 
                     if (m.Head == parent && m.Start == index + 1)
                     {
-                        m.StartWith(parent, m.Start + 1);
+                        m.MoveStart(parent, m.Start + 1);
                     }
 
                     if (m.Tail == parent && m.End == index + 1)
                     {
-                        m.StartWith(parent, m.End + 1);
+                        m.MoveEnd(parent, m.End + 1);
                     }
                 }
             }
@@ -137,11 +137,11 @@ namespace AngleSharp.Dom
                 {
                     if (m.Head == this && m.Start > offset)
                     {
-                        m.StartWith(this, offset);
+                        m.MoveStart(this, offset);
                     }
                     if (m.Tail == this && m.End > offset)
                     {
-                        m.EndWith(this, offset);
+                        m.MoveEnd(this, offset);
                     }
                 }
             }

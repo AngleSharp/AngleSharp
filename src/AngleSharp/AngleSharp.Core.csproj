@@ -56,6 +56,14 @@
     <PackageReference Include="System.Text.Encoding.CodePages" />
   </ItemGroup>
 
+  <!-- The DOM registration generator: run on this assembly (CoreDom), and packed as an analyzer so
+       every library referencing AngleSharp gets the generator matching the contract it compiles
+       against. It is no dependency of the package (PrivateAssets), only part of it. -->
+  <ItemGroup>
+    <ProjectReference Include="..\AngleSharp.Generators\AngleSharp.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+    <None Include="$(MSBuildThisFileDirectory)..\AngleSharp.Generators\bin\$(Configuration)\netstandard2.0\AngleSharp.Generators.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)..\..\logo.png" Pack="true" PackagePath="\" Visible="false" />
     <None Include="$(MSBuildThisFileDirectory)..\..\README.md" Pack="true" PackagePath="\" Visible="false" />
@@ -65,6 +73,9 @@
     <InternalsVisibleTo Include="AngleSharp.Core.Tests, PublicKey=002400000480000094000000060200000024000052534131000400000100010001adf274fa2b375134e8e4558d606f1a0f96f5cd0c6b99970f7cce9887477209d7c29f814e2508d8bd2526e99e8cd273bd1158a3984f1ea74830ec5329a77c6ff201a15edeb8b36ab046abd1bce211fe8dbb076d7d806f46b15bfda44def04ead0669971e96c5f666c9eda677f28824fff7aa90d32929ed91d529a7a41699893" />
     <AssemblyAttribute Include="System.Runtime.InteropServices.ComVisibleAttribute">
       <_Parameter1>false</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="AngleSharp.Attributes.GenerateDomRegistrationAttribute">
+      <_Parameter1>AngleSharp.Scripting.CoreDom</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 </Project>

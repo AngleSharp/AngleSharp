@@ -17,7 +17,7 @@ namespace AngleSharp.Dom
         private readonly IStyleSheetList _styleSheets;
         private readonly ShadowRootMode _mode;
 
-        HtmlCollection<IElement>? _elements;
+        private ChildElementCollection? _elements;
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace AngleSharp.Dom
 
         public Int32 ChildElementCount => ChildNodes.OfType<Element>().Count();
 
-        public IHtmlCollection<IElement> Children => _elements ??= new HtmlCollection<IElement>(this, deep: false);
+        public IHtmlCollection<IElement> Children => _elements ??= new ChildElementCollection(this);
 
         public IElement? FirstElementChild
         {

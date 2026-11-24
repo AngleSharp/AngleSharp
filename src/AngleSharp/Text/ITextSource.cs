@@ -71,6 +71,15 @@ public interface IReadOnlyTextSource : IDisposable
     /// Reads the upcoming numbers of characters from the buffer or
     /// underlying stream, if any.
     /// </summary>
+    /// <remarks>
+    /// Intended for parsers and other consumers that manage the source's lifetime directly.
+    /// The result may reference borrowed, mutable storage. Unless the implementation guarantees
+    /// a longer lifetime, consume it before further source operations, encoding changes, or
+    /// disposal of the source or its owning document. To retain the content, call
+    /// <see cref="StringOrMemory.ToString"/> while the result is valid, or use
+    /// <see cref="ReadCharacters"/> instead. Read-only memory does not imply ownership or
+    /// immutable backing storage.
+    /// </remarks>
     /// <param name="characters">The number of characters to read.</param>
     /// <returns>The structure which is either materialized string or a reference to Memory of Char</returns>
     StringOrMemory ReadMemory(Int32 characters);

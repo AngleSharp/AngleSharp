@@ -235,6 +235,11 @@ internal sealed class StreamingTextSource : IReadOnlyTextSource
     }
 
     /// <inheritdoc />
+    /// <remarks>
+    /// May return borrowed memory from the pooled decoding window. Consume it before further
+    /// source operations, encoding changes, or disposal. To retain the content, use
+    /// <see cref="ReadCharacters"/> or call <see cref="StringOrMemory.ToString"/> while valid.
+    /// </remarks>
     public StringOrMemory ReadMemory(Int32 characters)
     {
         if (characters < 0)

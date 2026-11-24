@@ -11,6 +11,7 @@ namespace AngleSharp.Core.Tests.Library
     using System;
     using System.Linq;
     using System.Net.Http;
+    using System.Threading;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -163,6 +164,12 @@ namespace AngleSharp.Core.Tests.Library
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             var img = document.QuerySelector<IHtmlImageElement>("img");
+
+            // an image requests nothing by itself, what shows it loads it
+            Assert.AreEqual(0, delayRequester.RequestCount);
+            Assert.IsFalse(img.IsCompleted);
+
+            await img.LoadAsync(new Url(img.Source));
             Assert.AreEqual(1, delayRequester.RequestCount);
             Assert.IsTrue(img.IsCompleted);
         }
@@ -301,6 +308,109 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
+        public async Task LoadEventWaitsForImagesLoadedWhileTheDocumentIsLoading()
+        {
+            // e.g. the images a renderer shows before the document has loaded
+            var delayRequester = new DelayRequester(100);
+            var imageService = new ResourceService<IImageInfo>("image/jpeg", response => new MockImageInfo { Source = response.Address });
+            var config = Configuration.Default.With(delayRequester).WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).With(imageService)
+                .WithOnly<IHtmlParser>(context =>
+                {
+                    var parser = new HtmlParser(new HtmlParserOptions(), context);
+                    parser.Parsing += (_, ev) =>
+                    {
+                        var document = ((HtmlParseEvent)ev).Document;
+                        document.AddEventListener(EventNames.DomContentLoaded, (_, _) =>
+                        {
+                            var img = document.QuerySelector<IHtmlImageElement>("img");
+                            _ = img.LoadAsync(new Url(img.Source));
+                        });
+                    };
+                    return parser;
+                });
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<img src=whatever.jpg>"));
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+
+            Assert.AreEqual(DocumentReadyState.Complete, document.ReadyState);
+            Assert.AreEqual(1, delayRequester.RequestCount);
+            Assert.IsTrue(img.IsCompleted);
+        }
+
+        [TestCase(1.0, 800, 600)]
+        [TestCase(2.0, 400, 300)]
+        [TestCase(0.5, 1600, 1200)]
+        public async Task NaturalSizeOfAnImageIsDividedByItsDensity(Double density, Int32 width, Int32 height)
+        {
+            var imageService = new ResourceService<IImageInfo>("image/jpeg", response => new MockImageInfo { Source = response.Address, Width = 800, Height = 600 });
+            var config = Configuration.Default.With(new DelayRequester(0)).WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).With(imageService);
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<img srcset=\"whatever.jpg 2x\">").Address("http://localhost/"));
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+
+            await img.LoadAsync(new Url("http://localhost/whatever.jpg"), density);
+
+            Assert.AreEqual(width, img.OriginalWidth);
+            Assert.AreEqual(height, img.OriginalHeight);
+        }
+
+        [Test]
+        public async Task LoadingAnImageAgainWaitsForTheLoadInFlight()
+        {
+            var processing = new TaskCompletionSource<IImageInfo>();
+            var imageService = new SlowImageService(processing.Task);
+            var config = Configuration.Default.With(new DelayRequester(0)).WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).With(imageService);
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<img>").Address("http://localhost/"));
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            var source = new Url("http://localhost/whatever.jpg");
+
+            var first = img.LoadAsync(source);
+            await ((ILoadableElement)img).CurrentDownload.Task;
+            var second = img.LoadAsync(source);
+
+            Assert.IsFalse(second.IsCompleted);
+            processing.SetResult(new MockImageInfo { Source = source, Width = 20, Height = 10 });
+            await second;
+            Assert.AreEqual(20, img.OriginalWidth);
+            await first;
+        }
+
+        private sealed class SlowImageService : IResourceService<IImageInfo>
+        {
+            private readonly Task<IImageInfo> _result;
+
+            public SlowImageService(Task<IImageInfo> result) => _result = result;
+
+            public Boolean SupportsType(String mimeType) => true;
+
+            public Task<IImageInfo> CreateAsync(IResponse response, CancellationToken cancel) => _result;
+        }
+
+        [Test]
+        public async Task LoadEventDoesNotWaitForImagesLoadedAfterwards()
+        {
+            var delayRequester = new DelayRequester(200);
+            var imageService = new ResourceService<IImageInfo>("image/jpeg", response => new MockImageInfo { Source = response.Address });
+            var config = Configuration.Default.With(delayRequester).WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true }).With(imageService);
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<img src=whatever.jpg>"));
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            var loaded = false;
+            img.AddEventListener(EventNames.Load, (_, _) => loaded = true);
+
+            var task = img.LoadAsync(new Url(img.Source));
+
+            Assert.AreEqual(DocumentReadyState.Complete, document.ReadyState);
+            Assert.IsFalse(img.IsCompleted);
+            await task;
+            Assert.IsTrue(img.IsCompleted);
+
+            for (var i = 0; i < 50 && !loaded; i++)
+            {
+                await Task.Delay(20);
+            }
+
+            Assert.IsTrue(loaded);
+        }
+
+        [Test]
         public async Task GetDownloadsOfExampleDocumentWithoutCssAndJsShouldYieldPartialResources()
         {
             var config = Configuration.Default.WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true });
@@ -316,7 +426,8 @@ namespace AngleSharp.Core.Tests.Library
             var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
             var downloads = document.GetDownloads().ToArray();
 
-            Assert.AreEqual(2, downloads.Length);
+            // the image is loaded by what shows it
+            Assert.AreEqual(1, downloads.Length);
 
             foreach (var download in downloads)
             {
@@ -324,8 +435,7 @@ namespace AngleSharp.Core.Tests.Library
                 Assert.IsNotNull(download.Source);
             }
 
-            Assert.AreEqual(document.QuerySelector("img"), downloads[0].Source);
-            Assert.AreEqual(document.QuerySelector("iframe"), downloads[1].Source);
+            Assert.AreEqual(document.QuerySelector("iframe"), downloads[0].Source);
         }
 
         [Test]
@@ -431,6 +541,109 @@ namespace AngleSharp.Core.Tests.Library
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
             Assert.IsInstanceOf<HtmlDocument>(document);
+        }
+
+        [Test]
+        public async Task FailingToCreateADocumentPropagatesWithoutAnErrorHandler()
+        {
+            var config = Configuration.Default.WithOnly<IDocumentFactory>(CreateFailingFactory());
+            var context = BrowsingContext.New(config);
+
+            try
+            {
+                await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
+                Assert.Fail("The error should propagate.");
+            }
+            catch (FormatException)
+            {
+            }
+        }
+
+        [Test]
+        public async Task FailingToCreateADocumentIsGivenToTheErrorHandler()
+        {
+            var handler = new ErrorDocumentHandler();
+            var config = Configuration.Default.WithOnly<IDocumentFactory>(CreateFailingFactory()).With(handler);
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res => res.Content("").Address("http://localhost/doc.md").Header(HeaderNames.ContentType, "text/markdown"));
+            Assert.IsInstanceOf<FormatException>(handler.Error);
+            Assert.AreEqual("http://localhost/doc.md", handler.Address);
+            Assert.AreEqual("not markdown", document.Body.TextContent);
+        }
+
+        [Test]
+        public async Task FailingToCreateTheDocumentOfAFrameIsGivenToTheErrorHandler()
+        {
+            var handler = new ErrorDocumentHandler();
+            var config = Configuration.Default
+                .WithOnly<IDocumentFactory>(CreateFailingFactory())
+                .With(handler)
+                .WithDefaultLoader(new LoaderOptions { IsResourceLoadingEnabled = true })
+                .With(new MarkdownRequester());
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res => res.Content("<iframe src='http://localhost/doc.md'></iframe>").Address("http://localhost/"));
+            var iframe = document.QuerySelector<IHtmlInlineFrameElement>("iframe");
+            await iframe.CurrentDownload.Task;
+            Assert.AreEqual("http://localhost/doc.md", handler.Address);
+            Assert.AreEqual("not markdown", iframe.ContentDocument.Body.TextContent);
+        }
+
+        [Test]
+        public async Task ErrorHandlerNotHandlingTheErrorLetsItPropagate()
+        {
+            var config = Configuration.Default.WithOnly<IDocumentFactory>(CreateFailingFactory()).With(new ErrorDocumentHandler { IsHandling = false });
+            var context = BrowsingContext.New(config);
+
+            try
+            {
+                await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
+                Assert.Fail("The error should propagate.");
+            }
+            catch (FormatException)
+            {
+            }
+        }
+
+        private static DefaultDocumentFactory CreateFailingFactory()
+        {
+            var factory = new DefaultDocumentFactory();
+            factory.Register("text/markdown", (ctx, options, _) => throw new FormatException("not markdown"));
+            return factory;
+        }
+
+        private sealed class ErrorDocumentHandler : IDocumentErrorHandler
+        {
+            public Boolean IsHandling { get; set; } = true;
+
+            public Exception Error { get; private set; }
+
+            public String Address { get; private set; }
+
+            public async Task<IDocument> HandleAsync(IBrowsingContext context, CreateDocumentOptions options, Exception error, System.Threading.CancellationToken cancellationToken)
+            {
+                Error = error;
+                Address = options.Response.Address.Href;
+
+                if (!IsHandling)
+                {
+                    return null;
+                }
+
+                var factory = context.GetFactory<IDocumentFactory>();
+                var response = VirtualResponse.Create(res => res.Address(options.Response.Address).Content(error.Message));
+                return await factory.CreateAsync(context, new CreateDocumentOptions(response, null, options.ImportAncestor), cancellationToken);
+            }
+        }
+
+        private sealed class MarkdownRequester : BaseRequester
+        {
+            public override Boolean SupportsProtocol(String protocol) => protocol == ProtocolNames.Http;
+
+            protected override Task<IResponse> PerformRequestAsync(Request request, System.Threading.CancellationToken cancel)
+            {
+                var response = VirtualResponse.Create(res => res.Address(request.Address).Content("# title").Header(HeaderNames.ContentType, "text/markdown"));
+                return Task.FromResult(response);
+            }
         }
 
         [Test]

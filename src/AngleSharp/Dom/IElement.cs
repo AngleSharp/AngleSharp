@@ -274,9 +274,9 @@ namespace AngleSharp.Dom
         String? Slot { get; set; }
 
         /// <summary>
-        /// Gets the shadow root of the current element, if any.
+        /// Gets the shadow root of the current element, if any (also a closed one; scripts
+        /// see the one of <see cref="ElementShadowRootExtensions.GetShadowRoot"/>).
         /// </summary>
-        [DomName("shadowRoot")]
         IShadowRoot? ShadowRoot { get; }
 
         /// <summary>

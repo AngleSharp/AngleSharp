@@ -79,6 +79,7 @@ namespace AngleSharp.Dom
         internal const String Disconnected = "disconnectedCallback";
         internal const String AttributeChanged = "attributeChangedCallback";
         internal const String Adopted = "adoptedCallback";
+        internal const String FormReset = "formResetCallback";
 
         private readonly HashSet<String> _observedAttributes;
         private readonly IReadOnlyDictionary<String, Object> _callbacks;
@@ -515,6 +516,12 @@ namespace AngleSharp.Dom
         /// Gets if a custom element was defined at all in this process, i.e., if a host has to care.
         /// </summary>
         public static Boolean IsInUse => Volatile.Read(ref s_isInUse);
+
+        /// <summary>
+        /// Tells a form-associated custom element that its form was reset.
+        /// </summary>
+        internal static void NotifyFormReset(Element element) =>
+            Schedule(element, () => Call(element, CustomElementDefinition.FormReset));
 
         // Without anybody holding back they run right away, which is what the parser asks for.
         private static void Schedule(Element element, Action reaction)

@@ -23,17 +23,22 @@ namespace AngleSharp.Html.InputTypes
 
         #region Methods
 
+        public override String Sanitize(String value)
+        {
+            return hexColorPattern.IsMatch(value) ? value.ToLowerInvariant() : "#000000";
+        }
+
         public override ValidationErrors Check(IValidityState current)
         {
             var result = GetErrorsFrom(current);
 
             if (!hexColorPattern.IsMatch(Input.Value ?? String.Empty))
             {
-                result ^= ValidationErrors.BadInput;
+                result |= ValidationErrors.BadInput;
 
                 if (Input.IsRequired)
                 {
-                    result ^= ValidationErrors.ValueMissing;
+                    result |= ValidationErrors.ValueMissing;
                 }
 
                 return result;

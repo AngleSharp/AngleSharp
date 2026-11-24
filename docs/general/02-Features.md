@@ -155,6 +155,8 @@ This work package deals with finding important IDL constructs. Then a proper way
 
 *Status*: Most important ones implemented, more to come upon request / requirement.
 
+Besides being discovered by reflection over these attributes, the DOM surface can be declared in code through the `DomRegistry` contract (namespace `AngleSharp.Scripting`), which is what trimmed and natively compiled (AoT) applications need. See [Declaring the DOM without reflection](../tutorials/01-API.md#declaring-the-dom-without-reflection).
+
 More information can be found at:
 
 * [W3C WebIDL](http://www.w3.org/TR/WebIDL/)
@@ -203,7 +205,7 @@ The picture element is the solution to responsive images and their problems. Ima
 
 However, if we want a more fine-grained solution than provided by the new `img`-attributes, then we should look at the `picture`-element. The element has been implemented in the `HtmlPictureElement` class, however, nothing has yet been included. A solution that might work just fine is to port the polyfill to the element. That solution would be a great start and could then be adjusted, if necessary.
 
-*Status*: Element available, `srcset` attribute and `source` children are taken into account. Currently, no device validation possible (part of CSS improvements for v1.0). Hence quasi static.
+*Status*: Element available. An `img` requests nothing by itself, as only what shows it knows which source fits the device and when the image is needed: AngleSharp.Css picks the source (`GetImageSource()`, considering `srcset`, `sizes` and the `source` children of a picture), and AngleSharp.Renderer loads it via `LoadAsync` once it lays the image out (or right away for an image not in a document).
 
 More information can be found at:
 

@@ -2,6 +2,7 @@ namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Io;
     using NUnit.Framework;
     using System;
@@ -26,13 +27,19 @@ namespace AngleSharp.Core.Tests.Library
             var (document, requests) = await CreateDocumentAsync();
 
             document.Body.InnerHtml = "<p><img src=images/logo.png></p>";
+            var image = document.QuerySelector<IHtmlImageElement>("img");
             await Task.Delay(50);
+
+            // nothing until what shows it loads it
+            Assert.That(requests, Is.Empty);
+
+            await image.LoadAsync(new Url(image.Source));
 
             Assert.That(requests, Is.EqualTo(new[] { "https://example.com/page/images/logo.png" }));
         }
 
         [Test]
-        public async Task ImageOfFragmentLoadsOnceAdopted()
+        public async Task ImageOfFragmentRequestsNothingByItself()
         {
             var (document, requests) = await CreateDocumentAsync();
             var scratch = document.CreateElement("div");
@@ -40,7 +47,7 @@ namespace AngleSharp.Core.Tests.Library
             scratch.InnerHtml = "<img src=/images/a.png><img srcset=\"/images/b.png 1x\">";
             await Task.Delay(50);
 
-            Assert.That(requests, Is.EqualTo(new[] { "https://example.com/images/a.png", "https://example.com/images/b.png" }));
+            Assert.That(requests, Is.Empty);
             Assert.That(document.QuerySelectorAll("img").Length, Is.EqualTo(0));
         }
 
@@ -49,10 +56,10 @@ namespace AngleSharp.Core.Tests.Library
         {
             var (document, requests) = await CreateDocumentAsync();
             var other = await BrowsingContext.New(Configuration.Default).OpenAsync(m => m.Content("<img src=x.png>").Address("https://other.example/"));
-            var image = other.QuerySelector("img");
+            var image = other.QuerySelector<IHtmlImageElement>("img");
 
             document.Body.AppendChild(image);
-            await Task.Delay(50);
+            await image.LoadAsync(new Url(image.Source));
 
             Assert.That(requests, Does.Contain("https://example.com/page/x.png"));
         }

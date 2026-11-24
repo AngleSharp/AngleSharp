@@ -18,6 +18,7 @@ namespace AngleSharp.Html.Dom
         private SelectionType _direction;
         private Int32 _start;
         private Int32 _end;
+        private Boolean _hasSelection;
 
         #endregion
 
@@ -92,8 +93,18 @@ namespace AngleSharp.Html.Dom
         [AllowNull]
         public String Value
         {
-            get => _value ?? DefaultValue;
-            set => _value = value;
+            get => SanitizeValue(_value ?? DefaultValue);
+            set
+            {
+                var previous = Value;
+                _value = value;
+
+                // a new value moves the cursor to its end, unselecting any text (HTML 4.10.5.4)
+                if (!String.Equals(previous, Value, StringComparison.Ordinal))
+                {
+                    _hasSelection = false;
+                }
+            }
         }
 
         /// <summary>
@@ -133,8 +144,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Int32 SelectionStart
         {
-            get => _start;
-            set => SetSelectionRange(value, _end, _direction);
+            get => _hasSelection ? Math.Min(_start, Value.Length) : Value.Length;
+            set => SetSelectionRange(value, SelectionEnd, _direction);
         }
 
         /// <summary>
@@ -146,8 +157,8 @@ namespace AngleSharp.Html.Dom
         /// </summary>
         public Int32 SelectionEnd
         {
-            get => _end;
-            set => SetSelectionRange(_start, value, _direction);
+            get => _hasSelection ? Math.Min(_end, Value.Length) : Value.Length;
+            set => SetSelectionRange(SelectionStart, value, _direction);
         }
 
         /// <summary>
@@ -156,7 +167,7 @@ namespace AngleSharp.Html.Dom
         /// direction of the current locale, or "backward" for the opposite
         /// direction.
         /// </summary>
-        public String? SelectionDirection => _direction.ToString().ToLowerInvariant();
+        public String? SelectionDirection => (_hasSelection ? _direction : SelectionType.None).ToString().ToLowerInvariant();
 
         #endregion
 
@@ -170,6 +181,7 @@ namespace AngleSharp.Html.Dom
             node._direction = _direction;
             node._start = _start;
             node._end = _end;
+            node._hasSelection = _hasSelection;
             return node;
         }
 
@@ -231,6 +243,11 @@ namespace AngleSharp.Html.Dom
 
         #region Helpers
 
+        /// <summary>
+        /// Applies the value sanitization algorithm of the control to the value.
+        /// </summary>
+        protected virtual String SanitizeValue(String value) => value;
+
         protected override void Check(ValidityState state)
         {
             var value = Value ?? String.Empty;
@@ -273,9 +290,10 @@ namespace AngleSharp.Html.Dom
                 selectionStart = selectionEnd;
             }
 
-            _start = selectionStart;
-            _end = selectionEnd;
+            _start = Math.Max(0, selectionStart);
+            _end = Math.Max(0, selectionEnd);
             _direction = selectionType;
+            _hasSelection = true;
         }
 
         /// <summary>
@@ -284,7 +302,7 @@ namespace AngleSharp.Html.Dom
         internal override void Reset()
         {
             Value = null;
-            Select(Int32.MaxValue, Int32.MaxValue);
+            _hasSelection = false;
         }
 
         #endregion

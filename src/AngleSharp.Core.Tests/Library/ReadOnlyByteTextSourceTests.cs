@@ -1,6 +1,7 @@
 namespace AngleSharp.Core.Tests.Library;
 
 using System;
+using System.Buffers;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -72,7 +73,66 @@ public sealed class ReadOnlyByteTextSourceTests
         Assert.That(source.CurrentEncoding, Is.EqualTo(Encoding.UTF8));
         Assert.That(source.Text, Is.EqualTo("abcé"));
     }
+
+    [Test]
+    public void FacadeMemoryReadBeforeRedecodeKeepsItsContent()
+    {
+        var bytes = Bytes("abc", TwoByteSequence);
+        using var source = new TextSource(new ReadOnlyByteTextSource(bytes));
+        var memory = source.ReadMemory(3);
+
+        source.CurrentEncoding = Encoding.Latin1;
+        var rented = ArrayPool<Char>.Shared.Rent(Encoding.UTF8.GetMaxCharCount(bytes.Length));
+
+        try
+        {
+            rented.AsSpan().Fill('X');
+            Assert.That(memory.ToString(), Is.EqualTo("abc"));
+            Assert.That(source.Index, Is.EqualTo(3));
+            Assert.That(source.Text, Is.EqualTo("abcÃ©"));
+        }
+        finally
+        {
+            ArrayPool<Char>.Shared.Return(rented);
+        }
+    }
 #endif
+
+    [Test]
+    public void DocumentSourceMemoryReadBeforeDisposeKeepsItsContent()
+    {
+        var bytes = Bytes("<title>original</title>");
+        using var document = new HtmlParser().ParseDocument(bytes);
+        document.Source.Index = 0;
+        var memory = document.Source.ReadMemory(15);
+
+        Assert.That(document.Source.Index, Is.EqualTo(15));
+        document.Dispose();
+        var rented = ArrayPool<Char>.Shared.Rent(Encoding.UTF8.GetMaxCharCount(bytes.Length));
+
+        try
+        {
+            rented.AsSpan().Fill('X');
+            Assert.That(memory.ToString(), Is.EqualTo("<title>original"));
+        }
+        finally
+        {
+            ArrayPool<Char>.Shared.Return(rented);
+        }
+    }
+
+    [Test]
+    public void FacadeMemoryReadFromCallerOwnedCharactersKeepsTheSlice()
+    {
+        var characters = "abcdef".ToCharArray();
+        using var source = new TextSource(new CharArrayTextSource(characters, characters.Length));
+        source.Index = 1;
+
+        var memory = source.ReadMemory(3);
+
+        Assert.That(memory.Memory.Equals(characters.AsMemory(1, 3)), Is.True);
+        Assert.That(source.Index, Is.EqualTo(4));
+    }
 
     [Test]
     public void ParserOverloadHonorsReadOnlyMemorySliceAndByteOrderMark()

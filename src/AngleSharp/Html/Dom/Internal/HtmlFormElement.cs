@@ -161,12 +161,20 @@ namespace AngleSharp.Html.Dom
             {
                 element.Reset();
             }
+
+            foreach (var element in Owner.GetNodes<HtmlElement>(predicate: element => element.LocalName.IndexOf('-') >= 0))
+            {
+                if (ElementInternals.Of(element)?.Form == this)
+                {
+                    CustomElementRegistry.NotifyFormReset(element);
+                }
+            }
         }
 
         public Boolean CheckValidity()
         {
             var controls = GetInvalidControls();
-            var result = true;
+            var result = !HasInvalidCustomElements();
 
             foreach (var control in controls)
             {
@@ -177,6 +185,22 @@ namespace AngleSharp.Html.Dom
             }
 
             return result;
+        }
+
+        // form-associated custom elements are valid as their internals say (firing invalid if not)
+        private Boolean HasInvalidCustomElements()
+        {
+            var invalid = false;
+
+            foreach (var element in Owner.GetNodes<HtmlElement>(predicate: element => element.LocalName.IndexOf('-') >= 0))
+            {
+                if (ElementInternals.Of(element) is { } internals && internals.Form == this && !internals.CheckValidity())
+                {
+                    invalid = true;
+                }
+            }
+
+            return invalid;
         }
 
         private IEnumerable<HtmlFormControlElement> GetInvalidControls()
@@ -244,6 +268,27 @@ namespace AngleSharp.Html.Dom
                 var action = String.IsNullOrEmpty(actionText) ? new Url(owner.DocumentUri) : this.HyperReference(actionText);
                 var scheme = action.Scheme;
                 var methodText = GetSubmitterAttribute(submitter, AttributeNames.FormMethod);
+
+                // the dialog method closes the dialog the form is in, with the value of the
+                // submitter as its return value, and navigates nowhere (HTML 4.10.21.3)
+                if (String.Equals((methodText ?? Method).ToFormMethod(), FormMethodNames.Dialog, StringComparison.OrdinalIgnoreCase))
+                {
+                    var dialog = this.GetAncestor<IHtmlDialogElement>();
+
+                    if (dialog is not null)
+                    {
+                        var result = submitter switch
+                        {
+                            IHtmlButtonElement button => button.GetAttribute(AttributeNames.Value),
+                            IHtmlInputElement input when !input.Type.Is(InputTypeNames.Image) => input.Value,
+                            _ => null,
+                        };
+                        dialog.Close(result);
+                    }
+
+                    return null;
+                }
+
                 var method = (methodText ?? Method).ToEnum(HttpMethod.Get);
                 var enctype = GetSubmitterEnctype(submitter);
                 return SubmitForm(method, scheme, action, submitter ?? this, enctype);
@@ -420,6 +465,17 @@ namespace AngleSharp.Html.Dom
                 if (!field.IsDisabled && field.ParentElement is IHtmlDataListElement == false && Object.ReferenceEquals(field.Form, this))
                 {
                     field.ConstructDataSet(formDataSet, submitter);
+                }
+            }
+
+            // form-associated custom elements submit what their internals hold
+            foreach (var element in Owner.GetNodes<HtmlElement>(predicate: element => element.LocalName.IndexOf('-') >= 0))
+            {
+                var name = element.GetAttribute(AttributeNames.Name);
+
+                if (!String.IsNullOrEmpty(name) && ElementInternals.GetSubmissionValue(element, this) is { } value)
+                {
+                    formDataSet.Append(name!, value, InputTypeNames.Text);
                 }
             }
 

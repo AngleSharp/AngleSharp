@@ -17,6 +17,22 @@ namespace AngleSharp.Html.InputTypes
 
         #region Methods
 
+        public override String Sanitize(String value)
+        {
+            var num = ConvertToNumber(value);
+
+            if (String.Equals(Name, InputTypeNames.Range, StringComparison.Ordinal))
+            {
+                // a range always has a value: the default one is between its minimum and maximum (HTML 4.10.5.1.13)
+                var min = ConvertToNumber(Input.Minimum) ?? 0.0;
+                var max = Math.Max(min, ConvertToNumber(Input.Maximum) ?? 100.0);
+                var clamped = Math.Min(Math.Max(num ?? (min + (max - min) / 2.0), min), max);
+                return num == clamped ? value : ConvertFromNumber(clamped);
+            }
+
+            return num.HasValue ? value : String.Empty;
+        }
+
         public override Double? ConvertToNumber(String? value)
         {
             return ToNumber(value);
@@ -42,24 +58,24 @@ namespace AngleSharp.Html.InputTypes
 
                 if (min.HasValue && num < min.Value)
                 {
-                    result ^= ValidationErrors.RangeUnderflow;
+                    result |= ValidationErrors.RangeUnderflow;
                 }
 
                 if (max.HasValue && num > max.Value)
                 {
-                    result ^= ValidationErrors.RangeOverflow;
+                    result |= ValidationErrors.RangeOverflow;
                 }
 
                 if (IsStepMismatch())
                 {
-                    result ^= ValidationErrors.StepMismatch;
+                    result |= ValidationErrors.StepMismatch;
                 }
             }
             else
             {
                 if (Input.IsRequired)
                 {
-                    result ^= ValidationErrors.ValueMissing;
+                    result |= ValidationErrors.ValueMissing;
                 }
             }
 

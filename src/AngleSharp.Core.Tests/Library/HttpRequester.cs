@@ -3,6 +3,7 @@ namespace AngleSharp.Core.Tests.Library
     using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Io;
     using NUnit.Framework;
@@ -318,6 +319,8 @@ namespace AngleSharp.Core.Tests.Library
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content(content).Address("http://localhost"));
             Assert.IsNotNull(document);
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            await img.LoadAsync(new Url(img.Source));
             Assert.AreEqual(1, requests.Count);
             Assert.AreEqual(2, filtered.Count);
             Assert.AreEqual("test.html", requests[0].Address.Path);

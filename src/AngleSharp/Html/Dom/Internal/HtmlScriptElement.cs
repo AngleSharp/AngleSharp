@@ -157,6 +157,21 @@ namespace AngleSharp.Html.Dom
         /// More information available at:
         /// http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script
         /// </summary>
+        // what is in a template (also while the parser has it on the template) belongs to its
+        // inert contents, which never run scripts (HTML 4.12.3)
+        private Boolean IsInTemplate()
+        {
+            for (var node = Parent; node is not null; node = node.Parent)
+            {
+                if (node is IHtmlTemplateElement || node is DocumentFragment { TemplateHost: not null })
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         internal Boolean Prepare(Document document)
         {
             var eventAttr = this.GetOwnAttribute(AttributeNames.Event);
@@ -164,7 +179,7 @@ namespace AngleSharp.Html.Dom
             var src = Source;
             var wasParserInserted = _parserInserted;
 
-            if (_started)
+            if (_started || IsInTemplate())
             {
                 return false;
             }
@@ -194,6 +209,14 @@ namespace AngleSharp.Html.Dom
             // Only after being marked as started: such a script does not run either once
             // it is moved to a document with scripting enabled.
             if (document.IsScriptingDisabled)
+            {
+                return false;
+            }
+
+            // what is written for those not running modules is skipped by those running them
+            if (this.GetOwnAttribute(AttributeNames.NoModule) is not null &&
+                MimeTypeNames.IsJavaScript(_request.ScriptLanguage) &&
+                document.Context.GetScripting("module") is not null)
             {
                 return false;
             }

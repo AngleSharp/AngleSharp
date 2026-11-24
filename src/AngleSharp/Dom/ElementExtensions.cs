@@ -767,7 +767,7 @@ namespace AngleSharp.Dom
         {
             if (element is HtmlElement html)
             {
-                return html.ClickAsync();
+                return html.ClickAsync(false);
             }
 
             element.DoClick();
@@ -837,7 +837,9 @@ namespace AngleSharp.Dom
         public static Boolean IsOnlyChild(this IElement element)
         {
             var parent = element.ParentElement;
-            return parent != null && parent.ChildElementCount == 1 && parent.FirstElementChild == element;
+
+            // Not ChildElementCount == 1: that counts every child, for each one tested
+            return parent != null && parent.FirstElementChild == element && parent.LastElementChild == element;
         }
 
         /// <summary>
@@ -1407,39 +1409,6 @@ namespace AngleSharp.Dom
             var request = element.CreateRequestFor(url);
             var task = processor?.ProcessAsync(request);
             element.Owner?.DelayLoad(task);
-        }
-
-        /// <summary>
-        /// Gets a suitable image candidate for the provided image element.
-        /// </summary>
-        /// <param name="img">The element to use.</param>
-        /// <returns>The possibly valid URL to the right candidate.</returns>
-        internal static Url? GetImageCandidate(this HtmlImageElement img)
-        {
-            var srcset = new SourceSet();
-            var context = img.Context;
-            var sources = img.GetSources();
-
-            while (sources.Count > 0)
-            {
-                var source = sources.Pop();
-                var type = source.Type;
-
-                if (String.IsNullOrEmpty(type) || context?.GetResourceService<IImageInfo>(type!) != null)
-                {
-                    foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
-                    {
-                        return new Url(img.BaseUrl!, candidate);
-                    }
-                }
-            }
-
-            foreach (var candidate in srcset.GetCandidates(img.SourceSet, img.Sizes))
-            {
-                return new Url(img.BaseUrl!, candidate);
-            }
-
-            return img.Source is { Length: > 0 } imageSource ? Url.Create(imageSource) : null;
         }
 
         /// <summary>

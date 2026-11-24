@@ -708,6 +708,11 @@ namespace AngleSharp.Dom
         public static readonly String Defer = "defer";
 
         /// <summary>
+        /// The nomodule attribute.
+        /// </summary>
+        public static readonly String NoModule = "nomodule";
+
+        /// <summary>
         /// The language attribute.
         /// </summary>
         public static readonly String Language = "language";

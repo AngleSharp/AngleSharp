@@ -46,9 +46,37 @@ namespace AngleSharp
             response = response ?? throw new ArgumentNullException(nameof(response));
             context ??= BrowsingContext.New();
             var encoding = context.GetDefaultEncoding();
-            var factory = context.GetFactory<IDocumentFactory>();
             var options = new CreateDocumentOptions(response, encoding);
-            return factory.CreateAsync(context, options, cancel);
+            return context.CreateDocumentAsync(options, cancel);
+        }
+
+        /// <summary>
+        /// Creates the document of a response with the document factory of the context. An error
+        /// doing so is given to the document error handlers, if any, which may provide a document
+        /// instead (e.g., one showing the error).
+        /// </summary>
+        internal static async Task<IDocument> CreateDocumentAsync(this IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancel)
+        {
+            var factory = context.GetFactory<IDocumentFactory>();
+
+            try
+            {
+                return await factory.CreateAsync(context, options, cancel).ConfigureAwait(false);
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException && !cancel.IsCancellationRequested)
+            {
+                foreach (var handler in context.GetServices<IDocumentErrorHandler>())
+                {
+                    var document = await handler.HandleAsync(context, options, ex, cancel).ConfigureAwait(false);
+
+                    if (document is not null)
+                    {
+                        return document;
+                    }
+                }
+
+                throw;
+            }
         }
 
         /// <summary>

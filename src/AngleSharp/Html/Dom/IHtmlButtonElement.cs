@@ -64,7 +64,7 @@ namespace AngleSharp.Html.Dom
         /// Gets or sets the type of content that is used to submit the form to the server. If specified, this
         /// attribute overrides the enctype attribute of the form element that owns this element.
         /// </summary>
-        [DomName("formEncType")]
+        [DomName("formEnctype")]
         String FormEncType { get; set; }
 
         /// <summary>

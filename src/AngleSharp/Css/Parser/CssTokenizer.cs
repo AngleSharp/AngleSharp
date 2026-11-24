@@ -1,6 +1,7 @@
 namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Common;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Text;
     using System;
     using System.Text;
@@ -12,6 +13,8 @@ namespace AngleSharp.Css.Parser
     sealed class CssTokenizer
     {
         #region Fields
+
+        private static readonly String[] AsciiStrings = CreateAsciiStrings();
 
         private readonly StringSource _source;
 
@@ -448,9 +451,7 @@ namespace AngleSharp.Css.Parser
 
             if (current.IsNameStart() || current == Symbols.Minus)
             {
-                var buffer = StringBuilderPool.Obtain();
-                buffer.Append(current);
-                return HashRest(buffer);
+                return HashRest(_source.Index);
             }
             else if (_source.IsValidEscape())
             {
@@ -462,6 +463,26 @@ namespace AngleSharp.Css.Parser
             {
                 return NewDelimiter(Symbols.Num);
             }
+        }
+
+        /// <summary>
+        /// 4.4.5. Hash-rest state, for a name that started without an escape at the given index.
+        /// </summary>
+        private CssSelectorToken HashRest(Int32 start)
+        {
+            // An id without escapes is a plain run of the selector text: cut it out in one go
+            // rather than copying it char by char through the (locked, process-wide) pool.
+            var current = ScanName();
+
+            if (current == Symbols.ReverseSolidus && _source.IsValidEscape())
+            {
+                // HashRest(buffer) starts by advancing, so the escape is taken here
+                var buffer = ObtainBuffer(start);
+                buffer.Append(_source.ConsumeEscape());
+                return HashRest(buffer);
+            }
+
+            return new CssSelectorToken(CssTokenType.Hash, Slice(start));
         }
 
         /// <summary>
@@ -556,18 +577,14 @@ namespace AngleSharp.Css.Parser
 
                 if (current.IsNameStart() || _source.IsValidEscape())
                 {
-                    var buffer = StringBuilderPool.Obtain();
-                    buffer.Append(Symbols.Minus);
-                    return IdentRest(current, buffer);
+                    return IdentRest(_source.Index - 1);
                 }
 
                 return NewDelimiter(Symbols.Minus);
             }
             else if (current.IsNameStart())
             {
-                var buffer = StringBuilderPool.Obtain();
-                buffer.Append(current);
-                return IdentRest(_source.Next(), buffer);
+                return IdentRest(_source.Index);
             }
             else if (current == Symbols.ReverseSolidus && _source.IsValidEscape())
             {
@@ -578,6 +595,42 @@ namespace AngleSharp.Css.Parser
 
             return Data(current);
         }
+
+        /// <summary>
+        /// 4.4.10. Ident-rest state, for a name that started without an escape at the given index.
+        /// </summary>
+        private CssSelectorToken IdentRest(Int32 start)
+        {
+            // Same as for HashRest: an ident without escapes is sliced out of the selector text.
+            var current = ScanName();
+
+            if (current == Symbols.ReverseSolidus && _source.IsValidEscape())
+            {
+                return IdentRest(current, ObtainBuffer(start));
+            }
+
+            if (current == Symbols.RoundBracketOpen)
+            {
+                var name = CssSelectorConstructor.FindFunctionName(_source.Content.AsSpan(start, _source.Index - start)) ?? Slice(start);
+
+                if (name.Isi(Keywords.Url))
+                {
+                    return UrlStart();
+                }
+
+                _source.Next();
+                return new CssSelectorToken(CssTokenType.Function, name);
+            }
+
+            return new CssSelectorToken(CssTokenType.Ident, SliceIdent(start));
+        }
+
+        /// <summary>
+        /// Gets the text from the given index up to the current position as an ident, which is
+        /// the interned constant for a well-known tag name - most type selectors are one.
+        /// </summary>
+        private String SliceIdent(Int32 start) =>
+            HtmlTagNameLookup.TryGetWellKnownTagName(_source.Content.AsSpan(start, _source.Index - start)) ?? Slice(start);
 
         /// <summary>
         /// 4.4.10. Ident-rest state
@@ -1098,12 +1151,54 @@ namespace AngleSharp.Css.Parser
 
         private CssSelectorToken NewDelimiter(Char c)
         {
-            return new CssSelectorToken(CssTokenType.Delim, c.ToString());
+            // Combinators come as delimiters, so nearly every selector produces some; ToString
+            // allocates a fresh string for each on netstandard2.0 / .NET Framework.
+            var data = c < AsciiStrings.Length ? AsciiStrings[c] : c.ToString();
+            return new CssSelectorToken(CssTokenType.Delim, data);
         }
 
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Advances past the name characters starting at the current one and returns the first
+        /// character that is not part of the name.
+        /// </summary>
+        private Char ScanName()
+        {
+            var current = _source.Current;
+
+            while (current.IsName())
+            {
+                current = _source.Next();
+            }
+
+            return current;
+        }
+
+        /// <summary>
+        /// Gets the text from the given index up to (excluding) the current position.
+        /// </summary>
+        private String Slice(Int32 start) => _source.Content.Substring(start, _source.Index - start);
+
+        /// <summary>
+        /// Gets a pooled buffer already holding the text from the given index up to the current
+        /// position, to continue a name that turned out to contain an escape.
+        /// </summary>
+        private StringBuilder ObtainBuffer(Int32 start) => StringBuilderPool.Obtain().Append(_source.Content, start, _source.Index - start);
+
+        private static String[] CreateAsciiStrings()
+        {
+            var strings = new String[128];
+
+            for (var i = 0; i < strings.Length; i++)
+            {
+                strings[i] = ((Char)i).ToString();
+            }
+
+            return strings;
+        }
 
         private CssSelectorToken NumberExponential(Char letter, StringBuilder buffer)
         {

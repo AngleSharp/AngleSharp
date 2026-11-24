@@ -144,8 +144,15 @@ namespace AngleSharp.Html.Dom
         /// <returns>A data URI with the data if any.</returns>
         public String ToDataUrl(String? type = null)
         {
-            var content = GetImageData(type);
-            return Convert.ToBase64String(content);
+            var content = Width > 0 && Height > 0 ? GetImageData(type) : Array.Empty<Byte>();
+
+            // an empty bitmap has no image, the type is the one of the encoded image (PNG unless supported)
+            if (content.Length == 0)
+            {
+                return "data:,";
+            }
+
+            return String.Concat("data:", GetImageType(content), ";base64,", Convert.ToBase64String(content));
         }
 
         /// <summary>
@@ -167,7 +174,37 @@ namespace AngleSharp.Html.Dom
 
         private Byte[] GetImageData(String? type)
         {
-            return _current?.ToImage(type ?? MimeTypeNames.Plain) ?? Array.Empty<Byte>();
+            // without a context the bitmap is transparent black, which a 2d context (not kept) gives
+            var context = _current ?? CreateContext(Keywords.TwoD);
+            return context?.ToImage(type ?? MimeTypeNames.Plain) ?? Array.Empty<Byte>();
+        }
+
+        private IRenderingContext? CreateContext(String contextId)
+        {
+            foreach (var renderService in _renderServices)
+            {
+                if (renderService.IsSupportingContext(contextId))
+                {
+                    return renderService.CreateContext(this, contextId);
+                }
+            }
+
+            return null;
+        }
+
+        private static String GetImageType(Byte[] content)
+        {
+            if (content.Length > 3 && content[0] == 0xFF && content[1] == 0xD8 && content[2] == 0xFF)
+            {
+                return "image/jpeg";
+            }
+            else if (content.Length > 11 && content[0] == (Byte)'R' && content[1] == (Byte)'I' && content[2] == (Byte)'F' && content[3] == (Byte)'F' &&
+                content[8] == (Byte)'W' && content[9] == (Byte)'E' && content[10] == (Byte)'B' && content[11] == (Byte)'P')
+            {
+                return "image/webp";
+            }
+
+            return "image/png";
         }
 
         private static ContextMode GetModeFrom(String contextId)

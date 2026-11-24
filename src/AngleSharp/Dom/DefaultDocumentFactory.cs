@@ -132,6 +132,8 @@ namespace AngleSharp.Dom
             pre.SetAttribute(AttributeNames.Style, "word-wrap: break-word; white-space: pre-wrap;");
             await options.Source.PrefetchAllAsync(cancellationToken).ConfigureAwait(false);
             pre.TextContent = options.Source.Text;
+            // like a parsed document, it completes (with a load event)
+            await document.FinishLoadingAsync().ConfigureAwait(false);
             return document;
         }
     }

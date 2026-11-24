@@ -69,18 +69,28 @@ namespace AngleSharp.Dom
 
         #region Internal
 
+        /// <summary>
+        /// Moves the start as a live range follows a mutation, which leaves the end as it is.
+        /// </summary>
+        internal void MoveStart(INode node, Int32 offset) => _start = new Boundary(node, offset);
+
+        /// <summary>
+        /// Moves the end as a live range follows a mutation, which leaves the start as it is.
+        /// </summary>
+        internal void MoveEnd(INode node, Int32 offset) => _end = new Boundary(node, offset);
+
         void IPreInsert.PreInsert(Node parent, Node node, Int32 index)
         {
             var count = node.NodeType == NodeType.DocumentFragment ? node.ChildNodes.Length : 1;
 
             if (Head == parent && Start > index)
             {
-                StartWith(parent, Start + count);
+                _start = new Boundary(parent, Start + count);
             }
 
             if (Tail == parent && End > index)
             {
-                EndWith(parent, End + count);
+                _end = new Boundary(parent, End + count);
             }
         }
 
@@ -88,19 +98,19 @@ namespace AngleSharp.Dom
         {
             if (Head.IsInclusiveDescendantOf(node))
             {
-                StartWith(parent, index);
+                _start = new Boundary(parent, index);
             }
             if (Tail.IsInclusiveDescendantOf(node))
             {
-                EndWith(parent, index);
+                _end = new Boundary(parent, index);
             }
             if (Head == parent && Start > index)
             {
-                StartWith(parent, Start - 1);
+                _start = new Boundary(parent, Start - 1);
             }
             if (Tail == parent && End > index)
             {
-                EndWith(parent, End - 1);
+                _end = new Boundary(parent, End - 1);
             }
         }
 
@@ -134,7 +144,7 @@ namespace AngleSharp.Dom
 
             var bp = new Boundary(refNode, offset);
 
-            if (!_end.IsExplicit || Root != refNode.GetRoot() || bp > _end)
+            if (Root != refNode.GetRoot() || bp > _end)
             {
                 _end = bp;
             }
@@ -167,7 +177,7 @@ namespace AngleSharp.Dom
 
             var bp = new Boundary(refNode, offset);
 
-            if (!_start.IsExplicit || Root != refNode.GetRoot() || bp < _start)
+            if (Root != refNode.GetRoot() || bp < _start)
             {
                 _start = bp;
             }
@@ -188,12 +198,7 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            _start = new Boundary(parent, parent.ChildNodes.Index(refNode));
-
-            if (!_end.IsExplicit)
-            {
-                _end = _start;
-            }
+            StartWith(parent, parent.ChildNodes.Index(refNode));
         }
 
         public void EndBefore(INode refNode)
@@ -210,12 +215,7 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            _end = new Boundary(parent, parent.ChildNodes.Index(refNode));
-
-            if (!_start.IsExplicit)
-            {
-                _start = _end;
-            }
+            EndWith(parent, parent.ChildNodes.Index(refNode));
         }
 
         public void StartAfter(INode refNode)
@@ -232,12 +232,7 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            _start = new Boundary(parent, parent.ChildNodes.Index(refNode) + 1);
-
-            if (!_end.IsExplicit)
-            {
-                _end = _start;
-            }
+            StartWith(parent, parent.ChildNodes.Index(refNode) + 1);
         }
 
         public void EndAfter(INode refNode)
@@ -254,12 +249,7 @@ namespace AngleSharp.Dom
                 throw new DomException(DomError.InvalidNodeType);
             }
 
-            _end = new Boundary(parent, parent.ChildNodes.Index(refNode) + 1);
-
-            if (!_start.IsExplicit)
-            {
-                _start = _end;
-            }
+            EndWith(parent, parent.ChildNodes.Index(refNode) + 1);
         }
 
         public void Collapse(Boolean toStart)
@@ -374,7 +364,7 @@ namespace AngleSharp.Dom
 
         public IDocumentFragment ExtractContent()
         {
-            var fragment = _start.Node.Owner!.CreateDocumentFragment();
+            var fragment = (_start.Node as IDocument ?? _start.Node.Owner!).CreateDocumentFragment();
 
             if (!_start.Equals(_end))
             {
@@ -417,7 +407,7 @@ namespace AngleSharp.Dom
 
         public IDocumentFragment CopyContent()
         {
-            var fragment = _start.Node.Owner!.CreateDocumentFragment();
+            var fragment = (_start.Node as IDocument ?? _start.Node.Owner!).CreateDocumentFragment();
 
             if (!_start.Equals(_end))
             {
@@ -679,7 +669,7 @@ namespace AngleSharp.Dom
             {
                 if (IsStartBefore(node, 0) && IsEndAfter(node, node.Length))
                 {
-                    sb.Append(node.Text);
+                    sb.Append(node.Data);
                 }
             }
 
@@ -956,47 +946,76 @@ namespace AngleSharp.Dom
                 {
                     throw new DomException(DomError.InvalidAccess);
                 }
+
                 if (Node == other.Node)
                 {
-                    if (Offset < other.Offset)
-                    {
-                        return RangePosition.Before;
-                    }
-                    else if (Offset == other.Offset)
-                    {
-                        return RangePosition.Equal;
-                    }
-                    else if (Offset > other.Offset)
-                    {
-                        return RangePosition.After;
-                    }
+                    return Offset < other.Offset ? RangePosition.Before :
+                        Offset > other.Offset ? RangePosition.After : RangePosition.Equal;
                 }
-                if (Node.IsFollowing(other.Node))
+
+                // see https://dom.spec.whatwg.org/#concept-range-bp-position
+                if (Precedes(other.Node, Node))
                 {
                     var position = other.CompareTo(this);
-                    if (position == RangePosition.Before)
-                    {
-                        return RangePosition.After;
-                    }
-                    else if (position == RangePosition.After)
-                    {
-                        return RangePosition.Before;
-                    }
+                    return position == RangePosition.Before ? RangePosition.After :
+                        position == RangePosition.After ? RangePosition.Before : position;
                 }
-                if (Node.IsAncestorOf(other.Node))
+
+                var child = other.Node;
+
+                while (child is not null && child.Parent != Node)
                 {
-                    var child = other.Node;
-                    while (child != null && child.Parent != Node)
-                    {
-                        child = child.Parent;
-                    }
-                    if (child != null && child.Index() < Offset)
-                    {
-                        return RangePosition.After;
-                    }
+                    child = child.Parent;
+                }
+
+                if (child is not null && child.Index() < Offset)
+                {
+                    return RangePosition.After;
                 }
 
                 return RangePosition.Before;
+            }
+
+            /// <summary>
+            /// Checks if the first node comes before the second one in tree order (an ancestor
+            /// comes before its descendants).
+            /// </summary>
+            private static Boolean Precedes(INode first, INode second)
+            {
+                var firstChain = GetChain(first);
+                var secondChain = GetChain(second);
+                var i = 0;
+
+                while (i < firstChain.Count && i < secondChain.Count && firstChain[i] == secondChain[i])
+                {
+                    i++;
+                }
+
+                if (i == firstChain.Count)
+                {
+                    // the first is an inclusive ancestor of the second
+                    return i != secondChain.Count;
+                }
+
+                if (i == secondChain.Count || i == 0)
+                {
+                    return false;
+                }
+
+                return firstChain[i].Index() < secondChain[i].Index();
+            }
+
+            private static List<INode> GetChain(INode node)
+            {
+                var chain = new List<INode>();
+
+                for (var current = node; current is not null; current = current.Parent)
+                {
+                    chain.Add(current);
+                }
+
+                chain.Reverse();
+                return chain;
             }
 
             public INode? ChildAtOffset => Node.ChildNodes.Length > Offset ? Node.ChildNodes[Offset] : null;
