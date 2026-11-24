@@ -155,6 +155,8 @@ This work package deals with finding important IDL constructs. Then a proper way
 
 *Status*: Most important ones implemented, more to come upon request / requirement.
 
+Besides being discovered by reflection over these attributes, the DOM surface can be declared in code through the `DomRegistry` contract (namespace `AngleSharp.Scripting`), which is what trimmed and natively compiled (AoT) applications need. See [Declaring the DOM without reflection](../tutorials/01-API.md#declaring-the-dom-without-reflection).
+
 More information can be found at:
 
 * [W3C WebIDL](http://www.w3.org/TR/WebIDL/)

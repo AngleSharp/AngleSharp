@@ -9,6 +9,14 @@
     <PackageVersion Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
 
+  <!-- The DOM registration generator ships inside the AngleSharp package (analyzers/dotnet/cs), so
+       every consumer's compiler loads it. Pinned to the Roslyn of the .NET 8 SDK: a newer one makes
+       older compilers warn (CS9057) for every consumer, although only an opting-in library uses it. -->
+  <ItemGroup Label="AngleSharp.Generators">
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
+  </ItemGroup>
+
   <ItemGroup Label="Build-time only (PrivateAssets, never packaged)">
     <PackageVersion Include="ConfigureAwaitChecker.Analyzer" Version="5.0.0.1" />
     <PackageVersion Include="Nullable" Version="1.3.1" />

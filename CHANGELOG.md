@@ -1,6 +1,6 @@
 # 1.11.0
 
-Released on Monday, November 23 2026.
+Released on Tuesday, November 24 2026.
 
 - Improved performance of parsing CSS selectors, cutting 15-30% of the time and 20-35% of the allocations
 - Improved performance of matching `:nth-child()`, `:nth-last-child()`, `:only-child`, the sibling combinators (`+`, `~`) and `[attr~=value]` (up to 70% less time)
@@ -53,6 +53,8 @@ Released on Monday, November 23 2026.
 - Added `IDocumentErrorHandler` services, which may provide a document when creating one from a response failed (e.g. to show the error)
 - Added `ElementInternals.states` (`CustomStateSet`) and the `:state()` pseudo-class
 - Added `setHTMLUnsafe()`, which also creates declarative shadow roots
+- Added `DomRegistry` and `DomRegistration` to declare APIs to a scripting engine without reflection
+- Added a source generator to declare a `DomRegistration` efficiently
 
 # 1.10.5
 
