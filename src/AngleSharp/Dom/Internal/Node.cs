@@ -612,9 +612,9 @@ namespace AngleSharp.Dom
         public void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
 #if NET8_0_OR_GREATER
-            // The standard formatter (not a subclass, which may override any part) writes tags,
-            // attributes and text straight into the writer instead of returning a string for each.
-            if (formatter.GetType() == typeof(Html.HtmlMarkupFormatter))
+            // The standard formatter instance writes tags, attributes and text
+            // straight into the writer instead of returning a string for each.
+            if (formatter == Html.HtmlMarkupFormatter.Instance)
             {
                 WriteHtml(writer);
                 return;
