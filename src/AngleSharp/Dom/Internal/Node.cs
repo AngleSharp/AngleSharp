@@ -611,6 +611,16 @@ namespace AngleSharp.Dom
         /// <inheritdoc />
         public void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
+#if NET8_0_OR_GREATER
+            // The standard formatter (not a subclass, which may override any part) writes tags,
+            // attributes and text straight into the writer instead of returning a string for each.
+            if (formatter.GetType() == typeof(Html.HtmlMarkupFormatter))
+            {
+                WriteHtml(writer);
+                return;
+            }
+#endif
+
             var end = ParentElement;
 
             foreach (var node in this.GetDescendantsAndSelf())
@@ -672,6 +682,86 @@ namespace AngleSharp.Dom
                 }
             }
         }
+
+#if NET8_0_OR_GREATER
+        /// <summary>
+        /// Serializes like <see cref="ToHtml(TextWriter, IMarkupFormatter)"/> with the standard
+        /// <see cref="Html.HtmlMarkupFormatter"/>, writing into the writer instead of building a
+        /// string per tag, attribute and text.
+        /// </summary>
+        private void WriteHtml(TextWriter writer)
+        {
+            var formatter = Html.HtmlMarkupFormatter.Instance;
+            var end = ParentElement;
+
+            foreach (var node in this.GetDescendantsAndSelf())
+            {
+                if (node is IComment comment)
+                {
+                    writer.Write(formatter.Comment(comment));
+                }
+                else if (node is IProcessingInstruction processingInstruction)
+                {
+                    writer.Write(formatter.Processing(processingInstruction));
+                }
+                else if (node is ICharacterData characterData)
+                {
+                    if (characterData.Parent?.Flags.HasFlag(NodeFlags.LiteralText) ?? false)
+                    {
+                        writer.Write(formatter.LiteralText(characterData));
+                    }
+                    else
+                    {
+                        Html.HtmlMarkupFormatter.WriteText(writer, characterData.Data);
+                    }
+                }
+                else if (node is IDocumentType docType)
+                {
+                    writer.Write(formatter.Doctype(docType));
+                }
+                else if (node is IElement element)
+                {
+                    var flags = element.Flags;
+                    var selfClosing = flags.HasFlag(NodeFlags.SelfClosing);
+
+                    if (element is Element concrete)
+                    {
+                        Html.HtmlMarkupFormatter.WriteOpenTag(writer, concrete);
+                    }
+                    else
+                    {
+                        writer.Write(formatter.OpenTag(element, selfClosing));
+                    }
+
+                    if (!selfClosing && flags.HasFlag(NodeFlags.LineTolerance) && element.FirstChild is IText text && text.Data.Has(Symbols.LineFeed))
+                    {
+                        writer.Write(Symbols.LineFeed);
+                    }
+
+                    if (element is Html.Dom.IHtmlTemplateElement template)
+                    {
+                        template.Content.ToHtml(writer, formatter);
+                    }
+
+                    if (!node.HasChildNodes)
+                    {
+                        Html.HtmlMarkupFormatter.WriteCloseTag(writer, element, selfClosing);
+                    }
+                }
+
+                if (!node.HasChildNodes && node.NextSibling is null)
+                {
+                    var p = node.ParentElement;
+
+                    while (p != end)
+                    {
+                        Html.HtmlMarkupFormatter.WriteCloseTag(writer, p!, p!.Flags.HasFlag(NodeFlags.SelfClosing));
+                        p = p.NextSibling is null ? p.ParentElement : end;
+                    }
+                }
+            }
+        }
+#endif
 
         /// <inheritdoc />
         public INode AppendChild(INode child) => this.PreInsert(child, null);
