@@ -1,8 +1,13 @@
+# 1.11.1
+
+Released on tbd.
+
+- Improved performance of serializing with the default formatter (reduces 15-55% of the time and 25-85% of the allocations) (#1425) @g4lb
+
 # 1.11.0
 
 Released on Tuesday, November 24 2026.
 
-- Improved performance of serializing with the default formatter (`OuterHtml`, `InnerHtml`, `ToHtml()`), cutting 15-55% of the time and 25-85% of the allocations
 - Improved performance of parsing CSS selectors, cutting 15-30% of the time and 20-35% of the allocations
 - Improved performance of matching `:nth-child()`, `:nth-last-child()`, `:only-child`, the sibling combinators (`+`, `~`) and `[attr~=value]` (up to 70% less time)
 - Improved performance of finding a node among its siblings (e.g. `previousElementSibling`, `nextElementSibling`), which usually no longer scans the parent's children
