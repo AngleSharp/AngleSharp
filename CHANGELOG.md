@@ -1,3 +1,9 @@
+# 1.11.1
+
+Released on tbd.
+
+- Improved performance of serializing with the default formatter (reduces 15-55% of the time and 25-85% of the allocations) (#1425) @g4lb
+
 # 1.11.0
 
 Released on Tuesday, November 24 2026.

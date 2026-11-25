@@ -3,6 +3,9 @@ namespace AngleSharp.Html
     using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
+#if NET8_0_OR_GREATER
+    using System.IO;
+#endif
     using System.Text;
 
     /// <summary>
@@ -154,6 +157,153 @@ namespace AngleSharp.Html
             }
         }
 
+#if NET8_0_OR_GREATER
+        /// <summary>
+        /// Writes what <see cref="OpenTag"/> returns straight into the writer. Node.WriteHtml uses
+        /// it, and the other Write methods, for this exact formatter on .NET 8 and later: a string per tag and per
+        /// attribute is most of what serializing a tree allocates besides its result.
+        /// </summary>
+        internal static void WriteOpenTag(TextWriter writer, Element element)
+        {
+            writer.Write(Symbols.LessThan);
+            var prefix = element.Prefix;
+
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                writer.Write(prefix);
+                writer.Write(Symbols.Colon);
+            }
+
+            writer.Write(element.LocalName);
+
+            if (CustomElementRegistry.GetIsValue(element) is { } isValue && !element.HasAttribute("is"))
+            {
+                writer.Write(" is=\"");
+                writer.Write(isValue);
+                writer.Write('"');
+            }
+
+            var attributes = element.Attributes;
+            var n = attributes.Length;
+
+            for (var i = 0; i < n; i++)
+            {
+                var attr = attributes[i]!;
+                writer.Write(' ');
+                WriteAttributeName(attr, writer);
+
+                if (attr.Value != null)
+                {
+                    writer.Write(Symbols.Equality);
+                    writer.Write(Symbols.DoubleQuote);
+                    WriteEscaped(writer, attr.Value ?? String.Empty, _escapeAttributeCharacters);
+                    writer.Write(Symbols.DoubleQuote);
+                }
+            }
+
+            writer.Write(Symbols.GreaterThan);
+        }
+
+        /// <summary>
+        /// Writes what <see cref="CloseTag"/> returns straight into the writer.
+        /// </summary>
+        internal static void WriteCloseTag(TextWriter writer, IElement element, Boolean selfClosing)
+        {
+            if (!selfClosing)
+            {
+                var prefix = element.Prefix;
+                writer.Write("</");
+
+                if (!String.IsNullOrEmpty(prefix))
+                {
+                    writer.Write(prefix);
+                    writer.Write(':');
+                }
+
+                writer.Write(element.LocalName);
+                writer.Write(Symbols.GreaterThan);
+            }
+        }
+
+        /// <summary>
+        /// Writes what <see cref="Text"/> returns straight into the writer.
+        /// </summary>
+        internal static void WriteText(TextWriter writer, String content) =>
+            WriteEscaped(writer, content, _escapeTextCharacters);
+
+        private static void WriteAttributeName(IAttr attr, TextWriter writer)
+        {
+            var namespaceUri = attr.NamespaceUri;
+            var localName = attr.LocalName;
+
+            if (String.IsNullOrEmpty(namespaceUri))
+            {
+                writer.Write(localName);
+            }
+            else if (namespaceUri.Is(NamespaceNames.XmlUri))
+            {
+                writer.Write(NamespaceNames.XmlPrefix);
+                writer.Write(Symbols.Colon);
+                writer.Write(localName);
+            }
+            else if (namespaceUri.Is(NamespaceNames.XLinkUri))
+            {
+                writer.Write(NamespaceNames.XLinkPrefix);
+                writer.Write(Symbols.Colon);
+                writer.Write(localName);
+            }
+            else if (namespaceUri.Is(NamespaceNames.XmlNsUri))
+            {
+                writer.Write(XmlNamespaceLocalName(localName));
+            }
+            else
+            {
+                writer.Write(attr.Name);
+            }
+        }
+
+        /// <summary>
+        /// Writes the content with the characters of the given set replaced by their entities,
+        /// the runs between them in one call each.
+        /// </summary>
+        private static void WriteEscaped(TextWriter writer, String content, Char[] escaped)
+        {
+            var index = content.IndexOfAny(escaped);
+
+            if (index < 0)
+            {
+                writer.Write(content);
+                return;
+            }
+
+            var start = 0;
+
+            while (index >= 0)
+            {
+                WriteRange(writer, content, start, index - start);
+
+                switch (content[index])
+                {
+                    case Symbols.Ampersand: writer.Write("&amp;"); break;
+                    case Symbols.NoBreakSpace: writer.Write("&nbsp;"); break;
+                    case Symbols.DoubleQuote: writer.Write("&quot;"); break;
+                    case Symbols.LessThan: writer.Write("&lt;"); break;
+                    case Symbols.GreaterThan: writer.Write("&gt;"); break;
+                }
+
+                start = index + 1;
+                index = start < content.Length ? content.IndexOfAny(escaped, start) : -1;
+            }
+
+            WriteRange(writer, content, start, content.Length - start);
+        }
+
+        private static void WriteRange(TextWriter writer, String content, Int32 start, Int32 count)
+        {
+            writer.Write(content.AsSpan(start, count));
+        }
+#endif
+
         #endregion
 
         #region Helpers
@@ -165,6 +315,17 @@ namespace AngleSharp.Html
             Symbols.GreaterThan,
             Symbols.LessThan,
         };
+
+#if NET8_0_OR_GREATER
+        private static readonly Char[] _escapeAttributeCharacters =
+        {
+            Symbols.Ampersand,
+            Symbols.NoBreakSpace,
+            Symbols.DoubleQuote,
+            Symbols.LessThan,
+            Symbols.GreaterThan,
+        };
+#endif
 
         /// <summary>
         /// Escapes the given text by replacing special characters with their
