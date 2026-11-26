@@ -3,9 +3,11 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
-  <!-- The only package AngleSharp itself ships a dependency on. `dotnet pack` publishes this
-       version verbatim, so changing it changes the package's dependency range. -->
+  <!-- The only packages AngleSharp itself ships a dependency on: CodePages on .NET Standard,
+       System.Memory on the .NET Framework. `dotnet pack` publishes these versions verbatim, so
+       changing one changes the package's dependency range. -->
   <ItemGroup Label="AngleSharp">
+    <PackageVersion Include="System.Memory" Version="4.5.5" />
     <PackageVersion Include="System.Text.Encoding.CodePages" Version="8.0.0" />
   </ItemGroup>
 

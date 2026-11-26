@@ -3,6 +3,7 @@
 Released on tbd.
 
 - Improved performance of serializing with the default formatter (reduces 15-55% of the time and 25-85% of the allocations) (#1425) @g4lb
+- Removed the `System.Text.Encoding.CodePages` dependency on .NET Framework, which ships every code page; it now references `System.Memory` directly
 
 # 1.11.0
 

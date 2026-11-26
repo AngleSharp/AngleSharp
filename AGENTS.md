@@ -262,9 +262,10 @@ Techniques the codebase relies on; match them in new code:
 - **Guard newer BCL APIs, keep a real fallback.** `FrozenDictionary` (`HtmlElementFactory`,
   `CssSelectorConstructor`) and `SearchValues` (`BaseTokenizer`) sit behind
   `#if NET8_0_OR_GREATER` with a `Dictionary` / manual `IndexOfAny` alternative. `Span<T>`,
-  `Memory<T>` and `ArrayPool<T>` *are* available on every target — they arrive transitively via
-  `System.Text.Encoding.CodePages`, the library's only package dependency — so span-based code
-  needs no guard. `netstandard2.0` and `net462` are shipping targets, not an afterthought.
+  `Memory<T>` and `ArrayPool<T>` *are* available on every target — `System.Memory` is a direct
+  dependency on the .NET Framework and arrives through `System.Text.Encoding.CodePages` on
+  `netstandard2.0` — so span-based code needs no guard. `netstandard2.0` and `net462` are
+  shipping targets, not an afterthought.
 - **No LINQ, no closures, no enumerator allocation on per-token / per-node / per-element
   paths.** The tokenizer, tree builder and selector matchers are plain loops. LINQ is fine in
   one-off setup code that feeds a static cache.

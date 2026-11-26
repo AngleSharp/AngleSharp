@@ -52,8 +52,14 @@
   <!-- Deliberately not $([MSBuild]::IsTargetFrameworkCompatible(...)): that intrinsic reflects into
        NuGet.Frameworks, which fails whenever a tool evaluates this project in-process next to an older
        NuGet (e.g. the Fallout build script). The identifier check is equivalent for our TargetFrameworks. -->
-  <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' != '.NETCoreApp' ">
+  <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETStandard' ">
     <PackageReference Include="System.Text.Encoding.CodePages" />
+  </ItemGroup>
+
+  <!-- The .NET Framework ships every code page, so it needs no CodePages package. It still needs
+       System.Memory for the span-based APIs, which used to arrive through CodePages. -->
+  <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETFramework' ">
+    <PackageReference Include="System.Memory" />
   </ItemGroup>
 
   <!-- The DOM registration generator: run on this assembly (CoreDom), and packed as an analyzer so

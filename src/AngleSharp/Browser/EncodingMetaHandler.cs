@@ -14,10 +14,12 @@ namespace AngleSharp.Browser
         /// <summary>
         /// Create a new instance of the EncodingMetaHandler
         /// </summary>
-        /// <remarks>This will initialize additional encoding providers to correctly support all encodings</remarks>
+        /// <remarks>This will initialize additional encoding providers to correctly support all encodings. The .NET Framework already ships them.</remarks>
         public EncodingMetaHandler()
         {
+#if !NETFRAMEWORK
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+#endif
         }
 
         void IMetaHandler.HandleContent(IHtmlMetaElement element)
