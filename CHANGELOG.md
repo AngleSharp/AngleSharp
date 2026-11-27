@@ -3,6 +3,7 @@
 Released on tbd.
 
 - Improved performance of serializing with the default formatter (reduces 15-55% of the time and 25-85% of the allocations) (#1425) @g4lb
+- Fixed serializing a node with very many children taking quadratic time, as it searched each child's position among its siblings (#1435)
 
 # 1.11.0
 
