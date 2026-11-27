@@ -670,14 +670,14 @@ namespace AngleSharp.Dom
                     }
                 }
 
-                if (!node.HasChildNodes && node.NextSibling is null)
+                if (!node.HasChildNodes && IsLastChild(node))
                 {
                     var p = node.ParentElement;
 
                     while (p != end)
                     {
                         writer.Write(formatter.CloseTag(p!, p!.Flags.HasFlag(NodeFlags.SelfClosing)));
-                        p = p.NextSibling is null ? p.ParentElement : end;
+                        p = IsLastChild(p!) ? p!.ParentElement : end;
                     }
                 }
             }
@@ -749,14 +749,14 @@ namespace AngleSharp.Dom
                     }
                 }
 
-                if (!node.HasChildNodes && node.NextSibling is null)
+                if (!node.HasChildNodes && IsLastChild(node))
                 {
                     var p = node.ParentElement;
 
                     while (p != end)
                     {
                         Html.HtmlMarkupFormatter.WriteCloseTag(writer, p!, p!.Flags.HasFlag(NodeFlags.SelfClosing));
-                        p = p.NextSibling is null ? p.ParentElement : end;
+                        p = IsLastChild(p!) ? p!.ParentElement : end;
                     }
                 }
             }
@@ -1068,6 +1068,25 @@ namespace AngleSharp.Dom
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Determines whether the node is the last child of its parent, which is what having no
+        /// next sibling amounts to.
+        /// </summary>
+        /// <remarks>
+        /// Not <c>NextSibling</c>, which has to locate the node among its siblings first:
+        /// <c>NodeList.Index</c> answers from the index hint carried on the node - kept only for
+        /// the first <see cref="UInt16.MaxValue"/> positions, and stale after any change to the
+        /// list - and otherwise scans from the front. Serialization asks this once per childless
+        /// node and again per element it closes, so that scan made it quadratic in the width of a
+        /// child list. The last child is a single indexed read.
+        /// </remarks>
+        private static Boolean IsLastChild(INode node)
+        {
+            var parent = node.Parent;
+
+            return parent is null || ReferenceEquals(parent.LastChild, node);
+        }
 
         /// <summary>
         /// https://dom.spec.whatwg.org/#concept-node-equals, except for comparing the children.
