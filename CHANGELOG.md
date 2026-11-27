@@ -3,6 +3,8 @@
 Released on tbd.
 
 - Improved performance of serializing with the default formatter (reduces 15-55% of the time and 25-85% of the allocations) (#1425) @g4lb
+- Fixed XLink attributes in foreign content losing their `xlink:` prefix and replacing a plain attribute of the same local name (#1434)
+- Fixed `setAttributeNS` and `setNamedItem` matching by qualified name instead of by namespace and local name
 
 # 1.11.0
 

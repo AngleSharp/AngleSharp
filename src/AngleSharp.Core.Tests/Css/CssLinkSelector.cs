@@ -59,7 +59,13 @@ namespace AngleSharp.Core.Tests.Css
 
             element.SetAttribute("urn:example", "href", "/namespaced");
             AssertLinkState(element, false);
+
+            // setAttribute looks up by qualified name, so with the namespaced href in place it
+            // would change that one instead of adding a plain href (as in Chrome); add the plain
+            // one first.
+            element.RemoveAttribute("urn:example", "href");
             element.SetAttribute("href", String.Empty);
+            element.SetAttribute("urn:example", "href", "/namespaced");
             AssertLinkState(element, hyperlink);
             element.RemoveAttribute(null, "href");
             AssertLinkState(element, false);

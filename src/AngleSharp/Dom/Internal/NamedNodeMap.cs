@@ -126,6 +126,57 @@ namespace AngleSharp.Dom
             }
         }
 
+        /// <summary>
+        /// https://dom.spec.whatwg.org/#concept-element-attributes-set-value - changes the value of
+        /// the attribute with the given namespace and local name in place, so it keeps its prefix
+        /// and its identity, or appends a new attribute when there is none.
+        /// </summary>
+        internal void SetValue(String? namespaceUri, String? prefix, String localName, String value, Boolean suppressMutationObservers)
+        {
+            for (var i = 0; i < _count; i++)
+            {
+                var attr = _items[i];
+
+                if (localName.Is(attr.LocalName) && namespaceUri.Is(attr.NamespaceUri))
+                {
+                    ChangeValue(attr, value, suppressMutationObservers);
+                    return;
+                }
+            }
+
+            Append(new Attr(prefix, localName, value, namespaceUri), suppressMutationObservers);
+        }
+
+        /// <summary>
+        /// The setAttribute flavour of <see cref="SetValue(String?, String?, String, String, Boolean)"/>: the first attribute whose qualified
+        /// name matches is changed, whatever its namespace.
+        /// </summary>
+        internal void SetValue(String qualifiedName, String value)
+        {
+            if (Find(qualifiedName) is { } attr)
+            {
+                ChangeValue(attr, value, false);
+            }
+            else
+            {
+                Append(new Attr(qualifiedName, value), false);
+            }
+        }
+
+        private void ChangeValue(Attr attr, String value, Boolean suppressMutationObservers)
+        {
+            var oldValue = attr.Value;
+            attr.ChangeValue(value);
+            NotifyChanged(attr, value, oldValue, suppressMutationObservers);
+        }
+
+        private void Append(Attr attr, Boolean suppressMutationObservers)
+        {
+            attr.Container = this;
+            Add(attr);
+            NotifyChanged(attr, attr.Value, null, suppressMutationObservers);
+        }
+
         internal IAttr? RemoveNamedItemOrDefault(String name, Boolean suppressMutationObservers)
         {
             var attr = Find(name);
@@ -186,34 +237,10 @@ namespace AngleSharp.Dom
         }
 
         /// <inheritdoc />
-        public IAttr? SetNamedItem(IAttr item)
-        {
-            var proposed = Prepare(item);
-
-            if (proposed != null)
-            {
-                var attr = Find(item.Name);
-
-                if (attr is not null)
-                {
-                    // Same qualified name, so the index entry simply moves to the replacement.
-                    _items[IndexOf(attr)] = proposed;
-
-                    if (_index is { } index)
-                    {
-                        index[proposed.Name] = proposed;
-                    }
-
-                    RaiseChangedEvent(proposed, proposed.Value, attr.Value);
-                    return attr;
-                }
-
-                Add(proposed);
-                RaiseChangedEvent(proposed, proposed.Value, null);
-            }
-
-            return null;
-        }
+        // https://dom.spec.whatwg.org/#dom-namednodemap-setnameditem - the same "set an attribute"
+        // as setNamedItemNS, which matches by namespace and local name; a match by qualified name
+        // would let an attribute replace one of another namespace.
+        public IAttr? SetNamedItem(IAttr item) => SetNamedItemWithNamespaceUri(item, false);
 
         /// <inheritdoc />
         public IAttr? SetNamedItemWithNamespaceUri(IAttr item, Boolean suppressMutationObservers)
@@ -318,7 +345,7 @@ namespace AngleSharp.Dom
 
             for (var i = 0; i < count; i++)
             {
-                if (name.Is(items[i].Name))
+                if (items[i].HasName(name))
                 {
                     return items[i];
                 }

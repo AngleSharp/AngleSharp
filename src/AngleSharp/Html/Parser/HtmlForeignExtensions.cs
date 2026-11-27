@@ -206,14 +206,10 @@ namespace AngleSharp.Html.Parser
 
             if (IsXLinkAttribute(name))
             {
-                // var newName = name.Substring(name.IndexOf(Symbols.Colon) + 1);
-                var newName = new StringOrMemory(name.Memory.Slice(name.Memory.Span.IndexOf(Symbols.Colon) + 1));
-
-                if (newName.IsXmlName() && newName.IsQualifiedName())
-                {
-                    ns = NamespaceNames.XLinkUri;
-                    name = newName;
-                }
+                // The table gives these the prefix "xlink" and the bare local name; passing the
+                // qualified name on lets SetAttribute split it into exactly that. Stripping the
+                // prefix here would leave an attribute named like a plain one (issue #1434).
+                ns = NamespaceNames.XLinkUri;
             }
             else if (IsXmlAttribute(name))
             {

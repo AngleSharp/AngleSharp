@@ -464,7 +464,10 @@ namespace AngleSharp.Dom
                     name = name.HtmlLower();
                 }
 
-                this.SetOwnAttribute(name, value);
+                // https://dom.spec.whatwg.org/#dom-element-setattribute - looked up by qualified
+                // name, so setAttribute("xlink:href") changes the namespaced attribute the parser
+                // created rather than adding a second one named alike.
+                _attributes.SetValue(name, value);
             }
             else
             {
@@ -478,7 +481,10 @@ namespace AngleSharp.Dom
             if (value != null)
             {
                 GetPrefixAndLocalName(name, ref namespaceUri, out var prefix, out var localName);
-                _attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri));
+
+                // Matched by namespace and local name, never by qualified name, so a namespaced
+                // attribute cannot replace a plain one of the same local name.
+                _attributes.SetValue(namespaceUri, prefix, localName, value, false);
             }
             else
             {

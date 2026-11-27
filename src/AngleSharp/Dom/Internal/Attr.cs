@@ -179,6 +179,33 @@ namespace AngleSharp.Dom
         #region Methods
 
         /// <summary>
+        /// Compares the qualified name without building it, which <see cref="Name"/> does on every
+        /// call for a prefixed attribute - and every name lookup scans all of an element's.
+        /// </summary>
+        internal Boolean HasName(StringOrMemory name)
+        {
+            var prefix = _prefix;
+
+            if (prefix is null)
+            {
+                return name.Is(_localName);
+            }
+
+            var span = name.Memory.Span;
+            var length = prefix.Length;
+
+            return span.Length == length + 1 + _localName.Length &&
+                span[length] == Symbols.Colon &&
+                span.Slice(0, length).SequenceEqual(prefix.AsSpan()) &&
+                span.Slice(length + 1).SequenceEqual(_localName.AsSpan());
+        }
+
+        /// <summary>
+        /// Sets the value without notifying; the map that calls this does its own bookkeeping.
+        /// </summary>
+        internal void ChangeValue(String value) => _value = value;
+
+        /// <summary>
         /// Checks if the attribute equals another attribute.
         /// </summary>
         /// <param name="other">The other attribute.</param>

@@ -1517,7 +1517,7 @@ namespace AngleSharp.Dom
         /// <param name="value">The attribute's value.</param>
         /// <param name="suppressCallbacks">Flag to suppress callbacks.</param>
         internal static void SetOwnAttribute(this Element element, String name, String? value, Boolean suppressCallbacks = false) =>
-            element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value!), suppressCallbacks);
+            element.Attributes.SetValue(null, null, name, value!, suppressCallbacks);
 
         private static IDocumentFragment CreateFragment(this IElement context, String html)
         {

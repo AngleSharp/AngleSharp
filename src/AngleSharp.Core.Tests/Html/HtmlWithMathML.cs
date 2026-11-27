@@ -2423,10 +2423,10 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual("math", dochtml1body1math0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1math0.NodeType);
 
-            var attr = dochtml1body1math0.Attributes.GetNamedItem("href");
+            var attr = dochtml1body1math0.Attributes.GetNamedItem("xlink:href");
             Assert.IsNotNull(attr);
             Assert.AreEqual("foo", attr.Value);
-            Assert.AreEqual(null, attr.Prefix);
+            Assert.AreEqual("xlink", attr.Prefix);
             Assert.AreEqual("http://www.w3.org/1999/xlink", attr.NamespaceUri);
         }
 
@@ -2472,10 +2472,10 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual("mi", dochtml1body1math0mi0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1math0mi0.NodeType);
 
-            var attr1 = dochtml1body1math0mi0.Attributes.GetNamedItem("href");
+            var attr1 = dochtml1body1math0mi0.Attributes.GetNamedItem("xlink:href");
             Assert.IsNotNull(attr1);
             Assert.AreEqual("foo", attr1.Value);
-            Assert.AreEqual(null, attr1.Prefix);
+            Assert.AreEqual("xlink", attr1.Prefix);
             Assert.AreEqual("http://www.w3.org/1999/xlink", attr1.NamespaceUri);
 
             var attr2 = dochtml1body1math0mi0.Attributes.GetNamedItem("xml:lang");
@@ -2527,10 +2527,10 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual("mi", dochtml1body1math0mi0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1math0mi0.NodeType);
 
-            var attr1 = dochtml1body1math0mi0.Attributes.GetNamedItem("href");
+            var attr1 = dochtml1body1math0mi0.Attributes.GetNamedItem("xlink:href");
             Assert.IsNotNull(attr1);
             Assert.AreEqual("foo", attr1.Value);
-            Assert.AreEqual(null, attr1.Prefix);
+            Assert.AreEqual("xlink", attr1.Prefix);
             Assert.AreEqual("http://www.w3.org/1999/xlink", attr1.NamespaceUri);
 
             var attr2 = dochtml1body1math0mi0.Attributes.GetNamedItem("xml:lang");
@@ -2582,10 +2582,10 @@ namespace AngleSharp.Core.Tests.Html
             Assert.AreEqual("mi", dochtml1body1math0mi0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1math0mi0.NodeType);
 
-            var attr1 = dochtml1body1math0mi0.Attributes.GetNamedItem("href");
+            var attr1 = dochtml1body1math0mi0.Attributes.GetNamedItem("xlink:href");
             Assert.IsNotNull(attr1);
             Assert.AreEqual("foo", attr1.Value);
-            Assert.AreEqual(null, attr1.Prefix);
+            Assert.AreEqual("xlink", attr1.Prefix);
             Assert.AreEqual("http://www.w3.org/1999/xlink", attr1.NamespaceUri);
 
             var attr2 = dochtml1body1math0mi0.Attributes.GetNamedItem("xml:lang");
